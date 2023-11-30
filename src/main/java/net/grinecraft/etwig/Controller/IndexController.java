@@ -1,5 +1,4 @@
 package net.grinecraft.etwig.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;  
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,9 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import freemarker.template.Template;
-import net.grinecraft.etwig.DAO.EventService;
-import net.grinecraft.etwig.DAO.EventsRepository;
 import net.grinecraft.etwig.Model.Events;
+import net.grinecraft.etwig.Repository.EventsRepository;
+import net.grinecraft.etwig.Services.EventService;
 import freemarker.template.Configuration;
 
 @RestController
@@ -51,4 +50,5 @@ public class IndexController {
 		return "1";
 		
 	}
+
 }
