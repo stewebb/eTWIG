@@ -17,10 +17,10 @@
      			</div>
      			<p>&nbsp;</p>
       			<div class="form-group col-12">
-        			<a href="/public/TWIGList.do" class="btn btn-outline-primary btn-lg btn-block"><i class="fa-regular fa-lightbulb"></i>&nbsp;TWIG</a>
+        			<a href="/public/TWIG" class="btn btn-outline-primary btn-lg btn-block"><i class="fa-regular fa-lightbulb"></i>&nbsp;TWIG</a>
       			</div>
      			<div class="form-group col-12">
-					<a href="/public/calendar.do" class="btn btn-outline-success btn-lg btn-block"><i class="fa-regular fa-calendar"></i>&nbsp;Calendar</a>
+					<a href="/public/events" class="btn btn-outline-success btn-lg btn-block"><i class="fa-regular fa-calendar"></i>&nbsp;Events</a>
 				</div>
 				<div class="form-group col-12">
 					<a href="/public/help.do" class="btn btn-outline-warning btn-lg btn-block"><i class="fa-solid fa-circle-question"></i>&nbsp;Help</a>
