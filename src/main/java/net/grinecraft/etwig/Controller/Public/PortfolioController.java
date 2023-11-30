@@ -30,10 +30,10 @@ public class PortfolioController {
 	    
 	    // Check input first!
 	    if(!NumberUtils.isLong(portfolioID)) {
-	    	return "{\"code\": 1, \"msg\": \"portfolioID parameter is missing, or invalid.\"";
+	    	return "{\"code\": 1, \"msg\": \"portfolioID parameter is either missing or invalid. It must be a positive integer.\"";
 	    }
 	    
 	    String content = portfolioService.getPortfolioById(Long.parseLong(portfolioID));  
-	    return "{\"code\": 0, \"portfolio\": " + content + "}";
+	    return "{\"code\": 0, \"msg\": \"success\", \"portfolio\": " + content + "}";
 	}
 }
