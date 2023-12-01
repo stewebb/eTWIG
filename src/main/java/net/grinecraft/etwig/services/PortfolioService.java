@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.Services;
+package net.grinecraft.etwig.services;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -8,8 +8,8 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import net.grinecraft.etwig.Model.Portfolio;
-import net.grinecraft.etwig.Repository.PortfolioRepository;
+import net.grinecraft.etwig.model.Portfolio;
+import net.grinecraft.etwig.repository.PortfolioRepository;
 
 @Service
 public class PortfolioService {

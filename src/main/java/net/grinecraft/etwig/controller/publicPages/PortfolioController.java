@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.Controller.Public;
+package net.grinecraft.etwig.controller.publicPages;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import net.grinecraft.etwig.Services.PortfolioService;
-import net.grinecraft.etwig.Util.NumberUtils;
+import net.grinecraft.etwig.services.PortfolioService;
+import net.grinecraft.etwig.util.NumberUtils;
 
 @RestController
 public class PortfolioController {

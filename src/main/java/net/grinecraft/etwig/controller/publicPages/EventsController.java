@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.Controller.Public;
+package net.grinecraft.etwig.controller.publicPages;
 
 import java.util.HashMap;
 

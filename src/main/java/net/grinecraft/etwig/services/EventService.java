@@ -1,12 +1,12 @@
-package net.grinecraft.etwig.Services;
+package net.grinecraft.etwig.services;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import net.grinecraft.etwig.Model.Events;
-import net.grinecraft.etwig.Repository.EventsRepository;
+import net.grinecraft.etwig.model.Events;
+import net.grinecraft.etwig.repository.EventsRepository;
 
 @Service
 public class EventService {

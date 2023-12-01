@@ -1,11 +1,11 @@
-package net.grinecraft.etwig.Repository;
+package net.grinecraft.etwig.repository;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import net.grinecraft.etwig.Model.Events;
+import net.grinecraft.etwig.model.Events;
 
 @Repository
 public interface EventsRepository extends JpaRepository<Events, Long> {

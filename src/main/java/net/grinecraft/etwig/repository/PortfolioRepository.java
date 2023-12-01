@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.Repository;
+package net.grinecraft.etwig.repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import net.grinecraft.etwig.Model.Portfolio;
+import net.grinecraft.etwig.model.Portfolio;
 
 @Repository
 public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {

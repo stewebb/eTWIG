@@ -5,7 +5,7 @@
 -- Dumped from database version 14.9 (Ubuntu 14.9-0ubuntu0.22.04.1)
 -- Dumped by pg_dump version 14.9 (Ubuntu 14.9-0ubuntu0.22.04.1)
 
--- Started on 2023-11-30 21:09:38 AEDT!
+-- Started on 2023-12-01 11:29:25 AEDT
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -78,7 +78,8 @@ ALTER TABLE public.etwig_events_seq OWNER TO postgres;
 CREATE TABLE public.portfolio (
     id integer NOT NULL,
     name character varying(31) NOT NULL,
-    color character varying(15) DEFAULT 0 NOT NULL
+    color character varying(15) DEFAULT 0 NOT NULL,
+    abbreviation character varying(15)
 );
 
 
@@ -116,9 +117,18 @@ COPY public.events (event_id, name, location, description, user_id, end_time, st
 -- Data for Name: portfolio; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.portfolio (id, name, color) FROM stdin;
-2	Social	0000FF
-1	Sports	00FF00
+COPY public.portfolio (id, name, color, abbreviation) FROM stdin;
+1	A﻿cademic Mentors	E1525F	AM
+2	Arts	FF914D	\N
+3	Cha﻿rity	99BF63	\N
+4	Comm﻿unity Assistants	E07DD1	CA
+5	Environmen﻿t	6AC66B	Enviro
+6	Executive	BFBF2F	Exec
+7	Inward Bound	4C7FC8	IB
+8	Social	CB6CE6	\N
+9	Soci﻿al Media	25B8E4	\N
+10	Sports	1695A0	\N
+11	Walter Wing	8F7E18	WW
 \.
 
 
@@ -146,7 +156,7 @@ SELECT pg_catalog.setval('public.etwig_events_seq', 1, false);
 -- Name: portfolio_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.portfolio_id_seq', 2, true);
+SELECT pg_catalog.setval('public.portfolio_id_seq', 5, true);
 
 
 --
@@ -167,9 +177,8 @@ ALTER TABLE ONLY public.portfolio
     ADD CONSTRAINT etwig_portfolio_pkey PRIMARY KEY (id);
 
 
--- Completed on 2023-11-30 21:09:38 AEDT
+-- Completed on 2023-12-01 11:29:25 AEDT
 
 --
 -- PostgreSQL database dump complete
 --
-

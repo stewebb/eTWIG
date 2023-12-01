@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.Model;
+package net.grinecraft.etwig.model;
 import jakarta.persistence.*;
 
 @Entity
