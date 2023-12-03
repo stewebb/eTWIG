@@ -2,6 +2,7 @@ package net.grinecraft.etwig.services;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.json.JSONObject;
@@ -22,40 +23,34 @@ public class PortfolioService {
 	 * @return JSON of list of all portfolios
 	 */
 	
-	public String getPortfolioList() {
+	public LinkedHashMap<Integer, Object> getPortfolioList() {
 		
 		// return an empty JSON when the object is null. 
 		if(portfolioRepository == null) {
-			return "{}";
+			return new LinkedHashMap<Integer, Object>();
 		}
         List<Portfolio> portfolioList = (List<Portfolio>) portfolioRepository.findAll();
       
         // Convert to a map of map... Use LinkedHashMap to keep adding order
-        LinkedHashMap<Integer, LinkedHashMap<String, String>> allPortfolios = new LinkedHashMap<>();
+        LinkedHashMap<Integer, Object> allPortfolios = new LinkedHashMap<>();
         for(Portfolio portfolio : portfolioList) {      	
         	allPortfolios.put(portfolio.getPortfolioID(), portfolioObjectToMap(portfolio));
         }
         
-        JSONObject jo = new JSONObject(allPortfolios);
-        return jo.toString() ;
+        return allPortfolios;
     }
 	
-	public String getPortfolioById(long id) {
+	public LinkedHashMap<String, Object> getPortfolioById(long id) {
 		if(portfolioRepository == null) {
-			return "{}";
+			return new LinkedHashMap<String, Object>();
 		}
 		
 		Optional<Portfolio> portfolioOpt = portfolioRepository.findById(id);
 		
-		//if(portfolio.isEmpty()) {
-		//	return "{}";
-		//}
-		
 		if (portfolioOpt.isPresent()){
-			LinkedHashMap<String, String> foundedPortfolio = portfolioObjectToMap(portfolioOpt.get());
-			return (new JSONObject(foundedPortfolio)).toString();
+			return portfolioObjectToMap(portfolioOpt.get());
 		}else {
-			return "{}";
+			return new LinkedHashMap<String, Object>();
 		}
 	}
 	
@@ -65,11 +60,12 @@ public class PortfolioService {
 	 * @return portfolio map
 	 */
 	
-	private LinkedHashMap<String, String> portfolioObjectToMap(Portfolio portfolio){
-		LinkedHashMap<String, String> map = new LinkedHashMap<>();
+	private LinkedHashMap<String, Object> portfolioObjectToMap(Portfolio portfolio){
+		LinkedHashMap<String, Object> map = new LinkedHashMap<>();
     	//map.put("id", String.valueOf(portfolio.getPortfolioID()));
     	map.put("name", portfolio.getName());
     	map.put("color", portfolio.getColor());
+    	map.put("abbreviation", portfolio.getAbbreviation());
 		return map;
 	}
 }

@@ -21,6 +21,9 @@ public class Portfolio {
 	
 	@Column(name = "color")
 	private String color;
+	
+	@Column(name = "abbreviation")
+	private String abbreviation;
 
 	public int getPortfolioID() {
 		return portfolioID;
@@ -46,8 +49,16 @@ public class Portfolio {
 		this.color = color;
 	}
 
+	public String getAbbreviation() {
+		return abbreviation;
+	}
+
+	public void setAbbreviation(String abbreviation) {
+		this.abbreviation = abbreviation;
+	}
+
 	@Override
 	public String toString() {
-		return "Portfolio [portfolioID=" + portfolioID + ", name=" + name + ", color=" + color + "]";
-	}
+		return "Portfolio [portfolioID=" + portfolioID + ", name=" + name + ", color=" + color + ", abbreviation=" + abbreviation + "]";
+	}	
 }
