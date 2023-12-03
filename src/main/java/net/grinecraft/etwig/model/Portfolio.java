@@ -11,6 +11,14 @@ import jakarta.persistence.Table;
 @Table(name = "portfolio")
 public class Portfolio {
 	
+	public Portfolio(int portfolioID, String name, String color, String abbreviation) {
+		super();
+		this.portfolioID = portfolioID;
+		this.name = name;
+		this.color = color;
+		this.abbreviation = abbreviation;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")

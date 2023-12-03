@@ -1,24 +1,36 @@
 package net.grinecraft.etwig.services;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import net.grinecraft.etwig.model.Events;
-import net.grinecraft.etwig.repository.EventsRepository;
+import net.grinecraft.etwig.model.Portfolio;
+import net.grinecraft.etwig.model.SingleTimeEvents;
+import net.grinecraft.etwig.repository.SingTimeEventsRepository;
 
 @Service
 public class EventService {
 	
 	@Autowired
-	private EventsRepository eventsRepository;
+	private SingTimeEventsRepository singleTimeEventsRepository;
 	
-	public List<Events> list() {
-		if(eventsRepository == null) {
-			System.out.println("null!");
-			return null;
+	public LinkedHashMap<Integer,Object> findByDateRange(String startDateTime){
+		
+		if(singleTimeEventsRepository == null) {
+			return new LinkedHashMap<Integer, Object>();
 		}
-        return (List<Events>) eventsRepository.findAll();
-    }
+		
+        List<SingleTimeEvents> singleTimeEventsList = singleTimeEventsRepository.findByDateRange(startDateTime);
+      
+        //LinkedHashMap<Integer, Object> allPortfolios = new LinkedHashMap<>();
+        for(SingleTimeEvents singleTimeEvents : singleTimeEventsList) {      	
+        	//allPortfolios.put(portfolio.getPortfolioID(), portfolioObjectToMap(portfolio));
+        	System.out.println(singleTimeEvents);
+        }
+        
+        return null;
+		
+	}
 }
