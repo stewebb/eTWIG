@@ -24,16 +24,15 @@ public class PortfolioAPIController {
 	
 	@RequestMapping("/public/_getPortfolioById")  
 	public Map<String, Object> getPortfolioById(@RequestParam(required = false) String portfolioID) throws Exception{
-	    
 		Map<String, Object> myReturn = new LinkedHashMap<String, Object>();
 		
 	    // Check input first!
 	    if(!NumberUtils.isLong(portfolioID)) {
-	    	myReturn.put("code", 1);
+	    	myReturn.put("error", 1);
 	    	myReturn.put("msg", "portfolioID parameter is either missing or invalid. It must be a positive integer.");
 	    	myReturn.put("portfolio", new LinkedHashMap<String, Object>());
 	    }else {
-	    	myReturn.put("code", 0);
+	    	myReturn.put("error", 0);
 	    	myReturn.put("msg", "success.");
 	    	myReturn.put("portfolio", portfolioService.getPortfolioById(Long.parseLong(portfolioID)));
 	    }

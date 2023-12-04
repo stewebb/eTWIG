@@ -1,5 +1,6 @@
 package net.grinecraft.etwig.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,11 +14,8 @@ import net.grinecraft.etwig.model.SingleTimeEvents;
 @Repository
 public interface SingTimeEventsRepository extends JpaRepository<SingleTimeEvents, Long> {
 	
-	//@Query(value = "SELECT * FROM events_single_time WHERE start_datetime >= u and start_datetime <= u")
-    //public List<SingleTimeEvents> findByDateRange(String startDateTime);
-	
-	@Query(value = "SELECT * FROM events_single_time u WHERE u.start_datetime >= :dt and u.start_datetime <= :dt", nativeQuery = true)
-	public List<SingleTimeEvents> findByDateRange(@Param("dt") String startDateTime);
+	@Query(value = "SELECT * FROM events_single_time u WHERE u.start_datetime >= :dts and u.start_datetime <= :dte", nativeQuery = true)
+	public List<SingleTimeEvents> findByDateRange(@Param("dts") LocalDate startDateTime, @Param("dte") LocalDate endDateTime);
     
     public Optional<SingleTimeEvents> findById(long id);
 }
