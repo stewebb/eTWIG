@@ -1,7 +1,10 @@
 stages:                          
- - build                         
- - deploy                        
-    
+    - build                         
+    - deploy                        
+
+before_script:
+  - source /etc/profile
+
 maven-build:                     
     image: maven:3-jdk-17          
     stage: build                   
