@@ -9,3 +9,5 @@ maven-build:
     artifacts:              
         paths:
             - target/gitlab-ci-demo.jar
+    tags:
+        - localhost
