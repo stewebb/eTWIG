@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.model.SingleTimeEvents;
 import net.grinecraft.etwig.repository.SingTimeEventsRepository;
 

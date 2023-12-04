@@ -66,6 +66,7 @@ public class PortfolioService {
     	map.put("name", portfolio.getName());
     	map.put("color", portfolio.getColor());
     	map.put("abbreviation", portfolio.getAbbreviation());
+    	map.put("icon", portfolio.getIcon());
 		return map;
 	}
 }

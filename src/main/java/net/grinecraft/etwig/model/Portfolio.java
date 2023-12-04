@@ -11,7 +11,6 @@ import lombok.*;
 @Table(name = "portfolio")
 public class Portfolio {
 	
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -25,4 +24,7 @@ public class Portfolio {
 	
 	@Column(name = "abbreviation")
 	private String abbreviation;	
+	
+	@Column(name = "icon")
+	private String icon;	
 }
