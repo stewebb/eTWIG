@@ -5,7 +5,7 @@ stages:
 maven-build:                     
     image: maven:3-jdk-17          
     stage: build                   
-    script: "mvn package -B"
+    script: "mvnw package -B"
     artifacts:              
         paths:
             - target/gitlab-ci-demo.jar
