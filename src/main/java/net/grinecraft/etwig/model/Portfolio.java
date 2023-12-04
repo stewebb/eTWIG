@@ -27,4 +27,15 @@ public class Portfolio {
 	
 	@Column(name = "icon")
 	private String icon;	
+	
+	@Column(name = "is_seperated_calendar")
+	private boolean isSeperatedCalendar;	
+	
+	@Column(name = "parent")
+	private Integer parent;
+	
+	//@ManyToOne
+	//@JoinColumn(name="portfolio")
+	//private Events events;
+
 }

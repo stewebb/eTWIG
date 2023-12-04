@@ -67,6 +67,8 @@ public class PortfolioService {
     	map.put("color", portfolio.getColor());
     	map.put("abbreviation", portfolio.getAbbreviation());
     	map.put("icon", portfolio.getIcon());
+    	map.put("isSeperatedCalendar", portfolio.isSeperatedCalendar());
+    	map.put("parent", portfolio.getParent());
 		return map;
 	}
 }

@@ -1,5 +1,7 @@
 package net.grinecraft.etwig.model;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -8,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "events")
+@Table(name = "events_single_time")
 public class SingleTimeEvents {
 	
 	@Id
@@ -26,7 +28,7 @@ public class SingleTimeEvents {
 	private String location;
 	
 	@Column(name = "start_datetime")
-	private String startDateTime;
+	private LocalDate startDateTime;
 	
 	@Column(name = "duration")
 	private int duration;
