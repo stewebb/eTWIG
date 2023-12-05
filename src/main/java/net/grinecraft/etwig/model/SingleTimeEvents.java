@@ -1,7 +1,6 @@
 package net.grinecraft.etwig.model;
 
-import java.time.LocalDate;
-
+import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,7 +27,7 @@ public class SingleTimeEvents {
 	private String location;
 	
 	@Column(name = "start_datetime")
-	private LocalDate startDateTime;
+	private LocalDateTime startDateTime;
 	
 	@Column(name = "duration")
 	private int duration;

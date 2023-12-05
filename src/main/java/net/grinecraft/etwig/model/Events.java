@@ -17,15 +17,16 @@ public class Events {
 	private int eventID;
 	
 	@Column(name = "is_recurring")
-	private String isRecurring;
+	private boolean isRecurring;
 	
-	@Column(name = "organizer")
-	private int organizerID;
-	
-	//@Column(name = "portfolio")
-	//private int portfolioID;
+	//@Column(name = "organizer")
+	//private int organizerID;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "portfolio", referencedColumnName = "id")
     private Portfolio portfolio;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "organizer", referencedColumnName = "id")
+    private Leader leader;
 }

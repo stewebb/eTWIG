@@ -26,12 +26,11 @@ public class EventsAPIController {
 		if(givenDate == null) {
 			myReturn.put("error", 1);
 	    	myReturn.put("msg", "dateStr parameter is either missing or invalid. It must be yyyy-mm-dd format.");
-	    	//myReturn.put("portfolio", new LinkedHashMap<String, Object>());
+	    	myReturn.put("events", new LinkedHashMap<String, Object>());
 		}else {
 			myReturn.put("error", 0);
 	    	myReturn.put("msg", "success.");
-	    	eventService.findByDateRange(givenDate);
-	    	//System.out.println(eventService.findByDateRange(givenDate));
+	    	myReturn.put("events", eventService.findByDateRange(givenDate));
 		}
 		return myReturn;
 	}
