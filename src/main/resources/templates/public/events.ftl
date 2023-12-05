@@ -18,6 +18,15 @@
 	<#include "./_navbar.ftl">
 	<p>&nbsp;</p>
 	
+	<div class="etwig-main">
+		<div id="errorAlert" class="alert alert-danger collapse" role="alert">
+  			<strong><i class="fa-solid fa-circle-exclamation"></i> &nbsp;Oops!</strong> &nbsp;Something goes wrong. 
+  			<strong>Reason:</strong> &nbsp; <div id="errorReason"></div>
+		</div>
+	</div>
+
+
+	
 	<main class="row etwig-main">
     	<div id="etwig-public-calendar" class="col"></div>
 	</main>
