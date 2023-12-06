@@ -14,6 +14,13 @@ footer {
     overflow: hidden;
 }
 
+.etwig-box{
+	padding-left: 1em;
+  	padding-right: 1em;
+  	padding-top: 1em;
+  	padding-bottom: 1em;
+}
+
 .etwig-main{
 	width: 95%;
 	margin-left: auto;
@@ -25,3 +32,9 @@ footer {
   float: left;
   margin-right: 10px;
 }
+
+.container {
+  margin-left: 0!important;
+  margin-right: 0!important;
+}
+

@@ -5,3 +5,13 @@
 .bg-etwig-blue {
     background-color: #004aadff !important;
 }
+
+.form-control:focus{
+	border-color: #004aad !important;  
+	box-shadow: none; 
+	-webkit-box-shadow: none;
+} 
+
+.border-public {
+    border-color: #004aad !important;
+}

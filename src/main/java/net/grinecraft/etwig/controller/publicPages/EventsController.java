@@ -17,7 +17,7 @@ public class EventsController {
     Configuration configuration;
 	
 	@RequestMapping("/public/events")  
-	public String hello() throws Exception{  
+	public String events() throws Exception{  
 		Template template = configuration.getTemplate("public/events.ftl");
         return FreeMarkerTemplateUtils.processTemplateIntoString(template, new HashMap<>());
 	}
