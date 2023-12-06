@@ -35,7 +35,7 @@
 	<p>&nbsp;</p>
 	<div id="event-search" class="etwig-main border border-public rounded">
 		<div class="etwig-box">
-			<h4><strong>Filter</strong></h4>
+			<h4 class="header-text"><strong>Filter</strong></h4>
 			
 			<div class="container">
         		<div class="row">
@@ -60,46 +60,11 @@
         				<div id="wrapper" style="margin-top: -1px;"></div>
             		</div>
         		</div>
-        		
-        		<div class="row">
-        		<div class="col-md-2 col-10">
-            			<button class="btn btn-outline-primary my-2 my-sm-0" type="submit"> <i class="fa-solid fa-filter"></i> &nbsp;Go</button>
-					</div>
-        		<div>
+    		</div>
+    		<div style="text-align:right;">
+    			<button class="btn btn-outline-secondary my-2 my-sm-0" type="submit"> <i class="fa-solid fa-filter"></i> &nbsp;Go</button>
+    		</div>
     	</div>
-
-									
-												
-																		<!--
-    
-			<form>
-			
-				<table>
-					<tr>
-						<td>Event Week</td>
-						<td>
-
-        					<div class="tui-datepicker-input tui-datetime-input tui-has-focus">
-            					<input type="text" id="datepicker-input" aria-label="Date-Time">
-            					<span class="tui-ico-date"></span>
-        					</div>
-        					<div id="wrapper" style="margin-top: -1px;"></div>
-						</td>
-					</tr>
-					<tr>
-						<td>Portfolio</td>
-						<td>
-							<select class="form-control">
-  								<option>Default select</option>
-							</select>
-						</td>
-				</table>
-  
-			
-    			<button class="btn btn-outline-primary my-2 my-sm-0" type="submit"> <i class="fa-solid fa-filter"></i> &nbsp;Search</button>
-  			</form>
-  			-->
-		</div>
 	</div>
 	
 	<script>
@@ -112,7 +77,7 @@
         });
     </script>
     
-	
+	<p>&nbsp;</p>
 	<#include "../_footer.ftl">
 </body>
 </html>
