@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import net.grinecraft.etwig.services.PortfolioService;
 
 @RestController
 public class EventsController {
@@ -16,9 +17,15 @@ public class EventsController {
 	@Autowired
     Configuration configuration;
 	
+	@Autowired
+	PortfolioService portfolioService;
+	
 	@RequestMapping("/public/events")  
 	public String events() throws Exception{  
+		HashMap<String, Object> templateMap = new HashMap<String, Object>();
+		templateMap.put("portfolio", portfolioService.getPortfolioList());
+		
 		Template template = configuration.getTemplate("public/events.ftl");
-        return FreeMarkerTemplateUtils.processTemplateIntoString(template, new HashMap<>());
+        return FreeMarkerTemplateUtils.processTemplateIntoString(template, templateMap);
 	}
 }
