@@ -14,7 +14,7 @@ public class Portfolio {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-	private int portfolioID;
+	private int id;
 	
 	@Column(name = "name")
 	private String name;

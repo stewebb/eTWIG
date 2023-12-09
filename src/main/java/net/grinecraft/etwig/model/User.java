@@ -9,13 +9,13 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "leader")
-public class Leader {
+@Table(name = "users")
+public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-	private int userID;
+	private int id;
 	
 	@Column(name = "first_name")
 	private String firstName;
@@ -32,10 +32,7 @@ public class Leader {
 	@Column(name = "last_login")
 	private LocalDateTime lastLogin;
 	
-	@Column(name = "position")
-	private String position;
-	
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "portfolio", referencedColumnName = "id")
-    private Portfolio portfolio;
+	@JoinColumn(name = "permission", referencedColumnName = "id")
+    private Permission permission;
 }

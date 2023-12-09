@@ -8,12 +8,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import net.grinecraft.etwig.model.Events;
-import net.grinecraft.etwig.model.Leader;
+import net.grinecraft.etwig.model.Event;
+import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.model.Portfolio;
-import net.grinecraft.etwig.model.SingleTimeEvents;
-import net.grinecraft.etwig.repository.EventsRepository;
-import net.grinecraft.etwig.repository.SingTimeEventsRepository;
+import net.grinecraft.etwig.model.SingleTimeEvent;
+import net.grinecraft.etwig.repository.EventRepository;
+import net.grinecraft.etwig.repository.SingTimeEventRepository;
 import net.grinecraft.etwig.util.DataIntegrityViolationException;
 import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.NameUtils;
@@ -22,10 +22,10 @@ import net.grinecraft.etwig.util.NameUtils;
 public class EventService {
 	
 	@Autowired
-	private SingTimeEventsRepository singleTimeEventsRepository;
+	private SingTimeEventRepository singleTimeEventsRepository;
 	
 	@Autowired
-	private EventsRepository eventsRepository;
+	private EventRepository eventRepository;
 	
 	/**
 	 * Get all events that happens in the week of the given date.
@@ -42,13 +42,13 @@ public class EventService {
 			return new LinkedHashMap<Long, Object>();
 		}
 		
-        List<SingleTimeEvents> singleTimeEventsList = singleTimeEventsRepository.findByDateRange(currentMonday, nextMonday);
+        List<SingleTimeEvent> singleTimeEventsList = singleTimeEventsRepository.findByDateRange(currentMonday, nextMonday);
       
         LinkedHashMap<Long, Object> allEvents = new LinkedHashMap<>();
-        for(SingleTimeEvents singleTimeEvents : singleTimeEventsList) {      	
+        for(SingleTimeEvent singleTimeEvents : singleTimeEventsList) {      	
         	//allPortfolios.put(portfolio.getPortfolioID(), portfolioObjectToMap(portfolio));
         	
-        	Long eventId = Long.valueOf(singleTimeEvents.getEventID());
+        	Long eventId = Long.valueOf(singleTimeEvents.getId());
         	LinkedHashMap<String, Object> info = new LinkedHashMap<String, Object>();
         	info.put("eventId", eventId);
         	info.put("eventName", singleTimeEvents.getName());
@@ -70,24 +70,24 @@ public class EventService {
 	 */
 	
 	private LinkedHashMap<String, Object> getEventDetailsById(long id) {
-		if(eventsRepository == null) {
+		if(eventRepository == null) {
 			return new LinkedHashMap<String, Object>();
 		}
-		Optional<Events> eventsOpt = eventsRepository.findById(id);
+		Optional<Event> eventsOpt = eventRepository.findById(id);
 		
 		// Only proceed when event exists
 		if (eventsOpt.isPresent()){
-			Events events = eventsOpt.get();
+			Event events = eventsOpt.get();
 			Portfolio portfolio = events.getPortfolio();
-			Leader leader = events.getLeader();
+			User leader = events.getUser();
 			
 			// Cannot get portfolio and organizer. It shouldn't happen!
 			if(portfolio == null) {
-				throw new DataIntegrityViolationException("The portfolio of event id=" + events.getEventID() + " doesn't exist. PLease check the portfolio table.");
+				throw new DataIntegrityViolationException("The portfolio of event id=" + events.getId() + " doesn't exist. PLease check the portfolio table.");
 			}
 			
 			if(leader == null) {
-				throw new DataIntegrityViolationException("The organizer of event id=" + events.getEventID() + " doesn't exist. PLease check the leader table.");
+				throw new DataIntegrityViolationException("The organizer of event id=" + events.getId() + " doesn't exist. PLease check the leader table.");
 			}
 			
 			LinkedHashMap<String, Object> eventInfo = new LinkedHashMap<String, Object>();

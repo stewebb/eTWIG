@@ -9,13 +9,13 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "events_single_time")
-public class SingleTimeEvents {
+@Table(name = "event_single_time")
+public class SingleTimeEvent {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-	private int eventID;
+	private int id;
 	
 	@Column(name = "name")
 	private String name;

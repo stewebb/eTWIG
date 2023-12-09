@@ -8,13 +8,13 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "events")
-public class Events {
+@Table(name = "event")
+public class Event {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-	private int eventID;
+	private int id;
 	
 	@Column(name = "is_recurring")
 	private boolean isRecurring;
@@ -28,5 +28,5 @@ public class Events {
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "organizer", referencedColumnName = "id")
-    private Leader leader;
+    private User user;
 }

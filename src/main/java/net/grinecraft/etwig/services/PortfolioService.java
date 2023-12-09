@@ -34,7 +34,7 @@ public class PortfolioService {
         // Convert to a map of map... Use LinkedHashMap to keep adding order
         LinkedHashMap<Integer, Object> allPortfolios = new LinkedHashMap<>();
         for(Portfolio portfolio : portfolioList) {      	
-        	allPortfolios.put(portfolio.getPortfolioID(), portfolioObjectToMap(portfolio));
+        	allPortfolios.put(portfolio.getId(), portfolioObjectToMap(portfolio));
         }
         
         return allPortfolios;
