@@ -31,4 +31,7 @@ public class SingleTimeEvent {
 	
 	@Column(name = "duration")
 	private int duration;
+	
+	@Column(name = "override_recurring_event")
+	private int overrideRecurringEvent;
 }

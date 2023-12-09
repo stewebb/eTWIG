@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import net.grinecraft.etwig.model.SingleTimeEvent;
 
 @Repository
-public interface SingTimeEventRepository extends JpaRepository<SingleTimeEvent, Long> {
+public interface SingleTimeEventRepository extends JpaRepository<SingleTimeEvent, Long> {
 	
 	@Query(value = "SELECT * FROM event_single_time u WHERE u.start_datetime >= :dts and u.start_datetime <= :dte", nativeQuery = true)
 	public List<SingleTimeEvent> findByDateRange(@Param("dts") LocalDate startDateTime, @Param("dte") LocalDate endDateTime);
