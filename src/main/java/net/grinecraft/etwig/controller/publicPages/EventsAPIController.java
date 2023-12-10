@@ -32,7 +32,7 @@ public class EventsAPIController {
 		}else {
 			myReturn.put("error", 0);
 	    	myReturn.put("msg", "success.");
-	    	System.out.println( eventService.getSingleTimeEventDetailsById(100, true));
+	    	System.out.println( eventService.getSingleTimeEventById(100, true));
 	    	//myReturn.put("events", eventService.findByDateRange(givenDate, null));
 		}
 		return myReturn;
@@ -52,7 +52,7 @@ public class EventsAPIController {
 		} else {
 			myReturn.put("error", 0);
 	    	myReturn.put("msg", "success.");
-	    	System.out.println( eventService.getSingleTimeEventDetailsById(eventId, BooleanUtils.toBoolean(showAllDetails)));
+	    	System.out.println( eventService.getSingleTimeEventById(eventId, BooleanUtils.toBoolean(showAllDetails)));
 	    	//myReturn.put("events", eventService.findByDateRange(givenDate, null));
 		}
 		return myReturn;
