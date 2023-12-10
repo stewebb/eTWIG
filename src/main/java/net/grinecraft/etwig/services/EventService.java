@@ -17,6 +17,7 @@ import net.grinecraft.etwig.repository.SingleTimeEventRepository;
 import net.grinecraft.etwig.util.DataIntegrityViolationException;
 import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.NameUtils;
+import net.grinecraft.etwig.util.type.DateRange;
 
 @Service
 public class EventService {
@@ -28,20 +29,39 @@ public class EventService {
 	private SingleTimeEventRepository singleTimeEventRepository;
 	
 	/**
-	 * Get all events that happens in the week of the given date.
+	 * Get all events that happens in the month/week/day of the given date.
 	 * @param givenDate
 	 * @return The hashmap of all required events.
 	 */
 	
-	public LinkedHashMap<Long,Object> findByDateRange(LocalDate givenDate){
+	public LinkedHashMap<Long,Object> findByDateRange(LocalDate givenDate, DateRange dateRange){
 		
-		LocalDate currentMonday = DateUtils.findThisMonday(givenDate);
-		LocalDate nextMonday = DateUtils.findNextMonday(givenDate);
+		// Step 1: Date check
+		LocalDate last = null;
+		LocalDate next = null;
 		
-		if(singleTimeEventRepository == null) {
-			return new LinkedHashMap<Long, Object>();
+		if(dateRange == DateRange.MONTH) {
+			last = DateUtils.findFirstDayOfThisMonth(givenDate);
+			next = DateUtils.findFirstDayOfNextMonth(givenDate);
 		}
 		
+		else if(dateRange == DateRange.WEEK) {
+			last = DateUtils.findThisMonday(givenDate);
+			next = DateUtils.findNextMonday(givenDate);
+		}
+		
+		else {
+			last = givenDate;
+			next = DateUtils.findTomorrow(givenDate);
+		}
+		
+		//if(singleTimeEventRepository == null) {
+		//	return new LinkedHashMap<Long, Object>();
+		//}
+		
+		// Step 2 
+		
+		/*
         List<SingleTimeEvent> singleTimeEventsList = singleTimeEventRepository.findByDateRange(currentMonday, nextMonday);
       
         LinkedHashMap<Long, Object> allEvents = new LinkedHashMap<>();
@@ -59,101 +79,69 @@ public class EventService {
         	//System.out.println(info);
         	
         	allEvents.put(eventId, info);
-        }
+        }*/
         
-        return allEvents;
+        return null;
 		
 	}
 	
-	/*
-	 * Get event portfolio and organizer by it's id.
-	 */
-	
-	/*
-	private LinkedHashMap<String, Object> getEventDetailsById(long id) {
-		if(eventRepository == null) {
-			return new LinkedHashMap<String, Object>();
-		}
-		Optional<Event> eventsOpt = eventRepository.findById(id);
-		
-		// Only proceed when event exists
-		if (eventsOpt.isPresent()){
-			Event events = eventsOpt.get();
-			Portfolio portfolio = events.getPortfolio();
-			User leader = events.getUser();
-			
-			// Cannot get portfolio and organizer. It shouldn't happen!
-			if(portfolio == null) {
-				throw new DataIntegrityViolationException("The portfolio of event id=" + events.getId() + " doesn't exist. PLease check the portfolio table.");
-			}
-			
-			if(leader == null) {
-				throw new DataIntegrityViolationException("The organizer of event id=" + events.getId() + " doesn't exist. PLease check the leader table.");
-			}
-			
-			LinkedHashMap<String, Object> eventInfo = new LinkedHashMap<String, Object>();
-			eventInfo.put("isRecurring", events.isRecurring());
-			//eventInfo.put("portfolioId", portfolio.getPortfolioID());
-			eventInfo.put("portfolioName", portfolio.getName());
-			eventInfo.put("portfolioColor", portfolio.getColor());
-			// TODO More portfolio details.
-			
-			//eventInfo.put("organizerId", leader.getUserID());
-			eventInfo.put("organizerName", NameUtils.nameMerger(leader.getFirstName(), leader.getMiddleName(), leader.getLastName()));
-			return eventInfo;
-		}
-		
-		// Portfolio exists in event_single_time table, but doesn't exist in events table. It shouldn't happen!
-		else {
-			throw new DataIntegrityViolationException("The event of id=" + id + " exists in event_single_time table, but doesn't exist in events table. PLease check those two tables.");
-		}
-	}*/
 	
 	/**
-	 * Get all details related to an event by it's id.
+	 * Get all details related to a single time event by it's id.
 	 * @param id The id of that event.
 	 * @param showAllDetails True to show all details, false to show brief information.
 	 * @return A linkedHaskMap about the details of the event. If event doesn't exist, return null.
 	 * @throws DataIntegrityViolationException If the violation of the data integrity is detected.
 	 */
 	
-	public LinkedHashMap<String, Object> getEventDetailsById(long id, boolean showAllDetails) {
+	public LinkedHashMap<String, Object> getSingleTimeEventDetailsById(long id, boolean showAllDetails) {
 		LinkedHashMap<String, Object> eventDetails = new LinkedHashMap<String, Object>();
 		
 		// Step 1: Null check (to avoid NullPointerException on findById)
-		if(eventRepository == null || singleTimeEventRepository == null) {
+		if(singleTimeEventRepository == null) {
 			return null;
 		}
 		
 		// Step 2: Find in the event table (join with portfolio and users table).
-		Optional<Event> eventsOpt = eventRepository.findById(id);
+		Optional<SingleTimeEvent> singleTimeEventOptional = singleTimeEventRepository.findById(id);
 		
 		// Step 2.1: Null check
-		if (!eventsOpt.isPresent()){
+		if (!singleTimeEventOptional.isPresent()){
 			return null;
 		}
 		
-		// Step 2.2: Gather required objects.
-		Event events = eventsOpt.get();
-		Portfolio portfolio = events.getPortfolio();
-		User user = events.getUser();
-			
-		// Step 2.3: Date Integrity check
+		// Step 2.2: Gather required objects and date integrity check
+		SingleTimeEvent singleTimeEvent = singleTimeEventOptional.get();
+		Event event = singleTimeEvent.getEvent();
+		
+		if(event == null) {
+			throw new DataIntegrityViolationException("The event id=" + singleTimeEvent.getId() + " exists in event_single_time table but doesn't exist in event table.");
+		}
+		
+		Portfolio portfolio = event.getPortfolio();
+		User user = event.getUser();
+		
 		if(portfolio == null) {
-			throw new DataIntegrityViolationException("The portfolio of event id=" + events.getId() + " doesn't exist. PLease check the portfolio table.");
+			throw new DataIntegrityViolationException("The portfolio of event id=" + singleTimeEvent.getId() + " doesn't exist. PLease check the portfolio table.");
 		}
 		
 		if(user == null) {
-			throw new DataIntegrityViolationException("The organizer of event id=" + events.getId() + " doesn't exist. PLease check the leader table.");
+			throw new DataIntegrityViolationException("The organizer of event id=" + singleTimeEvent.getId() + " doesn't exist. PLease check the leader table.");
 		}
-			
+		
 		// Step 2.4: Add all necessary data
-		boolean isRecurring = events.isRecurring();
-		eventDetails.put("isRecurring", isRecurring);
+		eventDetails.put("eventName", singleTimeEvent.getName());
+		eventDetails.put("eventStartTime", singleTimeEvent.getStartDateTime());
+		eventDetails.put("eventDuration", singleTimeEvent.getDuration());
+		
+		// Just output the overriding event id. Let the front-end to handle this.
+		eventDetails.put("overRideRecurringEvent", singleTimeEvent.getOverrideRecurringEvent());
 		eventDetails.put("portfolioColor", portfolio.getColor());
 			
 		// Step 2.5: Add all detailed data
 		if(showAllDetails) {
+			eventDetails.put("eventLocation", singleTimeEvent.getLocation());
+			eventDetails.put("eventDescription", singleTimeEvent.getDescription());
 			eventDetails.put("portfolioName", portfolio.getName());
 			eventDetails.put("portfolioAbbreviation", portfolio.getAbbreviation());
 			eventDetails.put("portfolioIcon", portfolio.getIcon());
@@ -161,35 +149,6 @@ public class EventService {
 		}
 		// TODO Find all parents
 		
-		// Step 3: Find in the event_single_time or event recurring table.
-		// Step 3(a): Recurring events
-		if(isRecurring) {
-			
-		}
-		
-		// Step 3(b): Single time events
-		else {
-			Optional<SingleTimeEvent> singleTimeEventsOpt = singleTimeEventRepository.findById(id);
-			if (!singleTimeEventsOpt.isPresent()){
-				throw new DataIntegrityViolationException("The event id=" + events.getId() + " exists in event table but doesn't exist in event_single_time table.");
-			}
-			SingleTimeEvent singleTimeEvent = singleTimeEventsOpt.get();
-			eventDetails.put("eventName", singleTimeEvent.getName());
-			eventDetails.put("eventStartTime", singleTimeEvent.getStartDateTime());
-			eventDetails.put("eventDuration", singleTimeEvent.getDuration());
-			
-			// Just output the overriding event id. Let the front-end to handle this.
-			eventDetails.put("overRideRecurringEvent", singleTimeEvent.getOverrideRecurringEvent());
-			
-			if(showAllDetails) {
-				eventDetails.put("eventLocation", singleTimeEvent.getLocation());
-				eventDetails.put("eventDescription", singleTimeEvent.getDescription());
-			}
-		}
-		
-		
 		return eventDetails;
-		
-		
 	}
 }

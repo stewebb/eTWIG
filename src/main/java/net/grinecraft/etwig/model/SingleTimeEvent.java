@@ -33,5 +33,9 @@ public class SingleTimeEvent {
 	private int duration;
 	
 	@Column(name = "override_recurring_event")
-	private int overrideRecurringEvent;
+	private Integer overrideRecurringEvent;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id", referencedColumnName = "id")
+    private Event event;
 }

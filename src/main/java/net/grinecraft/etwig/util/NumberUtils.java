@@ -21,4 +21,18 @@ public class NumberUtils extends org.apache.commons.lang3.math.NumberUtils{
 			return false;
 		}
 	}
+	
+	/**
+	 * Convert a String to long without exception
+	 * @param str The input String
+	 * @return A long number if the String can be converted to Long. Null if the String cannot be converted to Long.
+	 */
+	
+	public static Long safeCreateLong(String str) {
+		try {
+			return createLong(str);
+		} catch (NumberFormatException e) {
+			return null;
+		}
+	}
 }

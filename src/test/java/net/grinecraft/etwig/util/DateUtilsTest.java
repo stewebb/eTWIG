@@ -95,4 +95,58 @@ public class DateUtilsTest {
         LocalDate expected = LocalDate.of(2023, 12, 4);
         Assertions.assertEquals(expected, DateUtils.findNextMonday(inputDate));
     }
+    
+    /**
+	 * findFirstDayOfThisMonth() method.
+	 */
+    
+    @Test
+    public void testFindFirstDayOfThisMonth() {
+        LocalDate inputDate = LocalDate.of(2023, 12, 15);
+        LocalDate expected = LocalDate.of(2023, 12, 1);
+        Assertions.assertEquals(expected, DateUtils.findFirstDayOfThisMonth(inputDate));
+    }
+
+    /**
+   	 * findFirstDayOfNextMonth() method.
+   	 */
+    
+    @Test
+    public void testFindFirstDayOfNextMonth() {
+        LocalDate inputDate = LocalDate.of(2023, 12, 15);
+        LocalDate expected = LocalDate.of(2024, 1, 1);
+        Assertions.assertEquals(expected, DateUtils.findFirstDayOfNextMonth(inputDate));
+    }
+
+    @Test
+    public void testFindFirstDayOfNextMonthFebruaryToMarch() {
+        LocalDate inputDate = LocalDate.of(2023, 2, 28);
+        LocalDate expected = LocalDate.of(2023, 3, 1);
+        Assertions.assertEquals(expected, DateUtils.findFirstDayOfNextMonth(inputDate));
+    }
+    
+    /**
+   	 * findTomorrow() method.
+   	 */
+    
+    @Test
+    public void testFindTomorrow() {
+        LocalDate inputDate = LocalDate.of(2023, 12, 31);
+        LocalDate expected = LocalDate.of(2024, 1, 1);
+        Assertions.assertEquals(expected, DateUtils.findTomorrow(inputDate));
+    }
+    
+    @Test
+    public void testTomorrowFebruaryToMarchNotLeapYear() {
+        LocalDate inputDate = LocalDate.of(2023, 2, 28);
+        LocalDate expected = LocalDate.of(2023, 3, 1);
+        Assertions.assertEquals(expected, DateUtils.findTomorrow(inputDate));
+    }
+    
+    @Test
+    public void testTomorrowFebruaryToMarchLeapYear() {
+        LocalDate inputDate = LocalDate.of(2024, 2, 28);
+        LocalDate expected = LocalDate.of(2024, 2, 29);
+        Assertions.assertEquals(expected, DateUtils.findFirstDayOfNextMonth(inputDate));
+    }
 }
