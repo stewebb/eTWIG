@@ -1,5 +1,6 @@
 stages:                          
     - build                         
+    - tests
     - deploy                        
 
 before_script:
@@ -8,20 +9,13 @@ before_script:
 compile:                     
     image: maven:3-sapmachine-17          
     stage: build                   
-    script: "mvn clean compile -B"
-    artifacts:              
-        paths:
-            - target/eTWIG.jar
+    script: "mvn compile -B"
     tags:
         - localhost
 
 test:                     
-    image: maven:3-sapmachine-17          
-    stage: build                   
-    script: "mvn clean test -B"
+    stage: tests                   
+    script: "mvn test -B"
     allow_failure: true
-    artifacts:              
-        paths:
-            - target/eTWIG.jar
     tags:
         - localhost
