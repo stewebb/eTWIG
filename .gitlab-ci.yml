@@ -5,12 +5,23 @@ stages:
 before_script:
   - source /etc/profile
 
-maven-build:                     
+compile:                     
     image: maven:3-sapmachine-17          
     stage: build                   
-    script: "mvn package -B"
+    script: "mvn clean compile -B"
     artifacts:              
         paths:
-            - target/gitlab-ci-demo.jar
+            - target/eTWIG.jar
+    tags:
+        - localhost
+
+test:                     
+    image: maven:3-sapmachine-17          
+    stage: build                   
+    script: "mvn clean test -B"
+    allow_failure: true
+    artifacts:              
+        paths:
+            - target/eTWIG.jar
     tags:
         - localhost
