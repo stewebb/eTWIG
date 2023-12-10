@@ -1,16 +1,22 @@
 stages:                          
     - build                         
+    - tests
     - deploy                        
 
 before_script:
   - source /etc/profile
 
-maven-build:                     
-    image: maven:3-jdk-17          
+compile:                     
+    image: maven:3-sapmachine-17          
     stage: build                   
-    script: "mvn package -B"
-    artifacts:              
-        paths:
-            - target/gitlab-ci-demo.jar
+    script: "mvn compile -B"
+    tags:
+        - localhost
+
+test:     
+    image: maven:3-sapmachine-17                          
+    stage: tests                   
+    script: "mvn test -B"
+    allow_failure: true
     tags:
         - localhost
