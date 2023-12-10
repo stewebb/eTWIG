@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.grinecraft.etwig.services.EventService;
+import net.grinecraft.etwig.services.event.EventInfo;
+import net.grinecraft.etwig.services.event.EventInfoFactory;
 import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.NumberUtils;
 
@@ -19,6 +21,9 @@ public class EventsAPIController {
 
 	@Autowired
 	EventService eventService;
+	
+	@Autowired
+	EventInfo eventInfo;
 	
 	@RequestMapping("/public/_getEventsByWeek")  
 	public Map<String, Object> getEventsByWeek(@RequestParam(required = false) String dateStr) throws Exception{
@@ -32,7 +37,7 @@ public class EventsAPIController {
 		}else {
 			myReturn.put("error", 0);
 	    	myReturn.put("msg", "success.");
-	    	System.out.println( eventService.getSingleTimeEventById(100, true));
+	    	//System.out.println( eventService.getSingleTimeEventById(100, true));
 	    	//myReturn.put("events", eventService.findByDateRange(givenDate, null));
 		}
 		return myReturn;
@@ -40,9 +45,9 @@ public class EventsAPIController {
 	
 
 	@RequestMapping("/public/_getEventById")  
-	public Map<String, Object> getEventById(@RequestParam(required = false) String eventIdStr, @RequestParam(required = false) String showAllDetails) throws Exception{
+	public Map<String, Object> getEventById(@RequestParam(required = false) String eventId, @RequestParam(required = false) String showAllDetails) throws Exception{
 		
-		Long eventId = NumberUtils.safeCreateLong(eventIdStr);
+		Long eventIdNum = NumberUtils.safeCreateLong(eventId);
 		Map<String, Object> myReturn = new LinkedHashMap<String, Object>();
 		
 		if(eventId == null) {
@@ -52,8 +57,16 @@ public class EventsAPIController {
 		} else {
 			myReturn.put("error", 0);
 	    	myReturn.put("msg", "success.");
-	    	System.out.println( eventService.getSingleTimeEventById(eventId, BooleanUtils.toBoolean(showAllDetails)));
-	    	//myReturn.put("events", eventService.findByDateRange(givenDate, null));
+	    	//myReturn.putAll(eventService.findById(eventIdNum, BooleanUtils.toBoolean(showAllDetails)));
+	    	
+			//LinkedHashMap<String, Object> event = new LinkedHashMap<String, Object>();
+			EventInfoFactory eventInfoFactory = new EventInfoFactory();
+			
+			LinkedHashMap<String, Object> eventInfoRecurring = (eventInfoFactory.selectEvent(true)).getEventById(eventIdNum, BooleanUtils.toBoolean(showAllDetails));
+			LinkedHashMap<String,Object> eventInfoSingleTime = (eventInfoFactory.selectEvent(false)).getEventById(eventIdNum, BooleanUtils.toBoolean(showAllDetails));
+			
+			System.out.println(eventInfoRecurring);
+			System.out.println(eventInfoSingleTime);
 		}
 		return myReturn;
 	}

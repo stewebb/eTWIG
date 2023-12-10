@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import net.grinecraft.etwig.model.Event;
 import net.grinecraft.etwig.model.Portfolio;
@@ -13,6 +14,7 @@ import net.grinecraft.etwig.repository.SingleTimeEventRepository;
 import net.grinecraft.etwig.util.DataIntegrityViolationException;
 import net.grinecraft.etwig.util.NameUtils;
 
+@Service
 public class SingleTimeEventInfo implements EventInfo {
 	
 	@Autowired
