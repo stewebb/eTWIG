@@ -54,7 +54,7 @@ function formatDate(date) {
 
 function getEventListByWeek(weekStr){
 	var eventList = []; 
-	var url = '/public/_getEventsByWeek?dateStr=' + weekStr;
+	var url = '/public/_getEventList?dateStr=' + weekStr + '&rangeStr=month';
 	$.ajax({ 
 		type: 'GET', 
     	url: url, 
@@ -65,8 +65,7 @@ function getEventListByWeek(weekStr){
     	dataType: 'json',
 		success: function(json) {
 			if(json.error > 0){
-				$('#errorReason').html(json.msg);
-    			$("#errorAlert").slideDown(500).delay(10000).slideUp(500);
+    			showAlert("Failed to get resource because " + json.msg, "danger");
 			}else{
 				jQuery.each(json.events, function() {
 					var eventStartDateTime = new Date(this.eventStartTime);
@@ -83,8 +82,7 @@ function getEventListByWeek(weekStr){
 			}
         },
     	error: function(jqXHR, exception) {   		
-    		$('#errorReason').html("HTTP Status " + jqXHR.status + " when attempt ro access " + url);
-    		$("#errorAlert").slideDown(500).delay(10000).slideUp(500);
+    		showAlert("Failed to get resource due to a HTTP " + jqXHR.status + " error.", "danger");
     		
 		}
 	});

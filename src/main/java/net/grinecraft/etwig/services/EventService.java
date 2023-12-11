@@ -1,6 +1,8 @@
-package net.grinecraft.etwig.services.event;
+package net.grinecraft.etwig.services;
 
+import java.time.LocalDate;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +16,12 @@ import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.repository.RecurringEventRepository;
 import net.grinecraft.etwig.repository.SingleTimeEventRepository;
 import net.grinecraft.etwig.util.DataIntegrityViolationException;
+import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.NameUtils;
+import net.grinecraft.etwig.util.type.DateRange;
 
 @Service
-public class EventInfoService {
+public class EventService {
 
 	@Autowired
 	private SingleTimeEventRepository singleTimeEventRepository;
@@ -33,7 +37,7 @@ public class EventInfoService {
 	 * @throws DataIntegrityViolationException If the violation of the data integrity is detected.
 	 */
 	
-	public LinkedHashMap<String, Object> getSingleTimeEventById(long id, boolean showAllDetails) {
+	private LinkedHashMap<String, Object> getSingleTimeEventById(long id, boolean showAllDetails) {
 		LinkedHashMap<String, Object> eventDetails = new LinkedHashMap<String, Object>();
 		
 		// Step 1: Null check (to avoid NullPointerException on findById)
@@ -72,14 +76,14 @@ public class EventInfoService {
 		eventDetails.put("eventName", singleTimeEvent.getName());
 		eventDetails.put("eventStartTime", singleTimeEvent.getStartDateTime());
 		eventDetails.put("eventDuration", singleTimeEvent.getDuration());
-		
+		eventDetails.put("eventLocation", singleTimeEvent.getLocation());
+
 		// Just output the overriding event id. Let the front-end to handle this.
 		eventDetails.put("overRideRecurringEvent", singleTimeEvent.getOverrideRecurringEvent());
 		eventDetails.put("portfolioColor", portfolio.getColor());
 			
 		// Step 2.5: Add all detailed data
 		if(showAllDetails) {
-			eventDetails.put("eventLocation", singleTimeEvent.getLocation());
 			eventDetails.put("eventDescription", singleTimeEvent.getDescription());
 			eventDetails.put("portfolioName", portfolio.getName());
 			eventDetails.put("portfolioAbbreviation", portfolio.getAbbreviation());
@@ -100,7 +104,7 @@ public class EventInfoService {
 	 * @throws DataIntegrityViolationException If the violation of the data integrity is detected.
 	 */
 	
-	public LinkedHashMap<String, Object> getRecurringEventById(long id, boolean showAllDetails) {
+	private LinkedHashMap<String, Object> getRecurringEventById(long id, boolean showAllDetails) {
 		LinkedHashMap<String, Object> eventDetails = new LinkedHashMap<String, Object>();
 		if(recurringEventRepository == null) {
 			return null;
@@ -135,9 +139,9 @@ public class EventInfoService {
 		eventDetails.put("eventAvailableTo", recurringEvent.getAvailableTo());
 		eventDetails.put("eventDuration", recurringEvent.getDuration());
 		eventDetails.put("portfolioColor", portfolio.getColor());
-			
+		eventDetails.put("eventLocation", recurringEvent.getLocation());
+
 		if(showAllDetails) {
-			eventDetails.put("eventLocation", recurringEvent.getLocation());
 			eventDetails.put("eventDescription", recurringEvent.getDescription());
 			eventDetails.put("portfolioName", portfolio.getName());
 			eventDetails.put("portfolioAbbreviation", portfolio.getAbbreviation());
@@ -146,65 +150,6 @@ public class EventInfoService {
 		}		
 		return eventDetails;
 	}
-	
-	/**
-	 * Get all events that happens in the month/week/day of the given date.
-	 * @param givenDate
-	 * @return The hashmap of all required events.
-	 */
-	
-	/*
-	public LinkedHashMap<Long,Object> findByDateRange(LocalDate givenDate, DateRange dateRange){
-		
-		// Step 1: Date check
-		LocalDate last = null;
-		LocalDate next = null;
-		
-		if(dateRange == DateRange.MONTH) {
-			last = DateUtils.findFirstDayOfThisMonth(givenDate);
-			next = DateUtils.findFirstDayOfNextMonth(givenDate);
-		}
-		
-		else if(dateRange == DateRange.WEEK) {
-			last = DateUtils.findThisMonday(givenDate);
-			next = DateUtils.findNextMonday(givenDate);
-		}
-		
-		else {
-			last = givenDate;
-			next = DateUtils.findTomorrow(givenDate);
-		}
-		
-		//if(singleTimeEventRepository == null) {
-		//	return new LinkedHashMap<Long, Object>();
-		//}
-		
-		// Step 2 
-		
-		
-        List<SingleTimeEvent> singleTimeEventsList = singleTimeEventRepository.findByDateRange(currentMonday, nextMonday);
-      
-        LinkedHashMap<Long, Object> allEvents = new LinkedHashMap<>();
-        for(SingleTimeEvent singleTimeEvents : singleTimeEventsList) {      	
-        	//allPortfolios.put(portfolio.getPortfolioID(), portfolioObjectToMap(portfolio));
-        	
-        	Long eventId = Long.valueOf(singleTimeEvents.getId());
-        	LinkedHashMap<String, Object> info = new LinkedHashMap<String, Object>();
-        	info.put("eventId", eventId);
-        	info.put("eventName", singleTimeEvents.getName());
-        	info.put("eventLocation", singleTimeEvents.getLocation());
-        	info.put("eventStartTime", singleTimeEvents.getStartDateTime());
-        	info.put("eventDuration", singleTimeEvents.getDuration());
-        	info.putAll(getEventDetailsById(eventId, false));
-        	//System.out.println(info);
-        	
-        	allEvents.put(eventId, info);
-        }
-        
-        return null;
-		
-	}
-	*/
 	
 	/**
 	 * Find the event detail by it's id.
@@ -248,6 +193,52 @@ public class EventInfoService {
 		}
 		
 		return event;
+	}
+	
+	
+	
+	/**
+	 * Get all events that happens in the month/week/day of the given date.
+	 * @param givenDate A given date in LocalDate format
+	 * @param dateRange Am enum that specifies what kinds of data range will be chosen. [Month, Week, Day]
+	 * @return The hashmap of all required events.
+	 */
+	
+	public LinkedHashMap<Integer, Object> findByDateRange(LocalDate givenDate, DateRange dateRange){
+		
+		// Step 1: Date check
+		LocalDate last = null;
+		LocalDate next = null;
+		
+		if(dateRange == DateRange.MONTH) {
+			last = DateUtils.findFirstDayOfThisMonth(givenDate);
+			next = DateUtils.findFirstDayOfNextMonth(givenDate);
+		}
+		
+		else if(dateRange == DateRange.WEEK) {
+			last = DateUtils.findThisMonday(givenDate);
+			next = DateUtils.findNextMonday(givenDate);
+		}
+		
+		else {
+			last = givenDate;
+			next = DateUtils.findTomorrow(givenDate);
+		}
+		
+		//if(singleTimeEventRepository == null) {
+		//	return new LinkedHashMap<Long, Object>();
+		//}
+		
+		// Step 2: Check all single time events in the given date range.
+        List<SingleTimeEvent> singleTimeEventsList = singleTimeEventRepository.findByDateRange(last, next);
+        LinkedHashMap<Integer, Object> allEvents = new LinkedHashMap<>();
+        for(SingleTimeEvent singleTimeEvents : singleTimeEventsList) {      	
+        	int id = singleTimeEvents.getId();
+        	allEvents.put(id, getSingleTimeEventById(id, false));
+        }
+        
+        return allEvents;
+		
 	}
 	
 }

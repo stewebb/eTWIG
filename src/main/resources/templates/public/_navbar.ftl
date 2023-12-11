@@ -1,5 +1,5 @@
 	<nav class="navbar navbar-expand-lg navbar-dark bg-etwig-blue">
-  		<a class="navbar-brand" href="#"><img src=/static/images/I_white.png />	eTWIG</a>
+  		<a class="navbar-brand" href="#"><img src=/static/images/eTWIG_white.png />	Public Module</a>
   		
   		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     		<span class="navbar-toggler-icon"></span>
