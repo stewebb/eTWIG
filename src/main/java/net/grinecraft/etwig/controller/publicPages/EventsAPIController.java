@@ -4,15 +4,13 @@ import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.grinecraft.etwig.services.event.EventInfoService;
-import net.grinecraft.etwig.services.event.EventInfo;
-import net.grinecraft.etwig.services.event.EventInfoFactory;
+import net.grinecraft.etwig.util.BooleanUtils;
 import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.NumberUtils;
 
@@ -20,10 +18,7 @@ import net.grinecraft.etwig.util.NumberUtils;
 public class EventsAPIController {
 
 	@Autowired
-	EventInfoService eventService;
-	
-	@Autowired
-	EventInfo eventInfo;
+	EventInfoService eventInfoService;
 	
 	@RequestMapping("/public/_getEventsByWeek")  
 	public Map<String, Object> getEventsByWeek(@RequestParam(required = false) String dateStr) throws Exception{
@@ -50,23 +45,23 @@ public class EventsAPIController {
 		Long eventIdNum = NumberUtils.safeCreateLong(eventId);
 		Map<String, Object> myReturn = new LinkedHashMap<String, Object>();
 		
-		if(eventId == null) {
+		if(eventIdNum == null) {
 			myReturn.put("error", 1);
 	    	myReturn.put("msg", "eventId parameter is either missing or invalid. It must be an Integer.");
-	    	myReturn.put("event", new LinkedHashMap<String, Object>());
+	    	//myReturn.put("event", new LinkedHashMap<String, Object>());
 		} else {
 			myReturn.put("error", 0);
 	    	myReturn.put("msg", "success.");
-	    	//myReturn.putAll(eventService.findById(eventIdNum, BooleanUtils.toBoolean(showAllDetails)));
+	    	myReturn.putAll(eventInfoService.findById(eventIdNum, BooleanUtils.toBooleanNullTrue(showAllDetails)));
 	    	
 			//LinkedHashMap<String, Object> event = new LinkedHashMap<String, Object>();
-			EventInfoFactory eventInfoFactory = new EventInfoFactory();
+			//EventInfoFactory eventInfoFactory = new EventInfoFactory();
 			
-			LinkedHashMap<String, Object> eventInfoRecurring = (eventInfoFactory.selectEvent(true)).getEventById(eventIdNum, BooleanUtils.toBoolean(showAllDetails));
-			LinkedHashMap<String,Object> eventInfoSingleTime = (eventInfoFactory.selectEvent(false)).getEventById(eventIdNum, BooleanUtils.toBoolean(showAllDetails));
+			//LinkedHashMap<String, Object> eventInfoRecurring = (eventInfoFactory.selectEvent(true)).getEventById(eventIdNum, BooleanUtils.toBoolean(showAllDetails));
+			//LinkedHashMap<String,Object> eventInfoSingleTime = (eventInfoFactory.selectEvent(false)).getEventById(eventIdNum, BooleanUtils.toBoolean(showAllDetails));
 			
-			System.out.println(eventInfoRecurring);
-			System.out.println(eventInfoSingleTime);
+			//System.out.println(eventInfoRecurring);
+			//System.out.println(eventInfoSingleTime);
 		}
 		return myReturn;
 	}

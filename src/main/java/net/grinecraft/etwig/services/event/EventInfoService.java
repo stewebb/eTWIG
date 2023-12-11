@@ -1,6 +1,5 @@
 package net.grinecraft.etwig.services.event;
 
-import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.Optional;
 
@@ -12,15 +11,10 @@ import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.model.RecurringEvent;
 import net.grinecraft.etwig.model.SingleTimeEvent;
 import net.grinecraft.etwig.model.User;
-import net.grinecraft.etwig.repository.EventRepository;
 import net.grinecraft.etwig.repository.RecurringEventRepository;
 import net.grinecraft.etwig.repository.SingleTimeEventRepository;
-import net.grinecraft.etwig.services.event.EventInfo;
-import net.grinecraft.etwig.services.event.EventInfoFactory;
 import net.grinecraft.etwig.util.DataIntegrityViolationException;
-import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.NameUtils;
-import net.grinecraft.etwig.util.type.DateRange;
 
 @Service
 public class EventInfoService {
@@ -226,19 +220,19 @@ public class EventInfoService {
 		
 		LinkedHashMap<String, Object> eventInfoRecurring = getSingleTimeEventById(id, showAllDetails);
 		LinkedHashMap<String,Object> eventInfoSingleTime = getRecurringEventById(id, showAllDetails);
-		System.out.println(eventInfoRecurring);
-		System.out.println(eventInfoSingleTime);
+		//System.out.println(eventInfoRecurring);
+		//System.out.println(eventInfoSingleTime);
 		
 		// The event is recurring
 		if(eventInfoRecurring != null && eventInfoSingleTime == null) {
-			event.put("id", id);
+			event.put("exists", true);
 			event.put("isRecurring", true);
 			event.put("detail", eventInfoRecurring); 
 		}
 		
 		// The event is single time
 		else if (eventInfoRecurring == null && eventInfoSingleTime != null) {
-			event.put("id", id);
+			event.put("exists", true);
 			event.put("isRecurring", false);
 			event.put("detail", eventInfoSingleTime); 
 		}
@@ -249,7 +243,9 @@ public class EventInfoService {
 		}
 		
 		// The event is neither recurring nor single time. i.e., It doesn't exist at all!
-		// The hidden else (do nothing).
+		else {
+			event.put("exists", false);
+		}
 		
 		return event;
 	}
