@@ -18,8 +18,12 @@ function createPublicCalendar(elem){
 		},
         
 		scrollTime: '09:00:00',
-    	events: getEventListByWeek("2023-12-04"),
-    	eventClick: function (info) {alert(info)},
+    	events: getEventListByRange("2023-12-04", "month"),
+    	eventClick: function (info) {
+			$("#etwig-modal-title").text("New word");
+			$('#etwig-modal').modal('toggle');
+			console.log(info)
+		},
     	dayMaxEvents: true,
     	nowIndicator: true,
     	selectable: false,
@@ -47,14 +51,15 @@ function formatDate(date) {
 }
 
 /**
- * Get the event list
- * @param weekStr The String contains week.
+ * Get the event list based on a specific range
+ * @param dateStr The String contains current month/week/day.
+ * @param rangeStr The String to set the search range.
  * @returns A list of events objects
  */
 
-function getEventListByWeek(weekStr){
+function getEventListByRange(dateStr, rangeStr){
 	var eventList = []; 
-	var url = '/public/_getEventList?dateStr=' + weekStr + '&rangeStr=month';
+	var url = '/public/_getEventList?dateStr=' + dateStr + '&rangeStr='+ rangeStr;
 	$.ajax({ 
 		type: 'GET', 
     	url: url, 
@@ -67,15 +72,16 @@ function getEventListByWeek(weekStr){
 			if(json.error > 0){
     			showAlert("Failed to get resource because " + json.msg, "danger");
 			}else{
-				jQuery.each(json.events, function() {
-					var eventStartDateTime = new Date(this.eventStartTime);
-					var eventEndDateTime = new Date(eventStartDateTime.getTime() + this.eventDuration*60000);
+				jQuery.each(json.events, function(id, value) {
+					var eventStartDateTime = new Date(value.eventStartTime);
+					var eventEndDateTime = new Date(eventStartDateTime.getTime() + value.eventDuration*60000);
   					
   					eventList.push({
+						  id: id,
 						  start: formatDate(eventStartDateTime), 
 						  end: formatDate(eventEndDateTime), 
-						  title: this.eventName + " @ " + this.eventLocation, 
-						  color: "#"+this.portfolioColor}
+						  title: value.eventName + " @ " + value.eventLocation, 
+						  color: "#" + value.portfolioColor}
 					); 
   					
 				})
@@ -101,6 +107,42 @@ function createDatePicker(htmlElem, pickerElem){
 			element: pickerElem,
 			format: 'yyyy-MM-dd',
 			usageStatistics: false
+		}
+	});
+}
+
+function getEventById(id){
+	var url = '/public/_getEventById?eventId=' + id + '&rangeStr='+ rangeStr;
+	$.ajax({ 
+		type: 'GET', 
+    	url: url, 
+    	async: false,
+    	data: { 
+			get_param: 'value' 
+		}, 
+    	dataType: 'json',
+		success: function(json) {
+			if(json.error > 0){
+    			showAlert("Failed to get resource because " + json.msg, "danger");
+			}else{
+				jQuery.each(json.events, function(id, value) {
+					var eventStartDateTime = new Date(value.eventStartTime);
+					var eventEndDateTime = new Date(eventStartDateTime.getTime() + value.eventDuration*60000);
+  					
+  					eventList.push({
+						  id: id,
+						  start: formatDate(eventStartDateTime), 
+						  end: formatDate(eventEndDateTime), 
+						  title: value.eventName + " @ " + value.eventLocation, 
+						  color: "#" + value.portfolioColor}
+					); 
+  					
+				})
+			}
+        },
+    	error: function(jqXHR, exception) {   		
+    		showAlert("Failed to get resource due to a HTTP " + jqXHR.status + " error.", "danger");
+    		
 		}
 	});
 }

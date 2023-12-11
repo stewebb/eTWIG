@@ -1,5 +1,5 @@
 /**
- * 
+ * A method to create alerts.
  */
 
 function showAlert(message, type) {

@@ -24,8 +24,8 @@
 	<body>
 	<#include "./_navbar.ftl">
 	
-	<!-- Search box for event calendar. -->
 	<#include "../_alerts.ftl">
+	<#include "../_modal.ftl">
 	
 	<!-- Event filter -->
 	<div id="event-search" class="etwig-main border border-public rounded">
