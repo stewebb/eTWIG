@@ -10,6 +10,7 @@ import net.grinecraft.etwig.model.Event;
 import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.model.SingleTimeEvent;
 import net.grinecraft.etwig.model.User;
+import net.grinecraft.etwig.repository.RecurringEventRepository;
 import net.grinecraft.etwig.repository.SingleTimeEventRepository;
 import net.grinecraft.etwig.util.DataIntegrityViolationException;
 import net.grinecraft.etwig.util.NameUtils;
@@ -19,6 +20,8 @@ public class SingleTimeEventInfo implements EventInfo {
 	
 	@Autowired
 	private SingleTimeEventRepository singleTimeEventRepository;
+	
+
 	
 	/**
 	 * Get all details related to a single time event by it's id.
