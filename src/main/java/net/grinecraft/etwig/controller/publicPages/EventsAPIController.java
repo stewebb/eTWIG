@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import net.grinecraft.etwig.services.EventInfoService;
+import net.grinecraft.etwig.services.event.EventInfoService;
 import net.grinecraft.etwig.services.event.EventInfo;
 import net.grinecraft.etwig.services.event.EventInfoFactory;
 import net.grinecraft.etwig.util.DateUtils;
