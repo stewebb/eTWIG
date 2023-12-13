@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	<#include "../includes/header.ftl">
+	<#include "../_includes/header.ftl">
 	
 	
 		<!-- CSS for public submodule pages -->
@@ -22,7 +22,7 @@
 	</head>
 
 	<body>
-	<#include "../includes/body_common.ftl">
+	<#include "../_includes/body_common.ftl">
 	
 	<#-- Event filter -->
 	<div id="event-search" class="etwig-main border border-public rounded">
@@ -94,7 +94,7 @@
 	
 	<#-- Event portfolio -->
 	<div id="event-portfolio" class="etwig-main border border-public rounded">
-		<#include "../includes/portfolio.ftl">
+		<#include "../_includes/portfolio.ftl">
     </div>
     <p>&nbsp;</p>
     
@@ -111,6 +111,6 @@
 		createPublicCalendar("etwig-public-calendar");
     </script>
 
-	<#include "../includes/footer.ftl">
+	<#include "../_includes/footer.ftl">
 </body>
 </html>

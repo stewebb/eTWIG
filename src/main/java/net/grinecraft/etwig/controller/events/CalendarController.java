@@ -25,7 +25,7 @@ public class CalendarController {
 		HashMap<String, Object> templateMap = new HashMap<String, Object>();
 		templateMap.put("portfolio", portfolioService.getPortfolioList());
 		
-		Template template = configuration.getTemplate("public/calendar.ftl");
+		Template template = configuration.getTemplate("events/calendar.ftl");
         return FreeMarkerTemplateUtils.processTemplateIntoString(template, templateMap);
 	}
 }
