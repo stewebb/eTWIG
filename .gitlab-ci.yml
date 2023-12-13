@@ -20,3 +20,9 @@ test:
     allow_failure: true
     tags:
         - localhost
+    artifacts:
+        when: always
+        reports:
+            junit:
+                - target/surefire-reports/TEST-*.xml
+                - target/failsafe-reports/TEST-*.xml
