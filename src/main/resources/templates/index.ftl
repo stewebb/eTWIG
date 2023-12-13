@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	<#include "./_header.ftl">
+	<#include "./includes/header.ftl">
 	<link rel="stylesheet" href="/static/css/welcome.css">
 	<title>Welcome to eTWIG</title>
 </head>
@@ -47,6 +47,6 @@
 </div>
 -->
 
-	<#include "./_footer.ftl">
+	<#include "./includes/footer.ftl">
 </body>
 </html>

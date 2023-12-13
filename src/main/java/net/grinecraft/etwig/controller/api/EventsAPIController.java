@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.controller.publicPages;
+package net.grinecraft.etwig.controller.api;
 
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
@@ -22,7 +22,7 @@ public class EventsAPIController {
 	@Autowired
 	EventService eventService;
 	
-	@RequestMapping("/public/_getEventList")  
+	@RequestMapping("/api/getEventList")  
 	public Map<String, Object> getEventsByWeek(@RequestParam String date, @RequestParam String range) throws Exception{
 		String msg = "";
 		
@@ -47,7 +47,7 @@ public class EventsAPIController {
 	 * @throws Exception
 	 */
 	
-	@RequestMapping("/public/_getEventById")  
+	@RequestMapping("/api/getEventById")  
 	public Map<String, Object> getEventById(@RequestParam String eventId, @RequestParam String showAllDetails) throws Exception{
 		Long eventIdNum = NumberUtils.safeCreateLong(eventId);
 

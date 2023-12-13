@@ -60,7 +60,7 @@ function formatDate(date) {
 
 function getEventListByRange(date, range){
 	var eventList = []; 
-	var url = '/public/_getEventList?date=' + date + '&range='+ range;
+	var url = '/api/getEventList?date=' + date + '&range='+ range;
 	$.ajax({ 
 		type: 'GET', 
     	url: url, 
@@ -112,7 +112,7 @@ function createDatePicker(htmlElem, pickerElem){
 }
 
 function getEventById(id){
-	var url = '/public/_getEventById?eventId=' + id + '&showAllDetails=true';
+	var url = '/api/getEventById?eventId=' + id + '&showAllDetails=true';
 	$.ajax({ 
 		type: 'GET', 
     	url: url, 

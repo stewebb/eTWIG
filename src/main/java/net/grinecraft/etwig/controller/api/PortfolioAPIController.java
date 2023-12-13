@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.controller.publicPages;
+package net.grinecraft.etwig.controller.api;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -17,12 +17,12 @@ public class PortfolioAPIController {
 	@Autowired
 	PortfolioService portfolioService;
 	
-	@RequestMapping("/public/_getPortfolioList")  
+	@RequestMapping("/api/getPortfolioList")  
 	public Map<Integer, Object> getPortfolioList() throws Exception{
 		return portfolioService.getPortfolioList();  
 	}
 	
-	@RequestMapping("/public/_getPortfolioById")  
+	@RequestMapping("/api/getPortfolioById")  
 	public Map<String, Object> getPortfolioById(@RequestParam(required = false) String portfolioID) throws Exception{
 		Map<String, Object> myReturn = new LinkedHashMap<String, Object>();
 		

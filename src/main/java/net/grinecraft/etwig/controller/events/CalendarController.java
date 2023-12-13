@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.controller.publicPages;
+package net.grinecraft.etwig.controller.events;
 
 import java.util.HashMap;
 
@@ -12,7 +12,7 @@ import freemarker.template.Template;
 import net.grinecraft.etwig.services.PortfolioService;
 
 @RestController
-public class PublicPagesController {
+public class CalendarController {
 
 	@Autowired
     Configuration configuration;
@@ -20,7 +20,7 @@ public class PublicPagesController {
 	@Autowired
 	PortfolioService portfolioService;
 	
-	@RequestMapping("/public/calendar")  
+	@RequestMapping("/events/calendar")  
 	public String events() throws Exception{  
 		HashMap<String, Object> templateMap = new HashMap<String, Object>();
 		templateMap.put("portfolio", portfolioService.getPortfolioList());
