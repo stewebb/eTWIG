@@ -23,18 +23,18 @@ public class EventsAPIController {
 	EventService eventService;
 	
 	@RequestMapping("/public/_getEventList")  
-	public Map<String, Object> getEventsByWeek(@RequestParam(required = false) String dateStr, @RequestParam(required = false) String rangeStr) throws Exception{
+	public Map<String, Object> getEventsByWeek(@RequestParam String date, @RequestParam String range) throws Exception{
 		String msg = "";
 		
 		// If the dateStr is null or invalid, the returning date is today. 
-		LocalDate givenDate = DateUtils.safeParseDate(dateStr, "yyyy-MM-dd");
+		LocalDate givenDate = DateUtils.safeParseDate(date, "yyyy-MM-dd");
 		if(givenDate == null) {
 			givenDate = LocalDate.now();
-			msg = "dateStr parameter is either missing or invalid. It must be yyyy-mm-dd format. Today will be used in there.";
+			msg = "date parameter is invalid. It must be yyyy-mm-dd format. Today will be used in there.";
 		}
 		
 		Map<String, Object> myReturn = WebReturn.errorMsg(msg, true);
-	    myReturn.put("events", eventService.findByDateRange(givenDate, DateRange.safeValueOf(rangeStr)));
+	    myReturn.put("events", eventService.findByDateRange(givenDate, DateRange.safeValueOf(range)));
 		
 		return myReturn;
 	}
@@ -48,18 +48,16 @@ public class EventsAPIController {
 	 */
 	
 	@RequestMapping("/public/_getEventById")  
-	public Map<String, Object> getEventById(@RequestParam(required = false) String eventId, @RequestParam(required = false) String showAllDetails) throws Exception{
+	public Map<String, Object> getEventById(@RequestParam String eventId, @RequestParam String showAllDetails) throws Exception{
 		Long eventIdNum = NumberUtils.safeCreateLong(eventId);
-		Map<String, Object> myReturn = new LinkedHashMap<String, Object>();
-		
+
 		if(eventIdNum == null) {
-			myReturn.put("error", 1);
-	    	myReturn.put("msg", "eventId parameter is either missing or invalid. It must be an Integer.");
-		} else {
-			myReturn.put("error", 0);
-	    	myReturn.put("msg", "success.");
-	    	myReturn.putAll(eventService.findById(eventIdNum, BooleanUtils.toBooleanNullTrue(showAllDetails)));
-		}
+			return WebReturn.errorMsg("eventId parameter is invalid. It must be an Integer.", false);
+		} 
+			
+		Map<String, Object> myReturn = WebReturn.errorMsg(null, true);
+	    myReturn.putAll(eventService.findById(eventIdNum, BooleanUtils.toBoolean(showAllDetails)));
+		
 		return myReturn;
 	}
 }
