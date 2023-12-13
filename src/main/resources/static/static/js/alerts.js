@@ -3,6 +3,7 @@
  */
 
 function showAlert(message, type) {
+	$("html, body").animate({ scrollTop: 0 }, "slow");
 	
 	// Type to Font Awesome icon.
 	switch (type){

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	<#include "../_header.ftl">
+	<#include "../_includes/_header.ftl">
 	
 	
 		<!-- CSS for public submodule pages -->
@@ -24,8 +24,8 @@
 	<body>
 	<#include "./_navbar.ftl">
 	
-	<#include "../_alerts.ftl">
-	<#include "../_modal.ftl">
+	<#include "../_includes/_alerts.ftl">
+	<#include "../_includes/_modal.ftl">
 	
 	<!-- Event filter -->
 	<div id="event-search" class="etwig-main border border-public rounded">
@@ -34,7 +34,7 @@
 				<i class="fa-solid fa-filter"></i>&nbsp;Filter
 			</h4>
 			
-			<form class="collapse" id="collapseFilterBox">
+			<form class="collapse show" id="collapseFilterBox">
   				<div class="form-group row">
     				<label for="inputEmail3" class="col-sm-2 col-form-label bold">Portfolio</label>
     				<div class="col-sm-10">
@@ -113,6 +113,6 @@
 		createPublicCalendar("etwig-public-calendar");
     </script>
 
-	<#include "../_footer.ftl">
+	<#include "../_includes/_footer.ftl">
 </body>
 </html>

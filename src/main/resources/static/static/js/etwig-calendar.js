@@ -20,14 +20,15 @@ function createPublicCalendar(elem){
 		scrollTime: '09:00:00',
     	events: getEventListByRange("2023-12-04", "month"),
     	eventClick: function (info) {
-			$("#etwig-modal-title").text("New word");
-			$('#etwig-modal').modal('toggle');
-			console.log(info)
+			getEventById(info.event.id);
 		},
     	dayMaxEvents: true,
     	nowIndicator: true,
     	selectable: false,
-    	eventStartEditable: false
+    	eventStartEditable: false,
+    	height: '720px',
+    	slotMinTime: '06:00', //TODO Customize
+    	slotMaxTime: '22:00', //TODO Customize
 	};
   
 	new EventCalendar(publicCalendarElem, publicCalendarProperties);
@@ -57,9 +58,9 @@ function formatDate(date) {
  * @returns A list of events objects
  */
 
-function getEventListByRange(dateStr, rangeStr){
+function getEventListByRange(date, range){
 	var eventList = []; 
-	var url = '/public/_getEventList?dateStr=' + dateStr + '&rangeStr='+ rangeStr;
+	var url = '/public/_getEventList?date=' + date + '&range='+ range;
 	$.ajax({ 
 		type: 'GET', 
     	url: url, 
@@ -74,7 +75,7 @@ function getEventListByRange(dateStr, rangeStr){
 			}else{
 				jQuery.each(json.events, function(id, value) {
 					var eventStartDateTime = new Date(value.eventStartTime);
-					var eventEndDateTime = new Date(eventStartDateTime.getTime() + value.eventDuration*60000);
+					var eventEndDateTime = new Date(eventStartDateTime.getTime() + value.eventDuration * 60000);
   					
   					eventList.push({
 						  id: id,
@@ -89,7 +90,6 @@ function getEventListByRange(dateStr, rangeStr){
         },
     	error: function(jqXHR, exception) {   		
     		showAlert("Failed to get resource due to a HTTP " + jqXHR.status + " error.", "danger");
-    		
 		}
 	});
 	return eventList;
@@ -112,7 +112,7 @@ function createDatePicker(htmlElem, pickerElem){
 }
 
 function getEventById(id){
-	var url = '/public/_getEventById?eventId=' + id + '&rangeStr='+ rangeStr;
+	var url = '/public/_getEventById?eventId=' + id + '&showAllDetails=true';
 	$.ajax({ 
 		type: 'GET', 
     	url: url, 
@@ -124,25 +124,58 @@ function getEventById(id){
 		success: function(json) {
 			if(json.error > 0){
     			showAlert("Failed to get resource because " + json.msg, "danger");
-			}else{
-				jQuery.each(json.events, function(id, value) {
-					var eventStartDateTime = new Date(value.eventStartTime);
-					var eventEndDateTime = new Date(eventStartDateTime.getTime() + value.eventDuration*60000);
-  					
-  					eventList.push({
-						  id: id,
-						  start: formatDate(eventStartDateTime), 
-						  end: formatDate(eventEndDateTime), 
-						  title: value.eventName + " @ " + value.eventLocation, 
-						  color: "#" + value.portfolioColor}
-					); 
-  					
-				})
+    			return;
 			}
+			
+			if(!json.exists){
+				showAlert("Oops! Event with id=" + id + " doesn't exist.", "warning");
+				return;
+			}
+			
+			var bodyHTML = "" +
+				"<div class='container'>" +
+					"<div class='row'>" + 
+						"<div class='col-sm-4 bold'>Name</div>" +
+						"<div class='col-sm-8'>" + json.detail.eventName + "</div>" +
+					"</div>" + 
+					"<div class='row'>" + 
+						"<div class='col-sm-4 bold'>Location</div>" +
+						"<div class='col-sm-8'>" + json.detail.eventLocation + "</div>" +
+					"</div>" + 
+					"<div class='row'>" + 
+						"<div class='col-sm-4 bold'>Start Time</div>" +
+						"<div class='col-sm-8'>" + json.detail.eventStartTime + "</div>" +
+					"</div>" + 
+					"<div class='row'>" + 
+						"<div class='col-sm-4 bold'>Duration</div>" +
+						"<div class='col-sm-8'>" + json.detail.eventDuration + " minutes</div>" +
+					"</div>" + 
+					"<div class='row'>" + 
+						"<div class='col-sm-4 bold'>Hold by</div>" +
+						"<div class='col-sm-8'>" + json.detail.portfolioName + "</div>" +
+					"</div>" + 
+					"<div class='row'>" + 
+						"<div class='col-sm-4 bold'>Organizer</div>" +
+						"<div class='col-sm-8'>" + json.detail.organizerName + "</div>" +
+					"</div>" + 
+					"<div class='row'>" + 
+						"<div class='col-sm-4 bold'>Description</div>" +
+						"<div class='col-sm-8'>" + json.detail.eventDescription + "</div>" +
+					"</div>" + 
+					
+					
+				"</div>"
+			$("#etwig-modal-title").html("<i class='fa-solid fa-list-ul'></i> Event deatils");
+			$("#etwig-modal-body").html(bodyHTML);
+			$('#etwig-modal').modal('toggle');
+			//console.log(json.detail);
+				//jQuery.each(json.events, function(id, value) {
+					//console.log(ev)
+				//})
+			
         },
     	error: function(jqXHR, exception) {   		
     		showAlert("Failed to get resource due to a HTTP " + jqXHR.status + " error.", "danger");
-    		
 		}
 	});
 }

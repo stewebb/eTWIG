@@ -3,8 +3,9 @@
 				<i class="fa-solid fa-briefcase"></i>&nbsp;Portfolio
 			</h4>
 			
-			<div class="pre-scrollable collapse show" style="max-height: 300px" id="collapsePortfolioTable">
-				<table class="table table-striped table-hover">
+			<div class="table-responsive collapse show" id="collapsePortfolioTable">
+				<table class="table">
+				<!--
 					<thead>
     					<tr>
       						<th scope="col">Portfolio ID</th>
@@ -21,6 +22,23 @@
 						</tr>
 						</#list>
 					</tbody>
+				-->
+					<#-- First row: Show only portfolio name -->
+					<tr>
+						<td><strong>Name</strong></td>
+						<#list portfolio as portfolio_id, portfolio_info>
+							<td>${portfolio_info.name}</td>
+						</#list>
+					</tr>
+					
+					<#-- Second row: Show portfolio color and icon -->
+					<tr>
+						<td><strong>Color and Icon</strong></td>
+						<#list portfolio as portfolio_id, portfolio_info>
+							<td><i class="fa-solid fa-${portfolio_info.icon!"square"} fa-2xl" style="color:#${portfolio_info.color}"></i></td>
+						</#list>
+					</tr>
+				
 				</table>
 			</div>
 			

@@ -12,7 +12,7 @@ import freemarker.template.Template;
 import net.grinecraft.etwig.services.PortfolioService;
 
 @RestController
-public class EventsController {
+public class PublicPagesController {
 
 	@Autowired
     Configuration configuration;
@@ -20,12 +20,12 @@ public class EventsController {
 	@Autowired
 	PortfolioService portfolioService;
 	
-	@RequestMapping("/public/events")  
+	@RequestMapping("/public/calendar")  
 	public String events() throws Exception{  
 		HashMap<String, Object> templateMap = new HashMap<String, Object>();
 		templateMap.put("portfolio", portfolioService.getPortfolioList());
 		
-		Template template = configuration.getTemplate("public/events.ftl");
+		Template template = configuration.getTemplate("public/calendar.ftl");
         return FreeMarkerTemplateUtils.processTemplateIntoString(template, templateMap);
 	}
 }
