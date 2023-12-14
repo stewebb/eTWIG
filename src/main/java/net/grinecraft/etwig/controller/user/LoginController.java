@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 
 
-@Controller
+@RestController
 public class LoginController {
     
 	@Autowired
