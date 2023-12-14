@@ -3,19 +3,18 @@
 	<head>
 	<#include "../_includes/header.ftl">
 	
+		<#-- CSS for public submodule pages -->
+		<!--<link rel="stylesheet" href="/static/css/public.css">-->
 	
-		<!-- CSS for public submodule pages -->
-		<link rel="stylesheet" href="/static/css/public.css">
-	
-		<!-- CSS and JS for event calendar framework. https://github.com/vkurko/calendar -->
+		<#-- CSS and JS for event calendar framework. https://github.com/vkurko/calendar -->
 		<link rel="stylesheet" href="/static/css/event-calendar.min.css">
 		<script src="/static/js/event-calendar.min.js"></script>
 		
-		<!-- CSS and JS for toastUI date picker.-->
+		<#-- CSS and JS for toastUI date picker.-->
 		<link rel="stylesheet" href="/static/css/tui-date-picker.min.css">
 		<script src="/static/js/tui-date-picker.min.js"></script>
 		
-		<!-- Custom JS for eTWIG calendar and datepicker. -->
+		<#-- Custom JS for eTWIG calendar and datepicker. -->
 		<script src="/static/js/etwig-calendar.js"></script>
 		
 		<title>Event Calendar - eTWIG Public Module</title>

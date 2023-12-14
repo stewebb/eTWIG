@@ -6,12 +6,11 @@ footer {
 	font-weight: bolder;
     background-color: black;
     color: white;
-    position: absolute;
+    position: fixed; 
     left: 0;
     bottom: 0;
     height: 20px;
     width: 100%;
-    overflow: hidden;
 }
 
 .etwig-box{
@@ -40,4 +39,26 @@ footer {
 
 .bold{
 	font-weight: bold;
+}
+
+.btn-outline-warning{
+	color: darkorange;
+	border-color: darkorange;
+}
+
+.btn-outline-warning:active, .btn-outline-warning:focus, .btn-outline-warning:hover {
+  color: #FFFFFF;
+  background-color: darkorange!important;
+}
+
+.bg-etwig-blue {
+    background-color: #004aadff !important;
+}
+
+.border-public {
+    border-color: #004aad !important;
+}
+
+.header-text{
+	color: #004aad;
 }

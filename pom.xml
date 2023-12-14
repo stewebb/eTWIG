@@ -20,6 +20,7 @@
 	
 	<dependencies>
 		
+		<!-- Spring Boot basics-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -37,7 +38,27 @@
 			<scope>test</scope>
 		</dependency>
 		
-		<!-- The following dependencies are for Freemarker template engine -->
+		<!-- Spring Security (for login)-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+		<!--
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity6</artifactId>
+			<version>3.1.1.RELEASE</version>
+		</dependency>
+		-->
+		
+		<!-- Freemarker template engine -->
 		<dependency>
     		<groupId>org.springframework</groupId>
     		<artifactId>spring-context-support</artifactId>
@@ -48,13 +69,13 @@
     		<artifactId>freemarker</artifactId>
     	</dependency>
     	
-    	<!-- The following dependencies are for serving static files -->
+    	<!-- Thymeleaf template engine (only used in serving static files) -->
     	<dependency>
     		<groupId>org.springframework.boot</groupId>
     		<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
 
-		<!-- The following dependencies are for database -->
+		<!-- Relational databases connector-->
 		<dependency>
     		<groupId>org.springframework.boot</groupId>
     		<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -66,12 +87,14 @@
 			<scope>runtime</scope>
 		</dependency>
 		
+		<!--
 		<dependency>
     		<groupId>org.json</groupId>
     		<artifactId>json</artifactId>
     		<version>20231013</version>
 		</dependency>
-
+		-->
+		
 		<dependency>
     		<groupId>org.apache.commons</groupId>
     		<artifactId>commons-lang3</artifactId>
