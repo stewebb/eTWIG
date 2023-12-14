@@ -32,9 +32,11 @@ public class WebSecurityConfig{
 				.loginPage("/user/login")
 	            .loginProcessingUrl("/user/login")
 				.permitAll()
-				.failureUrl("/user/login?error")
+				.failureUrl("/user/login?success=false")
 			)
-			.logout((logout) -> logout.permitAll());
+			.logout((logout) -> logout.logoutUrl("/user/logout"));
+		
+		// Disable the csrf as I use Freemarker.
 		http.csrf().disable();
 		
 

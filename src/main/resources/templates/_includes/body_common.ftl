@@ -9,10 +9,19 @@
 
   		<div class="collapse navbar-collapse" id="navbarSupportedContent">
    			<ul class="navbar-nav mr-auto">
-   				<li class="nav-item">
+   			
+   				<#-- "Home" option -->
+   				<li class="nav-item <#if navbar=="HOME">active</#if>">
         			<a class="nav-link" href="/"><i class="fa-solid fa-home"></i>&nbsp;Home</a>
       			</li>
-   				<li class="nav-item dropdown">
+      			
+      			<#-- "TWIG" option -->
+      			<li class="nav-item <#if navbar=="TWIG">active</#if>">
+        			<a class="nav-link" href="/public/TWIG"><i class="fa-solid fa-lightbulb"></i>&nbsp;TWIG</a>
+      			</li>
+      			
+      			<#-- "Event" dropdown -->
+   				<li class="nav-item dropdown <#if navbar=="EVENT">active</#if>"">
         			<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           				<i class="fa-solid fa-list"></i>&nbsp;Events
         			</a>
@@ -21,27 +30,19 @@
           				<a class="dropdown-item" href="/events/list"><i class="fa-solid fa-list"></i>&nbsp;List</a>
         			</div>
       			</li>
-   			
-   			
-   			
-      			<li class="nav-item">
-        			<a class="nav-link" href="/public/TWIG"><i class="fa-solid fa-lightbulb"></i>&nbsp;TWIG</a>
-      			</li>
-      			<li class="nav-item active">
-        			<a class="nav-link" href="/public/calendar"><i class="fa-solid fa-calendar"></i>&nbsp;Calendar</a>
-      			</li>
     		</ul>
     		
+    		<#-- "User" dropdown -->
     		<ul class="navbar-nav">
-				 <li class="nav-item dropdown">
+				 <li class="nav-item dropdown <#if navbar=="LOGIN">active</#if>">
         		 	<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         		 		<i class="fa-solid fa-user"></i>&nbsp;Guest
         		 	</a>
         			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
          				<a class="dropdown-item" href="#">Action</a>
-          				<a class="dropdown-item" href="#">Another action</a>
+          				<a class="dropdown-item" href="#">Another</a>
           				<div class="dropdown-divider"></div>
-          				<a class="dropdown-item" href="#">Something else here</a>
+          				<a class="dropdown-item" href="#">Something</a>
         			</div>
       			</li>
         	</ul>

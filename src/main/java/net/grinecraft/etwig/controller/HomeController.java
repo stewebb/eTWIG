@@ -8,20 +8,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import freemarker.template.Template;
+import net.grinecraft.etwig.util.type.NavBar;
 import freemarker.template.Configuration;
 
 @RestController
-public class IndexController {
+public class HomeController {
 	
     @Autowired
     Configuration configuration;
-    
-    //@Autowired
-    //EventService eventService;
 	
 	@RequestMapping("/")  
-	public String index() throws Exception{  
-		Template template = configuration.getTemplate("index.ftl");
-        return FreeMarkerTemplateUtils.processTemplateIntoString(template, new HashMap<>());
+	public String home() throws Exception{  
+    	HashMap<String, Object> templateMap = new HashMap<String, Object>();
+		templateMap.put("navbar", NavBar.HOME);
+		
+    	Template template = configuration.getTemplate("home.ftl");
+        return FreeMarkerTemplateUtils.processTemplateIntoString(template, templateMap);
 	}
 }
