@@ -20,13 +20,8 @@ public class IndexController {
     //EventService eventService;
 	
 	@RequestMapping("/")  
-	public String hello() throws Exception{  
+	public String index() throws Exception{  
 		Template template = configuration.getTemplate("index.ftl");
-
-	    // prepare data
-        //Map<String, String> data = new HashMap<>();
-        //data.put("name", "Max Mustermann");
-
         return FreeMarkerTemplateUtils.processTemplateIntoString(template, new HashMap<>());
 	}
 }
