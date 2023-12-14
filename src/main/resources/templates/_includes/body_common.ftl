@@ -36,13 +36,23 @@
     		<ul class="navbar-nav">
 				 <li class="nav-item dropdown <#if navbar=="LOGIN">active</#if>">
         		 	<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        		 		<i class="fa-solid fa-user"></i>&nbsp;Guest
+        		 		<i class="fa-solid fa-user"></i>&nbsp;
+        		 		<#if username?has_content>${username}
+        		 		<#else>Guest</#if>
         		 	</a>
-        			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-         				<a class="dropdown-item" href="#">Action</a>
+        			<div class="dropdown-menu" aria-labelledby="navbarDropdown">      
+        			   				
+         			<#if username?has_content>
+         				<a class="dropdown-item" href="/user/logout"><i class="fa-solid fa-right-from-bracket"></i>&nbsp;Logout</a>
+        		 	<#else>
+        		 		<a class="dropdown-item" href="/user/login"><i class="fa-solid fa-right-to-bracket"></i>&nbsp;Login</a>
+        		 	</#if>
+        		 		
+         				<!--
           				<a class="dropdown-item" href="#">Another</a>
           				<div class="dropdown-divider"></div>
           				<a class="dropdown-item" href="#">Something</a>
+          				-->
         			</div>
       			</li>
         	</ul>

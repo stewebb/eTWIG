@@ -1,6 +1,5 @@
 package net.grinecraft.etwig.model;
 
-import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,7 +9,7 @@ import lombok.*;
 @ToString
 @Entity
 @Table(name = "users")
-public class User {
+public class UserAuth {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,13 +28,10 @@ public class User {
 	@Column(name = "email")
 	private String email;
 	
-	//@Column(name = "password")
-	//private String password;
+	@Column(name = "password")
+	private String password;
 	
-	@Column(name = "last_login")
-	private LocalDateTime lastLogin;
-	
-	//@ManyToOne(cascade = CascadeType.ALL)
-	//@JoinColumn(name = "permission", referencedColumnName = "id")
-    //private Permission permission;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "permission", referencedColumnName = "id")
+    private Permission permission;
 }

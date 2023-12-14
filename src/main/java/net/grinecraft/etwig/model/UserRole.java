@@ -16,14 +16,6 @@ public class UserRole {
     @Column(name = "user_id")
 	private int userId;
 	
-	//@ManyToOne(cascade = CascadeType.ALL)
-	//@JoinColumn(name = "user_id", referencedColumnName = "id")
-    //private User user;
-	
-	//@ManyToOne(cascade = CascadeType.ALL)
-	//@JoinColumn(name = "portfolio_id", referencedColumnName = "id")
-    //private Portfolio portfolio;
-	
 	@Column(name = "position")
 	private String position;	
 	

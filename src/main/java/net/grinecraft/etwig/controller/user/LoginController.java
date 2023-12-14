@@ -1,25 +1,20 @@
 package net.grinecraft.etwig.controller.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import freemarker.template.Configuration;
 import net.grinecraft.etwig.util.type.NavBar;
 
-@RestController
+@Controller
 public class LoginController {
     
-	@Autowired
-    Configuration configuration;
+	//@Autowired
+    //Configuration configuration;
 	
     @GetMapping("/user/login")
     public String login(Model model) throws Exception {
     	
-    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    	//Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         //String username = (authentication != null && authentication.isAuthenticated() && !"anonymousUser".equals(authentication.getPrincipal()))
         //                    ? authentication.getName()
         //                    : "guest";
