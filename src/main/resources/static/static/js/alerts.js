@@ -1,5 +1,6 @@
 /**
- * A method to create alerts.
+ * Create alerts.
+ * This is a part of the eTWIG platform.
  */
 
 function showAlert(message, type) {

@@ -1,3 +1,8 @@
+<#-- 
+	Login page. 
+	This is a part of the eTWIG platform.
+-->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,6 +23,10 @@
   		<#-- Login Card -->
   		<div class="card">
     		<div class="card-body login-card-body">
+    		
+    		<#-- Alert -->
+    		<#include "../_includes/alert.ftl">
+
       		<p class="login-box-msg bold-text">
       			<i class="fa-solid fa-user-shield"></i>&nbsp;Administration Portal
       		</p>
@@ -71,11 +80,17 @@
         			<i class="fa-regular fa-circle-question mr-2"></i>&nbsp;Help Center
         		</a>
       		</div>
-      	
+
     	</div>
-    
   	</div>
 </div>
+
+<script>
+var searchParams = new URLSearchParams(window.location.search);
+if (searchParams.get('success') == 'false'){
+	showAlert("Login failed", "warning");
+}
+</script>
 
 </body>
 </html>
