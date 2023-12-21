@@ -1,115 +1,130 @@
 <!DOCTYPE html>
 <html>
-	<head>
+<head>
 	<#include "../_includes/header.ftl">
 	
-		<#-- CSS for public submodule pages -->
-		<!--<link rel="stylesheet" href="/static/css/public.css">-->
+	<#-- CSS and JS for event calendar. https://github.com/vkurko/calendar -->
+	<link rel="stylesheet" href="/static/css/event-calendar.min.css">
+	<script src="/static/js/event-calendar.min.js"></script>
 	
-		<#-- CSS and JS for event calendar framework. https://github.com/vkurko/calendar -->
-		<link rel="stylesheet" href="/static/css/event-calendar.min.css">
-		<script src="/static/js/event-calendar.min.js"></script>
+	<#-- CSS and JS for toastUI date picker.-->
+	<link rel="stylesheet" href="/static/css/tui-date-picker.min.css">
+	<script src="/static/js/tui-date-picker.min.js"></script>
 		
-		<#-- CSS and JS for toastUI date picker.-->
-		<link rel="stylesheet" href="/static/css/tui-date-picker.min.css">
-		<script src="/static/js/tui-date-picker.min.js"></script>
-		
-		<#-- Custom JS for eTWIG calendar and datepicker. -->
-		<script src="/static/js/etwig-calendar.js"></script>
-		
-		<title>Event Calendar - eTWIG Public Module</title>
-	</head>
+	<#-- Custom JS for eTWIG calendar and datepicker. -->
+	<script src="/static/js/etwig-calendar.js"></script>
+	
+	<title>Event Calendar - eTWIG Administration Portal</title>
+</head>
 
-	<body>
-	<#include "../_includes/body_common.ftl">
-	
-	<#-- Event filter -->
-	<div id="event-search" class="etwig-main border border-public rounded">
-		<div class="etwig-box">
-			<h4 class="header-text bold">
-				<i class="fa-solid fa-filter"></i>&nbsp;Filter
-			</h4>
-			
-			<form class="collapse show" id="collapseFilterBox">
-  				<div class="form-group row">
-    				<label for="inputEmail3" class="col-sm-2 col-form-label bold">Portfolio</label>
-    				<div class="col-sm-10">
-      					<div class="input-group mb-3">
-  							<div class="input-group-prepend">
-    							<span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-briefcase"></i></span>
-  							</div>
-  							<select class="form-control">
-  								<option>Default select</option>
-							</select>
-						</div>  
-    				</div>
-  				</div>
-  				
-  				<div class="form-group row">
-    				<label for="inputPassword3" class="col-sm-2 col-form-label bold">Date</label>
-    				<div class="col-sm-10">
-      					<div class="input-group mb-3">
-  							<div class="input-group-prepend">
-    							<span class="input-group-text" id="basic-addon1"><i class="fa-regular fa-calendar"></i></span>
-  							</div>
-  							<input type="text" id="datepicker-input" aria-label="Date-Time" class="form-control">
-						</div>
-        				<div id="wrapper" style="margin-top: -1px;   position: absolute;  z-index: 1;"></div>
-    				</div>
-  				</div>
-  				
-  				<fieldset class="form-group">
-    				<div class="row">
-      					<legend class="col-form-label col-sm-2 pt-0 bold">Recurring</legend>
-      					<div class="col-sm-10">
-        					<div class="form-check">
-          						<input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="all" checked>
-          						<label class="form-check-label" for="gridRadios1">All events</label>
-        					</div>
-        					<div class="form-check">
-          						<input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="single">
-         						<label class="form-check-label" for="gridRadios2">Single-time events only</label>
-        					</div>
-        					<div class="form-check">
-          						<input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="recurring">
-          						<label class="form-check-label" for="gridRadios3">Recurring events only</label>
-        					</div>
-      					</div>
-    				</div>
-  				</fieldset>
-			</form>
-    		
-    		<div style="text-align:right;">
-    			<a class="btn btn-outline-secondary my-2 my-sm-0" data-toggle="collapse" href="#collapseFilterBox" role="button" aria-expanded="false" aria-controls="collapseFilterBox"> 
-    				<i class="fa-solid fa-eye"></i> &nbsp;Show/Hide
-    			</a>
-    			<a class="btn btn-outline-success my-2 my-sm-0" href="#"> 
-    				<i class="fa-solid fa-check"></i> &nbsp;Apply
-    			</a>
-    		</div>
-    	</div>
-	</div>
-	<p>&nbsp;</p>
-	
-	<#-- Event portfolio -->
-	<div id="event-portfolio" class="etwig-main border border-public rounded">
-		<#include "../_includes/portfolio.ftl">
-    </div>
-    <p>&nbsp;</p>
-    
-    <#-- Event Calendara -->
-	<main class="row etwig-main border border-public rounded">
-		<div id="etwig-public-calendar" class="col"></div>
-	</div>
-		
-    	
-	</main>
-	
-	<script>
-		createDatePicker("#wrapper", "#datepicker-input");
+<body>
+	<#include "../_includes/sidebar.ftl">
+
+	<#-- Content Wrapper. -->
+  	<div class="content-wrapper">
+  	
+    	<#-- Page header -->
+    	<section class="content-header">
+      		<div class="container-fluid">
+        		<div class="row mb-2">
+          			<div class="col-sm-6">
+            			<h1 class="bold-text">Event Calendar / Planner</h1>
+          			</div>
+          			<div class="col-sm-6">
+            			<ol class="breadcrumb float-sm-right">
+              				<li class="breadcrumb-item"><a href="/">Home</a></li>
+              				<li class="breadcrumb-item">Events</li>
+              				<li class="breadcrumb-item active"><a href="/events/calendar">Calendar</a></li>
+            			</ol>
+          			</div>
+        		</div>
+      		</div>
+    	</section>
+
+    	<#-- Calendar -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="sticky-top mb-3">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">Draggable Events</h4>
+                </div>
+                <div class="card-body">
+                  <!-- the events -->
+                  <div id="external-events">
+                    <div class="external-event bg-success">Lunch</div>
+                    <div class="external-event bg-warning">Go home</div>
+                    <div class="external-event bg-info">Do homework</div>
+                    <div class="external-event bg-primary">Work on UI design</div>
+                    <div class="external-event bg-danger">Sleep tight</div>
+                    <div class="checkbox">
+                      <label for="drop-remove">
+                        <input type="checkbox" id="drop-remove">
+                        remove after drop
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Create Event</h3>
+                </div>
+                <div class="card-body">
+                  <div class="btn-group" style="width: 100%; margin-bottom: 10px;">
+                    <ul class="fc-color-picker" id="color-chooser">
+                      <li><a class="text-primary" href="#"><i class="fas fa-square"></i></a></li>
+                      <li><a class="text-warning" href="#"><i class="fas fa-square"></i></a></li>
+                      <li><a class="text-success" href="#"><i class="fas fa-square"></i></a></li>
+                      <li><a class="text-danger" href="#"><i class="fas fa-square"></i></a></li>
+                      <li><a class="text-muted" href="#"><i class="fas fa-square"></i></a></li>
+                    </ul>
+                  </div>
+                  <!-- /btn-group -->
+                  <div class="input-group">
+                    <input id="new-event" type="text" class="form-control" placeholder="Event Title">
+
+                    <div class="input-group-append">
+                      <button id="add-new-event" type="button" class="btn btn-primary">Add</button>
+                    </div>
+                    <!-- /btn-group -->
+                  </div>
+                  <!-- /input-group -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /.col -->
+          <div class="col-md-9">
+            <div class="card card-primary">
+           
+              <div class="card-body p-0 row">
+              
+              
+                <!-- THE CALENDAR -->
+                <div id="etwig-public-calendar" class="col"></div>
+                
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  
+  	<script>
+		//createDatePicker("#wrapper", "#datepicker-input");
 		createPublicCalendar("etwig-public-calendar");
     </script>
-
-	<#include "../_includes/footer.ftl">
 </body>
 </html>

@@ -33,7 +33,7 @@ public class WebSecurityConfig{
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 			.authorizeHttpRequests((requests) -> requests
-				.requestMatchers("/static/**", "/twig").permitAll()
+				.requestMatchers("/static/**", "/twig", "/help", "favicon.ico").permitAll()
 				.anyRequest().authenticated()
 			)
 			.formLogin((form) -> form
@@ -44,30 +44,12 @@ public class WebSecurityConfig{
 			)
 			.logout((logout) -> logout.logoutUrl("/user/logout"));
 		
-		// Disable the csrf as I use Freemarker.
+		// Disable CSRF.
 		http.csrf().disable();
 		
-
 		return http.build();
 	}
 
-	/*
-	@Bean
-	public UserDetailsService users() {
-		UserDetails user = User.builder()
-			.username("user")
-			.password("{bcrypt}$2a$10$GRLdNijSQMUvl/au9ofL.eDwmoohzzS7.rmNSJZ.0FxO/BTk76klW")
-			.roles("USER")
-			.build();
-		UserDetails admin = User.builder()
-			.username("admin")
-			.password("{bcrypt}$2a$10$GRLdNijSQMUvl/au9ofL.eDwmoohzzS7.rmNSJZ.0FxO/BTk76klW")
-			.roles("USER", "ADMIN")
-			.build();
-		return new InMemoryUserDetailsManager(user, admin);
-	}
-	*/
-	
     @Autowired
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userAuthService)

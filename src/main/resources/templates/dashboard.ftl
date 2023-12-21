@@ -9,7 +9,5 @@
 	<#include "./_includes/sidebar.ftl">
 
 
-
-
 </body>
 </html>
