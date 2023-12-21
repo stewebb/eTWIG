@@ -1,89 +1,81 @@
 <!DOCTYPE html>
 <html>
-	<head>
+<head>
 	<#include "../_includes/header.ftl">
 	
-	<!--<link rel="stylesheet" href="/static/css/welcome.css"> -->
 	<title>Welcome to eTWIG</title>
 </head>
 
-<body>
-	<#include "../_includes/body_common.ftl">
+<body class="hold-transition login-page">
+	<div class="login-box">
 	
-	<#-- Login Box -->
-	<div class="container-fluid d-flex justify-content-center align-items-center vh-100">
-		<form action="/user/login" method="post">
-		
-			<#-- Logo and welcome label -->
-    		<div class="row mb-3">
-        		<div class="form-group col-12">
-        			<p><img src="/static/images/eTWIG.png" class="img-fluid" alt="eTWIG logo" style="max-width: 400px; width:100%;"></p>
-        			<center><h2 class="bold">Welcome to eTWIG</h2></center>
-     			</div>
-			</div>
-			
-			<#-- Username input -->
-			<div class="row mb-3">
-				<div class="input-group mb-21 col-12">
-  					<div class="input-group-prepend">
-    					<span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-envelope"></i></span>
-  					</div>
-  					<input type="text" class="form-control" name="username" placeholder="Username" required />
+		<#-- Logo -->
+  		<div class="login-logo">
+    		<p><img src="/static/images/eTWIG.png" class="img-fluid" alt="eTWIG logo" style="max-width: 400px; width:100%;"></p>
+    		<h2 class="bold-text">Welcome to eTWIG</h2>
+  		</div>
+  		
+  		<#-- Login Card -->
+  		<div class="card">
+    		<div class="card-body login-card-body">
+      		<p class="login-box-msg bold-text">
+      			<i class="fa-solid fa-user-shield"></i>&nbsp;Administration Portal
+      		</p>
+      		<form action="/user/login" method="post">
+      			
+      			<#-- Username input -->
+        		<div class="input-group mb-3">
+          			<input type="text" class="form-control" name="username" placeholder="Email" required />
+          			<div class="input-group-append">
+            			<div class="input-group-text">
+              				<span class="fas fa-envelope"></span>
+            			</div>
+          			</div>
+        		</div>
+        
+        		<#-- Password input -->
+        		<div class="input-group mb-3">
+          			<input type="Password" class="form-control" name="password" placeholder="Password" required />
+          			<div class="input-group-append">
+            			<div class="input-group-text">
+              				<span class="fas fa-lock"></span>
+            			</div>
+          			</div>
+        		</div>
+        		
+        		<#-- Remember me checkbox-->
+				<div class="row mb-3">
+					<div class="icheck-primary mb-1 col-12" style="text-align:right;">
+  						<input type="checkbox" id="remember">
+              			<label for="remember">Remember Me</label>
+					</div>
 				</div>
-			</div>
-			
-			<#-- Password input -->
-			<div class="row mb-3">
-				<div class="input-group mb-1 col-12">
-  					<div class="input-group-prepend">
-    					<span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-lock"></i></span>
-  					</div>
-  					<input type="Password" class="form-control" name="password" placeholder="Password" required />
-				</div>  
-			</div>	
-			
-			<#-- Remember me and-->
-			<div class="row mb-3">
-				<div class="form-check mb-1 col-12" style="text-align:right;">
-  					<input class="form-check-input" type="checkbox" value="" id="rememeberMe">
-  					<label class="form-check-label" for="rememeberMeLabel">Remember me</label>
-				</div>
-			</div>
-			
-			<#-- Login button -->
-			<div class="row">
-				<div class="form-group col-12">
-        			<button type="submit" class="btn btn-outline-primary btn-lg btn-block"><i class="fa-regular fa-right-to-bracket"></i>&nbsp;Login</button>
-      			</div>
-      		</div>
-      		
-      		<#-- Forget password link -->
-      		<div class="row mb-3">
-				<div class="mb-3 col-12">
-  					<center><a href="#">Forget password?</a></center>
-				</div>
-			</div>
 				
-			<#-- "OR" Divider -->
-      		<div class="row mb-3">
-				<div class="col-12" style="color:gray;">
-        			<center>OR View</center>
-      			</div>
+				<#-- Login button-->
+      			<p class="mb-3">
+        			<button type="submit" class="btn btn-outline-primary btn-block">
+        				<i class="fa-regular fa-right-to-bracket"></i>&nbsp;Login
+            		</button>
+      			</p>
+      		</form>
+      		
+			<#-- Public access links -->
+			<div class="social-auth-links text-center mb-3">
+        		<p class="login-box-msg bold-text">
+        			<i class="fa-solid fa-eye"></i>&nbsp;Public Access
+        		</p>
+        		<a href="#" class="btn btn-outline-success btn-block">
+        			<i class="fa-regular fa-lightbulb mr-2"></i>&nbsp;View TWIG
+        		</a>
+        		<a href="#" class="btn btn-outline-warning btn-block">
+        			<i class="fa-regular fa-circle-question mr-2"></i>&nbsp;Help Center
+        		</a>
       		</div>
-      		<hr>
+      	
+    	</div>
+    
+  	</div>
+</div>
 
-			<#-- View links -->
-			<div class="row mb-3">
-				<div class="form-group col-6">
-					<a href="#" class="btn btn-outline-success btn-lg btn-block"><i class="fa-regular fa-lightbulb"></i>&nbsp;TWIG</a>
-				</div>
-				<div class="form-group col-6">
-					<a href="#" class="btn btn-outline-warning btn-lg btn-block"><i class="fa-solid fa-circle-question"></i>&nbsp;Help</a>
-				</div>
-			</div>
-    	</form>
-	</div>
-
-	<#include "../_includes/footer.ftl">
 </body>
 </html>
