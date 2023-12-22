@@ -68,51 +68,50 @@
                   					</h3>
                 				</div>
                 				<div class="card-body">
-                  					<div class="mb-3">
-  										<button type="button" class="btn btn-outline-primary">
+                					
+                  					<div class="mb-3 btn-group">
+  										<a type="button" class="btn btn-outline-primary" href="/events/calendar?month=${dateOptions.LAST_MONTH}">
   											<i class="fa-solid fa-backward"></i>&nbsp;Last Month
-  										</button>
-  										<button type="button" class="btn btn-outline-primary">
+  										</a>
+  										<a type="button" class="btn btn-outline-primary" href="/events/calendar?month=${dateOptions.TODAY}">
+  											<i class="fa-solid fa-rotate"></i>&nbsp;Reset
+  										</a>
+  										<a type="button" class="btn btn-outline-primary" href="/events/calendar?month=${dateOptions.NEXT_MONTH}">
   											<i class="fa-solid fa-forward"></i>&nbsp;Next Month
-  										</button>
+  										</a>
   									</div>
-  									<div class="input-group mb-3">
-<input type="text" class="form-control rounded-0">
-<span class="input-group-append">
-<button type="button" class="btn btn-info btn-flat">Go!</button>
-</span>
-</div>
+  									
+      								<div class="input-group">
+  										<div class="input-group-prepend">
+    										<span class="input-group-text" id="basic-addon1"><i class="fa-regular fa-calendar-days"></i></span>
+  										</div>
+  										<input type="text" id="datepicker-input" aria-label="Date-Time" class="form-control">
+  										<span class="input-group-append">
+											<button type="button" class="btn btn-primary btn-flat">Go!</button>
+										</span>
+									</div>
+        							<div id="wrapper" style="margin-top: -1px; position: absolute; z-index: 1;"></div>
                 				</div>
               				</div>
-            </div>
-          </div>
-          <!-- /.col -->
-          <div class="col-md-9">
-            <div class="card card-primary etwig-calendar">
-           
-              <div class="card-body p-0 row">
-              
-              
-                <!-- THE CALENDAR -->
-                <div id="etwig-public-calendar" class="col"></div>
-                
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-          </div>
-          <!-- /.col -->
-        </div>
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
+            			</div>
+          			</div>
+          
+          			<#-- Calendar -->
+          			<div class="col-md-9">
+            			<div class="card card-primary etwig-calendar">
+              				<div class="card-body p-0 row">
+                				<div id="etwig-public-calendar" class="col"></div>
+              				</div>
+            			</div>
+          			</div>
+        		</div>
+			</div>
+    	</section>
+	</div>
   
   	<script>
-		//createDatePicker("#wrapper", "#datepicker-input");
-		createPublicCalendar("etwig-public-calendar");
+		createDatePicker("#wrapper", "#datepicker-input");
+		createPublicCalendar("etwig-public-calendar", "${dateOptions.THIS_MONTH}");
     </script>
 </body>
 </html>

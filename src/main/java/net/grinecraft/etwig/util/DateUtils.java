@@ -48,6 +48,16 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
     }
     
     /**
+	 * Find the first day of last month.
+	 * @param date A given date in LocalDate format.
+	 * @return The first day of last month of this given date in LocalDate format.
+	 */
+    
+    public static LocalDate findFirstDayOfLastMonth(LocalDate date) {
+        return date.withDayOfMonth(1).minusMonths(1);
+    }
+    
+    /**
 	 * Find the first day of this month.
 	 * @param date A given date in LocalDate format.
 	 * @return The first day of this month of this given date in LocalDate format.

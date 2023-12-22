@@ -54,7 +54,7 @@
   							</div>
   							<input type="text" id="datepicker-input" aria-label="Date-Time" class="form-control">
 						</div>
-        				<div id="wrapper" style="margin-top: -1px;   position: absolute;  z-index: 1;"></div>
+        				<div id="wrapper" style="margin-top: -1px; position: absolute;  z-index: 1;"></div>
     				</div>
   				</div>
   				

@@ -11,7 +11,7 @@ public class DashboardController {
 	@RequestMapping("/")  
 	public String home(Model model) throws Exception{
 		
-		model.addAttribute("navbar", NavBar.HOME);
+		model.addAttribute("navbar", NavBar.DASHBOARD);
 		return "dashboard";
 	}
 }

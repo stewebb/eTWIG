@@ -6,9 +6,9 @@ package net.grinecraft.etwig.util.type;
 
 public enum NavBar {
 	
-	HOME("HOME"),
+	DASHBOARD("DASHBOARD"),
 	TWIG("TWIG"),
-	EVENT("EVENT"),
+	CALENDAR("CALENDAR"),
 	LOGIN("LOGIN"),
 	OTHER("OTHER");
 

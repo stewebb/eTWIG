@@ -13,11 +13,13 @@
 	<link rel="stylesheet" href="/static/css/fontawesome.min.css">
 	<link rel="stylesheet" href="/static/css/solid.min.css">
 	<link rel="stylesheet" href="/static/css/style.css">		
+	<link rel="stylesheet" href="/static/css/pace-theme-flash.css">
   	<link rel="stylesheet" href="/static/css/adminlte.min.css">
 		
 	<#-- Common JS -->
 	<script src="/static/js/jquery.min.js"></script>
 	<script src="/static/js/popper.min.js"></script>
 	<script src="/static/js/bootstrap.min.js"></script>
+	<script src="/static/js/pace.min.js"></script>
 	<script src="/static/js/adminlte.min.js"></script>
 	<script src="/static/js/alerts.js"></script>

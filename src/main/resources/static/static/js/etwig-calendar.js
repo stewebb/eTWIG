@@ -7,39 +7,31 @@
  * @param elem The calendar element.
  */
 
-function createPublicCalendar(elem){
+function createPublicCalendar(elem, currentMonth){
 	var publicCalendarElem = document.getElementById(elem);
 	var publicCalendarProperties = {
 		view: 'dayGridMonth',
-		
-		/*
-    	headerToolbar: {
-			start: 'prev,next today',
-			center: 'title',
-			end: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-		},
-        */
-	    
 	    headerToolbar: {
 			start: '',
 			center: 'title',
 			end: ''
 		},
 		scrollTime: '09:00:00',
-    	events: getEventListByRange("2023-12-04", "month"),
+    	events: getEventListByRange(currentMonth, "month"),
     	eventClick: function (info) {
-			getEventById(info.event.id);
+			//getEventById(info.event.id);
+			$(location).prop('href', '/events/edit?eventId=' + info.event.id);
 		},
     	dayMaxEvents: true,
     	nowIndicator: true,
     	selectable: false,
     	eventStartEditable: false,
     	height: '720px',
-    	slotMinTime: '06:00', //TODO Customize
-    	slotMaxTime: '22:00', //TODO Customize
+    	date: currentMonth + '-01'
 	};
   
 	new EventCalendar(publicCalendarElem, publicCalendarProperties);
+	//console.log(currentMonth);
 }
 
 /**
@@ -111,9 +103,10 @@ function getEventListByRange(date, range){
 function createDatePicker(htmlElem, pickerElem){
 	var datepicker = new tui.DatePicker(htmlElem, {
 		date: new Date(),
+		type: 'month',
 		input: {
 			element: pickerElem,
-			format: 'yyyy-MM-dd',
+			format: 'MMM yyyy',
 			usageStatistics: false
 		}
 	});
