@@ -20,3 +20,27 @@
 	background-color: #004AAD !important 
 }
 */
+
+.etwig-calendar{
+	margin-left: 1em;
+  	margin-right: 1em;
+  	padding-top: 1em;
+  	padding-bottom: 1em
+}
+
+/* Override the primary color */
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active,.sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
+  background-color:#004AAD!important;
+  color:#fff
+}
+
+.btn-outline-primary{
+	color: #004AAD!important;
+	border-color: #004AAD!important;
+	background-color: #FFFFFF!important;
+}
+
+.btn-outline-primary:active, .btn-outline-primary:focus, .btn-outline-primary:hover {
+  color: #FFFFFF!important;
+  background-color: #004AAD!important;
+}

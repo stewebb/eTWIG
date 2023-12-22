@@ -10,13 +10,21 @@
 function createPublicCalendar(elem){
 	var publicCalendarElem = document.getElementById(elem);
 	var publicCalendarProperties = {
-		view: 'timeGridWeek',
+		view: 'dayGridMonth',
+		
+		/*
     	headerToolbar: {
 			start: 'prev,next today',
 			center: 'title',
 			end: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
 		},
-        
+        */
+	    
+	    headerToolbar: {
+			start: '',
+			center: 'title',
+			end: ''
+		},
 		scrollTime: '09:00:00',
     	events: getEventListByRange("2023-12-04", "month"),
     	eventClick: function (info) {
