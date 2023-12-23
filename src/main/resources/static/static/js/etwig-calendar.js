@@ -2,6 +2,9 @@
  * eTWIG event calendar and date picker.
 */
 
+const pad = (num) => (num < 10 ? '0' + num : num);
+var calendar = undefined;
+
 /**
  * Create a public calendar
  * @param elem The calendar element.
@@ -30,25 +33,44 @@ function createPublicCalendar(elem, currentMonth){
     	date: currentMonth + '-01'
 	};
   
-	new EventCalendar(publicCalendarElem, publicCalendarProperties);
+	calendar = new EventCalendar(publicCalendarElem, publicCalendarProperties);
 	//console.log(currentMonth);
 }
 
 /**
- * Format JavaScript date object to yyyy-mm-dd hh:MM format
+ * Format JavaScript date object to a specific format
  * @param date A JavaScript date object
+ * @param mode A format mode
  * @returns The date String with corect format.
+ * 
+ * Mode Options:
+ * d: Format date to yyyy-mm-dd
+ * i: Format date to yyyy-mm-dd hh:MM
+ * a: Format date to yyyy-mm-dd hh:MM:ss
  */
 
-function formatDate(date) {
-    const pad = (num) => (num < 10 ? '0' + num : num);
+function formatDate(date, mode) {
+    
     let year = date.getFullYear();
     let month = pad(date.getMonth() + 1);
     let day = pad(date.getDate());
     let hours = pad(date.getHours());
     let minutes = pad(date.getMinutes());
-    //let seconds = pad(date.getSeconds());
-    return `${year}-${month}-${day} ${hours}:${minutes}`;
+    let seconds = pad(date.getSeconds());
+    
+    var str = '';
+    switch (mode){
+		case 'd':
+			str = `${year}-${month}-${day}`;
+			break;
+		case 'i':
+			str = `${year}-${month}-${day} ${hours}:${minutes}`;
+			break;
+		default:
+			str = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+			break;
+	}
+    return str;
 }
 
 /**
@@ -79,8 +101,8 @@ function getEventListByRange(date, range){
   					
   					eventList.push({
 						  id: id,
-						  start: formatDate(eventStartDateTime), 
-						  end: formatDate(eventEndDateTime), 
+						  start: formatDate(eventStartDateTime, 'i'), 
+						  end: formatDate(eventEndDateTime, 'i'), 
 						  title: value.eventName + " @ " + value.eventLocation, 
 						  color: "#" + value.portfolioColor}
 					); 
@@ -99,8 +121,10 @@ function getEventListByRange(date, range){
  * Create a ToastUI date picker
  * @param {*} htmlElem The element of datepicker wrapper.
  * @param {*} pickerElem The element of date input.
+ * @param {*} buttonElem The element of button that get the date.
  */
-function createDatePicker(htmlElem, pickerElem){
+
+function createDatePicker(htmlElem, pickerElem, buttonElem){
 	var datepicker = new tui.DatePicker(htmlElem, {
 		date: new Date(),
 		type: 'month',
@@ -110,73 +134,18 @@ function createDatePicker(htmlElem, pickerElem){
 			usageStatistics: false
 		}
 	});
+	
+	// Set date
+	$(buttonElem).click(function(){
+  		var selectedDate = datepicker.getDate();
+    	var yearMonthStr = formatDate(selectedDate, 'd');
+    	//alert(yearMonthStr)
+    	//$(location).prop('href', '/events/calendar?month=' + yearMonthStr);
+    	//createPublicCalendar("etwig-public-calendar", yearMonthStr);
+    	calendar.setOption('date', datepicker.getDate());
+    	calendar.setOption('events', getEventListByRange(yearMonthStr, "month"));
+    	//events: getEventListByRange(currentMonth, "month"),
+	}); 
 }
 
-function getEventById(id){
-	var url = '/api/getEventById?eventId=' + id + '&showAllDetails=true';
-	$.ajax({ 
-		type: 'GET', 
-    	url: url, 
-    	async: false,
-    	data: { 
-			get_param: 'value' 
-		}, 
-    	dataType: 'json',
-		success: function(json) {
-			if(json.error > 0){
-    			showAlert("Failed to get resource because " + json.msg, "danger");
-    			return;
-			}
-			
-			if(!json.exists){
-				showAlert("Oops! Event with id=" + id + " doesn't exist.", "warning");
-				return;
-			}
-			
-			var bodyHTML = "" +
-				"<div class='container'>" +
-					"<div class='row'>" + 
-						"<div class='col-sm-4 bold'>Name</div>" +
-						"<div class='col-sm-8'>" + json.detail.eventName + "</div>" +
-					"</div>" + 
-					"<div class='row'>" + 
-						"<div class='col-sm-4 bold'>Location</div>" +
-						"<div class='col-sm-8'>" + json.detail.eventLocation + "</div>" +
-					"</div>" + 
-					"<div class='row'>" + 
-						"<div class='col-sm-4 bold'>Start Time</div>" +
-						"<div class='col-sm-8'>" + json.detail.eventStartTime + "</div>" +
-					"</div>" + 
-					"<div class='row'>" + 
-						"<div class='col-sm-4 bold'>Duration</div>" +
-						"<div class='col-sm-8'>" + json.detail.eventDuration + " minutes</div>" +
-					"</div>" + 
-					"<div class='row'>" + 
-						"<div class='col-sm-4 bold'>Hold by</div>" +
-						"<div class='col-sm-8'>" + json.detail.portfolioName + "</div>" +
-					"</div>" + 
-					"<div class='row'>" + 
-						"<div class='col-sm-4 bold'>Organizer</div>" +
-						"<div class='col-sm-8'>" + json.detail.organizerName + "</div>" +
-					"</div>" + 
-					"<div class='row'>" + 
-						"<div class='col-sm-4 bold'>Description</div>" +
-						"<div class='col-sm-8'>" + json.detail.eventDescription + "</div>" +
-					"</div>" + 
-					
-					
-				"</div>"
-			$("#etwig-modal-title").html("<i class='fa-solid fa-list-ul'></i> Event deatils");
-			$("#etwig-modal-body").html(bodyHTML);
-			$('#etwig-modal').modal('toggle');
-			//console.log(json.detail);
-				//jQuery.each(json.events, function(id, value) {
-					//console.log(ev)
-				//})
-			
-        },
-    	error: function(jqXHR, exception) {   		
-    		showAlert("Failed to get resource due to a HTTP " + jqXHR.status + " error.", "danger");
-		}
-	});
-}
+

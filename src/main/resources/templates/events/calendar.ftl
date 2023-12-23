@@ -87,7 +87,7 @@
   										</div>
   										<input type="text" id="datepicker-input" aria-label="Date-Time" class="form-control">
   										<span class="input-group-append">
-											<button type="button" class="btn btn-primary btn-flat">Go!</button>
+											<button type="button" class="btn btn-primary btn-flat" id="select-month">Go!</button>
 										</span>
 									</div>
         							<div id="wrapper" style="margin-top: -1px; position: absolute; z-index: 1;"></div>
@@ -110,7 +110,7 @@
 	</div>
   
   	<script>
-		createDatePicker("#wrapper", "#datepicker-input");
+		createDatePicker("#wrapper", "#datepicker-input", "#select-month");
 		createPublicCalendar("etwig-public-calendar", "${dateOptions.THIS_MONTH}");
     </script>
 </body>
