@@ -64,7 +64,7 @@
               				</div>
               				
               				<#-- Date Options -->
-              				<div class="card">
+              				<div class="card card">
                					<div class="card-header">
                   					<h3 class="card-title">
                   						<i class="fa-regular fa-clock"></i>&nbsp;Date Options
@@ -101,7 +101,12 @@
           
           			<#-- Calendar -->
           			<div class="col-md-9">
-            			<div class="card card-primary etwig-calendar">
+            			<div class="card">
+            				<div class="card-header">
+                  				<h3 class="card-title">
+                  					<i class="fa-regular fa-calendar"></i>&nbsp;Calendar
+                  				</h3>
+                			</div>
               				<div class="card-body p-0 row">
                 				<div id="etwig-public-calendar" class="col"></div>
               				</div>
