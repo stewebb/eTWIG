@@ -8,7 +8,7 @@
 <body>
 	<#include "../_includes/sidebar.ftl">
 	
-	<#-- Content Wrapper. -->
+	<#-- Content Wrapper -->
   	<div class="content-wrapper">
   	
     	<#-- Page header -->
