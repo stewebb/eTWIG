@@ -4,6 +4,7 @@
 
 const pad = (num) => (num < 10 ? '0' + num : num);
 var calendar = undefined;
+var currentDate = Date.today();
 
 /**
  * Create a public calendar
@@ -30,7 +31,7 @@ function createPublicCalendar(elem, currentMonth){
     	selectable: false,
     	eventStartEditable: false,
     	height: '720px',
-    	date: currentMonth + '-01'
+    	date: currentMonth
 	};
   
 	calendar = new EventCalendar(publicCalendarElem, publicCalendarProperties);
@@ -49,6 +50,7 @@ function createPublicCalendar(elem, currentMonth){
  * a: Format date to yyyy-mm-dd hh:MM:ss
  */
 
+/*
 function formatDate(date, mode) {
     
     let year = date.getFullYear();
@@ -72,6 +74,8 @@ function formatDate(date, mode) {
 	}
     return str;
 }
+
+*/
 
 /**
  * Get the event list based on a specific range
@@ -101,8 +105,10 @@ function getEventListByRange(date, range){
   					
   					eventList.push({
 						  id: id,
-						  start: formatDate(eventStartDateTime, 'i'), 
-						  end: formatDate(eventEndDateTime, 'i'), 
+						  //start: formatDate(eventStartDateTime, 'i'), 
+						  //end: formatDate(eventEndDateTime, 'i'), 
+						  start: eventStartDateTime.toString('yyyy-MM-dd HH:mm'),
+						  end: eventEndDateTime.toString('yyyy-MM-dd HH:mm'),
 						  title: value.eventName + " @ " + value.eventLocation, 
 						  color: "#" + value.portfolioColor}
 					); 
@@ -117,6 +123,17 @@ function getEventListByRange(date, range){
 	return eventList;
 }
 
+function changeCalendar(){
+	
+	// Convert to yyyy-mm-dd format.
+    //var yearMonthStr = formatDate(currentDate, 'd');
+    var yearMonthStr = currentDate.toString('yyyy-MM-dd');
+    	
+    // Change calendar value.
+    calendar.setOption('date', yearMonthStr);
+    calendar.setOption('events', getEventListByRange(yearMonthStr, "month"));
+}
+
 /**
  * Create a ToastUI date picker
  * @param {*} htmlElem The element of datepicker wrapper.
@@ -126,7 +143,7 @@ function getEventListByRange(date, range){
 
 function createDatePicker(htmlElem, pickerElem, buttonElem){
 	var datepicker = new tui.DatePicker(htmlElem, {
-		date: new Date(),
+		date: Date.today(),
 		type: 'month',
 		input: {
 			element: pickerElem,
@@ -137,15 +154,37 @@ function createDatePicker(htmlElem, pickerElem, buttonElem){
 	
 	// Set date
 	$(buttonElem).click(function(){
-  		var selectedDate = datepicker.getDate();
-    	var yearMonthStr = formatDate(selectedDate, 'd');
-    	//alert(yearMonthStr)
-    	//$(location).prop('href', '/events/calendar?month=' + yearMonthStr);
-    	//createPublicCalendar("etwig-public-calendar", yearMonthStr);
-    	calendar.setOption('date', datepicker.getDate());
-    	calendar.setOption('events', getEventListByRange(yearMonthStr, "month"));
-    	//events: getEventListByRange(currentMonth, "month"),
+		
+		// Get selected date from ToastUI datepicker and store it.
+  		currentDate = datepicker.getDate();
+  		changeCalendar(currentDate);
+  		
+  		// Convert to yyyy-mm-dd format.
+    	//var yearMonthStr = formatDate(selectedDate, 'd');
+    	
+    	// Change calendar value.
+    	//calendar.setOption('date', selectedDate);
+    	//calendar.setOption('events', getEventListByRange(yearMonthStr, "month"));
 	}); 
+}
+
+
+function dateOptions(lastMthBtn, resetBtn, nextMthBtn){
+	
+	$(lastMthBtn).click(function(){
+		currentDate = currentDate.last().month();
+		changeCalendar();
+	});
+	
+	$(resetBtn).click(function(){
+		currentDate = Date.today();
+		changeCalendar();
+	});
+	
+	$(nextMthBtn).click(function(){
+		currentDate = currentDate.next().month();
+		changeCalendar();
+	});
 }
 
 

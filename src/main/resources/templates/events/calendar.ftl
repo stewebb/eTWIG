@@ -3,6 +3,9 @@
 <head>
 	<#include "../_includes/header.ftl">
 	
+	<#-- JS for date.js. -->
+	<script src="/static/js/date.min.js"></script>
+	
 	<#-- CSS and JS for event calendar. https://github.com/vkurko/calendar -->
 	<link rel="stylesheet" href="/static/css/event-calendar.min.css">
 	<script src="/static/js/event-calendar.min.js"></script>
@@ -70,15 +73,15 @@
                 				<div class="card-body">
                 					
                   					<div class="mb-3 btn-group">
-  										<a type="button" class="btn btn-outline-primary" href="/events/calendar?month=${dateOptions.LAST_MONTH}">
+  										<button type="button" class="btn btn-outline-primary" id="last-mth-btn">
   											<i class="fa-solid fa-backward"></i>&nbsp;Last Month
-  										</a>
-  										<a type="button" class="btn btn-outline-primary" href="/events/calendar?month=${dateOptions.TODAY}">
+  										</button>
+  										<button type="button" class="btn btn-outline-primary" id="reset-btn">
   											<i class="fa-solid fa-rotate"></i>&nbsp;Reset
-  										</a>
-  										<a type="button" class="btn btn-outline-primary" href="/events/calendar?month=${dateOptions.NEXT_MONTH}">
+  										</button>
+  										<button type="button" class="btn btn-outline-primary" id="next-mth-btn">
   											<i class="fa-solid fa-forward"></i>&nbsp;Next Month
-  										</a>
+  										</button>
   									</div>
   									
       								<div class="input-group">
@@ -111,7 +114,8 @@
   
   	<script>
 		createDatePicker("#wrapper", "#datepicker-input", "#select-month");
-		createPublicCalendar("etwig-public-calendar", "${dateOptions.THIS_MONTH}");
+		createPublicCalendar("etwig-public-calendar", currentDate);
+		dateOptions("#last-mth-btn", "#reset-btn", "#next-mth-btn");
     </script>
 </body>
 </html>
