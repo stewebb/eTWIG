@@ -4,7 +4,7 @@
 	<#include "../_includes/header.ftl">
 	
 	<#-- CSS and JS for summernote editor.-->
-	<link href="/static/css/summernote-bs4.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="/static/css/summernote-bs4.min.css">
 	<script src="/static/js/summernote-bs4.min.js"></script>
 	 
 	<title>Edit Event - eTWIG Administration Portal</title>
@@ -197,7 +197,7 @@
 							</div>
 
 							<div class="card-body">
-								<div id="summernote"></div>
+								<div id="event-description"></div>
 							</div>
 						</div>
 					</div>
@@ -207,10 +207,12 @@
 	</div>
 	
 	<script>
-		$('#summernote').summernote({
-			placeholder: 'Hello Bootstrap 4',
+		$('#event-description').summernote({
+			placeholder: 'Event description',
         	tabsize: 4,
-        	height: 100
+        	height: 540,
+        	minHeight: 360,
+  			maxHeight: 720
       	});
     </script>
 </body>
