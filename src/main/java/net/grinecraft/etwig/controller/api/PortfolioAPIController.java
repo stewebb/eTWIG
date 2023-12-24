@@ -18,8 +18,9 @@ public class PortfolioAPIController {
 	PortfolioService portfolioService;
 	
 	@RequestMapping("/api/getPortfolioList")  
-	public Map<Integer, Object> getPortfolioList() throws Exception{
-		return portfolioService.getPortfolioList();  
+	public LinkedHashMap<Long,Object> getPortfolioList() throws Exception{
+		return null;
+		//return portfolioService.getPortfolioList();  
 	}
 	
 	@RequestMapping("/api/getPortfolioById")  

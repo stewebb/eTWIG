@@ -12,6 +12,8 @@
 	<link rel="stylesheet" href="/static/css/select2-bootstrap4.min.css"/>
 	<script src="/static/js/select2.min.js"></script>
 
+	<script src="/static/js/etwig-events.js"></script>
+
 	<title>Edit Event - eTWIG Administration Portal</title>
 </head>
 
@@ -248,11 +250,9 @@
 								<#-- Portfolio -->
 								
 							
-								<#-- 
-								<#list myPortfolios as portfolio_id, portfolio_info>
-									${portfolio_id}
-								</#list>
-								-->
+								
+
+								
 								
 								<div class="form-group row">
 									<label for="event-poerfolio" class="col-sm-2 col-form-label">Portfolio</label>
@@ -263,21 +263,31 @@
 											</span>
 										</div>
       									<select class="form-control select2" name="event-portfolio" id="event-portfolio">
-        									<option></option>
+        									<option value="-1" selected>Please Select...</option>
         									<optgroup label="My Portfolio(s)">
-          										<option>A1</option>
-          										<option>A2</option>
-          										<option>A3</option>
+        									
+        									<#if myPortfolios?has_content>
+        										<#list myPortfolios as portfolio_id, portfolio_info>
+        											
+        							
+													<option data-color="#${portfolio_info.color}" data-icon="<#if portfolio_info.icon?has_content>${portfolio_info.icon}</#if>" value="${portfolio_id}">
+														${portfolio_info.name}
+													</option>
+												</#list>
+        									</#if>
         									</optgroup>
-        									<optgroup label="Other">
-          										<option>B1</option>
-          										<option>B2</option>
-         										<option>B3</option>
+        									<optgroup label="Other Portfolio(s)" disabled>
+          										<#if remainingPortfolios?has_content>
+        										<#list remainingPortfolios as portfolio_id, portfolio_info>
+													<option data-color="#${portfolio_info.color}" data-icon="<#if portfolio_info.icon?has_content>${portfolio_info.icon}</#if>" value="${portfolio_id}">
+														${portfolio_info.name}
+													</option>												
+												</#list>
+        									</#if>
         									</optgroup>
       									</select>
 									</div>
 								</div>
-								
 								
 								<#-- Organizer -->
 								<div class="form-group row">
@@ -400,6 +410,8 @@
 	</div>
 	
 	<script>
+	
+
 		$('#event-description').summernote({
 			placeholder: 'Event description',
         	tabsize: 4,
@@ -410,10 +422,13 @@
       	
       	$('#event-organizer').select2({
     		theme: 'bootstrap4',
+    		
 		});
 		
       	$('#event-portfolio').select2({
     		theme: 'bootstrap4',
+    		templateResult: formatState,
+  			templateSelection: formatState,
 		});
     </script>
 </body>

@@ -1,17 +1,19 @@
 package net.grinecraft.etwig.controller.events;
 
+import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
 import jakarta.servlet.http.HttpSession;
+import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.services.EventService;
+import net.grinecraft.etwig.services.PortfolioService;
 import net.grinecraft.etwig.services.UserRoleService;
 import net.grinecraft.etwig.util.NumberUtils;
 import net.grinecraft.etwig.util.type.NavBar;
@@ -23,10 +25,13 @@ public class EditController {
 	EventService eventService;
 	
 	@Autowired
+	PortfolioService portfolioService;
+	
+	@Autowired
 	UserRoleService userRoleService;
 	
 	@RequestMapping("/events/edit")  
-	public String events(ModelAndView modelAndView, Model model, @RequestParam(required = false) String eventId) throws Exception{
+	public String events(HttpSession session, Model model, @RequestParam(required = false) String eventId) throws Exception{
 		NavBar currentNavbar = null;
 		String mode = "";
 		String page = "";
@@ -82,21 +87,35 @@ public class EditController {
 			}
 		}
 		
+		// Logged in user (me)
+        User my = (User) session.getAttribute("user");
+       
+        // Get myColleagues: Other users who have the same portfolio with me
+        LinkedHashMap<Long, User> myColleagues = userRoleService.getUsersByPortfolioId(id);
+        
+        // Get myPortfolios: Other portfolios that I have.
+        LinkedHashMap<Long, Portfolio> myPortfolios = userRoleService.getPortfoliosByUserId(my.getId());
+        
+        // Extract the keys
+        Set<Long> myPortfolioIds = myPortfolios.keySet();
+        LinkedHashMap<Long, Portfolio> allPortfolios = portfolioService.getPortfolioList();
+   
+        // And get the remaining portfolios
+        for (Long key : myPortfolioIds) {
+        	allPortfolios.remove(key);
+        }        
+        
 		model.addAttribute("eventId", eventId);
 		model.addAttribute("mode", mode);
         model.addAttribute("navbar", currentNavbar);
         
-        //userRoleService.getPortfoliosByUserId()
-        
         if(id != null) {
-        	model.addAttribute("myColleagues", userRoleService.getUsersByPortfolioId(id));
+        	model.addAttribute("myColleagues", myColleagues);
         }
         
-        User myInfo = (User) modelAndView.getModel().get("user");
-        System.out.println(myInfo);
-        if (myInfo != null) {
-        	model.addAttribute("myPortfolios", userRoleService.getPortfoliosByUserId(myInfo.getId()));
-        	//System
+        if (my != null) {
+        	model.addAttribute("myPortfolios", myPortfolios);
+        	model.addAttribute("remainingPortfolios", allPortfolios);
         }
 		return page;
 	}

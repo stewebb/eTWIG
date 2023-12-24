@@ -22,34 +22,34 @@ public class PortfolioService {
 	 * @return JSON of list of all portfolios
 	 */
 	
-	public LinkedHashMap<Integer, Object> getPortfolioList() {
+	public LinkedHashMap<Long, Portfolio> getPortfolioList() {
 		
 		// return an empty JSON when the object is null. 
 		if(portfolioRepository == null) {
-			return new LinkedHashMap<Integer, Object>();
+			return null;
 		}
         List<Portfolio> portfolioList = (List<Portfolio>) portfolioRepository.findAll();
       
         // Convert to a map of map... Use LinkedHashMap to keep adding order
-        LinkedHashMap<Integer, Object> allPortfolios = new LinkedHashMap<>();
+        LinkedHashMap<Long, Portfolio> allPortfolios = new LinkedHashMap<>();
         for(Portfolio portfolio : portfolioList) {      	
-        	allPortfolios.put(portfolio.getId(), portfolioObjectToMap(portfolio));
+        	allPortfolios.put(portfolio.getId(), portfolio);
         }
         
         return allPortfolios;
     }
 	
-	public LinkedHashMap<String, Object> getPortfolioById(long id) {
+	public Portfolio getPortfolioById(long id) {
 		if(portfolioRepository == null) {
-			return new LinkedHashMap<String, Object>();
+			return null;
 		}
 		
 		Optional<Portfolio> portfolioOpt = portfolioRepository.findById(id);
 		
 		if (portfolioOpt.isPresent()){
-			return portfolioObjectToMap(portfolioOpt.get());
+			return portfolioOpt.get();
 		}else {
-			return new LinkedHashMap<String, Object>();
+			return null;
 		}
 	}
 	
@@ -59,6 +59,7 @@ public class PortfolioService {
 	 * @return portfolio map
 	 */
 	
+	/*
 	private LinkedHashMap<String, Object> portfolioObjectToMap(Portfolio portfolio){
 		LinkedHashMap<String, Object> map = new LinkedHashMap<>();
     	//map.put("id", String.valueOf(portfolio.getPortfolioID()));
@@ -70,4 +71,5 @@ public class PortfolioService {
     	map.put("parent", portfolio.getParent());
 		return map;
 	}
+	*/
 }

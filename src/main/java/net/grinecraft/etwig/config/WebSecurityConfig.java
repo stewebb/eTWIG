@@ -28,6 +28,9 @@ public class WebSecurityConfig{
 	@Autowired
     private UserAuthService userAuthService;
 	
+	@Autowired
+	private LoginSuccessHandler loginSuccessHandler;
+	
 	@SuppressWarnings("removal")
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -41,6 +44,7 @@ public class WebSecurityConfig{
 	            .loginProcessingUrl("/user/login")
 				.permitAll()
 				.failureUrl("/user/login?success=false")
+				.successHandler(loginSuccessHandler)
 			)
 			.logout((logout) -> logout.logoutUrl("/user/logout"));
 		
