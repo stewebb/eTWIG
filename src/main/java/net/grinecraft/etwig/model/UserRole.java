@@ -11,10 +11,8 @@ import lombok.*;
 @Table(name = "user_role")
 public class UserRole {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id")
-	private int userId;
+	@EmbeddedId
+    private UserRoleKey id;
 	
 	@Column(name = "position")
 	private String position;	

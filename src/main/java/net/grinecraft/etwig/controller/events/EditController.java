@@ -8,7 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpSession;
+import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.services.EventService;
+import net.grinecraft.etwig.services.UserRoleService;
 import net.grinecraft.etwig.util.NumberUtils;
 import net.grinecraft.etwig.util.type.NavBar;
 
@@ -18,11 +21,15 @@ public class EditController {
 	@Autowired
 	EventService eventService;
 	
+	@Autowired
+	UserRoleService userRoleService;
+	
 	@RequestMapping("/events/edit")  
-	public String events(Model model, @RequestParam(required = false) String eventId) throws Exception{
+	public String events(HttpSession session, Model model, @RequestParam(required = false) String eventId) throws Exception{
 		NavBar currentNavbar = null;
 		String mode = "";
 		String page = "";
+		Long id = null;
 		
 		// Case 1: eventId doesn't provided, return a "starter" page.
 		if(eventId == null) {
@@ -35,7 +42,7 @@ public class EditController {
 		else {
 			
 			// Case 2: Invalid eventId. (Not a Long number)
-			Long id = NumberUtils.safeCreateLong(eventId);
+			id = NumberUtils.safeCreateLong(eventId);
 			if(id == null) {
 				currentNavbar = NavBar.EDIT_EVENT;
 				mode = "INVALID_EVENT_ID";
@@ -77,6 +84,17 @@ public class EditController {
 		model.addAttribute("eventId", eventId);
 		model.addAttribute("mode", mode);
         model.addAttribute("navbar", currentNavbar);
+        
+        //userRoleService.getPortfoliosByUserId()
+        
+        if(id != null) {
+        	model.addAttribute("myColleagues", userRoleService.getUsersByPortfolioId(id));
+        }
+        
+        User myInfo = (User) session.getAttribute("user");
+        if (myInfo != null) {
+        	model.addAttribute("myPortfolios", userRoleService.getPortfoliosByUserId(myInfo.getId()));
+        }
 		return page;
 	}
 }

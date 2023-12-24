@@ -61,6 +61,22 @@
 							
 							<div class="card-body">
 								
+								<#-- Id -->
+								<div class="form-group row">
+									<label for="event-Id" class="col-sm-2 col-form-label">Id</label>
+									<div class="col-sm-10">
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text">
+													<i class="fa-solid fa-hashtag"></i>
+												</span>
+											</div>
+											<input type="text" class="form-control" placeholder="Event Id" id="event-id" value="${eventId}" disabled>
+										</div>
+										
+									</div>
+								</div>
+								
 								<#-- Name -->
 								<div class="form-group row">
 									<label for="event-name" class="col-sm-2 col-form-label">Name</label>
@@ -212,25 +228,11 @@
 									</div>
 								</div>			
 								
+								
+								
 							</div>
 						</div>
 						
-					</div>
-					
-					<div class="col-md-6">
-						
-						<#-- Description -->
-						<div class="card card-primary">
-							<div class="card-header">
-								<h3 class="card-title">
-									<i class="fa-solid fa-pen"></i>&nbsp;Description
-								</h3>
-							</div>
-
-							<div class="card-body">
-								<div id="event-description"><#if eventDetails?has_content>${eventDetails.detail.eventDescription}</#if></div>
-							</div>
-						</div>
 						
 						<#-- Organizer -->
 						<div class="card card-primary">
@@ -242,29 +244,13 @@
 
 							<div class="card-body">
 								
-								<#-- Organizer -->
-								<div class="form-group row">
-									<label for="event-organizer" class="col-sm-2 col-form-label">Organizer</label>
-									<div class="col-sm-10">
-										<div class="input-group">
-											<div class="input-group-prepend">
-												<span class="input-group-text">
-													<i class="fa-solid fa-user"></i>
-												</span>
-											</div>
-											
-											<!--
-											<input type="text" class="form-control" placeholder="Event Organizer" id="event-organizer">
-											-->
-											
-											<select class="form-control select2" name="event-organizer">
-        										<option data-select2-id="3">c</option>
-      										</select>
-										</div>
-									</div>
-								</div>
 								
 								<#-- Portfolio -->
+								
+								<#list myPortfolios as user>
+ 								 <p>${user}
+								</#list>
+
 								<div class="form-group row">
 									<label for="event-poerfolio" class="col-sm-2 col-form-label">Portfolio</label>
 									<div class="col-sm-10 input-group">
@@ -289,8 +275,84 @@
 									</div>
 								</div>
 								
+								
+								<#-- Organizer -->
+								<div class="form-group row">
+									<label for="event-organizer" class="col-sm-2 col-form-label">Name</label>
+									<div class="col-sm-10">
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text">
+													<i class="fa-solid fa-user"></i>
+												</span>
+											</div>
+											
+											<select class="form-control select2" name="event-organizer" id="event-organizer">
+        										<optgroup label="Myself">
+          											 <option value="${user.userId}">${user.username}</option>
+        										</optgroup>
+        										<optgroup label="My colleagues">
+        										</optgroup>
+      										</select>
+										</div>
+									</div>
+								</div>
+								
+								<#-- Role -->
+								<div class="form-group row">
+									<label for="event-organizer-role" class="col-sm-2 col-form-label">Role</label>
+									<div class="col-sm-10">
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text">
+													<i class="fa-solid fa-clipboard-user"></i>
+												</span>
+											</div>
+											
+											<select class="form-control select2" name="event-organizer-role" id="event-organizer-role">
+        										
+      										</select>
+										</div>
+									</div>
+								</div>
+								
+								
+								
+								
 							</div>
 						</div>
+						
+						
+					</div>
+					
+					<div class="col-md-6">
+						
+						<#-- Description -->
+						<div class="card card-primary">
+							<div class="card-header">
+								<h3 class="card-title">
+									<i class="fa-solid fa-pen"></i>&nbsp;Description
+								</h3>
+							</div>
+
+							<div class="card-body">
+								<div id="event-description"><#if eventDetails?has_content>${eventDetails.detail.eventDescription}</#if></div>
+							</div>
+						</div>
+						
+						<#-- Properties -->
+						<div class="card card-primary">
+							<div class="card-header">
+								<h3 class="card-title">
+									<i class="fa-solid fa-ellipsis"></i>&nbsp;Properties
+								</h3>
+							</div>
+
+							<div class="card-body">
+								
+							</div>
+						</div>
+						
 						
 					</div>
 				</div>
@@ -343,6 +405,10 @@
   			maxHeight: 400
       	});
       	
+      	$('#event-organizer').select2({
+    		theme: 'bootstrap4',
+		});
+		
       	$('#event-portfolio').select2({
     		theme: 'bootstrap4',
 		});

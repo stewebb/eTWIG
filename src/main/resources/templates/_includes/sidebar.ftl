@@ -62,11 +62,13 @@
         			<img src="/static/images/default_avatar.svg" class="elevation-2" alt="User Avatar">
         			<!--<i class="fa-solid fa-user fa-xl img-circle elevation-2" style="color: #ffffff;"></i>-->
         		</div>
+        		
         		<div class="info">
           			<a href="#" class="d-block">
-          				<#if user?has_content>${user.username}<#else>Guest</#if>
+          				<#if user?has_content>${user.username}</#if>
           			</a>
         		</div>
+        	
       		</div>
 
       		<#-- Menu -->
