@@ -9,12 +9,13 @@
 	 
 	<#-- CSS and JS for select 2.-->
 	<link rel="stylesheet" href="/static/css/select2.min.css"/>
+	<link rel="stylesheet" href="/static/css/select2-bootstrap4.min.css"/>
 	<script src="/static/js/select2.min.js"></script>
 
 	<title>Edit Event - eTWIG Administration Portal</title>
 </head>
 
-<body>
+<body class="sidebar-mini layout-fixed">
 	<#include "../_includes/sidebar.ftl">
 	
 	<#-- Content Wrapper -->
@@ -247,32 +248,86 @@
 													<i class="fa-solid fa-user"></i>
 												</span>
 											</div>
+											
+											<!--
 											<input type="text" class="form-control" placeholder="Event Organizer" id="event-organizer">
+											-->
+											
+											<select class="form-control select2" name="event-organizer">
+        										<option data-select2-id="3">c</option>
+      										</select>
 										</div>
 									</div>
-									
-									<div class="form-group">
-<label>Minimal</label>
-<select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" data-select2-id="17" tabindex="-1" aria-hidden="true">
-<option selected="selected" data-select2-id="19">Alabama</option>
-<option data-select2-id="79">Alaska</option>
-<option data-select2-id="80">California</option>
-<option data-select2-id="81">Delaware</option>
-<option data-select2-id="82">Tennessee</option>
-<option data-select2-id="83">Texas</option>
-<option data-select2-id="84">Washington</option>
-</select><span class="select2 select2-container select2-container--bootstrap4 select2-container--above select2-container--focus" dir="ltr" data-select2-id="18" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-q3d7-container"><span class="select2-selection__rendered" id="select2-q3d7-container" role="textbox" aria-readonly="true" title="Alabama">Alabama</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-</div>
-
-
 								</div>
+								
+								<#-- Portfolio -->
+								<div class="form-group row">
+									<label for="event-poerfolio" class="col-sm-2 col-form-label">Portfolio</label>
+									<div class="col-sm-10 input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text">
+												<i class="fa-solid fa-briefcase"></i>
+											</span>
+										</div>
+      									<select class="form-control select2" name="event-portfolio">
+        									<option></option>
+        									<optgroup label="My Portfolio(s)">
+          										<option>A1</option>
+          										<option>A2</option>
+          										<option>A3</option>
+        									</optgroup>
+        									<optgroup label="Other">
+          										<option>B1</option>
+          										<option>B2</option>
+         										<option>B3</option>
+        									</optgroup>
+      									</select>
+									</div>
+								</div>
+								
 							</div>
 						</div>
 						
 					</div>
 				</div>
+				
+				<#-- Submit Options -->
+				<div class="card">
+					<div class="card-body">
+						
+						<#-- Save -->
+						<div class="btn-group mr-1 mb-1 mt-1 btn-group-justified" role="group" aria-label="Basic example">
+							<button type="button" class="btn btn-outline-primary">
+								<i class="fa-regular fa-check"></i>&nbsp;Save and exit
+							</button>
+							<button type="button" class="btn btn-outline-primary">
+								<i class="fa-regular fa-check"></i>&nbsp;Save
+							</button>
+						</div>
+	
+						<#-- Discard -->
+						<div class="btn-group mr-1 mb-1 mt-1 btn-group-justified" role="group" aria-label="Basic example">
+							<button type="button" class="btn btn-outline-secondary">
+								<i class="fa-solid fa-xmark"></i>&nbsp;Discard
+							</button>
+							<button type="button" class="btn btn-outline-secondary">
+								<i class="fa-solid fa-xmark"></i>&nbsp;Discard and exit
+							</button>
+						</div>
+						
+						<#-- Delete -->
+						<#if mode=="EDIT">		
+							<button type="button" class="btn btn-outline-danger mr-2 mb-1 mt-1">
+								<i class="fa-solid fa-trash"></i>&nbsp;Delete
+							</button>
+						</#if>
+						
+					</div>
+				</div>
+				
 			</div>
 		</section>
+
 	</div>
 	
 	<script>
@@ -283,6 +338,10 @@
         	minHeight: 400,
   			maxHeight: 400
       	});
+      	
+      	$('event-portfolio').select2({
+    		theme: 'bootstrap4',
+		});
     </script>
 </body>
 </html>

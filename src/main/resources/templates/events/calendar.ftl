@@ -20,7 +20,7 @@
 	<title>Event Calendar - eTWIG Administration Portal</title>
 </head>
 
-<body>
+<body class="sidebar-mini layout-fixed">
 	<#include "../_includes/sidebar.ftl">
 
 	<#-- Content Wrapper. -->
