@@ -24,12 +24,9 @@
   		<div class="card">
     		<div class="card-body login-card-body">
     		
-    		<#-- Alert -->
-    		<#include "../_includes/alert.ftl">
-
-      		<p class="login-box-msg bold-text">
-      			<i class="fa-solid fa-user-shield"></i>&nbsp;Administration Portal
-      		</p>
+      			<p class="login-box-msg bold-text">
+      				<i class="fa-solid fa-user-shield"></i>&nbsp;Administration Portal
+      			</p>
       		<form action="/user/login" method="post">
       			
       			<#-- Username input -->
@@ -63,7 +60,7 @@
 				<#-- Login button-->
       			<p class="mb-3">
         			<button type="submit" class="btn btn-outline-primary btn-block">
-        				<i class="fa-regular fa-right-to-bracket"></i>&nbsp;Login
+        				<i class="fa-regular fa-right-to-bracket mr-1"></i>&nbsp;Login
             		</button>
       			</p>
       		</form>
@@ -71,13 +68,10 @@
 			<#-- Public access links -->
 			<div class="social-auth-links text-center mb-3">
         		<p class="login-box-msg bold-text">
-        			<i class="fa-solid fa-eye"></i>&nbsp;Public Access
+        			<i class="fa-solid fa-earth-americas"></i>&nbsp;Public Access
         		</p>
-        		<a href="#" class="btn btn-outline-success btn-block">
-        			<i class="fa-regular fa-lightbulb mr-2"></i>&nbsp;View TWIG
-        		</a>
-        		<a href="#" class="btn btn-outline-warning btn-block">
-        			<i class="fa-regular fa-circle-question mr-2"></i>&nbsp;Help Center
+        		<a href="/twig" class="btn btn-outline-secondary btn-block">
+        			<i class="fa-regular fa-lightbulb mr-1"></i>&nbsp;View TWIG
         		</a>
       		</div>
 
@@ -86,10 +80,19 @@
 </div>
 
 <script>
-var searchParams = new URLSearchParams(window.location.search);
-if (searchParams.get('success') == 'false'){
-	showAlert("Login failed", "warning");
-}
+	var searchParams = new URLSearchParams(window.location.search);
+	
+	// A warning toast when login failed.
+	if (searchParams.get('success') == 'false'){
+		$(document).Toasts('create', {
+  			title: 'Login failed',
+  			body: 'Check the email address and password and try again.',
+  			autohide: true,
+  			delay: 5000,
+  			icon: 'fa fa-circle-exclamation',
+  			class: 'toast bg-danger'
+		});
+	}
 </script>
 
 </body>

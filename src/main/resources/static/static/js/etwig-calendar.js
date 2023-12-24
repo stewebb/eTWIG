@@ -39,45 +39,6 @@ function createPublicCalendar(elem, currentMonth){
 }
 
 /**
- * Format JavaScript date object to a specific format
- * @param date A JavaScript date object
- * @param mode A format mode
- * @returns The date String with corect format.
- * 
- * Mode Options:
- * d: Format date to yyyy-mm-dd
- * i: Format date to yyyy-mm-dd hh:MM
- * a: Format date to yyyy-mm-dd hh:MM:ss
- */
-
-/*
-function formatDate(date, mode) {
-    
-    let year = date.getFullYear();
-    let month = pad(date.getMonth() + 1);
-    let day = pad(date.getDate());
-    let hours = pad(date.getHours());
-    let minutes = pad(date.getMinutes());
-    let seconds = pad(date.getSeconds());
-    
-    var str = '';
-    switch (mode){
-		case 'd':
-			str = `${year}-${month}-${day}`;
-			break;
-		case 'i':
-			str = `${year}-${month}-${day} ${hours}:${minutes}`;
-			break;
-		default:
-			str = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-			break;
-	}
-    return str;
-}
-
-*/
-
-/**
  * Get the event list based on a specific range
  * @param dateStr The String contains current month/week/day.
  * @param rangeStr The String to set the search range.
@@ -97,7 +58,15 @@ function getEventListByRange(date, range){
     	dataType: 'json',
 		success: function(json) {
 			if(json.error > 0){
-    			showAlert("Failed to get resource because " + json.msg, "danger");
+				$(document).Toasts('create', {
+  					title: "Failed to get resource.",
+  					body: json.msg,
+  					autohide: true,
+  					delay: 5000,
+  					icon: 'fa fa-circle-xmark',
+  					class: 'toast bg-danger'
+				});
+    			//showAlert("Failed to get resource because " + json.msg, "danger");
 			}else{
 				jQuery.each(json.events, function(id, value) {
 					var eventStartDateTime = new Date(value.eventStartTime);
@@ -105,8 +74,6 @@ function getEventListByRange(date, range){
   					
   					eventList.push({
 						  id: id,
-						  //start: formatDate(eventStartDateTime, 'i'), 
-						  //end: formatDate(eventEndDateTime, 'i'), 
 						  start: eventStartDateTime.toString('yyyy-MM-dd HH:mm'),
 						  end: eventEndDateTime.toString('yyyy-MM-dd HH:mm'),
 						  title: value.eventName + " @ " + value.eventLocation, 
@@ -116,8 +83,17 @@ function getEventListByRange(date, range){
 				})
 			}
         },
+        
+        // Toast error info when it happens
     	error: function(jqXHR, exception) {   		
-    		showAlert("Failed to get resource due to a HTTP " + jqXHR.status + " error.", "danger");
+			$(document).Toasts('create', {
+  				title: "Failed to get resource due to a HTTP " + jqXHR.status + " error.",
+  				body: exception,
+  				autohide: true,
+  				delay: 10000,
+  				icon: 'fa fa-circle-xmark',
+  				class: 'toast bg-danger'
+			});
 		}
 	});
 	return eventList;
@@ -126,7 +102,6 @@ function getEventListByRange(date, range){
 function changeCalendar(){
 	
 	// Convert to yyyy-mm-dd format.
-    //var yearMonthStr = formatDate(currentDate, 'd');
     var yearMonthStr = currentDate.toString('yyyy-MM-dd');
     	
     // Change calendar value.

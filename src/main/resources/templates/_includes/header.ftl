@@ -22,4 +22,3 @@
 	<script src="/static/js/bootstrap.min.js"></script>
 	<script src="/static/js/pace.min.js"></script>
 	<script src="/static/js/adminlte.min.js"></script>
-	<script src="/static/js/alerts.js"></script>

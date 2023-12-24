@@ -11,7 +11,6 @@ public class EtwigApplication {
 		SpringApplication.run(EtwigApplication.class, args);
 	}
 	
-
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
         return builder.sources(EtwigApplication.class);
     }
