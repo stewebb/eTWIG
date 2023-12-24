@@ -1,5 +1,6 @@
 package net.grinecraft.etwig.services;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +26,7 @@ public class UserRoleService {
     @Autowired
     private PortfolioRepository portfolioRepository;
 
+    /*
     public List<Portfolio> getPortfoliosByUserId(Long userId) {
         List<UserRole> roles = userRoleRepository.findByIdUserId(userId);
         return roles.stream()
@@ -38,4 +40,31 @@ public class UserRoleService {
                     .map(role -> userRepository.findById(role.getId().getUserId()).orElse(null))
                     .collect(Collectors.toList());
     }
+    
+    */
+    
+    public LinkedHashMap<Long, Portfolio> getPortfoliosByUserId(Long userId) {
+        List<UserRole> roles = userRoleRepository.findByIdUserId(userId);
+        LinkedHashMap<Long, Portfolio> portfoliosMap = new LinkedHashMap<>();
+
+        for (UserRole role : roles) {
+            Long PortfolioId = role.getId().getPortfolioId();
+            portfoliosMap.computeIfAbsent(PortfolioId, id -> portfolioRepository.findById(id).orElse(null));
+        }
+
+        return portfoliosMap;
+    }
+
+    public LinkedHashMap<Long, User> getUsersByPortfolioId(Long portfolioId) {
+        List<UserRole> roles = userRoleRepository.findByIdPortfolioId(portfolioId);
+        LinkedHashMap<Long, User> usersMap = new LinkedHashMap<>();
+
+        for (UserRole role : roles) {
+            Long userId = role.getId().getUserId();
+            usersMap.computeIfAbsent(userId, id -> userRepository.findById(id).orElse(null));
+        }
+
+        return usersMap;
+    }
+
 }

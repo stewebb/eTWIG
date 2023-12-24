@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpSession;
 import net.grinecraft.etwig.model.User;
@@ -25,7 +26,7 @@ public class EditController {
 	UserRoleService userRoleService;
 	
 	@RequestMapping("/events/edit")  
-	public String events(HttpSession session, Model model, @RequestParam(required = false) String eventId) throws Exception{
+	public String events(ModelAndView modelAndView, Model model, @RequestParam(required = false) String eventId) throws Exception{
 		NavBar currentNavbar = null;
 		String mode = "";
 		String page = "";
@@ -91,9 +92,11 @@ public class EditController {
         	model.addAttribute("myColleagues", userRoleService.getUsersByPortfolioId(id));
         }
         
-        User myInfo = (User) session.getAttribute("user");
+        User myInfo = (User) modelAndView.getModel().get("user");
+        System.out.println(myInfo);
         if (myInfo != null) {
         	model.addAttribute("myPortfolios", userRoleService.getPortfoliosByUserId(myInfo.getId()));
+        	//System
         }
 		return page;
 	}
