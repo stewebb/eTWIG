@@ -50,9 +50,7 @@
     	<#-- eTWIG Logo -->
     	<a href="/" class="brand-link">
       		<img src="/static/images/eTWIG_white.png" alt="eTWIG Logo" class="brand-image">
-      		<span class="brand-text font-weight-light">
-      			<#if username?has_content>Admin<#else>Public</#if>
-      		</span>
+      		<span class="brand-text font-weight-light">Admin</span>
     	</a>
 
     	<#-- Sidebar -->
@@ -66,7 +64,7 @@
         		</div>
         		<div class="info">
           			<a href="#" class="d-block">
-          				<#if username?has_content>${username}<#else>Guest</#if>
+          				<#if user?has_content>${user.username}<#else>Guest</#if>
           			</a>
         		</div>
       		</div>

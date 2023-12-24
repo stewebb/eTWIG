@@ -61,6 +61,7 @@ public class EditController {
 						currentNavbar = NavBar.EDIT_EVENT;
 						mode = "EDIT";
 						page = "events/edit_main";
+						model.addAttribute("eventDetails", event);
 					}
 					
 					// Case 5: eventId cannot be found, 

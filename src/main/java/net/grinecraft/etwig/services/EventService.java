@@ -19,6 +19,7 @@ import net.grinecraft.etwig.util.DataIntegrityViolationException;
 import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.NameUtils;
 import net.grinecraft.etwig.util.type.DateRange;
+import net.grinecraft.etwig.util.type.EventUnit;
 
 @Service
 public class EventService {
@@ -69,12 +70,13 @@ public class EventService {
 		}
 		
 		if(user == null) {
-			throw new DataIntegrityViolationException("The organizer of event id=" + singleTimeEvent.getId() + " doesn't exist. PLease check the leader table.");
+			throw new DataIntegrityViolationException("The organizer of event id=" + singleTimeEvent.getId() + " doesn't exist. PLease check the user table.");
 		}
 		
 		// Step 2.4: Add all necessary data
 		eventDetails.put("eventName", singleTimeEvent.getName());
 		eventDetails.put("eventStartTime", singleTimeEvent.getStartDateTime());
+		eventDetails.put("timeUnit", EventUnit.safeValueOf(singleTimeEvent.getUnit()));
 		eventDetails.put("eventDuration", singleTimeEvent.getDuration());
 		eventDetails.put("eventLocation", singleTimeEvent.getLocation());
 
@@ -86,8 +88,9 @@ public class EventService {
 		if(showAllDetails) {
 			eventDetails.put("eventDescription", singleTimeEvent.getDescription());
 			eventDetails.put("portfolioName", portfolio.getName());
-			eventDetails.put("portfolioAbbreviation", portfolio.getAbbreviation());
+			//eventDetails.put("portfolioAbbreviation", portfolio.getAbbreviation());
 			eventDetails.put("portfolioIcon", portfolio.getIcon());
+			//eventDetails.put("organizerId", portfolio.getIcon());
 			eventDetails.put("organizerName", NameUtils.nameMerger(user.getFirstName(), user.getMiddleName(), user.getLastName()));
 		}
 		// TODO Find all parents
@@ -163,10 +166,10 @@ public class EventService {
 			
 		LinkedHashMap<String, Object> event = new LinkedHashMap<String, Object>();
 		
-		LinkedHashMap<String, Object> eventInfoRecurring = getSingleTimeEventById(id, showAllDetails);
-		LinkedHashMap<String,Object> eventInfoSingleTime = getRecurringEventById(id, showAllDetails);
-		//System.out.println(eventInfoRecurring);
-		//System.out.println(eventInfoSingleTime);
+		LinkedHashMap<String, Object> eventInfoSingleTime = getSingleTimeEventById(id, showAllDetails);
+		LinkedHashMap<String,Object> eventInfoRecurring = getRecurringEventById(id, showAllDetails);
+		// System.out.println(eventInfoRecurring);
+		// System.out.println(eventInfoSingleTime);
 		
 		// The event is recurring
 		if(eventInfoRecurring != null && eventInfoSingleTime == null) {
