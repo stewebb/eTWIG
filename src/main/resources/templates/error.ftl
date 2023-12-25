@@ -4,8 +4,9 @@
 
 	<#include "./_includes/header.ftl">
 	
-    <title>Error: Http Status ${error.status}</title>
+    <title>Http Status ${error.status} - ${error.error}</title>
 </head>
+
 <body>
 	<#assign color = "info">
     <#if error.status?starts_with("5")>
@@ -29,7 +30,7 @@
 					<div class="mb-2 text-${color} bold-text">
 						HTTP Status ${error.status} - ${error.error}</div>
 					<div class="mb-2">
-						<span class="bold-text">Message provided by server: </span>
+						<span class="bold-text">Messages provided by server: </span>
 						<#if error.message?has_content>${error.message}<#else>No message was given.</#if>
 					</div>
 					<div class="mb-2">
@@ -39,7 +40,7 @@
 						<#else>
 							The eTWIG platform experienced an error. This error may caused by your browser, or the platform itself.
 						</#if>
-						If problem persists, please click the <span class="bold-text theme-color-text">technical details</span> button to display those details, and send them to the developers.
+						If problem persists, please click the <span class="bold-text theme-color-text">technical details</span> button to reveal those details, and send them to the developers.
 					</div>	
 				</div>
 			</div>
@@ -74,10 +75,7 @@
 					</h3>
 				</div>
 				<div class="card-body">
-					<#if error.trace??>
-						<#assign trace = error.trace?replace("\n", "<br />", "r")>
-        				${trace}
-    				</#if>
+					<pre><#if error.trace?has_content><#assign trace = error.trace?replace("Caused by:", "<span class='bold-text theme-color-text'>Caused by:</span>", "r")>${trace}</#if></pre>
 				</div>
 			</div>
 

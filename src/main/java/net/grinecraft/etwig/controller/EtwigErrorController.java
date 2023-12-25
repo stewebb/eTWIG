@@ -9,8 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.WebRequest;
 
-import net.grinecraft.etwig.util.type.NavBar;
-
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 
 @Controller
@@ -24,13 +22,10 @@ public class EtwigErrorController implements ErrorController {
 
     @RequestMapping("/error")
     public String handleError(WebRequest webRequest, Model model) {
-        // Use ErrorAttributeOptions to include the stack trace
-        ErrorAttributeOptions options = ErrorAttributeOptions.of(ErrorAttributeOptions.Include.STACK_TRACE);
+    	ErrorAttributeOptions options = ErrorAttributeOptions.of(ErrorAttributeOptions.Include.STACK_TRACE);
         Map<String, Object> errorAttributes = this.errorAttributes.getErrorAttributes(webRequest, options);
 
-        System.out.println( errorAttributes);
         model.addAttribute("error", errorAttributes);
-      //model.addAttribute("navbar", NavBar.OTHER);
-        return "error"; // Name of the Freemarker template
+        return "error"; 
     }
 }

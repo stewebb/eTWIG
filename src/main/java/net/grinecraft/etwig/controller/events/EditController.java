@@ -55,35 +55,28 @@ public class EditController {
 				page = "events/edit_starter";
 			}
 			
-			// Case 3-5 : Valid eventId.
+			// Case 3-4 : Valid eventId.
 			else {
 				
-				// Case 3: Negative eventId, add event.
-				//if(id <= -1) {
-				//	currentNavbar = NavBar.ADD_EVENT;
-				//	mode = "ADD";
-				//	page = "events/edit_main";
+				//if(id < 0) {
+				//	throw new IllegalArgumentException("EventId must be a positive integer!");
 				//}
 				
-				// Case 4-5: Zero or positive eventId, add event.
-				//else {
-					
-					// Case 4: eventId found in database, edit event
-					LinkedHashMap<String, Object> event = eventService.findById(id, true);
-					if(Boolean.TRUE.equals(event.get("exists"))) {
-						//currentNavbar = NavBar.EDIT_EVENT;
-						mode = "EDIT";
-						page = "events/edit_main";
-						model.addAttribute("eventDetails", event);
-					}
-					
-					// Case 5: eventId cannot be found, 
-					else {
-						//currentNavbar = NavBar.EDIT_EVENT;
-						mode = "EVENT_NOT_FOUND";
-						page = "events/edit_starter";
-					}
-				//}
+				// Case 3: eventId found in database, edit event
+				LinkedHashMap<String, Object> event = eventService.findById(id, true);
+				if(Boolean.TRUE.equals(event.get("exists"))) {
+					//currentNavbar = NavBar.EDIT_EVENT;
+					mode = "EDIT";
+					page = "events/edit_main";
+					model.addAttribute("eventDetails", event);
+				}
+				
+				// Case 4: eventId cannot be found, 
+				else {
+					//currentNavbar = NavBar.EDIT_EVENT;
+					mode = "EVENT_NOT_FOUND";
+					page = "events/edit_starter";
+				}		
 			}
 		}
 		
