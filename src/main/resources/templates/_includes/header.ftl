@@ -7,6 +7,10 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+	<#-- CSS and JS for Pace -->
+	<link rel="stylesheet" href="/static/css/pace-theme-flash.css">
+	<script src="/static/js/pace.min.js"></script>
+	
 	<#-- JS for JQuery. -->
 	<script src="/static/js/jquery.min.js"></script>
 	
@@ -23,10 +27,6 @@
 	<#-- CSS for Font Awesome 6. -->
 	<link rel="stylesheet" href="/static/css/fontawesome.min.css">
 	<link rel="stylesheet" href="/static/css/solid.min.css">
-	
-	<#-- CSS and JS for Pace -->
-	<link rel="stylesheet" h.ref="/static/css/pace-theme-flash.css">
-	<script src="/static/js/pace.min.js"></script>
 	
 	<#-- CSS and JS for toastUI time picker. -->
 	<link rel="stylesheet" href="/static/css/tui-time-picker.min.css">

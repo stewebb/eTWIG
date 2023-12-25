@@ -11,7 +11,9 @@ public class DashboardController {
 	@RequestMapping("/")  
 	public String home(Model model) throws Exception{
 		
-		model.addAttribute("navbar", NavBar.DASHBOARD);
-		return "dashboard";
+		throw new IllegalArgumentException("I am an Exception");
+		
+		//model.addAttribute("navbar", NavBar.DASHBOARD);
+		//return "dashboard";
 	}
 }

@@ -132,7 +132,7 @@
           			<#-- Account -->
           			<li class="nav-header">Account</li>
           			<li class="nav-item">
-            			<a href="/user/login?logout" class="nav-link">
+            			<a href="/user/logout" class="nav-link">
               				<i class="nav-icon fas fa-right-from-bracket"></i>
               				<p>Logout</p>
             			</a>
