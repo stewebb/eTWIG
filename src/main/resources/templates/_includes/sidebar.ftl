@@ -112,7 +112,7 @@
           			
           			<#-- Event: Add -->
         			<li class="nav-item">
-            			<a href="/events/edit?eventId=-1" class="nav-link <#if navbar=="ADD_EVENT">active</#if>">
+            			<a href="/events/add" class="nav-link <#if navbar=="ADD_EVENT">active</#if>">
               				<i class="nav-icon fas fa-plus"></i>
               				<p>Add event</p>
             			</a>
@@ -128,6 +128,15 @@
           			
           			<#-- Banner Management -->
           			<li class="nav-header">Banner Management</li>
+          			
+          			<#-- Account -->
+          			<li class="nav-header">Account</li>
+          			<li class="nav-item">
+            			<a href="/user/login?logout" class="nav-link">
+              				<i class="nav-icon fas fa-right-from-bracket"></i>
+              				<p>Logout</p>
+            			</a>
+          			</li>
         		</ul>
       		</nav>
     	</div>

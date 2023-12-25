@@ -34,5 +34,5 @@
 
 .select2-results__option--highlighted,.select2-container--bootstrap4 .select2-results__option--highlighted.select2-results__option[aria-selected="true"]{
 	color:#fff;
-	background-color:#CCCCCC!important;
+	background-color:#004aad!important;
 }
