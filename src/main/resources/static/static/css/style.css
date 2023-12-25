@@ -36,3 +36,14 @@
 	color:#fff;
 	background-color:#004aad!important;
 }
+
+.required-symbol{
+	color: #bf3131;
+	font-weight: bold;
+}
+
+.datepicker{
+	margin-top: -1px; 
+	position: absolute; 
+	z-index: 1;
+}

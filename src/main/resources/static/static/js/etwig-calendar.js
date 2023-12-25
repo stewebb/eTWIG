@@ -133,13 +133,6 @@ function createDatePicker(htmlElem, pickerElem, buttonElem){
 		// Get selected date from ToastUI datepicker and store it.
   		currentDate = datepicker.getDate();
   		changeCalendar(currentDate);
-  		
-  		// Convert to yyyy-mm-dd format.
-    	//var yearMonthStr = formatDate(selectedDate, 'd');
-    	
-    	// Change calendar value.
-    	//calendar.setOption('date', selectedDate);
-    	//calendar.setOption('events', getEventListByRange(yearMonthStr, "month"));
 	}); 
 }
 

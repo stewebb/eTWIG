@@ -3,22 +3,50 @@
 	This is a part of the eTWIG platform.
  -->
 
-	<#-- Required meta tags -->
+	<#-- Required meta tags. -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	<#-- Common CSS -->
+	<#-- JS for JQuery. -->
+	<script src="/static/js/jquery.min.js"></script>
+	
+	<#-- JS for Popper. -->
+	<script src="/static/js/popper.min.js"></script>
+	
+	<#-- CSS and JS for Bootstrap 4. -->
 	<link rel="stylesheet" href="/static/css/bootstrap.min.css">
+	<script src="/static/js/bootstrap.min.js"></script>
+	
+	<#-- CSS for icheck-bootstrap.-->
 	<link rel="stylesheet" href="/static/css/icheck-bootstrap.min.css">
+	
+	<#-- CSS for Font Awesome 6. -->
 	<link rel="stylesheet" href="/static/css/fontawesome.min.css">
 	<link rel="stylesheet" href="/static/css/solid.min.css">
-	<link rel="stylesheet" href="/static/css/style.css">		
-	<link rel="stylesheet" href="/static/css/pace-theme-flash.css">
-  	<link rel="stylesheet" href="/static/css/adminlte.min.css">
-		
-	<#-- Common JS -->
-	<script src="/static/js/jquery.min.js"></script>
-	<script src="/static/js/popper.min.js"></script>
-	<script src="/static/js/bootstrap.min.js"></script>
+	
+	<#-- CSS and JS for Pace -->
+	<link rel="stylesheet" h.ref="/static/css/pace-theme-flash.css">
 	<script src="/static/js/pace.min.js"></script>
+	
+	<#-- CSS and JS for toastUI time picker. -->
+	<link rel="stylesheet" href="/static/css/tui-time-picker.min.css">
+	<script src="/static/js/tui-time-picker.min.js"></script>
+	
+	<#-- CSS and JS for toastUI date picker. -->
+	<link rel="stylesheet" href="/static/css/tui-date-picker.min.css">
+	<script src="/static/js/tui-date-picker.min.js"></script>
+	
+	<#-- CSS and JS for AdminLTE. -->
+  	<link rel="stylesheet" href="/static/css/adminlte.min.css">
 	<script src="/static/js/adminlte.min.js"></script>
+	
+	<#-- JS for date.js. -->
+	<script src="/static/js/date.min.js"></script>
+	
+	<#-- CSS and JS for select 2.-->
+	<link rel="stylesheet" href="/static/css/select2.min.css"/>
+	<link rel="stylesheet" href="/static/css/select2-bootstrap4.min.css"/>
+	<script src="/static/js/select2.min.js"></script>
+	
+	<#-- Custom CSS for eTWIG platform. -->
+	<link rel="stylesheet" href="/static/css/style.css">		

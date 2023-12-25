@@ -6,12 +6,7 @@
 	<#-- CSS and JS for summernote editor.-->
 	<link rel="stylesheet" href="/static/css/summernote-bs4.min.css">
 	<script src="/static/js/summernote-bs4.min.js"></script>
-	 
-	<#-- CSS and JS for select 2.-->
-	<link rel="stylesheet" href="/static/css/select2.min.css"/>
-	<link rel="stylesheet" href="/static/css/select2-bootstrap4.min.css"/>
-	<script src="/static/js/select2.min.js"></script>
-
+	
 	<#-- Custom JS for adding events-->
 	<script src="/static/js/etwig-events.js"></script>
 
@@ -46,7 +41,7 @@
     	
     	<#-- Main area -->
     	<section class="content">
-			<div class="container-fluid">
+			<form class="container-fluid" id="addEventForm" action="/events/add" method="post">
 				<div class="row">
 					<div class="col-md-6">
 						
@@ -62,7 +57,9 @@
 								
 								<#-- Name -->
 								<div class="form-group row">
-									<label for="event-name" class="col-sm-2 col-form-label">Name</label>
+									<label for="eventName" class="col-sm-2 col-form-label">
+										Name&nbsp;<span class="required-symbol">*</span>
+									</label>
 									<div class="col-sm-10">
 										<div class="input-group">
 											<div class="input-group-prepend">
@@ -70,14 +67,14 @@
 													<i class="fa-solid fa-lightbulb"></i>
 												</span>
 											</div>
-											<input type="text" class="form-control" placeholder="Event Name" id="event-name" value="<#if eventDetails?has_content>${eventDetails.detail.eventName}</#if>">
+											<input type="text" class="form-control" placeholder="Event Name" id="eventName" maxlength="31">
 										</div>
 									</div>
 								</div>
 								
 								<#-- Location -->
 								<div class="form-group row">
-									<label for="event-location" class="col-sm-2 col-form-label">Location</label>
+									<label for="eventLocation" class="col-sm-2 col-form-label">Location</label>
 									<div class="col-sm-10">
 										<div class="input-group">
 											<div class="input-group-prepend">
@@ -85,14 +82,16 @@
 													<i class="fa-solid fa-location-dot"></i>
 												</span>
 											</div>
-											<input type="text" class="form-control" placeholder="Event Location" id="event-location" value="<#if eventDetails?has_content>${eventDetails.detail.eventLocation}</#if>">
+											<input type="text" class="form-control" placeholder="Event Location" id="eventLocation" maxlength="63">
 										</div>
 									</div>
 								</div>
 
 								<#-- Recurrent -->
 								<div class="form-group row">
-									<label for="event-recurrent" class="col-sm-2 col-form-label">Recurrent</label>
+									<label for="event-recurrent" class="col-sm-2 col-form-label">
+										Recurrent&nbsp;<span class="required-symbol">*</span>
+									</label>
 									<div class="col-sm-10">
 										<div class="form-group clearfix">
 											<div class="icheck-primary">
@@ -114,8 +113,8 @@
 								
 								<#-- Description -->
 								<div class="form-group">
-									<label for="event-description">Description</label>
-									<div id="event-description"></div>
+									<label for="eventDescription">Description</label>
+									<div id="eventDescription"></div>
 								</div>
 							</div>
 						</div>			
@@ -135,27 +134,29 @@
 								
 								<#-- Time Unit-->
 								<div class="form-group row">
-									<label for="event-time-unit" class="col-sm-2 col-form-label">Time Unit</label>
+									<label for="eventTimeUnit" class="col-sm-2 col-form-label">
+										Time Unit&nbsp;<span class="required-symbol">*</span>
+									</label>
 									<div class="col-sm-10">
 										<div class="form-group clearfix">
 											<div class="icheck-primary">
-												<input type="radio" id="hour" name="event-time-unit" checked="">
+												<input type="radio" id="hour" name="eventTimeUnit" checked="" value="hour">
 												<label for="hour">Hour</label>
 											</div>
 											<div class="icheck-primary">
-												<input type="radio" id="day" name="event-time-unit">
+												<input type="radio" id="day" name="eventTimeUnit" value="day">
 												<label for="day">Day [00:00-23:59]</label>
 											</div>
 											<div class="icheck-primary">
-												<input type="radio" id="week" name="event-time-unit">
+												<input type="radio" id="week" name="eventTimeUnit" value="week">
 												<label for="week">Week [00:00 Mon-23:59 Sun]</label>
 											</div>
 											<div class="icheck-primary">
-												<input type="radio" id="month" name="event-time-unit">
+												<input type="radio" id="month" name="eventTimeUnit" value="month">
 												<label for="month">Month [00:00 1st day-23:59 last day]</label>
 											</div>
 											<div class="icheck-primary">
-												<input type="radio" id="customize" name="event-time-unit">
+												<input type="radio" id="customize" name="eventTimeUnit" value="customize">
 												<label for="customize">Customize</label>
 											</div>
 										</div>
@@ -164,7 +165,9 @@
 								
 								<#-- Start Time -->
 								<div class="form-group row">
-									<label for="event-start-time" class="col-sm-2 col-form-label">Start Time</label>
+									<label for="eventStartTime" class="col-sm-2 col-form-label">
+										Start Time&nbsp;<span class="required-symbol">*</span>
+									</label>
 									<div class="col-sm-10">
 										<div class="input-group">
 											<div class="input-group-prepend">
@@ -172,14 +175,17 @@
 													<i class="fa-solid fa-hourglass-start"></i>
 												</span>
 											</div>
-											<input type="text" class="form-control" placeholder="Event Start Time" id="event-start-time">
+											<input type="text" class="form-control" placeholder="Event Start Time" id="eventStartTime">
 										</div>
+										<div id="eventStartWrapper" class="datepicker"></div>
 									</div>
 								</div>					
 								
 								<#-- Duration -->
-								<div class="form-group row">
-									<label for="event-duration" class="col-sm-2 col-form-label">Duration</label>
+								<div class="form-group row" id="durationInput">
+									<label for="eventDuration" class="col-sm-2 col-form-label">
+										Duration&nbsp;<span class="required-symbol">*</span>
+									</label>
 									<div class="col-sm-10">
 										<div class="input-group">
 											<div class="input-group-prepend">
@@ -187,17 +193,19 @@
 													<i class="fa-solid fa-hourglass-half"></i>
 												</span>
 											</div>
-											<input type="text" class="form-control" placeholder="Event Duration" id="event-duration">
+											<input type="text" class="form-control" placeholder="Event Duration" id="eventDuration">
 											<div class="input-group-append">
-												<span class="input-group-text">Hours</span>
+												<span class="input-group-text" id="unitText">Hour(s)</span>
 											</div>
 										</div>
 									</div>
 								</div>
 								
 								<#-- End Time -->
-								<div class="form-group row">
-									<label for="event-end-time" class="col-sm-2 col-form-label">End Time</label>
+								<div class="form-group row" id="endTimeInput" style="display:none;">
+									<label for="eventEndTime" class="col-sm-2 col-form-label">
+										End Time&nbsp;<span class="required-symbol">*</span>
+									</label>
 									<div class="col-sm-10">
 										<div class="input-group">
 											<div class="input-group-prepend">
@@ -205,7 +213,7 @@
 													<i class="fa-solid fa-hourglass-end"></i>
 												</span>
 											</div>
-											<input type="text" class="form-control" placeholder="Event End Time" id="event-end-time">
+											<input type="text" class="form-control" placeholder="Event End Time" id="eventEndTime">
 										</div>
 									</div>
 								</div>			
@@ -283,15 +291,12 @@
 												</span>
 											</div>
 											
-											<select class="form-control select2" name="event-organizer-role" id="event-organizer-role">
+											<select class="form-control select2" name="event-organizer-role" id="event-organizer-role" disabled>
         										
       										</select>
 										</div>
 									</div>
 								</div>
-								
-								
-								
 								
 							</div>
 						</div>
@@ -317,48 +322,42 @@
 				<div class="card">
 					<div class="card-body">
 						
-						<#-- Save -->
+						<#-- Add -->
 						<div class="btn-group mr-1 mb-1 mt-1 btn-group-justified" role="group" aria-label="Basic example">
-							<button type="button" class="btn btn-outline-primary">
-								<i class="fa-regular fa-check"></i>&nbsp;Save and exit
+							<button type="button" class="btn btn-outline-primary" id="add-event-exit">
+								<i class="fa-regular fa-plus"></i>&nbsp;Add and exit
 							</button>
-							<button type="button" class="btn btn-outline-primary">
-								<i class="fa-regular fa-check"></i>&nbsp;Save
+							<button type="button" class="btn btn-outline-primary" id="add-event">
+								<i class="fa-regular fa-plus"></i>&nbsp;Add event
 							</button>
 						</div>
 	
-						<#-- Discard -->
+						<#-- Cancel -->
 						<div class="btn-group mr-1 mb-1 mt-1 btn-group-justified" role="group" aria-label="Basic example">
-							<button type="button" class="btn btn-outline-secondary">
-								<i class="fa-solid fa-xmark"></i>&nbsp;Discard
+							<button type="button" class="btn btn-outline-secondary" onclick="window.location.reload(); ">
+								<i class="fa-solid fa-xmark"></i>&nbsp;Cancel
 							</button>
 							<button type="button" class="btn btn-outline-secondary">
-								<i class="fa-solid fa-xmark"></i>&nbsp;Discard and exit
+								<i class="fa-solid fa-xmark"></i>&nbsp;Cancel and exit
 							</button>
 						</div>
 						
 					</div>
 				</div>
 				
-			</div>
+			</form>
 		</section>
 
 	</div>
 	
 	<script>
-	
-
-		$('#event-description').summernote({
-			placeholder: 'Event description',
-        	tabsize: 4,
-        	height: 500,
-        	minHeight: 500,
-  			maxHeight: 800
-      	});
+		initDescriptionBox('#eventDescription');
+		startTimePicker = createDatePicker("#eventStartWrapper", "#eventStartTime", "date", "yyyy-MM-dd HH:mm A", true);
+		
+      	timeUnitBtnOnChange();      	
       	
       	$('#event-organizer').select2({
     		theme: 'bootstrap4',
-    		
 		});
 		
       	$('#event-portfolio').select2({
@@ -366,6 +365,10 @@
     		templateResult: formatState,
   			templateSelection: formatState,
 		});
+		
+		//$("form").validate();
+		$("#add-event").click(addEvent); 
+		$("#add-event-exit").click(addEventAndExit); 
     </script>
 </body>
 </html>
