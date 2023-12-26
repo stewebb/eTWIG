@@ -28,7 +28,14 @@
 				</div>
 				<div class="card-body">
 					<div class="mb-2 text-${color} bold-text">
-						HTTP Status ${error.status} - ${error.error}</div>
+						HTTP Status ${error.status} - ${error.error}
+					</div>
+					
+					<div class="mb-2">
+						<span class="bold-text">Location: </span>
+						<#if path?has_content>${path}<#else>Unknown location.</#if>
+					</div>
+					
 					<div class="mb-2">
 						<span class="bold-text">Messages provided by server: </span>
 						<#if error.message?has_content>${error.message}<#else>No message was given.</#if>
@@ -42,6 +49,7 @@
 						</#if>
 						If problem persists, please click the <span class="bold-text theme-color-text">technical details</span> button to reveal those details, and send them to the developers.
 					</div>	
+
 				</div>
 			</div>
 			
@@ -75,7 +83,7 @@
 					</h3>
 				</div>
 				<div class="card-body">
-					<pre><#if error.trace?has_content><#assign trace = error.trace?replace("Caused by:", "<span class='bold-text theme-color-text'>Caused by:</span>", "r")>${trace}</#if></pre>
+					<pre><#if error.trace?has_content>${error.trace}</#if></pre>
 				</div>
 			</div>
 

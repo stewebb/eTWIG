@@ -116,10 +116,10 @@ function addEvent(){
    		contentType: "application/json; charset=utf-8",
    		data: JSON.stringify(newEventObj),
    		success: function (result) {
-       		// when call is sucessfull
+       		successToast("Event added.");
     	},
     	error: function (err) {
-    		dangerToast("Failed to get resource due to a HTTP " + err.status + " error.");
+    		dangerToast("Failed to add event due to a HTTP " + err.status + " error.");
     		//console.log(err)
     	}
  	});

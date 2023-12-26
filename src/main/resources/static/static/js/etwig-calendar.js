@@ -31,7 +31,7 @@ function createPublicCalendar(elem, currentMonth){
     	nowIndicator: true,
     	selectable: false,
     	eventStartEditable: false,
-    	height: '720px',
+    	height: '1080px',
     	date: currentMonth
 	};
   

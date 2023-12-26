@@ -9,8 +9,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.WebRequest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 
@@ -24,19 +26,30 @@ public class EtwigErrorController implements ErrorController {
     }
 
     @RequestMapping("/error")
-    public String handleError(WebRequest webRequest, Model model, HttpServletRequest request) {
+    public String handleError(WebRequest webRequest, Model model, HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException {
+    	
+    	// Error details
     	ErrorAttributeOptions options = ErrorAttributeOptions.of(ErrorAttributeOptions.Include.STACK_TRACE);
         Map<String, Object> errorAttributes = this.errorAttributes.getErrorAttributes(webRequest, options);
-
-        // Get the relative URL
-        String url = (String) request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI);
-        //String relativeUrl = requestUri.substring(contextPath.length());
-        
-        System.out.println(url);
-        //System.out.println(requestUri);
-        //System.out.println(relativeUrl);
-        
         model.addAttribute("error", errorAttributes);
-        return "error"; 
+        
+        
+        // The original request
+        String path = (String) request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI);
+        model.addAttribute("path", path);
+        
+        // Convention: The location of all apis are start with /api
+        if(path.startsWith("/api")) {
+        	response.setContentType("application/json");
+        	return "errorJson";
+        }
+        
+        // Normal pages
+        else {
+        	
+        	response.setContentType("text/html");
+            return "errorPage"; 
+        }
+        
     }
 }
