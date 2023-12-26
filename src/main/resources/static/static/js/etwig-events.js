@@ -15,9 +15,8 @@ function formatState(state) {
 };
 
 function addEvent(){
-	//var isFormValid = true;
 	
-	// Event name: Reauired
+	// Event name: Required
 	var eventName = $.trim($('#eventName').val());
 	if(eventName.length == 0){
 		invalidFormToast("Event name is required.");
@@ -29,7 +28,68 @@ function addEvent(){
 	
 	// Event description: Optional
 	var eventDescription = $("#eventDescription").summernote("code");
-	//alert(eventDescription);
+	
+	// Event time unit: Required
+	var eventTimeUnit = $('input[type=radio][name=eventTimeUnit]:checked').val();
+	
+	// Event startTime: Required
+	var eventStartTime = $('#eventStartTime').val();
+	var parsedStartTime = Date.parse(eventStartTime);
+	
+	if(eventStartTime.length == 0){
+		invalidFormToast("Event start time is required");
+		return 1;
+	}
+	
+	if(parsedStartTime == null){
+		invalidFormToast("Event start time is not well-formed.");
+		return 1;
+	}
+	
+	// Event duration: Required only if the eventTimeUnit is not "customize""
+	var eventDuration = $('#eventDuration').val();
+	
+	// Event endTime: Required only if the eventTimeUnit is "customize""
+	var eventEndTime = $('#eventEndTime').val();
+	var parsedEndTime = Date.parse(eventEndTime);
+	
+	// Check "Duration" / "End Time" by selected time units.
+	if(eventTimeUnit == "customize"){
+		
+		if(eventEndTime.length == 0){
+			invalidFormToast("Event end time is required");
+			return 1;
+		}
+		
+		if(parsedEndTime == null){
+			invalidFormToast("Event end time is not well-formed.");
+			return 1;
+		}
+		
+		if(parsedEndTime.compareTo(parsedStartTime) <= 0){
+			invalidFormToast("Event end time must after start time.");
+			return 1;
+		}
+	}
+	
+	else{
+		if(eventDuration.length == 0){
+			invalidFormToast("Event duration is required, and it must be a number.");
+			return 1;
+		}
+		
+		if(eventDuration <= 0){
+			invalidFormToast("Event duration must be a positive number.");
+			return 1;
+		}
+	}
+	
+	// Event portfolio: Required
+	var eventPortfolio = $('#eventPortfolio').find(":selected").val();
+	
+	// Event Organizer: Required
+	var eventOrganizer = $('#eventOrganizer').find(":selected").val();
+	alert(eventOrganizer)
 	
 	return 0;
 }
@@ -75,7 +135,7 @@ function initDescriptionBox(boxElem){
 	});
 }
 
-function timeUnitBtnOnChange(){
+function timeUnitBtnOnChange(startTimePicker){
 	$('input[type=radio][name=eventTimeUnit]').change(function() {
 		
 		//alert(this.value);
@@ -89,31 +149,23 @@ function timeUnitBtnOnChange(){
 			$("#endTimeInput").hide();
 		}
 		
+		
 		switch (this.value){
 			case "hour":
-				//$('#unitText').text("Hour(s)");
-				break;
-			case "day":
-				//$('#unitText').text("Day(s)");
-				break;
-			case "week":
-				//$('#unitText').text("(s)");
+				startTimePicker.setType("date");
+				startTimePicker.getTimePicker().show();
 				break;
 			case "month":
-				//$('#unitText').text("(s)");
+				startTimePicker.setType("month");
+				startTimePicker.getTimePicker().setTime(0, 0);
+				startTimePicker.getTimePicker().hide();
 				break;
 			default:
-				//$('#unitText').text("(s)");
-				break;
-				
+				startTimePicker.setType("date");
+				startTimePicker.getTimePicker().setTime(0, 0);
+				startTimePicker.getTimePicker().hide();
+				break;		
 		}
-		//alert(this.value);
-    //if (this.value == 'allot') {
-        // ...
-    //}
-    //else if (this.value == 'transfer') {
-        // ...
-    //}
 });
 
 }

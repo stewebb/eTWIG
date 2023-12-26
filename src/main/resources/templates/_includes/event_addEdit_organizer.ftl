@@ -10,15 +10,14 @@
 								
 								<#-- Portfolio -->
 								<div class="form-group row">
-									<label for="event-poerfolio" class="col-sm-2 col-form-label">Portfolio</label>
+									<label for="eventPortfolio" class="col-sm-2 col-form-label">Portfolio</label>
 									<div class="col-sm-10 input-group">
 										<div class="input-group-prepend">
 											<span class="input-group-text">
 												<i class="fa-solid fa-briefcase"></i>
 											</span>
 										</div>
-      									<select class="form-control select2" name="event-portfolio" id="event-portfolio">
-        									<option value="-1" selected>Please Select...</option>
+      									<select class="form-control select2" name="eventPortfolio" id="eventPortfolio">
         									<optgroup label="My Portfolio(s)">
         									
         									<#if myPortfolios?has_content>
@@ -35,7 +34,7 @@
 								
 								<#-- Organizer -->
 								<div class="form-group row">
-									<label for="event-organizer" class="col-sm-2 col-form-label">Name</label>
+									<label for="eventOrganizer" class="col-sm-2 col-form-label">Name</label>
 									<div class="col-sm-10">
 										<div class="input-group">
 											<div class="input-group-prepend">
@@ -44,8 +43,7 @@
 												</span>
 											</div>
 											
-											<select class="form-control select2" name="event-organizer" id="event-organizer">
-												<option value="-1" selected>Please Select...</option>
+											<select class="form-control select2" name="eventOrganizer" id="eventOrganizer">
         										<optgroup label="Myself">
           											 <option value="${user.userId}">${user.username}</option>
         										</optgroup>

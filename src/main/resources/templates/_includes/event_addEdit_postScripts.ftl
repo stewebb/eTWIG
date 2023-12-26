@@ -2,14 +2,15 @@
 	<script>
 		initDescriptionBox('#eventDescription');
 		startTimePicker = createDatePicker("#eventStartWrapper", "#eventStartTime", "date", "yyyy-MM-dd HH:mm A", true);
+		endTimePicker = createDatePicker("#eventEndWrapper", "#eventEndTime", "date", "yyyy-MM-dd HH:mm A", true);
 		
-      	timeUnitBtnOnChange();      	
+      	timeUnitBtnOnChange(startTimePicker);      	
       	
-      	$('#event-organizer').select2({
+      	$('#eventOrganizer').select2({
     		theme: 'bootstrap4',
 		});
 		
-      	$('#event-portfolio').select2({
+      	$('#eventPortfolio').select2({
     		theme: 'bootstrap4',
     		templateResult: formatState,
   			templateSelection: formatState,

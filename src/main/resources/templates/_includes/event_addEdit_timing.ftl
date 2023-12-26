@@ -15,25 +15,35 @@
 									</label>
 									<div class="col-sm-10">
 										<div class="form-group clearfix">
+										
+											<#-- Hour-->
 											<div class="icheck-primary">
 												<input type="radio" id="hour" name="eventTimeUnit" checked="" value="hour">
 												<label for="hour">Hour</label>
 											</div>
+											
+											<#-- Day-->
 											<div class="icheck-primary">
 												<input type="radio" id="day" name="eventTimeUnit" value="day">
 												<label for="day">Day [00:00-23:59]</label>
 											</div>
+											
+											<#-- Week-->
 											<div class="icheck-primary">
 												<input type="radio" id="week" name="eventTimeUnit" value="week">
 												<label for="week">Week [00:00 Mon-23:59 Sun]</label>
 											</div>
+											
+											<#-- Month-->
 											<div class="icheck-primary">
 												<input type="radio" id="month" name="eventTimeUnit" value="month">
 												<label for="month">Month [00:00 1st day-23:59 last day]</label>
 											</div>
+											
+											<#-- Custonize-->
 											<div class="icheck-primary">
 												<input type="radio" id="customize" name="eventTimeUnit" value="customize">
-												<label for="customize">Customize</label>
+												<label for="customize">Custom</label>
 											</div>
 										</div>
 									</div>
@@ -69,7 +79,7 @@
 													<i class="fa-solid fa-hourglass-half"></i>
 												</span>
 											</div>
-											<input type="text" class="form-control" placeholder="Event Duration" id="eventDuration">
+											<input type="number" min="0" class="form-control" placeholder="Event Duration" id="eventDuration">
 											<div class="input-group-append">
 												<span class="input-group-text" id="unitText">Hour(s)</span>
 											</div>
@@ -91,10 +101,33 @@
 											</div>
 											<input type="text" class="form-control" placeholder="Event End Time" id="eventEndTime">
 										</div>
+										<div id="eventEndWrapper" class="datepicker"></div>
 									</div>
 								</div>			
 								
-								
+								<#-- Calaculated -->
+								<div class="form-group row">
+									<label for="eventCalculatedTime" class="col-sm-2 col-form-label">Calaculated Times</label>
+									<div class="col-sm-10 table-responsive">				
+										<table class="table table-bordered">
+  											<thead>
+    											<tr>
+      												<th scope="col">Start</th>
+      												<th scope="col">Duration</th>
+      												<th scope="col">End</th>
+    											</tr>
+  											</thead>
+  											<tbody>
+												<tr>
+      												<td>Null</td>
+      												<td>Null</td>
+      												<td>Null</td>
+    											</tr>
+  											</tbody>
+										</table>
+										
+									</div>
+								</div>		
 								
 							</div>
 						</div>
