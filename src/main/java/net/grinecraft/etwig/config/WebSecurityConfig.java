@@ -36,7 +36,7 @@ public class WebSecurityConfig{
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 			.authorizeHttpRequests((requests) -> requests
-				.requestMatchers("/static/**", "/twig", "/help", "favicon.ico").permitAll()
+				.requestMatchers("/static/**", "/twig", "/error", "favicon.ico").permitAll()
 				.anyRequest().authenticated()
 			)
 			.formLogin((form) -> form

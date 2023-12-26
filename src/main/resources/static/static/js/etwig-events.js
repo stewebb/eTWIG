@@ -19,7 +19,7 @@ function addEvent(){
 	// Event name: Required
 	var eventName = $.trim($('#eventName').val());
 	if(eventName.length == 0){
-		invalidFormToast("Event name is required.");
+		warningToast("Event name is required.");
 		return 1;
 	}
 	
@@ -37,17 +37,18 @@ function addEvent(){
 	var parsedStartTime = Date.parse(eventStartTime);
 	
 	if(eventStartTime.length == 0){
-		invalidFormToast("Event start time is required");
+		warningToast("Event start time is required");
 		return 1;
 	}
 	
 	if(parsedStartTime == null){
-		invalidFormToast("Event start time is not well-formed.");
+		warningToast("Event start time is not well-formed.");
 		return 1;
 	}
 	
 	// Event duration: Required only if the eventTimeUnit is not "customize""
 	var eventDuration = $('#eventDuration').val();
+	var realDuration = 0;
 	
 	// Event endTime: Required only if the eventTimeUnit is "customize""
 	var eventEndTime = $('#eventEndTime').val();
@@ -57,31 +58,36 @@ function addEvent(){
 	if(eventTimeUnit == "customize"){
 		
 		if(eventEndTime.length == 0){
-			invalidFormToast("Event end time is required");
+			warningToast("Event end time is required");
 			return 1;
 		}
 		
 		if(parsedEndTime == null){
-			invalidFormToast("Event end time is not well-formed.");
+			warningToast("Event end time is not well-formed.");
 			return 1;
 		}
 		
-		if(parsedEndTime.compareTo(parsedStartTime) <= 0){
-			invalidFormToast("Event end time must after start time.");
+		var timestampDiff = parsedEndTime.getTime() - parsedStartTime.getTime();
+		if(timestampDiff <= 0){
+			warningToast("Event end time must after start time.");
 			return 1;
 		}
+		
+		// timestampDiff unit is millisecond, realDuration unit is minute
+		realDuration = timestampDiff / 60000;
 	}
 	
 	else{
 		if(eventDuration.length == 0){
-			invalidFormToast("Event duration is required, and it must be a number.");
+			warningToast("Event duration is required, and it must be a number.");
 			return 1;
 		}
 		
 		if(eventDuration <= 0){
-			invalidFormToast("Event duration must be a positive number.");
+			warningToast("Event duration must be a positive number.");
 			return 1;
 		}
+		realDuration = eventDuration;
 	}
 	
 	// Event portfolio: Required
@@ -89,8 +95,36 @@ function addEvent(){
 	
 	// Event Organizer: Required
 	var eventOrganizer = $('#eventOrganizer').find(":selected").val();
-	alert(eventOrganizer)
+
+	// Create an object for the new event.
+	var newEventObj = {
+		"isRecurrment": false,
+		"name": eventName,
+		"location": eventLocation,
+		"description": eventDescription,
+		"timeUnit": eventTimeUnit,
+		"startTime": eventStartTime,
+		"duration": realDuration,
+		"portfolio": eventPortfolio,
+		"organizer": eventOrganizer
+	};
 	
+	$.ajax({
+   		url: "/api/addEvent", 
+   		type: "POST",
+   		dataType: "json",
+   		contentType: "application/json; charset=utf-8",
+   		data: JSON.stringify(newEventObj),
+   		success: function (result) {
+       		// when call is sucessfull
+    	},
+    	error: function (err) {
+    		dangerToast("Failed to get resource due to a HTTP " + err.status + " error.");
+    		//console.log(err)
+    	}
+ 	});
+
+  	
 	return 0;
 }
 
@@ -102,17 +136,6 @@ function addEventAndExit(){
 function addEventOnly(){
 	var status = addEvent();
 	//parent.$('#etwigModal').modal('hide');
-}
-
-function invalidFormToast(reason){
-	$(document).Toasts('create', {
-  		title: reason,
-  		//position: position,
-  		autohide: true,
-  		delay: 5000,
-  		icon: 'fa fa-circle-exclamation',
-  		class: 'toast bg-warning'
-	});
 }
 
 function initDescriptionBox(boxElem){
@@ -139,9 +162,9 @@ function timeUnitBtnOnChange(startTimePicker){
 	$('input[type=radio][name=eventTimeUnit]').change(function() {
 		
 		//alert(this.value);
-		$('#unitText').text(this.value + "(s)");
+		$('#unitText').text(this.value);
 		
-		if(this.value == "customize"){
+		if(this.value == "c"){
 			$("#durationInput").hide();
 			$("#endTimeInput").show();
 		}else{
@@ -151,11 +174,11 @@ function timeUnitBtnOnChange(startTimePicker){
 		
 		
 		switch (this.value){
-			case "hour":
+			case "h":
 				startTimePicker.setType("date");
 				startTimePicker.getTimePicker().show();
 				break;
-			case "month":
+			case "m":
 				startTimePicker.setType("month");
 				startTimePicker.getTimePicker().setTime(0, 0);
 				startTimePicker.getTimePicker().hide();
@@ -166,7 +189,7 @@ function timeUnitBtnOnChange(startTimePicker){
 				startTimePicker.getTimePicker().hide();
 				break;		
 		}
-});
+	});
 
 }
 
@@ -176,7 +199,6 @@ function createDatePicker(htmlElem, pickerElem, type, format, timePicker){
 	var t = false;
 	if(timePicker){
 		t = {
-          //layoutType: 'tab',
           inputType: 'spinbox'
         }
 	}

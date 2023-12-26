@@ -17,7 +17,7 @@ import net.grinecraft.etwig.util.WebReturn;
 import net.grinecraft.etwig.util.type.DateRange;
 
 @RestController
-public class EventsAPIController {
+public class EventsShowAPIController {
 
 	@Autowired
 	EventService eventService;

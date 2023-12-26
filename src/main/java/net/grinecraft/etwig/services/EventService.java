@@ -19,7 +19,7 @@ import net.grinecraft.etwig.util.DataIntegrityViolationException;
 import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.NameUtils;
 import net.grinecraft.etwig.util.type.DateRange;
-import net.grinecraft.etwig.util.type.EventUnit;
+import net.grinecraft.etwig.util.type.EventTimeUnit;
 
 @Service
 public class EventService {
@@ -76,7 +76,7 @@ public class EventService {
 		// Step 2.4: Add all necessary data
 		eventDetails.put("eventName", singleTimeEvent.getName());
 		eventDetails.put("eventStartTime", singleTimeEvent.getStartDateTime());
-		eventDetails.put("timeUnit", EventUnit.safeValueOf(singleTimeEvent.getUnit()));
+		eventDetails.put("timeUnit", EventTimeUnit.fromString(singleTimeEvent.getUnit()));
 		eventDetails.put("eventDuration", singleTimeEvent.getDuration());
 		eventDetails.put("eventLocation", singleTimeEvent.getLocation());
 

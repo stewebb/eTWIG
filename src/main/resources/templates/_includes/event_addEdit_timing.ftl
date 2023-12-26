@@ -18,31 +18,31 @@
 										
 											<#-- Hour-->
 											<div class="icheck-primary">
-												<input type="radio" id="hour" name="eventTimeUnit" checked="" value="hour">
+												<input type="radio" id="hour" name="eventTimeUnit" checked="" value="h">
 												<label for="hour">Hour</label>
 											</div>
 											
 											<#-- Day-->
 											<div class="icheck-primary">
-												<input type="radio" id="day" name="eventTimeUnit" value="day">
+												<input type="radio" id="day" name="eventTimeUnit" value="d">
 												<label for="day">Day [00:00-23:59]</label>
 											</div>
 											
 											<#-- Week-->
 											<div class="icheck-primary">
-												<input type="radio" id="week" name="eventTimeUnit" value="week">
+												<input type="radio" id="week" name="eventTimeUnit" value="w">
 												<label for="week">Week [00:00 Mon-23:59 Sun]</label>
 											</div>
 											
 											<#-- Month-->
 											<div class="icheck-primary">
-												<input type="radio" id="month" name="eventTimeUnit" value="month">
+												<input type="radio" id="month" name="eventTimeUnit" value="m">
 												<label for="month">Month [00:00 1st day-23:59 last day]</label>
 											</div>
 											
 											<#-- Custonize-->
 											<div class="icheck-primary">
-												<input type="radio" id="customize" name="eventTimeUnit" value="customize">
+												<input type="radio" id="customize" name="eventTimeUnit" value="c">
 												<label for="customize">Custom</label>
 											</div>
 										</div>

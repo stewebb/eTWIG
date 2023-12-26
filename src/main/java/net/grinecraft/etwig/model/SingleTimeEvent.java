@@ -33,7 +33,7 @@ public class SingleTimeEvent {
 	private int duration;
 	
 	@Column(name = "unit")
-	private char unit;
+	private String unit;
 	
 	@Column(name = "override_recurring_event")
 	private Integer overrideRecurringEvent;

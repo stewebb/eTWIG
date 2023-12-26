@@ -48,5 +48,7 @@
 	<link rel="stylesheet" href="/static/css/select2-bootstrap4.min.css"/>
 	<script src="/static/js/select2.min.js"></script>
 	
-	<#-- Custom CSS for eTWIG platform. -->
-	<link rel="stylesheet" href="/static/css/style.css">		
+	<#-- Custom CSS and JS for eTWIG platform. -->
+	<link rel="stylesheet" href="/static/css/style.css">
+	<script src="/static/js/etwig-toasts.js"></script>	
+		
