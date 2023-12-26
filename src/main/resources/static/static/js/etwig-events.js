@@ -11,7 +11,6 @@ function formatState(state) {
 		icon = 'square';
 	}
   		
-  		
   	return $(`<span style="color: ${color}"><i class="fa-solid fa-${icon}"></i>${state.text}</span>`);
 };
 
@@ -22,7 +21,7 @@ function addEvent(){
 	var eventName = $.trim($('#eventName').val());
 	if(eventName.length == 0){
 		invalidFormToast("Event name is required.");
-		return;
+		return 1;
 	}
 	
 	// Event location: Optional
@@ -31,16 +30,24 @@ function addEvent(){
 	// Event description: Optional
 	var eventDescription = $("#eventDescription").summernote("code");
 	//alert(eventDescription);
+	
+	return 0;
 }
 
 function addEventAndExit(){
-	addEvent();
-	// TODO BACK TO LAST PAGE
+	var status = addEvent();
+	//parent.$('#etwigModal').modal('hide');
+}
+
+function addEventOnly(){
+	var status = addEvent();
+	//parent.$('#etwigModal').modal('hide');
 }
 
 function invalidFormToast(reason){
 	$(document).Toasts('create', {
   		title: reason,
+  		//position: position,
   		autohide: true,
   		delay: 5000,
   		icon: 'fa fa-circle-exclamation',

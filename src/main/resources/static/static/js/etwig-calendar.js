@@ -160,9 +160,11 @@ function addEventBtn(){
 	
 	$('#etwigModalTitle').text('Add Event');
 	//$('#etwigModalCancel').text('Cancel');
-	$('#etwigModalBody').html(`<div class="embed-responsive embed-responsive-1by1">
-          <iframe class="embed-responsive-item" src="/events/add?embedded=true" allowfullscreen></iframe>
-        </div>`);
+	$('#etwigModalBody').html(`
+		<div class="embed-responsive embed-responsive-1by1">
+			<iframe class="embed-responsive-item" src="/events/add?embedded=true" allowfullscreen></iframe>
+        </div>`
+    );
 	
 	$('#etwigModal').modal({
     	backdrop: 'static',
