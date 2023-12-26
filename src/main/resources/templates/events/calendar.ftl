@@ -14,7 +14,9 @@
 </head>
 
 <body class="sidebar-mini layout-fixed">
+
 	<#include "../_includes/sidebar.ftl">
+	<#include "../_includes/modal.ftl">
 
 	<#-- Content Wrapper. -->
   	<div class="content-wrapper">
@@ -37,34 +39,23 @@
       		</div>
     	</section>
 
-    	<#-- Filter, Options and Calendar -->
+    	<#-- Options and Calendar -->
     	<section class="content">
       		<div class="container-fluid">
         		<div class="row">
           			<div class="col-md-3">
             			<div class="sticky-top mb-3">
-            			
-            				<#-- Filter -->
-              				<div class="card">
-                				<div class="card-header">
-                  					<h3 class="card-title">
-                  						<i class="fa-solid fa-filter"></i>&nbsp;Filter
-                  					</h3>
-                				</div>
-                				<div class="card-body">
-
-              					</div>
-              				</div>
               				
-              				<#-- Date Options -->
-              				<div class="card card">
+              				<#-- Options -->
+              				<div class="card card-primary">
                					<div class="card-header">
                   					<h3 class="card-title">
-                  						<i class="fa-regular fa-clock"></i>&nbsp;Date Options
+                  						<i class="fa-regular fa-gear"></i>&nbsp;Options
                   					</h3>
                 				</div>
                 				<div class="card-body">
                 					
+                					<#-- Date Options -->
                   					<div class="mb-3 btn-group">
   										<button type="button" class="btn btn-outline-primary" id="last-mth-btn">
   											<i class="fa-solid fa-backward"></i>&nbsp;Last Month
@@ -87,6 +78,12 @@
 										</span>
 									</div>
         							<div id="wrapper" class="datepicker"></div>
+        							
+        							<#-- Add event -->
+        							<hr class="mt-3 mb-3"/>
+        							<button type="button" class="btn btn-block btn-outline-primary" onclick="addEventBtn();">
+  										<i class="fa-solid fa-add"></i>&nbsp;Add Event
+  									</button>
                 				</div>
               				</div>
             			</div>
@@ -94,7 +91,7 @@
           
           			<#-- Calendar -->
           			<div class="col-md-9">
-            			<div class="card">
+            			<div class="card card-primary">
             				<div class="card-header">
                   				<h3 class="card-title">
                   					<i class="fa-regular fa-calendar"></i>&nbsp;Calendar

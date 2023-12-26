@@ -1,6 +1,5 @@
 package net.grinecraft.etwig.controller.events;
 
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
@@ -15,6 +14,7 @@ import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.services.EventService;
 import net.grinecraft.etwig.services.PortfolioService;
 import net.grinecraft.etwig.services.UserRoleService;
+import net.grinecraft.etwig.util.BooleanUtils;
 import net.grinecraft.etwig.util.NumberUtils;
 import net.grinecraft.etwig.util.type.NavBar;
 
@@ -114,7 +114,7 @@ public class EditController {
 	}
 	
 	@RequestMapping("/events/add")  
-	public String addEvents(HttpSession session, Model model, @RequestParam(required = false) String eventId) throws Exception{
+	public String addEvents(HttpSession session, Model model, @RequestParam(required = false) String embedded) throws Exception{
 		
 		User my = (User) session.getAttribute("user");
 		LinkedHashMap<Long, Portfolio> myPortfolios = userRoleService.getPortfoliosByUserId(my.getId());
@@ -123,6 +123,8 @@ public class EditController {
 		model.addAttribute("mode", "ADD");
         model.addAttribute("navbar", NavBar.ADD_EVENT);
         model.addAttribute("myPortfolios", myPortfolios);
+        model.addAttribute("embedded", BooleanUtils.toBoolean(embedded));
+        
         
 		return "events/add";
 	

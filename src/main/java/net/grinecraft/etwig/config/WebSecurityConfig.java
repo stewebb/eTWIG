@@ -51,6 +51,14 @@ public class WebSecurityConfig{
 		// Disable CSRF.
 		http.csrf().disable();
 		
+		// Allow frames from the same origin
+		http
+			.headers(headers -> headers
+				.frameOptions(frameOptions -> frameOptions
+					.sameOrigin()
+				)
+			);
+		
 		return http.build();
 	}
 

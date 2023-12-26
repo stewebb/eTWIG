@@ -10,14 +10,17 @@
 	<#-- Custom JS for adding events-->
 	<script src="/static/js/etwig-events.js"></script>
 
-	<title>Edit Event - eTWIG Administration Portal</title>
+	<title>Add Event - eTWIG Administration Portal</title>
 </head>
 
 <body class="sidebar-mini layout-fixed">
-	<#include "../_includes/sidebar.ftl">
+	<#if embedded == false>
+		<#include "../_includes/sidebar.ftl">
+	</#if>
+	
 	
 	<#-- Content Wrapper -->
-  	<div class="content-wrapper">
+  	<div class="<#if embedded == false>content-</#if>wrapper">
   	
     	<#-- Page header -->
     	<section class="content-header">
@@ -324,7 +327,7 @@
 						
 						<#-- Add -->
 						<div class="btn-group mr-1 mb-1 mt-1 btn-group-justified" role="group" aria-label="Basic example">
-							<button type="button" class="btn btn-outline-primary" id="add-event-exit">
+							<button type="button" class="btn btn-outline-primary" id="add-event-exit" onclick="parent.$('#etwigModal').modal('hide');">
 								<i class="fa-regular fa-plus"></i>&nbsp;Add and exit
 							</button>
 							<button type="button" class="btn btn-outline-primary" id="add-event">
