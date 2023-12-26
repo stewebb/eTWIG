@@ -12,9 +12,9 @@ import lombok.*;
 public class Event {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-	private int id;
+	private Long id;
 	
 	@Column(name = "is_recurring")
 	private boolean isRecurring;
@@ -23,10 +23,16 @@ public class Event {
 	//private int organizerID;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "portfolio", referencedColumnName = "id")
+	@JoinColumn(name = "portfolio", referencedColumnName = "id", insertable = false, updatable = false)
     private Portfolio portfolio;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "organizer", referencedColumnName = "id")
+	@JoinColumn(name = "organizer", referencedColumnName = "id", insertable = false, updatable = false)
     private User user;
+	
+	@Column(name = "portfolio")
+	private Long portfolioId;
+	
+	@Column(name = "organizer")
+	private Long organizerId;
 }

@@ -31,11 +31,6 @@
     	<section class="content">
 			<form class="container-fluid" id="addEventForm" action="/events/add" method="post">
 			
-				<#-- Footer -->
-				<#if embedded>
-					<#include "../_includes/event_addEdit_footer.ftl">
-				</#if>
-				
 				<div class="row">
 					<div class="col-md-6">
 						<#-- Basic Information -->		

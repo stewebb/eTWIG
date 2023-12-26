@@ -1,6 +1,7 @@
 package net.grinecraft.etwig.util;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
@@ -22,6 +23,15 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 		try {
 			Date date = DateUtils.parseDate(dateStr, patternStr);
 			return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	public static LocalDateTime safeParseDateTime(String dateTimeStr, String patternStr) {
+		try {
+			Date date = DateUtils.parseDate(dateTimeStr, patternStr);
+			return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 		} catch (Exception e) {
 			return null;
 		}

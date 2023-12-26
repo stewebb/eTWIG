@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
 
+import net.grinecraft.etwig.util.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.model.RecurringEvent;
 import net.grinecraft.etwig.model.SingleTimeEvent;
 import net.grinecraft.etwig.model.User;
+import net.grinecraft.etwig.repository.EventRepository;
 import net.grinecraft.etwig.repository.RecurringEventRepository;
 import net.grinecraft.etwig.repository.SingleTimeEventRepository;
 import net.grinecraft.etwig.util.DataIntegrityViolationException;
@@ -24,6 +26,9 @@ import net.grinecraft.etwig.util.type.EventTimeUnit;
 @Service
 public class EventService {
 
+	@Autowired
+	private EventRepository eventRepository;
+	
 	@Autowired
 	private SingleTimeEventRepository singleTimeEventRepository;
 	
@@ -198,8 +203,6 @@ public class EventService {
 		return event;
 	}
 	
-	
-	
 	/**
 	 * Get all events that happens in the month/week/day of the given date.
 	 * @param givenDate A given date in LocalDate format
@@ -207,7 +210,7 @@ public class EventService {
 	 * @return The hashmap of all required events.
 	 */
 	
-	public LinkedHashMap<Integer, Object> findByDateRange(LocalDate givenDate, DateRange dateRange){
+	public LinkedHashMap<Long, Object> findByDateRange(LocalDate givenDate, DateRange dateRange){
 		
 		// Step 1: Date check
 		LocalDate last = null;
@@ -234,13 +237,54 @@ public class EventService {
 		
 		// Step 2: Check all single time events in the given date range.
         List<SingleTimeEvent> singleTimeEventsList = singleTimeEventRepository.findByDateRange(last, next);
-        LinkedHashMap<Integer, Object> allEvents = new LinkedHashMap<>();
+        LinkedHashMap<Long, Object> allEvents = new LinkedHashMap<>();
         for(SingleTimeEvent singleTimeEvents : singleTimeEventsList) {      	
-        	int id = singleTimeEvents.getId();
+        	Long id = singleTimeEvents.getId();
         	allEvents.put(id, getSingleTimeEventById(id, false));
         }
         
         return allEvents;
+		
+	}
+	
+	private void addSingleTimeEvent(Long eventId, LinkedHashMap<String, Object> eventInfo) {
+		SingleTimeEvent newSingleTimeEvent = new SingleTimeEvent();
+		System.out.println(eventId);
+		
+		newSingleTimeEvent.setId(eventId);
+		newSingleTimeEvent.setName(eventInfo.get("name").toString());
+		newSingleTimeEvent.setDescription(eventInfo.get("description").toString());
+		newSingleTimeEvent.setLocation(eventInfo.get("location").toString());
+		
+		String eventStartTimeStr = eventInfo.get("startTime").toString();
+		newSingleTimeEvent.setStartDateTime(DateUtils.safeParseDateTime(eventStartTimeStr, "yyyy-MM-dd hh:mm a"));
+		newSingleTimeEvent.setDuration(Integer.parseInt(eventInfo.get("duration").toString()));
+		newSingleTimeEvent.setUnit(eventInfo.get("timeUnit").toString());
+		singleTimeEventRepository.save(newSingleTimeEvent);
+	}
+	
+	public void addEvent(LinkedHashMap<String, Object> eventInfo) {
+		
+		boolean isRecurrment = BooleanUtils.toBoolean(eventInfo.get("isRecurrment").toString());
+		
+		// Insert details into the general event table.
+		Event newEvent = new Event();
+		newEvent.setRecurring(isRecurrment);
+		newEvent.setPortfolioId(Long.parseLong(eventInfo.get("portfolio").toString()));
+		newEvent.setOrganizerId(Long.parseLong(eventInfo.get("organizer").toString()));
+		
+		Long newEventId = eventRepository.save(newEvent).getId();
+		System.out.println(newEventId);
+		
+		// Insert specific data (recurrent events)
+		if(isRecurrment) {
+			// TODO Recurrent Event
+		}
+		
+		// Insert specific data (single time events)
+		else {
+			addSingleTimeEvent(newEventId, eventInfo);
+		}
 		
 	}
 	

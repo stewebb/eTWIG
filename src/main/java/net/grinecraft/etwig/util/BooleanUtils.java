@@ -10,10 +10,12 @@ public class BooleanUtils extends org.apache.commons.lang3.BooleanUtils{
 	 * @return The boolean form of that String.
 	 */
 	
+	/*
 	public static boolean toBooleanNullTrue(String str) {
 		if(str == null || str.length() == 0) {
 			return true;
 		}
 		return BooleanUtils.toBoolean(str);
 	}
+	*/
 }
