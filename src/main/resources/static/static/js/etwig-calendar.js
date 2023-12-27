@@ -1,26 +1,41 @@
 /**
- * eTWIG event calendar and date picker.
-*/
+ * eTWIG - The event and banner management software for residential halls and student unions.
+ * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developters [etwig@grinecraft.net]
+ * @license: MIT
+ * @author: Steven Webb [xiaoancloud@outlook.com]
+ * @website: https://etwig.grinecraft.net
+ * @function: Display and manipulate the Event Calendar / Planner. 
+ */
 
+// Leading zeros for the (positive) integers that below to 10. 
 const pad = (num) => (num < 10 ? '0' + num : num);
+
+// The calednar object
 var calendar = undefined;
+
+// The current date which can be changes by buttons and date picker in "Options".
 var currentDate = Date.today();
 
 /**
- * Create a public calendar
+ * Create a calendar on webpage
  * @param elem The calendar element.
+ * @param currentMonth The current month that displayed on the calendar.
+ * @returns No returns but the calednar object will be changed.
  */
 
-function createPublicCalendar(elem, currentMonth){
-	var publicCalendarElem = document.getElementById(elem);
-	var publicCalendarProperties = {
+function createCalendar(elem, currentMonth){
+	var calendarElem = document.getElementById(elem);
+	
+	// Only has "Month View" currently
+	// TODO: Support Week view
+	var calendarProperties = {
 		view: 'dayGridMonth',
 	    headerToolbar: {
 			start: '',
 			center: 'title',
 			end: ''
 		},
-		scrollTime: '09:00:00',
+		//scrollTime: '09:00:00',
     	events: getEventListByRange(currentMonth, "month"),
     	eventClick: function (info) {
 			//getEventById(info.event.id);
@@ -35,8 +50,8 @@ function createPublicCalendar(elem, currentMonth){
     	date: currentMonth
 	};
   
-	calendar = new EventCalendar(publicCalendarElem, publicCalendarProperties);
-	//console.log(currentMonth);
+  	// Register the created calendar.
+	calendar = new EventCalendar(calendarElem, calendarProperties);
 }
 
 /**
@@ -48,16 +63,19 @@ function createPublicCalendar(elem, currentMonth){
 
 function getEventListByRange(date, range){
 	var eventList = []; 
-	var url = '/api/getEventList?date=' + date + '&range='+ range;
+	var url = '/api/public/getEventList';
 	$.ajax({ 
 		type: 'GET', 
     	url: url, 
     	async: false,
     	data: { 
-			get_param: 'value' 
+			date: date,
+			range: range
 		}, 
     	dataType: 'json',
 		success: function(json) {
+			
+			// HTTP resopnse normally, but has other kinds of error (e.g, invalid input)
 			if(json.error > 0){
 				$(document).Toasts('create', {
   					title: "Failed to get resource.",
@@ -67,17 +85,22 @@ function getEventListByRange(date, range){
   					icon: 'fa fa-circle-xmark',
   					class: 'toast bg-danger'
 				});
-    			//showAlert("Failed to get resource because " + json.msg, "danger");
-			}else{
+    			dangerToast("Failed to get calendar", json.msg);
+			}
+			
+			else{
 				jQuery.each(json.events, function(id, value) {
 					var eventStartDateTime = new Date(value.eventStartTime);
+					
+					// Calculate end time
 					var eventEndDateTime = new Date(eventStartDateTime.getTime() + value.eventDuration * 60000);
   					
+  					// Transfer the dates and other information to the frontend.
   					eventList.push({
 						  id: id,
 						  start: eventStartDateTime.toString('yyyy-MM-dd HH:mm'),
 						  end: eventEndDateTime.toString('yyyy-MM-dd HH:mm'),
-						  title: value.eventName + " @ " + value.eventLocation, 
+						  title: value.eventName, 
 						  color: "#" + value.portfolioColor}
 					); 
   					
@@ -86,28 +109,11 @@ function getEventListByRange(date, range){
         },
         
         // Toast error info when it happens
-    	error: function(jqXHR, exception) {   		
-			$(document).Toasts('create', {
-  				title: "Failed to get resource due to a HTTP " + jqXHR.status + " error.",
-  				body: exception,
-  				autohide: true,
-  				delay: 10000,
-  				icon: 'fa fa-circle-xmark',
-  				class: 'toast bg-danger'
-			});
+    	error: function(err) {   		
+			dangerToast("Failed to get calendar due to a HTTP " + err.status + " error.", err.responseJSON.exception);
 		}
 	});
 	return eventList;
-}
-
-function changeCalendar(){
-	
-	// Convert to yyyy-mm-dd format.
-    var yearMonthStr = currentDate.toString('yyyy-MM-dd');
-    	
-    // Change calendar value.
-    calendar.setOption('date', yearMonthStr);
-    calendar.setOption('events', getEventListByRange(yearMonthStr, "month"));
 }
 
 /**
@@ -137,38 +143,37 @@ function createDatePicker(htmlElem, pickerElem, buttonElem){
 	}); 
 }
 
-
-function dateOptions(lastMthBtn, resetBtn, nextMthBtn){
-	
-	$(lastMthBtn).click(function(){
-		currentDate = currentDate.last().month();
-		changeCalendar();
-	});
-	
-	$(resetBtn).click(function(){
-		currentDate = Date.today();
-		changeCalendar();
-	});
-	
-	$(nextMthBtn).click(function(){
-		currentDate = currentDate.next().month();
-		changeCalendar();
-	});
-}
+/**
+ * Actions for click "Add Event" button.
+ */
 
 function addEventBtn(){
 	
 	$('#etwigModalTitle').text('Add Event');
-	//$('#etwigModalCancel').text('Cancel');
 	$('#etwigModalBody').html(`
 		<div class="embed-responsive embed-responsive-1by1">
 			<iframe class="embed-responsive-item" src="/events/add?embedded=true" allowfullscreen></iframe>
         </div>`
     );
 	
+	// This modal cannot be closed when clicking outside area.  
 	$('#etwigModal').modal({
     	backdrop: 'static',
     	keyboard: false,
 	})
 	$('#etwigModal').modal('show');
+}
+
+/**
+ * Helper function, change the calendar value.
+ */
+
+function changeCalendar(){
+	
+	// Convert to yyyy-mm-dd format.
+    var yearMonthStr = currentDate.toString('yyyy-MM-dd');
+    	
+    // Change calendar value.
+    calendar.setOption('date', yearMonthStr);
+    calendar.setOption('events', getEventListByRange(yearMonthStr, "month"));
 }

@@ -1,12 +1,11 @@
-/** 
-	eTWIG - The event and banner management software for residential halls and student unions.
-	Copyright (c) 2024 eTWIG developters [etwig@grinecraft.net]
-	License: MIT
-	Author: Steven Webb [xiaoancloud@outlook.com]
-	
-	File Type: CSS
-	Function: Main stylesheets and themes that across all webpages.
-*/
+/**
+ * eTWIG - The event and banner management software for residential halls and student unions.
+ * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developters [etwig@grinecraft.net]
+ * @license: MIT
+ * @author: Steven Webb [xiaoancloud@outlook.com]
+ * @website: https://etwig.grinecraft.net
+ * @function: Main stylesheets and themes that across all webpages.
+ */
 
 .callout.callout-primary {
   border-left-color: #004aad;
@@ -21,12 +20,9 @@
 	background-color:#004aad!important;
 }
 
-
 .bold-text{
 	font-weight: bold;
 }
-
-
 
 /* Make the warning button darker. */
 .btn-outline-warning{

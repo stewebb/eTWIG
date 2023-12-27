@@ -57,13 +57,13 @@
                 					
                 					<#-- Date Options -->
                   					<div class="mb-3 btn-group">
-  										<button type="button" class="btn btn-outline-primary" id="last-mth-btn">
+  										<button type="button" class="btn btn-outline-primary" onclick="currentDate=currentDate.last().month();changeCalendar();">
   											<i class="fa-solid fa-backward"></i>&nbsp;Last Month
   										</button>
-  										<button type="button" class="btn btn-outline-primary" id="reset-btn">
+  										<button type="button" class="btn btn-outline-primary" onclick="currentDate=Date.today();changeCalendar();">
   											<i class="fa-solid fa-rotate"></i>&nbsp;Reset
   										</button>
-  										<button type="button" class="btn btn-outline-primary" id="next-mth-btn">
+  										<button type="button" class="btn btn-outline-primary" onclick="currentDate=currentDate.next().month();changeCalendar();">
   											<i class="fa-solid fa-forward"></i>&nbsp;Next Month
   										</button>
   									</div>
@@ -109,8 +109,7 @@
   
   	<script>
 		createDatePicker("#wrapper", "#datepicker-input", "#select-month");
-		createPublicCalendar("etwig-public-calendar", currentDate);
-		dateOptions("#last-mth-btn", "#reset-btn", "#next-mth-btn");
+		createCalendar("etwig-public-calendar", currentDate.toString('yyyy-MM-dd'));
     </script>
 </body>
 </html>

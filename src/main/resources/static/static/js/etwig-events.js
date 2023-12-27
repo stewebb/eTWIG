@@ -1,3 +1,12 @@
+/**
+ * eTWIG - The event and banner management software for residential halls and student unions.
+ * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developters [etwig@grinecraft.net]
+ * @license: MIT
+ * @author: Steven Webb [xiaoancloud@outlook.com]
+ * @website: https://etwig.grinecraft.net
+ * @function: Add, edit and delete events.
+ */
+
 function formatState(state) {
 	var option = $(state.element);
   	var color = option.data("color");
@@ -14,13 +23,20 @@ function formatState(state) {
   	return $(`<span style="color: ${color};background-color: #FFF">&nbsp;<i class="fa-solid fa-${icon}"></i>${state.text}&nbsp;</span>`);
 };
 
+/**
+ * Validate the add event form. If passed, add the event.
+ * @param embedded True if the event add page is in the "embed" mode, i.e., this page is in the frame of the calendar. 
+ * 					The modal should be closed after operation.
+ * 					False otherwise. The page should refresh after operation.
+ */
+
 function addEvent(embedded){
 	
 	// Event name: Required
 	var eventName = $.trim($('#eventName').val());
 	if(eventName.length == 0){
 		warningToast("Event name is required.");
-		return 1;
+		return;
 	}
 	
 	// Event location: Optional
@@ -38,12 +54,12 @@ function addEvent(embedded){
 	
 	if(eventStartTime.length == 0){
 		warningToast("Event start time is required");
-		return 1;
+		return;
 	}
 	
 	if(parsedStartTime == null){
 		warningToast("Event start time is not well-formed.");
-		return 1;
+		return;
 	}
 	
 	// Event duration: Required only if the eventTimeUnit is not "customize""
@@ -59,18 +75,18 @@ function addEvent(embedded){
 		
 		if(eventEndTime.length == 0){
 			warningToast("Event end time is required");
-			return 1;
+			return;
 		}
 		
 		if(parsedEndTime == null){
 			warningToast("Event end time is not well-formed.");
-			return 1;
+			return;
 		}
 		
 		var timestampDiff = parsedEndTime.getTime() - parsedStartTime.getTime();
 		if(timestampDiff <= 0){
 			warningToast("Event end time must after start time.");
-			return 1;
+			return;
 		}
 		
 		// timestampDiff unit is millisecond, realDuration unit is minute
@@ -80,12 +96,12 @@ function addEvent(embedded){
 	else{
 		if(eventDuration.length == 0){
 			warningToast("Event duration is required, and it must be a number.");
-			return 1;
+			return;
 		}
 		
 		if(eventDuration <= 0){
 			warningToast("Event duration must be a positive number.");
-			return 1;
+			return;
 		}
 		realDuration = eventDuration;
 	}
@@ -109,8 +125,10 @@ function addEvent(embedded){
 		"organizer": eventOrganizer
 	};
 	
+	// POST the new event into the event add API
+	var hasError = true;
 	$.ajax({
-   		url: "/api/addEvent", 
+   		url: "/api/public/addEvent", 
    		type: "POST",
    		async: false,
    		dataType: "json",
@@ -119,18 +137,25 @@ function addEvent(embedded){
    		success: function (result) {
 			if(result.error > 0){
 				dangerToast("Failed to add event.", result.msg);
+				hasError = true;
 			}else{
 				successToast("Event added successfully.");
+				hasError = false;
 			}	
     	},
     	error: function (err) {
     		dangerToast("Failed to add event due to a HTTP " + err.status + " error.", err.responseJSON.exception);
-    		//console.log(err.responseJSON.trace)
+    		hasError = true;
     	}
  	});
 
-  	
-	return 0;
+	// Post-add operations
+	setTimeout(
+		function() {
+			embedded ? parent.$('#etwigModal').modal('hide') : window.location.reload();
+		}, 
+		hasError ? 5000 : 2000
+	);
 }
 
 function initDescriptionBox(boxElem){
