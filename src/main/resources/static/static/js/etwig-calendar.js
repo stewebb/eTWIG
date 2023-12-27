@@ -1,6 +1,6 @@
 /**
  * eTWIG - The event and banner management software for residential halls and student unions.
- * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developters [etwig@grinecraft.net]
+ * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
  * @license: MIT
  * @author: Steven Webb [xiaoancloud@outlook.com]
  * @website: https://etwig.grinecraft.net
@@ -10,7 +10,7 @@
 // Leading zeros for the (positive) integers that below to 10. 
 const pad = (num) => (num < 10 ? '0' + num : num);
 
-// The calednar object
+// The calendar object
 var calendar = undefined;
 
 // The current date which can be changes by buttons and date picker in "Options".
@@ -20,7 +20,7 @@ var currentDate = Date.today();
  * Create a calendar on webpage
  * @param elem The calendar element.
  * @param currentMonth The current month that displayed on the calendar.
- * @returns No returns but the calednar object will be changed.
+ * @returns No returns but the calendar object will be changed.
  */
 
 function createCalendar(elem, currentMonth){

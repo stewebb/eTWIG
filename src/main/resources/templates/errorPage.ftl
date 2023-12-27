@@ -1,6 +1,6 @@
 <#-- 
 	eTWIG - The event and banner management software for residential halls and student unions.
-	copyright: Copyright (c) 2024 Steven Webb, eTWIG developters [etwig@grinecraft.net]
+	copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
 	license: MIT
 	author: Steven Webb [xiaoancloud@outlook.com]
 	website: https://etwig.grinecraft.net
@@ -50,7 +50,7 @@
 						<#if error.message?has_content>${error.message}<#else>No message was given.</#if>
 					</div>
 					<div class="mb-2">
-						<span class="bold-text">Aditional messages: </span>
+						<span class="bold-text">Additional messages: </span>
 						<#if error.status?starts_with("5")>
 							The eTWIG platform experienced an internal error. We apologize for the inconvenience.
 						<#else>

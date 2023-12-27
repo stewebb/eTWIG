@@ -1,6 +1,6 @@
 /**
  * eTWIG - The event and banner management software for residential halls and student unions.
- * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developters [etwig@grinecraft.net]
+ * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
  * @license: MIT
  * @author: Steven Webb [xiaoancloud@outlook.com]
  * @website: https://etwig.grinecraft.net
@@ -192,7 +192,7 @@ function initDescriptionBox(boxElem){
 function timeUnitBtnOnChange(startTimePicker){
 	$('input[type=radio][name=eventTimeUnit]').change(function() {
 		
-		// Custom time unit: input a specific end time. Otherwise, input a time range with appropiate duration.
+		// Custom time unit: input a specific end time. Otherwise, input a time range with appropriate duration.
 		if(this.value == "c"){
 			$("#durationInput").hide();
 			$("#endTimeInput").show();

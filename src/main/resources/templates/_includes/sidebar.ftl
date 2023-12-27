@@ -1,6 +1,6 @@
 <#-- 
 	eTWIG - The event and banner management software for residential halls and student unions.
-	copyright: Copyright (c) 2024 Steven Webb, eTWIG developters [etwig@grinecraft.net]
+	copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
 	license: MIT
 	author: Steven Webb [xiaoancloud@outlook.com]
 	website: https://etwig.grinecraft.net
@@ -10,7 +10,7 @@
 	<#-- Navbar -->
   	<nav class="main-header navbar navbar-expand navbar-white navbar-light">
   	
-    <#-- Left navbar (Only a button to show/hode the aside) -->
+    <#-- Left navbar (Only a button to show/hide the aside) -->
     	<ul class="navbar-nav">
       		<li class="nav-item">
         		<a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
@@ -39,7 +39,7 @@
         		</div>
       		</li>
       		
-      		<#-- Switch to fullscreen -->
+      		<#-- Switch to full screen -->
       		<li class="nav-item">
         		<a class="nav-link" data-widget="fullscreen" href="#" role="button">
           			<i class="fas fa-expand-arrows-alt"></i>

@@ -1,11 +1,11 @@
 <#-- 
 	eTWIG - The event and banner management software for residential halls and student unions.
-	copyright: Copyright (c) 2024 Steven Webb, eTWIG developters [etwig@grinecraft.net]
+	copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
 	license: MIT
 	author: Steven Webb [xiaoancloud@outlook.com]
 	website: https://etwig.grinecraft.net
 	function: The template for add/edit events, properties part.
-	This part contains the form of timing, inclusing event start/end time and duration.
+	This part contains the form of timing, including event start/end time and duration.
    -->
    
    						<#-- Timing: Single Time Event -->
@@ -50,7 +50,7 @@
 												<label for="month">Month [00:00 1st day-23:59 last day]</label>
 											</div>
 											
-											<#-- Custonize-->
+											<#-- Customize-->
 											<div class="icheck-primary">
 												<input type="radio" id="customize" name="eventTimeUnit" value="c">
 												<label for="customize">Custom</label>
@@ -115,9 +115,9 @@
 									</div>
 								</div>			
 								
-								<#-- Calaculated -->
+								<#-- Calculated -->
 								<div class="form-group row">
-									<label for="eventCalculatedTime" class="col-sm-2 col-form-label">Calaculated Times</label>
+									<label for="eventCalculatedTime" class="col-sm-2 col-form-label">Calculated Times</label>
 									<div class="col-sm-10 table-responsive">				
 										<table class="table table-bordered">
   											<thead>
