@@ -128,7 +128,7 @@ function addEvent(embedded){
 	// POST the new event into the event add API
 	var hasError = true;
 	$.ajax({
-   		url: "/api/public/addEvent", 
+   		url: "/api/private/addEvent", 
    		type: "POST",
    		async: false,
    		dataType: "json",

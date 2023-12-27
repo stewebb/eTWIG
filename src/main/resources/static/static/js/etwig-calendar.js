@@ -63,7 +63,7 @@ function createCalendar(elem, currentMonth){
 
 function getEventListByRange(date, range){
 	var eventList = []; 
-	var url = '/api/public/getEventList';
+	var url = '/api/private/getEventList';
 	$.ajax({ 
 		type: 'GET', 
     	url: url, 

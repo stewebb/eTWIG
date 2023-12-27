@@ -1,3 +1,12 @@
+/**
+	 * eTWIG - The event and banner management software for residential halls and student unions.
+	 * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
+	 * @license: MIT
+	 * @author: Steven Webb [xiaoancloud@outlook.com]
+	 * @website: https://etwig.grinecraft.net
+	 * @function: The Portfolio model, mapping the "portfolio" table in the database.
+	 */
+
 package net.grinecraft.etwig.model;
 
 import jakarta.persistence.*;
@@ -33,9 +42,4 @@ public class Portfolio {
 	
 	@Column(name = "parent")
 	private Integer parent;
-	
-	//@ManyToOne
-	//@JoinColumn(name="portfolio")
-	//private Events events;
-
 }

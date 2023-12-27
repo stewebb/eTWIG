@@ -1,3 +1,12 @@
+/**
+ * eTWIG - The event and banner management software for residential halls and student unions.
+ * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
+ * @license: MIT
+ * @author: Steven Webb [xiaoancloud@outlook.com]
+ * @website: https://etwig.grinecraft.net
+ * @function: The controller for add/edit/delete event.
+ */
+
 package net.grinecraft.etwig.controller.events;
 
 import java.util.LinkedHashMap;
@@ -31,7 +40,7 @@ public class EditController {
 	UserRoleService userRoleService;
 
 	@RequestMapping("/events/edit")  
-	public String editEvents(HttpSession session, Model model, @RequestParam(required = false) String eventId) throws Exception{
+	public String edit(HttpSession session, Model model, @RequestParam(required = false) String eventId) throws Exception{
 		//NavBar currentNavbar = null;
 		String mode = "";
 		String page = "";
@@ -113,19 +122,28 @@ public class EditController {
 		return page;
 	}
 	
+	/**
+	 * Add event page.
+	 * @param session
+	 * @param model
+	 * @param embedded True the page is embedded  into a frame. Otherwise the page is standalone.
+	 * @return
+	 * @throws Exception
+	 */
+	
 	@RequestMapping("/events/add")  
-	public String addEvents(HttpSession session, Model model, @RequestParam(required = false) String embedded) throws Exception{
+	public String add(HttpSession session, Model model, @RequestParam(required = false) String embedded) throws Exception{
 		
+		// Logged in user (me)
 		User my = (User) session.getAttribute("user");
+		
+		// Get myPortfolios: All portfolios that I have.
 		LinkedHashMap<Long, Portfolio> myPortfolios = userRoleService.getPortfoliosByUserId(my.getId());
 		
-		
-		model.addAttribute("mode", "ADD");
+		//model.addAttribute("mode", "ADD");
         model.addAttribute("navbar", NavBar.ADD_EVENT);
         model.addAttribute("myPortfolios", myPortfolios);
         model.addAttribute("embedded", BooleanUtils.toBoolean(embedded));
-        
-        
 		return "events/add";
 	
 	}

@@ -1,3 +1,12 @@
+/**
+	 * eTWIG - The event and banner management software for residential halls and student unions.
+	 * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
+	 * @license: MIT
+	 * @author: Steven Webb [xiaoancloud@outlook.com]
+	 * @website: https://etwig.grinecraft.net
+	 * @function: The SingleTimeEvent model, mapping the "event_single_time" table in the database.
+	 */
+
 package net.grinecraft.etwig.model;
 
 import java.time.LocalDateTime;
@@ -13,7 +22,6 @@ import lombok.*;
 public class SingleTimeEvent {
 	
 	@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
 	private Long id;
 	

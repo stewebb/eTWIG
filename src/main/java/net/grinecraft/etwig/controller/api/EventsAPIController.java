@@ -39,22 +39,20 @@ public class EventsAPIController {
 	 * @param range The given date range
 	 * @return
 	 * @throws Exception
-	 * @type Private APIs
+	 * @authentication True
 	 */
 	
 	@RequestMapping("/api/private/getEventList")  
 	public Map<String, Object> getEventList(@RequestParam String date, @RequestParam String range) throws Exception{
-		String msg = "";
 		
-		// If the dateStr is null or invalid, the returning date is today. 
+		// Check the date is well-formed of not.
 		LocalDate givenDate = DateUtils.safeParseDate(date, "yyyy-MM-dd");
 		if(givenDate == null) {
-			givenDate = LocalDate.now();
-			msg = "date parameter is invalid. It must be yyyy-mm-dd format. Today will be used in there.";
+			return WebReturn.errorMsg("date is invalid. It must be yyyy-mm-dd.", false);
 		}
 		
 		// Get the event list
-		Map<String, Object> myReturn = WebReturn.errorMsg(msg, true);
+		Map<String, Object> myReturn = WebReturn.errorMsg(null, true);
 	    myReturn.put("events", eventService.findByDateRange(givenDate, DateRange.safeValueOf(range)));
 		return myReturn;
 	}
@@ -65,7 +63,7 @@ public class EventsAPIController {
 	 * @param showAllDetails
 	 * @return
 	 * @throws Exception
-	 * @type Private APIs
+	 * @authentication True
 	 */
 	
 	@RequestMapping("/api/getEventById")  
@@ -73,7 +71,7 @@ public class EventsAPIController {
 		Long eventIdNum = NumberUtils.safeCreateLong(eventId);
 
 		if(eventIdNum == null) {
-			return WebReturn.errorMsg("eventId parameter is invalid. It must be an Integer.", false);
+			return WebReturn.errorMsg("eventId is invalid. It must be an Integer.", false);
 		} 
 			
 		Map<String, Object> myReturn = WebReturn.errorMsg(null, true);
@@ -82,7 +80,14 @@ public class EventsAPIController {
 		return myReturn;
 	}
 	
-	@RequestMapping(value = "/api/addEvent", method = RequestMethod.POST)
+	/**
+	 * Add an event into the database.
+	 * @param eventInfo The object that contains the details of new event. 
+	 * @return
+	 * @authentication True
+	 */
+	
+	@RequestMapping(value = "/api/private/addEvent", method = RequestMethod.POST)
     public Map<String, Object> addEvent(@RequestBody Map<String, Object> eventInfo) {
         System.out.println(eventInfo);
         

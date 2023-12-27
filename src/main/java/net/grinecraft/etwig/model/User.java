@@ -1,3 +1,14 @@
+/**
+	 * eTWIG - The event and banner management software for residential halls and student unions.
+	 * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
+	 * @license: MIT
+	 * @author: Steven Webb [xiaoancloud@outlook.com]
+	 * @website: https://etwig.grinecraft.net
+	 * @function: The User model, mapping the "users" table in the database.
+	 * This model contains users' basic information like name. 
+	 * It doesn't have data like password, which is modeled by UserAuth model, as they are only used in authentication purposes.
+	 */
+
 package net.grinecraft.etwig.model;
 
 import java.time.LocalDateTime;
@@ -29,13 +40,6 @@ public class User {
 	@Column(name = "email")
 	private String email;
 	
-	//@Column(name = "password")
-	//private String password;
-	
 	@Column(name = "last_login")
 	private LocalDateTime lastLogin;
-	
-	//@ManyToOne(cascade = CascadeType.ALL)
-	//@JoinColumn(name = "permission", referencedColumnName = "id")
-    //private Permission permission;
 }

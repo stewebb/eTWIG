@@ -1,3 +1,12 @@
+/**
+	 * eTWIG - The event and banner management software for residential halls and student unions.
+	 * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
+	 * @license: MIT
+	 * @author: Steven Webb [xiaoancloud@outlook.com]
+	 * @website: https://etwig.grinecraft.net
+	 * @function: The controller for user authentication - mainly login and logout.
+	 */
+
 package net.grinecraft.etwig.controller.user;
 
 import org.springframework.stereotype.Controller;
@@ -7,26 +16,17 @@ import net.grinecraft.etwig.util.type.NavBar;
 
 @Controller
 public class LoginController {
-    
-	//@Autowired
-    //Configuration configuration;
+	
+	/**
+	 * The login page.
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
 	
     @GetMapping("/user/login")
     public String login(Model model) throws Exception {
     	
-    	//Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        //String username = (authentication != null && authentication.isAuthenticated() && !"anonymousUser".equals(authentication.getPrincipal()))
-        //                    ? authentication.getName()
-        //                    : "guest";
-        
-        //System.out.println(username);
-        
-        //HashMap<String, Object> templateMap = new HashMap<String, Object>();
-		//templateMap.put("navbar", NavBar.LOGIN);
-		
-    	//Template template = configuration.getTemplate("user/login.ftl");
-        //return FreeMarkerTemplateUtils.processTemplateIntoString(template, templateMap);
-        
         model.addAttribute("navbar", NavBar.LOGIN);
 		return "user/login";
     }
