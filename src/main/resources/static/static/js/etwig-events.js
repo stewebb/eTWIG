@@ -11,10 +11,10 @@ function formatState(state) {
 		icon = 'square';
 	}
   		
-  	return $(`<span style="color: ${color}"><i class="fa-solid fa-${icon}"></i>${state.text}</span>`);
+  	return $(`<span style="color: ${color};background-color: #FFF">&nbsp;<i class="fa-solid fa-${icon}"></i>${state.text}&nbsp;</span>`);
 };
 
-function addEvent(){
+function addEvent(embedded){
 	
 	// Event name: Required
 	var eventName = $.trim($('#eventName').val());
@@ -55,7 +55,7 @@ function addEvent(){
 	var parsedEndTime = Date.parse(eventEndTime);
 	
 	// Check "Duration" / "End Time" by selected time units.
-	if(eventTimeUnit == "customize"){
+	if(eventTimeUnit == "c"){
 		
 		if(eventEndTime.length == 0){
 			warningToast("Event end time is required");
@@ -112,30 +112,25 @@ function addEvent(){
 	$.ajax({
    		url: "/api/addEvent", 
    		type: "POST",
+   		async: false,
    		dataType: "json",
    		contentType: "application/json; charset=utf-8",
    		data: JSON.stringify(newEventObj),
    		success: function (result) {
-       		successToast("Event added.");
+			if(result.error > 0){
+				dangerToast("Failed to add event.", result.msg);
+			}else{
+				successToast("Event added successfully.");
+			}	
     	},
     	error: function (err) {
-    		dangerToast("Failed to add event due to a HTTP " + err.status + " error.");
-    		//console.log(err)
+    		dangerToast("Failed to add event due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+    		//console.log(err.responseJSON.trace)
     	}
  	});
 
   	
 	return 0;
-}
-
-function addEventAndExit(){
-	var status = addEvent();
-	//parent.$('#etwigModal').modal('hide');
-}
-
-function addEventOnly(){
-	var status = addEvent();
-	//parent.$('#etwigModal').modal('hide');
 }
 
 function initDescriptionBox(boxElem){
@@ -175,6 +170,7 @@ function timeUnitBtnOnChange(startTimePicker){
 		
 		switch (this.value){
 			case "h":
+			case "c":
 				startTimePicker.setType("date");
 				startTimePicker.getTimePicker().show();
 				break;

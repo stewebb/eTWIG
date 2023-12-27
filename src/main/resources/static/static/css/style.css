@@ -1,28 +1,12 @@
-/* 
-	Main stylesheets that across all webpages.
- */
-
-
-.bold-text{
-	font-weight: bold;
-}
-
-.theme-color-text{
-	color: #004aad!important;
-}
-
-/* Make the warning button darker. */
-
-.btn-outline-warning{
-	color: darkorange!important;
-	border-color: darkorange!important;
-	background-color: #FFFFFF!important;
-}
-
-.btn-outline-warning:active, .btn-outline-warning:focus, .btn-outline-warning:hover {
-  color: #FFFFFF!important;
-  background-color: darkorange!important;
-}
+/** 
+	eTWIG - The event and banner management software for residential halls and student unions.
+	Copyright (c) 2024 eTWIG developters [etwig@grinecraft.net]
+	License: MIT
+	Author: Steven Webb [xiaoancloud@outlook.com]
+	
+	File Type: CSS
+	Function: Main stylesheets and themes that across all webpages.
+*/
 
 .callout.callout-primary {
   border-left-color: #004aad;
@@ -35,6 +19,25 @@
 .select2-results__option--highlighted,.select2-container--bootstrap4 .select2-results__option--highlighted.select2-results__option[aria-selected="true"]{
 	color:#fff;
 	background-color:#004aad!important;
+}
+
+
+.bold-text{
+	font-weight: bold;
+}
+
+
+
+/* Make the warning button darker. */
+.btn-outline-warning{
+	color: darkorange!important;
+	border-color: darkorange!important;
+	background-color: #FFFFFF!important;
+}
+
+.btn-outline-warning:active, .btn-outline-warning:focus, .btn-outline-warning:hover {
+  color: #FFFFFF!important;
+  background-color: darkorange!important;
 }
 
 .required-symbol{

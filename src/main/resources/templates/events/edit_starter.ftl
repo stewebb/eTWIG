@@ -44,8 +44,8 @@
 						<#if mode=="DEFAULT">
 							<div class="callout callout-info">
 								<h5 class="bold-text mb-3">Create an event</h5>
-								You can click the <span class="theme-color-text"><i class="nav-icon fas fa-plus"></i>&nbsp;Add event</span> button in the left side-bar or 
-								<a href="/events/edit?eventId=-1" class="theme-color-text">Here</a> to create a new event.
+								You can click the <span class="text-primary"><i class="nav-icon fas fa-plus"></i>&nbsp;Add event</span> button in the left side-bar or 
+								<a href="/events/edit?eventId=-1" class="text-primary">Here</a> to create a new event.
 							</div>
 						<#elseif mode=="INVALID_EVENT_ID">
 							<div class="callout callout-danger">

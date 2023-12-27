@@ -47,7 +47,7 @@
 						<#else>
 							The eTWIG platform experienced an error. This error may caused by your browser, or the platform itself.
 						</#if>
-						If problem persists, please click the <span class="bold-text theme-color-text">technical details</span> button to reveal those details, and send them to the developers.
+						If problem persists, please click the <span class="bold-text text-primary">technical details</span> button to reveal those details, and send them to the developers.
 					</div>	
 
 				</div>
