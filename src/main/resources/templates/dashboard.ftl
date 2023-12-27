@@ -4,7 +4,7 @@
 	license: MIT
 	author: Steven Webb [xiaoancloud@outlook.com]
 	website: https://etwig.grinecraft.net
-	function: The dashboard page.
+	function: The dashboard (site main) page.
    -->
 
 <!DOCTYPE html>

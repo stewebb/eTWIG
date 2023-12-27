@@ -1,3 +1,12 @@
+<#-- 
+	eTWIG - The event and banner management software for residential halls and student unions.
+	copyright: Copyright (c) 2024 Steven Webb, eTWIG developters [etwig@grinecraft.net]
+	license: MIT
+	author: Steven Webb [xiaoancloud@outlook.com]
+	website: https://etwig.grinecraft.net
+	function: The Bootstrap modal for the pages that need it.
+   -->
+   
 	<#-- Modal -->
 	<div class="modal fade" tabindex="-1" id="etwigModal">
   		<div class="modal-dialog modal-dialog-centered modal-lg">

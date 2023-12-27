@@ -1,7 +1,11 @@
 <#-- 
-	Login page. 
-	This is a part of the eTWIG platform.
--->
+	eTWIG - The event and banner management software for residential halls and student unions.
+	copyright: Copyright (c) 2024 Steven Webb, eTWIG developters [etwig@grinecraft.net]
+	license: MIT
+	author: Steven Webb [xiaoancloud@outlook.com]
+	website: https://etwig.grinecraft.net
+	function: The login page.
+   -->
 
 <!DOCTYPE html>
 <html>
@@ -84,14 +88,7 @@
 	
 	// A warning toast when login failed.
 	if (searchParams.get('success') == 'false'){
-		$(document).Toasts('create', {
-  			title: 'Login failed',
-  			body: 'Check the email address and password and try again.',
-  			autohide: true,
-  			delay: 5000,
-  			icon: 'fa fa-circle-exclamation',
-  			class: 'toast bg-danger'
-		});
+		warningToast("Login failed.", "Check the email address and password and try again.");
 	}
 </script>
 

@@ -1,7 +1,11 @@
 <#-- 
-	Common heads for all webpages.
-	This is a part of the eTWIG platform.
- -->
+	eTWIG - The event and banner management software for residential halls and student unions.
+	copyright: Copyright (c) 2024 Steven Webb, eTWIG developters [etwig@grinecraft.net]
+	license: MIT
+	author: Steven Webb [xiaoancloud@outlook.com]
+	website: https://etwig.grinecraft.net
+	function: The common header for every pages.
+   -->
 
 	<#-- Required meta tags. -->
 	<meta charset="utf-8">

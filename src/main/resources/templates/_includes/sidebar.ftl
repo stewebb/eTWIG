@@ -1,7 +1,11 @@
 <#-- 
-	Top navbar and sidebar component. 
-	This is a part of the eTWIG platform.
--->
+	eTWIG - The event and banner management software for residential halls and student unions.
+	copyright: Copyright (c) 2024 Steven Webb, eTWIG developters [etwig@grinecraft.net]
+	license: MIT
+	author: Steven Webb [xiaoancloud@outlook.com]
+	website: https://etwig.grinecraft.net
+	function: The common sidebar for every pages.
+   -->
 
 	<#-- Navbar -->
   	<nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -126,8 +130,16 @@
             			</a>
           			</li>	
           			
+          			<#-- Event: Delete -->
+        			<li class="nav-item">
+            			<a href="/events/delete" class="nav-link <#if navbar=="DELETE_EVENT">active</#if>">
+              				<i class="nav-icon fas fa-trash"></i>
+              				<p>Delete event</p>
+            			</a>
+          			</li>	
+          			
           			<#-- Banner Management -->
-          			<li class="nav-header">Banner Management</li>
+          			<#-- <li class="nav-header">Banner Management</li> -->
           			
           			<#-- Account -->
           			<li class="nav-header">Account</li>

@@ -1,3 +1,12 @@
+<#-- 
+	eTWIG - The event and banner management software for residential halls and student unions.
+	copyright: Copyright (c) 2024 Steven Webb, eTWIG developters [etwig@grinecraft.net]
+	license: MIT
+	author: Steven Webb [xiaoancloud@outlook.com]
+	website: https://etwig.grinecraft.net
+	function: The add event page.
+   -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,10 +23,10 @@
 </head>
 
 <body class="sidebar-mini layout-fixed">
+
 	<#if embedded == false>
 		<#include "../_includes/sidebar.ftl">
 	</#if>
-	
 	
 	<#-- Content Wrapper -->
   	<div class="<#if embedded == false>content-</#if>wrapper">
