@@ -1,3 +1,12 @@
+/**
+ * eTWIG - The event and banner management software for residential halls and student unions.
+ * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
+ * @license: MIT
+ * @author: Steven Webb [xiaoancloud@outlook.com]
+ * @website: https://etwig.grinecraft.net
+ * @function: The security configuration for eTWIG platform.
+ */
+
 package net.grinecraft.etwig.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +28,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+import net.grinecraft.etwig.LoginSuccessHandler;
 import net.grinecraft.etwig.services.UserAuthService;
 
 @Configuration
@@ -34,42 +44,46 @@ public class WebSecurityConfig{
 	@SuppressWarnings("removal")
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http
-			.authorizeHttpRequests((requests) -> requests
+		
+		// Set the public access resources.
+		http.authorizeHttpRequests((requests) -> requests
 				.requestMatchers("/static/**", "/twig", "/error", "favicon.ico").permitAll()
 				.anyRequest().authenticated()
-			)
-			.formLogin((form) -> form
+			);
+		
+		// Set the login page.
+		http.formLogin((form) -> form
 				.loginPage("/user/login")
 	            .loginProcessingUrl("/user/login")
 				.permitAll()
 				.failureUrl("/user/login?success=false")
 				.successHandler(loginSuccessHandler)
-			)
-			.logout((logout) -> logout.logoutUrl("/user/logout"));
+			);
+		
+		// Set the logout URL.
+		http.logout((logout) -> logout.logoutUrl("/user/logout"));
 		
 		// Disable CSRF.
 		http.csrf().disable();
 		
 		// Allow frames from the same origin
-		http
-			.headers(headers -> headers
-				.frameOptions(frameOptions -> frameOptions
-					.sameOrigin()
-				)
-			);
+		http.headers(headers -> headers
+				.frameOptions(frameOptions -> frameOptions.sameOrigin())
+		);
 		
 		return http.build();
 	}
 
     @Autowired
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userAuthService)
-            .passwordEncoder(passwordEncoder());
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    	auth.userDetailsService(userAuthService).passwordEncoder(passwordEncoder());
     }
 
-
-    //@Bean
+   /**
+    * Use BCrypt to encrypt the password.
+    * @return BCryptPasswordEncoder;
+    */
+    
     public BCryptPasswordEncoder passwordEncoder() {
     	return new BCryptPasswordEncoder();
     }

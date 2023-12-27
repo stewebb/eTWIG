@@ -1,3 +1,12 @@
+/**
+ * eTWIG - The event and banner management software for residential halls and student unions.
+ * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
+ * @license: MIT
+ * @author: Steven Webb [xiaoancloud@outlook.com]
+ * @website: https://etwig.grinecraft.net
+ * @function: The controller for the error pages.
+ */
+
 package net.grinecraft.etwig.controller;
 
 import java.util.Map;
@@ -28,17 +37,22 @@ public class EtwigErrorController implements ErrorController {
     @RequestMapping("/error")
     public String handleError(WebRequest webRequest, Model model, HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException {
     	
-    	// Error details
+    	// Get Error details
     	ErrorAttributeOptions options = ErrorAttributeOptions.of(ErrorAttributeOptions.Include.STACK_TRACE);
         Map<String, Object> errorAttributes = this.errorAttributes.getErrorAttributes(webRequest, options);
         model.addAttribute("error", errorAttributes);
         
-        
-        // The original request
+        // Get the original request
         String path = (String) request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI);
         model.addAttribute("path", path);
         
-        // Convention: The location of all apis are start with /api
+        /**
+         * Convention in this application:
+         * The URL of all APIs are start with /api
+         * All APIs are in JSON format
+         */
+        
+        // API pages
         if(path.startsWith("/api")) {
         	response.setContentType("application/json");
         	return "errorJson";
@@ -46,7 +60,6 @@ public class EtwigErrorController implements ErrorController {
         
         // Normal pages
         else {
-        	
         	response.setContentType("text/html");
             return "errorPage"; 
         }

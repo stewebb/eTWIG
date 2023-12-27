@@ -1,3 +1,12 @@
+/**
+ * eTWIG - The event and banner management software for residential halls and student unions.
+ * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
+ * @license: MIT
+ * @author: Steven Webb [xiaoancloud@outlook.com]
+ * @website: https://etwig.grinecraft.net
+ * @function: The intercepter, which allows variables can be shared across the whole application.
+ */
+
 package net.grinecraft.etwig;
 
 import java.util.LinkedHashMap;
@@ -21,30 +30,31 @@ public class EtwigInterceptor implements HandlerInterceptor{
 		if(modelAndView == null) {
 			return;
 		}
-		
+
 		// Check session first!
 		HttpSession session = request.getSession(false);
-		if(session == null) {
-			return;
-		}
+		if(session != null) {
+			
+			// Only proceed of session already set up
+			User user = (User) session.getAttribute("user");
+			if (user != null) {
+				
+				// Get the in-session user info.
+				LinkedHashMap<String, Object> userInfo = new LinkedHashMap<String, Object>();
+				userInfo.put("userId", user.getId());
+				userInfo.put("username", NameUtils.nameMerger(user.getFirstName(), user.getMiddleName(), user.getLastName()));
+				
+				// Put user info into Intercepter
+				modelAndView.addObject("user", userInfo);
+			}
+		}	
 		
-		// Session hasn't already set up
-		User user = (User) session.getAttribute("user");
-		if (user == null) {
-			return;
-		}
-		
-		LinkedHashMap<String, Object> userInfo = new LinkedHashMap<String, Object>();
-		userInfo.put("userId", user.getId());
-		userInfo.put("username", NameUtils.nameMerger(user.getFirstName(), user.getMiddleName(), user.getLastName()));
-		
+		// Define some application info
 		LinkedHashMap<String, Object> appInfo = new LinkedHashMap<String, Object>();
 		appInfo.put("appName", "eTWIG Administration Portal");
 		appInfo.put("appVersion", "1.0");
 		
-		
-		modelAndView.addObject("user", userInfo);
-		modelAndView.addObject("app", appInfo);
-				
+		// Put application info into Intercepter
+		modelAndView.addObject("app", appInfo);				
 	}
 }
