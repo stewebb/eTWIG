@@ -150,6 +150,7 @@ function addEvent(embedded){
  	});
 
 	// Post-add operations
+	// More timeout if error happens.
 	setTimeout(
 		function() {
 			embedded ? parent.$('#etwigModal').modal('hide') : window.location.reload();
@@ -158,13 +159,18 @@ function addEvent(embedded){
 	);
 }
 
+/**
+ * Create a WYSIWYG editor by using summernote.
+ * @param boxElem The HTML element for this editor.
+ */
+
 function initDescriptionBox(boxElem){
 	$(boxElem).summernote({
 		placeholder: 'Event description',
         tabsize: 4,
-        height: 500,
-        minHeight: 500,
-  		maxHeight: 800,
+        height: 200,
+        minHeight: 200,
+  		maxHeight: 500,
   		toolbar: [
   			['style', ['style']],
   			['font', ['bold', 'underline', 'clear']],
@@ -178,12 +184,15 @@ function initDescriptionBox(boxElem){
 	});
 }
 
+/**
+ * Change timing options based on time units
+ * @param startTimePicker The ToastUI datepicker element of the start time.
+ */
+
 function timeUnitBtnOnChange(startTimePicker){
 	$('input[type=radio][name=eventTimeUnit]').change(function() {
 		
-		//alert(this.value);
-		$('#unitText').text(this.value);
-		
+		// Custom time unit: input a specific end time. Otherwise, input a time range with appropiate duration.
 		if(this.value == "c"){
 			$("#durationInput").hide();
 			$("#endTimeInput").show();
@@ -192,38 +201,71 @@ function timeUnitBtnOnChange(startTimePicker){
 			$("#endTimeInput").hide();
 		}
 		
+		// Always set the default time to "12 AM".
+		var timePicker = startTimePicker.getTimePicker();
+		timePicker.setTime(0, 0);
 		
+		// Change some values based on the choices.
 		switch (this.value){
+			
+			// Hour
 			case "h":
-			case "c":
+				$('#unitText').text("Hour(s)");
 				startTimePicker.setType("date");
-				startTimePicker.getTimePicker().show();
+				timePicker.show();
 				break;
+			
+			// Day
+			case "d":
+				$('#unitText').text("Day(s)");
+				startTimePicker.setType("date");
+				timePicker.hide();
+				break;	
+				
+			// Week
+			case "w":
+				$('#unitText').text("Week(s)");
+				startTimePicker.setType("date");
+				timePicker.hide();
+				break;	
+				
+			// Month
 			case "m":
+				$('#unitText').text("Month(s)");
 				startTimePicker.setType("month");
-				startTimePicker.getTimePicker().setTime(0, 0);
-				startTimePicker.getTimePicker().hide();
+				timePicker.hide();
 				break;
+
+			// Custom
 			default:
 				startTimePicker.setType("date");
-				startTimePicker.getTimePicker().setTime(0, 0);
-				startTimePicker.getTimePicker().hide();
-				break;		
+				timePicker.show();
+				break;	
 		}
 	});
-
 }
 
+/**
+ * Create ToastUI date picker
+ * @param htmlElem The element of datepicker wrapper.
+ * @param pickerElem The element of date input.
+ * @param type The picker type.
+ * @param format Time format.
+ * @param timePicker True enable time picker, otherwise disable time picker.
+ * @returns The created datepicker element.
+ */
 
 function createDatePicker(htmlElem, pickerElem, type, format, timePicker){
 	
+	// Set the timepicker
 	var t = false;
 	if(timePicker){
 		t = {
           inputType: 'spinbox'
         }
 	}
-	 
+	
+	// Create the date picker
 	var datepicker = new tui.DatePicker(htmlElem, {
 		date: Date.today(),
 		type: type,

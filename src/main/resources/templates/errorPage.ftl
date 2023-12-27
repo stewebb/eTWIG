@@ -83,7 +83,11 @@
 					</h3>
 				</div>
 				<div class="card-body">
-					<pre><#if error.trace?has_content>${error.trace}</#if></pre>
+					<#if error.trace?has_content>
+						<#assign trace = error.trace?replace("net.grinecraft.etwig", "<span class='bold-text text-primary'>net.grinecraft.etwig</span>")>
+						<#assign trace = trace?replace("Caused by:", "<span class='bold-text text-danger'>Caused by:</span>")>
+						<pre>${trace}</pre>
+					</#if>
 				</div>
 			</div>
 
