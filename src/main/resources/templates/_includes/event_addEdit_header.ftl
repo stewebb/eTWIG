@@ -1,4 +1,14 @@
-    	<#-- Page header -->
+<#-- 
+	eTWIG - The event and banner management software for residential halls and student unions.
+	copyright: Copyright (c) 2024 Steven Webb, eTWIG developters [etwig@grinecraft.net]
+	license: MIT
+	author: Steven Webb [xiaoancloud@outlook.com]
+	website: https://etwig.grinecraft.net
+	function: The template for add/edit events, page header part.
+	This part contains the common page header.
+   -->
+   
+       	<#-- Page header -->
     	<section class="content-header">
       		<div class="container-fluid">
         		<div class="row mb-2">

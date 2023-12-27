@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.interceptor;
+package net.grinecraft.etwig;
 
 import java.util.LinkedHashMap;
 
@@ -13,7 +13,7 @@ import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.util.NameUtils;
 
 @Component
-public class UserInterceptor implements HandlerInterceptor{
+public class EtwigInterceptor implements HandlerInterceptor{
 	
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
@@ -38,7 +38,13 @@ public class UserInterceptor implements HandlerInterceptor{
 		userInfo.put("userId", user.getId());
 		userInfo.put("username", NameUtils.nameMerger(user.getFirstName(), user.getMiddleName(), user.getLastName()));
 		
+		LinkedHashMap<String, Object> appInfo = new LinkedHashMap<String, Object>();
+		appInfo.put("appName", "eTWIG Administration Portal");
+		appInfo.put("appVersion", "1.0");
+		
+		
 		modelAndView.addObject("user", userInfo);
+		modelAndView.addObject("app", appInfo);
 				
 	}
 }

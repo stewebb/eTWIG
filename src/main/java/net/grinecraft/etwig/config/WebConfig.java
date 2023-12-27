@@ -5,13 +5,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import net.grinecraft.etwig.interceptor.UserInterceptor;
+import net.grinecraft.etwig.EtwigInterceptor;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer{
 
 	@Autowired
-    private UserInterceptor userInterceptor;
+    private EtwigInterceptor userInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

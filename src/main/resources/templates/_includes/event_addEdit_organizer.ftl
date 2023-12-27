@@ -1,4 +1,14 @@
-						<#-- Organizer -->
+<#-- 
+	eTWIG - The event and banner management software for residential halls and student unions.
+	copyright: Copyright (c) 2024 Steven Webb, eTWIG developters [etwig@grinecraft.net]
+	license: MIT
+	author: Steven Webb [xiaoancloud@outlook.com]
+	website: https://etwig.grinecraft.net
+	function: The template for add/edit events, organizer part.
+	This part contains the form of portfolio and organizer information.
+   -->
+   
+   						<#-- Organizer -->
 						<div class="card card-primary">
 							<div class="card-header">
 								<h3 class="card-title">

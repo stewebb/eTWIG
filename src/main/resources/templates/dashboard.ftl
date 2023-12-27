@@ -1,13 +1,25 @@
+<#-- 
+	eTWIG - The event and banner management software for residential halls and student unions.
+	copyright: Copyright (c) 2024 Steven Webb, eTWIG developters [etwig@grinecraft.net]
+	license: MIT
+	author: Steven Webb [xiaoancloud@outlook.com]
+	website: https://etwig.grinecraft.net
+	function: The dashboard page.
+   -->
+
 <!DOCTYPE html>
 <html>
 <head>
 	<#include "./_includes/header.ftl">
-	<title>Dashboard - eTWIG Administration Portal</title>
+	<title>Dashboard - ${app.appName}</title>
 </head>
 
-<body class="sidebar-mini layout-fixed">
+<body class="hold-transition sidebar-mini layout-fixed">
 	<#include "./_includes/sidebar.ftl">
-
-
+	
+	<div class="content-wrapper">
+	</div>
+	
+	<#include "./_includes/footer.ftl">
 </body>
 </html>

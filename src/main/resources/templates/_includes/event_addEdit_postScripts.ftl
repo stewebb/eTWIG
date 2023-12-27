@@ -1,4 +1,14 @@
-	<#-- Post Scripts -->
+<#-- 
+	eTWIG - The event and banner management software for residential halls and student unions.
+	copyright: Copyright (c) 2024 Steven Webb, eTWIG developters [etwig@grinecraft.net]
+	license: MIT
+	author: Steven Webb [xiaoancloud@outlook.com]
+	website: https://etwig.grinecraft.net
+	function: The template for add/edit events, post JavaScript part.
+	This part contains the JavaScript after the form. Commonly the initializaion of some libraries.
+   -->
+   
+   	<#-- Post Scripts -->
 	<script>
 	
 		// Initialize the description box

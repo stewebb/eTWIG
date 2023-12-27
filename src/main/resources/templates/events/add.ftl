@@ -61,5 +61,10 @@
 	
 	<#-- Post Scripts -->
 	<#include "../_includes/event_addEdit_postScripts.ftl">
+	
+	<#-- Footer -->
+	<#if embedded == false>
+		<#include "../_includes/footer.ftl">
+	</#if>
 </body>
 </html>
