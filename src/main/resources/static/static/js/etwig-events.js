@@ -153,7 +153,7 @@ function addEvent(embedded){
 	// More timeout if error happens.
 	setTimeout(
 		function() {
-			embedded ? parent.$('#etwigModal').modal('hide') : window.location.reload();
+			embedded ? parent.location.reload() : window.location.reload();
 		}, 
 		hasError ? 5000 : 2000
 	);

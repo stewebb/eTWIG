@@ -88,11 +88,19 @@
 									</div>
         							<div id="wrapper" class="datepicker"></div>
         							
-        							<#-- Add event -->
+        							<#-- Event Options-->
         							<hr class="mt-3 mb-3"/>
-        							<button type="button" class="btn btn-block btn-outline-primary" onclick="addEventBtn();">
+        							<button type="button" class="btn btn-block btn-outline-primary mb-3" onclick="addEventBtn();">
   										<i class="fa-solid fa-add"></i>&nbsp;Add Event
   									</button>
+  									
+  									<div class="callout callout-info">
+										<h5 class="bold-text mb-3">
+											<i class="fa-regular fa-lightbulb"></i>&nbsp;Hint
+										</h5>
+										To add an new event, simply click the <span class="bold-text text-primary">add event</span> button above. <br/>
+										To edit or delete an existing event, click the <span class="bold-text text-primary">event on the calendar</span>.
+									</div>
                 				</div>
               				</div>
             			</div>

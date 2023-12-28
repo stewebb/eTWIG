@@ -89,8 +89,8 @@
           		
           			<#-- TWIG -->
         			<li class="nav-item">
-            			<a href="#" class="nav-link <#if navbar=="TWIG">active</#if>">
-              				<i class="nav-icon fas fa-lightbulb"></i>
+            			<a href="/twig/main" target="_blank" class="nav-link <#if navbar=="TWIG">active</#if>">
+              				<i class="nav-icon fas fa-tree"></i>
               				<p>TWIG</p>
             			</a>
           			</li>
@@ -118,7 +118,7 @@
         			<li class="nav-item">
             			<a href="/events/add" class="nav-link <#if navbar=="ADD_EVENT">active</#if>">
               				<i class="nav-icon fas fa-plus"></i>
-              				<p>Add event</p>
+              				<p>Add</p>
             			</a>
           			</li>	
           			
@@ -126,7 +126,7 @@
         			<li class="nav-item">
             			<a href="/events/edit" class="nav-link <#if navbar=="EDIT_EVENT">active</#if>">
               				<i class="nav-icon fas fa-pen-to-square"></i>
-              				<p>Edit event</p>
+              				<p>Edit</p>
             			</a>
           			</li>	
           			
@@ -134,7 +134,7 @@
         			<li class="nav-item">
             			<a href="/events/delete" class="nav-link <#if navbar=="DELETE_EVENT">active</#if>">
               				<i class="nav-icon fas fa-trash"></i>
-              				<p>Delete event</p>
+              				<p>Delete</p>
             			</a>
           			</li>	
           			

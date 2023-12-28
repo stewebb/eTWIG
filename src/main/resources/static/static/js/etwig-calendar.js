@@ -38,9 +38,7 @@ function createCalendar(elem, currentMonth){
 		//scrollTime: '09:00:00',
     	events: getEventListByRange(currentMonth, "month"),
     	eventClick: function (info) {
-			//getEventById(info.event.id);
-			//$(location).prop('href', '/events/edit?eventId=' + info.event.id);
-			//$('#myModal').modal('show')
+			editEventBtn(info.event.id);
 		},
     	dayMaxEvents: true,
     	nowIndicator: true,
@@ -77,15 +75,7 @@ function getEventListByRange(date, range){
 			
 			// HTTP resopnse normally, but has other kinds of error (e.g, invalid input)
 			if(json.error > 0){
-				$(document).Toasts('create', {
-  					title: "Failed to get resource.",
-  					body: json.msg,
-  					autohide: true,
-  					delay: 5000,
-  					icon: 'fa fa-circle-xmark',
-  					class: 'toast bg-danger'
-				});
-    			dangerToast("Failed to get calendar", json.msg);
+    			dangerToast("Failed to get events.", json.msg);
 			}
 			
 			else{
@@ -187,6 +177,45 @@ function addEventBtn(){
 			<iframe class="embed-responsive-item" src="/events/add?embedded=true" allowfullscreen></iframe>
         </div>`
     );
+	
+	// This modal cannot be closed when clicking outside area.  
+	$('#etwigModal').modal({
+    	backdrop: 'static',
+    	keyboard: false,
+	})
+	$('#etwigModal').modal('show');
+}
+
+function editEventBtn(eventId){
+	
+	$('#etwigModalTitle').text('Edit Event');
+	$('#etwigModalBody').html(`
+		<ul class="nav nav-tabs mb-3" id="editDelete" role="tablist">
+  			<li class="nav-item" role="presentation">
+    			<button class="nav-link active" id="edit-tab" data-toggle="tab" data-target="#edit" type="button" role="tab" aria-controls="edit" aria-selected="true">
+    				<i class="fa-solid fa-pencil"></i>&nbsp;Edit
+    			</button>
+  			</li>
+  			<li class="nav-item" role="presentation">
+    			<button class="nav-link" id="delete-tab" data-toggle="tab" data-target="#delete" type="button" role="tab" aria-controls="delete" aria-selected="false">
+    				<i class="fa-solid fa-eraser"></i>&nbsp;Delete
+    			</button>
+  			</li>
+		</ul>
+		
+		<div class="tab-content" id="editTabContent">
+  			<div class="tab-pane fade show active" id="edit" role="tabpanel" aria-labelledby="edit-tab">
+				<div class="embed-responsive embed-responsive-1by1">
+					<iframe class="embed-responsive-item" src="/events/add?embedded=true" allowfullscreen></iframe>
+        		</div>
+			</div>
+  			<div class="tab-pane fade" id="delete" role="tabpanel" aria-labelledby="delete-tab">
+  				<div class="embed-responsive embed-responsive-1by1">
+					<iframe class="embed-responsive-item" src="about:blank" allowfullscreen></iframe>
+        		</div>
+			</div>
+		</div>
+ 	`);
 	
 	// This modal cannot be closed when clicking outside area.  
 	$('#etwigModal').modal({
