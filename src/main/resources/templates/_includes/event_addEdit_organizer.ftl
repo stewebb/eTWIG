@@ -9,7 +9,7 @@
    -->
    
    						<#-- Organizer -->
-						<div class="card card-primary">
+						<div class="card card-primary card-outline">
 							<div class="card-header">
 								<h3 class="card-title">
 									<i class="fa-solid fa-user-tie"></i>&nbsp;Organizer
@@ -22,11 +22,13 @@
 								<div class="form-group row">
 									<label for="eventPortfolio" class="col-sm-2 col-form-label">Portfolio</label>
 									<div class="col-sm-10 input-group">
+									
 										<div class="input-group-prepend">
 											<span class="input-group-text">
 												<i class="fa-solid fa-briefcase"></i>
 											</span>
 										</div>
+										
       									<select class="form-control select2" name="eventPortfolio" id="eventPortfolio">
         									<optgroup label="My Portfolio(s)">
         									
@@ -39,6 +41,8 @@
         									</#if>
         									</optgroup>
       									</select>
+      									
+      									<div id="select-box"></div>
 									</div>
 								</div>
 								

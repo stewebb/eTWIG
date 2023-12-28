@@ -90,7 +90,7 @@ public class EventService {
 		// Step 2.4: Add all necessary data
 		eventDetails.put("eventName", singleTimeEvent.getName());
 		eventDetails.put("eventStartTime", singleTimeEvent.getStartDateTime());
-		eventDetails.put("timeUnit", EventTimeUnit.fromString(singleTimeEvent.getUnit()));
+		eventDetails.put("timeUnit", EventTimeUnit.fromString(singleTimeEvent.getUnit()).toString());
 		eventDetails.put("eventDuration", singleTimeEvent.getDuration());
 		eventDetails.put("eventLocation", singleTimeEvent.getLocation());
 
@@ -179,11 +179,8 @@ public class EventService {
 	public LinkedHashMap<String, Object> findById(long id, boolean showAllDetails) {
 			
 		LinkedHashMap<String, Object> event = new LinkedHashMap<String, Object>();
-		
 		LinkedHashMap<String, Object> eventInfoSingleTime = getSingleTimeEventById(id, showAllDetails);
 		LinkedHashMap<String,Object> eventInfoRecurring = getRecurringEventById(id, showAllDetails);
-		// System.out.println(eventInfoRecurring);
-		// System.out.println(eventInfoSingleTime);
 		
 		// The event is recurring
 		if(eventInfoRecurring != null && eventInfoSingleTime == null) {

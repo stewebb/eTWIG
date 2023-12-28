@@ -19,7 +19,7 @@
 	<#-- Custom JS for eTWIG calendar and datepicker. -->
 	<script src="/static/js/etwig-calendar.js"></script>
 	
-	<title>Event Calendar - eTWIG Administration Portal</title>
+	<title>Event Calendar - ${app.appName}</title>
 </head>
 
 <body class="sidebar-mini layout-fixed">
@@ -56,7 +56,7 @@
             			<div class="sticky-top mb-3">
               				
               				<#-- Options -->
-              				<div class="card card-primary">
+              				<div class="card card-primary card-outline">
                					<div class="card-header">
                   					<h3 class="card-title">
                   						<i class="fa-regular fa-gear"></i>&nbsp;Options
@@ -100,7 +100,7 @@
           
           			<#-- Calendar -->
           			<div class="col-md-9">
-            			<div class="card card-primary">
+            			<div class="card card-primary card-outline">
             				<div class="card-header">
                   				<h3 class="card-title">
                   					<i class="fa-regular fa-calendar"></i>&nbsp;Calendar

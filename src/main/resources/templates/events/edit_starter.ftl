@@ -11,7 +11,7 @@
 <html>
 <head>
 	<#include "../_includes/header.ftl">
-	<title>Edit Event - eTWIG Administration Portal</title>
+	<title>Edit Event - ${app.appName}</title>
 </head>
 
 <body class="sidebar-mini layout-fixed">

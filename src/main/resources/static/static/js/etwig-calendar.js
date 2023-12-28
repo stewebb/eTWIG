@@ -92,9 +92,41 @@ function getEventListByRange(date, range){
 				jQuery.each(json.events, function(id, value) {
 					var eventStartDateTime = new Date(value.eventStartTime);
 					
+					// Default multiplier is 60,000 (per minute): 60 (s) * 1000 (ms)
+					var multiplier = 60000;
+					//console.log(value.eventDuration + " " + value.timeUnit);
+					
+					switch (value.timeUnit){
+						
+						// Hour, 1h = 60min
+						case "h":
+							multiplier *= 60;
+							break;
+							
+						// Day, 1 day = 1,440min
+						case "d":
+							multiplier *= 1440;
+							break;
+							
+						// Week, 1 week = 7days = 10,080min
+						case "w":
+							multiplier *= 10080;
+							break;
+							
+						// Month, 1 month = 30days = 43,200min
+						case "m":
+							multiplier *= 43200;
+							break;
+							
+						// Custom, unit is Minute
+							default:
+								multiplier *= 1;
+								break;
+					}
+  										
 					// Calculate end time
-					var eventEndDateTime = new Date(eventStartDateTime.getTime() + value.eventDuration * 60000);
-  					
+					var eventEndDateTime = new Date(eventStartDateTime.getTime() + value.eventDuration * multiplier);
+					
   					// Transfer the dates and other information to the frontend.
   					eventList.push({
 						  id: id,

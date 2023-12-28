@@ -19,7 +19,7 @@
 	<#-- Custom JS for adding events-->
 	<script src="/static/js/etwig-events.js"></script>
 
-	<title>Add Event - eTWIG Administration Portal</title>
+	<title>Add Event - ${app.appName}</title>
 </head>
 
 <body class="sidebar-mini layout-fixed">

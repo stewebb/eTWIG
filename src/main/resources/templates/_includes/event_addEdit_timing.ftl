@@ -9,7 +9,7 @@
    -->
    
    						<#-- Timing: Single Time Event -->
-						<div class="card card-primary">
+						<div class="card card-primary card-outline">
 							<div class="card-header">
 								<h3 class="card-title">
 									<i class="fa-solid fa-clock"></i>&nbsp;Timing: Single Time Event
