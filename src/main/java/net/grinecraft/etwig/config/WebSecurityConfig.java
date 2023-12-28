@@ -47,7 +47,7 @@ public class WebSecurityConfig{
 		
 		// Set the public access resources.
 		http.authorizeHttpRequests((requests) -> requests
-				.requestMatchers("/static/**", "/twig", "/error", "favicon.ico").permitAll()
+				.requestMatchers("/static/**", "/twig/**", "/error").permitAll()
 				.anyRequest().authenticated()
 			);
 		

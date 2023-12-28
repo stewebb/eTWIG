@@ -10,6 +10,9 @@
 	<#-- Required meta tags. -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	
+	<#-- The eTWIG icon. -->
+	<link rel="icon" href="/static/images/favicon.ico">
 
 	<#-- CSS and JS for Pace -->
 	<link rel="stylesheet" href="/static/css/pace-theme-flash.css">

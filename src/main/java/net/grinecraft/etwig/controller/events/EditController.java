@@ -15,8 +15,12 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.model.User;
@@ -39,8 +43,20 @@ public class EditController {
 	@Autowired
 	UserRoleService userRoleService;
 
-	@RequestMapping("/events/edit")  
-	public String edit(HttpSession session, Model model, @RequestParam String eventId, @RequestParam String embedded) throws Exception{
+	/**
+	 * Edit or delete event page.
+	 * They have the same validation part, so they are mapped to the same method.
+	 * @param action The action of current operation. action := edit | delete
+	 * @param session
+	 * @param model
+	 * @param eventId The id of target event.
+	 * @param embedded
+	 * @return
+	 * @throws Exception
+	 */
+	
+	@RequestMapping("/events/{action}")  
+	public String edit(@PathVariable String action, HttpSession session, Model model, @RequestParam String eventId, @RequestParam String embedded) throws Exception{
 		Long id = null;
 		
 		model.addAttribute("embedded", BooleanUtils.toBoolean(embedded));
@@ -59,7 +75,9 @@ public class EditController {
 		if(Boolean.TRUE.equals(event.get("exists"))) {
 			model.addAttribute("eventId", id);
 			model.addAttribute("eventDetails", event);
-			return "events/edit";
+			
+			// The action is either edit or delete.
+			return "edit".equals(action) ? "events/edit" : "events/delete"; 
 		}
 				
 		// Event cannot be found, 
@@ -68,39 +86,6 @@ public class EditController {
 			return "_errors/custom_error";
 		}		
 			
-		
-		
-		// Logged in user (me)
-        //User my = (User) session.getAttribute("user");
-       
-        // Get myColleagues: Other users who have the same portfolio with me
-        //LinkedHashMap<Long, User> myColleagues = userRoleService.getUsersByPortfolioId(id);
-        
-        // Get myPortfolios: Other portfolios that I have.
-        //LinkedHashMap<Long, Portfolio> myPortfolios = userRoleService.getPortfoliosByUserId(my.getId());
-        
-        // Extract the keys
-        //Set<Long> myPortfolioIds = myPortfolios.keySet();
-        //LinkedHashMap<Long, Portfolio> allPortfolios = portfolioService.getPortfolioList();
-   
-        // And get the remaining portfolios
-        //for (Long key : myPortfolioIds) {
-        //	allPortfolios.remove(key);
-        //}        
-        
-		//model.addAttribute("eventId", eventId);
-		//model.addAttribute("mode", mode);
-        //model.addAttribute("navbar", NavBar.EDIT_EVENT);
-        
-        //if(id != null) {
-        //	model.addAttribute("myColleagues", myColleagues);
-        //}
-        
-        //if (my != null) {
-        //	model.addAttribute("myPortfolios", myPortfolios);
-        //	model.addAttribute("remainingPortfolios", allPortfolios);
-        //}
-		//return page;
 	}
 	
 	/**
