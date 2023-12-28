@@ -10,6 +10,7 @@
 package net.grinecraft.etwig.services;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
@@ -87,11 +88,18 @@ public class EventService {
 			throw new DataIntegrityViolationException("The organizer of event id=" + singleTimeEvent.getId() + " doesn't exist. PLease check the user table.");
 		}
 		
+		// Get time unit, and calculate end time
+		EventTimeUnit timeUnit = EventTimeUnit.fromString(singleTimeEvent.getUnit());
+		LocalDateTime startTime = singleTimeEvent.getStartDateTime();
+		int duration = singleTimeEvent.getDuration();
+		LocalDateTime endTime = DateUtils.calculateEndTime(timeUnit, startTime, duration);
+		
 		// Step 2.4: Add all necessary data
 		eventDetails.put("eventName", singleTimeEvent.getName());
-		eventDetails.put("eventStartTime", singleTimeEvent.getStartDateTime());
-		eventDetails.put("timeUnit", EventTimeUnit.fromString(singleTimeEvent.getUnit()).toString());
-		eventDetails.put("eventDuration", singleTimeEvent.getDuration());
+		eventDetails.put("eventStartTime", startTime);
+		eventDetails.put("eventEndTime", endTime);
+		eventDetails.put("timeUnit", timeUnit.toString());
+		eventDetails.put("eventDuration", duration);
 		eventDetails.put("eventLocation", singleTimeEvent.getLocation());
 
 		// Just output the overriding event id. Let the front-end to handle this.

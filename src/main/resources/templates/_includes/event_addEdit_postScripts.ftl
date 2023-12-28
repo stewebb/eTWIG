@@ -15,8 +15,13 @@
 		initDescriptionBox('#eventDescription');
 		
 		// Time pickers for both start and end time
-		startTimePicker = createDatePicker("#eventStartWrapper", "#eventStartTime", "date", "yyyy-MM-dd HH:mm A", true);
-		endTimePicker = createDatePicker("#eventEndWrapper", "#eventEndTime", "date", "yyyy-MM-dd HH:mm A", true);
+		startTimePicker = createDatePicker("#eventStartWrapper", "#eventStartTime", "date", "yyyy-MM-dd HH:mm A");
+		endTimePicker = createDatePicker("#eventEndWrapper", "#eventEndTime", "date", "yyyy-MM-dd HH:mm A");
+		
+		<#if isEdit>
+			startTimePicker.setDate(Date.parse("${eventDetails.detail.eventStartTime}"));
+			endTimePicker.setDate(Date.parse("${eventDetails.detail.eventEndTime}"));
+		</#if>
 		
 		// Register those time unit buttons
       	timeUnitBtnOnChange(startTimePicker);      	

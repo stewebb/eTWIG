@@ -7,6 +7,7 @@
 	function: The template for add/edit events, page header part.
 	This part contains the common page header.
    -->
+   
    		<#if isEdit>
    			<#assign str = "Edit">
    			<#assign link = "edit?eventId=" + eventId + "&embedded=" + embedded ?string('true', 'false')>

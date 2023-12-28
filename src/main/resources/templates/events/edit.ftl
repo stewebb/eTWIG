@@ -63,7 +63,7 @@
 				<#-- Footer -->
 				<#include "../_includes/event_addEdit_footer.ftl">
 				
-			</dev>
+			</div>
 		</section>
 
 	</div>

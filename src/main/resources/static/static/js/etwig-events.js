@@ -251,20 +251,11 @@ function timeUnitBtnOnChange(startTimePicker){
  * @param pickerElem The element of date input.
  * @param type The picker type.
  * @param format Time format.
- * @param timePicker True enable time picker, otherwise disable time picker.
  * @returns The created datepicker element.
  */
 
-function createDatePicker(htmlElem, pickerElem, type, format, timePicker){
-	
-	// Set the timepicker
-	var t = false;
-	if(timePicker){
-		t = {
-          inputType: 'spinbox'
-        }
-	}
-	
+function createDatePicker(htmlElem, pickerElem, type, format){
+
 	// Create the date picker
 	var datepicker = new tui.DatePicker(htmlElem, {
 		date: Date.today(),
@@ -274,7 +265,9 @@ function createDatePicker(htmlElem, pickerElem, type, format, timePicker){
 			format: format,
 			usageStatistics: false
 		},
-		timePicker: t,
+		timePicker: {
+          inputType: 'spinbox'
+        },
 	});
 	return datepicker;
 }

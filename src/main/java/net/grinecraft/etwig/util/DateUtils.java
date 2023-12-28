@@ -15,6 +15,8 @@ import java.time.ZoneId;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 
+import net.grinecraft.etwig.util.type.EventTimeUnit;
+
 /**
  * The util class about dates, based on Apache Commons.
  */
@@ -111,5 +113,39 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
     
     public static LocalDate findTomorrow(LocalDate date) {
 		return date.plusDays(1);
+    }
+    
+    /**
+     * Calculate the event end time
+     * @param timeUnit One of the elements of EventTimeUnit Enum
+     * @param startTime Event start time in LocalDateTime format
+     * @param multiplier The duration
+     * @return Calculated event end time, in LocalDateTime format.
+     */
+    
+    public static LocalDateTime calculateEndTime(EventTimeUnit timeUnit, LocalDateTime startTime, int multiplier) {
+    	
+    	float totalMinutes = 0;
+    	switch (timeUnit) {
+        	case HOUR:
+        		totalMinutes = multiplier * 60;
+        		break;
+        	case DAY:
+        		totalMinutes = multiplier * 1440; // 24 * 60
+        		break;
+        	case WEEK:
+        		totalMinutes = multiplier * 10080; // 7 * 24 * 60
+        		break;
+        	case MONTH:
+        		totalMinutes = multiplier * 43200; // 30 days in a month
+        		break;
+    		default:
+    			totalMinutes = multiplier;
+    		break;
+    	}
+
+    	// Keeping only the integer part of the total minutes
+    	long minutesToAdd = (long) totalMinutes;
+    	return startTime.plusMinutes(minutesToAdd);
     }
 }

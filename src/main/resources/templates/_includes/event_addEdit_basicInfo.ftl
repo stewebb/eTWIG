@@ -30,7 +30,7 @@
 													<i class="fa-solid fa-lightbulb"></i>
 												</span>
 											</div>
-											<input type="text" class="form-control" placeholder="Event Name" id="eventName" maxlength="31">
+											<input type="text" class="form-control" placeholder="Event Name" id="eventName" maxlength="31" value="<#if isEdit>${eventDetails.detail.eventName}</#if>">
 										</div>
 									</div>
 								</div>
@@ -45,12 +45,15 @@
 													<i class="fa-solid fa-location-dot"></i>
 												</span>
 											</div>
-											<input type="text" class="form-control" placeholder="Event Location" id="eventLocation" maxlength="63">
+											<input type="text" class="form-control" placeholder="Event Location" id="eventLocation" maxlength="63" value="<#if isEdit>${eventDetails.detail.eventLocation}</#if>">
+											
+											
 										</div>
 									</div>
 								</div>
 
 								<#-- Recurrent -->
+								<#-- TODO Implement Recurrent function -->
 								<div class="form-group row">
 									<label for="event-recurrent" class="col-sm-2 col-form-label">
 										Recurrent&nbsp;<span class="required-symbol">*</span>
@@ -77,7 +80,7 @@
 								<#-- Description -->
 								<div class="form-group">
 									<label for="eventDescription">Description</label>
-									<div id="eventDescription"></div>
+									<div id="eventDescription"><#if isEdit>${eventDetails.detail.eventDescription}</#if></div>
 								</div>
 							</div>
 						</div>	
