@@ -1,3 +1,12 @@
+/**
+	 * eTWIG - The event and banner management software for residential halls and student unions.
+	 * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
+	 * @license: MIT
+	 * @author: Steven Webb [xiaoancloud@outlook.com]
+	 * @website: https://etwig.grinecraft.net
+	 * @function: The services for all user-role options.
+	 */
+
 package net.grinecraft.etwig.services;
 
 import java.util.LinkedHashMap;
@@ -25,23 +34,12 @@ public class UserRoleService {
 
     @Autowired
     private PortfolioRepository portfolioRepository;
-
-    /*
-    public List<Portfolio> getPortfoliosByUserId(Long userId) {
-        List<UserRole> roles = userRoleRepository.findByIdUserId(userId);
-        return roles.stream()
-                    .map(role -> portfolioRepository.findById(role.getId().getPortfolioId()).orElse(null))
-                    .collect(Collectors.toList());
-    }
-
-    public List<User> getUsersByPortfolioId(Long portfolioId) {
-        List<UserRole> roles = userRoleRepository.findByIdPortfolioId(portfolioId);
-        return roles.stream()
-                    .map(role -> userRepository.findById(role.getId().getUserId()).orElse(null))
-                    .collect(Collectors.toList());
-    }
     
-    */
+    /**
+     * Get all Portfolios for a user.
+     * @param userId
+     * @return The LinkedHashMap of portfolios.
+     */
     
     public LinkedHashMap<Long, Portfolio> getPortfoliosByUserId(Long userId) {
         List<UserRole> roles = userRoleRepository.findByIdUserId(userId);
@@ -55,6 +53,12 @@ public class UserRoleService {
         return portfoliosMap;
     }
 
+    /**
+     * Get all users that works in the portfolio.
+     * @param portfolioId
+     * @return The LinkedHashMap of users.
+     */
+    
     public LinkedHashMap<Long, User> getUsersByPortfolioId(Long portfolioId) {
         List<UserRole> roles = userRoleRepository.findByIdPortfolioId(portfolioId);
         LinkedHashMap<Long, User> usersMap = new LinkedHashMap<>();

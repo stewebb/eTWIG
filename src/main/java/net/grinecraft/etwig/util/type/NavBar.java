@@ -1,8 +1,14 @@
+/**
+	 * eTWIG - The event and banner management software for residential halls and student unions.
+	 * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
+	 * @license: MIT
+	 * @author: Steven Webb [xiaoancloud@outlook.com]
+	 * @website: https://etwig.grinecraft.net
+	 * @function: The navbar types in a page.
+	 */
+
 package net.grinecraft.etwig.util.type;
 
-/**
- * Different navbar types.
- */
 
 public enum NavBar {
 	
@@ -11,6 +17,7 @@ public enum NavBar {
 	CALENDAR("CALENDAR"),
 	EDIT_EVENT("EDIT_EVENT"),
 	ADD_EVENT("ADD_EVENT"),
+	DELETE_EVENT("DELETE_EVENT"),
 	LOGIN("LOGIN"),
 	OTHER("OTHER");
 

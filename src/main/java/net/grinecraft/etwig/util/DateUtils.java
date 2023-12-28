@@ -1,3 +1,12 @@
+/**
+	 * eTWIG - The event and banner management software for residential halls and student unions.
+	 * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
+	 * @license: MIT
+	 * @author: Steven Webb [xiaoancloud@outlook.com]
+	 * @website: https://etwig.grinecraft.net
+	 * @function: All utilities for date and time, based on Apache Commons. 
+	 */
+
 package net.grinecraft.etwig.util;
 
 import java.time.LocalDate;
@@ -27,6 +36,13 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 			return null;
 		}
 	}
+	
+	/**
+	 * Parse date and time without throw an exception.
+	 * @param dateTimeStr The datetime in String format.
+	 * @param patternStr The pattern String.
+	 * @return LocalDateTime if the dateTimeStr is well-formed. Null otherwise.
+	 */
 	
 	public static LocalDateTime safeParseDateTime(String dateTimeStr, String patternStr) {
 		try {

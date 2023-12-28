@@ -1,3 +1,12 @@
+/**
+	 * eTWIG - The event and banner management software for residential halls and student unions.
+	 * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
+	 * @license: MIT
+	 * @author: Steven Webb [xiaoancloud@outlook.com]
+	 * @website: https://etwig.grinecraft.net
+	 * @function: The repository for SingleTimeEvent model.
+	 */
+
 package net.grinecraft.etwig.repository;
 
 import java.time.LocalDate;
@@ -13,6 +22,13 @@ import net.grinecraft.etwig.model.SingleTimeEvent;
 
 @Repository
 public interface SingleTimeEventRepository extends JpaRepository<SingleTimeEvent, Long> {
+	
+	/**
+	 * Find all single time events that happens in a given time range.
+	 * @param startDateTime
+	 * @param endDateTime
+	 * @return The list of SingleTimeEvent objects.
+	 */
 	
 	@Query(value = "SELECT * FROM event_single_time u WHERE u.start_datetime >= :dts and u.start_datetime <= :dte", nativeQuery = true)
 	public List<SingleTimeEvent> findByDateRange(@Param("dts") LocalDate startDateTime, @Param("dte") LocalDate endDateTime);

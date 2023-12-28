@@ -1,3 +1,12 @@
+/**
+	 * eTWIG - The event and banner management software for residential halls and student unions.
+	 * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
+	 * @license: MIT
+	 * @author: Steven Webb [xiaoancloud@outlook.com]
+	 * @website: https://etwig.grinecraft.net
+	 * @function: The services for all portfolio-related options..
+	 */
+
 package net.grinecraft.etwig.services;
 
 import java.util.LinkedHashMap;
@@ -19,12 +28,11 @@ public class PortfolioService {
 	
 	/**
 	 * Get the list of all portfolios
-	 * @return JSON of list of all portfolios
+	 * @return A LinkedHashMap all portfolios
 	 */
 	
 	public LinkedHashMap<Long, Portfolio> getPortfolioList() {
 		
-		// return an empty JSON when the object is null. 
 		if(portfolioRepository == null) {
 			return null;
 		}
@@ -39,37 +47,18 @@ public class PortfolioService {
         return allPortfolios;
     }
 	
+	/**
+	 * Get a portfolio details by its Id.
+	 * @param id The Id of this portfolio.
+	 * @return The portfolio object with that Id, or null if no portfolio with that Id.
+	 */
+	
 	public Portfolio getPortfolioById(long id) {
 		if(portfolioRepository == null) {
 			return null;
 		}
 		
 		Optional<Portfolio> portfolioOpt = portfolioRepository.findById(id);
-		
-		if (portfolioOpt.isPresent()){
-			return portfolioOpt.get();
-		}else {
-			return null;
-		}
+		return portfolioOpt.isPresent() ? portfolioOpt.get() : null;
 	}
-	
-	/**
-	 * Convert the portfolio object to a map
-	 * @param portfolio portfolio object
-	 * @return portfolio map
-	 */
-	
-	/*
-	private LinkedHashMap<String, Object> portfolioObjectToMap(Portfolio portfolio){
-		LinkedHashMap<String, Object> map = new LinkedHashMap<>();
-    	//map.put("id", String.valueOf(portfolio.getPortfolioID()));
-    	map.put("name", portfolio.getName());
-    	map.put("color", portfolio.getColor());
-    	map.put("abbreviation", portfolio.getAbbreviation());
-    	map.put("icon", portfolio.getIcon());
-    	map.put("isSeperatedCalendar", portfolio.isSeperatedCalendar());
-    	map.put("parent", portfolio.getParent());
-		return map;
-	}
-	*/
 }

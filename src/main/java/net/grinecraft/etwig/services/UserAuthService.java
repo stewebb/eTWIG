@@ -1,3 +1,12 @@
+/**
+	 * eTWIG - The event and banner management software for residential halls and student unions.
+	 * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
+	 * @license: MIT
+	 * @author: Steven Webb [xiaoancloud@outlook.com]
+	 * @website: https://etwig.grinecraft.net
+	 * @function: The services for all user-authentication-related options..
+	 */
+
 package net.grinecraft.etwig.services;
 
 import java.util.ArrayList;
@@ -18,6 +27,10 @@ public class UserAuthService implements UserDetailsService {
 	@Autowired
 	private UserAuthRepository userAuthRepository;
 
+	/**
+	 * User Authentication.
+	 */
+	
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		UserAuth userAuth = userAuthRepository.findByEmail(email);
