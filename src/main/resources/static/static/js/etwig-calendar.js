@@ -177,7 +177,7 @@ function editEventBtn(eventId){
 			</div>
   			<div class="tab-pane fade" id="delete" role="tabpanel" aria-labelledby="delete-tab">
   				<div class="embed-responsive embed-responsive-1by1">
-					<iframe class="embed-responsive-item" src="about:blank" allowfullscreen></iframe>
+					<iframe class="embed-responsive-item" src="/events/delete?eventId=${eventId}&embedded=true" allowfullscreen></iframe>
         		</div>
 			</div>
 		</div>

@@ -128,5 +128,7 @@
 		createDatePicker("#wrapper", "#datepicker-input", "#select-month");
 		createCalendar("etwig-public-calendar", currentDate.toString('yyyy-MM-dd'));
     </script>
+    
+    <#include "../_includes/footer.ftl">
 </body>
 </html>

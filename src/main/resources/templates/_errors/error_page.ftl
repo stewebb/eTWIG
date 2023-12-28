@@ -89,7 +89,7 @@
 			</div>
 			
 			<#-- Technical Details -->
-			<div class="card card-primary" id="technicalDetails" style="display:none">
+			<div class="card card-primary card-outline" id="technicalDetails" style="display:none">
 				<div class="card-header">
 					<h3 class="card-title">
 						<i class="fa-solid fa-bug"></i>&nbsp;Technical Details
