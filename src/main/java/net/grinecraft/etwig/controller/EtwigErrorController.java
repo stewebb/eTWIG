@@ -55,13 +55,13 @@ public class EtwigErrorController implements ErrorController {
         // API pages
         if(path.startsWith("/api")) {
         	response.setContentType("application/json");
-        	return "errorJson";
+        	return "_errors/error_json";
         }
         
         // Normal pages
         else {
         	response.setContentType("text/html");
-            return "errorPage"; 
+            return "_errors/error_page"; 
         }
         
     }

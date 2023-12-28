@@ -13,11 +13,8 @@ package net.grinecraft.etwig.util.type;
 public enum NavBar {
 	
 	DASHBOARD("DASHBOARD"),
-	TWIG("TWIG"),
 	CALENDAR("CALENDAR"),
-	EDIT_EVENT("EDIT_EVENT"),
 	ADD_EVENT("ADD_EVENT"),
-	DELETE_EVENT("DELETE_EVENT"),
 	LOGIN("LOGIN"),
 	OTHER("OTHER");
 

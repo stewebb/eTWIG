@@ -89,7 +89,7 @@
           		
           			<#-- TWIG -->
         			<li class="nav-item">
-            			<a href="/twig/main" target="_blank" class="nav-link <#if navbar=="TWIG">active</#if>">
+            			<a href="/twig/main" target="_blank" class="nav-link">
               				<i class="nav-icon fas fa-tree"></i>
               				<p>TWIG</p>
             			</a>
@@ -121,23 +121,7 @@
               				<p>Add</p>
             			</a>
           			</li>	
-          			
-          			<#-- Event: Edit -->
-        			<li class="nav-item">
-            			<a href="/events/edit" class="nav-link <#if navbar=="EDIT_EVENT">active</#if>">
-              				<i class="nav-icon fas fa-pen-to-square"></i>
-              				<p>Edit</p>
-            			</a>
-          			</li>	
-          			
-          			<#-- Event: Delete -->
-        			<li class="nav-item">
-            			<a href="/events/delete" class="nav-link <#if navbar=="DELETE_EVENT">active</#if>">
-              				<i class="nav-icon fas fa-trash"></i>
-              				<p>Delete</p>
-            			</a>
-          			</li>	
-          			
+          				
           			<#-- Banner Management -->
           			<#-- <li class="nav-header">Banner Management</li> -->
           			
