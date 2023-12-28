@@ -42,17 +42,18 @@
 			
 				<div class="row">
 					<div class="col-md-6">
+					
 						<#-- Basic Information -->		
 						<#include "../_includes/event_addEdit_basicInfo.ftl">
+						
+						<#-- Organizer -->		
+						<#include "../_includes/event_addEdit_organizer.ftl">
 					</div>
 					
 					<div class="col-md-6">
 					
 						<#-- Timing -->		
 						<#include "../_includes/event_addEdit_timing.ftl">
-						
-						<#-- Organizer -->		
-						<#include "../_includes/event_addEdit_organizer.ftl">
 						
 						<#-- Properties -->
 						<#include "../_includes/event_addEdit_properties.ftl">

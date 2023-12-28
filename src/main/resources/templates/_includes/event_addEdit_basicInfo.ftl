@@ -18,6 +18,25 @@
 							
 							<div class="card-body">
 								
+								<#-- Event ID -->
+								<#if isEdit>
+									<div class="form-group row">
+										<label for="eventName" class="col-sm-2 col-form-label">
+											Id&nbsp;<span class="required-symbol">*</span>
+										</label>
+										<div class="col-sm-10">
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text">
+														<i class="fa-solid fa-hashtag"></i>
+													</span>
+												</div>
+												<input type="number" class="form-control" placeholder="Event ID" id="eventId" value="${eventId}" disabled>
+											</div>
+										</div>
+									</div>
+								</#if>
+								
 								<#-- Name -->
 								<div class="form-group row">
 									<label for="eventName" class="col-sm-2 col-form-label">
@@ -47,7 +66,6 @@
 											</div>
 											<input type="text" class="form-control" placeholder="Event Location" id="eventLocation" maxlength="63" value="<#if isEdit>${eventDetails.detail.eventLocation}</#if>">
 											
-											
 										</div>
 									</div>
 								</div>
@@ -69,11 +87,19 @@
 												<label for="recurring-event">Recurring</label>
 											</div>
 										</div>				
-								
-										<div class="callout callout-info">
-											<h5 class="bold-text mb-3">Be Careful!</h5>
-											Once you set the recurrent option, it cannot be changed unless you delete the event completely, then add a new event.
-										</div>
+										
+										<#if isEdit>
+											<div class="callout callout-warning">
+												<h5 class="bold-text mb-3">Recurrent Option Disabled</h5>
+												You cannot change the recurrent option for an existing event. If you want to do so, please delate the event and create a new event.
+											</div>
+										<#else>
+											<div class="callout callout-info">
+												<h5 class="bold-text mb-3">Be Careful!</h5>
+												Once you set the recurrent option, it cannot be changed unless you delete the event completely, then add a new event.
+											</div>
+										</#if>
+										
 									</div>
 								</div>
 								
