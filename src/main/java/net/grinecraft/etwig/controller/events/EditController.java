@@ -39,11 +39,13 @@ public class EditController {
 	@Autowired
 	UserRoleService userRoleService;
 
-	@RequestMapping("/events/_edit")  
-	public String edit(HttpSession session, Model model, @RequestParam String eventId) throws Exception{
+	@RequestMapping("/events/edit")  
+	public String edit(HttpSession session, Model model, @RequestParam String eventId, @RequestParam String embedded) throws Exception{
 		Long id = null;
-		model.addAttribute("embedded", true);
+		
+		model.addAttribute("embedded", BooleanUtils.toBoolean(embedded));
 		model.addAttribute("isEdit", true);
+		model.addAttribute("navbar", NavBar.OTHER);
 		
 		// Check Invalid eventId. (Not a Long number)
 		id = NumberUtils.safeCreateLong(eventId);
@@ -55,9 +57,10 @@ public class EditController {
 		// Check eventId can be founded in database or not
 		LinkedHashMap<String, Object> event = eventService.findById(id, true);
 		if(Boolean.TRUE.equals(event.get("exists"))) {
-				model.addAttribute("eventDetails", event);
-				return "events/_edit";
-			}
+			model.addAttribute("eventId", id);
+			model.addAttribute("eventDetails", event);
+			return "events/edit";
+		}
 				
 		// Event cannot be found, 
 		else {

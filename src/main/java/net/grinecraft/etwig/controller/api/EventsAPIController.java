@@ -66,7 +66,7 @@ public class EventsAPIController {
 	 * @authentication True
 	 */
 	
-	@RequestMapping("/api/getEventById")  
+	@RequestMapping("/api/private/getEventById")  
 	public Map<String, Object> getEventById(@RequestParam String eventId, @RequestParam String showAllDetails) throws Exception{
 		Long eventIdNum = NumberUtils.safeCreateLong(eventId);
 

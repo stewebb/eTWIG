@@ -11,7 +11,7 @@
 <html>
 <head>
 
-	<#include "./_includes/header.ftl">
+	<#include "../_includes/header.ftl">
 	
     <title>Http Status ${error.status} - ${error.error}</title>
 </head>
@@ -29,7 +29,7 @@
     	<section class="content">
     		
     		<#-- Error information -->
-			<div class="card card-${color}">
+			<div class="card card-${color} card-outline">
 				<div class="card-header">
 					<h3 class="card-title">
 						<i class="fa-solid fa-circle-exclamation"></i>&nbsp;Oops! Something went wrong.&nbsp;
@@ -67,7 +67,7 @@
 				<div class="card-body mr-2">
 				
 					<a href="/" class="btn btn-outline-primary mb-1 mr-1">
-						<i class="fa-solid fa-home"></i>&nbsp;Home Page
+						<i class="fa-solid fa-home"></i>&nbsp;Home
 					</a>
 					
 					<button id="showTechnicalDetails" class="btn btn-outline-info mb-1 mr-1">
@@ -75,7 +75,11 @@
 					</button>
 					
 					<button class="btn btn-outline-secondary mb-1 mr-1" onclick="window.history.back();">
-						<i class="fa-solid fa-rotate-left"></i>&nbsp;Go Back
+						<i class="fa-solid fa-rotate-left"></i>&nbsp;Back
+					</button>
+					
+					<button class="btn btn-outline-secondary mb-1 mr-1" onclick="window.location.reload();">
+							<i class="fa-solid fa-rotate"></i>&nbsp;Refresh
 					</button>
 					
 					<a href="/user/login" class="btn btn-outline-secondary mb-1 mr-1">
