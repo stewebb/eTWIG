@@ -80,16 +80,16 @@ function getEventListByRange(date, range){
 			
 			else{
 				jQuery.each(json.events, function(id, value) {
-					var eventStartDateTime = new Date(value.eventStartTime);
-					var eventEndDateTime = new Date(value.eventEndTime);
+					var eventStartDateTime = new Date(value.details.startDateTime);
+					var eventEndDateTime = new Date(value.details.endDateTime);
 					
   					// Transfer the dates and other information to the frontend.
   					eventList.push({
 						  id: id,
 						  start: eventStartDateTime.toString('yyyy-MM-dd HH:mm'),
 						  end: eventEndDateTime.toString('yyyy-MM-dd HH:mm'),
-						  title: value.eventName, 
-						  color: "#" + value.portfolioColor}
+						  title: value.details.name, 
+						  color: "#" + value.portfolio.color}
 					); 
   					
 				})

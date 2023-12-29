@@ -61,7 +61,7 @@ public class EditController {
 		Long id = null;
 		
 		model.addAttribute("embedded", BooleanUtils.toBoolean(embedded));
-		model.addAttribute("isEdit", true);
+		//model.addAttribute("isEdit", true);
 		model.addAttribute("navbar", NavBar.OTHER);
 		
 		// Check Invalid eventId. (Not a Long number)
@@ -77,8 +77,12 @@ public class EditController {
 			model.addAttribute("eventId", id);
 			model.addAttribute("eventDetails", event);
 			
-			//Set<Long> myPortfolios = ((LinkedHashMap<Long, Portfolio>) session.getAttribute("portfolio")).keySet();
-			//model.addAttribute("editPermission", myPortfolios.contains(((LinkedHashMap<String, Object>) event.get("detail")).get("portfolioId")));
+			Set<Long> myPortfolios = ((LinkedHashMap<Long, Portfolio>) session.getAttribute("portfolio")).keySet();
+			Long eventportfolio = (Long) ((LinkedHashMap<String, Object>) event.get("portfolio")).get("Id");
+			
+			//System.out.println(myPortfolios);
+			//System.out.println(eventportfolio);
+			model.addAttribute("editPermission", myPortfolios.contains(eventportfolio));
 			
 			// The action is either edit or delete.
 			return "edit".equals(action) ? "events/edit" : "events/delete"; 
@@ -110,7 +114,7 @@ public class EditController {
 		// Get myPortfolios: All portfolios that I have.
 		//LinkedHashMap<Long, Portfolio> myPortfolios = userRoleService.getPortfoliosByUserId(my.getId());
 		
-		model.addAttribute("isEdit", false);
+		//model.addAttribute("isEdit", false);
         model.addAttribute("navbar", NavBar.ADD_EVENT);
         //model.addAttribute("myPortfolios", myPortfolios);
         model.addAttribute("embedded", BooleanUtils.toBoolean(embedded));

@@ -14,13 +14,17 @@
 		// Initialize the description box
 		initDescriptionBox('#eventDescription');
 		
+		<#if disabled>
+			$('#eventDescription').summernote('disable');
+		</#if>
+		
 		// Time pickers for both start and end time
 		startTimePicker = createDatePicker("#eventStartWrapper", "#eventStartTime", "date", "yyyy-MM-dd HH:mm A");
 		endTimePicker = createDatePicker("#eventEndWrapper", "#eventEndTime", "date", "yyyy-MM-dd HH:mm A");
 		
 		<#if isEdit>
-			startTimePicker.setDate(Date.parse("${eventDetails.detail.eventStartTime}"));
-			endTimePicker.setDate(Date.parse("${eventDetails.detail.eventEndTime}"));
+			startTimePicker.setDate(Date.parse("${eventDetails.details.startDateTime}"));
+			endTimePicker.setDate(Date.parse("${eventDetails.details.endDateTime}"));
 		</#if>
 		
 		// Register those time unit buttons

@@ -7,6 +7,10 @@
 	function: The add event page.
    -->
 
+<#assign isEdit = false>
+<#assign disabled = false>
+<#assign disabledText ="">
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,7 +27,7 @@
 </head>
 
 <body class="sidebar-mini layout-fixed">
-
+	
 	<#if embedded == false>
 		<#include "../_includes/sidebar.ftl">
 	</#if>

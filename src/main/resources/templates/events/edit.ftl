@@ -7,6 +7,10 @@
 	function: The edit event page.
    -->
 
+<#assign isEdit = true>
+<#assign disabled = !editPermission>
+<#assign disabledText = editPermission ? string("", "disabled")>
+
 <!DOCTYPE html>
 <html>
 <head>

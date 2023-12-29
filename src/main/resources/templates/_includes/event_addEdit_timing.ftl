@@ -10,8 +10,8 @@
    
    <#-- h (hour) is the default option in add event mode.  -->
    <#if isEdit>
-   		<#assign unit = eventDetails.detail.timeUnit>
-   		<#assign duration = eventDetails.detail.eventDuration>
+   		<#assign unit = eventDetails.details.unit>
+   		<#assign duration = eventDetails.details.duration>
    <#else>
    		<#assign unit = "h">
    		<#assign duration = 1>
@@ -37,31 +37,31 @@
 										
 											<#-- Hour-->
 											<div class="icheck-primary">
-												<input type="radio" id="hour" name="eventTimeUnit" <#if unit == "h">checked</#if> value="h">
+												<input type="radio" id="hour" name="eventTimeUnit" <#if unit == "h">checked</#if> value="h" ${disabledText}>
 												<label for="hour">Hour</label>
 											</div>
 											
 											<#-- Day-->
 											<div class="icheck-primary">
-												<input type="radio" id="day" name="eventTimeUnit" <#if unit == "d">checked</#if> value="d">
+												<input type="radio" id="day" name="eventTimeUnit" <#if unit == "d">checked</#if> value="d" ${disabledText}>
 												<label for="day">Day [00:00-23:59]</label>
 											</div>
 											
 											<#-- Week-->
 											<div class="icheck-primary">
-												<input type="radio" id="week" name="eventTimeUnit" <#if unit == "w">checked</#if> value="w">
+												<input type="radio" id="week" name="eventTimeUnit" <#if unit == "w">checked</#if> value="w" ${disabledText}>
 												<label for="week">Week [00:00 Mon-23:59 Sun]</label>
 											</div>
 											
 											<#-- Month-->
 											<div class="icheck-primary">
-												<input type="radio" id="month" name="eventTimeUnit" <#if unit == "m">checked</#if> value="m">
+												<input type="radio" id="month" name="eventTimeUnit" <#if unit == "m">checked</#if> value="m" ${disabledText}>
 												<label for="month">Month [00:00 1st day-23:59 last day]</label>
 											</div>
 											
 											<#-- Customize-->
 											<div class="icheck-primary">
-												<input type="radio" id="customize" name="eventTimeUnit" <#if unit == "c">checked</#if> value="c">
+												<input type="radio" id="customize" name="eventTimeUnit" <#if unit == "c">checked</#if> value="c" ${disabledText}>
 												<label for="customize">Custom</label>
 											</div>
 										</div>
@@ -80,7 +80,7 @@
 													<i class="fa-solid fa-hourglass-start"></i>
 												</span>
 											</div>
-											<input type="text" class="form-control" placeholder="Event Start Time" id="eventStartTime">
+											<input type="text" class="form-control" placeholder="Event Start Time" id="eventStartTime" ${disabledText}>
 										</div>
 										<div id="eventStartWrapper" class="datepicker"></div>
 									</div>
@@ -98,7 +98,7 @@
 													<i class="fa-solid fa-hourglass-half"></i>
 												</span>
 											</div>
-											<input type="number" min="0" class="form-control" placeholder="Event Duration" id="eventDuration" value="${duration}">
+											<input type="number" min="0" class="form-control" placeholder="Event Duration" id="eventDuration" value="${duration}" ${disabledText}>
 											<div class="input-group-append">
 												<span class="input-group-text" id="unitText">Hour(s)</span>
 											</div>
@@ -118,7 +118,7 @@
 													<i class="fa-solid fa-hourglass-end"></i>
 												</span>
 											</div>
-											<input type="text" class="form-control" placeholder="Event End Time" id="eventEndTime">
+											<input type="text" class="form-control" placeholder="Event End Time" id="eventEndTime" <#if isEdit && !editPermission>disabled</#if>>
 										</div>
 										<div id="eventEndWrapper" class="datepicker"></div>
 									</div>

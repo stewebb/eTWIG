@@ -18,6 +18,21 @@
 							
 							<div class="card-body">
 								
+								<#if disabled>
+									<div class="callout callout-warning">
+										<h5 class="bold-text mb-3">No edit permission</h5>
+										This event was created by the user with <span class="bold-text" style="color:#${eventDetails.portfolio.color}">${eventDetails.portfolio.name}</span> portfolio. <br />
+										However, your portfolios are 
+										<#if portfolio?has_content>
+        									<#list portfolio as portfolio_id, portfolio_info>
+        										<span class="bold-text" style="color:#${portfolio_info.color}">${portfolio_info.name}</span>
+        									</#list>
+        								<#else>
+        									Null
+        								</#if>.
+									</div>
+								</#if>
+								
 								<#-- Event ID -->
 								<#if isEdit>
 									<div class="form-group row">
@@ -49,7 +64,7 @@
 													<i class="fa-solid fa-lightbulb"></i>
 												</span>
 											</div>
-											<input type="text" class="form-control" placeholder="Event Name" id="eventName" maxlength="31" value="<#if isEdit>${eventDetails.detail.eventName}</#if>">
+											<input type="text" class="form-control" placeholder="Event Name" id="eventName" maxlength="31" value="<#if isEdit>${eventDetails.details.name}</#if>" ${disabledText}>
 										</div>
 									</div>
 								</div>
@@ -64,7 +79,7 @@
 													<i class="fa-solid fa-location-dot"></i>
 												</span>
 											</div>
-											<input type="text" class="form-control" placeholder="Event Location" id="eventLocation" maxlength="63" value="<#if isEdit>${eventDetails.detail.eventLocation}</#if>">
+											<input type="text" class="form-control" placeholder="Event Location" id="eventLocation" maxlength="63" value="<#if isEdit>${eventDetails.details.location}</#if>" ${disabledText}>
 											
 										</div>
 									</div>
@@ -106,7 +121,7 @@
 								<#-- Description -->
 								<div class="form-group">
 									<label for="eventDescription">Description</label>
-									<div id="eventDescription"><#if isEdit>${eventDetails.detail.eventDescription}</#if></div>
+									<div id="eventDescription"><#if isEdit>${eventDetails.details.description}</#if></div>
 								</div>
 							</div>
 						</div>	
