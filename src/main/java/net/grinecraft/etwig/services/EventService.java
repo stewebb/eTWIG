@@ -48,13 +48,12 @@ public class EventService {
 	/**
 	 * Get all details related to a single time event by it's id.
 	 * @param id The id of that event.
-	 * @param showAllDetails True to show all details, false to show brief information.
 	 * @return A linkedHaskMap about the details of the event. If event doesn't exist, return null.
 	 * @throws DataIntegrityViolationException If the violation of the data integrity is detected.
 	 */
 	
-	private LinkedHashMap<String, Object> getSingleTimeEventById(long id, boolean showAllDetails) {
-		LinkedHashMap<String, Object> eventDetails = new LinkedHashMap<String, Object>();
+	private SingleTimeEvent getSingleTimeEventById(long id) {
+		//LinkedHashMap<String, Object> eventDetails = new LinkedHashMap<String, Object>();
 		
 		// Step 1: Null check (to avoid NullPointerException on findById)
 		if(singleTimeEventRepository == null) {
@@ -88,13 +87,17 @@ public class EventService {
 			throw new DataIntegrityViolationException("The organizer of event id=" + singleTimeEvent.getId() + " doesn't exist. PLease check the user table.");
 		}
 		
-		// Get time unit, and calculate end time
-		EventTimeUnit timeUnit = EventTimeUnit.fromString(singleTimeEvent.getUnit());
-		LocalDateTime startTime = singleTimeEvent.getStartDateTime();
-		int duration = singleTimeEvent.getDuration();
-		LocalDateTime endTime = DateUtils.calculateEndTime(timeUnit, startTime, duration);
+		//eventDetails.put("eventName", singleTimeEvent.getName());
 		
-		// Step 2.4: Add all necessary data
+		// Get time unit, and calculate end time
+		//EventTimeUnit timeUnit = EventTimeUnit.fromString(singleTimeEvent.getUnit());
+		//LocalDateTime startTime = singleTimeEvent.getStartDateTime();
+		//int duration = singleTimeEvent.getDuration();
+		//LocalDateTime endTime = DateUtils.calculateEndTime(timeUnit, startTime, duration);
+		
+		// Step 2.4: Add data
+		
+		/*
 		eventDetails.put("eventName", singleTimeEvent.getName());
 		eventDetails.put("eventStartTime", startTime);
 		eventDetails.put("eventEndTime", endTime);
@@ -108,7 +111,7 @@ public class EventService {
 		eventDetails.put("portfolioColor", portfolio.getColor());
 			
 		// Step 2.5: Add all detailed data
-		if(showAllDetails) {
+		if(true) {
 			eventDetails.put("eventDescription", singleTimeEvent.getDescription());
 			eventDetails.put("portfolioName", portfolio.getName());
 			//eventDetails.put("portfolioAbbreviation", portfolio.getAbbreviation());
@@ -117,8 +120,8 @@ public class EventService {
 			eventDetails.put("organizerName", NameUtils.nameMerger(user.getFirstName(), user.getMiddleName(), user.getLastName()));
 		}
 		// TODO Find all parents
-		
-		return eventDetails;
+		*/
+		return singleTimeEvent;
 	}
 	
 	
@@ -188,7 +191,7 @@ public class EventService {
 	public LinkedHashMap<String, Object> findById(long id, boolean showAllDetails) {
 			
 		LinkedHashMap<String, Object> event = new LinkedHashMap<String, Object>();
-		LinkedHashMap<String, Object> eventInfoSingleTime = getSingleTimeEventById(id, showAllDetails);
+		SingleTimeEvent eventInfoSingleTime = getSingleTimeEventById(id);
 		LinkedHashMap<String,Object> eventInfoRecurring = getRecurringEventById(id, showAllDetails);
 		
 		// The event is recurring
@@ -255,7 +258,7 @@ public class EventService {
         LinkedHashMap<Long, Object> allEvents = new LinkedHashMap<>();
         for(SingleTimeEvent singleTimeEvents : singleTimeEventsList) {      	
         	Long id = singleTimeEvents.getId();
-        	allEvents.put(id, getSingleTimeEventById(id, false));
+        	allEvents.put(id, getSingleTimeEventById(id));
         }
         
         return allEvents;

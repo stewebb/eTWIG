@@ -12,6 +12,8 @@ package net.grinecraft.etwig.model;
 import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import lombok.*;
+import net.grinecraft.etwig.util.DateUtils;
+import net.grinecraft.etwig.util.type.EventTimeUnit;
 
 @Data
 @AllArgsConstructor
@@ -49,4 +51,12 @@ public class SingleTimeEvent {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "id", referencedColumnName = "id")
     private Event event;
+	
+	public EventTimeUnit getUnit() {
+		return  EventTimeUnit.fromString(this.unit);
+	}
+	
+	public LocalDateTime getEndDateTime() {
+		return DateUtils.calculateEndTime(this.getUnit(), this.startDateTime, this.duration);
+	}
 }

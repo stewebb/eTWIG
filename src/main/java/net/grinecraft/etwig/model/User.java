@@ -11,9 +11,9 @@
 
 package net.grinecraft.etwig.model;
 
-import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import lombok.*;
+import net.grinecraft.etwig.util.NameUtils;
 
 @Data
 @AllArgsConstructor
@@ -40,6 +40,7 @@ public class User {
 	@Column(name = "email")
 	private String email;
 	
-	@Column(name = "last_login")
-	private LocalDateTime lastLogin;
+	public String getFullName() {
+		return NameUtils.nameMerger(this.firstName, this.middleName, this.lastName);
+	}
 }

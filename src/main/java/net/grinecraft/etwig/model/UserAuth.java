@@ -11,6 +11,8 @@
 
 package net.grinecraft.etwig.model;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -45,4 +47,7 @@ public class UserAuth {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "permission", referencedColumnName = "id")
     private Permission permission;
+	
+	@Column(name = "last_login")
+	private LocalDateTime lastLogin;
 }
