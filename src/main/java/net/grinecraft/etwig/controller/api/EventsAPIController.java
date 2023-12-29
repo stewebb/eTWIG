@@ -89,7 +89,7 @@ public class EventsAPIController {
 	
 	@RequestMapping(value = "/api/private/addEvent", method = RequestMethod.POST)
     public Map<String, Object> addEvent(@RequestBody Map<String, Object> eventInfo) {
-        System.out.println(eventInfo);
+        //System.out.println(eventInfo);
         
         //String timeUnit = eventInfo.get("timeUnit").toString();
         //System.out.println(timeUnit);
@@ -101,6 +101,12 @@ public class EventsAPIController {
         
         eventService.addEvent((LinkedHashMap<String, Object>) eventInfo);
         
+        return WebReturn.errorMsg(null, true);
+    }
+	
+	@RequestMapping(value = "/api/private/editEvent", method = RequestMethod.POST)
+    public Map<String, Object> editEvent(@RequestBody Map<String, Object> eventInfo) {
+        eventService.editEvent((LinkedHashMap<String, Object>) eventInfo);
         return WebReturn.errorMsg(null, true);
     }
 }

@@ -36,7 +36,7 @@
 								<#-- Event ID -->
 								<#if isEdit>
 									<div class="form-group row">
-										<label for="eventName" class="col-sm-2 col-form-label">
+										<label for="eventId" class="col-sm-2 col-form-label">
 											Id&nbsp;<span class="required-symbol">*</span>
 										</label>
 										<div class="col-sm-10">

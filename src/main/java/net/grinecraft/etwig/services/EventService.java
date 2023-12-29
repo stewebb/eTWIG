@@ -137,7 +137,6 @@ public class EventService {
 	 * @param eventInfo The event details.
 	 */
 	public void addEvent(LinkedHashMap<String, Object> eventInfo) {
-		
 		boolean isRecurrment = BooleanUtils.toBoolean(eventInfo.get("isRecurrment").toString());
 		
 		// Insert details into the general event table.
@@ -147,7 +146,7 @@ public class EventService {
 		newEvent.setOrganizerId(Long.parseLong(eventInfo.get("organizer").toString()));
 		
 		Long newEventId = eventRepository.save(newEvent).getId();
-		System.out.println(newEventId);
+		//System.out.println(newEventId);
 		
 		// Insert specific data (recurrent events)
 		if(isRecurrment) {
@@ -156,10 +155,32 @@ public class EventService {
 		
 		// Insert specific data (single time events)
 		else {
-			addSingleTimeEvent(newEventId, eventInfo);
+			updateSingleTimeEvent(newEventId, eventInfo);
 		}
 		
 	}
+	
+	/**
+	 * Edit an event to the database
+	 * @param eventInfo The event details.
+	 */
+	
+	public void editEvent(LinkedHashMap<String, Object> eventInfo) {
+		boolean isRecurrment = BooleanUtils.toBoolean(eventInfo.get("isRecurrment").toString());
+		Long eventId = Long.parseLong(eventInfo.get("eventId").toString());
+		
+		// Update specific data (recurrent events)
+				if(isRecurrment) {
+					// TODO Recurrent Event
+				}
+				
+				// Insert specific data (single time events)
+				else {
+					updateSingleTimeEvent(eventId, eventInfo);
+				}
+				
+	}
+	
 	
 	/**
 	 * Get and set resources, they are only used in this class.
@@ -276,7 +297,7 @@ public class EventService {
 	 * @param eventInfo The event details
 	 */
 	
-	private void addSingleTimeEvent(Long eventId, LinkedHashMap<String, Object> eventInfo) {
+	private void updateSingleTimeEvent(Long eventId, LinkedHashMap<String, Object> eventInfo) {
 		SingleTimeEvent newSingleTimeEvent = new SingleTimeEvent();
 		
 		newSingleTimeEvent.setId(eventId);

@@ -28,9 +28,17 @@ function formatState(state) {
  * @param embedded True if the event add page is in the "embed" mode, i.e., this page is in the frame of the calendar. 
  * 					The modal should be closed after operation.
  * 					False otherwise. The page should refresh after operation.
+ * @param isEdit True the mode is edit event, other the mode is add event.
  */
 
-function addEvent(embedded){
+function addEvent(embedded, isEdit){
+	
+	// Event id: Required in edit mode.
+	var eventId = $('#eventId').val();
+	if(isEdit && eventId.length == 0){
+		warningToast("Event id is required in edit mode.");
+		return;
+	}
 	
 	// Event name: Required
 	var eventName = $.trim($('#eventName').val());
@@ -114,6 +122,7 @@ function addEvent(embedded){
 
 	// Create an object for the new event.
 	var newEventObj = {
+		"eventId" : eventId,
 		"isRecurrment": false,
 		"name": eventName,
 		"location": eventLocation,
@@ -125,10 +134,13 @@ function addEvent(embedded){
 		"organizer": eventOrganizer
 	};
 	
-	// POST the new event into the event add API
+	// POST the new (or changed) event into the event add/edit API
+	var url = isEdit ? "/api/private/editEvent" : "/api/private/addEvent";
+	var mode =  isEdit ? "edit" : "add";
+	
 	var hasError = true;
 	$.ajax({
-   		url: "/api/private/addEvent", 
+   		url: url, 
    		type: "POST",
    		async: false,
    		dataType: "json",
@@ -136,15 +148,15 @@ function addEvent(embedded){
    		data: JSON.stringify(newEventObj),
    		success: function (result) {
 			if(result.error > 0){
-				dangerToast("Failed to add event.", result.msg);
+				dangerToast("Failed to " + mode +" event.", result.msg);
 				hasError = true;
 			}else{
-				successToast("Event added successfully.");
+				successToast("Event  " + mode +"ed  successfully.");
 				hasError = false;
 			}	
     	},
     	error: function (err) {
-    		dangerToast("Failed to add event due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+    		dangerToast("Failed to  " + mode +"  event due to a HTTP " + err.status + " error.", err.responseJSON.exception);
     		hasError = true;
     	}
  	});
