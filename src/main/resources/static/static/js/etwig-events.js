@@ -271,3 +271,13 @@ function createDatePicker(htmlElem, pickerElem, type, format){
 	});
 	return datepicker;
 }
+
+/**
+ * Enable the "delete event" button when click the confirmation checkbox.
+ */
+
+function deleteEventCheckboxOnChange(){
+	$('#confirmDeletion').change(function() {
+		$('#deleteEventBtn').prop('disabled', !this.checked);
+    });
+}

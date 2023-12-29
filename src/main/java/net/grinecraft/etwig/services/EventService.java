@@ -104,6 +104,7 @@ public class EventService {
 
 		// Just output the overriding event id. Let the front-end to handle this.
 		eventDetails.put("overRideRecurringEvent", singleTimeEvent.getOverrideRecurringEvent());
+		eventDetails.put("portfolioId", portfolio.getId());
 		eventDetails.put("portfolioColor", portfolio.getColor());
 			
 		// Step 2.5: Add all detailed data

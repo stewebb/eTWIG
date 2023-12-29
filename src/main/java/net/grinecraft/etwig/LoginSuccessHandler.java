@@ -10,6 +10,7 @@
 package net.grinecraft.etwig;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -22,8 +23,10 @@ import org.springframework.stereotype.Component;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.repository.UserRepository;
+import net.grinecraft.etwig.services.UserRoleService;
 
 @Component
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
@@ -33,6 +36,9 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private UserRoleService userRoleService;
 	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
@@ -60,9 +66,13 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	    	return;
 	    }
 	    
-	    // Write the object to session
-	    session.setAttribute("user", user);
+	    // Get user portfolios
+	    LinkedHashMap<Long, Portfolio> myPortfolios = userRoleService.getPortfoliosByUserId(user.getId());
 	    
+	    // Write objects to session
+	    session.setAttribute("user", user);
+	    session.setAttribute("portfolio", myPortfolios);
+	    	    
 	    DefaultSavedRequest savedRequest = (DefaultSavedRequest) requestCache.getRequest(request, response);
 	    String targetUrl = "/";
 	    

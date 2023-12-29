@@ -46,6 +46,7 @@ public class EtwigInterceptor implements HandlerInterceptor{
 				
 				// Put user info into Intercepter
 				modelAndView.addObject("user", userInfo);
+				modelAndView.addObject("portfolio", session.getAttribute("portfolio"));
 			}
 		}	
 		
@@ -53,6 +54,7 @@ public class EtwigInterceptor implements HandlerInterceptor{
 		LinkedHashMap<String, Object> appInfo = new LinkedHashMap<String, Object>();
 		appInfo.put("appName", "eTWIG Administration Portal");
 		appInfo.put("appVersion", "1.0");
+		appInfo.put("appCustomer", "Griffin Hall 2024");
 		
 		// Put application info into Intercepter
 		modelAndView.addObject("app", appInfo);				

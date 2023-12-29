@@ -55,6 +55,7 @@ public class EditController {
 	 * @throws Exception
 	 */
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/events/{action}")  
 	public String edit(@PathVariable String action, HttpSession session, Model model, @RequestParam String eventId, @RequestParam String embedded) throws Exception{
 		Long id = null;
@@ -75,6 +76,9 @@ public class EditController {
 		if(Boolean.TRUE.equals(event.get("exists"))) {
 			model.addAttribute("eventId", id);
 			model.addAttribute("eventDetails", event);
+			
+			Set<Long> myPortfolios = ((LinkedHashMap<Long, Portfolio>) session.getAttribute("portfolio")).keySet();
+			model.addAttribute("editPermission", myPortfolios.contains(((LinkedHashMap<String, Object>) event.get("detail")).get("portfolioId")));
 			
 			// The action is either edit or delete.
 			return "edit".equals(action) ? "events/edit" : "events/delete"; 
@@ -101,14 +105,14 @@ public class EditController {
 	public String add(HttpSession session, Model model, @RequestParam(required = false) String embedded) throws Exception{
 		
 		// Logged in user (me)
-		User my = (User) session.getAttribute("user");
+		//User my = (User) session.getAttribute("user");
 		
 		// Get myPortfolios: All portfolios that I have.
-		LinkedHashMap<Long, Portfolio> myPortfolios = userRoleService.getPortfoliosByUserId(my.getId());
+		//LinkedHashMap<Long, Portfolio> myPortfolios = userRoleService.getPortfoliosByUserId(my.getId());
 		
 		model.addAttribute("isEdit", false);
         model.addAttribute("navbar", NavBar.ADD_EVENT);
-        model.addAttribute("myPortfolios", myPortfolios);
+        //model.addAttribute("myPortfolios", myPortfolios);
         model.addAttribute("embedded", BooleanUtils.toBoolean(embedded));
 		return "events/add";
 	

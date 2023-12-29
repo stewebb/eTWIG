@@ -32,8 +32,8 @@
       									<select class="form-control select2" name="eventPortfolio" id="eventPortfolio">
         									<optgroup label="My Portfolio(s)">
         									
-        									<#if myPortfolios?has_content>
-        										<#list myPortfolios as portfolio_id, portfolio_info>
+        									<#if portfolio?has_content>
+        										<#list portfolio as portfolio_id, portfolio_info>
 													<option data-color="#${portfolio_info.color}" data-icon="<#if portfolio_info.icon?has_content>${portfolio_info.icon}</#if>" value="${portfolio_id}">
 														${portfolio_info.name}
 													</option>

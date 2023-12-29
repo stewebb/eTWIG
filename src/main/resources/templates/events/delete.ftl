@@ -54,7 +54,7 @@
 			<div class="container-fluid">
 			
 				<#-- Delete -->
-				<div class="card card-danger card-outline mb-3">
+				<div class="card card-primary card-outline mb-3">
 					<div class="card-header">
 						<h3 class="card-title">
 							<i class="fa-solid fa-eraser"></i>&nbsp;Delete Event
@@ -62,6 +62,8 @@
 					</div>
 
 					<div class="card-body">
+					
+						<#-- Warning info -->
 						<div class="mb-3 bold-text text-danger">
 							This operation will delete the event and all related data PERMANETLY. 
 						</div>
@@ -69,11 +71,18 @@
 							<h5 class="bold-text mb-3">Be Careful!</h5>
 							The deletion operation cannot be undone.
 						</div>
+						${editPermission? then("true", "false")}
+						<#-- Confirm checkbox -->
+						<div class="icheck-primary d-inline">
+							<input type="checkbox" id="confirmDeletion">
+							<label for="confirmDeletion"">Confirm deletion</label>
+						</div>
 						
+						<#-- Delete option buttons -->
 						<div class="btn-group" role="group" style="float: right;">
 						
 							<#-- Delete -->
-							<button type="button" class="btn btn-outline-danger" onclick="deteteEvent(${addOnClickOption});">
+							<button type="button" class="btn btn-outline-danger" id="deleteEventBtn" onclick="deteteEvent(${addOnClickOption});" disabled>
 								<i class="fa-regular fa-trash"></i>&nbsp;Delete event
 							</button>
 
@@ -87,9 +96,11 @@
 				</div>	
 				
 		</section>
-
 	</div>
 
+	<script>
+		deleteEventCheckboxOnChange();
+	</script>
 	<#-- Footer -->
 	<#if embedded == false>
 		<#include "../_includes/footer.ftl">
