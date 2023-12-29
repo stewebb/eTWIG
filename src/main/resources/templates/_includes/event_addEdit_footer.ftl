@@ -15,14 +15,17 @@
 						
 						<#-- Add -->
 							<#assign addOnClickOption = embedded ? then("true", "false")>
-							<button type="button" class="btn btn-outline-primary" onclick="addEvent(${addOnClickOption});">
-								<i class="fa-regular fa-check"></i>&nbsp;Add event
-							</button>
-
+							<#assign cancelBtn = embedded ? then("Close", "Cancel")>
+							<#if !disabled>
+								<button type="button" class="btn btn-outline-primary" onclick="addEvent(${addOnClickOption});">
+									<i class="fa-regular fa-check"></i>&nbsp; ${str} event
+								</button>
+							</#if>
+							
 						<#-- Cancel -->
 							<#assign cancelOnClickAction = embedded ? then("parent.$('#etwigModal').modal('hide');", "window.location.reload();")>
 							<button type="button" class="btn btn-outline-secondary" onclick="${cancelOnClickAction}">
-								<i class="fa-solid fa-xmark"></i>&nbsp;Cancel
+								<i class="fa-solid fa-xmark"></i>&nbsp;${cancelBtn}
 							</button>
 						</div>
 						

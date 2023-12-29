@@ -12,7 +12,7 @@
 						<div class="card card-primary card-outline">
 							<div class="card-header">
 								<h3 class="card-title">
-									<i class="fa-solid fa-user-tie"></i>&nbsp;Organizer
+									<i class="fa-solid fa-user-tie"></i>&nbsp;Organizer<#if isEdit> (Read only)</#if>
 								</h3>
 							</div>
 
@@ -29,15 +29,21 @@
 											</span>
 										</div>
 										
-      									<select class="form-control select2" name="eventPortfolio" id="eventPortfolio">
+      									<select class="form-control select2" name="eventPortfolio" id="eventPortfolio" <#if isEdit>disabled</#if>>
         									<optgroup label="My Portfolio(s)">
         									
-        									<#if portfolio?has_content>
-        										<#list portfolio as portfolio_id, portfolio_info>
-													<option data-color="#${portfolio_info.color}" data-icon="<#if portfolio_info.icon?has_content>${portfolio_info.icon}</#if>" value="${portfolio_id}">
-														${portfolio_info.name}
-													</option>
-												</#list>
+        									<#if isEdit>
+     											<option data-color="#${eventDetails.portfolio.color}" data-icon="<#if eventDetails.portfolio.icon?has_content>${eventDetails.portfolio.icon}</#if>" value="${eventDetails.portfolio.Id}">
+													${eventDetails.portfolio.name}
+												</option>
+        									<#else>
+        										<#if portfolio?has_content>
+        											<#list portfolio as portfolio_id, portfolio_info>
+														<option data-color="#${portfolio_info.color}" data-icon="<#if portfolio_info.icon?has_content>${portfolio_info.icon}</#if>" value="${portfolio_id}">
+															${portfolio_info.name}
+														</option>
+													</#list>
+        										</#if>
         									</#if>
         									</optgroup>
       									</select>
@@ -57,9 +63,13 @@
 												</span>
 											</div>
 											
-											<select class="form-control select2" name="eventOrganizer" id="eventOrganizer">
+											<select class="form-control select2" name="eventOrganizer" id="eventOrganizer" <#if isEdit>disabled</#if>>
         										<optgroup label="Myself">
-          											 <option value="${user.userId}">${user.username}</option>
+        											<#if isEdit>
+        												<option value="${eventDetails.user.Id}">${eventDetails.user.fullName}</option>
+        											<#else>
+          											 	<option value="${user.userId}">${user.username}</option>
+          											 </#if>
         										</optgroup>
        
       										</select>
@@ -68,6 +78,7 @@
 								</div>
 								
 								<#-- Role -->
+								<#-- 
 								<div class="form-group row">
 									<label for="event-organizer-role" class="col-sm-2 col-form-label">Role</label>
 									<div class="col-sm-10">
@@ -84,6 +95,7 @@
 										</div>
 									</div>
 								</div>
+								-->
 								
 							</div>
 						</div>

@@ -10,6 +10,10 @@
 <#assign isEdit = true>
 <#assign disabled = !editPermission>
 <#assign disabledText = editPermission ? string("", "disabled")>
+<#assign str = editPermission ? string("Edit", "View")>
+<#assign link = "edit?eventId=" + eventId + "&embedded=" + embedded ?string('true', 'false')>
+<#assign unit = eventDetails.details.unit>
+<#assign duration = eventDetails.details.duration>
 
 <!DOCTYPE html>
 <html>

@@ -7,16 +7,7 @@
 	function: The template for add/edit events, properties part.
 	This part contains the form of timing, including event start/end time and duration.
    -->
-   
-   <#-- h (hour) is the default option in add event mode.  -->
-   <#if isEdit>
-   		<#assign unit = eventDetails.details.unit>
-   		<#assign duration = eventDetails.details.duration>
-   <#else>
-   		<#assign unit = "h">
-   		<#assign duration = 1>
-   	</#if>
-   
+
    						<#-- Timing: Single Time Event -->
 						<div class="card card-primary card-outline">
 							<div class="card-header">

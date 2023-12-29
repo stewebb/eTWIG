@@ -10,6 +10,12 @@
 <#assign isEdit = false>
 <#assign disabled = false>
 <#assign disabledText ="">
+<#assign str = "Add">
+<#assign link = "add">
+
+ <#-- h (hour) is the default option in add event mode.  -->
+<#assign unit = "h">
+<#assign duration = 1>
 
 <!DOCTYPE html>
 <html>
