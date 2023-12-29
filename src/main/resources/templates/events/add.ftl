@@ -24,9 +24,12 @@
 <#-- In add mode, the link of this page is always "/event/add". -->
 <#assign link = "add">
 
- <#-- In add mode, the default time unit is always h (hour) and the default duration is always 1.  -->
+<#-- In add mode, the default time unit is always h (hour) and the default duration is always 1.  -->
 <#assign timeUnit = "h">
 <#assign duration = 1>
+
+<#-- In add mode, the duration input will never been hidden.  -->
+<#assign durationHidden = false>
 
 <!DOCTYPE html>
 <html>

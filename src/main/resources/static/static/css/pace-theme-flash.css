@@ -1,3 +1,13 @@
+/**
+ * eTWIG - The event and banner management software for residential halls and student unions.
+ * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
+ * @license: MIT
+ * @author: Steven Webb [xiaoancloud@outlook.com] I am NOT the author of this pace style, see @credit.
+ * @website: https://etwig.grinecraft.net
+ * @function: Pace flashing theme for all pages. (exclude the public TWIG content)
+ * @credit: Adam Schwartz https://github.com/adamschwartz
+ */
+ 
 .pace {
 	-webkit-pointer-events: none;
 	pointer-events: none;

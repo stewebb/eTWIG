@@ -78,7 +78,7 @@
 								</div>					
 								
 								<#-- Duration -->
-								<div class="form-group row" id="durationInput">
+								<div class="form-group row" id="durationInput" <#if durationHidden>style="display:none;"</#if>>
 									<label for="eventDuration" class="col-sm-2 col-form-label">
 										Duration&nbsp;<span class="required-symbol">*</span>
 									</label>
@@ -98,7 +98,7 @@
 								</div>
 								
 								<#-- End Time -->
-								<div class="form-group row" id="endTimeInput" style="display:none;">
+								<div class="form-group row" id="endTimeInput" <#if !durationHidden>style="display:none;"</#if>>
 									<label for="eventEndTime" class="col-sm-2 col-form-label">
 										End Time&nbsp;<span class="required-symbol">*</span>
 									</label>

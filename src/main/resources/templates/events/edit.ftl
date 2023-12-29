@@ -28,6 +28,9 @@
 <#assign timeUnit = eventDetails.details.unit>
 <#assign duration = eventDetails.details.duration>
 
+ <#-- In add mode, the duration input will be hidden only when the time unit is "custom".  -->
+<#assign durationHidden = timeUnit == "c">
+
 <!DOCTYPE html>
 <html>
 <head>
