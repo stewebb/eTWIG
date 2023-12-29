@@ -23,7 +23,7 @@ public class Portfolio {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-	private Long id;
+	private Long Id;
 	
 	@Column(name = "name")
 	private String name;

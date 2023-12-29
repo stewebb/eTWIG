@@ -67,7 +67,7 @@ public class EventsAPIController {
 	 */
 	
 	@RequestMapping("/api/private/getEventById")  
-	public Map<String, Object> getEventById(@RequestParam String eventId, @RequestParam String showAllDetails) throws Exception{
+	public Map<String, Object> getEventById(@RequestParam String eventId) throws Exception{
 		Long eventIdNum = NumberUtils.safeCreateLong(eventId);
 
 		if(eventIdNum == null) {
@@ -75,7 +75,7 @@ public class EventsAPIController {
 		} 
 			
 		Map<String, Object> myReturn = WebReturn.errorMsg(null, true);
-	    myReturn.putAll(eventService.findById(eventIdNum, BooleanUtils.toBoolean(showAllDetails)));
+	    myReturn.putAll(eventService.findById(eventIdNum));
 		
 		return myReturn;
 	}

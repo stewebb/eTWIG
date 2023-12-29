@@ -72,13 +72,13 @@ public class EditController {
 		}
 			
 		// Check eventId can be founded in database or not
-		LinkedHashMap<String, Object> event = eventService.findById(id, true);
+		LinkedHashMap<String, Object> event = eventService.findById(id);
 		if(Boolean.TRUE.equals(event.get("exists"))) {
 			model.addAttribute("eventId", id);
 			model.addAttribute("eventDetails", event);
 			
-			Set<Long> myPortfolios = ((LinkedHashMap<Long, Portfolio>) session.getAttribute("portfolio")).keySet();
-			model.addAttribute("editPermission", myPortfolios.contains(((LinkedHashMap<String, Object>) event.get("detail")).get("portfolioId")));
+			//Set<Long> myPortfolios = ((LinkedHashMap<Long, Portfolio>) session.getAttribute("portfolio")).keySet();
+			//model.addAttribute("editPermission", myPortfolios.contains(((LinkedHashMap<String, Object>) event.get("detail")).get("portfolioId")));
 			
 			// The action is either edit or delete.
 			return "edit".equals(action) ? "events/edit" : "events/delete"; 

@@ -9,6 +9,7 @@
 
 package net.grinecraft.etwig.services;
 
+import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
@@ -46,84 +47,168 @@ public class EventService {
 	private RecurringEventRepository recurringEventRepository;
 	
 	/**
-	 * Get all details related to a single time event by it's id.
+	 * Public entry of the event services.
+	 * The access control modifiers are "public".
+	 */
+	
+	/**
+	 * Find the event detail by it's id.
+	 * @param id The event id
+	 * @param showAllDetails True show all event details. False show only the essential details.
+	 * @return The event information, or empty LinkedHashMap if the event doesn't exist.
+	 * @throws IllegalAccessException | IllegalArgumentException 
+	 * @throws DataIntegrityViolationException when event is both both recurring and single time.
+	 */
+	
+	public LinkedHashMap<String, Object> findById(long id) throws Exception {
+		LinkedHashMap<String, Object> event = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> eventInfoSingleTime = getSingleTimeEventById(id);
+		LinkedHashMap<String, Object> eventInfoRecurring = getRecurringEventById(id);
+		
+		// The event is recurring
+		if(eventInfoRecurring != null && eventInfoSingleTime == null) {
+			event.put("exists", true);
+			event.putAll(eventInfoRecurring); 
+		}
+		
+		// The event is single time
+		else if (eventInfoRecurring == null && eventInfoSingleTime != null) {
+			event.put("exists", true);
+			event.putAll(eventInfoSingleTime); 
+		}
+		
+		// The event is both recurring and single time
+		else if (eventInfoRecurring != null && eventInfoSingleTime != null) {
+			throw new DataIntegrityViolationException("The event id=" + id + " is both recurring and single time. However, it must be either recurring or single time. ");
+		}
+		
+		// The event is neither recurring nor single time. i.e., It doesn't exist at all!
+		else {
+			event.put("exists", false);
+		}
+		return event;
+	}
+	
+	/**
+	 * Get all events that happens in the month/week/day of the given date.
+	 * @param givenDate A given date in LocalDate format
+	 * @param dateRange An enum that specifies what kinds of data range will be chosen. [Month, Week, Day]
+	 * @return The hashmap of all required events.
+	 * @throws Exception 
+	 */
+	
+	public LinkedHashMap<Long, Object> findByDateRange(LocalDate givenDate, DateRange dateRange) throws Exception{
+		
+		// Step 1: Date check
+		LocalDate last = null;
+		LocalDate next = null;
+		
+		if(dateRange == DateRange.MONTH) {
+			last = DateUtils.findFirstDayOfThisMonth(givenDate);
+			next = DateUtils.findFirstDayOfNextMonth(givenDate);
+		}
+		
+		else if(dateRange == DateRange.WEEK) {
+			last = DateUtils.findThisMonday(givenDate);
+			next = DateUtils.findNextMonday(givenDate);
+		}
+		
+		else {
+			last = givenDate;
+			next = DateUtils.findTomorrow(givenDate);
+		}
+		
+		// Step 2: Check all single time events in the given date range.
+        List<SingleTimeEvent> singleTimeEventsList = singleTimeEventRepository.findByDateRange(last, next);
+        LinkedHashMap<Long, Object> allEvents = new LinkedHashMap<>();
+        for(SingleTimeEvent singleTimeEvents : singleTimeEventsList) {      	
+        	Long id = singleTimeEvents.getId();
+        	allEvents.put(id, getSingleTimeEventById(id));
+        }
+        
+        // Step 2: Check all recurring events in the given date range.
+        // TODO
+        
+        return allEvents;
+	}
+
+	/**
+	 * Add an event to the database
+	 * @param eventInfo The event details.
+	 */
+	public void addEvent(LinkedHashMap<String, Object> eventInfo) {
+		
+		boolean isRecurrment = BooleanUtils.toBoolean(eventInfo.get("isRecurrment").toString());
+		
+		// Insert details into the general event table.
+		Event newEvent = new Event();
+		newEvent.setRecurring(isRecurrment);
+		newEvent.setPortfolioId(Long.parseLong(eventInfo.get("portfolio").toString()));
+		newEvent.setOrganizerId(Long.parseLong(eventInfo.get("organizer").toString()));
+		
+		Long newEventId = eventRepository.save(newEvent).getId();
+		System.out.println(newEventId);
+		
+		// Insert specific data (recurrent events)
+		if(isRecurrment) {
+			// TODO Recurrent Event
+		}
+		
+		// Insert specific data (single time events)
+		else {
+			addSingleTimeEvent(newEventId, eventInfo);
+		}
+		
+	}
+	
+	/**
+	 * Get and set resources, they are only used in this class.
+	 * The access control modifiers are "private".
+	 */
+	
+	/**
+	 * Get all details of a single time event by it's id.
 	 * @param id The id of that event.
-	 * @return A linkedHaskMap about the details of the event. If event doesn't exist, return null.
+	 * @return The event object. If event doesn't exist, return null.
+	 * @throws IllegalAccessException 
+	 * @throws IllegalArgumentException 
 	 * @throws DataIntegrityViolationException If the violation of the data integrity is detected.
 	 */
 	
-	private SingleTimeEvent getSingleTimeEventById(long id) {
-		//LinkedHashMap<String, Object> eventDetails = new LinkedHashMap<String, Object>();
-		
-		// Step 1: Null check (to avoid NullPointerException on findById)
+	private LinkedHashMap<String, Object> getSingleTimeEventById(long id) throws Exception {		
 		if(singleTimeEventRepository == null) {
 			return null;
 		}
 		
-		// Step 2: Find in the event table (join with portfolio and users table).
+		// Find the event table (join with portfolio and users table).
 		Optional<SingleTimeEvent> singleTimeEventOptional = singleTimeEventRepository.findById(id);
-		
-		// Step 2.1: Null check
 		if (!singleTimeEventOptional.isPresent()){
 			return null;
 		}
 		
-		// Step 2.2: Gather required objects and date integrity check
+		// Gather required objects and data integrity check
 		SingleTimeEvent singleTimeEvent = singleTimeEventOptional.get();
-		Event event = singleTimeEvent.getEvent();
+		dataIntegrityCheck(singleTimeEvent);
 		
-		if(event == null) {
-			throw new DataIntegrityViolationException("The event id=" + singleTimeEvent.getId() + " exists in event_single_time table but doesn't exist in event table.");
-		}
+		LinkedHashMap<String, Object> details = new LinkedHashMap<String, Object>();
 		
-		Portfolio portfolio = event.getPortfolio();
-		User user = event.getUser();
+		// Add event info
+		LinkedHashMap<String, Object> eventInfo = new LinkedHashMap<String, Object>();
+		eventInfo.put("Id", singleTimeEvent.getId());
+		eventInfo.put("name", singleTimeEvent.getName());
+		eventInfo.put("description", singleTimeEvent.getDescription());
+		eventInfo.put("location", singleTimeEvent.getLocation());
+		eventInfo.put("startDateTime", singleTimeEvent.getStartDateTime());
+		eventInfo.put("endDateTime", singleTimeEvent.getEndDateTime());
+		eventInfo.put("duration", singleTimeEvent.getDuration());
+		eventInfo.put("unit", singleTimeEvent.getUnitAbbr());
+		details.put("details", eventInfo);
 		
-		if(portfolio == null) {
-			throw new DataIntegrityViolationException("The portfolio of event id=" + singleTimeEvent.getId() + " doesn't exist. PLease check the portfolio table.");
-		}
-		
-		if(user == null) {
-			throw new DataIntegrityViolationException("The organizer of event id=" + singleTimeEvent.getId() + " doesn't exist. PLease check the user table.");
-		}
-		
-		//eventDetails.put("eventName", singleTimeEvent.getName());
-		
-		// Get time unit, and calculate end time
-		//EventTimeUnit timeUnit = EventTimeUnit.fromString(singleTimeEvent.getUnit());
-		//LocalDateTime startTime = singleTimeEvent.getStartDateTime();
-		//int duration = singleTimeEvent.getDuration();
-		//LocalDateTime endTime = DateUtils.calculateEndTime(timeUnit, startTime, duration);
-		
-		// Step 2.4: Add data
-		
-		/*
-		eventDetails.put("eventName", singleTimeEvent.getName());
-		eventDetails.put("eventStartTime", startTime);
-		eventDetails.put("eventEndTime", endTime);
-		eventDetails.put("timeUnit", timeUnit.toString());
-		eventDetails.put("eventDuration", duration);
-		eventDetails.put("eventLocation", singleTimeEvent.getLocation());
-
-		// Just output the overriding event id. Let the front-end to handle this.
-		eventDetails.put("overRideRecurringEvent", singleTimeEvent.getOverrideRecurringEvent());
-		eventDetails.put("portfolioId", portfolio.getId());
-		eventDetails.put("portfolioColor", portfolio.getColor());
-			
-		// Step 2.5: Add all detailed data
-		if(true) {
-			eventDetails.put("eventDescription", singleTimeEvent.getDescription());
-			eventDetails.put("portfolioName", portfolio.getName());
-			//eventDetails.put("portfolioAbbreviation", portfolio.getAbbreviation());
-			eventDetails.put("portfolioIcon", portfolio.getIcon());
-			//eventDetails.put("organizerId", portfolio.getIcon());
-			eventDetails.put("organizerName", NameUtils.nameMerger(user.getFirstName(), user.getMiddleName(), user.getLastName()));
-		}
-		// TODO Find all parents
-		*/
-		return singleTimeEvent;
+		// Add portfolio and user info
+		details.put("portfolio", this.portfolioToMap(singleTimeEvent.getEvent().getPortfolio()));
+		details.put("user", this.userInfo(singleTimeEvent.getEvent().getUser()));
+		return details;
 	}
-	
 	
 	/**
 	 * Get all details related to a recurring event by it's id.
@@ -133,7 +218,9 @@ public class EventService {
 	 * @throws DataIntegrityViolationException If the violation of the data integrity is detected.
 	 */
 	
-	private LinkedHashMap<String, Object> getRecurringEventById(long id, boolean showAllDetails) {
+	private LinkedHashMap<String, Object> getRecurringEventById(long id) {
+		
+		/*
 		LinkedHashMap<String, Object> eventDetails = new LinkedHashMap<String, Object>();
 		if(recurringEventRepository == null) {
 			return null;
@@ -178,96 +265,19 @@ public class EventService {
 			eventDetails.put("organizerName", NameUtils.nameMerger(user.getFirstName(), user.getMiddleName(), user.getLastName()));
 		}		
 		return eventDetails;
+		*/
+		
+		return null;
 	}
 	
 	/**
-	 * Find the event detail by it's id.
-	 * @param id The event id
-	 * @param showAllDetails True show all event details. False show only the essential details.
-	 * @return The event information, or empty LinkedHashMap if the event doesn't exist.
-	 * @throws DataIntegrityViolationException when event is both both recurring and single time.
+	 * Add a single time event to database
+	 * @param eventId The id of the event
+	 * @param eventInfo The event details
 	 */
-	
-	public LinkedHashMap<String, Object> findById(long id, boolean showAllDetails) {
-			
-		LinkedHashMap<String, Object> event = new LinkedHashMap<String, Object>();
-		SingleTimeEvent eventInfoSingleTime = getSingleTimeEventById(id);
-		LinkedHashMap<String,Object> eventInfoRecurring = getRecurringEventById(id, showAllDetails);
-		
-		// The event is recurring
-		if(eventInfoRecurring != null && eventInfoSingleTime == null) {
-			event.put("exists", true);
-			event.put("isRecurring", true);
-			event.put("detail", eventInfoRecurring); 
-		}
-		
-		// The event is single time
-		else if (eventInfoRecurring == null && eventInfoSingleTime != null) {
-			event.put("exists", true);
-			event.put("isRecurring", false);
-			event.put("detail", eventInfoSingleTime); 
-		}
-		
-		// The event is both recurring and single time
-		else if (eventInfoRecurring != null && eventInfoSingleTime != null) {
-			throw new DataIntegrityViolationException("The event id=" + id + " is both recurring and single time. However, it must be either recurring or single time. ");
-		}
-		
-		// The event is neither recurring nor single time. i.e., It doesn't exist at all!
-		else {
-			event.put("exists", false);
-		}
-		
-		return event;
-	}
-	
-	/**
-	 * Get all events that happens in the month/week/day of the given date.
-	 * @param givenDate A given date in LocalDate format
-	 * @param dateRange Am enum that specifies what kinds of data range will be chosen. [Month, Week, Day]
-	 * @return The hashmap of all required events.
-	 */
-	
-	public LinkedHashMap<Long, Object> findByDateRange(LocalDate givenDate, DateRange dateRange){
-		
-		// Step 1: Date check
-		LocalDate last = null;
-		LocalDate next = null;
-		
-		if(dateRange == DateRange.MONTH) {
-			last = DateUtils.findFirstDayOfThisMonth(givenDate);
-			next = DateUtils.findFirstDayOfNextMonth(givenDate);
-		}
-		
-		else if(dateRange == DateRange.WEEK) {
-			last = DateUtils.findThisMonday(givenDate);
-			next = DateUtils.findNextMonday(givenDate);
-		}
-		
-		else {
-			last = givenDate;
-			next = DateUtils.findTomorrow(givenDate);
-		}
-		
-		//if(singleTimeEventRepository == null) {
-		//	return new LinkedHashMap<Long, Object>();
-		//}
-		
-		// Step 2: Check all single time events in the given date range.
-        List<SingleTimeEvent> singleTimeEventsList = singleTimeEventRepository.findByDateRange(last, next);
-        LinkedHashMap<Long, Object> allEvents = new LinkedHashMap<>();
-        for(SingleTimeEvent singleTimeEvents : singleTimeEventsList) {      	
-        	Long id = singleTimeEvents.getId();
-        	allEvents.put(id, getSingleTimeEventById(id));
-        }
-        
-        return allEvents;
-		
-	}
 	
 	private void addSingleTimeEvent(Long eventId, LinkedHashMap<String, Object> eventInfo) {
 		SingleTimeEvent newSingleTimeEvent = new SingleTimeEvent();
-		System.out.println(eventId);
 		
 		newSingleTimeEvent.setId(eventId);
 		newSingleTimeEvent.setName(eventInfo.get("name").toString());
@@ -277,33 +287,68 @@ public class EventService {
 		String eventStartTimeStr = eventInfo.get("startTime").toString();
 		newSingleTimeEvent.setStartDateTime(DateUtils.safeParseDateTime(eventStartTimeStr, "yyyy-MM-dd hh:mm a"));
 		newSingleTimeEvent.setDuration(Integer.parseInt(eventInfo.get("duration").toString()));
+		
+		// TODO Float number duration.
 		newSingleTimeEvent.setUnit(eventInfo.get("timeUnit").toString());
+		
 		singleTimeEventRepository.save(newSingleTimeEvent);
 	}
 	
-	public void addEvent(LinkedHashMap<String, Object> eventInfo) {
+	/**
+	 * Helper methods below, they are only used in this class.
+	 * The access control modifiers are "private".
+	 */
+	
+	/**
+	 * Check the data integrity
+	 * @param singleTimeEvent The singleTimeEvent object
+	 * @throws DataIntegrityViolationException When data integrity has been violated.
+	 */
+	
+	private void dataIntegrityCheck(SingleTimeEvent singleTimeEvent) {
 		
-		boolean isRecurrment = BooleanUtils.toBoolean(eventInfo.get("isRecurrment").toString());
-		
-		// Insert details into the general event table.
-		Event newEvent = new Event();
-		newEvent.setRecurring(isRecurrment);
-		newEvent.setPortfolioId(Long.parseLong(eventInfo.get("portfolio").toString()));
-		newEvent.setOrganizerId(Long.parseLong(eventInfo.get("organizer").toString()));
-		
-		Long newEventId = eventRepository.save(newEvent).getId();
-		System.out.println(newEventId);
-		
-		// Insert specific data (recurrent events)
-		if(isRecurrment) {
-			// TODO Recurrent Event
+		Event event = singleTimeEvent.getEvent();
+		if(event == null) {
+			throw new DataIntegrityViolationException("The event id=" + singleTimeEvent.getId() + " exists in event_single_time table but doesn't exist in event table.");
 		}
 		
-		// Insert specific data (single time events)
-		else {
-			addSingleTimeEvent(newEventId, eventInfo);
+		if(event.getPortfolio() == null) {
+			throw new DataIntegrityViolationException("The portfolio of event id=" + singleTimeEvent.getId() + " doesn't exist. PLease check the portfolio table.");
 		}
 		
+		if(event.getUser() == null) {
+			throw new DataIntegrityViolationException("The organizer of event id=" + singleTimeEvent.getId() + " doesn't exist. PLease check the user table.");
+		}
 	}
 	
+	/**
+	 * Convert portfolio object to a LinkedHashMap
+	 * @param portfolio The portfolio object
+	 * @return The LinkedHashMap form of portfolio object.
+	 * @throws IllegalAccessException | IllegalArgumentException
+	 */
+	
+	private LinkedHashMap<String, Object> portfolioToMap(Portfolio portfolio) throws Exception{
+		LinkedHashMap<String, Object> portfolioInfo = new LinkedHashMap<String, Object>();
+		
+		for (Field field : portfolio.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+            portfolioInfo.put(field.getName(), field.get(portfolio));
+        }
+
+        return portfolioInfo;		
+	}
+	
+	/**
+	 * Convert user object to a LinkedHashMap, however, only the id and full name are picked.
+	 * @param user The user object
+	 * @return The LinkedHashMap form of user object.
+	 */
+	
+	private LinkedHashMap<String, Object> userInfo(User user){
+		LinkedHashMap<String, Object> userInfo = new LinkedHashMap<String, Object>();
+		userInfo.put("Id", user.getId());
+		userInfo.put("fullName", user.getFullName());
+		return userInfo;
+	}
 }

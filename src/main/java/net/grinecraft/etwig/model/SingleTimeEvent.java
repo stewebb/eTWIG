@@ -56,6 +56,10 @@ public class SingleTimeEvent {
 		return  EventTimeUnit.fromString(this.unit);
 	}
 	
+	public String getUnitAbbr() {
+		return this.getUnit().toString();
+	}
+	
 	public LocalDateTime getEndDateTime() {
 		return DateUtils.calculateEndTime(this.getUnit(), this.startDateTime, this.duration);
 	}
