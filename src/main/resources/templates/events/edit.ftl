@@ -7,12 +7,25 @@
 	function: The edit event page.
    -->
 
+<#-- Edit mode. -->
 <#assign isEdit = true>
+<#assign isEditStr = "true">
+
+<#-- Convert the "Embedded" boolean to String -->
+<#assign isEmbeddedStr = embedded ?string('true', 'false')>
+
+<#-- In edit mode, inputs are enabled only the edit permissions are grant. -->
 <#assign disabled = !editPermission>
-<#assign disabledText = editPermission ? string("", "disabled")>
-<#assign str = editPermission ? string("Edit", "View")>
-<#assign link = "edit?eventId=" + eventId + "&embedded=" + embedded ?string('true', 'false')>
-<#assign unit = eventDetails.details.unit>
+<#assign disabledStr = editPermission ? string("", "disabled")>
+
+<#-- In edit mode, mode are called "Edit" and "View", depends on edit permissions. -->
+<#assign modeStr = editPermission ? string("Edit", "View")>
+
+<#-- In edit mode, the link of this page is always "/event/edit", but two paramaters eventId and embedded are given. -->
+<#assign link = "edit?eventId=" + eventId + "&embedded=" + isEmbeddedStr>
+
+ <#-- In edit mode, the default time unit and the default duration are based on the current choices.  -->
+<#assign timeUnit = eventDetails.details.unit>
 <#assign duration = eventDetails.details.duration>
 
 <!DOCTYPE html>

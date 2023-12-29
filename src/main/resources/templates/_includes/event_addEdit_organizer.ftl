@@ -12,7 +12,7 @@
 						<div class="card card-primary card-outline">
 							<div class="card-header">
 								<h3 class="card-title">
-									<i class="fa-solid fa-user-tie"></i>&nbsp;Organizer<#if isEdit> (Read only)</#if>
+									<i class="fa-solid fa-user-tie"></i>&nbsp;Organizer
 								</h3>
 							</div>
 
@@ -29,8 +29,9 @@
 											</span>
 										</div>
 										
-      									<select class="form-control select2" name="eventPortfolio" id="eventPortfolio" <#if isEdit>disabled</#if>>
-        									<optgroup label="My Portfolio(s)">
+      									<select class="form-control select2" name="eventPortfolio" id="eventPortfolio" ${disabledStr}>
+      										
+        									<!-- <optgroup label="My Portfolio(s)"> -->
         									
         									<#if isEdit>
      											<option data-color="#${eventDetails.portfolio.color}" data-icon="<#if eventDetails.portfolio.icon?has_content>${eventDetails.portfolio.icon}</#if>" value="${eventDetails.portfolio.Id}">
@@ -45,7 +46,7 @@
 													</#list>
         										</#if>
         									</#if>
-        									</optgroup>
+        									<!-- </optgroup> -->
       									</select>
       									
       									<div id="select-box"></div>
@@ -63,14 +64,14 @@
 												</span>
 											</div>
 											
-											<select class="form-control select2" name="eventOrganizer" id="eventOrganizer" <#if isEdit>disabled</#if>>
-        										<optgroup label="Myself">
+											<select class="form-control select2" name="eventOrganizer" id="eventOrganizer" ${disabledStr}>
+        										<!-- <optgroup label="Myself"> -->
         											<#if isEdit>
         												<option value="${eventDetails.user.Id}">${eventDetails.user.fullName}</option>
         											<#else>
           											 	<option value="${user.userId}">${user.username}</option>
           											 </#if>
-        										</optgroup>
+        										<!-- </optgroup> -->
        
       										</select>
 										</div>

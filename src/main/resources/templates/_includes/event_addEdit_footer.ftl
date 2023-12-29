@@ -14,16 +14,16 @@
 						<div class="btn-group" role="group" style="float: right;">
 						
 						<#-- Add -->
-							<#assign addOnClickOption = embedded ? then("true", "false")>
-							<#assign cancelBtn = embedded ? then("Close", "Cancel")>
+							
 							<#if !disabled>
-								<button type="button" class="btn btn-outline-primary" onclick="addEvent(${addOnClickOption});">
-									<i class="fa-regular fa-check"></i>&nbsp; ${str} event
+								<button type="button" class="btn btn-outline-primary" onclick="addEvent(${isEmbeddedStr}, ${isEditStr});">
+									<i class="fa-regular fa-check"></i>&nbsp; ${modeStr} event
 								</button>
 							</#if>
 							
 						<#-- Cancel -->
 							<#assign cancelOnClickAction = embedded ? then("parent.$('#etwigModal').modal('hide');", "window.location.reload();")>
+							<#assign cancelBtn = embedded ? then("Close", "Cancel")>
 							<button type="button" class="btn btn-outline-secondary" onclick="${cancelOnClickAction}">
 								<i class="fa-solid fa-xmark"></i>&nbsp;${cancelBtn}
 							</button>

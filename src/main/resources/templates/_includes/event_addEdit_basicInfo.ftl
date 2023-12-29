@@ -19,7 +19,7 @@
 							<div class="card-body">
 								
 								<#if disabled>
-									<div class="callout callout-warning">
+									<div class="callout callout-primary">
 										<h5 class="bold-text mb-3">No edit permission</h5>
 										This event was created by the user with <span class="bold-text" style="color:#${eventDetails.portfolio.color}">${eventDetails.portfolio.name}</span> portfolio. <br />
 										However, your portfolios are 
@@ -28,7 +28,7 @@
         										<span class="bold-text" style="color:#${portfolio_info.color}">${portfolio_info.name}</span>
         									</#list>
         								<#else>
-        									Null
+        									<strong>Null</strong>
         								</#if>.
 									</div>
 								</#if>
@@ -64,7 +64,7 @@
 													<i class="fa-solid fa-lightbulb"></i>
 												</span>
 											</div>
-											<input type="text" class="form-control" placeholder="Event Name" id="eventName" maxlength="31" value="<#if isEdit>${eventDetails.details.name}</#if>" ${disabledText}>
+											<input type="text" class="form-control" placeholder="Event Name" id="eventName" maxlength="31" value="<#if isEdit>${eventDetails.details.name}</#if>" ${disabledStr}>
 										</div>
 									</div>
 								</div>
@@ -79,7 +79,7 @@
 													<i class="fa-solid fa-location-dot"></i>
 												</span>
 											</div>
-											<input type="text" class="form-control" placeholder="Event Location" id="eventLocation" maxlength="63" value="<#if isEdit>${eventDetails.details.location}</#if>" ${disabledText}>
+											<input type="text" class="form-control" placeholder="Event Location" id="eventLocation" maxlength="63" value="<#if isEdit>${eventDetails.details.location}</#if>" ${disabledStr}>
 											
 										</div>
 									</div>

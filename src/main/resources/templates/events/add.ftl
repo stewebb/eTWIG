@@ -7,14 +7,25 @@
 	function: The add event page.
    -->
 
+<#-- Add mode. -->
 <#assign isEdit = false>
+<#assign isEditStr = "false">
+
+<#-- Convert the "Embedded" boolean to String -->
+<#assign isEmbeddedStr = embedded ?string('true', 'false')>
+
+<#-- In add mode, inputs are also enabled, -->
 <#assign disabled = false>
-<#assign disabledText ="">
-<#assign str = "Add">
+<#assign disabledStr ="">
+
+<#-- In add mode, mode is always called "Add". -->
+<#assign modeStr = "Add">
+
+<#-- In add mode, the link of this page is always "/event/add". -->
 <#assign link = "add">
 
- <#-- h (hour) is the default option in add event mode.  -->
-<#assign unit = "h">
+ <#-- In add mode, the default time unit is always h (hour) and the default duration is always 1.  -->
+<#assign timeUnit = "h">
 <#assign duration = 1>
 
 <!DOCTYPE html>

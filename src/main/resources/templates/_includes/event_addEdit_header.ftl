@@ -14,7 +14,7 @@
         		<div class="row mb-2">
           			<div class="col-sm-6">
             			<h1 class="bold-text">
-            				${str} Event
+            				${modeStr} Event
             			</h1>
           			</div>
           			<div class="col-sm-6">
@@ -22,7 +22,7 @@
               				<li class="breadcrumb-item"><a href="/">Home</a></li>
               				<li class="breadcrumb-item">Events</li>
               				<li class="breadcrumb-item active">
-              					<a href="/events/${link}">${str} Event</a>
+              					<a href="/events/${link}">${modeStr} Event</a>
               				</li>
             			</ol>
           			</div>
