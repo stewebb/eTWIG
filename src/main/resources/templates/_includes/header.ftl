@@ -56,6 +56,6 @@
 	<script src="/static/js/select2.min.js"></script>
 	
 	<#-- Custom CSS and JS for eTWIG platform. -->
-	<link rel="stylesheet" href="/static/css/style.css">
+	<link rel="stylesheet" href="/static/css/etwig-style.css">
 	<script src="/static/js/etwig-toasts.js"></script>	
 		

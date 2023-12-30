@@ -1,0 +1,77 @@
+/**
+ * eTWIG - The event and banner management software for residential halls and student unions.
+ * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
+ * @license: MIT
+ * @author: Steven Webb [xiaoancloud@outlook.com]
+ * @website: https://etwig.grinecraft.net
+ * @function: Stylesheets for public TWIG related pages.
+ */
+
+body {
+	padding: 0;
+	margin: 0;
+	background-color: #FFF;
+}
+
+.fullscreen-iframe{
+ 	position: fixed;
+    border: none;
+    top: 0; 
+    right: 0;
+    bottom: 0; 
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/**
+	The styles of setting button.
+*/
+
+/*Basic position (right-down corner)*/
+.setting-button {
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	z-index: 100;
+}
+
+/* Round button */
+.setting-button button {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;	
+    border: 3px solid;
+}
+
+/* Rotating button when hover*/
+@keyframes rotate {
+	from {transform: rotate(0deg); }
+	to {transform: rotate(360deg); }
+}
+
+#settingsButton .fa-gear {
+	transition: transform 0.2s ease-in-out;
+}
+
+#settingsButton:hover .fa-gear {
+	animation: rotate 1s linear infinite;
+}
+
+/* Setting box */
+.settings-box {
+	display: none;
+	position: fixed;
+	bottom: 80px;
+	right: 20px;
+	z-index: 100;
+	background-color: white;
+	border: 1px solid #ddd;
+	padding: 10px;
+	border-radius: 4px;
+	box-shadow: 0 2px 4px rgba(0,0,0,.2);
+}
+        
