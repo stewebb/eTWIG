@@ -10,6 +10,7 @@
 package net.grinecraft.etwig.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -25,5 +26,12 @@ public class WebConfig implements WebMvcConfigurer{
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(userInterceptor);
+    }
+    
+    @Value("${etwig.media.root-location}")
+    private String rootLocation;
+
+    public String getRootLocation() {
+        return rootLocation;
     }
 }

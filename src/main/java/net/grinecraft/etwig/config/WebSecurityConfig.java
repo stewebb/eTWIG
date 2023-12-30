@@ -47,7 +47,7 @@ public class WebSecurityConfig{
 		
 		// Set the public access resources.
 		http.authorizeHttpRequests((requests) -> requests
-				.requestMatchers("/static/**", "/api/public/**", "/twig", "/error").permitAll()
+				.requestMatchers("/static/**", "/api/public/**", "/twig/**", "/error").permitAll()
 				.anyRequest().authenticated()
 			);
 		
