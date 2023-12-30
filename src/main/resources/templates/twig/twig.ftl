@@ -7,7 +7,7 @@
 	function: The actual TWIG content.
    -->
    
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 
@@ -20,18 +20,20 @@
 	<link rel="icon" href="/static/images/favicon.ico">
 
 	<#-- CSS and JS for Pace -->
-	<link rel="stylesheet" href="/static/css/pace-theme-loading-bar.css">
+	<link rel="stylesheet" href="/static/css/pace-theme-center-atom.css">
 	<script src="/static/js/pace.min.js"></script>
 	
-	<#-- JS for JQuery. -->
-	<#-- <script src="/static/js/jquery.min.js"></script> -->
 	
+	<#-- JS for JQuery. -->
+	<script src="/static/js/jquery.min.js"></script>
+	<!--
 	<#-- JS for Popper. -->
-	<#-- <script src="/static/js/popper.min.js"></script> -->
+	<script src="/static/js/popper.min.js"></script>
 	
 	<#-- CSS and JS for Bootstrap 4. -->
-	<#-- <link rel="stylesheet" href="/static/css/bootstrap.min.css">
-	<script src="/static/js/bootstrap.min.js"></script> -->
+	<link rel="stylesheet" href="/static/css/bootstrap.min.css">
+	<script src="/static/js/bootstrap.min.js"></script>
+	
 	
 	<#-- CSS for icheck-bootstrap.-->
 	<#-- <link rel="stylesheet" href="/static/css/icheck-bootstrap.min.css"> -->
@@ -43,8 +45,10 @@
 	<#-- JS for date.js. -->
 	<#-- <script src="/static/js/date.min.js"></script> -->
 	
-
-	
+	<#-- CSS and JS for AdminLTE. -->
+  	<link rel="stylesheet" href="/static/css/adminlte.min.css">
+	<script src="/static/js/adminlte.min.js"></script>
+	-->
 	<#-- Custom CSS and JS for eTWIG platform. -->
 	<link rel="stylesheet" href="/static/css/style.css">
 	<script src="/static/js/etwig-toasts.js"></script>	
@@ -54,12 +58,16 @@
 	
 	<#-- CSS and JS for public TWIG content.-->
 	<link rel="stylesheet" href="/static/css/twig.css">
-	<script src="/static/js/twig.js"></script>
+	<script src="/static/js/etwig-twig.js"></script>
 	
 	<title>TWIG</title>
 </head>
 
 <body>
+
+	<#-- 
+	<#include "../_includes/modal.ftl">
+	-->
 	<main>
   	</main>
 </body>
