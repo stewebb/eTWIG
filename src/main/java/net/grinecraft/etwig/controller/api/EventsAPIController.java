@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.grinecraft.etwig.services.EventService;
-import net.grinecraft.etwig.util.BooleanUtils;
 import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.NumberUtils;
 import net.grinecraft.etwig.util.WebReturn;

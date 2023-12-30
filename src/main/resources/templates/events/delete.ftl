@@ -21,7 +21,7 @@
 <#-- Convert the "Embedded" boolean to String -->
 <#assign isEmbeddedStr = embedded ?string('true', 'false')>
 
-<#-- In delete mode, the link of this page is always "/event/delete", but two paramaters eventId and embedded are given. -->
+<#-- In delete mode, the link of this page is always "/event/delete", but two parameters eventId and embedded are given. -->
 <#assign link = "delete?eventId=" + eventId + "&embedded=" + isEmbeddedStr>
 
 <#assign cancelBtn = embedded ? then("Close", "Cancel")>

@@ -9,20 +9,9 @@
 
 package net.grinecraft.etwig.controller.twig;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import net.grinecraft.etwig.config.WebConfig;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 @Controller
 public class TwigController {
@@ -36,9 +25,12 @@ public class TwigController {
 	 */
 	
 	@RequestMapping("/twig/main")  
-	public String content(Model model) throws Exception{
-		return "twig/twig";
+	public String twigMain(Model model) throws Exception{
+		return "twig/main";
 	}
 	
-	
+	@RequestMapping("/twig/content")  
+	public String content(Model model) throws Exception{
+		return "/twig/content";
+	}
 }

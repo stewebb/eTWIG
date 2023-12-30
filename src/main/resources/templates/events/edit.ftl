@@ -21,7 +21,7 @@
 <#-- In edit mode, mode are called "Edit" and "View", depends on edit permissions. -->
 <#assign modeStr = editPermission ? string("Edit", "View")>
 
-<#-- In edit mode, the link of this page is always "/event/edit", but two paramaters eventId and embedded are given. -->
+<#-- In edit mode, the link of this page is always "/event/edit", but two parameters eventId and embedded are given. -->
 <#assign link = "edit?eventId=" + eventId + "&embedded=" + isEmbeddedStr>
 
  <#-- In edit mode, the default time unit and the default duration are based on the current choices.  -->

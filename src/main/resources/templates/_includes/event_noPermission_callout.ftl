@@ -5,7 +5,7 @@
 	author: Steven Webb [xiaoancloud@outlook.com]
 	website: https://etwig.grinecraft.net
 	function: The template for add/edit events, basic information part.
-	This part contains the a callout to tell user he/she has no permission to perfrom some operations due to a different portfolio.
+	This part contains the a callout to tell user he/she has no permission to perform some operations due to a different portfolio.
    -->
 
 									<div class="callout callout-primary">
