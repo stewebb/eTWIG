@@ -27,13 +27,6 @@ import java.nio.file.Paths;
 @Controller
 public class TwigController {
 	
-	private final Path rootLocation;
-	
-	
-	@Autowired
-    public TwigController(WebConfig config) {
-        this.rootLocation = Paths.get(config.getRootLocation());
-    }
 	
 	/**
 	 * The actual TWIG content
@@ -47,14 +40,5 @@ public class TwigController {
 		return "twig/twig";
 	}
 	
-	@RequestMapping(value = "/twig/image", produces = MediaType.IMAGE_JPEG_VALUE)
-	public ResponseEntity<Resource> image(@RequestParam String fileName) throws Exception {
-		Path file = rootLocation.resolve(fileName);
-        Resource resource = new UrlResource(file.toUri());
-        if (resource.exists() || resource.isReadable()) {
-        	return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(resource);
-        } else {
-           throw new IllegalArgumentException("The fileName " + fileName + " is invalid.");
-        } 
-    }
+	
 }
