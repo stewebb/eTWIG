@@ -31,12 +31,47 @@ public class PortfolioService {
 	 * @return A LinkedHashMap all portfolios
 	 */
 	
-	public LinkedHashMap<Long, Portfolio> getPortfolioList() {
+	public LinkedHashMap<Long, Portfolio> getAllPortfolioList(){
+		return listToMap((List<Portfolio>) portfolioRepository.findAll());
+	}
+	
+	/**
+	 * Get the list of portfolios by the status of separated calendar.
+	 * @param isSeperatedCalendar 
+	 * True get the portfolios WITH separated calendar.
+	 * False get the portfolios WITHOUT separated calendar.
+	 * Null get all portfolios REGARDLESS the separated calendar option.
+	 * @return A LinkedHashMap of the portfolios that meet the above requirements.
+	 */
+	
+	public LinkedHashMap<Long, Portfolio> getPortfolioListBySeperatedCalendar(Boolean isSeperatedCalendar){
 		
-		if(portfolioRepository == null) {
+		if(isSeperatedCalendar == null) {
+			return listToMap((List<Portfolio>) portfolioRepository.findAll());
+		}
+		
+		else if(isSeperatedCalendar == true) {
+			return listToMap((List<Portfolio>) portfolioRepository.findByIsSeperatedCalendarTrue());
+		}
+		
+		// isSeperatedCalendar == false
+		else {
+			return listToMap((List<Portfolio>) portfolioRepository.findByIsSeperatedCalendarFalse());
+		}
+	}
+	
+	/**
+	 * Convert the List form of the portfolio to LinkedHashMap form.
+	 * @param portfolioList
+	 * @return
+	 */
+	
+	private LinkedHashMap<Long, Portfolio> listToMap(List<Portfolio> portfolioList) {
+		
+		if(portfolioList == null) {
 			return null;
 		}
-        List<Portfolio> portfolioList = (List<Portfolio>) portfolioRepository.findAll();
+        //List<Portfolio> portfolioList = (List<Portfolio>) portfolioRepository.findAll();
       
         // Convert to a map of map... Use LinkedHashMap to keep adding order
         LinkedHashMap<Long, Portfolio> allPortfolios = new LinkedHashMap<>();

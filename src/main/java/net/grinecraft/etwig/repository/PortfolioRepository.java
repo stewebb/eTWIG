@@ -21,5 +21,9 @@ import net.grinecraft.etwig.model.Portfolio;
 public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {
 	
     public List<Portfolio> findAll();
+    
     public Optional<Portfolio> findById(long id);
+    
+    public List<Portfolio> findByIsSeperatedCalendarTrue();
+    public List<Portfolio> findByIsSeperatedCalendarFalse();
 }

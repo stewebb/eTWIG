@@ -63,7 +63,8 @@ body {
 /* Setting box */
 .settings-box {
 	display: none;
-	position: fixed;
+	
+	/*position: fixed;
 	bottom: 80px;
 	right: 20px;
 	z-index: 100;
@@ -72,5 +73,11 @@ body {
 	padding: 10px;
 	border-radius: 4px;
 	box-shadow: 0 2px 4px rgba(0,0,0,.2);
+	*/
+	/* The setting box cannot be too small. 
+	min-width: 500px;
+	
+	 Make the max width slightly smaller than 576px ("xs" width in Bootstrap.) - 2*padding.  
+	max-width: 500px;*/
 }
         

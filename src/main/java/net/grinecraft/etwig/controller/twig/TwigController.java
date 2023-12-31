@@ -9,13 +9,18 @@
 
 package net.grinecraft.etwig.controller.twig;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import net.grinecraft.etwig.services.PortfolioService;
+
 @Controller
 public class TwigController {
 	
+	@Autowired
+	PortfolioService portfolioService;
 	
 	/**
 	 * The actual TWIG content
@@ -26,6 +31,8 @@ public class TwigController {
 	
 	@RequestMapping("/twig/main")  
 	public String twigMain(Model model) throws Exception{
+		System.out.println( portfolioService.getPortfolioListBySeperatedCalendar(true));
+		model.addAttribute("portfolioSeperatedCalendar", portfolioService.getPortfolioListBySeperatedCalendar(true));		
 		return "twig/main";
 	}
 	
