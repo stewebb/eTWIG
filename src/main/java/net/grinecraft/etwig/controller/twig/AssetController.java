@@ -28,7 +28,7 @@ public class AssetController {
 	private AssetService assetService;
 
 	@RequestMapping(value = "/twig/assets")
-	public ResponseEntity<Resource> image(@RequestParam Long assetId) throws Exception {
+	public ResponseEntity<Resource> assets(@RequestParam Long assetId) throws Exception {
 		
 		// Get the asset content and null check.
 		Resource asset = assetService.getAssetContentById(assetId);
@@ -44,4 +44,5 @@ public class AssetController {
         	return ResponseEntity.notFound().build();
         } 
     }
+	
 }
