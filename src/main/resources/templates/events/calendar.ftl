@@ -6,6 +6,8 @@
 	website: https://etwig.grinecraft.net
 	function: The event calendar/planner page.
    -->
+   
+<#assign navbar = "CALENDAR">
 
 <!DOCTYPE html>
 <html>

@@ -6,6 +6,8 @@
 	website: https://etwig.grinecraft.net
 	function: The add event page.
    -->
+   
+<#assign navbar = "ADD_EVENT">
 
 <#-- Add mode. -->
 <#assign isEdit = false>

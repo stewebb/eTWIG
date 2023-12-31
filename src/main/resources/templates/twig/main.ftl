@@ -23,7 +23,7 @@
 	
 	<#-- The floating settings button -->
 	<div class="setting-button">
-    	<button id="settingsButton" class="btn btn-outline-primary">
+    	<button id="settingsButton" class="btn btn-primary">
         	<i class="fa fa-gear fa-xl fa-beat" id="cogIcon"></i>
     	</button>
 	</div>

@@ -12,7 +12,6 @@ package net.grinecraft.etwig.controller.events;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import net.grinecraft.etwig.util.type.NavBar;
 
 @Controller
 public class CalendarController {
@@ -25,8 +24,6 @@ public class CalendarController {
 	 */
 	@RequestMapping("/events/calendar")  
 	public String calendar(Model model) throws Exception{
-	
-        model.addAttribute("navbar", NavBar.CALENDAR);
-		return "events/calendar";
+			return "events/calendar";
 	}
 }

@@ -11,6 +11,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	
+	<#-- Category A: Must-loaded resources for eveny single page. -->
 	<#-- The eTWIG icon. -->
 	<link rel="icon" href="/static/images/favicon.ico">
 
@@ -50,6 +51,7 @@
 	<#-- JS for date.js. -->
 	<script src="/static/js/date.min.js"></script>
 	
+	<#-- Category B: The resources for only a few pages. -->
 	<#-- CSS and JS for select 2.-->
 	<link rel="stylesheet" href="/static/css/select2.min.css"/>
 	<link rel="stylesheet" href="/static/css/select2-bootstrap4.min.css"/>

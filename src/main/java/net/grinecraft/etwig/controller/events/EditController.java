@@ -29,7 +29,6 @@ import net.grinecraft.etwig.services.PortfolioService;
 import net.grinecraft.etwig.services.UserRoleService;
 import net.grinecraft.etwig.util.BooleanUtils;
 import net.grinecraft.etwig.util.NumberUtils;
-import net.grinecraft.etwig.util.type.NavBar;
 
 @Controller
 public class EditController {
@@ -62,7 +61,6 @@ public class EditController {
 		
 		model.addAttribute("embedded", BooleanUtils.toBoolean(embedded));
 		//model.addAttribute("isEdit", true);
-		model.addAttribute("navbar", NavBar.OTHER);
 		
 		// Check Invalid eventId. (Not a Long number)
 		id = NumberUtils.safeCreateLong(eventId);
@@ -105,7 +103,6 @@ public class EditController {
 	
 	@RequestMapping("/events/add")  
 	public String add(HttpSession session, Model model, @RequestParam(required = false) String embedded) throws Exception{
-        model.addAttribute("navbar", NavBar.ADD_EVENT);
         model.addAttribute("embedded", BooleanUtils.toBoolean(embedded));
 		return "events/add";
 	
