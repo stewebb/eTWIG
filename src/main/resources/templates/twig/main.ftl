@@ -19,12 +19,12 @@
 
 <body style="height: 100%;">
 	
-	<iframe src="/twig/content" class="fullscreen-iframe"></iframe>
+	<iframe src="/twig/content" class="fullscreen-iframe" id="twigFrame"></iframe>
 	
 	<#-- The floating settings button -->
 	<div class="setting-button">
     	<button id="settingsButton" class="btn btn-primary">
-        	<i class="fa fa-gear fa-xl fa-beat" id="cogIcon"></i>
+        	<i class="fa fa-gear fa-xl" id="cogIcon"></i>
     	</button>
 	</div>
 
@@ -37,7 +37,7 @@
 		</div>
 			
 		<div class="card-body">
-								
+			<button class="btn btn-outline-primary" onclick="$('#twigFrame').attr('src', $('#twigFrame').attr('src'));">Reload</button>
 		</div>
 	</div>
 

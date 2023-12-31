@@ -2,6 +2,12 @@ MIN_WINDOW_WIDTH = 1280;
 MIN_WINDOW_HEIGHT = 720;
 ASPECT_RATIO = [16, 9];
 
+var backgroundImage;
+
+function preload(){
+    backgroundImage = loadImage("https://raw.githubusercontent.com/Rabbid76/graphics-snippets/master/resource/texture/background.jpg")
+}
+
 function setup() {
 	//var TWIGResulution = setTWIGResolution();
 	//createCanvas(TWIGResulution[0], TWIGResulution[1]);
@@ -17,8 +23,10 @@ function draw() {
  	
  	createCanvas(TWIGResulution[0], TWIGResulution[1]);
  	
- 	stroke(255, 0, 0);
- 	rect(0, 0, TWIGResulution[0], TWIGResulution[1]);
+ 	//stroke(255, 0, 0);
+ 	//rect(0, 0, TWIGResulution[0], TWIGResulution[1]);
+ 	
+ 	background(backgroundImage);
 }
 
 /**
