@@ -59,5 +59,5 @@
 	
 	<#-- Custom CSS and JS for eTWIG platform. -->
 	<link rel="stylesheet" href="/static/css/etwig-style.css">
-	<script src="/static/js/etwig-toasts.js"></script>	
+	<script src="/static/js/etwig-common.js"></script>	
 		

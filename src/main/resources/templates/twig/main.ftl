@@ -19,14 +19,14 @@
 
 <body style="height: 100%;">
 
-	<#-- Settings Modal -->
+	<#-- Filter Modal -->
 	<div class="modal fade" tabindex="-1" id="etwigSettingBox">
   		<div class="modal-dialog modal-dialog-centered">
     		<div class="modal-content">
     		
       			<div class="modal-header">
         			<h5 class="modal-title bold-text text-primary">
-        				<i class="fa-solid fa-screwdriver-wrench"></i>&nbsp;Settings
+        				<i class="fa-solid fa-filter"></i>&nbsp;Filter and Settings
         			</h5>
       			</div>
       			
@@ -44,20 +44,18 @@
 							</div>
 							
 							<select class="form-control select2" name="twigPortfolio" id="twigPortfolio">
-      							<optgroup label="My Portfolio(s)">
-      							<option value="-1" selected>All portfolios</option>
+      							<optgroup label="All portfolios">
+      								<option value="-1" selected>All portfolios</option>
+      							</optgroup>
+      								<optgroup label="Portfolio(s) with seperate calendar">
 	        						<#if portfolioSeperatedCalendar?has_content>
         								<#list portfolioSeperatedCalendar as portfolio_id, portfolio_info>
-        								
-        									<#--  
         									<option data-color="#${portfolio_info.color}" data-icon="<#if portfolio_info.icon?has_content>${portfolio_info.icon}</#if>" value="${portfolio_id}">
-															${portfolio_info.name}
-														</option>
-													-->
-											<option value="${portfolio_id}">
 												${portfolio_info.name}
 											</option>
 										</#list>
+									<#else>
+										<option value="-2" disabled>(No portfolio)</option>
         							</#if>
         						 </optgroup>
       						</select>
@@ -69,8 +67,18 @@
       			<div class="modal-footer">
       			<div class="btn-group">
       				
+      				<button class="btn btn-outline-info">
+      					<i class="fa-solid fa-share"></i>&nbsp;Share
+      				</button>
+      				
+      				<!--
       				<button class="btn btn-outline-primary" onclick="$('#twigFrame').attr('src', $('#twigFrame').attr('src'));">
       					<i class="fa-solid fa-rotate"></i>&nbsp;Reload
+      				</button>
+      				-->
+      				
+      				<button class="btn btn-outline-primary">
+      					<i class="fa-solid fa-check"></i>&nbsp;Apply
       				</button>
       				
       				<button class="btn btn-outline-secondary" onclick="$('#etwigSettingBox').modal('hide');">
@@ -92,20 +100,18 @@
     	</button>
 	</div>
 
-
 <script>
     $(document).ready(function() {
         $('#settingsButton').click(function() {
-            //$('#settingsBox').toggle();
             $('#etwigSettingBox').modal('show');
         });
     });
     
-          	$('#twigPortfolio').select2({
-    		theme: 'bootstrap4',
-    		//templateResult: formatState,
-  			//templateSelection: formatState,
-		});
+    $('#twigPortfolio').select2({
+    	theme: 'bootstrap4',
+    	templateResult: formatState,
+  		templateSelection: formatState,
+	});
 </script>
 </body>
 </html>

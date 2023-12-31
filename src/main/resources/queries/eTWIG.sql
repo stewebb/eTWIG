@@ -1,3 +1,16 @@
+CREATE OR REPLACE FUNCTION insert_mondays(year INT) RETURNS VOID AS $$
+DECLARE
+    current_date DATE;
+BEGIN
+	current_date := (SELECT DATE_TRUNC('week', (DATE '2024-01-01')) + INTERVAL '1 day');
+
+    WHILE EXTRACT(YEAR FROM current_date) = year LOOP
+        INSERT INTO public.week (monday) VALUES (current_date);
+        current_date := current_date + INTERVAL '7 days'; -- Move to next Monday
+    END LOOP;
+END;
+$$ LANGUAGE plpgsql;
+
 --
 -- PostgreSQL database dump
 --

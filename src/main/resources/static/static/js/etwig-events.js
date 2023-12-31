@@ -7,22 +7,6 @@
  * @function: Add, edit and delete events.
  */
 
-function formatState(state) {
-	var option = $(state.element);
-  	var color = option.data("color");
-  	var icon = option.data("icon");
-  	
-  	if (!color) {
-    	 return state.text;
-  	}
-  	
-  	if(!icon){
-		icon = 'square';
-	}
-  		
-  	return $(`<span style="color: ${color};background-color: #FFF">&nbsp;<i class="fa-solid fa-${icon}"></i>${state.text}&nbsp;</span>`);
-};
-
 /**
  * Validate the add event form. If passed, add the event.
  * @param embedded True if the event add page is in the "embed" mode, i.e., this page is in the frame of the calendar. 
