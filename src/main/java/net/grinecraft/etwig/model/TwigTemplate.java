@@ -11,6 +11,7 @@ package net.grinecraft.etwig.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import net.grinecraft.etwig.util.JSONUtils;
 
 @Data
 @AllArgsConstructor
@@ -29,6 +30,21 @@ public class TwigTemplate {
 	@JoinColumn(name = "portfolio_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Portfolio portfolio;
 	
-	@Column(name = "background_image")
-	private Long backgroundImage;
+	/**
+	 * The "background" column stores the style and content of the TWIG background in JSON format.
+	 * {
+	 * 		"mode" : "${MODE}",
+	 * 		"value" : "${VALUE}"
+	 * }
+	 * Where:
+	 * ${MODE} := color | image
+	 * color means that the background is a solid color.
+	 * image means that the background is an image.
+	 * 
+	 * If ${MODE} is color, ${VALUE} is the hexadecimal color code #xxxxxx. e.g., #FF0000 stands for red.
+	 * Otherwise, ${VALUE} is the assetId in the asset table.
+	 */
+	
+	@Column(name = "background")
+	private String background;
 }

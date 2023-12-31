@@ -10,6 +10,7 @@
 <#if error.trace?has_content>
 	<#assign trace = error.trace?replace("\t", " ")>
 	<#assign trace = trace?replace("\n", " ")>
+	<#assign trace = trace?replace("\"", "'")>
 	<#assign exception = trace?split(" at ")>
 </#if>
 

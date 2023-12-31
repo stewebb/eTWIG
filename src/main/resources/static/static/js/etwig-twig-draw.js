@@ -2,10 +2,13 @@ MIN_WINDOW_WIDTH = 1280;
 MIN_WINDOW_HEIGHT = 720;
 ASPECT_RATIO = [16, 9];
 
+DEFAULT_BACKGROUND = "#000000";
+
 var twigHasTemplate = false;
 
-var backgroundImageURL = "";
-var backgroundImage;
+var backgroundObj;
+
+var backgroundContent;
 
 function preload(){
 	getTWIGTemplate();
@@ -13,14 +16,15 @@ function preload(){
 		return;
 	}
 	
-
-    backgroundImage = loadImage(backgroundImageURL);
+	setBackground();
+	
+   // backgroundImage = loadImage(backgroundImageURL);
 	//backgroundImage = 255;
 }
 
 function setup() {
 	if(!twigHasTemplate){
-		return;
+	return;
 	}
 	//var TWIGResulution = setTWIGResolution();
 	//createCanvas(TWIGResulution[0], TWIGResulution[1]);
@@ -41,7 +45,7 @@ function draw() {
  	if(!twigHasTemplate){
 		return;
 	}
- 	background(backgroundImage);
+ 	background(backgroundContent);
 }
 
 /**
@@ -58,6 +62,24 @@ function setTWIGResolution(){
 	return [TWIGWindowWidth, TWIGWindowHeight];
 }
 
+function setBackground(){
+	
+	// Case 1: Solid color background.
+	if(backgroundObj.mode == "color"){
+		backgroundContent = backgroundObj.value;
+	}
+	
+	// Case 2: Image background.
+	else if (backgroundObj.mode == "image"){
+		backgroundContent = loadImage("/twig/assets?assetId=" + backgroundObj.value);
+	}
+	
+	// Case 3: Undefined background, use a default color.
+	else{
+		backgroundContent = DEFAULT_BACKGROUND;
+	}
+}
+
 function getTWIGTemplate(){
 	var url = '/api/public/getTwigTemplateById';
 	
@@ -66,7 +88,7 @@ function getTWIGTemplate(){
     	url: url, 
     	async: false,
     	data: { 
-			templateId: 3,
+			templateId: 5,
 		}, 
     	dataType: 'json',
 		success: getTWIGTemplateWhenSuccess,
@@ -90,7 +112,9 @@ function getTWIGTemplateWhenSuccess(json){
 		return;
 	}
 	
-	// Step 1: Set the background Image URL.
-	backgroundImageURL = "/twig/assets?assetId=" + json.template.backgroundImage;
+	// Step 1: Set the background object.
+	backgroundObj = json.template.background;
+	
   	twigHasTemplate = true;
 }
+
