@@ -19,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import net.grinecraft.etwig.LoginSuccessHandler;
+import net.grinecraft.etwig.services.RememberMeService;
 import net.grinecraft.etwig.services.UserAuthService;
 
 @Configuration
@@ -30,6 +31,9 @@ public class WebSecurityConfig{
 	
 	@Autowired
 	private LoginSuccessHandler loginSuccessHandler;
+	
+	@Autowired
+	private RememberMeService rememeberMeService;
 	
 	@SuppressWarnings("removal")
 	@Bean
@@ -49,6 +53,9 @@ public class WebSecurityConfig{
 				.failureUrl("/user/login?success=false")
 				.successHandler(loginSuccessHandler)
 			);
+		
+		// Remember Me
+		http.rememberMe().rememberMeServices(rememeberMeService);
 		
 		// Set the logout URL.
 		http.logout((logout) -> logout.logoutUrl("/user/logout"));
