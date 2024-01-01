@@ -9,6 +9,7 @@
 
 package net.grinecraft.etwig.controller.api;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +18,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.grinecraft.etwig.services.TwigService;
+import net.grinecraft.etwig.services.WeekService;
+import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.NumberUtils;
 import net.grinecraft.etwig.util.WebReturn;
+import net.grinecraft.etwig.util.type.DateRange;
 
 @RestController
 public class TwigAPIController {
 
 	@Autowired
 	TwigService twigService;
+	
+	@Autowired
+	WeekService weekService;
 
 	/**
 	 * Get the TWIG template by a specific given id.
@@ -48,4 +55,16 @@ public class TwigAPIController {
 		return myReturn;
 	}
 
+	@RequestMapping("/api/public/getWeekByDate")  
+	public Map<String, Object> getWeekByDate(@RequestParam String date) throws Exception{
+		
+		LocalDate givenDate = DateUtils.safeParseDate(date, "yyyy-MM-dd");
+		if(givenDate == null) {
+			return WebReturn.errorMsg("date is invalid. It must be yyyy-mm-dd.", false);
+		}
+		
+		Map<String, Object> myReturn = WebReturn.errorMsg(null, true);
+	    myReturn.put("week", weekService.getWeekByDate(givenDate));
+		return myReturn;
+	}
 }

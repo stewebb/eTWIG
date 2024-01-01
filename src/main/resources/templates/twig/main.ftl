@@ -12,8 +12,9 @@
 <head>
 	<#include "../_includes/header.ftl">
 	
-	<#-- Custom CSS for public TWIG. -->
+	<#-- Custom CSS and JS for public TWIG. -->
 	<link rel="stylesheet" href="/static/css/etwig-twig.css">
+	<script src="/static/js/etwig-twig-main.js"></script>
 	
 	<#-- JS for generating QR codes. -->
 	<script src="/static/js/qrcode.min.js"></script>
@@ -25,7 +26,7 @@
 
 	<#-- Options Modal -->
 	<div class="modal fade" tabindex="-1" id="etwigSettingBox">
-  		<div class="modal-dialog modal-dialog-scrollable">
+  		<div class="modal-dialog">
     		<div class="modal-content">
     		
       			<div class="modal-header">
@@ -96,28 +97,38 @@
       							</div>
      						</div>
      						
-     						<div class="btn-group">
+     						<#-- Date -->
+							<div class="form-group row">
+								<label for="twigWeek" class="col-sm-2 col-form-label">Date</label>
+								<div class="col-sm-10">
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text">
+												<i class="fa-solid fa-calendar-week"></i>
+											</span>
+										</div>
+										<input type="text" class="form-control" id="twigWeek" onChange="getWeekByDate(datepicker.getDate());">
+									</div>
+									<div id="weekWrapper" class="datepicker"></div>
+								</div>
+							</div>		
+     						
+     						<#-- Week -->
+     						<div class="form-group row">
+     							<label for="twigWeekCalculated" class="col-sm-2 col-form-label">Week</label>
+     							<div class="col-sm-10" id="calculatedWeek">
+     							</div>
+     						</div>
+     						<#-- Apply and reset -->
+     						<div class="btn-group right-div">
+      							<button class="btn btn-outline-primary">
+      								<i class="fa-solid fa-check"></i>&nbsp;Apply
+      							</button>
       				
-      						<button class="btn btn-outline-info">
-      					<i class="fa-solid fa-share"></i>&nbsp;Share
-      				</button>
-      				
-      				<!--
-      				<button class="btn btn-outline-primary" onclick="$('#twigFrame').attr('src', $('#twigFrame').attr('src'));">
-      					<i class="fa-solid fa-rotate"></i>&nbsp;Reload
-      				</button>
-      				-->
-      				
-      				<button class="btn btn-outline-primary">
-      					<i class="fa-solid fa-check"></i>&nbsp;Apply
-      				</button>
-      				
-      				<button class="btn btn-outline-secondary" onclick="$('#etwigSettingBox').modal('hide');">
-      					<i class="fa-solid fa-xmark"></i>&nbsp;Close
-      				</button>
-     			</div>
-     			
-     			
+      							<button class="btn btn-outline-secondary">
+      								<i class="fa-solid fa-rotate"></i>&nbsp;Reset
+      							</button>
+     						</div>
 						</div>
 						
 						<#-- Content: Settings -->
@@ -127,6 +138,16 @@
 						
 						<#-- Content: Share -->
 						<div class="tab-pane fade" id="share" role="tabpanel" aria-labelledby="share-tab">
+							
+							<#-- Suggestion box -->
+							<div class="row">
+								<div class="callout callout-primary">
+									<h5 class="bold-text mb-3">Hold on!</h5>
+									Before you share and export, please make sure you have already applied 
+									<span class="bold-text text-primary">Filer</span> and
+									<span class="bold-text text-primary">Settings</span> on this TWIG.
+								</div>
+							</div>
 							
 							<#-- Export -->
 							<div class="row">
@@ -202,10 +223,11 @@
 					</div>
 					
      			</div>
-     			
+     			<!--
       			<div class="modal-footer">
       			
      			</div>
+     			-->
     		</div>
   		</div>
 	</div>
@@ -222,6 +244,8 @@
 
 <script>
     $(document).ready(function() {
+    
+    getWeekByDate(Date.today().toString("yyyy-MM-dd"));
         $('#settingsButton').click(function() {
             $('#etwigSettingBox').modal('show');
         });
@@ -233,7 +257,12 @@
   		templateSelection: formatState,
 	});
 	
-	new QRCode(document.getElementById("qrcode"), "https://etwig.grinecraft.net");
+	 var datepicker = createDatePicker("#weekWrapper", "#twigWeek");
+	 
+	
+	//new QRCode(document.getElementById("qrcode"), "https://etwig.grinecraft.net");
+	
+	createQRCode("qrcode",  "https://etwig.grinecraft.net", ["#000000", "#FFFFFF"]);
 </script>
 </body>
 </html>

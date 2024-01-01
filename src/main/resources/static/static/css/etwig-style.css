@@ -44,9 +44,13 @@
 .datepicker{
 	margin-top: -1px; 
 	position: absolute; 
-	z-index: 1;
+	z-index: 99;
 }
 
 .table-nonfluid {
    width: auto !important;
+}
+
+.right-div{
+	float:right;
 }
