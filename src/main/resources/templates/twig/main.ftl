@@ -115,25 +115,34 @@
      						
      						<#-- Week -->
      						<div class="form-group row">
-     							<label for="twigWeekCalculated" class="col-sm-2 col-form-label">Week</label>
+     							<div class="col-sm-2"></div>
      							<div class="col-sm-10" id="calculatedWeek">
      							</div>
      						</div>
-     						<#-- Apply and reset -->
-     						<div class="btn-group right-div">
-      							<button class="btn btn-outline-primary">
-      								<i class="fa-solid fa-check"></i>&nbsp;Apply
-      							</button>
-      				
-      							<button class="btn btn-outline-secondary">
-      								<i class="fa-solid fa-rotate"></i>&nbsp;Reset
-      							</button>
-     						</div>
+
 						</div>
 						
 						<#-- Content: Settings -->
   						<div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
-  				
+  							
+  							<#-- Select Resolution -->
+							<div class="form-group row">
+								<label for="twigResolution" class="col-sm-3 col-form-label">Resolution</label>
+								<div class="col-sm-9 input-group">
+									
+									<div class="input-group-prepend">
+										<span class="input-group-text"><i class="fa-solid fa-display"></i></i></span>
+									</div>
+							
+									<select class="form-control select2" name="twigResolution" id="twigResolution">
+      									<option value="-1p" selected>Your browser's resolution</option>
+      									<option value="720p">1280*720</option>
+      									<option value="1080p">1920*1080</option>
+      									<option value="2k">2560*1440</option>
+      									<option value="4k">3840*2160</option>
+      								</select>
+      							</div>
+     						</div>
 						</div>
 						
 						<#-- Content: Share -->
@@ -212,6 +221,7 @@
 							</div>
 							
 							<#-- Share to mobile -->
+							<#-- 
 							<div class="form-group row">
 								<label for="twigLink" class="col-sm-3 col-form-label">Mobile devices</label>
 								<div class="col-sm-9 input-group">
@@ -219,15 +229,32 @@
 								</div>
 							</div>
 							
+							<div class="row">
+								<div class="col-sm-3"></div>
+								<div class="col-sm-9">
+									Scan	 the <span class="bold-text text-primary">QR code</span> on your mobile devices. <br />
+								</div>
+							</div>
+							-->
+							
 						</div>
 					</div>
 					
      			</div>
-     			<!--
+     			
+     			<#-- Apply and reset -->
       			<div class="modal-footer">
-      			
+     				<div class="btn-group">
+      					<button class="btn btn-outline-primary" onclick="applyChanges();">
+      						<i class="fa-solid fa-check"></i>&nbsp;Apply
+      					</button>
+      				
+      					<button class="btn btn-outline-secondary">
+      						<i class="fa-solid fa-rotate"></i>&nbsp;Reset
+      					</button>
+     				</div>
      			</div>
-     			-->
+     			
     		</div>
   		</div>
 	</div>
@@ -257,12 +284,17 @@
   		templateSelection: formatState,
 	});
 	
+	$('#twigResolution').select2({
+    	theme: 'bootstrap4',
+	});
+	
+	
 	 var datepicker = createDatePicker("#weekWrapper", "#twigWeek");
 	 
 	
 	//new QRCode(document.getElementById("qrcode"), "https://etwig.grinecraft.net");
 	
-	createQRCode("qrcode",  "https://etwig.grinecraft.net", ["#000000", "#FFFFFF"]);
+	//createQRCode("qrcode",  "https://etwig.grinecraft.net", ["#000000", "#FFFFFF"]);
 </script>
 </body>
 </html>
