@@ -44,10 +44,10 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
 
 		// Check session first!
-		HttpSession session = request.getSession(false);
-		if(session == null) {
-			return;
-		}
+		HttpSession session = request.getSession(true);
+		//if(session == null) {
+		//	return;
+		//}
 		
 		// Check logged in or not
 		if(authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getPrincipal())) {
@@ -63,7 +63,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     	// Get user object
 	    User user = userRepository.findByEmail(email);
 	    if(user == null) {
-	    	return;
+	    	throw new IllegalStateException("User authentication successfully, but the information cannot be found in the database.");
 	    }
 	    
 	    // Get user portfolios

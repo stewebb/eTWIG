@@ -1,3 +1,12 @@
+/**
+ * eTWIG - The event and banner management software for residential halls and student unions.
+ * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
+ * @license: MIT
+ * @author: Steven Webb [xiaoancloud@outlook.com]
+ * @website: https://etwig.grinecraft.net
+ * @function: The custom remember me service.
+ */
+
 package net.grinecraft.etwig.services;
 
 import java.util.LinkedHashMap;
@@ -5,14 +14,13 @@ import java.util.LinkedHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 import org.springframework.stereotype.Component;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import net.grinecraft.etwig.config.WebConfig;
 import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.repository.UserRepository;
@@ -26,39 +34,26 @@ public class RememberMeService extends TokenBasedRememberMeServices {
 	@Autowired
 	private UserRoleService userRoleService;
 	
-
-	public RememberMeService( UserDetailsService userDetailsService) {
-		super("d", userDetailsService);
-		// TODO Auto-generated constructor stub
+	@Autowired
+	public RememberMeService(UserDetailsService userDetailsService, WebConfig config) {
+		super(config.getCookieKey(), userDetailsService);
 	}
 
 	@Override
-	    protected UserDetails processAutoLoginCookie(String[] cookieTokens, HttpServletRequest request, HttpServletResponse response) {
-	        UserDetails userDetails = super.processAutoLoginCookie(cookieTokens, request, response);
-
-	        // Add your logic to store user details in the session
-	        // Example: request.getSession().setAttribute("userDetails", userDetails);
-	     
-	        System.out.println(userDetails);
-	     // Get user object
-		    User user = userRepository.findByEmail(userDetails.getUsername());
-		    //if(user == null) {
-		   // 	return;
-		    //}
-		    HttpSession session = request.getSession(true);
-		    System.out.println(session);
-		    
-		    if(session == null) {
-		    	return userDetails;
-		    }
-		    // Get user portfolios
-		    LinkedHashMap<Long, Portfolio> myPortfolios = userRoleService.getPortfoliosByUserId(user.getId());
-		    
-		    // Write objects to session
-		    session.setAttribute("user", user);
-		    session.setAttribute("portfolio", myPortfolios);
+	protected UserDetails processAutoLoginCookie(String[] cookieTokens, HttpServletRequest request, HttpServletResponse response) {
+		
+		UserDetails userDetails = super.processAutoLoginCookie(cookieTokens, request, response);
+		User user = userRepository.findByEmail(userDetails.getUsername());
+		   
+		if(user == null) {
+			throw new IllegalStateException("User authentication successfully, but the information cannot be found in the database.");
+		 }
+		
+		HttpSession session = request.getSession(true);
+		LinkedHashMap<Long, Portfolio> myPortfolios = userRoleService.getPortfoliosByUserId(user.getId());
+		session.setAttribute("user", user);
+		session.setAttribute("portfolio", myPortfolios);
 	        
-	        
-	        return userDetails;
-	    }
+	    return userDetails;
+	 }
 }

@@ -16,8 +16,10 @@
 	<link rel="icon" href="/static/images/favicon.ico">
 
 	<#-- CSS and JS for Pace -->
+	<!--
 	<link rel="stylesheet" href="/static/css/pace-theme-flash.css">
 	<script src="/static/js/pace.min.js"></script>
+	-->
 	
 	<#-- JS for JQuery. -->
 	<script src="/static/js/jquery.min.js"></script>
