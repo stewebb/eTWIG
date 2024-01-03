@@ -38,7 +38,7 @@ public class AssetController {
 				
         if (asset.exists() || asset.isReadable()) {
         	FileType fileType = FileType.safeValueOf(FilenameUtils.getExtension(asset.getFilename()));
-        	System.out.println(fileType);
+        	//System.out.println(fileType);
         	return ResponseEntity.ok().contentType(fileType.getMediaType()).body(asset);
         } else {
         	return ResponseEntity.notFound().build();

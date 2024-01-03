@@ -41,7 +41,7 @@
 	<#-- <link rel="stylesheet" href="/static/css/solid.min.css"> -->
 	
 	<#-- JS for date.js. -->
-	<#-- <script src="/static/js/date.min.js"></script> -->
+	<script src="/static/js/date.min.js"></script>
 	
 	<#-- CSS and JS for AdminLTE. -->
   	<#-- <link rel="stylesheet" href="/static/css/adminlte.min.css"> -->
