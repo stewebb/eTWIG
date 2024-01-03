@@ -1,14 +1,108 @@
+/**
+ * eTWIG - The event and banner management software for residential halls and student unions.
+ * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
+ * @license: MIT
+ * @author: Steven Webb [xiaoancloud@outlook.com]
+ * @website: https://etwig.grinecraft.net
+ * @function: Draw the public TWIG! Based on p5.js.
+ */
+
+/**
+ * Constants
+ */
+
+// Minimum window size.
 MIN_WINDOW_WIDTH = 1280;
 MIN_WINDOW_HEIGHT = 720;
+
+// Fixed aspect ratio.
 ASPECT_RATIO = [16, 9];
 
+// Default backgroun color.
 DEFAULT_BACKGROUND = "#000000";
+
+/**
+ * Classes
+ */
+
+class Settings{
+	
+	/**
+	 * The class for settings from the URL parameter.
+	 */
+	
+	constructor(){
+		
+		/**
+		 * portfolioId, -1 stands for all portfolios (default).
+		 */
+		
+		this.portfolio = -1;
+		this.portfolioDefault = -1;
+		
+		/**
+		 * Week of the given date, by default is this week.
+		 */
+		
+		this.date = Date.today();
+		this.dateDefault = Date.today();
+		
+		/**
+		 * TWIG size, in a choice of:
+		 * -1p: Your browser's resolution (default)
+		 * 720p: 1280*720
+		 * 1080p: 1920*1080
+		 * 2k: 2560*1440
+		 * 4k: 3840*2160
+		 */
+		
+		this.resolution = "-1p";
+		this.resolutionDefault = "-1p";
+	}
+	
+	setPortfolio(portfolio){
+		this.portfolio = Number.isInteger(portfolio) ? portfolio : -1;
+	}
+	
+	setDate(date){
+		this.date = date;
+	}
+	
+	setResolution(resolution){
+		switch (resolution){
+			case "720p":
+			case "1080p":
+			case "2k":
+			case "4k":
+				this.resolution = resolution;
+			default:
+				this.resolution = "-1p";
+		}
+	}
+	
+	reset(){
+		this.portfolio = this.portfolioDefault;
+		this.date = this.dateDefault;
+		this.resolution = this.portfolioDefault;
+	}
+}
+
+/**
+ * Variables
+ */
+
+var setting = new Settings();
 
 var twigHasTemplate = false;
 
+// Background
 var backgroundObj;
-
 var backgroundContent;
+
+
+/**
+ * p5.js functions.
+ */
 
 function preload(){
 	getTWIGTemplate();
@@ -48,6 +142,12 @@ function draw() {
  	background(backgroundContent);
 }
 
+
+
+/**
+ * Drawings
+ */
+
 /**
  * Set the TWIG canvas size based on the current web window resolution, with the following rules:
  * 1. The minimun resolution applies.
@@ -61,6 +161,8 @@ function setTWIGResolution(){
 	TWIGWindowHeight = TWIGWindowWidth * ASPECT_RATIO [1] / ASPECT_RATIO[0];
 	return [TWIGWindowWidth, TWIGWindowHeight];
 }
+
+
 
 function setBackground(){
 	
@@ -79,6 +181,10 @@ function setBackground(){
 		backgroundContent = DEFAULT_BACKGROUND;
 	}
 }
+
+/**
+ * Data sources
+ */
 
 function getTWIGTemplate(){
 	var url = '/api/public/getTwigTemplateById';
@@ -118,3 +224,6 @@ function getTWIGTemplateWhenSuccess(json){
   	twigHasTemplate = true;
 }
 
+/**
+ * Other helpers
+ */

@@ -199,9 +199,9 @@
   									<div class="input-group-prepend">
     									<span class="input-group-text"><i class="fa-solid fa-link"></i></span>
   									</div>
-  									<input type="text" id="twig-link" class="form-control" value="https://etwig.grinecraft.net" disabled>
+  									<input type="text" id="twig-link" class="form-control" value="" disabled>
   									<span class="input-group-append">
-										<button type="button" class="btn btn-primary btn-flat"><i class="fa-solid fa-copy"></i></button>
+										<button type="button" class="btn btn-primary btn-flat disabled-by-default" disabled><i class="fa-solid fa-copy"></i></button>
 									</span>
 								</div>
 							</div>
@@ -213,9 +213,9 @@
   									<div class="input-group-prepend">
     									<span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
   									</div>
-  									<input type="text" id="twig-link" class="form-control" placeholder="Email address...">
+  									<input type="text" id="twig-link" class="form-control disabled-by-default" placeholder="Email address..." disabled>
   									<span class="input-group-append">
-										<button type="button" class="btn btn-primary btn-flat"><i class="fa-solid fa-paper-plane"></i></button>
+										<button type="button" class="btn btn-primary btn-flat disabled-by-default" disabled><i class="fa-solid fa-paper-plane"></i></button>
 									</span>
 								</div>
 							</div>
@@ -272,24 +272,28 @@
 <script>
     $(document).ready(function() {
     
-    getWeekByDate(Date.today().toString("yyyy-MM-dd"));
+    	// Initialize the week
+    	getWeekByDate(Date.today().toString("yyyy-MM-dd"));
+    	
+    	// Initialize the setting button.
         $('#settingsButton').click(function() {
             $('#etwigSettingBox').modal('show');
         });
+        
+        $('#twigPortfolio').select2({
+    		theme: 'bootstrap4',
+    		templateResult: formatState,
+  			templateSelection: formatState,
+		});
+		
+		$('#twigResolution').select2({
+    		theme: 'bootstrap4',
+		});
     });
     
-    $('#twigPortfolio').select2({
-    	theme: 'bootstrap4',
-    	templateResult: formatState,
-  		templateSelection: formatState,
-	});
-	
-	$('#twigResolution').select2({
-    	theme: 'bootstrap4',
-	});
-	
-	
-	 var datepicker = createDatePicker("#weekWrapper", "#twigWeek");
+    //var twigUrl = "/twig/content";
+    
+	var datepicker = createDatePicker("#weekWrapper", "#twigWeek");
 	 
 	
 	//new QRCode(document.getElementById("qrcode"), "https://etwig.grinecraft.net");
