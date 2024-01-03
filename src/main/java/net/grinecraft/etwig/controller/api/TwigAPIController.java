@@ -42,7 +42,7 @@ public class TwigAPIController {
 	 */
 	
 	@RequestMapping("/api/public/getTwigTemplateById")  
-	public Map<String, Object> getEventById(@RequestParam String templateId) throws Exception{
+	public Map<String, Object> getTwigTemplateById(@RequestParam String templateId) throws Exception{
 		Long templateIdNum = NumberUtils.safeCreateLong(templateId);
 
 		if(templateIdNum == null) {
@@ -67,4 +67,21 @@ public class TwigAPIController {
 	    myReturn.put("week", weekService.getWeekByDate(givenDate));
 		return myReturn;
 	}
+	
+	@RequestMapping("/api/public/getTwigTemplateByPortfolioAndDate")  
+	public Map<String, Object> getTwigTemplateByPortfolioAndDate(@RequestParam String portfolioId, @RequestParam String currentDate) throws Exception{
+
+		//Long templateIdNum = NumberUtils.safeCreateLong(templateId);
+
+		//if(templateIdNum == null) {
+		//	return WebReturn.errorMsg("templateId is invalid. It must be an Integer.", false);
+		//} 
+			
+		//Map<String, Object> myReturn = WebReturn.errorMsg(null, true);
+	   // myReturn.put("template", twigService.getTwigTemplateById(templateIdNum));
+		
+		//return myReturn;
+		return null;
+	}
+	
 }

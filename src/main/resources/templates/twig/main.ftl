@@ -78,7 +78,7 @@
 										<span class="input-group-text"><i class="fa-solid fa-briefcase"></i></span>
 									</div>
 							
-									<select class="form-control select2" name="twigPortfolio" id="twigPortfolio">
+									<select class="form-control select2" name="twigPortfolio" id="twigPortfolio" onchange="enableShare(false);">
       									<optgroup label="All portfolios">
       										<option value="-1" selected>All portfolios</option>
       									</optgroup>
@@ -134,7 +134,7 @@
 										<span class="input-group-text"><i class="fa-solid fa-display"></i></i></span>
 									</div>
 							
-									<select class="form-control select2" name="twigResolution" id="twigResolution">
+									<select class="form-control select2" name="twigResolution" id="twigResolution" onchange="enableShare(false);">
       									<option value="-1p" selected>Your browser's resolution</option>
       									<option value="720p">1280*720</option>
       									<option value="1080p">1920*1080</option>
@@ -149,7 +149,7 @@
 						<div class="tab-pane fade" id="share" role="tabpanel" aria-labelledby="share-tab">
 							
 							<#-- Suggestion box -->
-							<div class="row">
+							<div class="row" id="holdOn">
 								<div class="callout callout-primary">
 									<h5 class="bold-text mb-3">Hold on!</h5>
 									Before you share and export, please make sure you have already applied 
@@ -179,11 +179,11 @@
 										<#-- Download button -->
 										
 										<div class="btn-group">
-      										<button class="btn btn-outline-primary">
+      										<button class="btn btn-outline-primary disabled-by-default">
       											<i class="fa-solid fa-download"></i>&nbsp;Download
       										</button>
       				
-      										<button class="btn btn-outline-primary">
+      										<button class="btn btn-outline-primary disabled-by-default">
       											<i class="fa-solid fa-print"></i>&nbsp;Print
       										</button>
      									</div>
@@ -199,9 +199,9 @@
   									<div class="input-group-prepend">
     									<span class="input-group-text"><i class="fa-solid fa-link"></i></span>
   									</div>
-  									<input type="text" id="twig-link" class="form-control" value="" disabled>
+  									<input type="text" id="twig-link" class="form-control" value="/twig/content" readonly>
   									<span class="input-group-append">
-										<button type="button" class="btn btn-primary btn-flat disabled-by-default" disabled><i class="fa-solid fa-copy"></i></button>
+										<button type="button" class="btn btn-primary btn-flat disabled-by-default"><i class="fa-solid fa-copy"></i></button>
 									</span>
 								</div>
 							</div>
@@ -213,9 +213,9 @@
   									<div class="input-group-prepend">
     									<span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
   									</div>
-  									<input type="text" id="twig-link" class="form-control disabled-by-default" placeholder="Email address..." disabled>
+  									<input type="text" id="twig-link" class="form-control disabled-by-default" placeholder="Email address...">
   									<span class="input-group-append">
-										<button type="button" class="btn btn-primary btn-flat disabled-by-default" disabled><i class="fa-solid fa-paper-plane"></i></button>
+										<button type="button" class="btn btn-primary btn-flat disabled-by-default"><i class="fa-solid fa-paper-plane"></i></button>
 									</span>
 								</div>
 							</div>
@@ -245,7 +245,7 @@
      			<#-- Apply and reset -->
       			<div class="modal-footer">
      				<div class="btn-group">
-      					<button class="btn btn-outline-primary" onclick="applyChanges();">
+      					<button class="btn btn-outline-primary" onclick="applyChanges();" id="applyBtn">
       						<i class="fa-solid fa-check"></i>&nbsp;Apply
       					</button>
       				
@@ -274,6 +274,7 @@
     
     	// Initialize the week
     	getWeekByDate(Date.today().toString("yyyy-MM-dd"));
+    	enableShare(true);
     	
     	// Initialize the setting button.
         $('#settingsButton').click(function() {
@@ -289,12 +290,13 @@
 		$('#twigResolution').select2({
     		theme: 'bootstrap4',
 		});
+		
     });
     
     //var twigUrl = "/twig/content";
     
 	var datepicker = createDatePicker("#weekWrapper", "#twigWeek");
-	 
+	
 	
 	//new QRCode(document.getElementById("qrcode"), "https://etwig.grinecraft.net");
 	

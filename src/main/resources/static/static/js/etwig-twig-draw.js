@@ -47,8 +47,16 @@ class Settings{
 	
 	setPortfolio(portfolio){
 		
-		// Check the input is a number or not.
-		this.portfolio = (portfolio % 1 === 0) ? portfolio : -1;
+		// Null check
+		if(portfolio == null || portfolio == undefined){
+			this.portfolio = -1;
+		}
+		
+		// Number check
+		else{
+			this.portfolio = (portfolio % 1 === 0) ? portfolio : -1;
+		}
+		
 	}
 	
 	 
@@ -92,7 +100,7 @@ class Settings{
 var setting = new Settings();
 
 // Indicate the TWIG is initialized successfully or not.
-var isTwigReady = false;
+var isTwigReady = true;
 
 // Background
 var backgroundObj;
@@ -122,13 +130,12 @@ function preload(){
 	
 	setBackground();
 	
-   // backgroundImage = loadImage(backgroundImageURL);
-	//backgroundImage = 255;
+   
 }
 
 function setup() {
 	if(!isTwigReady){
-	return;
+		return;
 	}
 	//var TWIGResulution = setTWIGResolution();
 	//createCanvas(TWIGResulution[0], TWIGResulution[1]);
@@ -196,7 +203,7 @@ function setTWIGResolution(){
 	
 	// Calculate the height and ensure they greater than the minimun resolution.
 	twigWindowHeight = twigWindowWidth * ASPECT_RATIO [1] / ASPECT_RATIO[0];
-	twigWindowHeight =  max(MIN_WINDOW_WIDTH, twigWindowHeight);
+	twigWindowHeight =  max(MIN_WINDOW_HEIGHT, twigWindowHeight);
 	return [twigWindowWidth, twigWindowHeight];
 }
 
@@ -221,9 +228,10 @@ function getSettingsFromUrl(){
 	
 	// A selected portfolio
 	else{
-		portfolio = setting.portfolio
-		var currentPortfolio = getPortfolio(portfolio);
+		portfolio = setting.portfolio;
+		//alert(portfolio)
 		
+		var currentPortfolio = getPortfolio(portfolio);
 		// Portfolio may not exist in the database.
 		if(currentPortfolio == undefined){
 			alert("Portfolio with id=" + portfolio + " doesn't exist!");
@@ -276,7 +284,7 @@ function getPortfolio(portfolioId){
 		}, 
 		success: function(json){
 			if(json.error > 0){
-				alert("Failed to get TWIG template.\n"+ json.msg);
+				alert("Failed to get portfolio.\n"+ json.msg);
 				return;
 			}
 			currentPortfolio = json.portfolio;

@@ -80,6 +80,9 @@ function getWeekByDate(date){
 			dangerToast("Failed to get week due to a HTTP " + err.status + " error.", err.responseJSON.exception);
 		}
 	});
+	
+	// Finally disable the share button.
+	enableShare(false);
 }
 
 function applyChanges(){
@@ -95,6 +98,16 @@ function applyChanges(){
 	 // Change the HTML content.
 	$('#twigFrame').attr('src', url);
 	$('#twig-link').val(window.location.origin + url);
-	$('.disabled-by-default').prop('disabled', false);
-	
+	enableShare(true);
+}
+
+function enableShare(isEnable){
+	if(isEnable){
+		$('#holdOn').hide();
+		$("#applyBtn").removeClass("fa-bounce");
+	}else{
+		$('#holdOn').show();
+		$("#applyBtn").addClass("fa-bounce");
+	}
+	$('.disabled-by-default').prop('disabled', !isEnable);
 }

@@ -30,37 +30,25 @@
     	<section class="content">
 			<div class="container-fluid">
 			
-				<#-- Error reason -->
+				<#-- Error descriptiom -->
 				<div class="card card-warning card-outline">
 					<div class="card-header">
-						<h3 class="card-title">
-							<i class="fa-solid fa-circle-exclamation"></i>&nbsp;An error happens.
+						<h3 class="card-title bold-text text-warning">
+							<i class="fa-solid fa-circle-exclamation"></i>&nbsp;An error happens
 						</h3>
 					</div>
 					<div class="card-body">
-						<span class="bold-text">Reason:</span>&nbsp;
+						<span class="bold-text">Descriptiom:</span>&nbsp;
 						<#if reason?has_content>${reason}</#if>
-					</div>
-				</div>
-				
-				<#-- Options -->
-				<div class="card">
-					<div class="card-body mr-2 d-flex justify-content-sm-center">
-				
-						<a href="/" class="btn btn-outline-primary mb-1 mr-1">
-							<i class="fa-solid fa-home"></i>&nbsp;Home
-						</a>
-					
-						<button class="btn btn-outline-secondary mb-1 mr-1" onclick="window.history.back();">
-							<i class="fa-solid fa-rotate-left"></i>&nbsp;Back
-						</button>
 						
-						<button class="btn btn-outline-secondary mb-1 mr-1" onclick="window.location.reload();">
-							<i class="fa-solid fa-rotate"></i>&nbsp;Refresh
-						</button>
+						<div class="d-flex justify-content-center">
+							<button class="btn btn-outline-primary" onclick="window.history.back();">
+								<i class="fa-solid fa-rotate-left"></i>&nbsp;Go Back
+							</button>
+						</div>
+						
 					</div>
 				</div>
-			
 			</div>
 		</section>
 

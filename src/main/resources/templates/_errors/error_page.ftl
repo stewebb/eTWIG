@@ -64,16 +64,18 @@
 						<span class="bold-text">Technical details: </span>
 							<pre>${trace}</pre>
 						</div>
-					</#if>
-					
+					</#if>	
 				</div>
-				<div class="mb-2 d-flex justify-content-center">
-					<button class="btn btn-outline-primary mb-1 mr-1" onclick="window.history.back();">
+				
+				<div class="d-flex justify-content-center mb-3">
+					<button class="btn btn-outline-primary" onclick="window.history.back();">
 						<i class="fa-solid fa-rotate-left"></i>&nbsp;Go Back
 					</button>
 				</div>
+				
 			</div>
-		
+		</section>
+	</div>
 	
 </body>
 </html>
