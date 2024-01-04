@@ -274,7 +274,8 @@
     
     	// Initialize the week
     	getWeekByDate(Date.today().toString("yyyy-MM-dd"));
-    	enableShare(true);
+    	applyChanges();
+    	//enableShare(true);
     	
     	// Initialize the setting button.
         $('#settingsButton').click(function() {

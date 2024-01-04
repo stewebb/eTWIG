@@ -57,7 +57,7 @@
 				<div class="row mb-3">
 					<div class="icheck-primary mb-1 col-12" style="text-align:right;">
   						<input type="checkbox" id="remember" name="remember-me" checked>
-              			<label for="remember">Remember Me</label>
+              			<label for="remember">Remember Me for 90 days</label>
 					</div>
 				</div>
 				
@@ -74,7 +74,7 @@
         		<p class="login-box-msg bold-text">
         			<i class="fa-solid fa-earth-americas"></i>&nbsp;Public Access
         		</p>
-        		<a href="/twig/main" class="btn btn-outline-secondary btn-block">
+        		<a href="/twig/main" class="btn btn-outline-secondary btn-block" target="_blank">
         			<i class="fa-regular fa-lightbulb mr-1"></i>&nbsp;View TWIG
         		</a>
       		</div>

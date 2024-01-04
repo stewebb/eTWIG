@@ -54,8 +54,8 @@ public class WebSecurityConfig{
 				.successHandler(loginSuccessHandler)
 			);
 		
-		// Remember Me
-		http.rememberMe().rememberMeServices(rememeberMeService);
+		// Remember Me for 90 days. (60*60*90)
+		http.rememberMe().tokenValiditySeconds(7776000).rememberMeServices(rememeberMeService);
 		
 		// Set the logout URL.
 		http.logout((logout) -> logout.logoutUrl("/user/logout"));
