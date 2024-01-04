@@ -21,6 +21,8 @@ ASPECT_RATIO = [16, 9];
 // Default backgroun color.
 DEFAULT_BACKGROUND = "#000000";
 
+TEXT_LINE_SPACING = 1.5;
+
 /**
  * Classes
  */
@@ -102,11 +104,17 @@ var setting = new Settings();
 // Indicate the TWIG is initialized successfully or not.
 var isTwigReady = true;
 
+// All errors that prevent TWIG be displayed.
+var errorDescription = [];
+
 // Background
 var backgroundObj;
 var backgroundContent;
 
-var portfolio;
+// Current portfolio (-1 stands for all portfolios)
+var portfolio = -1;
+
+var twigSize;
 
 /**
  * p5.js functions.
@@ -119,15 +127,14 @@ function preload(){
 	if(!isTwigReady){
 		return;
 	}
-	
-	// Set the screen resolution
-	
+		
 	// Step 2: Get the template.
 	getTWIGTemplate();
 	if(!isTwigReady){
 		return;
 	}
 	
+	// Step 3: Apply the template.
 	setBackground();
 	
    
@@ -137,29 +144,17 @@ function setup() {
 	if(!isTwigReady){
 		return;
 	}
-	//var TWIGResulution = setTWIGResolution();
-	//createCanvas(TWIGResulution[0], TWIGResulution[1]);
 }
 
 function draw() {
 	
-	//fill(0);
- 	//ellipse(100, 100, 100);
- 	var TWIGResulution = setTWIGResolution();
+	// Set the TWIG size.
+ 	twigSize = setTwigSize();
+ 	createCanvas(twigSize[0], twigSize[1]);
  	
- 	//console.log(TWIGResulution[0], TWIGResulution[1])
- 	
- 	createCanvas(TWIGResulution[0], TWIGResulution[1]);
- 	
- 	//stroke(255, 0, 0);
- 	//rect(0, 0, TWIGResulution[0], TWIGResulution[1]);
- 	if(!isTwigReady){
-		return;
-	}
- 	background(backgroundContent);
+ 	// Draw the TWIG content, or show the error info.
+ 	isTwigReady ? 	drawTwig() : showError();
 }
-
-
 
 /**
  * Variable assignments
@@ -176,7 +171,7 @@ function draw() {
  * @returns A 2-element array that contains TWIG width and TWIG height.
  */
 
-function setTWIGResolution(){
+function setTwigSize(){
 	
 	var twigWindowWidth = 0;
 	var twigWindowHeight = 0;
@@ -228,19 +223,18 @@ function getSettingsFromUrl(){
 	
 	// A selected portfolio
 	else{
-		portfolio = setting.portfolio;
-		//alert(portfolio)
-		
+		portfolio = setting.portfolio;		
 		var currentPortfolio = getPortfolio(portfolio);
+		
 		// Portfolio may not exist in the database.
 		if(currentPortfolio == undefined){
-			alert("Portfolio with id=" + portfolio + " doesn't exist!");
+			errorDescription.push("Portfolio with id=" + portfolio + " doesn't exist!");
 			isTwigReady = false;
 			return;
 		}
 		
 		if(currentPortfolio.seperatedCalendar == false){
-			alert("Portfolio " + currentPortfolio.name + " is not allowed to have a seperate TWIG!");
+			errorDescription.push("Portfolio " + currentPortfolio.name + " is not allowed to have a seperate TWIG!");
 			isTwigReady = false;
 			return;
 		}
@@ -249,6 +243,10 @@ function getSettingsFromUrl(){
 
 /**
  * Drawings
+ */
+
+/**
+ * Set the background of the TWIG depends on the template.
  */
 
 function setBackground(){
@@ -270,6 +268,43 @@ function setBackground(){
 }
 
 /**
+ * Show TWIG content if nothing goes wrong.
+ */
+
+function drawTwig(){
+	background(backgroundContent);
+}
+
+/**
+ * Show error information if something goes wrong.
+ */
+
+function showError(){
+	
+	// Black blackground
+	background(DEFAULT_BACKGROUND);
+	
+	// Error title (yellow)
+	var failTitleHeight = twigSize[1] * 0.05;
+	textSize(failTitleHeight);
+	textStyle(BOLD); 
+	fill("#FFFF00");
+  	text('Failed to display TWIG', 0, failTitleHeight);
+  	
+  	// Error description (white)
+  	var errorDescriptionHeight = failTitleHeight * 0.50;
+  	textSize(errorDescriptionHeight);
+  	fill("#FFFFFF");
+  	
+  	errorDescription.forEach(function (item, index) {
+  		text(item, 0 , failTitleHeight + (2+index)*errorDescriptionHeight*TEXT_LINE_SPACING);
+	});
+	
+	// Display current time at the bottom
+	text(Date.today().setTimeToNow(), 0 , twigSize[1] - errorDescriptionHeight*0.5);
+}
+
+/**
  * Data sources
  */
 
@@ -284,14 +319,14 @@ function getPortfolio(portfolioId){
 		}, 
 		success: function(json){
 			if(json.error > 0){
-				alert("Failed to get portfolio.\n"+ json.msg);
+				errorDescription.push("Failed to get portfolio.\n"+ json.msg);
 				return;
 			}
 			currentPortfolio = json.portfolio;
 			//console.log(json)
 		},
     	error: function(err) {   		
-			alert("Failed to get portfolio due to a HTTP " + err.status + " error.\n" + err.responseJSON.exception);
+			errorDescription.push("Failed to get portfolio due to a HTTP " + err.status + " error.\n" + err.responseJSON.exception);
 		}
 	});
 	return currentPortfolio;
@@ -300,15 +335,16 @@ function getPortfolio(portfolioId){
 function getTWIGTemplate(){
 	$.ajax({ 
 		type: 'GET', 
-    	url: '/api/public/getTwigTemplateById', 
+    	url: '/api/public/getTwigTemplateByPortfolioAndDate', 
     	async: false,
     	data: { 
-			templateId: 5,
+			portfolioId: portfolio,
+			date: setting.date.toString("yyyy-MM-dd")
 		}, 
     	dataType: 'json',
 		success: getTWIGTemplateWhenSuccess,
     	error: function(err) {   		
-			alert("Failed to get TWIG content due to a HTTP " + err.status + " error.\n" + err.responseJSON.exception);
+			errorDescription.push("Failed to get TWIG content due to a HTTP " + err.status + " error.\n" + err.responseJSON.exception);
 		}
 	});
 }
@@ -317,13 +353,15 @@ function getTWIGTemplateWhenSuccess(json){
 	
 	// No HTTP error, but the input is invalid or other error happens.
 	if(json.error > 0){
-		alert("Failed to get TWIG template.\n"+ json.msg);
+		errorDescription.push("Failed to get TWIG template.\n"+ json.msg);
+		isTwigReady = false;
 		return;
 	}
 	
 	// Template cannot be found.
 	if(json.template == null){
-		alert("Cannot find a TWIG template by the given condition.");
+		errorDescription.push("Cannot find a TWIG template by the given condition.");
+		isTwigReady = false;
 		return;
 	}
 	

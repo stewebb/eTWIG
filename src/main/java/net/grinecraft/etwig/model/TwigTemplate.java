@@ -9,6 +9,8 @@
 
 package net.grinecraft.etwig.model;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.*;
 import lombok.*;
 import net.grinecraft.etwig.util.JSONUtils;
@@ -24,12 +26,15 @@ public class TwigTemplate {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-	private Long Id;
+	private Long id;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "portfolio_id", referencedColumnName = "id", insertable = false, updatable = false)
-    private Portfolio portfolio;
+	//@OneToOne(cascade = CascadeType.ALL)
+	//@JoinColumn(name = "portfolio_id", referencedColumnName = "id", insertable = false, updatable = false)
+    //private Portfolio portfolio;
 	
+	 @Column(name = "portfolio_id")
+	private Long portfolioId;
+	 
 	/**
 	 * The "background" column stores the style and content of the TWIG background in JSON format.
 	 * {
@@ -47,4 +52,10 @@ public class TwigTemplate {
 	
 	@Column(name = "background")
 	private String background;
+	
+	@Column(name = "available_from")
+	private LocalDate availableFrom;
+	
+	@Column(name = "available_to")
+	private LocalDate availableTo;
 }

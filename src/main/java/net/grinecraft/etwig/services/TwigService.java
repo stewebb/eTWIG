@@ -9,6 +9,7 @@
 
 package net.grinecraft.etwig.services;
 
+import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.Optional;
 
@@ -36,7 +37,21 @@ public class TwigService {
 			return null;
 		}
 		
-		Optional<TwigTemplate> twigemplateOpt = twigTemplateRepository.findById(id);
+		return optionalToMap(twigTemplateRepository.findById(id));
+	
+	}
+	
+	public LinkedHashMap<String, Object> getTwigTemplateByDateAndPortfolio(LocalDate date, Long portfolioId) throws Exception {
+		if(twigTemplateRepository == null) {
+			return null;
+		}
+		
+		Optional<TwigTemplate> twigemplateOpt = twigTemplateRepository.findByDateAndPortfolio(date, portfolioId);
+		return optionalToMap(twigemplateOpt);
+	
+	}
+	
+	private LinkedHashMap<String, Object> optionalToMap(Optional<TwigTemplate>  twigemplateOpt) throws Exception{
 		if(!twigemplateOpt.isPresent()) {
 			return null;
 		}
@@ -46,11 +61,11 @@ public class TwigService {
 		LinkedHashMap<String, Object> templateMap = new LinkedHashMap<String, Object>();
 		
 		templateMap.put("Id", twigTemplate.getId());
-		templateMap.put("portfolio", twigTemplate.getPortfolio());
+		//templateMap.put("portfolioId", twigTemplate.getPortfolioId());
+		//templateMap.put("portfolio", twigTemplate.getPortfolio());
 		templateMap.put("background", jsonUtils.jsonToMap(twigTemplate.getBackground()));
 		
 		return templateMap;
-	
 	}
 	
 }

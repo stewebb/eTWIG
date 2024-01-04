@@ -69,19 +69,23 @@ public class TwigAPIController {
 	}
 	
 	@RequestMapping("/api/public/getTwigTemplateByPortfolioAndDate")  
-	public Map<String, Object> getTwigTemplateByPortfolioAndDate(@RequestParam String portfolioId, @RequestParam String currentDate) throws Exception{
+	public Map<String, Object> getTwigTemplateByPortfolioAndDate(@RequestParam String portfolioId, @RequestParam String date) throws Exception{
 
-		//Long templateIdNum = NumberUtils.safeCreateLong(templateId);
-
-		//if(templateIdNum == null) {
-		//	return WebReturn.errorMsg("templateId is invalid. It must be an Integer.", false);
-		//} 
-			
-		//Map<String, Object> myReturn = WebReturn.errorMsg(null, true);
-	   // myReturn.put("template", twigService.getTwigTemplateById(templateIdNum));
+		Long portfolioIdNum = NumberUtils.safeCreateLong(portfolioId);
+		LocalDate givenDate = DateUtils.safeParseDate(date, "yyyy-MM-dd");
 		
-		//return myReturn;
-		return null;
+		if(portfolioIdNum == null) {
+			return WebReturn.errorMsg("portfolioId is invalid. It must be an Integer.", false);
+		} 
+		
+		if(givenDate == null) {
+			return WebReturn.errorMsg("date is invalid. It must be yyyy-mm-dd.", false);
+		}
+		
+		Map<String, Object> myReturn = WebReturn.errorMsg(null, true);
+	    myReturn.put("template", twigService.getTwigTemplateByDateAndPortfolio(givenDate, portfolioIdNum));
+		
+		return myReturn;
 	}
 	
 }
