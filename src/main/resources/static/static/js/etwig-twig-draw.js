@@ -105,7 +105,7 @@ var setting = new Settings();
 var isTwigReady = true;
 
 // All errors that prevent TWIG be displayed.
-var errorDescription = [];
+var errorDescription = "";
 
 // Background
 var backgroundObj;
@@ -228,13 +228,13 @@ function getSettingsFromUrl(){
 		
 		// Portfolio may not exist in the database.
 		if(currentPortfolio == undefined){
-			errorDescription.push("Portfolio with id=" + portfolio + " doesn't exist!");
+			errorDescription = "Portfolio with id=" + portfolio + " doesn't exist.";
 			isTwigReady = false;
 			return;
 		}
 		
 		if(currentPortfolio.seperatedCalendar == false){
-			errorDescription.push("Portfolio " + currentPortfolio.name + " is not allowed to have a seperate TWIG!");
+			errorDescription = "Portfolio " + currentPortfolio.name + " is not allowed to have a seperate TWIG.";
 			isTwigReady = false;
 			return;
 		}
@@ -295,10 +295,7 @@ function showError(){
   	var errorDescriptionHeight = failTitleHeight * 0.50;
   	textSize(errorDescriptionHeight);
   	fill("#FFFFFF");
-  	
-  	errorDescription.forEach(function (item, index) {
-  		text(item, 0 , failTitleHeight + (2+index)*errorDescriptionHeight*TEXT_LINE_SPACING);
-	});
+  	text(errorDescription, 0 , failTitleHeight + 2*errorDescriptionHeight*TEXT_LINE_SPACING, twigSize[0]);
 	
 	// Display current time at the bottom
 	text(Date.today().setTimeToNow(), 0 , twigSize[1] - errorDescriptionHeight*0.5);
@@ -319,14 +316,16 @@ function getPortfolio(portfolioId){
 		}, 
 		success: function(json){
 			if(json.error > 0){
-				errorDescription.push("Failed to get portfolio.\n"+ json.msg);
+				errorDescription = "Failed to get portfolio.\n"+ json.msg;
+				isTwigReady = false;
 				return;
 			}
 			currentPortfolio = json.portfolio;
 			//console.log(json)
 		},
     	error: function(err) {   		
-			errorDescription.push("Failed to get portfolio due to a HTTP " + err.status + " error.\n" + err.responseJSON.exception);
+			errorDescription = "Failed to get portfolio due to a HTTP " + err.status + " error.\n" + err.responseJSON.exception;
+			isTwigReady = false;
 		}
 	});
 	return currentPortfolio;
@@ -344,7 +343,8 @@ function getTWIGTemplate(){
     	dataType: 'json',
 		success: getTWIGTemplateWhenSuccess,
     	error: function(err) {   		
-			errorDescription.push("Failed to get TWIG content due to a HTTP " + err.status + " error.\n" + err.responseJSON.exception);
+			errorDescription = "Failed to get TWIG content due to a HTTP " + err.status + " error.\n" + err.responseJSON.exception;
+			isTwigReady = false;
 		}
 	});
 }
@@ -353,14 +353,14 @@ function getTWIGTemplateWhenSuccess(json){
 	
 	// No HTTP error, but the input is invalid or other error happens.
 	if(json.error > 0){
-		errorDescription.push("Failed to get TWIG template.\n"+ json.msg);
+		errorDescription = "Failed to get TWIG template.\n"+ json.msg;
 		isTwigReady = false;
 		return;
 	}
 	
 	// Template cannot be found.
 	if(json.template == null){
-		errorDescription.push("Cannot find a TWIG template by the given condition.");
+		errorDescription = "Cannot find a TWIG template by the given condition. \nportfolioId=" + portfolio + " ,date=" + setting.date.toString("yyyy-MM-dd");
 		isTwigReady = false;
 		return;
 	}
