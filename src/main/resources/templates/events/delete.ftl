@@ -134,7 +134,7 @@
 						
 							<#-- Delete -->
 								<#if editPermission>
-								<button type="button" class="btn btn-outline-danger" id="deleteEventBtn" onclick="deteteEvent(${isEmbeddedStr});" disabled>
+								<button type="button" class="btn btn-outline-danger" id="deleteEventBtn" onclick="deleteEvent(${isEmbeddedStr});" disabled>
 									<i class="fa-regular fa-trash"></i>&nbsp;Delete event
 								</button>
 							</#if>

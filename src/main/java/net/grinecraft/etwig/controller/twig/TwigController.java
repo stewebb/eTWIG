@@ -31,8 +31,8 @@ public class TwigController {
 	
 	@RequestMapping("/twig/main")  
 	public String twigMain(Model model) throws Exception{
-		System.out.println( portfolioService.getPortfolioListBySeperatedCalendar(true));
-		model.addAttribute("portfolioSeperatedCalendar", portfolioService.getPortfolioListBySeperatedCalendar(true));		
+		System.out.println( portfolioService.getPortfolioListBySeparatedCalendar(true));
+		model.addAttribute("portfolioSeparatedCalendar", portfolioService.getPortfolioListBySeparatedCalendar(true));		
 		return "twig/main";
 	}
 	

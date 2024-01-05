@@ -37,8 +37,8 @@ public class Portfolio {
 	@Column(name = "icon")
 	private String icon;	
 	
-	@Column(name = "is_seperated_calendar")
-	private boolean isSeperatedCalendar;	
+	@Column(name = "is_separated_calendar")
+	private boolean isSeparatedCalendar;	
 	
 	@Column(name = "parent")
 	private Integer parent;

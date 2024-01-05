@@ -15,7 +15,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	
-	<#-- TWIG use the seperate HTML header -->
+	<#-- TWIG use the separate HTML header -->
 	<#-- The eTWIG icon. -->
 	<link rel="icon" href="/static/images/favicon.ico">
 

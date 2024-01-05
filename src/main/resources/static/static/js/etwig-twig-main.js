@@ -26,7 +26,7 @@ function createDatePicker(htmlElem, pickerElem){
 
 /**
  * Create a QR code.
- * @param htmlElemId The HTML elememt ID of the QR code div.
+ * @param htmlElemId The HTML element ID of the QR code div.
  * @param text The text content of the QR code.
  * @param color The color of the QR code. 
  * It is a 2-element array. The first element is the dark-side color while the second element is the light-side color.
@@ -58,7 +58,7 @@ function getWeekByDate(date){
 		}, 
 		success: function(json) {
 			
-			// HTTP resopnse normally, but has other kinds of error (e.g, invalid input)
+			// HTTP response normally, but has other kinds of error (e.g, invalid input)
 			if(json.error > 0){
     			dangerToast("Failed to get week.", json.msg);
     			return;

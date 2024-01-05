@@ -11,7 +11,6 @@ package net.grinecraft.etwig.services;
 
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,26 +36,26 @@ public class PortfolioService {
 	
 	/**
 	 * Get the list of portfolios by the status of separated calendar.
-	 * @param isSeperatedCalendar 
+	 * @param isSeparatedCalendar 
 	 * True get the portfolios WITH separated calendar.
 	 * False get the portfolios WITHOUT separated calendar.
 	 * Null get all portfolios REGARDLESS the separated calendar option.
 	 * @return A LinkedHashMap of the portfolios that meet the above requirements.
 	 */
 	
-	public LinkedHashMap<Long, Portfolio> getPortfolioListBySeperatedCalendar(Boolean isSeperatedCalendar){
+	public LinkedHashMap<Long, Portfolio> getPortfolioListBySeparatedCalendar(Boolean isSeparatedCalendar){
 		
-		if(isSeperatedCalendar == null) {
+		if(isSeparatedCalendar == null) {
 			return listToMap((List<Portfolio>) portfolioRepository.findAll());
 		}
 		
-		else if(isSeperatedCalendar == true) {
-			return listToMap((List<Portfolio>) portfolioRepository.findByIsSeperatedCalendarTrue());
+		else if(isSeparatedCalendar == true) {
+			return listToMap((List<Portfolio>) portfolioRepository.findByIsSeparatedCalendarTrue());
 		}
 		
-		// isSeperatedCalendar == false
+		// isSeparatedCalendar == false
 		else {
-			return listToMap((List<Portfolio>) portfolioRepository.findByIsSeperatedCalendarFalse());
+			return listToMap((List<Portfolio>) portfolioRepository.findByIsSeparatedCalendarFalse());
 		}
 	}
 	

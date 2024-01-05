@@ -11,7 +11,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	
-	<#-- Category A: Must-loaded resources for eveny single page. -->
+	<#-- Category A: Must-loaded resources for every single page. -->
 	<#-- The eTWIG icon. -->
 	<link rel="icon" href="/static/images/favicon.ico">
 

@@ -33,7 +33,7 @@ public class WebSecurityConfig{
 	private LoginSuccessHandler loginSuccessHandler;
 	
 	@Autowired
-	private RememberMeService rememeberMeService;
+	private RememberMeService rememberMeService;
 	
 	@SuppressWarnings("removal")
 	@Bean
@@ -55,7 +55,7 @@ public class WebSecurityConfig{
 			);
 		
 		// Remember Me for 90 days. (60*60*90)
-		http.rememberMe().tokenValiditySeconds(7776000).rememberMeServices(rememeberMeService);
+		http.rememberMe().tokenValiditySeconds(7776000).rememberMeServices(rememberMeService);
 		
 		// Set the logout URL.
 		http.logout((logout) -> logout.logoutUrl("/user/logout"));

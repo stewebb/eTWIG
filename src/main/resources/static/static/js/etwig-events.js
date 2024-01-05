@@ -107,7 +107,7 @@ function addEvent(embedded, isEdit){
 	// Create an object for the new event.
 	var newEventObj = {
 		"eventId" : eventId,
-		"isRecurrment": false,
+		"isRecurrent": false,
 		"name": eventName,
 		"location": eventLocation,
 		"description": eventDescription,

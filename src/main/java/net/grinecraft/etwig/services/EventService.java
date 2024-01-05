@@ -11,7 +11,6 @@ package net.grinecraft.etwig.services;
 
 import java.lang.reflect.Field;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +21,6 @@ import org.springframework.stereotype.Service;
 
 import net.grinecraft.etwig.model.Event;
 import net.grinecraft.etwig.model.Portfolio;
-import net.grinecraft.etwig.model.RecurringEvent;
 import net.grinecraft.etwig.model.SingleTimeEvent;
 import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.repository.EventRepository;
@@ -30,9 +28,7 @@ import net.grinecraft.etwig.repository.RecurringEventRepository;
 import net.grinecraft.etwig.repository.SingleTimeEventRepository;
 import net.grinecraft.etwig.util.DataIntegrityViolationException;
 import net.grinecraft.etwig.util.DateUtils;
-import net.grinecraft.etwig.util.NameUtils;
 import net.grinecraft.etwig.util.type.DateRange;
-import net.grinecraft.etwig.util.type.EventTimeUnit;
 
 @Service
 public class EventService {
@@ -137,11 +133,11 @@ public class EventService {
 	 * @param eventInfo The event details.
 	 */
 	public void addEvent(LinkedHashMap<String, Object> eventInfo) {
-		boolean isRecurrment = BooleanUtils.toBoolean(eventInfo.get("isRecurrment").toString());
+		boolean isRecurrent = BooleanUtils.toBoolean(eventInfo.get("isRecurrent").toString());
 		
 		// Insert details into the general event table.
 		Event newEvent = new Event();
-		newEvent.setRecurring(isRecurrment);
+		newEvent.setRecurring(isRecurrent);
 		newEvent.setPortfolioId(Long.parseLong(eventInfo.get("portfolio").toString()));
 		newEvent.setOrganizerId(Long.parseLong(eventInfo.get("organizer").toString()));
 		
@@ -149,7 +145,7 @@ public class EventService {
 		//System.out.println(newEventId);
 		
 		// Insert specific data (recurrent events)
-		if(isRecurrment) {
+		if(isRecurrent) {
 			// TODO Recurrent Event
 		}
 		
@@ -166,11 +162,11 @@ public class EventService {
 	 */
 	
 	public void editEvent(LinkedHashMap<String, Object> eventInfo) {
-		boolean isRecurrment = BooleanUtils.toBoolean(eventInfo.get("isRecurrment").toString());
+		boolean isRecurrent = BooleanUtils.toBoolean(eventInfo.get("isRecurrent").toString());
 		Long eventId = Long.parseLong(eventInfo.get("eventId").toString());
 		
 		// Update specific data (recurrent events)
-				if(isRecurrment) {
+				if(isRecurrent) {
 					// TODO Recurrent Event
 				}
 				
@@ -235,7 +231,7 @@ public class EventService {
 	 * Get all details related to a recurring event by it's id.
 	 * @param id The id of that event.
 	 * @param showAllDetails True to show all details, false to show brief information.
-	 * @return A linkedHaskMap about the details of the event. If event doesn't exist, return null.
+	 * @return A linkedHashMap about the details of the event. If event doesn't exist, return null.
 	 * @throws DataIntegrityViolationException If the violation of the data integrity is detected.
 	 */
 	

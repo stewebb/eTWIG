@@ -30,7 +30,7 @@
     	<section class="content">
 			<div class="container-fluid">
 			
-				<#-- Error descriptiom -->
+				<#-- Error description -->
 				<div class="card card-warning card-outline">
 					<div class="card-header">
 						<h3 class="card-title bold-text text-warning">
@@ -38,7 +38,7 @@
 						</h3>
 					</div>
 					<div class="card-body">
-						<span class="bold-text">Descriptiom:</span>&nbsp;
+						<span class="bold-text">Description:</span>&nbsp;
 						<#if reason?has_content>${reason}</#if>
 						
 						<div class="d-flex justify-content-center">

@@ -24,6 +24,6 @@ public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {
     
     public Optional<Portfolio> findById(long id);
     
-    public List<Portfolio> findByIsSeperatedCalendarTrue();
-    public List<Portfolio> findByIsSeperatedCalendarFalse();
+    public List<Portfolio> findByIsSeparatedCalendarTrue();
+    public List<Portfolio> findByIsSeparatedCalendarFalse();
 }

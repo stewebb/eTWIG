@@ -18,7 +18,7 @@ MIN_WINDOW_HEIGHT = 720;
 // Fixed aspect ratio.
 ASPECT_RATIO = [16, 9];
 
-// Default backgroun color.
+// Default background color.
 DEFAULT_BACKGROUND = "#000000";
 
 TEXT_LINE_SPACING = 1.5;
@@ -34,7 +34,7 @@ TEXT_LINE_SPACING = 1.5;
 class Settings{
 	
 	/**
-	 * Inutialize the variables.
+	 * Initialize the variables.
 	 */
 	
 	constructor(){
@@ -167,7 +167,7 @@ function draw() {
  * 2. The current web window resolution (dynamic when window is dragged),
  * 
  * with the following rules:
- * 1. The minimun resolution applies.
+ * 1. The minimum resolution applies.
  * 2. A fixed aspect ratio applies.
  * @returns A 2-element array that contains TWIG width and TWIG height.
  */
@@ -176,10 +176,10 @@ function setTwigSize(){
 	
 	var twigWindowWidth = 0;
 	var twigWindowHeight = 0;
-	var resoultion = setting.resolution;
+	var resolution = setting.resolution;
 	
-	// Apply the resoultion settings.
-	switch (resoultion){
+	// Apply the resolution settings.
+	switch (resolution){
 		case "720p":
 			twigWindowWidth = 1280;
 			break;
@@ -197,7 +197,7 @@ function setTwigSize(){
 			break;
 	}
 	
-	// Calculate the height and ensure they greater than the minimun resolution.
+	// Calculate the height and ensure they greater than the minimum resolution.
 	twigWindowHeight = twigWindowWidth * ASPECT_RATIO [1] / ASPECT_RATIO[0];
 	twigWindowHeight =  max(MIN_WINDOW_HEIGHT, twigWindowHeight);
 	return [twigWindowWidth, twigWindowHeight];
@@ -234,8 +234,8 @@ function getSettingsFromUrl(){
 			return;
 		}
 		
-		if(currentPortfolio.seperatedCalendar == false){
-			errorDescription = "Portfolio " + currentPortfolio.name + " is not allowed to have a seperate TWIG.";
+		if(currentPortfolio.separatedCalendar == false){
+			errorDescription = "Portfolio " + currentPortfolio.name + " is not allowed to have a separate TWIG.";
 			isTwigReady = false;
 			return;
 		}
@@ -273,7 +273,7 @@ function drawTwig(){
 
 function showError(){
 	
-	// Black blackground
+	// Black background
 	background(DEFAULT_BACKGROUND);
 	
 	// Error title (yellow)
@@ -444,19 +444,19 @@ function stringArrayToNumberArray(stringArr){
 }
 
 /**
- * Validate a coordinate array (at least 1-dimonsion).
+ * Validate a coordinate array (at least 1-dimension).
  * @param arr The coordinate array.
  * @param length the excepted length.
  * @param minVal The minimum accepted value. 
  * @param maxVal The maximum accepted value
  * @note for minVal and maxVal, undefined or null means there has no such restriction.
- * @returns True if the array has at least 1 diminsion, has excepted length, and all its values between the minVal and maxVal.
+ * @returns True if the array has at least 1 dimension, has excepted length, and all its values between the minVal and maxVal.
  * 					False otherwise.
  */
 
  function coordinateValidate(arr, length, minVal, maxVal){
 	 
-	 // Check the length first. (i.e., dimonsion)
+	 // Check the length first. (i.e., dimension)
 	 var arrLength = arr.length;
 	 if(arrLength <= 0 || length != arrLength){
 		 return false;

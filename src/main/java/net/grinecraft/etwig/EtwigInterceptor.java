@@ -4,7 +4,7 @@
  * @license: MIT
  * @author: Steven Webb [xiaoancloud@outlook.com]
  * @website: https://etwig.grinecraft.net
- * @function: The intercepter, which allows variables can be shared across the whole application.
+ * @function: The interceptor, which allows variables can be shared across the whole application.
  */
 
 package net.grinecraft.etwig;
@@ -44,7 +44,7 @@ public class EtwigInterceptor implements HandlerInterceptor{
 				userInfo.put("userId", user.getId());
 				userInfo.put("username", NameUtils.nameMerger(user.getFirstName(), user.getMiddleName(), user.getLastName()));
 				
-				// Put user info into Intercepter
+				// Put user info into Interceptor
 				modelAndView.addObject("user", userInfo);
 				modelAndView.addObject("portfolio", session.getAttribute("portfolio"));
 			}
@@ -56,7 +56,7 @@ public class EtwigInterceptor implements HandlerInterceptor{
 		appInfo.put("appVersion", "1.0");
 		appInfo.put("appCustomer", "Griffin Hall 2024");
 		
-		// Put application info into Intercepter
+		// Put application info into Interceptor
 		modelAndView.addObject("app", appInfo);				
 	}
 }

@@ -19,11 +19,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import net.grinecraft.etwig.model.Portfolio;
-import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.services.EventService;
 import net.grinecraft.etwig.services.PortfolioService;
 import net.grinecraft.etwig.services.UserRoleService;
@@ -76,9 +73,9 @@ public class EditController {
 			model.addAttribute("eventDetails", event);
 			
 			Set<Long> myPortfolios = ((LinkedHashMap<Long, Portfolio>) session.getAttribute("portfolio")).keySet();
-			Long eventportfolio = (Long) ((LinkedHashMap<String, Object>) event.get("portfolio")).get("Id");
+			Long eventPortfolio = (Long) ((LinkedHashMap<String, Object>) event.get("portfolio")).get("Id");
 			
-			model.addAttribute("editPermission", myPortfolios.contains(eventportfolio));
+			model.addAttribute("editPermission", myPortfolios.contains(eventPortfolio));
 			
 			// The action is either edit or delete.
 			return "edit".equals(action) ? "events/edit" : "events/delete"; 

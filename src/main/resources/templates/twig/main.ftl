@@ -82,9 +82,9 @@
       									<optgroup label="All portfolios">
       										<option value="-1" selected>All portfolios</option>
       									</optgroup>
-      									<optgroup label="Portfolio(s) with seperate calendar">
-	        								<#if portfolioSeperatedCalendar?has_content>
-        										<#list portfolioSeperatedCalendar as portfolio_id, portfolio_info>
+      									<optgroup label="Portfolio(s) with separate calendar">
+	        								<#if portfolioSeparatedCalendar?has_content>
+        										<#list portfolioSeparatedCalendar as portfolio_id, portfolio_info>
         											<option data-color="#${portfolio_info.color}" data-icon="<#if portfolio_info.icon?has_content>${portfolio_info.icon}</#if>" value="${portfolio_id}">
 														${portfolio_info.name}
 													</option>
