@@ -7,16 +7,16 @@
 
 #FROM eclipse-temurin:17-jdk-alpine
 FROM ubuntu:22.04
-RUN apt-get update && apt-get install -y \
-    openjdk-17-jdk \
-    net-tools \
-    #package-foo  \
-    && rm -rf /var/lib/apt/lists/*
-
-EXPOSE 7001
 
 VOLUME /tmp
 COPY ./target/etwig-*.jar /etwig/etwig.jar
 COPY ./src/main/python /etwig/python
 
+RUN apt-get update && apt-get install -y \
+    openjdk-17-jdk \
+    net-tools \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/* \
+    && pip3 install -r /etwig/python/requirements.txt
+       
 ENTRYPOINT ["java", "-jar", "/etwig/etwig.jar"]
