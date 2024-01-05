@@ -85,12 +85,17 @@ def image_cropper(image):
 
     return cropped_img
         
-image = cv2.imread("/home/anakin/Downloads/test2.png", cv2.IMREAD_UNCHANGED)
+image = cv2.imread("/home/anakin/Downloads/test.png", cv2.IMREAD_UNCHANGED)
 
 cropped_img = image_cropper(image)
 n = 0
 for b in cropped_img:
+    shape = b.shape
+    if shape[0] == 0 or shape [1] == 0 or shape[2] == 0:
+        continue
+    
     cv2.imwrite('/home/anakin/Downloads/image'+str(n)+'.png', b)
+    #cv2.imshow("img", b)
+    #cv2.waitKey() 
     n = n + 1
-#    #cv2.waitKey() 
 
