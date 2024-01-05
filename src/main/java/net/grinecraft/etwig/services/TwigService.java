@@ -61,9 +61,8 @@ public class TwigService {
 		LinkedHashMap<String, Object> templateMap = new LinkedHashMap<String, Object>();
 		
 		templateMap.put("Id", twigTemplate.getId());
-		//templateMap.put("portfolioId", twigTemplate.getPortfolioId());
-		//templateMap.put("portfolio", twigTemplate.getPortfolio());
 		templateMap.put("background", jsonUtils.jsonToMap(twigTemplate.getBackground()));
+		templateMap.put("logo", jsonUtils.jsonToMap(twigTemplate.getLogo()));
 		
 		return templateMap;
 	}

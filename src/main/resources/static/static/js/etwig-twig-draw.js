@@ -107,12 +107,16 @@ var isTwigReady = true;
 // All errors that prevent TWIG be displayed.
 var errorDescription = "";
 
-// Background
-var backgroundObj;
-var backgroundContent;
-
 // Current portfolio (-1 stands for all portfolios)
 var portfolio = -1;
+
+// Template: Background
+var backgroundContent;
+
+// Template: Logo
+var logoContent;
+var logoStyle;
+
 
 var twigSize;
 
@@ -128,16 +132,13 @@ function preload(){
 		return;
 	}
 		
-	// Step 2: Get the template.
+	// Step 2: Get and apply the template.
 	getTWIGTemplate();
 	if(!isTwigReady){
 		return;
 	}
 	
-	// Step 3: Apply the template.
-	setBackground();
-	
-   
+     isTwigReady = true;
 }
 
 function setup() {
@@ -246,33 +247,24 @@ function getSettingsFromUrl(){
  */
 
 /**
- * Set the background of the TWIG depends on the template.
- */
-
-function setBackground(){
-	
-	// Case 1: Solid color background.
-	if(backgroundObj.mode == "color"){
-		backgroundContent = backgroundObj.value;
-	}
-	
-	// Case 2: Image background.
-	else if (backgroundObj.mode == "image"){
-		backgroundContent = loadImage("/twig/assets?assetId=" + backgroundObj.value);
-	}
-	
-	// Case 3: Undefined background, use a default color.
-	else{
-		backgroundContent = DEFAULT_BACKGROUND;
-	}
-}
-
-/**
  * Show TWIG content if nothing goes wrong.
  */
 
 function drawTwig(){
+	
+	// Step 1: Draw the background
 	background(backgroundContent);
+	
+	// Step 2: Put the logo on the TWIG
+	if(logoContent != undefined && logoStyle != undefined){
+		image(
+			logoContent, 											// image source
+			0.01 * logoStyle.posX * twigSize[0], 		// X coordinate
+			0.01 * logoStyle.posY * twigSize[1],		// Y coordinate
+			0.01 * logoStyle.size * twigSize[1],			// width
+			0.01 * logoStyle.size * twigSize[1]			// height
+		);
+	}
 }
 
 /**
@@ -366,11 +358,127 @@ function getTWIGTemplateWhenSuccess(json){
 	}
 	
 	// Step 1: Set the background object.
-	backgroundObj = json.template.background;
+	var backgroundObj = json.template.background;
+	if(backgroundObj.enabled){
+		
+		// Case 1.1: Solid color background.
+		if(backgroundObj.mode == "color"){
+			backgroundContent = backgroundObj.value;
+		}
 	
-  	isTwigReady = true;
+		// Case 1.2: Image background.
+		else if (backgroundObj.mode == "image"){
+			backgroundContent = loadImage("/twig/assets?assetId=" + backgroundObj.value);
+		}
+	
+		// Case 1.3: Undefined background, use a default color.
+		else{
+			backgroundContent = DEFAULT_BACKGROUND;
+		}
+	}
+	
+	// Case 1.0: The background is disabled
+	else{
+		backgroundContent = DEFAULT_BACKGROUND;
+	}
+	
+	// Step 2: Set the logo.
+	var logoObj = json.template.logo;
+	if(logoObj.enabled){
+		
+		// Case 2.1: The logo is enabled.
+		
+		// Get logo size and position.
+		var logoSize = logoObj.size;
+		var logoPos = logoObj.position.split(",");
+		var logoPosNum = stringArrayToNumberArray(logoPos);
+		
+		// Case 2.1.1: Validation passed
+		if(logoSize > 0 && logoSize < 100 && logoPosNum != undefined && coordinateValidate(logoPosNum, 2, 1, 99)){
+			
+			// Get logo content, which is always an image
+			logoContent = loadImage("/twig/assets?assetId=" + logoObj.image);
+			
+			// Assign logo position to an object
+			logoStyle = {
+				size: logoSize,
+				posX: logoPosNum[0],
+				posY: logoPosNum[1]
+			}
+		}
+		
+		// Case 2.1.2: Validation failed.
+		else{
+			logoContent = undefined;
+			logoStyle = undefined;
+		}
+	}
+	
+	// Case 2.0: The logo is disabled
+	else{
+		logoContent = undefined;
+		logoStyle = undefined;
+	}
+	
+	//console.log(logoStyle);
 }
 
 /**
  * Other helpers
  */
+
+function stringArrayToNumberArray(stringArr){
+	var numberArr = [];
+	for(var i=0; i<stringArr.length; i++){
+		var current = parseInt(stringArr[i], 10);
+		
+		// If the array contains at least one non-number, return "undefined" immediately.
+		if(isNaN(current)){
+			return undefined;
+		}
+		
+		numberArr.push(current);
+	}
+	
+	return numberArr;
+}
+
+/**
+ * Validate a coordinate array (at least 1-dimonsion).
+ * @param arr The coordinate array.
+ * @param length the excepted length.
+ * @param minVal The minimum accepted value. 
+ * @param maxVal The maximum accepted value
+ * @note for minVal and maxVal, undefined or null means there has no such restriction.
+ * @returns True if the array has at least 1 diminsion, has excepted length, and all its values between the minVal and maxVal.
+ * 					False otherwise.
+ */
+
+ function coordinateValidate(arr, length, minVal, maxVal){
+	 
+	 // Check the length first. (i.e., dimonsion)
+	 var arrLength = arr.length;
+	 if(arrLength <= 0 || length != arrLength){
+		 return false;
+	 }
+	 
+	 // Check the minimum value
+	 if(minVal != undefined && minVal != null){
+		 for(var i=0; i<arrLength; i++){
+			 if(arr[i] < minVal){
+				  return false;
+			  }
+		 }
+	}
+	
+	// Check the maximum value
+	if(maxVal != undefined && maxVal != null){
+		for(var i=0; i<arrLength; i++){
+			 if(arr[i] > maxVal){
+				  return false;
+			  }
+		 }
+	}
+	
+	return true;
+ }

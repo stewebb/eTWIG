@@ -57,7 +57,7 @@
 				<div class="row mb-3">
 					<div class="icheck-primary mb-1 col-12" style="text-align:right;">
   						<input type="checkbox" id="remember" name="remember-me" checked>
-              			<label for="remember">Remember Me for 90 days</label>
+              			<label for="remember">Remember Me</label>
 					</div>
 				</div>
 				

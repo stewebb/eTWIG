@@ -63,8 +63,8 @@ public class TwigTemplate {
 	 * 	The "logo" column stores the style and content of the customer logo in JSON format.
 	 * {
 	 * 		"enabled" : ${ENABLED},
-	 * 		"image" : "${IMAGE}",
-	 * 		"size" : "${SIZE}",
+	 * 		"image" : ${IMAGE},
+	 * 		"size" : ${SIZE},
 	 * 		"position" : "${POSX}, ${POSY}"
 	 * }
 	 * 
