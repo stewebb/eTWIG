@@ -1,12 +1,63 @@
 import cv2
 import numpy as np
 
-def cropper(image):
+RECT_HALF_BOEDER = 10
 
-    # Image pre-processings: read, filter and convert to grayscale
-    image = cv2.imread(image)
-    blurred_img = cv2.pyrMeanShiftFiltering(image, 11, 21)
-    grayscale_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+'''
+    Convert a transparent background to white.
+    input:
+        An image (whose background may transparent)
+    returns:
+        If the image doesn't has alpha channel, just return itself.
+        Else, convert the background to white.
+'''
+
+def transparent_to_white(img):
+    
+    # Only convert then there has an alpha channel.
+    if img.shape[2] == 4:
+        
+        # Split the alpha channel
+        bgr, alpha = img[:,:,0:3], img[:,:,3]
+
+        # Create a white background image with the same size as the PNG image
+        white_background = np.ones_like(bgr, dtype=np.uint8) * 255
+
+        # Mask the alpha channel to the white background
+        foreground = cv2.bitwise_and(bgr, bgr, mask=alpha)
+        background = cv2.bitwise_and(white_background, white_background, mask=cv2.bitwise_not(alpha))
+
+        # Add the foreground and background
+        return cv2.add(foreground, background)
+    
+    # Or just return the image itself, no need to convert.
+    else:
+        return img
+    
+'''
+    Crop a large image to different smaller parts by using rectangle detection.
+    To prepare the image, put a black, transparent rectangle outside and cover the components.
+    e.g.,
+    ----------------
+    |                    |
+    |    TEXT       |
+    |    CIRCLE    |
+    |                    |
+    ---------------
+    input:
+        image: The large image after imread.
+    returns:
+        A list of cropped, small images.
+'''
+
+def image_cropper(image):
+
+    # Change the transparent background to white, if required. 
+    trans_img = transparent_to_white(image)
+
+    # Image pre-processings: filter and convert to grayscale
+    blurred_img = cv2.pyrMeanShiftFiltering(trans_img, 11, 21)
+    grayscale_img = cv2.cvtColor(trans_img, cv2.COLOR_BGR2GRAY)
     
     # Apply the Image Thresholding
     thresh = cv2.threshold(grayscale_img, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
@@ -26,16 +77,20 @@ def cropper(image):
         # The founded rectangle
         if len(approx) == 4:
             x, y, w, h = cv2.boundingRect(approx)
-            #cv2.rectangle(image,(x,y),(x+w,y+h),(36,255,12),2)
-            cropped_img.append(image[y: y+h, x: x+w])
+            
+            # Crop image, and consider the border width of the rectangle.
+            # Do this on the original image.
+            cropped = image[y+RECT_HALF_BOEDER: y+h-RECT_HALF_BOEDER, x+RECT_HALF_BOEDER: x+w-RECT_HALF_BOEDER]
+            cropped_img.append(cropped)
 
-            #cv2.imshow('thresh', thresh)
-    #cv2.imshow('image', image)
-    # cv2.waitKey()
     return cropped_img
         
-a = cropper("/home/anakin/Downloads/test.png")
-for b in a:
-    #print(b)
-   cv2.imshow('image', b)
-   cv2.waitKey() 
+image = cv2.imread("/home/anakin/Downloads/test2.png", cv2.IMREAD_UNCHANGED)
+
+cropped_img = image_cropper(image)
+n = 0
+for b in cropped_img:
+    cv2.imwrite('/home/anakin/Downloads/image'+str(n)+'.png', b)
+    n = n + 1
+#    #cv2.waitKey() 
+
