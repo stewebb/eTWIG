@@ -1,6 +1,6 @@
 /**
- * eTWIG - The event and banner management software for residential halls and student unions.
- * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
+ * eTWIG - The event management software for university communities.
+ * @copyright: Copyright (c) 2024 Steven Webb
  * @license: MIT
  * @author: Steven Webb [xiaoancloud@outlook.com]
  * @website: https://etwig.grinecraft.net
@@ -23,6 +23,7 @@ import jakarta.servlet.http.HttpSession;
 import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.services.EventService;
 import net.grinecraft.etwig.services.PortfolioService;
+import net.grinecraft.etwig.services.PropertyService;
 import net.grinecraft.etwig.services.UserRoleService;
 import net.grinecraft.etwig.util.BooleanUtils;
 import net.grinecraft.etwig.util.NumberUtils;
@@ -38,6 +39,9 @@ public class EditController {
 	
 	@Autowired
 	UserRoleService userRoleService;
+	
+	@Autowired
+	PropertyService propertyService;
 
 	/**
 	 * Edit or delete event page.
@@ -76,6 +80,9 @@ public class EditController {
 			Long eventPortfolio = (Long) ((LinkedHashMap<String, Object>) event.get("portfolio")).get("Id");
 			
 			model.addAttribute("editPermission", myPortfolios.contains(eventPortfolio));
+			
+			System.out.println(propertyService.getAllProperties());
+			
 			
 			// The action is either edit or delete.
 			return "edit".equals(action) ? "events/edit" : "events/delete"; 

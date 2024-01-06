@@ -1,6 +1,6 @@
 <#-- 
-	eTWIG - The event and banner management software for residential halls and student unions.
-	copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
+	eTWIG - The event management software for university communities.
+	copyright: Copyright (c) 2024 Steven Webb
 	license: MIT
 	author: Steven Webb [xiaoancloud@outlook.com]
 	website: https://etwig.grinecraft.net
@@ -34,7 +34,7 @@
         									<!-- <optgroup label="My Portfolio(s)"> -->
         									
         									<#if isEdit>
-     											<option data-color="#${eventDetails.portfolio.color}" data-icon="<#if eventDetails.portfolio.icon?has_content>${eventDetails.portfolio.icon}</#if>" value="${eventDetails.portfolio.Id}">
+     											<option data-color="#${eventDetails.portfolio.color}" data-icon="<#if eventDetails.portfolio.icon?has_content>${eventDetails.portfolio.icon}</#if>" value="${eventDetails.portfolio.id}">
 													${eventDetails.portfolio.name}
 												</option>
         									<#else>

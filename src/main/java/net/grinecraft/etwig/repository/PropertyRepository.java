@@ -4,26 +4,19 @@
 	 * @license: MIT
 	 * @author: Steven Webb [xiaoancloud@outlook.com]
 	 * @website: https://etwig.grinecraft.net
-	 * @function: The repository for Portfolio model.
+	 * @function: The repository for Property model.
 	 */
 
 package net.grinecraft.etwig.repository;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import net.grinecraft.etwig.model.Portfolio;
+import net.grinecraft.etwig.model.Property;
 
 @Repository
-public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {
+public interface PropertyRepository extends JpaRepository<Property, Long> {
 	
-    public List<Portfolio> findAll();
-    
-    public Optional<Portfolio> findById(long id);
-    
-    public List<Portfolio> findByIsSeparatedCalendarTrue();
-    public List<Portfolio> findByIsSeparatedCalendarFalse();
+    public List<Property> findAll();
 }

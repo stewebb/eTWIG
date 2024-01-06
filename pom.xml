@@ -14,7 +14,7 @@
 	<packaging>jar</packaging>
 	<name>etwig</name>
 	<description>
-		eTWIG - The event and banner management software for residential halls and student unions.
+		eTWIG - The event management software for university communities.
 	</description>
 	<properties>
 		<java.version>17</java.version>

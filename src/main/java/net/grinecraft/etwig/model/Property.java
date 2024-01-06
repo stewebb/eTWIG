@@ -4,7 +4,7 @@
 	 * @license: MIT
 	 * @author: Steven Webb [xiaoancloud@outlook.com]
 	 * @website: https://etwig.grinecraft.net
-	 * @function: The Portfolio model, mapping the "portfolio" table in the database.
+	 * @function: The Property model, mapping the "property" table in the database.
 	 */
 
 package net.grinecraft.etwig.model;
@@ -17,29 +17,17 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "portfolio")
-public class Portfolio {
-	
+@Table(name = "property")
+public class Property {
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
 	private Long id;
 	
 	@Column(name = "name")
 	private String name;
 	
-	@Column(name = "color")
-	private String color;
-	
-	@Column(name = "abbreviation")
-	private String abbreviation;	
-	
-	@Column(name = "icon")
-	private String icon;	
-	
-	@Column(name = "is_separated_calendar")
-	private boolean isSeparatedCalendar;	
-	
-	@Column(name = "parent")
-	private Integer parent;
+	@Column(name = "description")
+	private String description;
 }

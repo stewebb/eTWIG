@@ -1,6 +1,6 @@
 <#-- 
-	eTWIG - The event and banner management software for residential halls and student unions.
-	copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
+	eTWIG - The event management software for university communities.
+	copyright: Copyright (c) 2024 Steven Webb
 	license: MIT
 	author: Steven Webb [xiaoancloud@outlook.com]
 	website: https://etwig.grinecraft.net
@@ -57,7 +57,6 @@
 					
 						<#-- Set the color of eTWIG-related classes to the primary color. -->
 						<#assign trace = error.trace?replace("net.grinecraft.etwig", "<span class='bold-text text-primary'>net.grinecraft.etwig</span>")>
-						<#assign trace = trace?replace("org.springframework", "<span class='bold-text text-olive'>org.springframework</span>")>
 						<#assign trace = trace?replace("Caused by:", "\n<span class='bold-text text-danger'>Caused by:</span>")>
 						
 						<div clsss="mb-2">
