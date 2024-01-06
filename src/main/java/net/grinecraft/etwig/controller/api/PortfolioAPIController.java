@@ -1,3 +1,12 @@
+/**
+	 * eTWIG - The event management software for university communities.
+	 * @copyright: Copyright (c) 2024 Steven Webb
+	 * @license: MIT
+	 * @author: Steven Webb [xiaoancloud@outlook.com]
+	 * @website: https://etwig.grinecraft.net
+	 * @function: The controller for all portfolio related APIs.
+	 */
+
 package net.grinecraft.etwig.controller.api;
 
 import java.util.Map;

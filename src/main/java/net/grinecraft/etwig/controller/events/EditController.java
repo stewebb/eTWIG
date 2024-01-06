@@ -61,8 +61,8 @@ public class EditController {
 		Long id = null;
 		
 		model.addAttribute("embedded", BooleanUtils.toBoolean(embedded));
-		//model.addAttribute("isEdit", true);
-		
+		model.addAttribute("allProperties", propertyService.getAllProperties());			
+
 		// Check Invalid eventId. (Not a Long number)
 		id = NumberUtils.safeCreateLong(eventId);
 		if(id == null || id <0) {
@@ -77,12 +77,11 @@ public class EditController {
 			model.addAttribute("eventDetails", event);
 			
 			Set<Long> myPortfolios = ((LinkedHashMap<Long, Portfolio>) session.getAttribute("portfolio")).keySet();
-			Long eventPortfolio = (Long) ((LinkedHashMap<String, Object>) event.get("portfolio")).get("Id");
-			
+			Long eventPortfolio = (Long) ((LinkedHashMap<String, Object>) event.get("portfolio")).get("id");
 			model.addAttribute("editPermission", myPortfolios.contains(eventPortfolio));
 			
-			System.out.println(propertyService.getAllProperties());
-			
+			System.out.println(myPortfolios);
+			System.out.println(eventPortfolio);
 			
 			// The action is either edit or delete.
 			return "edit".equals(action) ? "events/edit" : "events/delete"; 
@@ -108,7 +107,7 @@ public class EditController {
 	@RequestMapping("/events/add")  
 	public String add(HttpSession session, Model model, @RequestParam(required = false) String embedded) throws Exception{
         model.addAttribute("embedded", BooleanUtils.toBoolean(embedded));
+        model.addAttribute("allProperties", propertyService.getAllProperties());		
 		return "events/add";
-	
 	}
 }

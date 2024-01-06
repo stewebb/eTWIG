@@ -64,7 +64,7 @@
 												</span>
 											</div>
 											
-											<select class="form-control select2" name="eventOrganizer" id="eventOrganizer" ${disabledStr}>
+											<select class="form-control select2 common-select-box" name="eventOrganizer" ${disabledStr}>
         										<!-- <optgroup label="Myself"> -->
         											<#if isEdit>
         												<option value="${eventDetails.user.Id}">${eventDetails.user.fullName}</option>

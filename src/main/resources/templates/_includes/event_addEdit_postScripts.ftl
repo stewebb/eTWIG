@@ -1,6 +1,6 @@
 <#-- 
-	eTWIG - The event and banner management software for residential halls and student unions.
-	copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
+	eTWIG - The event management software for university communities.
+	copyright: Copyright (c) 2024 Steven Webb
 	license: MIT
 	author: Steven Webb [xiaoancloud@outlook.com]
 	website: https://etwig.grinecraft.net
@@ -30,7 +30,7 @@
 		// Register those time unit buttons
       	timeUnitBtnOnChange(startTimePicker);      	
       	
-      	$('#eventOrganizer').select2({
+      	$('.common-select-box').select2({
     		theme: 'bootstrap4',
 		});
 		
