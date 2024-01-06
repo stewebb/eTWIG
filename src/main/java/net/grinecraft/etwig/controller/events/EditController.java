@@ -84,8 +84,8 @@ public class EditController {
 			Long eventPortfolio = (Long) ((LinkedHashMap<String, Object>) event.get("portfolio")).get("id");
 			model.addAttribute("editPermission", myPortfolios.contains(eventPortfolio));
 			
-			System.out.println(myPortfolios);
-			System.out.println(eventPortfolio);
+			//System.out.println(myPortfolios);
+			//System.out.println(eventPortfolio);
 			
 			// The action is either edit or delete.
 			return "edit".equals(action) ? "events/edit" : "events/delete"; 
@@ -114,7 +114,7 @@ public class EditController {
         model.addAttribute("allProperties", propertyService.findAll());		
         
         //System.out.print(optionService.findAll());
-        optionService.findAllGroupByProperties();
+        //optionService.findAllGroupByProperties();
         
 		return "events/add";
 	}

@@ -38,7 +38,7 @@ public class WebSecurityConfig{
 	@SuppressWarnings("removal")
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		
+        
 		// Set the public access resources.
 		http.authorizeHttpRequests((requests) -> requests
 				.requestMatchers("/static/**", "/api/public/**", "/twig/**", "/error").permitAll()
@@ -63,11 +63,15 @@ public class WebSecurityConfig{
 		// Disable CSRF.
 		http.csrf().disable();
 		
-		// Allow frames from the same origin
-		http.headers(headers -> headers
-				.frameOptions(frameOptions -> frameOptions.sameOrigin())
-		);
+		// Allow frames from any origin
+		http.headers()
+        	.frameOptions().disable()
+            .contentSecurityPolicy("frame-ancestors 'self' https:;");
 		
+        http.requiresChannel(
+        		(channel) -> channel.anyRequest().requiresSecure()
+        );
+        
 		return http.build();
 	}
 

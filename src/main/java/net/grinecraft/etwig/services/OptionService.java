@@ -45,9 +45,9 @@ public class OptionService {
 	public void findAllGroupByProperties() {
         List<Object[]> groupedProperties = optionRepository.groupByProperty();
         
-        for(Object[] obj : groupedProperties) {
-        	System.out.println(Arrays.toString(obj));
-        }
+        //for(Object[] obj : groupedProperties) {
+        //	System.out.println(Arrays.toString(obj));
+        //}
         
 	}
 	
