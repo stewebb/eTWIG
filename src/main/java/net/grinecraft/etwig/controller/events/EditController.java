@@ -1,10 +1,10 @@
 /**
- * eTWIG - The event management software for university communities.
- * @copyright: Copyright (c) 2024 Steven Webb
- * @license: MIT
- * @author: Steven Webb [xiaoancloud@outlook.com]
- * @website: https://etwig.grinecraft.net
- * @function: The controller for add/edit/delete event.
+ 	* eTWIG - The event management software for university communities.
+ 	* @copyright: Copyright (c) 2024 Steven Webb
+ 	* @license: MIT
+ 	* @author: Steven Webb [xiaoancloud@outlook.com]
+ 	* @website: https://etwig.grinecraft.net
+ 	* @function: The controller for add/edit/delete event.
  */
 
 package net.grinecraft.etwig.controller.events;
@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.servlet.http.HttpSession;
 import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.services.EventService;
+import net.grinecraft.etwig.services.OptionService;
 import net.grinecraft.etwig.services.PortfolioService;
 import net.grinecraft.etwig.services.PropertyService;
 import net.grinecraft.etwig.services.UserRoleService;
@@ -42,6 +43,9 @@ public class EditController {
 	
 	@Autowired
 	PropertyService propertyService;
+	
+	@Autowired
+	OptionService optionService;
 
 	/**
 	 * Edit or delete event page.
@@ -61,7 +65,7 @@ public class EditController {
 		Long id = null;
 		
 		model.addAttribute("embedded", BooleanUtils.toBoolean(embedded));
-		model.addAttribute("allProperties", propertyService.getAllProperties());			
+		model.addAttribute("allProperties", propertyService.findAll());			
 
 		// Check Invalid eventId. (Not a Long number)
 		id = NumberUtils.safeCreateLong(eventId);
@@ -105,9 +109,13 @@ public class EditController {
 	 */
 	
 	@RequestMapping("/events/add")  
-	public String add(HttpSession session, Model model, @RequestParam(required = false) String embedded) throws Exception{
+	public String add(Model model, @RequestParam(required = false) String embedded) throws Exception{
         model.addAttribute("embedded", BooleanUtils.toBoolean(embedded));
-        model.addAttribute("allProperties", propertyService.getAllProperties());		
+        model.addAttribute("allProperties", propertyService.findAll());		
+        
+        //System.out.print(optionService.findAll());
+        optionService.findAllGroupByProperties();
+        
 		return "events/add";
 	}
 }

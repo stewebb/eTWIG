@@ -1,6 +1,6 @@
 /**
-	 * eTWIG - The event and banner management software for residential halls and student unions.
-	 * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
+	 * eTWIG - The event management software for university communities.
+	 * @copyright: Copyright (c) 2024 Steven Webb
 	 * @license: MIT
 	 * @author: Steven Webb [xiaoancloud@outlook.com]
 	 * @website: https://etwig.grinecraft.net
@@ -10,7 +10,6 @@
 package net.grinecraft.etwig.services;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.repository.PortfolioRepository;
+import net.grinecraft.etwig.util.MapUtils;
 
 @Service
 public class PortfolioService {
@@ -25,13 +25,20 @@ public class PortfolioService {
 	@Autowired
 	private PortfolioRepository portfolioRepository;
 	
+	private MapUtils mapUtils;
+	
+	public PortfolioService(){
+		this.mapUtils = new MapUtils();
+	}
+	
 	/**
 	 * Get the list of all portfolios
 	 * @return A LinkedHashMap all portfolios
 	 */
 	
 	public LinkedHashMap<Long, Portfolio> getAllPortfolioList(){
-		return listToMap((List<Portfolio>) portfolioRepository.findAll());
+		//return listToMap((List<Portfolio>) portfolioRepository.findAll());
+		return mapUtils.listToLinkedHashMap(portfolioRepository.findAll(), Portfolio::getId);
 	}
 	
 	/**
@@ -46,40 +53,22 @@ public class PortfolioService {
 	public LinkedHashMap<Long, Portfolio> getPortfolioListBySeparatedCalendar(Boolean isSeparatedCalendar){
 		
 		if(isSeparatedCalendar == null) {
-			return listToMap((List<Portfolio>) portfolioRepository.findAll());
+			//return listToMap((List<Portfolio>) portfolioRepository.findAll());
+			return mapUtils.listToLinkedHashMap(portfolioRepository.findAll(), Portfolio::getId);
 		}
 		
 		else if(isSeparatedCalendar == true) {
-			return listToMap((List<Portfolio>) portfolioRepository.findByIsSeparatedCalendarTrue());
+			//return listToMap((List<Portfolio>) portfolioRepository.findByIsSeparatedCalendarTrue());
+			return mapUtils.listToLinkedHashMap(portfolioRepository.findByIsSeparatedCalendarTrue(), Portfolio::getId);
 		}
 		
 		// isSeparatedCalendar == false
 		else {
-			return listToMap((List<Portfolio>) portfolioRepository.findByIsSeparatedCalendarFalse());
+			//return listToMap((List<Portfolio>) portfolioRepository.findByIsSeparatedCalendarFalse());
+			return mapUtils.listToLinkedHashMap(portfolioRepository.findByIsSeparatedCalendarFalse(), Portfolio::getId);
+			
 		}
 	}
-	
-	/**
-	 * Convert the List form of the portfolio to LinkedHashMap form.
-	 * @param portfolioList
-	 * @return
-	 */
-	
-	private LinkedHashMap<Long, Portfolio> listToMap(List<Portfolio> portfolioList) {
-		
-		if(portfolioList == null) {
-			return null;
-		}
-        //List<Portfolio> portfolioList = (List<Portfolio>) portfolioRepository.findAll();
-      
-        // Convert to a map of map... Use LinkedHashMap to keep adding order
-        LinkedHashMap<Long, Portfolio> allPortfolios = new LinkedHashMap<>();
-        for(Portfolio portfolio : portfolioList) {      	
-        	allPortfolios.put(portfolio.getId(), portfolio);
-        }
-        
-        return allPortfolios;
-    }
 	
 	/**
 	 * Get a portfolio details by its Id.

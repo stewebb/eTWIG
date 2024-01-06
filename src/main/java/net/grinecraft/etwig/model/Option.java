@@ -4,7 +4,7 @@
 	 * @license: MIT
 	 * @author: Steven Webb [xiaoancloud@outlook.com]
 	 * @website: https://etwig.grinecraft.net
-	 * @function: The Property model, mapping the "property" table in the database.
+	 * @function: The Event model, mapping the "event" table in the database.
 	 */
 
 package net.grinecraft.etwig.model;
@@ -17,9 +17,9 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "property")
-public class Property {
-
+@Table(name = "option")
+public class Option {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -28,12 +28,10 @@ public class Property {
 	@Column(name = "name")
 	private String name;
 	
-	@Column(name = "description")
-	private String description;
+	//@ManyToOne(cascade = CascadeType.ALL)
+	//@JoinColumn(name = "belongs_to", referencedColumnName = "id", insertable = false, updatable = false)
+    //private Property property;		// Read-only
 	
-	@Column(name = "mandatory")
-	private boolean mandatory;
-	
-	@Column(name = "icon")
-	private String icon;	
+	@Column(name = "belongs_to")
+	private Long propertyId;
 }
