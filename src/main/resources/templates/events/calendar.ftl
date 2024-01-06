@@ -1,6 +1,6 @@
 <#-- 
-	eTWIG - The event and banner management software for residential halls and student unions.
-	copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
+	eTWIG - The event management software for university communities.
+	copyright: Copyright (c) 2024 Steven Webb
 	license: MIT
 	author: Steven Webb [xiaoancloud@outlook.com]
 	website: https://etwig.grinecraft.net
@@ -26,30 +26,35 @@
 
 <body class="sidebar-mini layout-fixed">
 
-	<#include "../_includes/sidebar.ftl">
+	<#if !embedded>
+		<#include "../_includes/sidebar.ftl">
+	</#if>
+	
 	<#include "../_includes/modal.ftl">
 
 	<#-- Content Wrapper. -->
-  	<div class="content-wrapper">
+  	<div class="<#if !embedded>content-</#if>wrapper">
   	
     	<#-- Page header -->
-    	<section class="content-header">
-      		<div class="container-fluid">
-        		<div class="row mb-2">
-          			<div class="col-sm-6">
-            			<h1 class="bold-text">Event Calendar / Planner</h1>
-          			</div>
-          			<div class="col-sm-6">
-            			<ol class="breadcrumb float-sm-right">
-              				<li class="breadcrumb-item"><a href="/">Home</a></li>
-              				<li class="breadcrumb-item">Events</li>
-              				<li class="breadcrumb-item active"><a href="/events/calendar">Calendar</a></li>
-            			</ol>
-          			</div>
-        		</div>
-      		</div>
-    	</section>
-
+    	<#if !embedded>
+    		<section class="content-header">
+      			<div class="container-fluid">
+        			<div class="row mb-2">
+          				<div class="col-sm-6">
+            				<h1 class="bold-text">Event Calendar / Planner</h1>
+          				</div>
+          				<div class="col-sm-6">
+            				<ol class="breadcrumb float-sm-right">
+              					<li class="breadcrumb-item"><a href="/">Home</a></li>
+              					<li class="breadcrumb-item">Events</li>
+              					<li class="breadcrumb-item active"><a href="/events/calendar">Calendar</a></li>
+            				</ol>
+          				</div>
+        			</div>
+      			</div>
+    		</section>
+		</#if>
+		
     	<#-- Options and Calendar -->
     	<section class="content">
       		<div class="container-fluid">

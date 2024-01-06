@@ -50,16 +50,16 @@
 
 <body class="sidebar-mini layout-fixed">
 	
-	<#if embedded == false>
+	<#if !embedded>
 		<#include "../_includes/sidebar.ftl">
 	</#if>
 	
 	<#-- Content Wrapper -->
-  	<div class="<#if embedded == false>content-</#if>wrapper">
+  	<div class="<#if !embedded>content-</#if>wrapper">
   	
 		<#-- Page header -->
-		<#if embedded == false>
-    	<#include "../_includes/event_addEdit_header.ftl">
+		<#if !embedded>
+    		<#include "../_includes/event_addEdit_header.ftl">
     	</#if>
     	
     	<#-- Main area -->
