@@ -1,17 +1,29 @@
+/**
+ 	* eTWIG - The event management software for university communities.
+ 	* @copyright: Copyright (c) 2024 Steven Webb
+ 	* @license: MIT
+ 	* @author: Steven Webb [xiaoancloud@outlook.com]
+ 	* @website: https://etwig.grinecraft.net
+ 	* @function: Config the cookies.
+ */
+
 package net.grinecraft.etwig.config;
 
+import org.springframework.boot.web.servlet.server.CookieSameSiteSupplier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.session.web.http.CookieSerializer;
-import org.springframework.session.web.http.DefaultCookieSerializer;
 
 @Configuration
 public class CookieConfig {
 
+	/**
+	 * Set "samesite none secure" to all cookies
+	 * @doc https://docs.spring.io/spring-boot/docs/2.6.0/reference/html//web.html#web.servlet.embedded-container.customizing.samesite
+	 * @return
+	 */
+	
 	@Bean
-	public CookieSerializer cookieSerializer() {
-	    DefaultCookieSerializer serializer = new DefaultCookieSerializer();
-	    serializer.setSameSite("none");
-	    return serializer;
-	}
+    public CookieSameSiteSupplier applicationCookieSameSiteSupplier() {
+        return CookieSameSiteSupplier.ofNone().whenHasNameMatching(".*");
+    }
 }

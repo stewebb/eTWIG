@@ -1,11 +1,11 @@
 /**
- * eTWIG - The event and banner management software for residential halls and student unions.
- * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
- * @license: MIT
- * @author: Steven Webb [xiaoancloud@outlook.com]
- * @website: https://etwig.grinecraft.net
- * @function: The security configuration for eTWIG platform.
- */
+ 	* eTWIG - The event management software for university communities.
+ 	* @copyright: Copyright (c) 2024 Steven Webb
+ 	* @license: MIT
+ 	* @author: Steven Webb [xiaoancloud@outlook.com]
+ 	* @website: https://etwig.grinecraft.net
+ 	* @function: The security configuration for eTWIG platform.
+ 	*/
 
 package net.grinecraft.etwig.config;
 
@@ -39,11 +39,6 @@ public class WebSecurityConfig{
 	@SuppressWarnings("removal")
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        
-		//http
-        //	.sessionManagement(session -> session.
-        //			sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        //	);
           
 		// Set the public access resources.
 		http.authorizeHttpRequests((requests) -> requests
@@ -61,7 +56,7 @@ public class WebSecurityConfig{
 			);
 		
 		// Remember Me for 90 days. (60*60*90)
-		http.rememberMe().tokenValiditySeconds(7776000).rememberMeServices(rememberMeService);
+		http.rememberMe().rememberMeServices(rememberMeService);		
 		
 		// Set the logout URL.
 		http.logout((logout) -> logout.logoutUrl("/user/logout"));
@@ -74,6 +69,7 @@ public class WebSecurityConfig{
         	.frameOptions().disable()
             .contentSecurityPolicy("frame-ancestors 'self' https:;");
 		
+		// Force enable HTTPS. (or some browsers may block the website if it's in a frame)
         http.requiresChannel(
         		(channel) -> channel.anyRequest().requiresSecure()
         );

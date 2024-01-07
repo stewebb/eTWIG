@@ -1,17 +1,18 @@
 /**
- * eTWIG - The event and banner management software for residential halls and student unions.
- * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
- * @license: MIT
- * @author: Steven Webb [xiaoancloud@outlook.com]
- * @website: https://etwig.grinecraft.net
- * @function: The custom remember me service.
- */
+ 	* eTWIG - The event management software for university communities.
+ 	* @copyright: Copyright (c) 2024 Steven Webb
+ 	* @license: MIT
+ 	* @author: Steven Webb [xiaoancloud@outlook.com]
+ 	* @website: https://etwig.grinecraft.net
+ 	* @function: The custom remember me service.
+ 	*/
 
 package net.grinecraft.etwig.services;
 
 import java.util.LinkedHashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
@@ -33,6 +34,9 @@ public class RememberMeService extends TokenBasedRememberMeServices {
 	
 	@Autowired
 	private UserRoleService userRoleService;
+	
+	// Remember Me for 90 days. (60*60*90)
+    public static final int TOKEN_VALIDITY_SECONDS = 7776000;
 	
 	@Autowired
 	public RememberMeService(UserDetailsService userDetailsService, WebConfig config) {
@@ -56,4 +60,13 @@ public class RememberMeService extends TokenBasedRememberMeServices {
 	        
 	    return userDetails;
 	 }
+	
+	/**
+	 * Set the custom cookie expire time.
+	 */
+	
+	@Override
+    protected int calculateLoginLifetime(HttpServletRequest request, Authentication authentication) {
+        return TOKEN_VALIDITY_SECONDS;
+    }
 }
