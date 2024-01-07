@@ -1,10 +1,10 @@
 /**
- * eTWIG - The event management software for university communities.
- * @copyright: Copyright (c) 2024 Steven Webb
- * @license: MIT
- * @author: Steven Webb [xiaoancloud@outlook.com]
- * @website: https://etwig.grinecraft.net
- * @function: The main starting point of the eTWIG platform.
+ 	* eTWIG - The event management software for university communities.
+ 	* @copyright: Copyright (c) 2024 Steven Webb
+ 	* @license: MIT
+ 	* @author: Steven Webb [xiaoancloud@outlook.com]
+ 	* @website: https://etwig.grinecraft.net
+ 	* @function: The main starting point of the eTWIG platform.
  */
 
 package net.grinecraft.etwig;

@@ -1,11 +1,11 @@
 /**
- * eTWIG - The event and banner management software for residential halls and student unions.
- * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
- * @license: MIT
- * @author: Steven Webb [xiaoancloud@outlook.com]
- * @website: https://etwig.grinecraft.net
- * @function: The interceptor, which allows variables can be shared across the whole application.
- */
+ 	* eTWIG - The event management software for university communities.
+ 	* @copyright: Copyright (c) 2024 Steven Webb
+ 	* @license: MIT
+ 	* @author: Steven Webb [xiaoancloud@outlook.com]
+ 	* @website: https://etwig.grinecraft.net
+ 	* @function: The interceptor, which allows variables can be shared across the whole application.
+ 	*/
 
 package net.grinecraft.etwig;
 
