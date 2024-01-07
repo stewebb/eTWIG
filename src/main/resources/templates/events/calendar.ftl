@@ -12,15 +12,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<#include "../_includes/header.ftl">
-	
-	<#-- CSS and JS for event calendar. https://github.com/vkurko/calendar -->
-	<link rel="stylesheet" href="/static/css/event-calendar.min.css">
-	<script src="/static/js/event-calendar.min.js"></script>
-		
-	<#-- Custom JS for eTWIG calendar and datepicker. -->
-	<script src="/static/js/etwig-calendar.js"></script>
-	
+	<#include "../_includes/header_head.ftl">
+
 	<title>Event Calendar - ${app.appName}</title>
 </head>
 
@@ -131,11 +124,20 @@
     	</section>
 	</div>
   
+  	<#include "../_includes/footer.ftl">
+  	<#include "../_includes/header_body.ftl">
+  	
+  	<#-- CSS and JS for event calendar. https://github.com/vkurko/calendar -->
+	<link rel="stylesheet" href="/static/css/event-calendar.min.css">
+	<script src="/static/js/event-calendar.min.js"></script>
+		
+	<#-- Custom JS for eTWIG calendar and datepicker. -->
+	<script src="/static/js/etwig-calendar.js"></script>
+	
   	<script>
 		createDatePicker("#wrapper", "#datepicker-input", "#select-month");
 		createCalendar("etwig-public-calendar", currentDate.toString('yyyy-MM-dd'));
     </script>
     
-    <#include "../_includes/footer.ftl">
 </body>
 </html>

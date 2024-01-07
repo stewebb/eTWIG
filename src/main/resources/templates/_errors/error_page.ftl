@@ -11,7 +11,7 @@
 <html>
 <head>
 
-	<#include "../_includes/header.ftl">
+	<#include "../_includes/header_head.ftl">
 	
     <title>Http Status ${error.status} - ${error.error}</title>
 </head>
@@ -75,6 +75,8 @@
 			</div>
 		</section>
 	</div>
+	
+	<#include "../_includes/header_body.ftl">
 	
 </body>
 </html>

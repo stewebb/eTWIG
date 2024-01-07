@@ -10,10 +10,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<#include "../_includes/header.ftl">
-
-	<#-- Custom JS for events operations-->
-	<script src="/static/js/etwig-events.js"></script>
+	<#include "../_includes/header_head.ftl">
 
 	<title>Delete Event - ${app.appName}</title>
 </head>
@@ -151,12 +148,20 @@
 		</section>
 	</div>
 
-	<script>
-		deleteEventCheckboxOnChange();
-	</script>
+
+	
 	<#-- Footer -->
 	<#if embedded == false>
 		<#include "../_includes/footer.ftl">
 	</#if>
+	
+	<#include "../_includes/header_body.ftl">
+	
+	<#-- Custom JS for events operations-->
+	<script src="/static/js/etwig-events.js"></script>
+	
+	<script>
+		deleteEventCheckboxOnChange();
+	</script>
 </body>
 </html>

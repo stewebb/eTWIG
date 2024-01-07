@@ -103,6 +103,7 @@ function addEvent(embedded, isEdit){
 	
 	// Event Organizer: Required
 	var eventOrganizer = $('#eventOrganizer').find(":selected").val();
+	console.log(eventOrganizer)
 
 	// Create an object for the new event.
 	var newEventObj = {

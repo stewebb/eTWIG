@@ -11,16 +11,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<#include "./_includes/header.ftl">
+
+	<#include "./_includes/header_head.ftl">
 	<title>Dashboard - ${app.appName}</title>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
+	
 	<#include "./_includes/sidebar.ftl">
 	
 	<div class="content-wrapper">
 	</div>
 	
 	<#include "./_includes/footer.ftl">
+	<#include "./_includes/header_body.ftl">
+
 </body>
 </html>

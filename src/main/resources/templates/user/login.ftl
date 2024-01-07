@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<#include "../_includes/header.ftl">
+	<#include "../_includes/header_head.ftl">
 	
 	<title>Welcome to eTWIG</title>
 </head>
@@ -82,6 +82,8 @@
     	</div>
   	</div>
 </div>
+
+<#include "../_includes/header_body.ftl">
 
 <script>
 	var searchParams = new URLSearchParams(window.location.search);
