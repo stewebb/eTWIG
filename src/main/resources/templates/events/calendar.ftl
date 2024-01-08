@@ -1,4 +1,4 @@
-<#-- 
+is<#-- 
 	eTWIG - The event management software for Griffin Hall.
 	copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
 	license: MIT

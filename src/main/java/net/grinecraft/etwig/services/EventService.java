@@ -26,7 +26,7 @@ import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.repository.EventRepository;
 import net.grinecraft.etwig.repository.RecurringEventRepository;
 import net.grinecraft.etwig.repository.SingleTimeEventRepository;
-import net.grinecraft.etwig.util.DataIntegrityViolationException;
+import net.grinecraft.etwig.util.DataException;
 import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.type.DateRange;
 
@@ -53,7 +53,7 @@ public class EventService {
 	 * @param showAllDetails True show all event details. False show only the essential details.
 	 * @return The event information, or empty LinkedHashMap if the event doesn't exist.
 	 * @throws IllegalAccessException | IllegalArgumentException 
-	 * @throws DataIntegrityViolationException when event is both both recurring and single time.
+	 * @throws DataException when event is both both recurring and single time.
 	 */
 	
 	public LinkedHashMap<String, Object> findById(long id) throws Exception {
@@ -75,7 +75,7 @@ public class EventService {
 		
 		// The event is both recurring and single time
 		else if (eventInfoRecurring != null && eventInfoSingleTime != null) {
-			throw new DataIntegrityViolationException("The event id=" + id + " is both recurring and single time. However, it must be either recurring or single time. ");
+			throw new DataException("The event id=" + id + " is both recurring and single time. However, it must be either recurring or single time. ");
 		}
 		
 		// The event is neither recurring nor single time. i.e., It doesn't exist at all!
@@ -189,7 +189,7 @@ public class EventService {
 	 * @return The event object. If event doesn't exist, return null.
 	 * @throws IllegalAccessException 
 	 * @throws IllegalArgumentException 
-	 * @throws DataIntegrityViolationException If the violation of the data integrity is detected.
+	 * @throws DataException If the violation of the data integrity is detected.
 	 */
 	
 	private LinkedHashMap<String, Object> getSingleTimeEventById(long id) throws Exception {		
@@ -232,7 +232,7 @@ public class EventService {
 	 * @param id The id of that event.
 	 * @param showAllDetails True to show all details, false to show brief information.
 	 * @return A linkedHashMap about the details of the event. If event doesn't exist, return null.
-	 * @throws DataIntegrityViolationException If the violation of the data integrity is detected.
+	 * @throws DataException If the violation of the data integrity is detected.
 	 */
 	
 	private LinkedHashMap<String, Object> getRecurringEventById(long id) {
@@ -319,22 +319,22 @@ public class EventService {
 	/**
 	 * Check the data integrity
 	 * @param singleTimeEvent The singleTimeEvent object
-	 * @throws DataIntegrityViolationException When data integrity has been violated.
+	 * @throws DataException When data integrity has been violated.
 	 */
 	
 	private void dataIntegrityCheck(SingleTimeEvent singleTimeEvent) {
 		
 		Event event = singleTimeEvent.getEvent();
 		if(event == null) {
-			throw new DataIntegrityViolationException("The event id=" + singleTimeEvent.getId() + " exists in event_single_time table but doesn't exist in event table.");
+			throw new DataException("The event id=" + singleTimeEvent.getId() + " exists in event_single_time table but doesn't exist in event table.");
 		}
 		
 		if(event.getPortfolio() == null) {
-			throw new DataIntegrityViolationException("The portfolio of event id=" + singleTimeEvent.getId() + " doesn't exist. PLease check the portfolio table.");
+			throw new DataException("The portfolio of event id=" + singleTimeEvent.getId() + " doesn't exist. PLease check the portfolio table.");
 		}
 		
 		if(event.getUser() == null) {
-			throw new DataIntegrityViolationException("The organizer of event id=" + singleTimeEvent.getId() + " doesn't exist. PLease check the user table.");
+			throw new DataException("The organizer of event id=" + singleTimeEvent.getId() + " doesn't exist. PLease check the user table.");
 		}
 	}
 	

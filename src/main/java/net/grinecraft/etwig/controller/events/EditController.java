@@ -1,6 +1,6 @@
 /**
- 	* eTWIG - The event management software for university communities.
- 	* @copyright: Copyright (c) 2024 Steven Webb
+ 	* eTWIG - The event management software for Griffin Hall.
+ 	* @copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
  	* @license: MIT
  	* @author: Steven Webb [xiaoancloud@outlook.com]
  	* @website: https://etwig.grinecraft.net
@@ -65,8 +65,8 @@ public class EditController {
 		Long id = null;
 		
 		model.addAttribute("embedded", BooleanUtils.toBoolean(embedded));
-		model.addAttribute("allProperties", propertyService.findAll());			
-
+		addCommonAtttributes(model);
+		
 		// Check Invalid eventId. (Not a Long number)
 		id = NumberUtils.safeCreateLong(eventId);
 		if(id == null || id <0) {
@@ -111,11 +111,13 @@ public class EditController {
 	@RequestMapping("/events/add")  
 	public String add(Model model, @RequestParam(required = false) String embedded) throws Exception{
         model.addAttribute("embedded", BooleanUtils.toBoolean(embedded));
-        model.addAttribute("allProperties", propertyService.findAll());		
-        
-        //System.out.print(optionService.findAll());
-        //optionService.findAllGroupByProperties();
+        addCommonAtttributes(model);
         
 		return "events/add";
+	}
+	
+	private void addCommonAtttributes(Model model) {
+		model.addAttribute("allProperties", propertyService.findAll());		
+        model.addAttribute("allOptions", optionService.findAllGroupByProperties());		
 	}
 }

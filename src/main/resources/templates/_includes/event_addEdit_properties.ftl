@@ -18,6 +18,12 @@
 
 							<div class="card-body">
 							
+							<#--
+							<#list allOptions as property_id, property_info>
+								${property_id} 
+							</#list>
+							 -->
+							 
 								<#-- Iterate all properties -->
 								<#if allProperties?has_content>
         							<#list allProperties as property_id, property_info>
@@ -28,6 +34,9 @@
 										<#else>
 											<#assign property_icon = "list-check">
 										</#if>
+										
+										<#-- Convert the propertyId to String, as Freemarker doesn't accept numberic key when accessing to a map. -->
+										<#assign string_id = property_id?string>
 										
 										<div class="form-group row">
 										
@@ -49,13 +58,17 @@
 												<#-- Each property has a select box. -->
       											<select class="form-control select2 common-select-box" name="property-${property_id}" ${disabledStr}>
       												<option value="-1">(Not selected)</option>
-     
+								
+													<#-- Get all options of a property -->
+													<#if allOptions[string_id]?has_content>
+     													<#list allOptions[string_id] as opt>
+     														<option value="${opt.id}">${opt.name}</option>
+														</#list>
+													</#if>
       											</select>
 											</div>
 										</div>
-										
-										
-										
+
 									</#list>
 								
 								<#-- Or just tell user there has no properties. -->

@@ -79,7 +79,9 @@
 		top: 0;
 		-webkit-animation-timing-function: ease-in;
 	}
-	40% {}
+	40% {
+		
+	}
 	50% {
 		top: 140px;
 		height: 140px;
@@ -112,7 +114,9 @@
 		top: 0;
 		-moz-animation-timing-function: ease-in;
 	}
-	40% {}
+	40% {
+		
+	}
 	50% {
 		top: 140px;
 		height: 140px;
@@ -133,7 +137,8 @@
 		top: 0;
 		-moz-animation-timing-function: ease-in;
 	}
-	100% {top: 0;
+	100% {
+		top: 0;
 		-moz-animation-timing-function: ease-in;
 	}
 }

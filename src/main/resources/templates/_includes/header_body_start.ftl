@@ -14,5 +14,3 @@
 	<link rel="stylesheet" href="/static/css/fontawesome.min.css">
 	<link rel="stylesheet" href="/static/css/solid.min.css">
 	
-	<#-- eTWIG platform (CSS). -->
-	<link rel="stylesheet" href="/static/css/etwig-style.css">

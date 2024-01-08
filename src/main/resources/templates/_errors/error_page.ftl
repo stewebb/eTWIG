@@ -47,15 +47,43 @@
 					
 					<div class="mb-2">
 						<span class="bold-text">Messages: </span>
+						
+						<#-- Specific messages for common 4xx and 5xx errors -->
+    					<#if error.status == 400>
+        					Bad Request: The server cannot process the request due to a client error.
+        				<#elseif error.status == 401>
+            				Unauthorized: Authentication is required and has failed or not been provided.
+    					<#elseif error.status == 403>
+        					Forbidden: You do not have permission to access this resource.
+   					 	<#elseif error.status == 404>
+        					Not Found: The requested resource could not be found.
+            			<#elseif error.status == 500>
+                			Internal  Server Error: The eTWIG platform experienced an internal error. We apologize for the inconvenience.
+            			<#elseif error.status == 501>
+                			Not Implemented: The server does not support the functionality required.
+            			<#elseif error.status == 502>
+                			Bad Gateway: The server received an invalid response from the upstream server.
+            			<#elseif error.status == 503>
+                			Service Unavailable: The server is currently unable to handle the request.
+            			<#elseif error.status == 504>
+                			Gateway Timeout: The server did not receive a timely response from the upstream server.
+            			<#else>
+                			Error: There was an error with status code ${error.status}.
+            			</#if>
+    						Please contact the site administrators if problem persists.
+						
+						<#-- 
 						<#if error.status?starts_with("5")>
 							The eTWIG platform experienced an internal error. We apologize for the inconvenience. 	If problem persists, you can send the <span class="bold-text text-primary">technical details</span> to the site administrators.
 						<#else>
 							The eTWIG platform experienced an error. It may caused by your browser, or the platform itself. If problem persists, please contact the site administrators.
 						</#if>
 					</div>	
+					-->
 					
-					<#--  Only display technical details when HTTP status code is 5xx (server error). -->
-					<#if error.status?starts_with("5") && error.trace?has_content>
+					<#--  Only display technical details when HTTP status code is in the following list. -->
+					<#assign show_exception_codes = [400, 405, 500]>
+					<#if show_exception_codes?seq_contains(error.status) && error.trace?has_content>
 					
 						<#-- Set the color of eTWIG-related classes to the primary color. -->
 						<#assign trace = error.trace?replace("net.grinecraft.etwig", "<span class='bold-text text-primary'>net.grinecraft.etwig</span>")>
@@ -69,9 +97,19 @@
 				</div>
 				
 				<div class="d-flex justify-content-center mb-3">
-					<button class="btn btn-outline-primary" onclick="window.history.back();">
-						<i class="fa-solid fa-rotate-left"></i>&nbsp;Go Back
-					</button>
+				
+					<div class="btn-group">
+						<button class="btn btn-outline-primary" onclick="window.history.back();">
+							<i class="fa-solid fa-rotate-left"></i>&nbsp;Go Back
+						</button>
+						
+						<#if embedded?has_content && embedded>
+							<button class="btn btn-outline-secondary" onclick="parent.$('#etwigModal').modal('hide');">
+								<i class="fa-solid fa-xmark"></i>&nbsp;Close				
+								</button>
+						</#if>
+					</div>
+					
 				</div>
 				
 			</div>

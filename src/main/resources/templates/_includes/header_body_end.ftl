@@ -19,8 +19,6 @@
 	<#-- date.js (JS) . -->
 	<script src="/static/js/date.min.js"></script>
 	
-	<#-- eTWIG platform (JS). -->
-	<script src="/static/js/etwig-common.js"></script>	
 
 	
 
@@ -44,5 +42,12 @@
 	<#-- CSS and JS for AdminLTE. -->
   	<link rel="stylesheet" href="/static/css/adminlte.min.css">
 	<script src="/static/js/adminlte.min.js"></script>
+	
+		<#-- eTWIG platform (CSS). -->
+	<link rel="stylesheet" href="/static/css/etwig-style.css">
+	
+		<#-- eTWIG platform (JS). -->
+	<script src="/static/js/etwig-common.js"></script>	
+
 	
 		
