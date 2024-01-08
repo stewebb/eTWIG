@@ -17,14 +17,14 @@
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
-	
+
+	<#include "./_includes/header_body_start.ftl">
 	<#include "./_includes/sidebar.ftl">
 	
 	<div class="content-wrapper">
 	</div>
 	
 	<#include "./_includes/footer.ftl">
-	<#include "./_includes/header_body.ftl">
-
+<#include "./_includes/header_body_end.ftl">
 </body>
 </html>

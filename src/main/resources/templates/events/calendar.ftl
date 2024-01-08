@@ -18,6 +18,7 @@
 </head>
 
 <body class="sidebar-mini layout-fixed">
+  	<#include "../_includes/header_body_start.ftl">
 
 	<#if !embedded>
 		<#include "../_includes/sidebar.ftl">
@@ -125,7 +126,8 @@
 	</div>
   
   	<#include "../_includes/footer.ftl">
-  	<#include "../_includes/header_body.ftl">
+  	
+  	<#include "../_includes/header_body_end.ftl">
   	
   	<#-- CSS and JS for event calendar. https://github.com/vkurko/calendar -->
 	<link rel="stylesheet" href="/static/css/event-calendar.min.css">

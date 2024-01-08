@@ -18,6 +18,6 @@
 
 	<#-- CSS and JS for Pace -->
 	
-	<link rel="stylesheet" href="/static/css/pace-theme-flash.css">
+	<link rel="stylesheet" href="/static/css/pace-theme-bounce.css">
 	<script src="/static/js/pace.min.js"></script>
 		

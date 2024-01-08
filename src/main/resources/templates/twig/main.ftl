@@ -10,19 +10,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<#include "../_includes/header.ftl">
+	<#include "../_includes/header_head.ftl">
 	
 	<#-- Custom CSS and JS for public TWIG. -->
 	<link rel="stylesheet" href="/static/css/etwig-twig.css">
 	<script src="/static/js/etwig-twig-main.js"></script>
-	
-	<#-- JS for generating QR codes. -->
-	<script src="/static/js/qrcode.min.js"></script>
-	
 	<title>TWIG</title>
+	
 </head>
 
 <body style="height: 100%;">
+	<#include "../_includes/header_body_start.ftl">
+
+	<iframe src="/twig/content" class="fullscreen-iframe" id="twigFrame"></iframe>
 
 	<#-- Options Modal -->
 	<div class="modal fade" tabindex="-1" id="etwigSettingBox">
@@ -259,16 +259,18 @@
   		</div>
 	</div>
 	
-	
-	<iframe src="/twig/content" class="fullscreen-iframe" id="twigFrame"></iframe>
-	
 	<#-- The floating settings button -->
 	<div class="setting-button">
     	<button id="settingsButton" class="btn btn-primary">
         	<i class="fa fa-gear fa-xl fa-beat-fade" id="cogIcon"></i>
     	</button>
 	</div>
-
+	
+	<#include "../_includes/header_body_end.ftl">
+	
+	<#-- JS for generating QR codes. -->
+	<script src="/static/js/qrcode.min.js"></script>
+	
 <script>
     $(document).ready(function() {
     

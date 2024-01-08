@@ -16,6 +16,8 @@
 </head>
 
 <body class="hold-transition login-page">
+	
+	<#include "../_includes/header_body_start.ftl">
 	<div class="login-box">
 	
 		<#-- Logo -->
@@ -83,7 +85,7 @@
   	</div>
 </div>
 
-<#include "../_includes/header_body.ftl">
+<#include "../_includes/header_body_end.ftl">
 
 <script>
 	var searchParams = new URLSearchParams(window.location.search);

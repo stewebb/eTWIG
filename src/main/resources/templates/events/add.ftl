@@ -37,13 +37,11 @@
 <html>
 <head>
 	<#include "../_includes/header_head.ftl">
-	
-
-
 	<title>Add Event - ${app.appName}</title>
 </head>
 
 <body class="sidebar-mini layout-fixed">
+	<#include "../_includes/header_body_start.ftl">
 	
 	<#if !embedded>
 		<#include "../_includes/sidebar.ftl">
@@ -96,8 +94,7 @@
 	<#if embedded == false>
 		<#include "../_includes/footer.ftl">
 	</#if>
-	
-	<#include "../_includes/header_body.ftl">
+	<#include "../_includes/header_body_end.ftl">
 	
 	<#-- CSS and JS for summernote editor.-->
 	<link rel="stylesheet" href="/static/css/summernote-bs4.min.css">

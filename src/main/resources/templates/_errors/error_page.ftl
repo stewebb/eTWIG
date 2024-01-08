@@ -17,6 +17,8 @@
 </head>
 
 <body>
+	<#include "../_includes/header_body_start.ftl">
+
 	<#assign color = "info">
     <#if error.status?starts_with("5")>
     	<#assign color = "danger">
@@ -76,7 +78,7 @@
 		</section>
 	</div>
 	
-	<#include "../_includes/header_body.ftl">
+	<#include "../_includes/header_body_end.ftl">
 	
 </body>
 </html>

@@ -24,7 +24,8 @@
 <#assign cancelBtn = embedded ? then("Close", "Cancel")>
 
 <body class="sidebar-mini layout-fixed">
-
+	<#include "../_includes/header_body_start.ftl">
+	
 	<#if embedded == false>
 		<#include "../_includes/sidebar.ftl">
 	</#if>
@@ -155,7 +156,7 @@
 		<#include "../_includes/footer.ftl">
 	</#if>
 	
-	<#include "../_includes/header_body.ftl">
+	<#include "../_includes/header_body_end.ftl">
 	
 	<#-- Custom JS for events operations-->
 	<script src="/static/js/etwig-events.js"></script>
