@@ -1,11 +1,11 @@
 /**
-	 * eTWIG - The event and banner management software for residential halls and student unions.
-	 * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
-	 * @license: MIT
-	 * @author: Steven Webb [xiaoancloud@outlook.com]
-	 * @website: https://etwig.grinecraft.net
-	 * @function: The services for all event-related options..
-	 */
+ 	* eTWIG - The event management software for Griffin Hall.
+ 	* @copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
+	* @license: MIT
+	* @author: Steven Webb [xiaoancloud@outlook.com]
+	* @website: https://etwig.grinecraft.net
+	* @function: The services for all event-related options..
+	*/
 
 package net.grinecraft.etwig.services;
 
@@ -322,7 +322,7 @@ public class EventService {
 	 * @throws DataException When data integrity has been violated.
 	 */
 	
-	private void dataIntegrityCheck(SingleTimeEvent singleTimeEvent) {
+	private void dataIntegrityCheck(SingleTimeEvent singleTimeEvent) throws DataException {
 		
 		Event event = singleTimeEvent.getEvent();
 		if(event == null) {

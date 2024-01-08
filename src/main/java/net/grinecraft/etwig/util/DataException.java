@@ -15,7 +15,7 @@ public class DataException extends java.lang.Exception {
 	private static final long serialVersionUID = 1L;
 
 	public DataException(String msg) {
-		super("Data integrity has been violated. " + msg);
+		super(msg);
 	}
 
 }

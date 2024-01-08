@@ -4,7 +4,7 @@
 	* @license: MIT
 	* @author: Steven Webb [xiaoancloud@outlook.com]
 	* @website: https://etwig.grinecraft.net
-	* @function: The UserRole model, mapping the "user_role" table in the database.
+	* @function: The UserRole model, mapping the "event_option" table in the database.
 	*/
 
 package net.grinecraft.etwig.model;
@@ -17,13 +17,10 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "user_role")
-public class UserRole {
+@Table(name = "event_option")
+public class EventOption {
 
 	@EmbeddedId
-    private UserRoleKey id;
-	
-	@Column(name = "position")
-	private String position;	
+    private EventOptionKey id;
 	
 }

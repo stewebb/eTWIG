@@ -20,22 +20,22 @@ import java.util.Objects;
 @NoArgsConstructor
 @ToString
 @Embeddable
-public class UserRoleKey implements Serializable {
+public class EventOptionKey implements Serializable {
 	
     private static final long serialVersionUID = 1L;
-	private Long userId;
-    private Long portfolioId;
+	private Long eventId;
+    private Long optionId;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof UserRoleKey)) return false;
-        UserRoleKey that = (UserRoleKey) o;
-        return Objects.equals(userId, that.userId) && Objects.equals(portfolioId, that.portfolioId);
+        if (!(o instanceof EventOptionKey)) return false;
+        EventOptionKey that = (EventOptionKey) o;
+        return Objects.equals(eventId, that.eventId) && Objects.equals(optionId, that.optionId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, portfolioId);
+        return Objects.hash(eventId, optionId);
     }
 }

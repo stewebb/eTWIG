@@ -45,7 +45,7 @@ public class OptionService {
 		Map<String, List<Option>> optionGrouped = optionList.stream().collect(Collectors.groupingBy(w -> Long.toString(w.getPropertyId())));
 
 		
-		System.out.println(optionGrouped);
+		//System.out.println(optionGrouped);
 		
 		return optionGrouped;
         

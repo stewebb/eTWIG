@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
 import net.grinecraft.etwig.model.Portfolio;
+import net.grinecraft.etwig.services.EventOptionService;
 import net.grinecraft.etwig.services.EventService;
 import net.grinecraft.etwig.services.OptionService;
 import net.grinecraft.etwig.services.PortfolioService;
@@ -46,6 +47,9 @@ public class EditController {
 	
 	@Autowired
 	OptionService optionService;
+	
+	@Autowired
+	EventOptionService eventOptionService;
 
 	/**
 	 * Edit or delete event page.
@@ -84,8 +88,7 @@ public class EditController {
 			Long eventPortfolio = (Long) ((LinkedHashMap<String, Object>) event.get("portfolio")).get("id");
 			model.addAttribute("editPermission", myPortfolios.contains(eventPortfolio));
 			
-			//System.out.println(myPortfolios);
-			//System.out.println(eventPortfolio);
+			eventOptionService.getOptionsByEvent(id);
 			
 			// The action is either edit or delete.
 			return "edit".equals(action) ? "events/edit" : "events/delete"; 

@@ -71,15 +71,7 @@
                 			Error: There was an error with status code ${error.status}.
             			</#if>
     						Please contact the site administrators if problem persists.
-						
-						<#-- 
-						<#if error.status?starts_with("5")>
-							The eTWIG platform experienced an internal error. We apologize for the inconvenience. 	If problem persists, you can send the <span class="bold-text text-primary">technical details</span> to the site administrators.
-						<#else>
-							The eTWIG platform experienced an error. It may caused by your browser, or the platform itself. If problem persists, please contact the site administrators.
-						</#if>
-					</div>	
-					-->
+					</div>
 					
 					<#--  Only display technical details when HTTP status code is in the following list. -->
 					<#assign show_exception_codes = [400, 405, 500]>

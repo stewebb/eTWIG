@@ -14,13 +14,13 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import net.grinecraft.etwig.model.UserRole;
-import net.grinecraft.etwig.model.UserRoleKey;
+import net.grinecraft.etwig.model.EventOption;
+import net.grinecraft.etwig.model.EventOptionKey;
 
 @Repository
-public interface UserRoleRepository extends JpaRepository<UserRole, UserRoleKey> {
+public interface EventOptionRepository extends JpaRepository<EventOption, EventOptionKey> {
 	
-    List<UserRole> findByIdUserId(Long userId);
+    List<EventOption> findByIdEventId(Long eventId);
     
-    List<UserRole> findByIdPortfolioId(Long portfolioId);
+    //List<EventOption> findByIdOptionId(Long optionId);
 }
