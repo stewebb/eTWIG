@@ -88,7 +88,7 @@ public class EditController {
 			Long eventPortfolio = (Long) ((LinkedHashMap<String, Object>) event.get("portfolio")).get("id");
 			model.addAttribute("editPermission", myPortfolios.contains(eventPortfolio));
 			
-			eventOptionService.getOptionsByEvent(id);
+			model.addAttribute("selectedOptions", eventOptionService.getOptionsByEvent(id));
 			
 			// The action is either edit or delete.
 			return "edit".equals(action) ? "events/edit" : "events/delete"; 

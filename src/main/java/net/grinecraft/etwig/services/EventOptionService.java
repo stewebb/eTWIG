@@ -40,9 +40,11 @@ public class EventOptionService {
      * @throws DataException 
      */
     
-    public LinkedHashMap<Long, Option> getOptionsByEvent(Long eventId) throws DataException {
+    public HashSet<Long> getOptionsByEvent(Long eventId) throws DataException {
         List<EventOption> eventOptions = eventOptionRepository.findByIdEventId(eventId);
-        LinkedHashMap<Long, Option> optionsMap = new LinkedHashMap<>();
+        
+        // Only need to know the Id of the options, an set is adequate.
+        HashSet<Long> optionIds = new HashSet<Long>();
 
         // Track "visited" properties by using a HashSet.
         HashSet<Long> propertyIds = new HashSet<Long>();
@@ -56,8 +58,7 @@ public class EventOptionService {
             	// For each event, get all options
                 Long propertyId = option.getPropertyId();
                 
-                // For an event, each property must has 0-1 option(s).
-                // i.e., each option must has 1 property.
+                // For an event, each property must has 0-1 option(s). i.e., each option must has 1 property.
                 // If there has multiple properties for a single option, there must has some problems.
             	if(propertyIds.contains(propertyId)) {
             		throw new DataException("The event with eventId=" + eventId + " has multiple options for the same property.");
@@ -67,13 +68,11 @@ public class EventOptionService {
             	propertyIds.add(propertyId);
             }
             
-            optionsMap.computeIfAbsent(optionId, id ->option);
-            //System.out.print(propertyIds.get);
-            //propertyIds.add(optionId);
+            optionIds.add(optionId);
         }
 
-        //System.out.print(optionsMap);
-        return optionsMap;
+        //System.out.println(optionIds);
+        return optionIds;
     }
 
 

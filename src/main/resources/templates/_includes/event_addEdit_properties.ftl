@@ -18,11 +18,11 @@
 
 							<div class="card-body">
 							
-							<#--
-							<#list allOptions as property_id, property_info>
-								${property_id} 
+							<#-- 
+							<#list selectedOptions as o>
+								${o} 
 							</#list>
-							 -->
+							  -->
 							 
 								<#-- Iterate all properties -->
 								<#if allProperties?has_content>
@@ -62,7 +62,15 @@
 													<#-- Get all options of a property -->
 													<#if allOptions[string_id]?has_content>
      													<#list allOptions[string_id] as opt>
-     														<option value="${opt.id}">${opt.name}</option>
+     													
+     													
+     														<#if isEdit && selectedOptions?has_content>
+																<#assign selectedStr = (selectedOptions?seq_contains(opt.id))?string('selected', '')>
+															<#else>
+																<#assign selectedStr = ''>
+															</#if>
+															
+															<option value="${opt.id}" ${selectedStr}>${opt.name}</option>
 														</#list>
 													</#if>
       											</select>
