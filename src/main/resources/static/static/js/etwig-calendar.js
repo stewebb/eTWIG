@@ -1,11 +1,11 @@
 /**
- * eTWIG - The event and banner management software for residential halls and student unions.
- * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
- * @license: MIT
- * @author: Steven Webb [xiaoancloud@outlook.com]
- * @website: https://etwig.grinecraft.net
- * @function: Display and manipulate the Event Calendar / Planner. 
- */
+ 	* eTWIG - The event management software for Griffin Hall.
+ 	* @copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
+ 	* @license: MIT
+ 	* @author: Steven Webb [xiaoancloud@outlook.com]
+ 	* @website: https://etwig.grinecraft.net
+ 	* @function: Display and manipulate the Event Calendar / Planner. 
+ 	*/
 
 // Leading zeros for the (positive) integers that below to 10. 
 const pad = (num) => (num < 10 ? '0' + num : num);

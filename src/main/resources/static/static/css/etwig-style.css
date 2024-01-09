@@ -1,12 +1,13 @@
 /**
- * eTWIG - The event management software for university communities.
- * @copyright: Copyright (c) 2024 Steven Webb
- * @license: MIT
- * @author: Steven Webb [xiaoancloud@outlook.com]
- * @website: https://etwig.grinecraft.net
- * @function: Main stylesheets and themes that across all webpages.
- */
+ 	* eTWIG - The event management software for Griffin Hall.
+ 	* @copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
+ 	* @license: MIT
+ 	* @author: Steven Webb [xiaoancloud@outlook.com]
+ 	* @website: https://etwig.grinecraft.net
+ 	* @function: Main stylesheets and themes that across all webpages.
+ 	*/
 
+/*	Themes: Apply the theme color on some elements.*/
 .callout.callout-primary {
   border-left-color: #004aad;
 }
@@ -20,6 +21,7 @@
 	background-color:#004aad!important;
 }
 
+/* A helper style to get a bold text. */
 .bold-text{
 	font-weight: bold;
 }
@@ -36,6 +38,7 @@
   background-color: darkorange!important;
 }
 
+/* The red asterisk symbol in all forms, which means "required". */
 .required-symbol{
 	color: #bf3131;
 	font-weight: bold;

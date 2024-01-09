@@ -21,6 +21,12 @@ public class MapUtils {
 	    Long getId(T object);
 	}
 
+	/**
+	 * Convert a list of objects to a LinkedHashMap, whose keys are the id of the object, and values are the objects. 
+	 * @param list The list of objects.
+	 * @param extractor The rule to extract all ids as the key.
+	 * @return
+	 */
 	public <T> LinkedHashMap<Long, T> listToLinkedHashMap(List<T> list, IdExtractor<T> extractor) {
         return list.stream().collect(Collectors.toMap(
             extractor::getId,

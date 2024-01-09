@@ -1,11 +1,11 @@
 /**
- * eTWIG - The event and banner management software for residential halls and student unions.
- * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
- * @license: MIT
- * @author: Steven Webb [xiaoancloud@outlook.com]
- * @website: https://etwig.grinecraft.net
- * @function: Stylesheets for public TWIG related pages.
- */
+ 	* eTWIG - The event management software for Griffin Hall.
+ 	* @copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
+ 	* @license: MIT
+ 	* @author: Steven Webb [xiaoancloud@outlook.com]
+ 	* @website: https://etwig.grinecraft.net
+ 	* @function: Stylesheets for public TWIG related pages.
+ 	*/
 
 body {
 	padding: 0;
@@ -13,6 +13,7 @@ body {
 	background-color: #FFF;
 }
 
+/* The frame in the main TWIG page, which contains the TWIG content. */
 .fullscreen-iframe{
  	position: fixed;
     border: none;
