@@ -1,10 +1,10 @@
 /**
- 	* eTWIG - The event management software for university communities.
- 	* @copyright: Copyright (c) 2024 Steven Webb
+ 	* eTWIG - The event management software for Griffin Hall.
+ 	* @copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
  	* @license: MIT
  	* @author: Steven Webb [xiaoancloud@outlook.com]
  	* @website: https://etwig.grinecraft.net
- 	* @function: Config the cookies.
+ 	* @function: Configure the cookies.
  */
 
 package net.grinecraft.etwig.config;
@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
 public class CookieConfig {
 
 	/**
-	 * Set "samesite none secure" to all cookies
+	 * Set "same site none secure" to all cookies
 	 * @doc https://docs.spring.io/spring-boot/docs/2.6.0/reference/html//web.html#web.servlet.embedded-container.customizing.samesite
 	 * @return
 	 */

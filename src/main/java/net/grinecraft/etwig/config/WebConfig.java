@@ -1,11 +1,11 @@
 /**
-	 * eTWIG - The event management software for university communities.
-	 * @copyright: Copyright (c) 2024 Steven Webb
- * @license: MIT
- * @author: Steven Webb [xiaoancloud@outlook.com]
- * @website: https://etwig.grinecraft.net
- * @function: The general configuration for eTWIG platform.
- */
+ 	* eTWIG - The event management software for Griffin Hall.
+ 	* @copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
+ 	* @license: MIT
+ 	* @author: Steven Webb [xiaoancloud@outlook.com]
+ 	* @website: https://etwig.grinecraft.net
+ 	* @function: The general configuration for eTWIG platform.
+ 	*/
 
 package net.grinecraft.etwig.config;
 
@@ -23,6 +23,11 @@ public class WebConfig implements WebMvcConfigurer{
 	@Autowired
     private EtwigInterceptor userInterceptor;
     
+	/**
+	 * Register the Interceptor
+	 * @param registry
+	 */
+	
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(userInterceptor);

@@ -4,7 +4,7 @@
  	* @license: MIT
  	* @author: Steven Webb [xiaoancloud@outlook.com]
  	* @website: https://etwig.grinecraft.net
- 	* @function: The general configuration for eTWIG platform.
+ 	* @function: Get the values from the configuration file.
  	*/
 
 package net.grinecraft.etwig.config;
@@ -33,9 +33,17 @@ public class ConfigFile implements WebMvcConfigurer{
 	@Value("${etwig.app.owner}")
     private String appOwner;
 	
+	/**
+	 * The root location of the asset files.
+	 */
+	
     @Value("${etwig.media.root-location}")
     private String rootLocation;
 
+    /**
+     * The key of the cookies. Changing this will make all current cookies invalid.
+     */
+    
     @Value("${etwig.security.cookie-key}")
     private String cookieKey;
 

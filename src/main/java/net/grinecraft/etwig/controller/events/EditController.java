@@ -69,7 +69,7 @@ public class EditController {
 		Long id = null;
 		
 		model.addAttribute("embedded", BooleanUtils.toBoolean(embedded));
-		addCommonAtttributes(model);
+		addCommonAttributes(model);
 		
 		// Check Invalid eventId. (Not a Long number)
 		id = NumberUtils.safeCreateLong(eventId);
@@ -83,25 +83,20 @@ public class EditController {
 		if(Boolean.TRUE.equals(event.get("exists"))) {
 			model.addAttribute("eventId", id);
 			model.addAttribute("eventDetails", event);
-			
-			//Set<Long> myPortfolios = ((LinkedHashMap<Long, Portfolio>) session.getAttribute("portfolio")).keySet();
-			//Long eventPortfolio = (Long) ((LinkedHashMap<String, Object>) event.get("portfolio")).get("id");
-			
 			model.addAttribute("editPermission", eventService.permissionCheck(session, event));
-			//model.addAttribute("editPermission", myPortfolios.contains(eventPortfolio));
 			
+			// The options that selected in this event.
 			model.addAttribute("selectedOptions", eventOptionService.getOptionsByEvent(id));
 			
 			// The action is either edit or delete.
 			return "edit".equals(action) ? "events/edit" : "events/delete"; 
 		}
 				
-		// Event cannot be found, TODO Permission check when edit.delete, on backend
+		// Event cannot be found
 		else {
 			model.addAttribute("reason", "eventId=" + eventId + " doesn't exist.");
 			return "_errors/custom_error";
-		}		
-			
+		}			
 	}
 	
 	/**
@@ -116,12 +111,16 @@ public class EditController {
 	@RequestMapping("/events/add")  
 	public String add(Model model, @RequestParam(required = false) String embedded) throws Exception{
         model.addAttribute("embedded", BooleanUtils.toBoolean(embedded));
-        addCommonAtttributes(model);
-        
+        addCommonAttributes(model);
 		return "events/add";
 	}
 	
-	private void addCommonAtttributes(Model model) {
+	/**
+	 * The attributes that will be added in all pages. 
+	 * @param model
+	 */
+	
+	private void addCommonAttributes(Model model) {
 		model.addAttribute("allProperties", propertyService.findAll());		
         model.addAttribute("allOptions", optionService.findAllGroupByProperties());		
 	}

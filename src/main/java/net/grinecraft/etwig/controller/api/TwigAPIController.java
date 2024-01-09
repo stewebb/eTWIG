@@ -1,11 +1,11 @@
 /**
- * eTWIG - The event and banner management software for residential halls and student unions.
- * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
- * @license: MIT
- * @author: Steven Webb [xiaoancloud@outlook.com]
- * @website: https://etwig.grinecraft.net
- * @function: The controller for all public TWIG related APIs.
- */
+ 	* eTWIG - The event management software for Griffin Hall.
+ 	* @copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
+ 	* @license: MIT
+ 	* @author: Steven Webb [xiaoancloud@outlook.com]
+ 	* @website: https://etwig.grinecraft.net
+ 	* @function: The controller for all public TWIG related APIs.
+ 	*/
 
 package net.grinecraft.etwig.controller.api;
 
@@ -55,6 +55,13 @@ public class TwigAPIController {
 		return myReturn;
 	}
 
+	/**
+	 * Get the "week" information by a given date.
+	 * @param date The given date in yyyy-mm-dd format.
+	 * @return
+	 * @throws Exception
+	 */
+	
 	@RequestMapping("/api/public/getWeekByDate")  
 	public Map<String, Object> getWeekByDate(@RequestParam String date) throws Exception{
 		

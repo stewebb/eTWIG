@@ -1,11 +1,11 @@
 /**
- * eTWIG - The event and banner management software for residential halls and student unions.
- * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
- * @license: MIT
- * @author: Steven Webb [xiaoancloud@outlook.com]
- * @website: https://etwig.grinecraft.net
- * @function: The controller for public TWIG.
- */
+ 	* eTWIG - The event management software for Griffin Hall.
+ 	* @copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
+ 	* @license: MIT
+ 	* @author: Steven Webb [xiaoancloud@outlook.com]
+ 	* @website: https://etwig.grinecraft.net
+ 	* @function: The controller for public TWIG.
+ 	*/
 
 package net.grinecraft.etwig.controller.twig;
 
@@ -23,7 +23,7 @@ public class TwigController {
 	PortfolioService portfolioService;
 	
 	/**
-	 * The actual TWIG content
+	 * The main TWIG page with a few options.
 	 * @param model
 	 * @return
 	 * @throws Exception
@@ -31,10 +31,16 @@ public class TwigController {
 	
 	@RequestMapping("/twig/main")  
 	public String twigMain(Model model) throws Exception{
-		System.out.println( portfolioService.getPortfolioListBySeparatedCalendar(true));
 		model.addAttribute("portfolioSeparatedCalendar", portfolioService.getPortfolioListBySeparatedCalendar(true));		
 		return "twig/main";
 	}
+	
+	/**
+	 * The actual TWIG content
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
 	
 	@RequestMapping("/twig/content")  
 	public String content(Model model) throws Exception{

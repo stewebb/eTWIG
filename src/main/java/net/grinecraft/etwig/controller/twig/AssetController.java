@@ -1,11 +1,11 @@
 /**
- * eTWIG - The event and banner management software for residential halls and student unions.
- * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
- * @license: MIT
- * @author: Steven Webb [xiaoancloud@outlook.com]
- * @website: https://etwig.grinecraft.net
- * @function: The controller for public assets.
- */
+ 	* eTWIG - The event management software for Griffin Hall.
+ 	* @copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
+ 	* @license: MIT
+ 	* @author: Steven Webb [xiaoancloud@outlook.com]
+ 	* @website: https://etwig.grinecraft.net
+ 	* @function: The controller for public assets.
+ 	*/
 
 package net.grinecraft.etwig.controller.twig;
 
@@ -26,10 +26,17 @@ public class AssetController {
 	@Autowired
 	private AssetService assetService;
 
+	/**
+	 * Get the content of an asset.
+	 * @param assetId The id of this asset.
+	 * @return The file content.
+	 * @throws Exception
+	 */
+	
 	@RequestMapping(value = "/twig/assets")
 	public ResponseEntity<Resource> assets(@RequestParam Long assetId) throws Exception {
 		
-		// Get the asset content and null check.
+		// Get asset content and null check.
 		Resource asset = assetService.getAssetContentById(assetId);
 		if(asset == null) {
 			return ResponseEntity.notFound().build();
@@ -37,9 +44,12 @@ public class AssetController {
 				
         if (asset.exists() || asset.isReadable()) {
         	FileType fileType = FileType.safeValueOf(FilenameUtils.getExtension(asset.getFilename()));
-        	//System.out.println(fileType);
         	return ResponseEntity.ok().contentType(fileType.getMediaType()).body(asset);
-        } else {
+        } 
+        
+        // If the file not exists or has no read permission (this is managed by the file system of the server)
+        // Just simply return a HTTP status 404 code.
+        else {
         	return ResponseEntity.notFound().build();
         } 
     }

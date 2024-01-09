@@ -1,6 +1,6 @@
 /**
- 	* eTWIG - The event management software for university communities.
- 	* @copyright: Copyright (c) 2024 Steven Webb
+ 	* eTWIG - The event management software for Griffin Hall.
+ 	* @copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
  	* @license: MIT
  	* @author: Steven Webb [xiaoancloud@outlook.com]
  	* @website: https://etwig.grinecraft.net
@@ -40,13 +40,13 @@ public class WebSecurityConfig{
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
           
-		// Set the public access resources.
+		// Public access resources.
 		http.authorizeHttpRequests((requests) -> requests
 				.requestMatchers("/static/**", "/api/public/**", "/twig/**", "/error").permitAll()
 				.anyRequest().authenticated()
 			);
 		
-		// Set the login page.
+		// Login page.
 		http.formLogin((form) -> form
 				.loginPage("/user/login")
 	            .loginProcessingUrl("/user/login")
@@ -55,10 +55,10 @@ public class WebSecurityConfig{
 				.successHandler(loginSuccessHandler)
 			);
 		
-		// Remember Me for 90 days. (60*60*90)
+		// Remember Me
 		http.rememberMe().rememberMeServices(rememberMeService);		
 		
-		// Set the logout URL.
+		// Logout URL.
 		http.logout((logout) -> logout.logoutUrl("/user/logout"));
 		
 		// Disable CSRF.
@@ -77,6 +77,12 @@ public class WebSecurityConfig{
 		return http.build();
 	}
 
+	/**
+	 * Set up a password encoder.
+	 * @param auth
+	 * @throws Exception
+	 */
+	
     @Autowired
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     	auth.userDetailsService(userAuthService).passwordEncoder(passwordEncoder());

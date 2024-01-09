@@ -1,11 +1,11 @@
 /**
- * eTWIG - The event and banner management software for residential halls and student unions.
- * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
- * @license: MIT
- * @author: Steven Webb [xiaoancloud@outlook.com]
- * @website: https://etwig.grinecraft.net
- * @function: The controller for the error pages.
- */
+ 	* eTWIG - The event management software for Griffin Hall.
+ 	* @copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
+ 	* @license: MIT
+ 	* @author: Steven Webb [xiaoancloud@outlook.com]
+ 	* @website: https://etwig.grinecraft.net
+ 	* @function: The controller for the error pages.
+ 	*/
 
 package net.grinecraft.etwig.controller;
 
@@ -34,6 +34,16 @@ public class EtwigErrorController implements ErrorController {
         this.errorAttributes = errorAttributes;
     }
 
+    /**
+     * Display a custom and user-friendly error page rather than the default one from Tomcat.
+     * @param webRequest
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     * @throws JsonProcessingException
+     */
+    
     @RequestMapping("/error")
     public String handleError(WebRequest webRequest, Model model, HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException {
     	

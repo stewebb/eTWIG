@@ -89,24 +89,29 @@ public class EventsAPIController {
 	
 	@RequestMapping(value = "/api/private/addEvent", method = RequestMethod.POST)
     public Map<String, Object> addEvent(@RequestBody Map<String, Object> eventInfo) {
-        
-        
         eventService.addEvent((LinkedHashMap<String, Object>) eventInfo);
-        
         return WebReturn.errorMsg(null, true);
     }
 	
+	/**
+	 * Edit an existing event.
+	 * @param session
+	 * @param eventInfo
+	 * @return
+	 * @throws Exception
+	 * @authentication True
+	 */
+	
 	@RequestMapping(value = "/api/private/editEvent", method = RequestMethod.POST)
     public Map<String, Object> editEvent(HttpSession session, @RequestBody Map<String, Object> eventInfo) throws Exception {
-		
-		System.out.println(eventInfo);
-		
+				
 		// Check the permission again in the backend.
 		LinkedHashMap<String, Object> event = eventService.findById(Long.parseLong(eventInfo.get("eventId").toString()));
 		if(!eventService.permissionCheck(session, event)) {
 			return WebReturn.errorMsg("You don't have permission to edit this event.", false);
 		} 
 		
+		// Then edit event in the DB.
         eventService.editEvent((LinkedHashMap<String, Object>) eventInfo);
         return WebReturn.errorMsg(null, true);
     }
