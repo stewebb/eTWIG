@@ -1,11 +1,11 @@
 /**
-	 * eTWIG - The event and banner management software for residential halls and student unions.
-	 * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
-	 * @license: MIT
-	 * @author: Steven Webb [xiaoancloud@outlook.com]
-	 * @website: https://etwig.grinecraft.net
-	 * @function: The repository for TwigTemplate model.
-	 */
+ 	* eTWIG - The event management software for Griffin Hall.
+ 	* @copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
+	* @license: MIT
+	* @author: Steven Webb [xiaoancloud@outlook.com]
+	* @website: https://etwig.grinecraft.net
+	* @function: The repository for TwigTemplate model.
+	*/
 
 package net.grinecraft.etwig.repository;
 
@@ -22,7 +22,20 @@ import net.grinecraft.etwig.model.TwigTemplate;
 @Repository
 public interface TwigTemplateRepository extends JpaRepository<TwigTemplate, Long> {
 	
+	/**
+	 * Find a TWIG template by its id.
+	 * @param id
+	 * @return
+	 */
+	
     public Optional<TwigTemplate> findById(long id);
+    
+    /**
+     * Find a TWIG template by a given date and portfolio
+     * @param currentDate The given date
+     * @param portfolioId The portfolio
+     * @return
+     */
     
     @Query("SELECT e FROM TwigTemplate e WHERE e.portfolioId = :portfolioId " +
             "AND (e.availableFrom IS NULL OR :currentDate >= e.availableFrom) " +

@@ -1,11 +1,11 @@
 /**
-	 * eTWIG - The event management software for university communities.
-	 * @copyright: Copyright (c) 2024 Steven Webb
-	 * @license: MIT
-	 * @author: Steven Webb [xiaoancloud@outlook.com]
-	 * @website: https://etwig.grinecraft.net
-	 * @function: The repository for Property model.
-	 */
+ 	* eTWIG - The event management software for Griffin Hall.
+ 	* @copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
+	* @license: MIT
+	* @author: Steven Webb [xiaoancloud@outlook.com]
+	* @website: https://etwig.grinecraft.net
+	* @function: The repository for Property model.
+	*/
 
 package net.grinecraft.etwig.repository;
 
@@ -17,6 +17,10 @@ import net.grinecraft.etwig.model.Property;
 
 @Repository
 public interface PropertyRepository extends JpaRepository<Property, Long> {
+	
+	/**
+	 * Find all properties in the database.
+	 */
 	
     public List<Property> findAll();
 }

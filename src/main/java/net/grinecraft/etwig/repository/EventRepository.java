@@ -16,5 +16,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import net.grinecraft.etwig.model.Event;
 
 public interface EventRepository extends JpaRepository<Event, Long>{
+	
+	/**
+	 * Find the event information by its id.
+	 * @param id
+	 * @return
+	 */
 	public Optional<Event> findById(long id);
 }

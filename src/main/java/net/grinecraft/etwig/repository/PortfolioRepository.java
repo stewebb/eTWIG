@@ -1,11 +1,11 @@
 /**
-	 * eTWIG - The event management software for university communities.
-	 * @copyright: Copyright (c) 2024 Steven Webb
-	 * @license: MIT
-	 * @author: Steven Webb [xiaoancloud@outlook.com]
-	 * @website: https://etwig.grinecraft.net
-	 * @function: The repository for Portfolio model.
-	 */
+ 	* eTWIG - The event management software for Griffin Hall.
+ 	* @copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
+	* @license: MIT
+	* @author: Steven Webb [xiaoancloud@outlook.com]
+	* @website: https://etwig.grinecraft.net
+	* @function: The repository for Portfolio model.
+	*/
 
 package net.grinecraft.etwig.repository;
 
@@ -20,10 +20,31 @@ import net.grinecraft.etwig.model.Portfolio;
 @Repository
 public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {
 	
+	/**
+	 * Find all portfolios in the database.
+	 */
+	
     public List<Portfolio> findAll();
+    
+    /**
+     * Find a specific portfolio by its id.
+     * @param id
+     * @return
+     */
     
     public Optional<Portfolio> findById(long id);
     
+    /**
+     * Find the portfolios with separated calendar.
+     * @return
+     */
+    
     public List<Portfolio> findByIsSeparatedCalendarTrue();
+    
+    /**
+     * Find the portfolios without separated calendar.
+     * @return
+     */
+    
     public List<Portfolio> findByIsSeparatedCalendarFalse();
 }

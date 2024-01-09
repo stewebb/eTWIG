@@ -1,11 +1,11 @@
 /**
-	 * eTWIG - The event and banner management software for residential halls and student unions.
-	 * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
-	 * @license: MIT
-	 * @author: Steven Webb [xiaoancloud@outlook.com]
-	 * @website: https://etwig.grinecraft.net
-	 * @function: The repository for Week model.
-	 */
+ 	* eTWIG - The event management software for Griffin Hall.
+ 	* @copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
+	* @license: MIT
+	* @author: Steven Webb [xiaoancloud@outlook.com]
+	* @website: https://etwig.grinecraft.net
+	* @function: The repository for Week model.
+	*/
 
 package net.grinecraft.etwig.repository;
 
@@ -19,6 +19,12 @@ import net.grinecraft.etwig.model.Week;
 
 @Repository
 public interface WeekRepository extends JpaRepository<Week, Long> {
+	
+	/**
+	 * Find a week information by the Monday date.
+	 * @param monday
+	 * @return
+	 */
 	
     public Optional<Week> findByMonday(LocalDate monday);
     

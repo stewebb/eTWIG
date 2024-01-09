@@ -1,6 +1,6 @@
 /**
- 	* eTWIG - The event management software for university communities.
- 	* @copyright: Copyright (c) 2024 Steven Webb
+ 	* eTWIG - The event management software for Griffin Hall.
+ 	* @copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
 	* @license: MIT
 	* @author: Steven Webb [xiaoancloud@outlook.com]
 	* @website: https://etwig.grinecraft.net
@@ -33,5 +33,10 @@ public interface SingleTimeEventRepository extends JpaRepository<SingleTimeEvent
 	@Query(value = "SELECT * FROM event_single_time u WHERE u.start_datetime >= :dts and u.start_datetime <= :dte", nativeQuery = true)
 	public List<SingleTimeEvent> findByDateRange(@Param("dts") LocalDate startDateTime, @Param("dte") LocalDate endDateTime);
     
+	/**
+	 * Find a single time event by its id.
+	 * @param id
+	 * @return
+	 */
     public Optional<SingleTimeEvent> findById(long id);
 }

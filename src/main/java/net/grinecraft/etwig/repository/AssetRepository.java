@@ -1,6 +1,6 @@
 /**
- 	* eTWIG - The event management software for university communities.
- 	* @copyright: Copyright (c) 2024 Steven Webb
+ 	* eTWIG - The event management software for Griffin Hall.
+ 	* @copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
 	* @license: MIT
 	* @author: Steven Webb [xiaoancloud@outlook.com]
 	* @website: https://etwig.grinecraft.net
@@ -19,5 +19,10 @@ import net.grinecraft.etwig.model.Asset;
 @Repository
 public interface AssetRepository extends JpaRepository<Asset, Long> {
 	
+	/**
+	 * Find the asset information by its id.
+	 * @param id
+	 * @return
+	 */
     public Optional<Asset> findById(long id);
 }
