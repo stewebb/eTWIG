@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 
-import net.grinecraft.etwig.config.WebConfig;
+import net.grinecraft.etwig.config.ConfigFile;
 import net.grinecraft.etwig.model.Asset;
 import net.grinecraft.etwig.repository.AssetRepository;
 
@@ -31,7 +31,7 @@ public class AssetService {
 	private AssetRepository assetRepository;
 	
 	@Autowired
-    public AssetService(WebConfig config) {
+    public AssetService(ConfigFile config) {
         this.rootLocation = Paths.get(config.getRootLocation());
     }
 	

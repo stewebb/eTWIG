@@ -1,6 +1,6 @@
 /**
- 	* eTWIG - The event management software for university communities.
- 	* @copyright: Copyright (c) 2024 Steven Webb
+ 	* eTWIG - The event management software for Griffin Hall.
+ 	* @copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
  	* @license: MIT
  	* @author: Steven Webb [xiaoancloud@outlook.com]
  	* @website: https://etwig.grinecraft.net
@@ -40,14 +40,18 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	@Autowired
 	private UserRoleService userRoleService;
 	
+	/**
+	 * Put the user-related information into session after user logged in, then redirect user back.
+	 * @param request
+	 * @param response
+	 * @param authentication
+	 */
+	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
 
-		// Check session first!
+		// Get the session, which is always non-null.
 		HttpSession session = request.getSession(true);
-		//if(session == null) {
-		//	return;
-		//}
 		
 		// Check logged in or not
 		if(authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getPrincipal())) {
@@ -63,7 +67,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     	// Get user object
 	    User user = userRepository.findByEmail(email);
 	    if(user == null) {
-	    	throw new IllegalStateException("User authentication successfully, but the information cannot be found in the database.");
+	    	throw new IllegalStateException("User authentication successfully, but the user information cannot be found in the database.");
 	    }
 	    
 	    // Get user portfolios
@@ -82,6 +86,5 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         
         // Redirect back
         redirectStrategy.sendRedirect(request, response, targetUrl);
-
 	}
 }

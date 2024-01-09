@@ -22,23 +22,10 @@ public class WebConfig implements WebMvcConfigurer{
 
 	@Autowired
     private EtwigInterceptor userInterceptor;
-	
-    @Value("${etwig.media.root-location}")
-    private String rootLocation;
-
-    @Value("${etwig.security.cookie-key}")
-    private String cookieKey;
     
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(userInterceptor);
     }
 
-    public String getRootLocation() {
-        return rootLocation;
-    }
-    
-    public String getCookieKey() {
-    	return cookieKey;
-    }
 }

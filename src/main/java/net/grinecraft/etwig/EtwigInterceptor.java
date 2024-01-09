@@ -1,6 +1,6 @@
 /**
- 	* eTWIG - The event management software for university communities.
- 	* @copyright: Copyright (c) 2024 Steven Webb
+ 	* eTWIG - The event management software for Griffin Hall.
+ 	* @copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
  	* @license: MIT
  	* @author: Steven Webb [xiaoancloud@outlook.com]
  	* @website: https://etwig.grinecraft.net
@@ -11,6 +11,7 @@ package net.grinecraft.etwig;
 
 import java.util.LinkedHashMap;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,11 +19,23 @@ import org.springframework.web.servlet.ModelAndView;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import net.grinecraft.etwig.config.ConfigFile;
 import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.util.NameUtils;
 
 @Component
 public class EtwigInterceptor implements HandlerInterceptor{
+	
+	@Autowired
+	ConfigFile config;
+	
+	/**
+	 * Add data that shared across the application.
+	 * @param request
+	 * @param response
+	 * @param handler
+	 * @param modelAndView
+	 */
 	
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
@@ -31,6 +44,10 @@ public class EtwigInterceptor implements HandlerInterceptor{
 			return;
 		}
 
+		/**
+		 * User-related data.
+		 */
+		
 		// Check session first!
 		HttpSession session = request.getSession(false);
 		if(session != null) {
@@ -50,13 +67,14 @@ public class EtwigInterceptor implements HandlerInterceptor{
 			}
 		}	
 		
-		// Define some application info
-		LinkedHashMap<String, Object> appInfo = new LinkedHashMap<String, Object>();
-		appInfo.put("appName", "eTWIG Administration Portal");
-		appInfo.put("appVersion", "1.0");
-		appInfo.put("appCustomer", "Griffin Hall 2024");
+		/**
+		 * Application information.
+		 */
 		
-		// Put application info into Interceptor
+		LinkedHashMap<String, Object> appInfo = new LinkedHashMap<String, Object>();
+		appInfo.put("appName", config.getAppName());
+		appInfo.put("appVersion", "1.0");
+		appInfo.put("appOwner", config.getAppOwner());
 		modelAndView.addObject("app", appInfo);				
 	}
 }

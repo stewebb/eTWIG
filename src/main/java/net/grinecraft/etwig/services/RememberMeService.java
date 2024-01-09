@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import net.grinecraft.etwig.config.ConfigFile;
 import net.grinecraft.etwig.config.WebConfig;
 import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.model.User;
@@ -39,7 +40,7 @@ public class RememberMeService extends TokenBasedRememberMeServices {
     public static final int TOKEN_VALIDITY_SECONDS = 7776000;
 	
 	@Autowired
-	public RememberMeService(UserDetailsService userDetailsService, WebConfig config) {
+	public RememberMeService(UserDetailsService userDetailsService, ConfigFile config) {
 		super(config.getCookieKey(), userDetailsService);
 	}
 
