@@ -1,11 +1,11 @@
 /**
-	 * eTWIG - The event and banner management software for residential halls and student unions.
-	 * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
-	 * @license: MIT
-	 * @author: Steven Webb [xiaoancloud@outlook.com]
-	 * @website: https://etwig.grinecraft.net
-	 * @function: The services for all twig related options.
-	 */
+ 	* eTWIG - The event management software for Griffin Hall.
+ 	* @copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
+	* @license: MIT
+	* @author: Steven Webb [xiaoancloud@outlook.com]
+	* @website: https://etwig.grinecraft.net
+	* @function: The services for all twig related options.
+	*/
 
 package net.grinecraft.etwig.services;
 
@@ -26,7 +26,7 @@ public class TwigService {
 	private TwigTemplateRepository twigTemplateRepository;
 	
 	/**
-	 * Get the template of a TWIG by its Id.
+	 * Get the TWIG template by its Id.
 	 * @param id The Id of the TWIG template.
 	 * @return The TwigTemplate object with that Id, or null if the template cannot be found.
 	 * @throws Exception 
@@ -36,10 +36,17 @@ public class TwigService {
 		if(twigTemplateRepository == null) {
 			return null;
 		}
-		
 		return optionalToMap(twigTemplateRepository.findById(id));
 	
 	}
+	
+	/**
+	 * Get the TWIG template by the date and portfolio.
+	 * @param date
+	 * @param portfolioId
+	 * @return
+	 * @throws Exception
+	 */
 	
 	public LinkedHashMap<String, Object> getTwigTemplateByDateAndPortfolio(LocalDate date, Long portfolioId) throws Exception {
 		if(twigTemplateRepository == null) {
@@ -51,6 +58,13 @@ public class TwigService {
 	
 	}
 	
+	/**
+	 * Convert the optional data to a map (only applies in this class).
+	 * @param twigemplateOpt The Optional of TwigTemplate class.
+	 * @return
+	 * @throws Exception
+	 */
+	
 	private LinkedHashMap<String, Object> optionalToMap(Optional<TwigTemplate>  twigemplateOpt) throws Exception{
 		if(!twigemplateOpt.isPresent()) {
 			return null;
@@ -61,6 +75,8 @@ public class TwigService {
 		LinkedHashMap<String, Object> templateMap = new LinkedHashMap<String, Object>();
 		
 		templateMap.put("Id", twigTemplate.getId());
+		
+		// Convert the JSON field in the to map, so the field will be validated automatically.
 		templateMap.put("background", jsonUtils.jsonToMap(twigTemplate.getBackground()));
 		templateMap.put("logo", jsonUtils.jsonToMap(twigTemplate.getLogo()));
 		

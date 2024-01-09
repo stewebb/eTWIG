@@ -1,11 +1,11 @@
 /**
-	 * eTWIG - The event management software for university communities.
-	 * @copyright: Copyright (c) 2024 Steven Webb
-	 * @license: MIT
-	 * @author: Steven Webb [xiaoancloud@outlook.com]
-	 * @website: https://etwig.grinecraft.net
-	 * @function: The services for all portfolio-related options..
-	 */
+ 	* eTWIG - The event management software for Griffin Hall.
+ 	* @copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
+	* @license: MIT
+	* @author: Steven Webb [xiaoancloud@outlook.com]
+	* @website: https://etwig.grinecraft.net
+	* @function: The services for all portfolio-related options..
+	*/
 
 package net.grinecraft.etwig.services;
 
@@ -34,7 +34,6 @@ public class PropertyService {
 	 */
 	
 	public LinkedHashMap<Long, Property> findAll(){
-		
 		MapUtils mapUtils = new MapUtils();		
 		return mapUtils.listToLinkedHashMap(propertyRepository.findAll(), Property::getId);
 	}

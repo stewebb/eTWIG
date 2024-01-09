@@ -1,3 +1,12 @@
+/**
+ 	* eTWIG - The event management software for Griffin Hall.
+ 	* @copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
+	* @license: MIT
+	* @author: Steven Webb [xiaoancloud@outlook.com]
+	* @website: https://etwig.grinecraft.net
+	* @function: The services for all week related options.
+	*/
+
 package net.grinecraft.etwig.services;
 
 import java.time.LocalDate;
@@ -16,6 +25,12 @@ public class WeekService {
 	@Autowired
 	private WeekRepository weekRepository;
 	
+	/**
+	 * Get the week information by any given date.
+	 * @param givenDate
+	 * @return
+	 */
+	
     public Week getWeekByDate(LocalDate givenDate) {
     	
     	if(weekRepository == null) {
@@ -28,7 +43,6 @@ public class WeekService {
     	// Then find the week info
     	Optional<Week> weekOpt = weekRepository.findByMonday(monday);
     	return weekOpt.isPresent() ? weekOpt.get() : null;
-    	
     }
 
 }

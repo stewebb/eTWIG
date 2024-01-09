@@ -4,7 +4,7 @@
 	* @license: MIT
 	* @author: Steven Webb [xiaoancloud@outlook.com]
 	* @website: https://etwig.grinecraft.net
-	* @function: The services for all assets-related options..
+	* @function: The services for all assets-related options.
 	*/
 
 package net.grinecraft.etwig.services;
@@ -36,9 +36,9 @@ public class AssetService {
     }
 	
 	/**
-	 * Get the details an asset (but not the file content) by its Id.
-	 * @param id The Id of this asset.
-	 * @return The asset object with that Id, or null if no asset with that Id.
+	 * Get the details an asset (but not the file content) by its id.
+	 * @param id The id of this asset.
+	 * @return The asset object with that Id, or null if no asset with that id.
 	 */
 	
 	public Asset getAssetDetailsById(long id) {
@@ -50,6 +50,13 @@ public class AssetService {
 		return assetOpt.isPresent() ? assetOpt.get() : null;
 	}
 	
+	/**
+	 * Get the content of an asset by its id.
+	 * @param id
+	 * @return The file content.
+	 * @throws Exception
+	 */
+	
 	public Resource getAssetContentById(long id) throws Exception {
 		
 		// Get file info and check existence.
@@ -57,7 +64,6 @@ public class AssetService {
 		if(asset == null) {
 			return null;
 		}
-		
 		
 		// Retrieve the file from the file system
 		Path file = rootLocation.resolve(asset.getFileName());

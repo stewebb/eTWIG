@@ -4,7 +4,7 @@
 	* @license: MIT
 	* @author: Steven Webb [xiaoancloud@outlook.com]
 	* @website: https://etwig.grinecraft.net
-	* @function: The services for all event-related options..
+	* @function: The services for all event-related options.
 	*/
 
 package net.grinecraft.etwig.services;
@@ -251,54 +251,7 @@ public class EventService {
 	 */
 	
 	private LinkedHashMap<String, Object> getRecurringEventById(long id) {
-		
-		/*
-		LinkedHashMap<String, Object> eventDetails = new LinkedHashMap<String, Object>();
-		if(recurringEventRepository == null) {
-			return null;
-		}
-		
-		Optional<RecurringEvent> recurringEventOptional = recurringEventRepository.findById(id);
-		if (!recurringEventOptional.isPresent()){
-			return null;
-		}
-		
-		RecurringEvent recurringEvent = recurringEventOptional.get();
-		Event event = recurringEvent.getEvent();
-		
-		if(event == null) {
-			throw new DataIntegrityViolationException("The event id=" + recurringEvent.getId() + " exists in event_recurring table but doesn't exist in event table.");
-		}
-		
-		Portfolio portfolio = event.getPortfolio();
-		User user = event.getUser();
-		
-		if(portfolio == null) {
-			throw new DataIntegrityViolationException("The portfolio of event id=" + recurringEvent.getId() + " doesn't exist. PLease check the portfolio table.");
-		}
-		
-		if(user == null) {
-			throw new DataIntegrityViolationException("The organizer of event id=" + recurringEvent.getId() + " doesn't exist. PLease check the leader table.");
-		}
-		
-		eventDetails.put("eventName", recurringEvent.getName());
-		eventDetails.put("frequency", recurringEvent.getFrequency());
-		eventDetails.put("eventAvailableFrom", recurringEvent.getAvailableFrom());
-		eventDetails.put("eventAvailableTo", recurringEvent.getAvailableTo());
-		eventDetails.put("eventDuration", recurringEvent.getDuration());
-		eventDetails.put("portfolioColor", portfolio.getColor());
-		eventDetails.put("eventLocation", recurringEvent.getLocation());
-
-		if(showAllDetails) {
-			eventDetails.put("eventDescription", recurringEvent.getDescription());
-			eventDetails.put("portfolioName", portfolio.getName());
-			eventDetails.put("portfolioAbbreviation", portfolio.getAbbreviation());
-			eventDetails.put("portfolioIcon", portfolio.getIcon());
-			eventDetails.put("organizerName", NameUtils.nameMerger(user.getFirstName(), user.getMiddleName(), user.getLastName()));
-		}		
-		return eventDetails;
-		*/
-		
+		// TODO
 		return null;
 	}
 	
@@ -325,6 +278,12 @@ public class EventService {
 		
 		singleTimeEventRepository.save(newSingleTimeEvent);
 	}
+	
+	/**
+	 * Update event options bulky, by removing all all existing options first, and then add all new options.
+	 * @param eventId The id of the event.
+	 * @param optionIds A list with all options that associated for the event.
+	 */
 	
 	@Transactional
 	private void updateEventOptionBulky(Long eventId, List<Long> optionIds) {
@@ -397,6 +356,14 @@ public class EventService {
 		userInfo.put("fullName", user.getFullName());
 		return userInfo;
 	}
+	
+	/**
+	 * Check whether the current user has permission to modify the event.
+	 * @param session
+	 * @param event
+	 * @return True the user has such permission, False otherwise.
+	 * @throws Exception
+	 */
 	
 	public boolean permissionCheck(HttpSession session, LinkedHashMap<String, Object> event) throws Exception {
 		

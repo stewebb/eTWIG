@@ -1,11 +1,11 @@
 /**
-	 * eTWIG - The event management software for university communities.
-	 * @copyright: Copyright (c) 2024 Steven Webb
-	 * @license: MIT
-	 * @author: Steven Webb [xiaoancloud@outlook.com]
-	 * @website: https://etwig.grinecraft.net
-	 * @function: The services for all portfolio-related options..
-	 */
+ 	* eTWIG - The event management software for Griffin Hall.
+ 	* @copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
+	* @license: MIT
+	* @author: Steven Webb [xiaoancloud@outlook.com]
+	* @website: https://etwig.grinecraft.net
+	* @function: The services for all portfolio-related options..
+	*/
 
 package net.grinecraft.etwig.services;
 
@@ -53,18 +53,15 @@ public class PortfolioService {
 	public LinkedHashMap<Long, Portfolio> getPortfolioListBySeparatedCalendar(Boolean isSeparatedCalendar){
 		
 		if(isSeparatedCalendar == null) {
-			//return listToMap((List<Portfolio>) portfolioRepository.findAll());
 			return mapUtils.listToLinkedHashMap(portfolioRepository.findAll(), Portfolio::getId);
 		}
 		
 		else if(isSeparatedCalendar == true) {
-			//return listToMap((List<Portfolio>) portfolioRepository.findByIsSeparatedCalendarTrue());
 			return mapUtils.listToLinkedHashMap(portfolioRepository.findByIsSeparatedCalendarTrue(), Portfolio::getId);
 		}
 		
 		// isSeparatedCalendar == false
 		else {
-			//return listToMap((List<Portfolio>) portfolioRepository.findByIsSeparatedCalendarFalse());
 			return mapUtils.listToLinkedHashMap(portfolioRepository.findByIsSeparatedCalendarFalse(), Portfolio::getId);
 			
 		}

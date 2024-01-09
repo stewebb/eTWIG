@@ -11,7 +11,6 @@ package net.grinecraft.etwig.util;
 
 public class DataException extends java.lang.Exception {
 
-
 	private static final long serialVersionUID = 1L;
 
 	public DataException(String msg) {

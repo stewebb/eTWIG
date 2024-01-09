@@ -1,6 +1,6 @@
 /**
- 	* eTWIG - The event management software for university communities.
- 	* @copyright: Copyright (c) 2024 Steven Webb
+ 	* eTWIG - The event management software for Griffin Hall.
+ 	* @copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
  	* @license: MIT
  	* @author: Steven Webb [xiaoancloud@outlook.com]
  	* @website: https://etwig.grinecraft.net
@@ -44,6 +44,13 @@ public class RememberMeService extends TokenBasedRememberMeServices {
 		super(config.getCookieKey(), userDetailsService);
 	}
 
+	/**
+	 * Put the user info into session if the user is logged in via "remember me".
+	 * @param cookieTokens
+	 * @param request
+	 * @param response
+	 */
+	
 	@Override
 	protected UserDetails processAutoLoginCookie(String[] cookieTokens, HttpServletRequest request, HttpServletResponse response) {
 		

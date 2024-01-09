@@ -4,7 +4,7 @@
 	* @license: MIT
 	* @author: Steven Webb [xiaoancloud@outlook.com]
 	* @website: https://etwig.grinecraft.net
-	* @function: The services for all obtion-related options..
+	* @function: The services for all option-related options.
 	*/
 
 package net.grinecraft.etwig.services;
@@ -38,15 +38,15 @@ public class OptionService {
 		return mapUtils.listToLinkedHashMap(optionRepository.findAll(), Option::getId);
 	}
 	
+	/**
+	 * Get all options, but are group by the properties.
+	 * @return A map, key is the propertyId, value is a list with all options that belong to this property.
+	 */
+	
 	public Map<String, List<Option>> findAllGroupByProperties() {
 		
 		List<Option> optionList = optionRepository.findAll();
-		//Map<Long, List<Option>> optionGrouped = optionList.stream().collect(Collectors.groupingBy(w -> w.getPropertyId()));
-		Map<String, List<Option>> optionGrouped = optionList.stream().collect(Collectors.groupingBy(w -> Long.toString(w.getPropertyId())));
-
-		
-		//System.out.println(optionGrouped);
-		
+		Map<String, List<Option>> optionGrouped = optionList.stream().collect(Collectors.groupingBy(w -> Long.toString(w.getPropertyId())));		
 		return optionGrouped;
         
 	}

@@ -4,7 +4,7 @@
 	* @license: MIT
 	* @author: Steven Webb [xiaoancloud@outlook.com]
 	* @website: https://etwig.grinecraft.net
-	* @function: The services for all user-role options.
+	* @function: The services for all event-options related options..
 	*/
 
 package net.grinecraft.etwig.services;
@@ -27,14 +27,11 @@ public class EventOptionService {
     @Autowired
     private EventOptionRepository eventOptionRepository;
 
-    //@Autowired
-    //private EventRepository eventRepository;
-
     @Autowired
     private OptionRepository optionRepository;
     
     /**
-     * Get all Portfolios for a user.
+     * Get all options for an event.
      * @param userId
      * @return The LinkedHashMap of portfolios.
      * @throws DataException 
@@ -45,16 +42,20 @@ public class EventOptionService {
         
         // Only need to know the Id of the options, an set is adequate.
         HashSet<Long> optionIds = new HashSet<Long>();
-        
         for (EventOption eventOption : eventOptions) {
         	optionIds.add(eventOption.getId().getOptionId());
         }
 
         duplicateOptionCheck(optionIds);
-        
         return optionIds;
     }
 
+    /**
+     * Check an event has multiple contradicted options in a property or not.
+     * @param optionIds A HashSet with all option ids.
+     * @throws DataException If an event has multiple contradicted options in a property.
+     */
+    
     private void duplicateOptionCheck(HashSet<Long> optionIds) throws DataException {
     	
         // Track "visited" properties by using a HashSet.
