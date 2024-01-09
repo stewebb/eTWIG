@@ -1,13 +1,13 @@
 /**
-	 * eTWIG - The event and banner management software for residential halls and student unions.
-	 * @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
-	 * @license: MIT
-	 * @author: Steven Webb [xiaoancloud@outlook.com]
-	 * @website: https://etwig.grinecraft.net
-	 * @function: The User model, mapping the "users" table in the database.
-	 * This model contains users' basic information like name. 
-	 * It doesn't have data like password, which is modeled by UserAuth model, as they are only used in authentication purposes.
-	 */
+ 	* eTWIG - The event management software for Griffin Hall.
+ 	* @copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
+	* @license: MIT
+	* @author: Steven Webb [xiaoancloud@outlook.com]
+	* @website: https://etwig.grinecraft.net
+	* @function: The User model, mapping the "users" table in the database.
+	* This model contains users' basic information like name. 
+	* It doesn't have data like password, which is modeled by UserAuth model, as they are only used in authentication purposes.
+	*/
 
 package net.grinecraft.etwig.model;
 
