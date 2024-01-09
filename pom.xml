@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>net.grinecraft</groupId>
 	<artifactId>etwig</artifactId>
-	<version>1.0.0.build.20240106</version>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 	<name>etwig</name>
 	<description>
@@ -56,13 +56,6 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
-		<!--
-		<dependency>
-    		<groupId>org.springframework.session</groupId>
-    		<artifactId>spring-session-core</artifactId>
-		</dependency>
-		-->
 
 		<!-- Freemarker template engine -->
 		<dependency>
