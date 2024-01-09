@@ -86,7 +86,9 @@ public class EditController {
 			
 			Set<Long> myPortfolios = ((LinkedHashMap<Long, Portfolio>) session.getAttribute("portfolio")).keySet();
 			Long eventPortfolio = (Long) ((LinkedHashMap<String, Object>) event.get("portfolio")).get("id");
-			model.addAttribute("editPermission", myPortfolios.contains(eventPortfolio));
+			
+			model.addAttribute("editPermission", eventService.permissionCheck(session, event));
+			//model.addAttribute("editPermission", myPortfolios.contains(eventPortfolio));
 			
 			model.addAttribute("selectedOptions", eventOptionService.getOptionsByEvent(id));
 			

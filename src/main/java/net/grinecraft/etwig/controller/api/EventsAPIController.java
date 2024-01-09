@@ -1,10 +1,10 @@
 /**
-	 * eTWIG - The event management software for university communities.
-	 * @copyright: Copyright (c) 2024 Steven Webb
-	 * @license: MIT
-	 * @author: Steven Webb [xiaoancloud@outlook.com]
-	 * @website: https://etwig.grinecraft.net
-	 * @function: The controller for all events related APIs.
+ 	* eTWIG - The event management software for Griffin Hall.
+ 	* @copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
+	* @license: MIT
+	* @author: Steven Webb [xiaoancloud@outlook.com]
+	* @website: https://etwig.grinecraft.net
+	* @function: The controller for all events related APIs.
  */
 
 package net.grinecraft.etwig.controller.api;
@@ -88,15 +88,7 @@ public class EventsAPIController {
 	
 	@RequestMapping(value = "/api/private/addEvent", method = RequestMethod.POST)
     public Map<String, Object> addEvent(@RequestBody Map<String, Object> eventInfo) {
-        //System.out.println(eventInfo);
         
-        //String timeUnit = eventInfo.get("timeUnit").toString();
-        //System.out.println(timeUnit);
-        
-        //EventTimeUnit eventUnit = EventTimeUnit.fromString(timeUnit);
-        
-        //System.out.println(eventUnit);
-       
         
         eventService.addEvent((LinkedHashMap<String, Object>) eventInfo);
         
@@ -105,6 +97,9 @@ public class EventsAPIController {
 	
 	@RequestMapping(value = "/api/private/editEvent", method = RequestMethod.POST)
     public Map<String, Object> editEvent(@RequestBody Map<String, Object> eventInfo) {
+		
+		System.out.println(eventInfo);
+		
         eventService.editEvent((LinkedHashMap<String, Object>) eventInfo);
         return WebReturn.errorMsg(null, true);
     }

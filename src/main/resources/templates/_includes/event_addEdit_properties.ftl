@@ -17,12 +17,6 @@
 							</div>
 
 							<div class="card-body">
-							
-							<#-- 
-							<#list selectedOptions as o>
-								${o} 
-							</#list>
-							  -->
 							 
 								<#-- Iterate all properties -->
 								<#if allProperties?has_content>
@@ -38,13 +32,18 @@
 										<#-- Convert the propertyId to String, as Freemarker doesn't accept numberic key when accessing to a map. -->
 										<#assign string_id = property_id?string>
 										
+										<#-- Mandatory field check. -->
+										<#if property_info.mandatory>
+											<#assign mandatoryStr = "true">
+											<#assign mandatorySymbol = "<span class='required-symbol'>*</span>">
+										<#else>
+											<#assign mandatoryStr = "false">
+											<#assign mandatorySymbol = "">
+										</#if>
 										<div class="form-group row">
 										
 											<label for="property-${property_id}" class="col-sm-6 col-form-label">
-												${property_info.name}
-												<#if property_info.mandatory>
-													<span class="required-symbol">*</span>
-												</#if>
+												${property_info.name}&nbsp;${mandatorySymbol}
 											</label>
 											
 											<div class="col-sm-6 input-group">
@@ -56,14 +55,14 @@
 												</div>
 										
 												<#-- Each property has a select box. -->
-      											<select class="form-control select2 common-select-box" name="property-${property_id}" ${disabledStr}>
+      											<select class="form-control select2 common-select-box property-select-box" name="property-${property_id}" data-property-name="${property_info.name}" data-mandatory=${mandatoryStr} ${disabledStr}>
       												<option value="-1">(Not selected)</option>
 								
 													<#-- Get all options of a property -->
 													<#if allOptions[string_id]?has_content>
      													<#list allOptions[string_id] as opt>
      													
-     													
+     														<#-- Get the selected event in edit mode. -->
      														<#if isEdit && selectedOptions?has_content>
 																<#assign selectedStr = (selectedOptions?seq_contains(opt.id))?string('selected', '')>
 															<#else>

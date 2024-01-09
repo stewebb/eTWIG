@@ -45,35 +45,40 @@ public class EventOptionService {
         
         // Only need to know the Id of the options, an set is adequate.
         HashSet<Long> optionIds = new HashSet<Long>();
+        
+        for (EventOption eventOption : eventOptions) {
+        	optionIds.add(eventOption.getId().getOptionId());
+        }
 
+        duplicateOptionCheck(optionIds);
+        
+        return optionIds;
+    }
+
+    private void duplicateOptionCheck(HashSet<Long> optionIds) throws DataException {
+    	
         // Track "visited" properties by using a HashSet.
         HashSet<Long> propertyIds = new HashSet<Long>();
         
-        for (EventOption eventOption : eventOptions) {
-            Long optionId = eventOption.getId().getOptionId();
+    	for (Long optionId : optionIds) {
+    		
             Option option =  optionRepository.findById(optionId).orElse(null);
-            
             if(option != null) {
             	
-            	// For each event, get all options
+            	// For each event, get all options.
                 Long propertyId = option.getPropertyId();
                 
                 // For an event, each property must has 0-1 option(s). i.e., each option must has 1 property.
                 // If there has multiple properties for a single option, there must has some problems.
             	if(propertyIds.contains(propertyId)) {
-            		throw new DataException("The event with eventId=" + eventId + " has multiple options for the same property.");
+            		throw new DataException("Multiple options for the same property has been detected for an event.");
             	}
             	
             	// Add "visited" properties to that set.
             	propertyIds.add(propertyId);
             }
-            
-            optionIds.add(optionId);
-        }
-
-        //System.out.println(optionIds);
-        return optionIds;
+    	}
+    	
     }
-
 
 }

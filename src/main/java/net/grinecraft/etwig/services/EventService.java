@@ -14,11 +14,13 @@ import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import net.grinecraft.etwig.util.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.servlet.http.HttpSession;
 import net.grinecraft.etwig.model.Event;
 import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.model.SingleTimeEvent;
@@ -367,5 +369,19 @@ public class EventService {
 		userInfo.put("Id", user.getId());
 		userInfo.put("fullName", user.getFullName());
 		return userInfo;
+	}
+	
+	public boolean permissionCheck(HttpSession session, LinkedHashMap<String, Object> event) throws Exception {
+		
+		// All portfolios that I have.
+		@SuppressWarnings("unchecked")
+		Set<Long> myPortfolios = ((LinkedHashMap<Long, Portfolio>) session.getAttribute("portfolio")).keySet();
+		
+		// The portfolio of this event
+		@SuppressWarnings("unchecked")
+		Long eventPortfolio = (Long) ((LinkedHashMap<String, Object>) event.get("portfolio")).get("id");
+		
+		// I have permission to edit the event if my portfolios contains the event portfolio.
+		return  myPortfolios.contains(eventPortfolio);
 	}
 }

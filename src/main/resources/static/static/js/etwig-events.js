@@ -1,6 +1,6 @@
 /**
- 	* eTWIG - The event and banner management software for residential halls and student unions.
- 	* @copyright: Copyright (c) 2024 Steven Webb, eTWIG developers [etwig@grinecraft.net]
+ 	* eTWIG - The event management software for Griffin Hall.
+ 	* @copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
  	* @license: MIT
  	* @author: Steven Webb [xiaoancloud@outlook.com]
  	* @website: https://etwig.grinecraft.net
@@ -103,8 +103,27 @@ function addEvent(embedded, isEdit){
 	
 	// Event Organizer: Required
 	var eventOrganizer = $('#eventOrganizer').find(":selected").val();
-	console.log(eventOrganizer)
 
+	// Properties 
+	var selectedProperties = [];
+	$('.property-select-box').each(function() {
+    	//var propertyId = $(this).data('property-id');
+    	var propertyName = $(this).data('property-name');
+    	var isMandatory = $(this).data('mandatory');
+    	var selectedValue = $(this).val();
+
+		// Mandatory check
+		if(isMandatory && selectedValue <= 0){
+			warningToast("Selecting a value for property " + propertyName + " is required.");
+			return;
+		}
+		
+		// Only store the positive optionIds.
+		if(selectedValue > 0){
+			selectedProperties.push(selectedValue);
+		}
+	});
+	
 	// Create an object for the new event.
 	var newEventObj = {
 		"eventId" : eventId,
@@ -116,7 +135,8 @@ function addEvent(embedded, isEdit){
 		"startTime": eventStartTime,
 		"duration": realDuration,
 		"portfolio": eventPortfolio,
-		"organizer": eventOrganizer
+		"organizer": eventOrganizer,
+		"properties": selectedProperties
 	};
 	
 	// POST the new (or changed) event into the event add/edit API
