@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.servlet.http.HttpSession;
 import net.grinecraft.etwig.services.EventService;
 import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.NumberUtils;
@@ -96,9 +97,15 @@ public class EventsAPIController {
     }
 	
 	@RequestMapping(value = "/api/private/editEvent", method = RequestMethod.POST)
-    public Map<String, Object> editEvent(@RequestBody Map<String, Object> eventInfo) {
+    public Map<String, Object> editEvent(HttpSession session, @RequestBody Map<String, Object> eventInfo) throws Exception {
 		
 		System.out.println(eventInfo);
+		
+		// Check the permission again in the backend.
+		LinkedHashMap<String, Object> event = eventService.findById(Long.parseLong(eventInfo.get("eventId").toString()));
+		if(!eventService.permissionCheck(session, event)) {
+			return WebReturn.errorMsg("You don't have permission to edit this event.", false);
+		} 
 		
         eventService.editEvent((LinkedHashMap<String, Object>) eventInfo);
         return WebReturn.errorMsg(null, true);

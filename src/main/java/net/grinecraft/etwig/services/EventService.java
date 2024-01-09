@@ -11,10 +11,12 @@ package net.grinecraft.etwig.services;
 
 import java.lang.reflect.Field;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import net.grinecraft.etwig.util.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,21 +24,29 @@ import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpSession;
 import net.grinecraft.etwig.model.Event;
+import net.grinecraft.etwig.model.EventOption;
+import net.grinecraft.etwig.model.EventOptionKey;
 import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.model.SingleTimeEvent;
 import net.grinecraft.etwig.model.User;
+import net.grinecraft.etwig.repository.EventOptionRepository;
 import net.grinecraft.etwig.repository.EventRepository;
 import net.grinecraft.etwig.repository.RecurringEventRepository;
 import net.grinecraft.etwig.repository.SingleTimeEventRepository;
 import net.grinecraft.etwig.util.DataException;
 import net.grinecraft.etwig.util.DateUtils;
+import net.grinecraft.etwig.util.ListUtils;
 import net.grinecraft.etwig.util.type.DateRange;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class EventService {
 
 	@Autowired
 	private EventRepository eventRepository;
+	
+	@Autowired
+	private EventOptionRepository eventOptionRepository;
 	
 	@Autowired
 	private SingleTimeEventRepository singleTimeEventRepository;
@@ -156,6 +166,8 @@ public class EventService {
 			updateSingleTimeEvent(newEventId, eventInfo);
 		}
 		
+		ArrayList<Long> optionList = ListUtils.stringArrayToLongArray(ListUtils.stringToArrayList(eventInfo.get("properties").toString()));
+		updateEventOptionBulky(newEventId, optionList);
 	}
 	
 	/**
@@ -168,17 +180,18 @@ public class EventService {
 		Long eventId = Long.parseLong(eventInfo.get("eventId").toString());
 		
 		// Update specific data (recurrent events)
-				if(isRecurrent) {
-					// TODO Recurrent Event
-				}
+		if(isRecurrent) {
+			// TODO Recurrent Event
+		}
 				
-				// Insert specific data (single time events)
-				else {
-					updateSingleTimeEvent(eventId, eventInfo);
-				}
-				
+		// Insert specific data (single time events)
+		else {
+			updateSingleTimeEvent(eventId, eventInfo);
+		}
+		
+		ArrayList<Long> optionList = ListUtils.stringArrayToLongArray(ListUtils.stringToArrayList(eventInfo.get("properties").toString()));
+		updateEventOptionBulky(eventId, optionList);
 	}
-	
 	
 	/**
 	 * Get and set resources, they are only used in this class.
@@ -312,6 +325,20 @@ public class EventService {
 		
 		singleTimeEventRepository.save(newSingleTimeEvent);
 	}
+	
+	@Transactional
+	private void updateEventOptionBulky(Long eventId, List<Long> optionIds) {
+		
+		// Remove all existing options associations for the event.
+        List<EventOption> existingEventOptions = eventOptionRepository.findByIdEventId(eventId);
+        eventOptionRepository.deleteAll(existingEventOptions);
+
+        // Add new options associations for the event.
+        List<EventOption> newEventOptions = optionIds.stream()
+            .map(optionId -> new EventOption(new EventOptionKey(eventId, optionId)))
+            .collect(Collectors.toList());
+        eventOptionRepository.saveAll(newEventOptions);
+    }
 	
 	/**
 	 * Helper methods below, they are only used in this class.

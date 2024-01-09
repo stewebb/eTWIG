@@ -1,4 +1,4 @@
-is<#-- 
+<#-- 
 	eTWIG - The event management software for Griffin Hall.
 	copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
 	license: MIT
@@ -13,7 +13,6 @@ is<#--
 <html>
 <head>
 	<#include "../_includes/header_head.ftl">
-
 	<title>Event Calendar - ${app.appName}</title>
 </head>
 

@@ -106,6 +106,8 @@ function addEvent(embedded, isEdit){
 
 	// Properties 
 	var selectedProperties = [];
+	var mandatoryCheckPassed = true;
+	
 	$('.property-select-box').each(function() {
     	//var propertyId = $(this).data('property-id');
     	var propertyName = $(this).data('property-name');
@@ -115,7 +117,8 @@ function addEvent(embedded, isEdit){
 		// Mandatory check
 		if(isMandatory && selectedValue <= 0){
 			warningToast("Selecting a value for property " + propertyName + " is required.");
-			return;
+			mandatoryCheckPassed = false;
+			//return;
 		}
 		
 		// Only store the positive optionIds.
@@ -123,6 +126,10 @@ function addEvent(embedded, isEdit){
 			selectedProperties.push(selectedValue);
 		}
 	});
+	
+	if(!mandatoryCheckPassed){
+		return;
+	}
 	
 	// Create an object for the new event.
 	var newEventObj = {
