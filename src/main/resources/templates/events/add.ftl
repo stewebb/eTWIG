@@ -77,11 +77,10 @@
 						<#-- Properties -->
 						<#include "../_includes/event_addEdit_properties.ftl">
 						
+						<#-- Footer -->
+						<#include "../_includes/event_addEdit_footer.ftl">
 					</div>
 				</div>
-				
-				<#-- Footer -->
-				<#include "../_includes/event_addEdit_footer.ftl">
 				
 			</form>
 		</section>

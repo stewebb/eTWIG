@@ -101,6 +101,11 @@ function applyChanges(){
 	enableShare(true);
 }
 
+/**
+ * Enable / Disable share buttons.
+ * @param isEnable
+ */
+
 function enableShare(isEnable){
 	if(isEnable){
 		$('#holdOn').hide();
