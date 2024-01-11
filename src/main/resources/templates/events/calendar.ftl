@@ -91,18 +91,29 @@
         							<#-- Event Options-->
         							<hr class="mt-3 mb-3"/>
         							
-        							<#if permission.name == "e">
-        							<button type="button" class="btn btn-block btn-outline-primary mb-3" onclick="addEventBtn();">
-  										<i class="fa-solid fa-add"></i>&nbsp;Add Event
-  									</button>
+        							<#if permission.name == "e" || permission.name == "a">
+        								<button type="button" class="btn btn-block btn-outline-primary mb-3" onclick="addEventBtn();">
+  											<i class="fa-solid fa-add"></i>&nbsp;Add Event
+  										</button>
   									
-  									<div class="callout callout-info">
-										<h5 class="bold-text mb-3">
-											<i class="fa-regular fa-lightbulb"></i>&nbsp;Hint
-										</h5>
-										To add an new event, simply click the <span class="bold-text text-primary">add event</span> button above. <br/>
-										To edit or delete an existing event, click the <span class="bold-text text-primary">event on the calendar</span>.
-									</div>
+  										<div class="callout callout-info">
+											<h5 class="bold-text mb-3">
+												<i class="fa-regular fa-lightbulb"></i>&nbsp;Hint
+											</h5>
+											To add an new event, simply click the <span class="bold-text text-primary">add event</span> button above. <br/>
+											To edit or delete an existing event, click the <span class="bold-text text-primary">event on the calendar</span>.
+										</div>
+									<#--
+									<#else>
+										<div class="callout callout-primary">
+											<h5 class="bold-text mb-3">
+												No edit permission
+											</h5>
+											Your user group is <span class="bold-text text-primary">${permission.description}</span>, however, only the
+											<span class="bold-text text-primary">Event managers</span> and <span class="bold-text text-primary">Administrators</span>
+											have edit permission on events.
+										</div>
+									-->
 									</#if>
 									
                 				</div>

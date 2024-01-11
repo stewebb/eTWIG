@@ -117,7 +117,7 @@
           			->
           			
           			<#-- Event: Add -->
-          			<#if permission.name == "e">
+          			<#if permission.name == "e" || permission.name == "a">
         				<li class="nav-item">
             				<a href="/events/add" class="nav-link <#if navbar=="ADD_EVENT">active</#if>">
               					<i class="nav-icon fas fa-plus"></i>
@@ -126,8 +126,39 @@
           				</li>	
           			</#if>
           			
-          			<#-- Banner Management -->
-          			<#-- <li class="nav-header">Banner Management</li> -->
+          			<#-- Graphic Management -->
+          			<li class="nav-header">Graphic Management</li>
+          			
+          			<#-- TWIG Template -->
+          			<#if permission.name == "g" || permission.name == "a">
+          				<li class="nav-item has-treeview menu-open">
+						<a href="#" class="nav-link">
+							<i class="nav-icon far fa-chess-board"></i>
+							<p>TWIG Template
+								<i class="fas fa-angle-left right"></i>
+							</p>
+						</a>
+
+          				<ul class="nav nav-treeview">
+          					
+          					<#-- TWIG Template: List View -->
+							<li class="nav-item">
+            					<a href="/graphics/twigTemplate/view" class="nav-link <#if navbar=="TWIG_TEMPLATE_VIEW">active</#if>">
+              						<i class="nav-icon fas fa-eye"></i>
+              						<p>List View</p>
+            					</a>
+          					</li>	
+          					
+          					<#-- TWIG Template: Designer -->
+							<li class="nav-item">
+            					<a href="/graphics/twigTemplate/designer" class="nav-link <#if navbar=="TWIG_TEMPLATE_DESIGNER">active</#if>">
+              						<i class="nav-icon fas fa-eye"></i>
+              						<p>List View</p>
+            					</a>
+          					</li>	
+						</ul>
+
+          			</#if>
           			
           			<#-- Account -->
           			<li class="nav-header">Account</li>

@@ -69,7 +69,7 @@ public class EtwigInterceptor implements HandlerInterceptor{
 			
 			Permission permission = (Permission) session.getAttribute("permission");
 			if(permission != null) {
-				System.out.println(permission);
+				//System.out.println(permission);
 				modelAndView.addObject("permission", permission);
 			}
 			
