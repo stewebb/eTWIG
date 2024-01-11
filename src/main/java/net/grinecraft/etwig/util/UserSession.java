@@ -46,7 +46,7 @@ public class UserSession {
 		
 		// Get user permission from DB.
 		Permission permission = userAuth.getPermission();
-		System.out.println(permission);
+		//System.out.println(permission);
 		
 		// Get user portfolio from DB.
 		LinkedHashMap<Long, Portfolio> myPortfolios = userRoleService.getPortfoliosByUserId(user.getId());

@@ -10,9 +10,8 @@
 package net.grinecraft.etwig.controller.events;
 
 import java.util.LinkedHashMap;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
-import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.services.EventOptionService;
 import net.grinecraft.etwig.services.EventService;
 import net.grinecraft.etwig.services.OptionService;
@@ -84,7 +82,7 @@ public class EditController {
 		if(Boolean.TRUE.equals(event.get("exists"))) {
 			model.addAttribute("eventId", id);
 			model.addAttribute("eventDetails", event);
-			model.addAttribute("editPermission", eventService.permissionCheck(session, event));
+			model.addAttribute("editPermission", eventService.eventEditPermissionCheck(session, event));
 			
 			// The options that selected in this event.
 			model.addAttribute("selectedOptions", eventOptionService.getOptionsByEvent(id));
@@ -110,6 +108,7 @@ public class EditController {
 	 * @Permissions Event Manager, admin FULL; OTHERS NONE
 	 */
 	
+    @PostAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR', 'ROLE_EVENT_MANAGER')")
 	@RequestMapping("/events/add")  
 	public String add(Model model, @RequestParam(required = false) String embedded) throws Exception{
         model.addAttribute("embedded", BooleanUtils.toBoolean(embedded));
@@ -120,6 +119,7 @@ public class EditController {
 	/**
 	 * The attributes that will be added in all pages. 
 	 * @param model
+	 * @Permissions Event Manager, admin FULL; OTHERS NONE
 	 */
 	
 	private void addCommonAttributes(Model model) {

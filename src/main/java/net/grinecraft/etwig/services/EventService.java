@@ -26,6 +26,7 @@ import jakarta.servlet.http.HttpSession;
 import net.grinecraft.etwig.model.Event;
 import net.grinecraft.etwig.model.EventOption;
 import net.grinecraft.etwig.model.EventOptionKey;
+import net.grinecraft.etwig.model.Permission;
 import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.model.SingleTimeEvent;
 import net.grinecraft.etwig.model.User;
@@ -37,6 +38,8 @@ import net.grinecraft.etwig.util.DataException;
 import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.ListUtils;
 import net.grinecraft.etwig.util.type.DateRange;
+import net.grinecraft.etwig.util.type.UserPermission;
+
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -358,24 +361,42 @@ public class EventService {
 	}
 	
 	/**
-	 * Check whether the current user has permission to modify the event.
+	 * Check whether the current user has permission to edit the event.
 	 * @param session
 	 * @param event
 	 * @return True the user has such permission, False otherwise.
 	 * @throws Exception
 	 */
 	
-	public boolean permissionCheck(HttpSession session, LinkedHashMap<String, Object> event) throws Exception {
+	public boolean eventEditPermissionCheck(HttpSession session, LinkedHashMap<String, Object> event) throws Exception {
 		
-		// All portfolios that I have.
-		@SuppressWarnings("unchecked")
-		Set<Long> myPortfolios = ((LinkedHashMap<Long, Portfolio>) session.getAttribute("portfolio")).keySet();
+		// Get user permission
+		Permission permission = (Permission) session.getAttribute("permission");
+		UserPermission userPermission = UserPermission.fromString(permission.getName());
 		
-		// The portfolio of this event
-		@SuppressWarnings("unchecked")
-		Long eventPortfolio = (Long) ((LinkedHashMap<String, Object>) event.get("portfolio")).get("id");
+		// Case 1: Administrator, has edit permission.
+		if(userPermission == UserPermission.ADMINISTRATOR ) {
+			return true;
+		}
 		
-		// I have permission to edit the event if my portfolios contains the event portfolio.
-		return  myPortfolios.contains(eventPortfolio);
+		// Case 2: Event Manager, has edit view permission depends on the portfolio.
+		else if (userPermission == UserPermission.GRAPHICS_MANAGER) {
+
+			// All portfolios that I have.
+			@SuppressWarnings("unchecked")
+			Set<Long> myPortfolios = ((LinkedHashMap<Long, Portfolio>) session.getAttribute("portfolio")).keySet();
+		
+			// The portfolio of this event
+			@SuppressWarnings("unchecked")
+			Long eventPortfolio = (Long) ((LinkedHashMap<String, Object>) event.get("portfolio")).get("id");
+		
+			// I have permission to edit the event if my portfolios contains the event portfolio.
+			return  myPortfolios.contains(eventPortfolio);
+		}
+		
+		// Case 3: Graphics Manager or uncategorized, has no edit permission.
+		else {
+			return false;
+		}
 	}
 }

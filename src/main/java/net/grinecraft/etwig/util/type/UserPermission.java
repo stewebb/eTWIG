@@ -12,7 +12,7 @@ package net.grinecraft.etwig.util.type;
 public enum UserPermission {
 	
 	EVENT_MANAGER("e"),
-	GRATHICS_MANAGER("g"),
+	GRAPHICS_MANAGER("g"),
 	ADMINISTRATOR("a"),
 	UNCATEGORIZED("u");
 	

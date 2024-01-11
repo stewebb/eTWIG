@@ -42,6 +42,8 @@ public class UserAuthService implements UserDetailsService {
         if (userAuth == null) {
         	throw new UsernameNotFoundException("User not found");
         }
+                
+        //System.out.println(getAuthorities(userAuth));
         
         return new org.springframework.security.core.userdetails.User(
         		userAuth.getEmail(), 
@@ -59,6 +61,6 @@ public class UserAuthService implements UserDetailsService {
     private Collection<? extends GrantedAuthority> getAuthorities(UserAuth userAuth) {
     	 Permission permission = userAuth.getPermission();
          UserPermission userPermission = UserPermission.fromString(permission.getName());
-         return Collections.singletonList(new SimpleGrantedAuthority(userPermission.toString()));
+         return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + userPermission.name()));
     }
 }

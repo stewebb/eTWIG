@@ -13,19 +13,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 
-import net.grinecraft.etwig.LoginSuccessHandler;
+import net.grinecraft.etwig.handler.CustomAuthenticationEntryPoint;
+import net.grinecraft.etwig.handler.LoginSuccessHandler;
 import net.grinecraft.etwig.services.RememberMeService;
 import net.grinecraft.etwig.services.UserAuthService;
 
+@SuppressWarnings("deprecation")
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig{
 
 	@Autowired
@@ -75,6 +80,14 @@ public class WebSecurityConfig{
         		(channel) -> channel.anyRequest().requiresSecure()
         );
         
+        http.exceptionHandling((exception)-> exception.
+        		authenticationEntryPoint(authenticationEntryPoint())
+        );
+        
+        //http
+        //	.exceptionHandling()
+        //	.authenticationEntryPoint(authenticationEntryPoint())
+        
 		return http.build();
 	}
 
@@ -96,5 +109,11 @@ public class WebSecurityConfig{
     
     public BCryptPasswordEncoder passwordEncoder() {
     	return new BCryptPasswordEncoder();
+    }
+    
+
+    @Bean
+    public AuthenticationEntryPoint authenticationEntryPoint(){
+        return new CustomAuthenticationEntryPoint();
     }
 }
