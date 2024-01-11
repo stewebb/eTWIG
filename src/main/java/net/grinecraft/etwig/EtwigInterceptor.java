@@ -20,6 +20,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import net.grinecraft.etwig.config.ConfigFile;
+import net.grinecraft.etwig.model.Permission;
+import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.util.NameUtils;
 
@@ -63,7 +65,18 @@ public class EtwigInterceptor implements HandlerInterceptor{
 				
 				// Put user info into Interceptor
 				modelAndView.addObject("user", userInfo);
-				modelAndView.addObject("portfolio", session.getAttribute("portfolio"));
+			}
+			
+			Permission permission = (Permission) session.getAttribute("permission");
+			if(permission != null) {
+				System.out.println(permission);
+				modelAndView.addObject("permission", permission);
+			}
+			
+			@SuppressWarnings("unchecked")
+			LinkedHashMap<Long, Portfolio> portfolio = (LinkedHashMap<Long, Portfolio>) session.getAttribute("portfolio");
+			if(portfolio != null && !portfolio.isEmpty()) {
+				modelAndView.addObject("portfolio", portfolio);
 			}
 		}	
 		

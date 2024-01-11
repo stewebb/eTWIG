@@ -90,6 +90,8 @@
         							
         							<#-- Event Options-->
         							<hr class="mt-3 mb-3"/>
+        							
+        							<#if permission.name == "e">
         							<button type="button" class="btn btn-block btn-outline-primary mb-3" onclick="addEventBtn();">
   										<i class="fa-solid fa-add"></i>&nbsp;Add Event
   									</button>
@@ -101,6 +103,8 @@
 										To add an new event, simply click the <span class="bold-text text-primary">add event</span> button above. <br/>
 										To edit or delete an existing event, click the <span class="bold-text text-primary">event on the calendar</span>.
 									</div>
+									</#if>
+									
                 				</div>
               				</div>
             			</div>

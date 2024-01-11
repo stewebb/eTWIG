@@ -107,21 +107,25 @@
           			</li>	
           			
           			<#-- Event: List -->
+          			<#--
         			<li class="nav-item">
             			<a href="#" class="nav-link">
               				<i class="nav-icon fas fa-list"></i>
               				<p>List</p>
             			</a>
           			</li>		
+          			->
           			
           			<#-- Event: Add -->
-        			<li class="nav-item">
-            			<a href="/events/add" class="nav-link <#if navbar=="ADD_EVENT">active</#if>">
-              				<i class="nav-icon fas fa-plus"></i>
-              				<p>Add</p>
-            			</a>
-          			</li>	
-          				
+          			<#if permission.name == "e">
+        				<li class="nav-item">
+            				<a href="/events/add" class="nav-link <#if navbar=="ADD_EVENT">active</#if>">
+              					<i class="nav-icon fas fa-plus"></i>
+              					<p>Add</p>
+            				</a>
+          				</li>	
+          			</#if>
+          			
           			<#-- Banner Management -->
           			<#-- <li class="nav-header">Banner Management</li> -->
           			
