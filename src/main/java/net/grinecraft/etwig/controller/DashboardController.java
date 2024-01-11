@@ -21,6 +21,7 @@ public class DashboardController {
 	 * @param model
 	 * @return
 	 * @throws Exception
+	 * @Permissions ALL FULL
 	 */
 	
 	@RequestMapping("/")  

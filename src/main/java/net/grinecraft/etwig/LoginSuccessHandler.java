@@ -20,8 +20,6 @@ import org.springframework.stereotype.Component;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import net.grinecraft.etwig.repository.UserRepository;
-import net.grinecraft.etwig.services.UserRoleService;
 import net.grinecraft.etwig.util.UserSession;
 
 @Component
@@ -29,15 +27,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	
 	private DefaultRedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
     private HttpSessionRequestCache requestCache = new HttpSessionRequestCache();
-    
-	//@Autowired
-	//private UserRepository userRepository;
-	
-	//@Autowired
-	//private UserAuthRepository userRepository;
-	
-	//@Autowired
-	//private UserRoleService userRoleService;
     
     @Autowired
     private UserSession userSession;
@@ -51,9 +40,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
-
-		// Get the session, which is always non-null.
-		//HttpSession session = request.getSession(true);
 		
 		// Check logged in or not
 		if(authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getPrincipal())) {

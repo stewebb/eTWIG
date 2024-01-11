@@ -21,6 +21,7 @@ public class LoginController {
 	 * @param model
 	 * @return
 	 * @throws Exception
+	 * @Permissions PUBLIC ACCESS
 	 */
 	
     @GetMapping("/user/login")

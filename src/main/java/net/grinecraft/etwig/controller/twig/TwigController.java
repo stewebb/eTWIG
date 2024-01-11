@@ -27,6 +27,7 @@ public class TwigController {
 	 * @param model
 	 * @return
 	 * @throws Exception
+	 * @Permissions PUBLIC ACCESS
 	 */
 	
 	@RequestMapping("/twig/main")  

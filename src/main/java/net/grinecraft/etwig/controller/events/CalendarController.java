@@ -24,6 +24,7 @@ public class CalendarController {
 	 * @param model
 	 * @return
 	 * @throws Exception
+	 * @Permissions ALL FULL
 	 */
 	
 	@RequestMapping("/events/calendar")  

@@ -61,6 +61,7 @@ public class EditController {
 	 * @param embedded
 	 * @return
 	 * @throws Exception
+	 * @Permissions Event Manager, admin FULL; OTHERS READ-ONLY
 	 */
 	
 	@SuppressWarnings("unchecked")
@@ -106,6 +107,7 @@ public class EditController {
 	 * @param embedded True the page is embedded  into a frame. Otherwise the page is standalone.
 	 * @return
 	 * @throws Exception
+	 * @Permissions Event Manager, admin FULL; OTHERS NONE
 	 */
 	
 	@RequestMapping("/events/add")  

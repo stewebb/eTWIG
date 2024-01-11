@@ -31,6 +31,7 @@ public class AssetController {
 	 * @param assetId The id of this asset.
 	 * @return The file content.
 	 * @throws Exception
+	 * @Permissions PUBLIC ACCESS
 	 */
 	
 	@RequestMapping(value = "/twig/assets")
