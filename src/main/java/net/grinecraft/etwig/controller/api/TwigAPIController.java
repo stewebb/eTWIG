@@ -13,10 +13,12 @@ import java.time.LocalDate;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import net.grinecraft.etwig.model.TwigTemplate;
 import net.grinecraft.etwig.services.TwigService;
 import net.grinecraft.etwig.services.WeekService;
 import net.grinecraft.etwig.util.DateUtils;
@@ -94,5 +96,10 @@ public class TwigAPIController {
 		
 		return myReturn;
 	}
+	
+	@RequestMapping("/api/private/getTwigTemplateList")  
+    public Page<TwigTemplate> getPaginatedEntities(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return twigService.getTwigTemplateList(page, size);
+    }
 	
 }

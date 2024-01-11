@@ -60,23 +60,28 @@
 								<table id="twig-template" class="table table-hover table-striped">
 									<thead>
 										<tr>
-											<th>Rendering engine</th>
-<th>Browser</th>
-<th>Platform(s)</th>
-<th>Engine version</th>
-<th>CSS grade</th>
-</tr>
-</thead>
-<tbody>
+											<th>TemplateId</th>
+											<th>Name</th>
+											<th>Portfolio(s)</th>
+											<th>Available From</th>
+											<th>Available To</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+								</table>
 
-</tbody>
-</table>
-</div>
+								<nav>
+        							<ul class="pagination">
+        							</ul>
+    							</nav>
+							</div>
 
-</div>
-
-</section>
-
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
 	</div>
 	
 	<#include "../_includes/footer.ftl">

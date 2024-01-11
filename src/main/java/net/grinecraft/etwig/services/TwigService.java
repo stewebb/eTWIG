@@ -14,6 +14,9 @@ import java.util.LinkedHashMap;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import net.grinecraft.etwig.model.TwigTemplate;
 import net.grinecraft.etwig.repository.TwigTemplateRepository;
@@ -83,4 +86,10 @@ public class TwigService {
 		return templateMap;
 	}
 	
+	public Page<TwigTemplate> getTwigTemplateList(int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		Page<TwigTemplate> a  = twigTemplateRepository.findAll(pageable);
+		System.out.println(a);
+		return a;
+	}
 }

@@ -27,9 +27,12 @@ public class TwigTemplate {
     @Column(name = "id")
 	private Long id;
 	
-	//@OneToOne(cascade = CascadeType.ALL)
-	//@JoinColumn(name = "portfolio_id", referencedColumnName = "id", insertable = false, updatable = false)
-    //private Portfolio portfolio;
+	@Column(name = "name")
+	private String name;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "portfolio_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Portfolio portfolio;
 	
 	 @Column(name = "portfolio_id")
 	private Long portfolioId;

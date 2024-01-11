@@ -132,8 +132,8 @@
           			<#-- TWIG Template -->
           			<#if permission.name == "g" || permission.name == "a">
           				<li class="nav-item has-treeview menu-open">
-						<a href="#" class="nav-link">
-							<i class="nav-icon far fa-chess-board"></i>
+						<a href="#" class="nav-link <#if navbar=="TWIG_TEMPLATE_VIEW">active</#if>">
+							<i class="nav-icon far fa-paste"></i>
 							<p>TWIG Template
 								<i class="fas fa-angle-left right"></i>
 							</p>
@@ -143,7 +143,7 @@
           					
           					<#-- TWIG Template: List View -->
 							<li class="nav-item">
-            					<a href="/graphics/twigTemplate/view" class="nav-link <#if navbar=="TWIG_TEMPLATE_VIEW">active</#if>">
+            					<a href="/graphics/twigTemplate/view" class="nav-link <#if navbar?starts_with("TWIG_TEMPLATE_")>active</#if>">
               						<i class="nav-icon fas fa-eye"></i>
               						<p>List View</p>
             					</a>
@@ -152,8 +152,8 @@
           					<#-- TWIG Template: Designer -->
 							<li class="nav-item">
             					<a href="/graphics/twigTemplate/designer" class="nav-link <#if navbar=="TWIG_TEMPLATE_DESIGNER">active</#if>">
-              						<i class="nav-icon fas fa-eye"></i>
-              						<p>List View</p>
+              						<i class="nav-icon fas fa-wand-magic-sparkles"></i>
+              						<p>Designer</p>
             					</a>
           					</li>	
 						</ul>
