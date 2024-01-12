@@ -13,7 +13,7 @@
 			<div class="container-fluid">
 				<div class="row mb-2">
 					<div class="col-sm-6">
-						<h1 class="bold-text">TWIG Template: Design</h1>
+						<h1 class="bold-text">TWIG Template: Design [${modeStr} mode]</h1>
 					</div>
 					<div class="col-sm-6">
 						<ol class="breadcrumb float-sm-right">
@@ -23,7 +23,7 @@
 								<a href="/graphics/twigTemplate">TWIG Template</a>
 							</li>
 							<li class="breadcrumb-item">
-								<a href="/graphics/twigTemplate/design">Designer</a>
+								<a href="/graphics/twigTemplate/design?edit=${isEditStr}">Designer</a>
 							</li>
 						</ol>
 					</div>

@@ -79,7 +79,7 @@ public class TwigService {
 		TwigTemplate twigTemplate = twigemplateOpt.get();
 		LinkedHashMap<String, Object> templateMap = new LinkedHashMap<String, Object>();
 		
-		templateMap.put("Id", twigTemplate.getId());
+		templateMap.put("id", twigTemplate.getId());
 		
 		// Convert the JSON field in the to map, so the field will be validated automatically.
 		templateMap.put("background", jsonUtils.jsonToMap(twigTemplate.getBackground()));
@@ -91,5 +91,16 @@ public class TwigService {
 	public Page<TwigTemplateBasicInfoDTO> getTwigTemplateList(int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
 		return twigTemplateRepository.findAllTwigTemplates(pageable);
+	}
+	
+	public TwigTemplateBasicInfoDTO getTwigTemplateBasicInfoById(Long twigTemplateId) {
+		
+		Optional<TwigTemplateBasicInfoDTO> twigemplateOpt = twigTemplateRepository.findBasicInfoById(twigTemplateId);
+
+		if(!twigemplateOpt.isPresent()) {
+			return null;
+		}
+		return twigemplateOpt.get();
+		
 	}
 }

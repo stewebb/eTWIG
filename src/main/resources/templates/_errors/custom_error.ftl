@@ -12,17 +12,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<#include "../_includes/header.ftl">
+	<#include "../_includes/header_head.ftl">
 	<title>Error - ${app.appName}</title>
 </head>
 
 <body class="sidebar-mini layout-fixed">
 	<#include "../_includes/header_body_start.ftl">
 	
+	<#-- 
 	<#if embedded == false>
 		<#include "../_includes/sidebar.ftl">
 	</#if>
-	
+	 -->
 	<#-- Content Wrapper -->
   	<div class="<#if embedded == false>content-</#if>wrapper mt-3">
   	

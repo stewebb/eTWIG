@@ -52,4 +52,9 @@ public interface TwigTemplateRepository extends JpaRepository<TwigTemplate, Long
             "FROM TwigTemplate t LEFT JOIN t.portfolio p")
     public Page<TwigTemplateBasicInfoDTO> findAllTwigTemplates(Pageable pageable);
     
+    @Query("SELECT new net.grinecraft.etwig.dto.TwigTemplateBasicInfoDTO(t.id, t.name, p.name, t.availableFrom, t.availableTo) " +
+            "FROM TwigTemplate t LEFT JOIN t.portfolio p " +
+            "WHERE t.id = :id")
+    public Optional<TwigTemplateBasicInfoDTO> findBasicInfoById(long id);
+    
 }

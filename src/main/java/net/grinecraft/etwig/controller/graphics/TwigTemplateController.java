@@ -1,7 +1,5 @@
 package net.grinecraft.etwig.controller.graphics;
 
-import java.util.LinkedHashMap;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.stereotype.Controller;
@@ -9,6 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import net.grinecraft.etwig.dto.TwigTemplateBasicInfoDTO;
+import net.grinecraft.etwig.services.PortfolioService;
 import net.grinecraft.etwig.services.TwigService;
 import net.grinecraft.etwig.util.BooleanUtils;
 import net.grinecraft.etwig.util.NumberUtils;
@@ -18,6 +18,9 @@ public class TwigTemplateController {
 	
 	@Autowired
 	TwigService twigService;
+	
+	@Autowired
+	PortfolioService portfolioService;
 	
 	@RequestMapping("/graphics/twigTemplate/view")  
 	@PostAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR', 'ROLE_GRAPHICS_MANAGER')")
@@ -43,26 +46,31 @@ public class TwigTemplateController {
 				returnTemplate = addErrorInfo(model, "TemplateId is required.");
 			}
 			
-			// Positive number, a specific portfolio
-			if(templateIdNum >= 0) {
-				LinkedHashMap<String, Object> template = twigService.getTwigTemplateById(templateIdNum);
-				
-				//	Template not found
-				if(template == null) {
-					returnTemplate = addErrorInfo(model, "Cannot find a TWIG Template with id=" + templateId + ".");
-				}
-				
-				//	Template found
-				else {
-					model.addAttribute("template", template);
-					returnTemplate = "graphics/twigTemplate_design_edit";
-				}
-			}
-			
-			// Negative number, all portfolios
 			else {
-				returnTemplate = "graphics/twigTemplate_design_edit";
-			}	
+				
+				// Positive number, a specific portfolio
+				if(templateIdNum >= 0) {
+					TwigTemplateBasicInfoDTO templateBasicInfo = twigService.getTwigTemplateBasicInfoById(templateIdNum);
+					
+					//	Template not found
+					if(templateBasicInfo == null) {
+						returnTemplate = addErrorInfo(model, "Cannot find a TWIG Template with id=" + templateId + ".");
+					}
+					
+					//	Template found
+					else {
+						model.addAttribute("template", templateBasicInfo);
+						model.addAttribute("portfolioSeparatedCalendar", portfolioService.getPortfolioListBySeparatedCalendar(true));		
+						System.out.println(templateBasicInfo);
+						returnTemplate = "graphics/twigTemplate_design_edit";
+					}
+				}
+				
+				// Negative number, all portfolios
+				else {
+					returnTemplate = "graphics/twigTemplate_design_edit";
+				}	
+			}
 		}
 		
 		// Add mode

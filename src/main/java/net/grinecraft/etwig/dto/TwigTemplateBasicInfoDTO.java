@@ -7,6 +7,7 @@ import lombok.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class TwigTemplateBasicInfoDTO {
 
 	private Long id;
