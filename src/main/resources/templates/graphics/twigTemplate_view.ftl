@@ -57,6 +57,19 @@
 							</div>
 
 							<div class="card-body table-responsive">
+								
+								<#-- Button Options -->
+								<div class="btn-group mb-3">
+									<a href="/graphics/twigTemplate/design?edit=false" class="btn btn-outline-primary">
+										<i class="fa-solid fa-add"></i>&nbsp;Add
+									</a>
+									
+									<button type="button" class="btn btn-outline-secondary" onclick = "dt.ajax.reload();">
+										<i class="fa-solid fa-rotate"></i>&nbsp;Reload
+									</button>
+								</div>
+							
+								<#-- Table Content -->
 								<table id="twigTemplate" class="table table-hover table-striped">
 									<thead>
 										<tr>
@@ -70,11 +83,6 @@
 									</thead>
 									<tbody></tbody>
 								</table>
-
-								<nav>
-        							<ul class="pagination">
-        							</ul>
-    							</nav>
 							</div>
 
 						</div>
@@ -89,18 +97,14 @@
 	
 	<#--  jQuery DataTables plugin -->
 	<link rel="stylesheet" type="text/css" href="/static/css/dataTables.bootstrap4.min.css">
-	<!--
-	<link rel="stylesheet" type="text/css" href="/static/css/jquery.dataTables.min.css">
-	-->
     <script type="text/javascript" src="/static/js/jquery.dataTables.min.js"></script>
 	<script type="text/javascript" src="/static/js/dataTables.bootstrap4.min.js"></script>
 	
+	<#--  JS for TWIG template options. -->
 	<script type="text/javascript" src="/static/js/etwig-twig-template-main.js"></script>
 	
 	<script>
-	$(document).ready(function() {
-    	twigTemplateDataTable();
-	});
+    	var dt = twigTemplateDataTable();
 	</script>
 </body>
 </html>

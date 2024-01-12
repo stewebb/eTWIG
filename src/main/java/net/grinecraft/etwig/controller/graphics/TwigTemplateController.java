@@ -13,4 +13,10 @@ public class TwigTemplateController {
 	public String view(Model model) throws Exception{
 		return "graphics/twigTemplate_view";
 	}
+	
+	@RequestMapping("/graphics/twigTemplate/design")  
+	@PostAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR', 'ROLE_GRAPHICS_MANAGER')")
+	public String design(Model model) throws Exception{
+		return "graphics/twigTemplate_design";
+	}
 }

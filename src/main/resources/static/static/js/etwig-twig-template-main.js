@@ -1,34 +1,53 @@
+// function ( e, dt, node, config ) {
+//        dt.ajax.reload();
+
+
 function twigTemplateDataTable(){
-	$('#twigTemplate').DataTable({
-        "processing": true,
-        "serverSide": true,
-        "searching": false, 
-        "ajax": {
-            "url": "/api/private/getTwigTemplateList",
-            "data": function (d) {
+	var dt = $('#twigTemplate').DataTable({
+        processing: true,
+        serverSide: true,
+        searching: false, 
+        ajax: {
+            url: "/api/private/getTwigTemplateList",
+            data: function (d) {
                 d.page = d.start / d.length;
                 d.size = d.length;
                 console.log(d.page)
             },
-            "type": "GET",
-            "dataSrc": function (json) {
-                return json.content; // Adjust based on your JSON response structure
+            type: "GET",
+            dataSrc: function (json) {
+                return json.content;
             }
         },
-        "columns": [
-            { "data": "id" },
-            { "data": "name" },
-            { "data": "portfolioName" },
-            { "data": "availableFrom", "render": function(data, type, row) {
-            return data ? data : ''; 
-        } },
-            { "data": "availableTo" , "render": function(data, type, row) {
-            return data ? data : ''; 
-        }},
-            {'mRender': function (data, type, full) {
-     			return '<a href=\'view.php?id=\'' + full[0] + '\' class=\'btn btn-primary\'>Contact Sales</a>';
-     			}
-     		}
+        columns: [
+            { data: "id" },
+            { data: "name" },
+            { data: "portfolioName", render: portfolioRender },
+            { data: "availableFrom", render: dateRender},
+            { data: "availableTo" , render: dateRender},
+            {mRender:actionRender}
         ]
     });
+    return dt;
+}
+
+function portfolioRender(data, type, row){
+	return data ? data : 'All portfolios'; 
+}
+
+function dateRender(data, type, row){
+	return data ? data : 'N/A'; 
+}
+
+function actionRender(data, type, full){
+	console.log(full)
+	return `
+		<a href="/graphics/twigTemplate/design?edit=true&templateId=${full.id}" class="btn btn-outline-primary btn-sm mr-1">
+			<i class="fa-solid fa-pencil"></i>&nbsp;Edit
+		</a>
+			
+		<a href="#" class="btn btn-outline-danger btn-sm">
+			<i class="fa-solid fa-trash"></i>&nbsp;Delete
+		</a>
+	`;
 }
