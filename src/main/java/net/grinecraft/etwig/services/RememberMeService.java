@@ -47,7 +47,6 @@ public class RememberMeService extends TokenBasedRememberMeServices {
 		
 		UserDetails userDetails = super.processAutoLoginCookie(cookieTokens, request, response);
 		
-		//UserSession usersession = new UserSession();
 		userSession.setEmail(userDetails.getUsername());
 		userSession.put();
 		

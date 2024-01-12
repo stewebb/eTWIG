@@ -37,9 +37,9 @@
 									</div>
 								</div>
 									
-								<#-- Perview -->
+								<#-- Preview -->
 								<div class="form-group row">
-									<label for="templateName" class="col-sm-2 col-form-label">Perview</label>
+									<label for="templateName" class="col-sm-2 col-form-label">Preview</label>
 									<div class="col-sm-10">
 																													
 									</div>

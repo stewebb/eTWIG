@@ -58,25 +58,25 @@ public class TwigService {
 			return null;
 		}
 		
-		Optional<TwigTemplate> twigemplateOpt = twigTemplateRepository.findByDateAndPortfolio(date, portfolioId);
-		return optionalToMap(twigemplateOpt);
+		Optional<TwigTemplate> twigTemplateOpt = twigTemplateRepository.findByDateAndPortfolio(date, portfolioId);
+		return optionalToMap(twigTemplateOpt);
 	
 	}
 	
 	/**
 	 * Convert the optional data to a map (only applies in this class).
-	 * @param twigemplateOpt The Optional of TwigTemplate class.
+	 * @param twigTemplateOpt The Optional of TwigTemplate class.
 	 * @return
 	 * @throws Exception
 	 */
 	
-	private LinkedHashMap<String, Object> optionalToMap(Optional<TwigTemplate>  twigemplateOpt) throws Exception{
-		if(!twigemplateOpt.isPresent()) {
+	private LinkedHashMap<String, Object> optionalToMap(Optional<TwigTemplate> twigTemplateOpt) throws Exception{
+		if(!twigTemplateOpt.isPresent()) {
 			return null;
 		}
 		
 		JSONUtils jsonUtils = new JSONUtils();
-		TwigTemplate twigTemplate = twigemplateOpt.get();
+		TwigTemplate twigTemplate = twigTemplateOpt.get();
 		LinkedHashMap<String, Object> templateMap = new LinkedHashMap<String, Object>();
 		
 		templateMap.put("id", twigTemplate.getId());
@@ -95,12 +95,12 @@ public class TwigService {
 	
 	public TwigTemplateBasicInfoDTO getTwigTemplateBasicInfoById(Long twigTemplateId) {
 		
-		Optional<TwigTemplateBasicInfoDTO> twigemplateOpt = twigTemplateRepository.findBasicInfoById(twigTemplateId);
+		Optional<TwigTemplateBasicInfoDTO> twigTemplateOpt = twigTemplateRepository.findBasicInfoById(twigTemplateId);
 
-		if(!twigemplateOpt.isPresent()) {
+		if(!twigTemplateOpt.isPresent()) {
 			return null;
 		}
-		return twigemplateOpt.get();
+		return twigTemplateOpt.get();
 		
 	}
 }

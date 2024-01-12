@@ -10,15 +10,10 @@
 package net.grinecraft.etwig.services;
 
 import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.model.Property;
-import net.grinecraft.etwig.repository.PortfolioRepository;
 import net.grinecraft.etwig.repository.PropertyRepository;
 import net.grinecraft.etwig.util.MapUtils;
 

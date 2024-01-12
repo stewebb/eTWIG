@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-RECT_HALF_BOEDER = 10
+RECT_HALF_BORDER = 10
 
 '''
     Convert a transparent background to white.
@@ -55,11 +55,11 @@ def image_cropper(image):
     # Change the transparent background to white, if required. 
     trans_img = transparent_to_white(image)
 
-    # Image pre-processings: filter and convert to grayscale
+    # Image pre-processing: filter and convert to grayscale
     blurred_img = cv2.pyrMeanShiftFiltering(trans_img, 11, 21)
     grayscale_img = cv2.cvtColor(trans_img, cv2.COLOR_BGR2GRAY)
     
-    # Apply the Image Thresholding
+    # Apply the Image Threshold
     thresh = cv2.threshold(grayscale_img, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
 
     # Find all counters
@@ -80,7 +80,7 @@ def image_cropper(image):
             
             # Crop image, and consider the border width of the rectangle.
             # Do this on the original image.
-            cropped = image[y+RECT_HALF_BOEDER: y+h-RECT_HALF_BOEDER, x+RECT_HALF_BOEDER: x+w-RECT_HALF_BOEDER]
+            cropped = image[y+RECT_HALF_BORDER: y+h-RECT_HALF_BORDER, x+RECT_HALF_BORDER: x+w-RECT_HALF_BORDER]
             cropped_img.append(cropped)
 
     return cropped_img

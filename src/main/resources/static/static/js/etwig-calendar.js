@@ -73,7 +73,7 @@ function getEventListByRange(date, range){
     	dataType: 'json',
 		success: function(json) {
 			
-			// HTTP resopnse normally, but has other kinds of error (e.g, invalid input)
+			// HTTP response normally, but has other kinds of error (e.g, invalid input)
 			if(json.error > 0){
     			dangerToast("Failed to get events.", json.msg);
 			}

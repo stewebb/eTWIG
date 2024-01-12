@@ -29,7 +29,7 @@
 											<#assign property_icon = "list-check">
 										</#if>
 										
-										<#-- Convert the propertyId to String, as Freemarker doesn't accept numberic key when accessing to a map. -->
+										<#-- Convert the propertyId to String, as Freemarker doesn't accept numeric key when accessing to a map. -->
 										<#assign string_id = property_id?string>
 										
 										<#-- Mandatory field check. -->

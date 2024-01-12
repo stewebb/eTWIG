@@ -1,8 +1,6 @@
 package net.grinecraft.etwig.util;
 
 import java.time.LocalDate;
-import java.util.Date;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

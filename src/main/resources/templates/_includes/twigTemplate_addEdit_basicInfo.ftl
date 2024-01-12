@@ -117,7 +117,7 @@
               								<label for="startAnytime">Start Anytime</label>
 										</div>
 									
-										<#-- The start date imput -->
+										<#-- The start date input -->
 										<div class="input-group">
 											<div class="input-group-prepend">
 												<span class="input-group-text">
@@ -143,7 +143,7 @@
               								<label for="untilForever">Until Forever</label>
 										</div>
 									
-										<#-- The end date imput -->
+										<#-- The end date input -->
 										<div class="input-group">
 											<div class="input-group-prepend">
 												<span class="input-group-text">
