@@ -56,8 +56,8 @@
 								</h3>
 							</div>
 
-							<div class="card-body">
-								<table id="twig-template" class="table table-hover table-striped">
+							<div class="card-body table-responsive">
+								<table id="twigTemplate" class="table table-hover table-striped">
 									<thead>
 										<tr>
 											<th>TemplateId</th>
@@ -86,5 +86,21 @@
 	
 	<#include "../_includes/footer.ftl">
 	<#include "../_includes/header_body_end.ftl">
+	
+	<#--  jQuery DataTables plugin -->
+	<link rel="stylesheet" type="text/css" href="/static/css/dataTables.bootstrap4.min.css">
+	<!--
+	<link rel="stylesheet" type="text/css" href="/static/css/jquery.dataTables.min.css">
+	-->
+    <script type="text/javascript" src="/static/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="/static/js/dataTables.bootstrap4.min.js"></script>
+	
+	<script type="text/javascript" src="/static/js/etwig-twig-template-main.js"></script>
+	
+	<script>
+	$(document).ready(function() {
+    	twigTemplateDataTable();
+	});
+	</script>
 </body>
 </html>

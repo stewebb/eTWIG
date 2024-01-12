@@ -18,6 +18,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import net.grinecraft.etwig.dto.TwigTemplateBasicInfoDTO;
 import net.grinecraft.etwig.model.TwigTemplate;
 import net.grinecraft.etwig.repository.TwigTemplateRepository;
 import net.grinecraft.etwig.util.JSONUtils;
@@ -86,10 +88,8 @@ public class TwigService {
 		return templateMap;
 	}
 	
-	public Page<TwigTemplate> getTwigTemplateList(int page, int size) {
+	public Page<TwigTemplateBasicInfoDTO> getTwigTemplateList(int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
-		Page<TwigTemplate> a  = twigTemplateRepository.findAll(pageable);
-		System.out.println(a);
-		return a;
+		return twigTemplateRepository.findAllTwigTemplates(pageable);
 	}
 }

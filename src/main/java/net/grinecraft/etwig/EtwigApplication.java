@@ -12,12 +12,8 @@ package net.grinecraft.etwig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.context.annotation.ComponentScan;
-
-import net.grinecraft.etwig.util.UserSession;
 
 @SpringBootApplication
-//@ComponentScan(basePackageClasses = {UserSession.class})
 public class EtwigApplication {
 
 	public static void main(String[] args) {

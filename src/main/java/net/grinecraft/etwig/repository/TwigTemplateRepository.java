@@ -10,6 +10,7 @@
 package net.grinecraft.etwig.repository;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -48,7 +49,7 @@ public interface TwigTemplateRepository extends JpaRepository<TwigTemplate, Long
     
     
     @Query("SELECT new net.grinecraft.etwig.dto.TwigTemplateBasicInfoDTO(t.id, t.name, p.name, t.availableFrom, t.availableTo) " +
-            "FROM TwigTemplate t JOIN t.portfolio p")
+            "FROM TwigTemplate t LEFT JOIN t.portfolio p")
     public Page<TwigTemplateBasicInfoDTO> findAllTwigTemplates(Pageable pageable);
     
 }

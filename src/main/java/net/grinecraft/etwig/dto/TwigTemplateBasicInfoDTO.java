@@ -15,7 +15,7 @@ public class TwigTemplateBasicInfoDTO {
 	
 	private String portfolioName;
 	
-	private LocalDate availbleFrom;
+	private LocalDate availableFrom;
 	
 	private LocalDate availableTo;
 	
