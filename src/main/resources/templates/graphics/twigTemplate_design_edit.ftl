@@ -42,16 +42,14 @@
 				<div class="row">
 					<div class="col-md-6">
 					
-
-						
-						<#-- Organizer -->		
-						<#--<#include "../_includes/event_addEdit_organizer.ftl">-->		
+						<#-- Background -->		
+						<#include "../_includes/twigTemplate_addEdit_background.ftl">
 					</div>
 					
 					<div class="col-md-6">
 					
-						<#-- Timing -->		
-						<#--<#include "../_includes/event_addEdit_timing.ftl">-->		
+						<#-- Logo -->		
+						<#include "../_includes/twigTemplate_addEdit_logo.ftl">
 						
 						<#-- Properties -->
 						<#--<#include "../_includes/event_addEdit_properties.ftl">-->		
