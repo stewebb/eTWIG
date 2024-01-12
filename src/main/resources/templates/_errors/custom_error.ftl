@@ -13,12 +13,12 @@
 <html>
 <head>
 	<#include "../_includes/header.ftl">
-	
 	<title>Error - ${app.appName}</title>
 </head>
 
 <body class="sidebar-mini layout-fixed">
-
+	<#include "../_includes/header_body_start.ftl">
+	
 	<#if embedded == false>
 		<#include "../_includes/sidebar.ftl">
 	</#if>
@@ -53,5 +53,8 @@
 		</section>
 
 	</div>
+	
+	<#include "../_includes/header_body_end.ftl">
+	
 </body>
 </html>
