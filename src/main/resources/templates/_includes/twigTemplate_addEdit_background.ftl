@@ -67,49 +67,15 @@
 								<div class="form-group row">
 									<label for="templateName" class="col-sm-2 col-form-label">Image</label>
 									<div class="col-sm-10">
+																					
+									</div>
+								</div>
 									
-										<#-- 
-										<div class="input-group mb-2">
-											<div class="input-group-prepend">
-												<span class="input-group-text">
-													<i class="fa-solid fa-palette"></i>
-												</span>
-											</div>
-											
-											 <div class="custom-file">
-    											<input type="file" class="custom-file-input" id="customFile">
-    											<label class="custom-file-label" for="customFile">Choose file</label>
-  											</div>			
-  											
-  											<div class="input-group-append btn-group">
-  											
-  												 Download existing 
-												<button type="button" class="btn btn-outline-success">
-													<i class="fa-solid fa-download"></i>
-												</button>	
-											
-												Remove existing 
-												<button type="button" class="btn btn-outline-secondary">
-													<i class="fa-solid fa-trash"></i>
-												</button>	
-											
-												Upload new
-												<button type="button" class="btn btn-outline-primary">
-													<i class="fa-solid fa-upload"></i>
-												</button>	
-											
-											</div>
-											
-										-->																							
-										</div>
-									
-									
-									<#-- Perview -->
-									<div class="form-group row">
-										<label for="templateName" class="col-sm-2 col-form-label">Perview</label>
-										<div class="col-sm-10">
+								<#-- Perview -->
+								<div class="form-group row">
+									<label for="templateName" class="col-sm-2 col-form-label">Perview</label>
+									<div class="col-sm-10">
 																													
-										</div>
 									</div>
 								</div>
 								

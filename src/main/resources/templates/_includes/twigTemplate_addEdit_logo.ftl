@@ -8,11 +8,11 @@
 	This part contains the form of basic information like name, location, recurrent and description.
    -->
 						
-						<#-- Background -->
+						<#-- Logo -->
 						<div class="card card-primary card-outline">
 							<div class="card-header">
 								<h3 class="card-title">
-									<i class="fa-regular fa-image"></i>&nbsp;Background
+									<i class="fa-solid fa-star"></i>&nbsp;Logo
 								</h3>
 							</div>
 							
@@ -23,42 +23,8 @@
 									<label for="templateName" class="col-sm-2 col-form-label">Enabled</label>
 									<div class="col-sm-10">
 										<div class="icheck-primary mb-2">
-  											<input type="checkbox" id="backgroundEnabled" name="backgroundEnabled">
-              								<label for="backgroundEnabled">Enabled</label>
-										</div>
-									</div>
-								</div>
-								
-								<#-- Mode -->
-								<div class="form-group row">
-									<label for="templateName" class="col-sm-2 col-form-label">Mode</label>
-									<div class="col-sm-10">
-									
-										<#-- Solid color -->
-										<div class="icheck-primary">
-											<input type="radio" id="backgroundModeSolid" name="backgroundMode">
-											<label for="backgroundModeSolid">Solid color</label>
-										</div>
-										
-										<#-- Image -->
-										<div class="icheck-primary">
-											<input type="radio" id="backgroundModeImage" name="backgroundMode">
-											<label for="backgroundModeImage">Image</label>
-										</div>					
-									</div>
-								</div>
-								
-								<#-- Color -->
-								<div class="form-group row">
-									<label for="templateName" class="col-sm-2 col-form-label">Color</label>
-									<div class="col-sm-10">
-										<div class="input-group">
-											<div class="input-group-prepend">
-												<span class="input-group-text">
-													<i class="fa-solid fa-palette"></i>
-												</span>
-											</div>
-											<input type="text" class="form-control" placeholder="Color" id="templateName" maxlength="31" value="">
+  											<input type="checkbox" id="logoEnabled" name="logoEnabled">
+              								<label for="logoEnabled">Enabled</label>
 										</div>
 									</div>
 								</div>
@@ -67,51 +33,79 @@
 								<div class="form-group row">
 									<label for="templateName" class="col-sm-2 col-form-label">Image</label>
 									<div class="col-sm-10">
+																					
+									</div>
+								</div>
 									
-										<#-- 
-										<div class="input-group mb-2">
+								<#-- Perview -->
+								<div class="form-group row">
+									<label for="templateName" class="col-sm-2 col-form-label">Perview</label>
+									<div class="col-sm-10">
+																													
+									</div>
+								</div>
+								
+								<#-- Size -->
+								<div class="form-group row">
+									<label for="templateName" class="col-sm-2 col-form-label">Size</label>
+									<div class="col-sm-10">
+										<div class="input-group">
 											<div class="input-group-prepend">
 												<span class="input-group-text">
-													<i class="fa-solid fa-palette"></i>
+													<i class="fa-solid fa-up-right-and-down-left-from-center"></i>
 												</span>
 											</div>
-											
-											 <div class="custom-file">
-    											<input type="file" class="custom-file-input" id="customFile">
-    											<label class="custom-file-label" for="customFile">Choose file</label>
-  											</div>			
-  											
-  											<div class="input-group-append btn-group">
-  											
-  												 Download existing 
-												<button type="button" class="btn btn-outline-success">
-													<i class="fa-solid fa-download"></i>
-												</button>	
-											
-												Remove existing 
-												<button type="button" class="btn btn-outline-secondary">
-													<i class="fa-solid fa-trash"></i>
-												</button>	
-											
-												Upload new
-												<button type="button" class="btn btn-outline-primary">
-													<i class="fa-solid fa-upload"></i>
-												</button>	
-											
-											</div>
-											
-										-->																							
-										</div>
-									</div>
-									
-									<#-- Perview -->
-									<div class="form-group row">
-										<label for="templateName" class="col-sm-2 col-form-label">Perview</label>
-										<div class="col-sm-10">
-																													
+											<input type="number" class="form-control" placeholder="Size" id="templateName" maxlength="31" value="">
+											<div class="input-group-append">
+    											<span class="input-group-text">%</span>
+  											</div>
 										</div>
 									</div>
 								</div>
 								
+								<#-- Position -->
+								<div class="form-group row">
+									<label for="templateName" class="col-sm-2 col-form-label">Position</label>
+										<div class="col-sm-10 form-row align-items-center">
+										
+											<#-- X Axis -->
+                    						<div class="col-sm-5">
+                    							<div class="input-group">
+                    								<div class="input-group-prepend">
+                    									<span class="input-group-text">
+                    										<i class="fa-solid fa-arrow-right"></i>
+                    									</span>
+                    								</div>
+                        							<input type="number" class="form-control" id="widthInput" placeholder="X-Axis">
+                    								<div class="input-group-append">
+    													<span class="input-group-text">%</span>
+  													</div>
+                    							</div>
+                    						</div>
+                    						
+                    						<#-- Comma -->
+                    						<div class="col-auto">
+                        						<span class="form-control-plaintext">,</span>
+                    						</div>
+                    					
+                    						<#-- Y Axis -->
+                    						<div class="col-sm-5">
+                    							<div class="input-group">
+                    								<div class="input-group-prepend">
+                    									<span class="input-group-text">
+                    										<i class="fa-solid fa-arrow-down"></i>
+                    									</span>
+                    								</div>
+                        							<input type="number" class="form-control" id="widthInput" placeholder="Y-Axis">
+                    								<div class="input-group-append">
+    													<span class="input-group-text">%</span>
+  													</div>
+                    							</div>
+                    						</div>
+                    						
+                    					</div>
+								</div>
+									
+									
 							</div>
 						</div>	

@@ -37,6 +37,7 @@
     	<section class="content">
 			<div class="container-fluid">
 			
+				<#-- Basic information -->
 				<#include "../_includes/twigTemplate_addEdit_basicInfo.ftl">
 				
 				<div class="row">
@@ -59,9 +60,10 @@
 					</div>
 				</div>
 				
-
-				
 			</div>
+			
+			<#-- Preview -->
+			<#include "../_includes/twigTemplate_addEdit_preview.ftl">
 		</section>
 
 	</div>
