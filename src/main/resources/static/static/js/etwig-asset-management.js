@@ -20,29 +20,13 @@ function assetSelectorDataTable(){
         columns: [
             { data: "id" },
             { data: "name" },
-            { data: "mediaType"},
-            { data: "fileCategory"},
-            { data: "size"},
+            { data: "mediaType", visible: false},
+            { data: "fileCategory", visible: false},
+            { data: "size", visible: false},
             { data: "uploader"},
             { data: "lastModified", render: lastModifiedRender},
         ]
     });
-
-	// Row click highlight
-	/*
-	dt.on('click', 'tbody tr', (e) => {
-   		var classList = e.currentTarget.classList;
- 
-   		if (classList.contains('selected')) {
-        	classList.remove('selected');
-        	//alert('Selection cancelled');
-    	}else {
-        	dt.rows('.selected').nodes().each((row) => row.classList.remove('selected'));
-        	classList.add('selected');
-        	
-    	}
-	});
-	*/
 	
 	dt.on('click', 'tbody tr', function(e) {
     var classList = e.currentTarget.classList;
@@ -61,17 +45,11 @@ function assetSelectorDataTable(){
         classList.add('selected');
 
         var rowData = dt.row(this).data();
-        console.log(rowData);
+        //console.log(rowData);
         previewAsset(rowData);
     }
 });
 
-	// Get clicked assetId
-	//dt.on('click', 'tbody td', function() {
- 	//	var assetId = dt.cell({ row: this.parentNode.rowIndex-1, column:0 }).data();
- 	//	console.log(assetId)
- 	//	//previewAsset(assetId);
-	//});
     return dt;
 }
 
@@ -81,20 +59,57 @@ function lastModifiedRender(data, type, row){
 
 function previewAsset(asset){
 	
+	// Not selected
 	if(asset == undefined || asset == null){
-		$("#previewContent").html("");
+		$("#previewContent").html(`
+			<div class="d-flex justify-content-center mb-2">
+				<i class="fa-regular fa-arrow-pointer big-icons"></i>
+			</div>
+									
+			<div class="d-flex justify-content-center bold-text text-secondary">
+				Select an asset to preview by clicking a row in the above table.
+			</div>
+		`);
 		return;
 	}
 	
-	//var id = asset.id;
+	var fileURL = "/twig/assets?assetId=" + asset.id;
 	var category = asset.fileCategory;
 	
+	/*
+	var commonHTML = `
+		<div class="mb-2">
+			<span class="bold-text">Name: </span> ${asset.name}, 
+			<span class="bold-text">Type: </span> ${asset.mediaType}, 
+			<span class="bold-text">Category: </span> ${category}, 
+			<span class="bold-text">Size: </span> ${asset.size}
+		</div>
+	`;
+	*/
+	
+	// File type is IMAGE, show an image on the screen.
 	if(category == "IMAGE"){
+		$("#previewContent").html(`<img src="${fileURL}" class="img-fluid"></img>`);
+	}
+	
+	// File type is TEXT, show an textarea on the screen.
+	else if(category == "TEXT"){
+		$.get(fileURL, function(data) {
+   			$("#previewContent").html(`<textarea class="form-control" readonly>${data}</textarea>`);
+		}, 'text');
+	}
+	
+	// Other file types, no preview available.
+	else{
 		$("#previewContent").html(`
-			<img src="/twig/assets?assetId=${asset.id}" class="img-fluid"></img>
+			<div class="d-flex justify-content-center big-icons mb-2">
+				<i class="fa-solid fa-eye-slash"></i>
+			</div>
+									
+			<div class="d-flex justify-content-center bold-text text-secondary">
+				Preview is not available, please download the file directly.
+			</div>
 		`);
 	}
 	
-	
-	//console.log("/twig/assets?assetId=" + assetId);
 }

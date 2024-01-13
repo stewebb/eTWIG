@@ -28,7 +28,7 @@ public class AssetBasicInfoDTO {
 	public AssetBasicInfoDTO(Asset asset) {
 		
 		this.id = asset.getId();
-		this.name = asset.getFileName();
+		this.name = asset.getOriginalName();
 		this.type = FileType.safeValueOf(FilenameUtils.getExtension(this.name));
 		this.size = asset.getFileSize();
 		
@@ -41,7 +41,7 @@ public class AssetBasicInfoDTO {
 		return this.type.getMediaType().toString();
 	}
 	
-	//public FileCategory getFileCategory() {
-	//	return this.type.getFileCategory();
-	//}
+	public String getFileCategory() {
+		return this.type.getFileCategory().toString();
+	}
 }

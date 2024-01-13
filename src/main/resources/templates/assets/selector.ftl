@@ -74,9 +74,35 @@
 							<i class="fa-solid fa-eye"></i>&nbsp;Preview
 						</h3>
 					</div>
-
+					
 					<div class="card-body">
+					
+						<#-- Preview content -->
 						<div id="previewContent"></div>
+						
+						<#-- Submit options -->
+						<div class="btn-group mt-3" role="group" style="float: right;">
+						
+							<#-- Download -->
+							<a href="#" class="btn btn-outline-success" download target="_blank">
+								<i class="fa-regular fa-download"></i>&nbsp;Download
+							</a>
+							
+							<#-- Cancel -->
+							<button type="button" class="btn btn-outline-secondary" onclick="parent.$('#etwigModal').modal('hide');">
+								<i class="fa-solid fa-xmark"></i>&nbsp;Close
+							</button>
+							
+							<#-- Select -->
+							<button type="button" class="btn btn-outline-primary" onclick="">
+								<i class="fa-regular fa-check"></i>&nbsp; Select
+							</button>
+							
+						</div>
+						
+					</div>
+					
+					
 					</div>
 				</div>
 			</div>
@@ -96,6 +122,7 @@
 	
 	<script>
     	var dt = assetSelectorDataTable();
+    	previewAsset(null);
 	</script>
 </body>
 </html>

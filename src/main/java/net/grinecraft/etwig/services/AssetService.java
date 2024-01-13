@@ -71,7 +71,7 @@ public class AssetService {
 		}
 		
 		// Retrieve the file from the file system
-		Path file = rootLocation.resolve(asset.getFileName());
+		Path file = rootLocation.resolve(asset.getStoredName());
 		return new UrlResource(file.toUri());		
 	}
 	

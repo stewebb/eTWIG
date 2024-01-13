@@ -27,8 +27,11 @@ public class Asset {
     @Column(name = "id")
 	private Long id;
 	
-	@Column(name = "file_name")
-	private String fileName;
+	@Column(name = "original_name")
+	private String originalName;
+	
+	@Column(name = "stored_name")
+	private String storedName;
 	
 	@Column(name = "last_modified")
 	private LocalDateTime lastModified;
