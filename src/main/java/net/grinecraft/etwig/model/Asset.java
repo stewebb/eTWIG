@@ -33,8 +33,8 @@ public class Asset {
 	@Column(name = "last_modified")
 	private LocalDateTime lastModified;
 	
-	//@Column(name = "editor")
-	//private Long editorId;
+	@Column(name = "size")
+	private int fileSize;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "editor", referencedColumnName = "id", insertable = false, updatable = false)

@@ -7,13 +7,15 @@
  	* @function: The controller for public assets.
  	*/
 
-package net.grinecraft.etwig.controller.twig;
+package net.grinecraft.etwig.controller;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -55,4 +57,9 @@ public class AssetController {
         } 
     }
 	
+	
+	@RequestMapping("/assets/_selector")  
+	public String selector(Model model) throws Exception{
+		return "assets/selector";
+	}
 }

@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import net.grinecraft.etwig.dto.AssetBasicInfoDTO;
 import net.grinecraft.etwig.dto.TwigTemplateBasicInfoDTO;
+import net.grinecraft.etwig.services.AssetService;
 import net.grinecraft.etwig.services.TwigService;
 import net.grinecraft.etwig.services.WeekService;
 import net.grinecraft.etwig.util.DateUtils;
@@ -33,6 +35,9 @@ public class TwigAPIController {
 	
 	@Autowired
 	WeekService weekService;
+	
+	@Autowired
+	AssetService assetService;
 
 	/**
 	 * Get the TWIG template by a specific given id.
@@ -97,8 +102,12 @@ public class TwigAPIController {
 	}
 	
 	@RequestMapping("/api/private/getTwigTemplateList")  
-    public Page<TwigTemplateBasicInfoDTO> getPaginatedEntities(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    public Page<TwigTemplateBasicInfoDTO> getTwigTemplateList(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return twigService.getTwigTemplateList(page, size);
     }
 	
+	@RequestMapping("/api/private/getAssetList")  
+    public Page<AssetBasicInfoDTO> getAssetList(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return assetService.getAssetList(page, size);
+    }
 }

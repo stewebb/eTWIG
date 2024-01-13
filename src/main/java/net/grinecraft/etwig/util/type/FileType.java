@@ -19,7 +19,7 @@ public enum FileType {
 	JSON(MediaType.APPLICATION_JSON, FileCategory.APPLICATION),
 	
 	// Images
-	 GIF(MediaType.IMAGE_GIF, FileCategory.IMAGE),
+	GIF(MediaType.IMAGE_GIF, FileCategory.IMAGE),
     JPG(MediaType.IMAGE_JPEG, FileCategory.IMAGE),
     JPEG(MediaType.IMAGE_JPEG, FileCategory.IMAGE),
     PNG(MediaType.IMAGE_PNG, FileCategory.IMAGE),
