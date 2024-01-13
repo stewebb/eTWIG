@@ -21,6 +21,14 @@
 	background-color:#004aad!important;
 }
 
+.active .bs-stepper-circle {
+	background-color: #004aad!important;
+}
+
+.active .bs-stepper-label{
+	color: #004aad!important;
+}
+
 /* A helper style to get a bold text. */
 .bold-text{
 	font-weight: bold;

@@ -38,70 +38,54 @@ public class TwigTemplateController {
 	@RequestMapping("/graphics/twigTemplate/edit")  
 	@PostAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR', 'ROLE_GRAPHICS_MANAGER')")
 	public String edit(Model model, @RequestParam String templateId) throws Exception{
+		
+		TwigTemplateBasicInfoDTO template = getTemplate(templateId);
+		if(template == null) {
+			return addErrorInfo(model, "The templateId is either not presented, a negative number, or cannot be found in the database.");
+		}
+		
+		model.addAttribute("template", template);
 		model.addAttribute("portfolioSeparatedCalendar", portfolioService.getPortfolioListBySeparatedCalendar(true));		
 		return "graphics/twigTemplate_edit";
 	}
 	
 	@RequestMapping("/graphics/twigTemplate/design")  
 	@PostAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR', 'ROLE_GRAPHICS_MANAGER')")
-	public String design(Model model, @RequestParam(required=false) String edit, @RequestParam(required=false) String templateId) throws Exception{
-		String returnTemplate = "";
+	public String design(Model model, @RequestParam(required=false) String templateId) throws Exception{
 		
-		// Get mode (allow null)
-		Boolean isEdit =  BooleanUtils.toBooleanObject(edit);
-		
-		// Edit mode
-		if(isEdit == Boolean.TRUE) {
-			
-			// Get the numeric value of templateId, and null check.
-			Long templateIdNum = NumberUtils.safeCreateLong(templateId);
-			if(templateIdNum == null) {
-				returnTemplate = addErrorInfo(model, "TemplateId is required.");
-			}
-			
-			else {
-				
-				// Positive number, a specific portfolio
-				if(templateIdNum >= 0) {
-					TwigTemplateBasicInfoDTO templateBasicInfo = twigService.getTwigTemplateBasicInfoById(templateIdNum);
-					
-					//	Template not found
-					if(templateBasicInfo == null) {
-						returnTemplate = addErrorInfo(model, "Cannot find a TWIG Template with id=" + templateId + ".");
-					}
-					
-					//	Template found
-					else {
-						model.addAttribute("template", templateBasicInfo);
-						model.addAttribute("portfolioSeparatedCalendar", portfolioService.getPortfolioListBySeparatedCalendar(true));		
-						System.out.println(templateBasicInfo);
-						returnTemplate = "graphics/twigTemplate_design_edit";
-					}
-				}
-				
-				// Negative number, all portfolios
-				else {
-					returnTemplate = "graphics/twigTemplate_design_edit";
-				}	
-			}
+		TwigTemplateBasicInfoDTO template = getTemplate(templateId);
+		if(template == null) {
+			return addErrorInfo(model, "The templateId is either not presented, a negative number, or cannot be found in the database.");
 		}
 		
-		// Add mode
-		else if (isEdit == Boolean.FALSE) {
-			returnTemplate = "graphics/twigTemplate_design_add";
-		}
-		
-		// Default page (isEdit is null)
-		else {
-			returnTemplate = "graphics/twigTemplate_design_default";
-		}
-		
-		return returnTemplate;
+		return "graphics/twigTemplate_design";
 	}
 	
 	private String addErrorInfo(Model model, String reason) {
 		model.addAttribute("embedded", false);
 		model.addAttribute("reason", reason);
 		return "_errors/custom_error";
+	}
+	
+	private TwigTemplateBasicInfoDTO getTemplate(String templateId) {
+		
+		// Get the numeric value of templateId, and null check.
+		Long templateIdNum = NumberUtils.safeCreateLong(templateId);
+		if(templateIdNum == null) {
+			return null;
+		}
+					
+		// This number must positive.
+		if(templateIdNum < 0) {
+			return null;
+		}
+			
+		// Find template and also null check
+		TwigTemplateBasicInfoDTO templateBasicInfo = twigService.getTwigTemplateBasicInfoById(templateIdNum);
+		if(templateBasicInfo == null) {
+			return null;
+		}
+			
+		return templateBasicInfo;
 	}
 }

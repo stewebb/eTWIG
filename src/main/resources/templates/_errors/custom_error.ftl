@@ -19,11 +19,13 @@
 <body class="sidebar-mini layout-fixed">
 	<#include "../_includes/header_body_start.ftl">
 	
-	<#-- 
+	
 	<#if embedded == false>
+		<#assign navbar = "OTHER">
 		<#include "../_includes/sidebar.ftl">
 	</#if>
-	 -->
+	 
+	 
 	<#-- Content Wrapper -->
   	<div class="<#if embedded == false>content-</#if>wrapper mt-3">
   	
@@ -33,14 +35,19 @@
 			
 				<#-- Error description -->
 				<div class="card card-warning card-outline">
+				
 					<div class="card-header">
 						<h3 class="card-title bold-text text-warning">
-							<i class="fa-solid fa-circle-exclamation"></i>&nbsp;An error happens
+							<i class="fa-solid fa-circle-exclamation"></i>&nbsp;An error happenes
 						</h3>
 					</div>
+					
 					<div class="card-body">
-						<span class="bold-text">Description:</span>&nbsp;
-						<#if reason?has_content>${reason}</#if>
+					
+						<div class="mb-3">
+							<span class="bold-text">Description:</span>&nbsp;
+							<#if reason?has_content>${reason}</#if>
+						</div>
 						
 						<div class="d-flex justify-content-center">
 							<button class="btn btn-outline-primary" onclick="window.history.back();">
