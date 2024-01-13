@@ -151,9 +151,9 @@
           					
           					<#-- TWIG Template: Designer -->
 							<li class="nav-item">
-            					<a href="/graphics/twigTemplate/design" class="nav-link <#if navbar=="TWIG_TEMPLATE_DESIGNER">active</#if>">
-              						<i class="nav-icon fas fa-wand-magic-sparkles"></i>
-              						<p>Design</p>
+            					<a href="/graphics/twigTemplate/add" class="nav-link <#if navbar=="TWIG_TEMPLATE_ADD">active</#if>">
+              						<i class="nav-icon fas fa-plus"></i>
+              						<p>Add</p>
             					</a>
           					</li>
 						</ul>

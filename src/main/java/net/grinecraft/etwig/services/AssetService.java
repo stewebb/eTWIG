@@ -68,6 +68,7 @@ public class AssetService {
 		return assetOpt.isPresent() ? assetOpt.get() : null;
 	}
 	
+	
 	/**
 	 * Get the content of an asset by its id.
 	 * @param id
@@ -75,10 +76,10 @@ public class AssetService {
 	 * @throws Exception
 	 */
 	
-	public Resource getAssetContentById(long id) throws Exception {
+	public Resource getAssetContent(Asset asset) throws Exception {
 		
 		// Get file info and check existence.
-		Asset asset = this.getAssetDetailsById(id);
+		//Asset asset = this.getAssetDetailsById(id);
 		if(asset == null) {
 			return null;
 		}

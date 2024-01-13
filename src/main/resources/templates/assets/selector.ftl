@@ -106,9 +106,9 @@
 						<div class="btn-group mt-3" role="group" style="float: right;">
 						
 							<#-- Download -->
-							<a href="#" class="btn btn-outline-success" download target="_blank">
+							<button id="downloadBtn" class="btn btn-outline-success" onclick="" disabled>
 								<i class="fa-regular fa-download"></i>&nbsp;Download
-							</a>
+							</button>
 							
 							<#-- Cancel -->
 							<button type="button" class="btn btn-outline-secondary" onclick="parent.$('#etwigModal').modal('hide');">

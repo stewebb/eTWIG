@@ -61,7 +61,7 @@
 								
 								<#-- Button Options -->
 								<div class="btn-group mb-3">
-									<a href="/graphics/twigTemplate/design?edit=false" class="btn btn-outline-primary">
+									<a href="/graphics/twigTemplate/add" class="btn btn-outline-primary">
 										<i class="fa-solid fa-add"></i>&nbsp;Add
 									</a>
 									

@@ -73,6 +73,10 @@ function previewAsset(asset){
 				Select an asset to preview by clicking a row in the above table.
 			</div>
 		`);
+		
+		$("#downloadBtn").attr("onclick", "");
+		$("#downloadBtn").attr("href", "#");
+		$("#downloadBtn").attr("disabled", true);
 		return;
 	}
 	
@@ -114,6 +118,10 @@ function previewAsset(asset){
 			</div>
 		`);
 	}
+	
+	$("#downloadBtn").attr("onclick", `window.location.href='${fileURL}&download=true'`);
+	$("#downloadBtn").attr("href", "fileURL");
+	$("#downloadBtn").attr("disabled", false);
 }
 
 function uploadFile(){

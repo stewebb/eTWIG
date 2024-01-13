@@ -42,12 +42,18 @@ function dateRender(data, type, row){
 function actionRender(data, type, full){
 	console.log(full)
 	return `
-		<a href="/graphics/twigTemplate/design?edit=true&templateId=${full.id}" class="btn btn-outline-primary btn-sm mr-1">
-			<i class="fa-solid fa-pencil"></i>&nbsp;Edit
+	<div class="btn-group">
+		<a href="/graphics/twigTemplate/design?templateId=${full.id}" class="btn btn-outline-primary btn-sm">
+			<i class="fa-solid fa-wand-magic-sparkles"></i>
+		</a>
+		
+		<a href="/graphics/twigTemplate/edit?templateId=${full.id}" class="btn btn-outline-secondary btn-sm">
+			<i class="fa-solid fa-pencil"></i>
 		</a>
 			
 		<a href="#" class="btn btn-outline-danger btn-sm">
-			<i class="fa-solid fa-trash"></i>&nbsp;Delete
+			<i class="fa-solid fa-trash"></i>
 		</a>
+	</div>
 	`;
 }

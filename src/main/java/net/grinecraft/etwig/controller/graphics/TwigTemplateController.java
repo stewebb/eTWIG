@@ -28,10 +28,23 @@ public class TwigTemplateController {
 		return "graphics/twigTemplate_view";
 	}
 	
+	@RequestMapping("/graphics/twigTemplate/add")  
+	@PostAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR', 'ROLE_GRAPHICS_MANAGER')")
+	public String add(Model model) throws Exception{
+		model.addAttribute("portfolioSeparatedCalendar", portfolioService.getPortfolioListBySeparatedCalendar(true));		
+		return "graphics/twigTemplate_add";
+	}
+	
+	@RequestMapping("/graphics/twigTemplate/edit")  
+	@PostAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR', 'ROLE_GRAPHICS_MANAGER')")
+	public String edit(Model model, @RequestParam String templateId) throws Exception{
+		model.addAttribute("portfolioSeparatedCalendar", portfolioService.getPortfolioListBySeparatedCalendar(true));		
+		return "graphics/twigTemplate_edit";
+	}
+	
 	@RequestMapping("/graphics/twigTemplate/design")  
 	@PostAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR', 'ROLE_GRAPHICS_MANAGER')")
 	public String design(Model model, @RequestParam(required=false) String edit, @RequestParam(required=false) String templateId) throws Exception{
-		
 		String returnTemplate = "";
 		
 		// Get mode (allow null)
