@@ -38,15 +38,37 @@
 
 					<div class="card-body table-responsive">
 								
-						<#-- Button Options -->
-						<div class="btn-group mb-3">
-							<button type="button" class="btn btn-outline-primary">
-								<i class="fa-solid fa-upload"></i>&nbsp;Upload
-							</button>
-									
-							<button type="button" class="btn btn-outline-secondary" onclick = "dt.ajax.reload();">
-								<i class="fa-solid fa-rotate"></i>&nbsp;Reload
-							</button>
+						<#-- Upload Options -->
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fa-solid fa-file-arrow-up"></i>
+								</span>
+							</div>				
+						
+							<#-- File upload box -->
+							<div class="custom-file">
+								<input type="file" class="custom-file-input" id="fileUpload">
+								<label class="custom-file-label" for="exampleInputFile">Choose file</label>
+							</div>
+							
+							<div class="input-group-append">
+							
+								<#-- Upload file button -->
+								<button type="button" class="btn btn-outline-primary" onclick="uploadFile();" id="uploadFileBtn" disabled>
+									<i class="fa-solid fa-upload"></i>
+								</button>
+								
+								<#-- Reset file button -->
+								<button type="button" class="btn btn-outline-secondary" onclick = "resetFile();">
+									<i class="fa-solid fa-xmark"></i>
+								</button>
+								
+								<#--Reload table button -->
+								<button type="button" class="btn btn-outline-secondary" onclick = "dt.ajax.reload();">
+									<i class="fa-solid fa-rotate"></i>
+								</button>
+							</div>
 						</div>
 							
 						<#-- Table Content -->

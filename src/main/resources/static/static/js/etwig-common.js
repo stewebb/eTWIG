@@ -92,12 +92,17 @@ function formatState(state) {
 };
 
 function timeAgo(dateStr) {
-    var now = Date.today();
+	
+	// Remove the milliseconds, if needed.
+	dateStr = dateStr.split(".")[0];
+	
+	// Do not use Date.today(), as the hours, minutes and seconds will be removed!
+    var now = new Date();
     var date = Date.parse(dateStr);
     var diff = now - date;
 
-	//console.log(now);
-	//console.log(date);
+	//console.log("now", now);
+	//console.log("date", date);
 	
     if (diff < 0) {
         return "In the future";

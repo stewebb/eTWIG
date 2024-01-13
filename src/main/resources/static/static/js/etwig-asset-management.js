@@ -54,6 +54,9 @@ function assetSelectorDataTable(){
 }
 
 function lastModifiedRender(data, type, row){
+	
+	//console.log(data.split(".")[0]);
+	// Only precise to seconds.
 	return timeAgo(data); 
 }
 
@@ -111,5 +114,50 @@ function previewAsset(asset){
 			</div>
 		`);
 	}
-	
+}
+
+function uploadFile(){
+	var data = new FormData();
+    var file = $('#fileUpload')[0].files[0];
+    
+    // Null check
+    if(file == undefined || file == null){
+		warningToast("Please select a file.");
+		return;
+	}
+    
+    data.append('file', file);
+    
+    $.ajax({
+		type: 'POST',
+        url: '/api/private/upload',
+        data: data,
+        contentType: false,
+        processData: false,
+        success: function(result) {
+        	if(result.error > 0){
+				dangerToast("Failed to upload file.", result.msg);
+			}else{
+				successToast("File upload successfully.");
+				resetFile();
+				$('#assetSelector').DataTable().ajax.reload();
+			}	
+        },
+        error: function (err) {
+			dangerToast("Failed to upload file due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+    		hasError = true;
+    	}
+    });
+}
+
+$(".custom-file-input").on("change", function() {
+	var fileName = $(this).val().split("\\").pop();
+	$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+	$("#uploadFileBtn").prop('disabled', false);
+});
+
+function resetFile(){
+	$('#fileUpload').val('');
+    $('.custom-file-input').siblings(".custom-file-label").removeClass("selected").html("Choose file");
+    $("#uploadFileBtn").prop('disabled', true);
 }

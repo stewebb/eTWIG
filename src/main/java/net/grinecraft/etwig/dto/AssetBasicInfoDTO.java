@@ -19,7 +19,7 @@ public class AssetBasicInfoDTO {
 		
 	private FileType type;
 	
-	private int size;
+	private long size;
 	
 	private String uploader;
 	
