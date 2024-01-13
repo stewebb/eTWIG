@@ -66,9 +66,30 @@
 								<#-- Position -->
 								<div class="form-group row">
 									<label for="templateName" class="col-sm-2 col-form-label">Position</label>
+									<div class="col-sm-10">
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text">
+													<i class="fa-solid fa-arrows-up-down-left-right"></i>
+												</span>
+											</div>
+											
+											<input type="text" id= "position" class="form-control" data-mask>
+											
+											<div class="input-group-append">
+    											<span class="input-group-text">%</span>
+  											</div>
+										</div>
+									</div>
+								</div>
+								
+								<#-- Position -->
+								<#-- 
+								<div class="form-group row">
+									<label for="templateName" class="col-sm-2 col-form-label">Position</label>
 										<div class="col-sm-10 form-row align-items-center">
 										
-											<#-- X Axis -->
+											X Axis
                     						<div class="col-sm-5">
                     							<div class="input-group">
                     								<div class="input-group-prepend">
@@ -83,12 +104,12 @@
                     							</div>
                     						</div>
                     						
-                    						<#-- Comma -->
+                    						Comma
                     						<div class="col-auto">
                         						<span class="form-control-plaintext">,</span>
                     						</div>
                     					
-                    						<#-- Y Axis -->
+                    						Y Axis
                     						<div class="col-sm-5">
                     							<div class="input-group">
                     								<div class="input-group-prepend">
@@ -104,8 +125,8 @@
                     						</div>
                     						
                     					</div>
-								</div>
-									
+									</div>
+								-->	
 									
 							</div>
 						</div>	

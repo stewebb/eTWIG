@@ -8,6 +8,13 @@
 	This part contains the JavaScript after the form. Commonly the initialization of some libraries.
    -->
    
+	<#-- Bootstrap color picker -->
+	<link rel="stylesheet" href="/static/css/bootstrap-colorpicker.min.css">
+	<script src="/static/js/bootstrap-colorpicker.min.js"></script>
+	
+	<#-- jQuery inputmask -->
+   	<script src="/static/js/jquery.inputmask.min.js"></script>
+   
    	<#-- Post Scripts -->
 	<script>
 	
@@ -16,4 +23,12 @@
     		templateResult: formatState,
   			templateSelection: formatState,
 		});
+		
+		    $('.my-colorpicker2').colorpicker()
+
+    $('.my-colorpicker2').on('colorpickerChange', function(event) {
+      $('.my-colorpicker2 .fa-palette').css('color', event.color.toString());
+    })
+    
+      $("#position").inputmask('99,99', {placeholder: "__,__"});
     </script>
