@@ -56,6 +56,7 @@
 									<th>AssetId</th>
 									<th>Name</th>
 									<th>Type</th>
+									<th>Category</th>
 									<th>Size</th>
 									<th>Uploader</th>
 									<th>Last Modified</th>
@@ -75,7 +76,7 @@
 					</div>
 
 					<div class="card-body">
-								
+						<div id="previewContent"></div>
 					</div>
 				</div>
 			</div>

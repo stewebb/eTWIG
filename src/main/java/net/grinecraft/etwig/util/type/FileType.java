@@ -27,7 +27,7 @@ public enum FileType {
     // Texts
     HTML(MediaType.TEXT_HTML, FileCategory.TEXT),
     XML(MediaType.TEXT_XML, FileCategory.TEXT),
-    PLAIN(MediaType.TEXT_PLAIN, FileCategory.TEXT),
+    TXT(MediaType.TEXT_PLAIN, FileCategory.TEXT),
     
     // Others
 	OTHER(MediaType.APPLICATION_OCTET_STREAM, FileCategory.APPLICATION);
