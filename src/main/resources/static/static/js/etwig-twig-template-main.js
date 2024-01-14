@@ -1,7 +1,3 @@
-// function ( e, dt, node, config ) {
-//        dt.ajax.reload();
-
-
 function twigTemplateDataTable(){
 	var dt = $('#twigTemplate').DataTable({
         processing: true,
@@ -56,4 +52,43 @@ function actionRender(data, type, full){
 		</a>
 	</div>
 	`;
+}
+
+function windowSizeCheck(){
+	var width = $(document).width();
+	var height = $(document).height();
+	console.log(`Window size: ${width}*${height} (px).`)
+	
+	if(width < 1280 || height < 720){
+		alert(`For the best user experience, it is recommended to view this page on the window of size greater 1280*720 (px).\nYour window size is ${width}*${height} (px).`)
+	}
+}
+
+function toggleElementsByIdPattern(pattern, checkbox) {
+	var enable = $("#"+checkbox).is(':checked');
+    var selector = "[id^='" + pattern + "']";
+    $(selector).prop('disabled', !enable);
+    $(selector).prop('readonly', !enable);
+}
+
+function setBackgroundMode(isColor){
+	if(isColor){
+		$("#templateBackgroundColor").show();
+		$("#templateBackgroundImage").hide();
+	}else{
+		$("#templateBackgroundColor").hide();
+		$("#templateBackgroundImage").show();
+	}
+}
+
+function selectUpload(callback, image){
+	
+	$('#etwigModalTitle').text('Select/Upload');
+	$('#etwigModalBody').html(`
+		<div class="embed-responsive embed-responsive-1by1">
+			<iframe class="embed-responsive-item" src="/assets/_selector?callback=${callback}&image=${image}" allowfullscreen></iframe>
+        </div>`
+    );
+	
+	$('#etwigModal').modal('show');
 }

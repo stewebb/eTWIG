@@ -99,7 +99,7 @@
 					
 					<div class="card-body">
 					
-						<#-- Preview content -->
+						<#-- Preview content / -->
 						<div id="previewContent"></div>
 						
 						<#-- Submit options -->
@@ -109,24 +109,29 @@
 							<button id="downloadBtn" class="btn btn-outline-success" onclick="" disabled>
 								<i class="fa-regular fa-download"></i>&nbsp;Download
 							</button>
+							<#-- /Download -->
 							
 							<#-- Cancel -->
 							<button type="button" class="btn btn-outline-secondary" onclick="parent.$('#etwigModal').modal('hide');">
 								<i class="fa-solid fa-xmark"></i>&nbsp;Close
 							</button>
+							<#-- /Cancel -->
 							
 							<#-- Select -->
-							<button type="button" class="btn btn-outline-primary" onclick="">
+							<button type="button" class="btn btn-outline-primary" id="selectBtn">
 								<i class="fa-regular fa-check"></i>&nbsp; Select
 							</button>
+							<#-- /Select -->
 							
 						</div>
+						<#-- /Submit options -->
 						
 					</div>
 					
-					
 					</div>
 				</div>
+				<#-- Preview -->
+				
 			</div>
 		</section>
 	

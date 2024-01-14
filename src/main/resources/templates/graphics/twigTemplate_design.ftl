@@ -18,8 +18,10 @@
 </head>
 
 <body class="sidebar-mini layout-fixed">
+
 	<#include "../_includes/header_body_start.ftl">
 	<#include "../_includes/sidebar.ftl">
+	<#include "../_includes/modal.ftl">
 	
 	<#-- Content Wrapper -->
   	<div class="content-wrapper">
@@ -135,13 +137,14 @@
               						</div>
               						
               						<#-- Content n: Submit -->
-									<div class="callout callout-primary">
-										<h5 class="bold-text mb-3">Heads up!</h5>
-										Before you update the design, please make sure you have <span class="bold-text text-primary">previewed</span> the layout.
-									</div>
+              						<div id="twigTemplateSubmit" role="tabpanel" class="bs-stepper-pane" aria-labelledby="stepper2trigger3">
 
-              						<div id="twigTemplateSubmit" role="tabpanel" class="bs-stepper-pane right-div" aria-labelledby="stepper2trigger3">
-              							<button type="submit" class="btn btn-outline-primary">Submit</button>
+										<div class="callout callout-primary">
+											<h5 class="bold-text mb-3">Heads up!</h5>
+											Before you update the design, please make sure you have <span class="bold-text text-primary">previewed</span> the layout.
+										</div>
+
+              							<button type="submit" class="btn btn-outline-primary  right-div">Submit</button>
               						</div>
               						
             					</form>
@@ -176,9 +179,17 @@
 	<#-- jQuery inputmask -->
    	<script src="/static/js/jquery.inputmask.min.js"></script>
    
+   <#--  JS for TWIG template options. -->
+	<script type="text/javascript" src="/static/js/etwig-twig-template-main.js"></script>
+	
    	<#-- Post Scripts -->
 	<script>
 	
+		windowSizeCheck();
+		
+			
+		
+		
 		
 		    $('.my-colorpicker2').colorpicker()
 

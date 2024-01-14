@@ -77,8 +77,15 @@ function previewAsset(asset){
 		$("#downloadBtn").attr("onclick", "");
 		$("#downloadBtn").attr("href", "#");
 		$("#downloadBtn").attr("disabled", true);
+		
+		$("#selectBtn").attr("onclick", ``);
+		$("#selectBtn").attr("disabled", true);
 		return;
 	}
+	
+	var urlParams = new URLSearchParams(window.location.search);
+    var callback = urlParams.get('callback');
+    var image = urlParams.get('image');
 	
 	var fileURL = "/twig/assets?assetId=" + asset.id;
 	var category = asset.fileCategory;
@@ -122,6 +129,13 @@ function previewAsset(asset){
 	$("#downloadBtn").attr("onclick", `window.location.href='${fileURL}&download=true'`);
 	$("#downloadBtn").attr("href", "fileURL");
 	$("#downloadBtn").attr("disabled", false);
+	
+	$("#selectBtn").attr("onclick", `
+		parent.$("#${callback}").val(${asset.id});
+		parent.$("#${image}").attr("src", "${fileURL}");
+		parent.$('#etwigModal').modal('hide');
+	`);
+	$("#selectBtn").attr("disabled", false);
 }
 
 function uploadFile(){
