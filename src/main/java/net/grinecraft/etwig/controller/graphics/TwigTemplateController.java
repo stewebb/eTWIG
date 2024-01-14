@@ -61,6 +61,7 @@ public class TwigTemplateController {
 			return addErrorInfo(model, "The templateId is either not presented, a negative number, or cannot be found in the database.");
 		}
 		
+		System.out.println(design);
 		model.addAttribute("design", design);
 		return "graphics/twigTemplate_design";
 	}
