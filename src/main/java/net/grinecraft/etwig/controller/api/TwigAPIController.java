@@ -56,7 +56,7 @@ public class TwigAPIController {
 		} 
 			
 		Map<String, Object> myReturn = WebReturn.errorMsg(null, true);
-	    myReturn.put("template", twigService.getTwigTemplateById(templateIdNum));
+	    myReturn.put("template", twigService.getTwigTemplateDesignById(templateIdNum));
 		
 		return myReturn;
 	}

@@ -20,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import net.grinecraft.etwig.dto.TwigTemplateBasicInfoDTO;
+import net.grinecraft.etwig.dto.TwigTemplateDesignDTO;
 import net.grinecraft.etwig.model.TwigTemplate;
 import net.grinecraft.etwig.repository.TwigTemplateRepository;
 import net.grinecraft.etwig.util.JSONUtils;
@@ -37,11 +38,13 @@ public class TwigService {
 	 * @throws Exception 
 	 */
 	
-	public LinkedHashMap<String, Object> getTwigTemplateById(long id) throws Exception {
+	public TwigTemplateDesignDTO getTwigTemplateDesignById(long id) throws Exception {
 		if(twigTemplateRepository == null) {
 			return null;
 		}
-		return optionalToMap(twigTemplateRepository.findById(id));
+		
+		Optional<TwigTemplateDesignDTO> twigTemplateopt = twigTemplateRepository.findDesignById(id);
+		return twigTemplateopt.isPresent() ? twigTemplateopt.get() : null;
 	
 	}
 	
@@ -96,7 +99,6 @@ public class TwigService {
 	public TwigTemplateBasicInfoDTO getTwigTemplateBasicInfoById(Long twigTemplateId) {
 		
 		Optional<TwigTemplateBasicInfoDTO> twigTemplateOpt = twigTemplateRepository.findBasicInfoById(twigTemplateId);
-
 		if(!twigTemplateOpt.isPresent()) {
 			return null;
 		}

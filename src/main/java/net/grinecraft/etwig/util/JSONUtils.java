@@ -44,7 +44,7 @@ public class JSONUtils {
 	 * @throws JsonMappingException, JsonProcessingException
 	 */
 	
-	public Map<String, String>  jsonToMap(String str) throws Exception {
+	public Map<String, Object>  jsonToMap(String str) throws Exception {
 		ObjectReader reader = this.mapper.readerFor(Map.class);
 		return reader.readValue(str);
 	}

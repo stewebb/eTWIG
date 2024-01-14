@@ -7,16 +7,18 @@
  	* @function: The controller for public TWIG.
  	*/
 
-package net.grinecraft.etwig.controller.twig;
+package net.grinecraft.etwig.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import net.grinecraft.etwig.services.PortfolioService;
 
 @Controller
+@RequestMapping("/twig")  
 public class TwigController {
 	
 	@Autowired
@@ -30,7 +32,7 @@ public class TwigController {
 	 * @Permissions PUBLIC ACCESS
 	 */
 	
-	@RequestMapping("/twig/main")  
+	@GetMapping("/main")  
 	public String twigMain(Model model) throws Exception{
 		model.addAttribute("portfolioSeparatedCalendar", portfolioService.getPortfolioListBySeparatedCalendar(true));		
 		return "twig/main";
@@ -43,7 +45,7 @@ public class TwigController {
 	 * @throws Exception
 	 */
 	
-	@RequestMapping("/twig/content")  
+	@GetMapping("/content")  
 	public String content(Model model) throws Exception{
 		return "/twig/content";
 	}

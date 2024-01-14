@@ -19,6 +19,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import net.grinecraft.etwig.dto.TwigTemplateBasicInfoDTO;
+import net.grinecraft.etwig.dto.TwigTemplateDesignDTO;
 import net.grinecraft.etwig.model.TwigTemplate;
 
 
@@ -55,5 +56,9 @@ public interface TwigTemplateRepository extends JpaRepository<TwigTemplate, Long
             "FROM TwigTemplate t LEFT JOIN t.portfolio p " +
             "WHERE t.id = :id")
     public Optional<TwigTemplateBasicInfoDTO> findBasicInfoById(long id);
+    
+    @Query("SELECT new net.grinecraft.etwig.dto.TwigTemplateDesignDTO(t) " +
+            "FROM TwigTemplate t WHERE t.id = :id")
+    public Optional<TwigTemplateDesignDTO> findDesignById(long id);
     
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import net.grinecraft.etwig.dto.TwigTemplateBasicInfoDTO;
+import net.grinecraft.etwig.dto.TwigTemplateDesignDTO;
 import net.grinecraft.etwig.services.PortfolioService;
 import net.grinecraft.etwig.services.TwigService;
 import net.grinecraft.etwig.util.BooleanUtils;
@@ -54,10 +55,13 @@ public class TwigTemplateController {
 	public String design(Model model, @RequestParam(required=false) String templateId) throws Exception{
 		
 		TwigTemplateBasicInfoDTO template = getTemplate(templateId);
-		if(template == null) {
+		TwigTemplateDesignDTO design = twigService.getTwigTemplateDesignById(template.getId());
+		
+		if(template == null || design == null) {
 			return addErrorInfo(model, "The templateId is either not presented, a negative number, or cannot be found in the database.");
 		}
 		
+		model.addAttribute("design", design);
 		return "graphics/twigTemplate_design";
 	}
 	

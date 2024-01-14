@@ -77,13 +77,24 @@
             					</div>
             					<div class="bs-stepper-line"></div>
             					
-            					<#-- Header 2: Color -->
+            					<#-- Header 2: Logo -->
             					<div class="step" data-target="#twigTemplateLogo">
               						<button type="button" class="step-trigger" role="tab" aria-controls="twigTemplateLogo">
                 						<span class="bs-stepper-circle">
                   							<span class="fas fa-star" aria-hidden="true"></span>
                 						</span>
                 						<span class="bs-stepper-label">Logo</span>
+              						</button>
+            					</div>
+            					<div class="bs-stepper-line"></div>
+            					
+            					<#-- Header 3: Title -->
+            					<div class="step" data-target="#twigTemplateTitle">
+              						<button type="button" class="step-trigger" role="tab" aria-controls="twigTemplateTitle">
+                						<span class="bs-stepper-circle">
+                  							<span class="fas fa-heading" aria-hidden="true"></span>
+                						</span>
+                						<span class="bs-stepper-label">Title</span>
               						</button>
             					</div>
             					<div class="bs-stepper-line"></div>
@@ -105,11 +116,8 @@
             					
             						<#-- Content 1: Background -->
               						<div id="twigTemplateBackground" role="tabpanel" class="bs-stepper-pane" aria-labelledby="">
-                						<div class="form-group">
-                  							<label for="exampleInputName1">Name</label>
-                 							<input type="email" class="form-control" id="exampleInputName1" placeholder="Enter your name">
-                						</div>
-                						<button class="btn btn-outline-primary" onclick="stepper2.next()">
+                						<#include "../_includes/twigTemplate_design_background.ftl">
+                						<button class="btn btn-outline-primary right-div" onclick="stepper2.next()">
                 							<i class="fa-solid fa-forward"></i>&nbsp;Next
                 						</button>
               						</div>
@@ -120,26 +128,29 @@
                   							<label for="exampleInpuAddress1">Address</label>
                  							<input type="email" class="form-control" id="exampleInpuAddress1" placeholder="Enter your address">
                 						</div>
-                						<div class="btn-group">
-                							<button class="btn btn-outline-secondary" onclick="stepper2.previous()">
-                								<i class="fa-solid fa-backward"></i>&nbsp;Previous
-                							</button>
-                							<button class="btn btn-outline-primary" onclick="stepper2.next()">
-                								<i class="fa-solid fa-forward"></i>&nbsp;Next
-                							</button>
+                						
+                						<#include "../_includes/stepper_btn.ftl">
+              						</div>
+              						
+              						<#-- Content 3: Title -->
+              						<div id="twigTemplateTitle" role="tabpanel" class="bs-stepper-pane" aria-labelledby="stepper2trigger2">
+                						<div class="form-group">
+                  							<label for="exampleInpuAddress1">Address</label>
+                 							<input type="email" class="form-control" id="exampleInpuAddress1" placeholder="Enter your address">
                 						</div>
-              </div>
-              <div id="twigTemplateSubmit" role="tabpanel" class="bs-stepper-pane text-center" aria-labelledby="stepper2trigger3">
-                <button type="submit" class="btn btn-primary mt-5">Submit</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-						
-						
-						
-					
+                						
+                						<#include "../_includes/stepper_btn.ftl">
+              						</div>
+              						
+              						<#-- Content n: Submit -->
+              						<div id="twigTemplateSubmit" role="tabpanel" class="bs-stepper-pane text-center" aria-labelledby="stepper2trigger3">
+                						<button type="submit" class="btn btn-primary mt-5">Submit</button>
+              						</div>
+            					</form>
+          					</div>
+          					
+        				</div>
+      				</div>
 				</div>
 			</div>
 			

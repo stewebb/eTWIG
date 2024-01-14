@@ -9,14 +9,7 @@
    -->
 						
 						<#-- Background -->
-						<div class="card card-primary card-outline">
-							<div class="card-header">
-								<h3 class="card-title">
-									<i class="fa-regular fa-image"></i>&nbsp;Background
-								</h3>
-							</div>
-							
-							<div class="card-body">
+					
 							
 								<#-- Enabled -->
 								<div class="form-group row">
@@ -78,6 +71,5 @@
 																													
 									</div>
 								</div>
-								
-							</div>
+							
 						</div>	
