@@ -124,28 +124,26 @@
               						
               						<#-- Content 2: Logo -->
               						<div id="twigTemplateLogo" role="tabpanel" class="bs-stepper-pane" aria-labelledby="stepper2trigger2">
-                						<div class="form-group">
-                  							<label for="exampleInpuAddress1">Address</label>
-                 							<input type="email" class="form-control" id="exampleInpuAddress1" placeholder="Enter your address">
-                						</div>
-                						
+                						<#include "../_includes/twigTemplate_design_logo.ftl">
                 						<#include "../_includes/stepper_btn.ftl">
               						</div>
               						
               						<#-- Content 3: Title -->
               						<div id="twigTemplateTitle" role="tabpanel" class="bs-stepper-pane" aria-labelledby="stepper2trigger2">
-                						<div class="form-group">
-                  							<label for="exampleInpuAddress1">Address</label>
-                 							<input type="email" class="form-control" id="exampleInpuAddress1" placeholder="Enter your address">
-                						</div>
-                						
+                						<#include "../_includes/twigTemplate_design_title.ftl">
                 						<#include "../_includes/stepper_btn.ftl">
               						</div>
               						
               						<#-- Content n: Submit -->
-              						<div id="twigTemplateSubmit" role="tabpanel" class="bs-stepper-pane text-center" aria-labelledby="stepper2trigger3">
-                						<button type="submit" class="btn btn-primary mt-5">Submit</button>
+									<div class="callout callout-primary">
+										<h5 class="bold-text mb-3">Heads up!</h5>
+										Before you update the design, please make sure you have <span class="bold-text text-primary">previewed</span> the layout.
+									</div>
+
+              						<div id="twigTemplateSubmit" role="tabpanel" class="bs-stepper-pane right-div" aria-labelledby="stepper2trigger3">
+              							<button type="submit" class="btn btn-outline-primary">Submit</button>
               						</div>
+              						
             					</form>
           					</div>
           					
@@ -188,7 +186,7 @@
       $('.my-colorpicker2 .fa-palette').css('color', event.color.toString());
     })
     
-      $("#position").inputmask('99,99', {placeholder: "__,__"});
+      $("#templateLogoPosition").inputmask('(99,99)', {placeholder: "(__,__)"});
       
      stepper2 = new Stepper(document.querySelector('#twigTemplateDesignStepper'), {
     linear: false

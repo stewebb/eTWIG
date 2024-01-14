@@ -92,22 +92,14 @@ public class TwigTemplate {
 	 * 	The "title" column stores the style and content of the custom title in JSON format.
 	 * {
 	 * 		"enabled" : ${ENABLED},
-	 * 		"mode" : "${MODE}",
-	 * 		"value" : "${VALUE}"
+	 * 		"image" : ${IMAGE},
 	 * 		"size" : ${SIZE},
 	 * 		"position" : "${POSX}, ${POSY}"
 	 * }
 	 * 
 	 * Where:
 	 * ${ENABLED} is a boolean value.
-	 * ${MODE} := text | image
-	 * text means the title is a text
-	 * image means the title is an image
-	 * 
-	 * If ${MODE} is text, ${VALUE} is a String includes the following items, divided by commas.
-	 * TITLE_CONTENT, FONT COLOR
-	 * Otherwise, ${VALUE} is the assetId in the asset table.
-	 * 
+	 * ${IMAGE} is the assetId in the asset table.
 	 * ${SIZE} is the size of the title, which is an integer between 5 and 20.
 	 * ${POSX}, ${POSY} are the position of the title, which are integers between 0 and 100.
 	 */

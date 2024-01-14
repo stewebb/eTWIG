@@ -16,5 +16,9 @@ public class DataException extends java.lang.Exception {
 	public DataException(String msg) {
 		super(msg);
 	}
+	
+	public DataException(String msg, Throwable cause) {
+		super(msg, cause);
+	}
 
 }

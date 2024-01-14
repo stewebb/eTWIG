@@ -22,8 +22,6 @@
 		<#assign backgroundColor = "#FFFFFF">
 	</#if>
 	
-	<#--  --assign modeImageStr = design.background.mode == "image" ?string("checked", "")>		
-	
 						<#-- Background -->
 						<#-- Enabled -->
 						<div class="form-group row">
@@ -39,50 +37,57 @@
 								
 						<#-- Mode -->
 						<div class="form-group row">
-						<label for="templateMode" class="col-sm-2 col-form-label">Mode</label>
-						<div class="col-sm-10">
+							<label for="templateMode" class="col-sm-2 col-form-label">Mode</label>
+							<div class="col-sm-10">
 									
-							<#-- Solid color -->
-							<div class="icheck-primary">
-								<input type="radio" id="backgroundModeSolid" name="backgroundMode" <#if isBackgroundModeColor>checked</#if> ${backgroundDisabledStr}>
-								<label for="backgroundModeSolid">Solid color</label>
-							</div>
-										
-							<#-- Image -->
-							<div class="icheck-primary">
-								<input type="radio" id="backgroundModeImage" name="backgroundMode"<#if !isBackgroundModeColor>checked</#if> ${backgroundDisabledStr}>
-								<label for="backgroundModeImage">Image</label>
-							</div>					
-						</div>
-					</div>
-					<#-- /Mode -->	
-					
-					<#-- Color -->
-					<div class="form-group row" <#if !isBackgroundModeColor>style="display:none;"</#if>>
-						<label for="templateBackgroundColor" class="col-sm-2 col-form-label">Color</label>
-						<div class="col-sm-10">
-							<div class="input-group my-colorpicker2">
-								<div class="input-group-prepend">
-									<span class="input-group-text">
-										<i class="fa-solid fa-palette" style="color:${backgroundColor}"></i>
-									</span>
+								<#-- Color-->
+								<div class="icheck-primary">
+									<input type="radio" id="backgroundModeSolid" name="backgroundMode" <#if isBackgroundModeColor>checked</#if> ${backgroundDisabledStr}>
+									<label for="backgroundModeSolid">Solid color</label>
 								</div>
-								<input type="text" class="form-control" placeholder="Color" id="templateBackgroundColor" maxlength="31" value="${backgroundColor}" ${backgroundDisabledStr}>
+								<#-- /Color-->	
+								
+								<#-- Image -->
+								<div class="icheck-primary">
+									<input type="radio" id="backgroundModeImage" name="backgroundMode"<#if !isBackgroundModeColor>checked</#if> ${backgroundDisabledStr}>
+									<label for="backgroundModeImage">Image</label>
+								</div>		
+								<#-- /Image -->			
+								
 							</div>
 						</div>
-					</div>
-					<#-- /Color -->		
+						<#-- /Mode -->	
 					
-					<#-- Image -->
-					<div class="form-group row" <#if isBackgroundModeColor>style="display:none;"</#if>>
-						<label for="templateName" class="col-sm-2 col-form-label">Image</label>
-						<div class="col-sm-10">
-							<div class="mb-3">
-								<button type="button" class="btn btn-outline-secondary" ${backgroundDisabledStr}>
-									<i class="fa-regular fa-image"></i>&nbsp;Select/Upload Image
-								</button>			
+						<#-- Color -->
+						<div class="form-group row" <#if !isBackgroundModeColor>style="display:none;"</#if>>
+							<label for="templateBackgroundColor" class="col-sm-2 col-form-label">Color</label>
+							<div class="col-sm-10">
+								<div class="input-group my-colorpicker2">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fa-solid fa-palette" style="color:${backgroundColor}"></i>
+										</span>
+									</div>
+									<input type="text" class="form-control" placeholder="Color" id="templateBackgroundColor" maxlength="31" value="${backgroundColor}" ${backgroundDisabledStr}>
+								</div>
 							</div>
-							<img src="/twig/assets?assetId=${design.background.value}" class="img-fluid"></img>	
 						</div>
-					</div>
-					<#-- /Image -->	
+						<#-- /Color -->		
+					
+						<#-- Image -->
+						<div class="form-group row" <#if isBackgroundModeColor>style="display:none;"</#if>>
+							<label for="templateBackgroundImage" class="col-sm-2 col-form-label">Image</label>
+							<div class="col-sm-10">
+							
+								<#-- Control Button -->
+								<div class="mb-3">
+									<button type="button" class="btn btn-outline-secondary" ${backgroundDisabledStr}>
+										<i class="fa-regular fa-image"></i>&nbsp;Select/Upload Image
+									</button>			
+								</div>
+								<#-- /Control Button -->
+								
+								<img src="/twig/assets?assetId=${design.background.value}" class="img-fluid"></img>	
+							</div>
+						</div>
+						<#-- /Image -->	
