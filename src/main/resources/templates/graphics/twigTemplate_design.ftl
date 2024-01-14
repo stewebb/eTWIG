@@ -54,7 +54,7 @@
 			<div class="container-fluid">
 
 
-				<#-- Options (Stepper) -->
+				<#-- Card -->
 				<div class="card card-primary card-outline">
 					<div class="card-header">
 						<h3 class="card-title">
@@ -62,13 +62,14 @@
 						</h3>
 					</div>
 
+					<#-- Card Body -->
 					<div class="card-body">	
         				<div id="twigTemplateDesignStepper" class="bs-stepper">
         				
         					<#-- Header -->
          					<div class="bs-stepper-header" role="tablist">
          					
-         					     <#-- Header 1: Background -->
+         					    <#-- Header 1: Background -->
             					<div class="step" data-target="#twigTemplateBackground">
               						<button type="button" class="step-trigger" role="tab" aria-controls="twigTemplateBackground">
                 						<span class="bs-stepper-circle">
@@ -78,6 +79,7 @@
               						</button>
             					</div>
             					<div class="bs-stepper-line"></div>
+            					<#-- /Header 1: Background -->
             					
             					<#-- Header 2: Logo -->
             					<div class="step" data-target="#twigTemplateLogo">
@@ -89,6 +91,7 @@
               						</button>
             					</div>
             					<div class="bs-stepper-line"></div>
+            					<#-- /Header 2: Logo -->
             					
             					<#-- Header 3: Title -->
             					<div class="step" data-target="#twigTemplateTitle">
@@ -100,6 +103,7 @@
               						</button>
             					</div>
             					<div class="bs-stepper-line"></div>
+            					<#-- /Header 3: Title -->
             					
             					<#-- Header n: Submit -->
             					<div class="step" data-target="#twigTemplateSubmit">
@@ -110,62 +114,81 @@
                 						<span class="bs-stepper-label">Submit</span>
               						</button>
             					</div>
+            					<#-- /Header n: Submit -->
+
           					</div>
+          					<#-- /Header -->
           					
           					<#-- Content -->
           					<div class="bs-stepper-content">
             					<form onSubmit="return false">
             					
             						<#-- Content 1: Background -->
+            						<#assign prev = false>
+            						<#assign next = true>
+            						
               						<div id="twigTemplateBackground" role="tabpanel" class="bs-stepper-pane" aria-labelledby="">
                 						<#include "../_includes/twigTemplate_design_background.ftl">
-                						<button class="btn btn-outline-primary right-div" onclick="stepper2.next()">
-                							<i class="fa-solid fa-forward"></i>&nbsp;Next
-                						</button>
+										<#include "../_includes/stepper_btn.ftl">
               						</div>
+              						<#-- /Content 1: Background -->
               						
               						<#-- Content 2: Logo -->
+              						<#assign prev = true>
+            						<#assign next = true>
+            						
               						<div id="twigTemplateLogo" role="tabpanel" class="bs-stepper-pane" aria-labelledby="stepper2trigger2">
                 						<#include "../_includes/twigTemplate_design_logo.ftl">
                 						<#include "../_includes/stepper_btn.ftl">
               						</div>
+              						<#-- /Content 2: Logo -->
               						
               						<#-- Content 3: Title -->
+              						<#assign prev = true>
+            						<#assign next = true>
+            						
               						<div id="twigTemplateTitle" role="tabpanel" class="bs-stepper-pane" aria-labelledby="stepper2trigger2">
                 						<#include "../_includes/twigTemplate_design_title.ftl">
                 						<#include "../_includes/stepper_btn.ftl">
               						</div>
+              						<#-- /Content 3: Title -->
               						
               						<#-- Content n: Submit -->
+              						<#assign prev = true>
+            						<#assign next = false>
               						<div id="twigTemplateSubmit" role="tabpanel" class="bs-stepper-pane" aria-labelledby="stepper2trigger3">
 
 										<div class="callout callout-primary">
 											<h5 class="bold-text mb-3">Heads up!</h5>
 											Before you update the design, please make sure you have <span class="bold-text text-primary">previewed</span> the layout.
 										</div>
-
-              							<button type="submit" class="btn btn-outline-primary  right-div">Submit</button>
+										<#include "../_includes/stepper_btn.ftl">
               						</div>
+              						<#-- /Content n: Submit -->
               						
             					</form>
           					</div>
+          					<#-- /Content -->
           					
         				</div>
       				</div>
+      				<#-- Card Body -->
+      				
 				</div>
+				<#-- /Card -->
+				
+				<#-- Preview -->
+				<#include "../_includes/twigTemplate_design_preview.ftl">
 			</div>
-			
-			<#-- Preview -->
-			<#--  --include "../_includes/twigTemplate_addEdit_preview.ftl"> -->
 		</section>
+		<#-- /Main area -->
 
 	</div>
+	<#-- /Content Wrapper -->
 	
-
 
 	<#-- Footer -->
 	<#include "../_includes/footer.ftl">
-
 	<#include "../_includes/header_body_end.ftl">
 	
 	<#-- bs stepper -->
@@ -179,16 +202,19 @@
 	<#-- jQuery inputmask -->
    	<script src="/static/js/jquery.inputmask.min.js"></script>
    
-   <#--  JS for TWIG template options. -->
-	<script type="text/javascript" src="/static/js/etwig-twig-template-main.js"></script>
+    <#--  JS for TWIG template options. -->
+	<script type="text/javascript" src="/static/js/etwig-twig-design.js"></script>
+	<script type="text/javascript" src="/static/js/etwig-twig-template.js"></script>
+	
+	<#-- p5.js -->
+	<script src="/static/js/p5.min.js"></script>
+	
 	
    	<#-- Post Scripts -->
 	<script>
 	
 		windowSizeCheck();
-		
-			
-		
+		getCurrentDesign();
 		
 		
 		    $('.my-colorpicker2').colorpicker()
@@ -202,6 +228,8 @@
      stepper2 = new Stepper(document.querySelector('#twigTemplateDesignStepper'), {
     linear: false
   })
+  
+
     </script>
 
 </body>

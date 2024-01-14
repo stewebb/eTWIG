@@ -8,16 +8,16 @@
 	This part contains the form of basic information like name, location, recurrent and description.
    -->
 
-				<#-- Global Preview -->
+				<#-- Layout Preview -->
 				<div class="card card-primary card-outline">
 					<div class="card-header">
 						<h3 class="card-title">
-							<i class="fa-solid fa-eye"></i>&nbsp;Global Preview
+							<i class="fa-solid fa-eye"></i>&nbsp;Layout Preview
 						</h3>
 					</div>
 
 					<div class="card-body">
-						123
+						<main></main>
 					</div>
 				</div>
-			
+				<#-- /Layout Preview -->

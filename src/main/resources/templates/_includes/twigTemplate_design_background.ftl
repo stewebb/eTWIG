@@ -45,14 +45,14 @@
 									
 								<#-- Color-->
 								<div class="icheck-primary">
-									<input type="radio" id="templateBackgroundModeColor" name="backgroundMode" <#if isBackgroundModeColor>checked</#if> ${backgroundDisabledStr} onclick="setBackgroundMode(true);">
+									<input type="radio" id="templateBackgroundModeColor" name="backgroundMode" <#if isBackgroundModeColor>checked</#if> ${backgroundDisabledStr} onclick="setBackgroundMode(true);" value="color">
 									<label for="templateBackgroundModeColor">Solid color</label>
 								</div>
 								<#-- /Color-->	
 								
 								<#-- Image -->
 								<div class="icheck-primary">
-									<input type="radio" id="templateBackgroundModeImage" name="backgroundMode" <#if !isBackgroundModeColor>checked</#if> ${backgroundDisabledStr} onclick="setBackgroundMode(false);">
+									<input type="radio" id="templateBackgroundModeImage" name="backgroundMode" <#if !isBackgroundModeColor>checked</#if> ${backgroundDisabledStr} onclick="setBackgroundMode(false);" value="image">
 									<label for="templateBackgroundModeImage">Image</label>
 								</div>		
 								<#-- /Image -->			
@@ -93,7 +93,7 @@
 									
 									<div class="input-group-append">
     									<button type="button" id="templateBackgroundImageBtn" class="btn btn-outline-secondary" onclick="selectUpload('templateBackgroundImageInput', 'templateBackgroundImageContent');" ${backgroundDisabledStr}>
-											<i class="fa-regular fa-upload"></i>&nbsp;Select/Upload Image
+											<i class="fa-regular fa-upload"></i>&nbsp;Select/Upload
 										</button>		
   									</div>
 								</div>

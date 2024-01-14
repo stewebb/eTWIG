@@ -1,3 +1,8 @@
+const WIDTH = 1280;
+const HEIGHT = 720;
+
+var templateBackgroundObj = new TemplateBackground();
+
 function twigTemplateDataTable(){
 	var dt = $('#twigTemplate').DataTable({
         processing: true,
@@ -59,8 +64,8 @@ function windowSizeCheck(){
 	var height = $(document).height();
 	console.log(`Window size: ${width}*${height} (px).`)
 	
-	if(width < 1280 || height < 720){
-		alert(`For the best user experience, it is recommended to view this page on the window of size greater 1280*720 (px).\nYour window size is ${width}*${height} (px).`)
+	if(width < WIDTH || height < HEIGHT){
+		alert(`For the best user experience, it is recommended to view this page on the window of size greater ${WIDTH}*${HEIGHT} (px).\nYour window size is ${width}*${height} (px).`)
 	}
 }
 
@@ -91,4 +96,60 @@ function selectUpload(callback, image){
     );
 	
 	$('#etwigModal').modal('show');
+}
+
+function getCurrentDesign(){
+	
+	// Background enabled (checkbox)
+	var backgroundEnabled = $('#backgroundEnabled').is(':checked');
+	
+	// Background mode (radio button)
+	var backgroundMode = $('input[type=radio][name=backgroundMode]:checked').val();
+	var backgroundValue = undefined;
+	
+	// Background color (color picker via text input)
+	if(backgroundMode == "color"){
+		var backgroundValue = $('#templateBackgroundColorInput').val();
+		
+		// Null check.
+		if(backgroundValue.length == 0){
+			warningToast("Background color is required.");
+			return;
+		}
+	}
+	
+	// Background image (number input)
+	else{
+		var backgroundValue = $('#templateBackgroundImageInput').val();
+		
+		// Integer check.
+		if (!(backgroundValue % 1 === 0)){
+			warningToast("AssetId is not an integer.");
+			return;
+		}
+	}
+	
+	// Store background info
+	templateBackgroundObj.set(backgroundEnabled, backgroundMode, backgroundValue);
+	console.log(templateBackgroundObj);
+	
+}
+
+function setup() {
+	createCanvas(WIDTH, HEIGHT);
+	colorMode(HSB, 360, 100, 100); 
+}
+
+function draw() {
+	background(255);
+	
+	// The canvas is surronding by a rectangle with the theme color (#004AAD).
+	strokeWeight(12);	stroke(214, 100, 68);	noFill();
+	rect(0, 0, WIDTH, HEIGHT);
+	
+	// Text indicates background (red)
+	noStroke();	textSize(20);	textStyle(BOLD);	fill(0, 100, 100);
+	var backgroundText = `Background: enabled=${templateBackgroundObj.getEnabled()}, mode=${templateBackgroundObj.getMode()}, value=${templateBackgroundObj.getValue()}`;
+  	text(backgroundText, 10, 30);
+  	
 }
