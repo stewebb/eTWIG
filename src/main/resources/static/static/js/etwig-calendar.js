@@ -7,9 +7,6 @@
  	* @function: Display and manipulate the Event Calendar / Planner. 
  	*/
 
-// Leading zeros for the (positive) integers that below to 10. 
-const pad = (num) => (num < 10 ? '0' + num : num);
-
 // The calendar object
 var calendar = undefined;
 

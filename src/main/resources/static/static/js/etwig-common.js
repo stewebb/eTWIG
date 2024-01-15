@@ -122,3 +122,6 @@ function timeAgo(dateStr) {
     if (minutes > 0) return minutes + " minutes ago";
     return "Just now";
 }
+
+// Leading zeros for the (positive) integers that below to 10. 
+const pad = (num) => (num < 10 ? '0' + num : num);

@@ -102,7 +102,7 @@
 	<script type="text/javascript" src="/static/js/dataTables.bootstrap4.min.js"></script>
 	
 	<#--  JS for TWIG template options. -->
-	<script type="text/javascript" src="/static/js/etwig-twig-template-main.js"></script>
+	<script type="text/javascript" src="/static/js/etwig-twig-template.js"></script>
 	
 	<script>
     	var dt = twigTemplateDataTable();

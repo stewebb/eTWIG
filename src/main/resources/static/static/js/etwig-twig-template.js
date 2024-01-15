@@ -1,7 +1,11 @@
-const WIDTH = 1280;
-const HEIGHT = 720;
+const CANVAS_WIDTH = 1280;
+const CANVAS_HEIGHT = 720;
+
+const RECOMMENDED_WIDTH = 1600;
+const RECOMMENDED_HEIGHT = 900;
 
 var templateBackgroundObj = new TemplateBackground();
+var templateLogoObj = new TemplateLogo();
 
 function twigTemplateDataTable(){
 	var dt = $('#twigTemplate').DataTable({
@@ -13,7 +17,7 @@ function twigTemplateDataTable(){
             data: function (d) {
                 d.page = d.start / d.length;
                 d.size = d.length;
-                console.log(d.page)
+                //console.log(d.page)
             },
             type: "GET",
             dataSrc: function (json) {
@@ -41,7 +45,7 @@ function dateRender(data, type, row){
 }
 
 function actionRender(data, type, full){
-	console.log(full)
+	//console.log(full)
 	return `
 	<div class="btn-group">
 		<a href="/graphics/twigTemplate/design?templateId=${full.id}" class="btn btn-outline-primary btn-sm">
@@ -64,8 +68,8 @@ function windowSizeCheck(){
 	var height = $(document).height();
 	console.log(`Window size: ${width}*${height} (px).`)
 	
-	if(width < WIDTH || height < HEIGHT){
-		alert(`For the best user experience, it is recommended to view this page on the window of size greater ${WIDTH}*${HEIGHT} (px).\nYour window size is ${width}*${height} (px).`)
+	if(width < RECOMMENDED_WIDTH || height < RECOMMENDED_HEIGHT){
+		alert(`For the best user experience, it is recommended to view this page on the window of size greater ${RECOMMENDED_WIDTH}*${RECOMMENDED_HEIGHT} (px).\nYour window size is ${width}*${height} (px).`)
 	}
 }
 
@@ -124,32 +128,80 @@ function getCurrentDesign(){
 		
 		// Integer check.
 		if (!(backgroundValue % 1 === 0)){
-			warningToast("AssetId is not an integer.");
+			warningToast("AssetId for background image is not an integer.");
 			return;
 		}
 	}
 	
 	// Store background info
 	templateBackgroundObj.set(backgroundEnabled, backgroundMode, backgroundValue);
-	console.log(templateBackgroundObj);
+	
+	// Logo enabled (checkbox)
+	var logoEnabled = $('#logoEnabled').is(':checked');
+	
+	// Logo image (number input) and integer check.
+	var logoImage = $('#templateLogoImageInput').val();
+	if (!(logoImage % 1 === 0)){
+		warningToast("AssetId for logo image is not an integer.");
+		return;
+	}
+	
+	// Logo size (number input) and null/integer check.
+	var logoSize = $('#templateLogoSize').val();
+	if(logoSize.length == 0){
+		warningToast("Logo size is empty.");
+		return;
+	}
+	
+	if (!(logoSize % 1 === 0)){
+		warningToast("Logo size is not an integer.");
+		return;
+	}
+	
+	// Logo position (number input) and null check
+	var logoPosition = $('#templateLogoPosition').val();
+	if(logoPosition.length == 0){
+		warningToast("Logo position is empty.");
+		return;
+	}
+
+	// Regex check whether the position is well-formed. (NUM,NUM)	
+	const regex = /\((\d+),(\d+)\)/;
+	var match = logoPosition.match(regex);
+	if(match == undefined || match == null){
+		warningToast("Logo position is not well-formed.", "It must be the format of (TWO_DIGIT_NUMBER,TWO_DIGIT_NUMBER)");
+		return;
+	}
+
+	// Store logo info
+	templateLogoObj.set(logoEnabled, logoImage, logoSize, logoPosition);
+	console.log(templateLogoObj);
 	
 }
 
 function setup() {
-	createCanvas(WIDTH, HEIGHT);
+	createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 	colorMode(HSB, 360, 100, 100); 
 }
 
 function draw() {
-	background(255);
 	
-	// The canvas is surronding by a rectangle with the theme color (#004AAD).
-	strokeWeight(12);	stroke(214, 100, 68);	noFill();
-	rect(0, 0, WIDTH, HEIGHT);
+	// The background color is #DFDFDF.
+	background(0, 0, 94);
+	
+	
+	strokeWeight(6);	stroke(0, 100, 100);	noFill();
+	circle(
+		templateLogoObj.getPosX() * CANVAS_WIDTH * 0.01,
+		templateLogoObj.getPosY() * CANVAS_HEIGHT * 0.01,
+		templateLogoObj.getSize() * CANVAS_HEIGHT * 0.01
+	);
+	
+	//rect(0, 0, WIDTH, HEIGHT);
 	
 	// Text indicates background (red)
-	noStroke();	textSize(20);	textStyle(BOLD);	fill(0, 100, 100);
-	var backgroundText = `Background: enabled=${templateBackgroundObj.getEnabled()}, mode=${templateBackgroundObj.getMode()}, value=${templateBackgroundObj.getValue()}`;
-  	text(backgroundText, 10, 30);
-  	
+	//noStroke();	textSize(20);	textStyle(BOLD);	fill(0, 100, 100);
+	//var backgroundText = `Background: enabled=${templateBackgroundObj.getEnabled()}, mode=${templateBackgroundObj.getMode()}, value=${templateBackgroundObj.getValue()}`;
+  	//text(backgroundText, 10, 30);
+
 }

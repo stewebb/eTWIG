@@ -1,3 +1,9 @@
+function constrainNumber(num, min, max){
+	if(num < min)	return min;
+	if(num > max)	return max;
+	return num;
+}
+
 class TemplateBackground{
 	
 	#enabled;
@@ -51,5 +57,108 @@ class TemplateBackground{
 	
 	getValue(){
 		return this.#value;
+	}
+}
+
+class TemplateLogo{
+	
+	#enabled;
+	#image;
+	#size;
+	#posX;
+	#posY;
+	
+	#MIN_SIZE = 5;
+	#MAX_SIZE = 20;
+	
+	#MIN_POS = 0;
+	#MAX_POS = 99;
+	
+	#setEnabled(enabled){
+		
+		if(enabled != true && enabled != false){
+			this.#enabled = false;
+		}	
+		this.#enabled = enabled;
+	}
+	
+	#setImage(assetId){
+		this.#image = (assetId % 1 === 0) ? assetId : -1;
+	}
+	
+	#setSize(size){
+		
+		// Num check
+		size = parseInt(size, 10);
+		if(size % 1 === 0){
+			this.#size = constrainNumber(size, this.#MIN_SIZE, this.#MAX_SIZE);
+		}
+		
+		// The default logo size is the MIN_SIZE, if the input is not a number.
+		else{
+			this.#size = this.#MIN_SIZE;
+		}
+	}
+	
+	#setPosition(pos){
+		
+		// Use RegEx tho match the string pattern
+		const regex = /\((\d+),(\d+)\)/;
+		var match = pos.match(regex);
+		
+		// If well-formed, number check.
+		if (match) {
+        	var posX = parseInt(match[1], 10);
+        	var posY = parseInt(match[2], 10);
+
+        	// Check if either parsed value is NaN, and set to 0 if so
+        	if (isNaN(posX)) {
+				posX = 0;	
+			}
+			
+       		if (isNaN(posY)) {
+				posY = 0;
+			}
+			
+       		this.#posX = constrainNumber(posX, this.#MIN_POS, this.#MAX_POS);
+       		this.#posY = constrainNumber(posY, this.#MIN_POS, this.#MAX_POS);
+    	}
+    	
+    	// If not well-formed, set both posX and posY to 0;
+    	else{
+			this.#posX = 0;
+			this.#posY = 0;
+		}
+	}
+	
+	set(enabled, image, size, position){
+		this.#setEnabled(enabled);
+		this.#setImage(image);
+		this.#setSize(size);
+		this.#setPosition(position);
+	}
+	
+	getEnabled(){
+		return this.#enabled;
+	}
+	
+	getImage(){
+		return this.#image;
+	}
+	
+	getPosition(){
+		return "(" + pad(this.#posX) + "," + pad(this.#posY) + ")";
+	}
+	
+	getPosX(){
+		return this.#posX;
+	}
+	
+	getPosY(){
+		return this.#posY;
+	}
+	
+	getSize(){
+		return this.#size;
 	}
 }
