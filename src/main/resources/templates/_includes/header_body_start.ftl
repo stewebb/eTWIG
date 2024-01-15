@@ -8,9 +8,9 @@
    -->
 	
 	<#-- Bootstrap 4 (CSS). -->
-	<link rel="stylesheet" href="/static/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/static/css/vendor/bootstrap.min.css">
 	
 	<#-- Font Awesome 6 (CSS). -->
-	<link rel="stylesheet" href="/static/css/fontawesome.min.css">
-	<link rel="stylesheet" href="/static/css/solid.min.css">
+	<link rel="stylesheet" href="/static/css/vendor/fontawesome.min.css">
+	<link rel="stylesheet" href="/static/css/vendor/solid.min.css">
 	

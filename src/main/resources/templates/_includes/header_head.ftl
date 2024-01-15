@@ -19,5 +19,5 @@
 	<#-- CSS and JS for Pace -->
 	
 	<link rel="stylesheet" href="/static/css/pace-theme-bounce.css">
-	<script src="/static/js/pace.min.js"></script>
+	<script src="/static/js/vendor/pace.min.js"></script>
 		
