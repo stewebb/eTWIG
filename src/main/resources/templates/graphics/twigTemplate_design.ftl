@@ -214,28 +214,27 @@
 	</div>
 	<#-- /Content Wrapper -->
 	
-
 	<#-- Footer -->
 	<#include "../_includes/footer.ftl">
 	<#include "../_includes/header_body_end.ftl">
 	
 	<#-- bs stepper -->
-	<link rel="stylesheet" href="/static/css/bs-stepper.min.css">
-	<script src="/static/js/bs-stepper.min.js"></script>
+	<link rel="stylesheet" href="/static/css/vendor/bs-stepper.min.css">
+	<script src="/static/js/vendor/bs-stepper.min.js"></script>
 	
 	<#-- Bootstrap color picker -->
-	<link rel="stylesheet" href="/static/css/bootstrap-colorpicker.min.css">
-	<script src="/static/js/bootstrap-colorpicker.min.js"></script>
+	<link rel="stylesheet" href="/static/css/vendor/bootstrap-colorpicker.min.css">
+	<script src="/static/js/vendor/bootstrap-colorpicker.min.js"></script>
 	
 	<#-- jQuery inputmask -->
-   	<script src="/static/js/jquery.inputmask.min.js"></script>
+   	<script src="/static/js/vendor/jquery.inputmask.min.js"></script>
    
-    <#--  JS for TWIG template options. -->
+    <#-- JS for TWIG template options. -->
 	<script type="text/javascript" src="/static/js/etwig-twig-design.js"></script>
 	<script type="text/javascript" src="/static/js/etwig-twig-template.js"></script>
 	
 	<#-- p5.js -->
-	<script src="/static/js/p5.min.js"></script>
+	<script src="/static/js/vendor/p5.min.js"></script>
 	
    	<#-- Post Scripts -->
 	<script>

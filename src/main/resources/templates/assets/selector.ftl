@@ -138,11 +138,6 @@
 	</div>
 	
 	<#include "../_includes/header_body_end.ftl">
-
-	<#--  jQuery DataTables plugin -->
-	<link rel="stylesheet" type="text/css" href="/static/css/dataTables.bootstrap4.min.css">
-    <script type="text/javascript" src="/static/js/jquery.dataTables.min.js"></script>
-	<script type="text/javascript" src="/static/js/dataTables.bootstrap4.min.js"></script>
 	
 	<#--  JS for Asset Selector options. -->
 	<script type="text/javascript" src="/static/js/etwig-asset-management.js"></script>

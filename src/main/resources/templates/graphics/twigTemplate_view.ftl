@@ -69,7 +69,8 @@
 										<i class="fa-solid fa-rotate"></i>&nbsp;Reload
 									</button>
 								</div>
-							
+								<#-- /Button Options -->
+
 								<#-- Table Content -->
 								<table id="twigTemplate" class="table table-hover table-striped">
 									<thead>
@@ -84,6 +85,8 @@
 									</thead>
 									<tbody></tbody>
 								</table>
+								<#-- /Table Content -->
+
 							</div>
 
 						</div>
@@ -96,12 +99,7 @@
 	<#include "../_includes/footer.ftl">
 	<#include "../_includes/header_body_end.ftl">
 	
-	<#--  jQuery DataTables plugin -->
-	<link rel="stylesheet" type="text/css" href="/static/css/dataTables.bootstrap4.min.css">
-    <script type="text/javascript" src="/static/js/jquery.dataTables.min.js"></script>
-	<script type="text/javascript" src="/static/js/dataTables.bootstrap4.min.js"></script>
-	
-	<#--  JS for TWIG template options. -->
+	<#-- JS for TWIG template options. -->
 	<script type="text/javascript" src="/static/js/etwig-twig-template.js"></script>
 	
 	<script>

@@ -2,7 +2,6 @@ package net.grinecraft.etwig.controller.api;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -14,14 +13,12 @@ import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import net.grinecraft.etwig.model.Asset;
 import net.grinecraft.etwig.services.AssetService;
-import net.grinecraft.etwig.util.NumberUtils;
 import net.grinecraft.etwig.util.WebReturn;
 import net.grinecraft.etwig.util.type.FileCategory;
 import net.grinecraft.etwig.util.type.FileType;

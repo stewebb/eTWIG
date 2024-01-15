@@ -10,13 +10,9 @@
    
 	<#-- Common resources -->
    	<#-- CSS and JS for summernote editor.-->
-	<link rel="stylesheet" href="/static/css/summernote-bs4.min.css">
-	<script src="/static/js/summernote-bs4.min.js"></script>
+	<link rel="stylesheet" href="/static/css/vendor/summernote-bs4.min.css">
+	<script src="/static/js/vendor/summernote-bs4.min.js"></script>
 	
-	<#-- Select 2 (CSS and JS).-->
-	<link rel="stylesheet" href="/static/css/select2.min.css"/>
-	<link rel="stylesheet" href="/static/css/select2-bootstrap4.min.css"/>
-	<script src="/static/js/select2.min.js"></script>
 
 	<#-- Custom JS for adding/editing events-->
 	<script src="/static/js/etwig-events.js"></script>

@@ -269,7 +269,7 @@
 	<#include "../_includes/header_body_end.ftl">
 	
 	<#-- JS for generating QR codes. -->
-	<script src="/static/js/qrcode.min.js"></script>
+	<script src="/static/js/vendor/qrcode.min.js"></script>
 	
 <script>
     $(document).ready(function() {

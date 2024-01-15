@@ -29,7 +29,17 @@
 	<#-- ToastUI date picker (CSS and JS). -->
 	<link rel="stylesheet" href="/static/css/vendor/tui-date-picker.min.css">
 	<script src="/static/js/vendor/tui-date-picker.min.js"></script>
-	
+
+	<#--  jQuery DataTables plugin (CSS and JS)-->
+	<link rel="stylesheet" type="text/css" href="/static/css/vendor/dataTables.bootstrap4.min.css">
+    <script type="text/javascript" src="/static/js/vendor/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="/static/js/vendor/dataTables.bootstrap4.min.js"></script>
+
+	<#-- Select 2 (CSS and JS).-->
+	<link rel="stylesheet" href="/static/css/vendor/select2.min.css"/>
+	<link rel="stylesheet" href="/static/css/vendor/select2-bootstrap4.min.css"/>
+	<script src="/static/js/vendor/select2.min.js"></script>
+
 	<#-- CSS and JS for AdminLTE (CSS and JS). -->
   	<link rel="stylesheet" href="/static/css/vendor/adminlte.min.css">
 	<script src="/static/js/vendor/adminlte.min.js"></script>
