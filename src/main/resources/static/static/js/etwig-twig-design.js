@@ -9,6 +9,7 @@ class TemplateBackground{
 	#enabled;
 	#mode;
 	#value;
+	#imageInfo;
 	
 	#setEnabled(enabled){
 		
@@ -41,12 +42,15 @@ class TemplateBackground{
 		}
 	}
 	
+	#setImageInfo(imageInfo){
+		this.#imageInfo = imageInfo;
+	}
 	
-	
-	set(enabled, mode, value){
+	set(enabled, mode, value, imageInfo){
 		this.#setEnabled(enabled);
 		this.#setMode(mode);
 		this.#setValue(value);
+		this.#setImageInfo(imageInfo);
 	}
 	
 	getEnabled(){
@@ -59,6 +63,10 @@ class TemplateBackground{
 	
 	getValue(){
 		return this.#value;
+	}
+	
+	getImageInfo(){
+		return this.#imageInfo;
 	}
 }
 

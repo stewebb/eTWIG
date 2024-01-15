@@ -97,7 +97,11 @@
 										</button>		
   									</div>
 								</div>
+								
+								<!--
 								<img src="/assets/getPublicAsset?assetId=${backgroundImage}" class="img-fluid" id="templateBackgroundImageContent" />	
+								-->
+							
 							</div>
 						</div>
 						<#-- /Image -->	

@@ -46,7 +46,10 @@
 										</button>		
   									</div>
 								</div>
+								
+								<!--
 								<img src="/assets/getPublicAsset?assetId=${currentElement.image}" class="img-fluid" id="template${elementNameCapFirst}ImageContent" />	
+								-->
 							</div>
 						</div>
 						<#-- /Image -->		

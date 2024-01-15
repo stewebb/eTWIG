@@ -9,6 +9,8 @@ var templateBackgroundObj = new TemplateBackground();
 var templateLogoObj = new TemplateImage(5, 20, 0, 99);
 var templateTitleObj = new TemplateImage(5, 20, 0, 99);
 
+//var backgroundImg;
+
 function twigTemplateDataTable(){
 	var dt = $('#twigTemplate').DataTable({
         processing: true,
@@ -113,6 +115,8 @@ function getCurrentDesign(){
 	var backgroundMode = $('input[type=radio][name=backgroundMode]:checked').val();
 	var backgroundValue = undefined;
 	
+	var imageInfo = undefined;
+	
 	// Background color (color picker via text input)
 	if(backgroundMode == "color"){
 		var backgroundValue = $('#templateBackgroundColorInput').val();
@@ -133,10 +137,19 @@ function getCurrentDesign(){
 			warningToast("AssetId for background image is not an integer.");
 			return;
 		}
+		
+		imageInfo = getImageInfo(backgroundValue);
+		if(imageInfo == null){
+			return;
+		}
 	}
 	
 	// Store background info
-	templateBackgroundObj.set(backgroundEnabled, backgroundMode, backgroundValue);	
+	templateBackgroundObj.set(backgroundEnabled, backgroundMode, backgroundValue, imageInfo);	
+	
+	//if(backgroundMode == "image"){
+	//	backgroundImg = loadImage('/assets/getPublicAsset?assetId=' + backgroundValue);
+	//}
 	
 	getCommonDesign("logo", templateLogoObj)
 	getCommonDesign("title", templateTitleObj)
@@ -222,6 +235,39 @@ function getImageInfo(assetId){
  	return imageInfo;
 }
 
+function sizeReMap(rectWidth, rectHeight, canvasShortSide, percentage){
+
+	// Calculate scale factor
+	var rectShortSide = min(rectWidth, rectHeight);
+  	var desiredSize = canvasShortSide * percentage * 0.01;
+  	var scaleFactor = desiredSize / rectShortSide;
+
+	// Re-calculate the new size
+	return [rectWidth * scaleFactor, rectHeight * scaleFactor]
+}
+
+function prepareBackground(){
+	if(templateBackgroundObj.getMode() == "image"){
+		backgroundImg = loadImage('/assets/getPublicAsset?assetId=' + templateBackgroundObj.getValue());
+	}
+	else{
+		backgroundImg = templateBackgroundObj.getValue();
+	}
+	
+	logoImg = loadImage('/assets/getPublicAsset?assetId=' + templateLogoObj.getImage());
+}
+
+function preload(){
+	
+	// Prepare the background on load
+	prepareBackground();
+	$('#previewTpl').click(function() {
+		prepareBackground();
+  	});
+}
+
+//backgroundImg = "#FF0000";
+
 function setup() {
 	createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 	colorMode(HSB, 360, 100, 100); 
@@ -229,35 +275,56 @@ function setup() {
 
 function draw() {
 	
-	// The background color is #DFDFDF.
-	background(0, 0, 0);
+	// Background is enabled.
+	if(templateBackgroundObj.getEnabled()){
+		background(backgroundImg);
+	}
 	
-	// Template logo (red)
-	strokeWeight(6);	stroke(0, 100, 100);	noFill();
-	circle(
-		templateLogoObj.getPosX() * CANVAS_WIDTH * 0.01,
-		templateLogoObj.getPosY() * CANVAS_HEIGHT * 0.01,
-		templateLogoObj.getSize() * CANVAS_SHORT_SIDE * 0.01
+	// Background is disabled, set it to black.
+	else{
+		background(0,  0,  0);
+	}
+	
+	// Logo size
+	var logoWidth = templateLogoObj.getImageInfo().width;
+	var logoHeight = templateLogoObj.getImageInfo().height;
+	var logoImgSize = sizeReMap(logoWidth, logoHeight, CANVAS_SHORT_SIDE, templateLogoObj.getSize());
+
+	// Logo position
+	var logoCircleCenterPosX = templateLogoObj.getPosX() * CANVAS_WIDTH * 0.01;
+	var logoCircleCenterPosY = templateLogoObj.getPosY() * CANVAS_HEIGHT * 0.01;
+	var logoCircleDiameter = templateLogoObj.getSize() * CANVAS_SHORT_SIDE * 0.01;
+	
+	// Draw the logo
+	image(
+		logoImg, 
+		logoCircleCenterPosX - logoImgSize[0] * 0.5, 		// posX
+		logoCircleCenterPosY - logoImgSize[1] * 0.5, 		// posY
+		logoImgSize[0], 														// height
+		logoImgSize[1]														// width
 	);
 	
-	var rectWidth = templateTitleObj.getImageInfo().width;
-	var rectHeight = templateTitleObj.getImageInfo().height;
+	// Use a red circle to represent the position.
+	strokeWeight(6);	stroke(0, 100, 100);	noFill();
+	circle(logoCircleCenterPosX, logoCircleCenterPosY, logoCircleDiameter);
 	
-	var rectShortSide = min(rectWidth, rectHeight);
-
-  	let desiredSize = CANVAS_SHORT_SIDE * templateTitleObj.getSize() * 0.01;
-  	let scaleFactor = desiredSize / rectShortSide;
-
- 	let scaledRectWidth = rectWidth * scaleFactor;
-  	let scaledRectHeight = rectHeight * scaleFactor;
+	// Draw a horizontal bar if the logo is disabled.
+	if(!templateLogoObj.getEnabled()){
+		line(logoCircleCenterPosX - 0.5 * logoCircleDiameter, logoCircleCenterPosY, logoCircleCenterPosX +0.5 * logoCircleDiameter, logoCircleCenterPosY);
+	}
+	
+	
+	var titleWidth = templateTitleObj.getImageInfo().width;
+	var titleHeight = templateTitleObj.getImageInfo().height;
+	var titleImgSize = sizeReMap(titleWidth, titleHeight, CANVAS_SHORT_SIDE, templateTitleObj.getSize());
+	
+	// Title position
+	var titleRectPosX = templateTitleObj.getPosX() * CANVAS_WIDTH * 0.01 - titleWidth * 0.5;
+	var titleRectPosY = templateTitleObj.getPosY() * CANVAS_HEIGHT * 0.01 - titleHeight * 0.5;
 	
 	// Template title (orange)
 	strokeWeight(6);	stroke(30, 100, 100);	noFill();
-	rect(
-		templateTitleObj.getPosX() * CANVAS_WIDTH * 0.01,
-		templateTitleObj.getPosY() * CANVAS_HEIGHT * 0.01,
-		scaledRectWidth, scaledRectHeight
-	)
+	rect(titleRectPosX, titleRectPosY, titleImgSize[0], titleImgSize[1]);
 	
 	
 	//rect(0, 0, WIDTH, HEIGHT);

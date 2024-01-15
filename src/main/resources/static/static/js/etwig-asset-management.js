@@ -3,6 +3,7 @@ function assetSelectorDataTable(){
         processing: true,
         serverSide: true,
         searching: true, 
+        bAutoWidth: false,
         ajax: {
             url: "/api/private/getAssetList",
             data: function (d) {

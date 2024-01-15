@@ -9,9 +9,11 @@
                 							
                 							<#-- /Previous (Left) -->
                 							
-                							<button class="btn btn-outline-secondary" onclick="getCurrentDesign();">
+                							<#-- Preview (Middle) -->
+                							<button class="btn btn-outline-secondary" onclick="getCurrentDesign();" id="previewTpl">
                 								<i class="fa-solid fa-eye"></i>&nbsp;Preview
                 							</button>
+                							<#-- /Preview (Middle) -->
                 							
                 							<#-- Next or Submit (Right) -->
                 							<#if next>
