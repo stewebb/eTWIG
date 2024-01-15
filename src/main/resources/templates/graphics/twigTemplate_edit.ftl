@@ -17,23 +17,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<#include "../_includes/header_head.ftl">
+	<#include "../_includes/header/head.ftl">
 
 	<title>Edit TWIG Template - ${app.appName}</title>
 </head>
 
 <body class="sidebar-mini layout-fixed">
-	<#include "../_includes/header_body_start.ftl">
+	<#include "../_includes/header/body_start.ftl">
 	<#include "../_includes/sidebar.ftl">
 	
 	<#-- Content Wrapper -->
   	<div class="content-wrapper">
-  		<#include "../_includes/twigTemplate_addEdit_header.ftl">
+  		<#include "../_includes/twigTemplate/addEdit_header.ftl">
   		
     	<#-- Main area (only basic information) -->
     	<section class="content">
 			<div class="container-fluid">
-				<#include "../_includes/twigTemplate_addEdit_basicInfo.ftl">
+				<#include "../_includes/twigTemplate/addEdit_basicInfo.ftl">
 			</div>
 		</section>
 	</div>
@@ -41,8 +41,8 @@
 	<#-- Footer -->
 	<#include "../_includes/footer.ftl">
 
-	<#include "../_includes/header_body_end.ftl">
-	<#include "../_includes/twigTemplate_addEdit_postScripts.ftl">
+	<#include "../_includes/header/body_end.ftl">
+	<#include "../_includes/twigTemplate/addEdit_postScripts.ftl">
 
 </body>
 </html>

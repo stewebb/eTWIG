@@ -13,13 +13,13 @@
 <html>
 <head>
 
-	<#include "../_includes/header_head.ftl">
+	<#include "../_includes/header/head.ftl">
 	<title>Asset selector - ${app.appName}</title>
 </head>
 
 <body>
 
-	<#include "../_includes/header_body_start.ftl">
+	<#include "../_includes/header/body_start.ftl">
 	
 	<div class="wrapper">
 
@@ -137,7 +137,7 @@
 	
 	</div>
 	
-	<#include "../_includes/header_body_end.ftl">
+	<#include "../_includes/header/body_end.ftl">
 	
 	<#--  JS for Asset Selector options. -->
 	<script type="text/javascript" src="/static/js/etwig-asset-management.js"></script>

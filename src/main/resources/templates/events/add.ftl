@@ -36,12 +36,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<#include "../_includes/header_head.ftl">
+	<#include "../_includes/header/head.ftl">
 	<title>Add Event - ${app.appName}</title>
 </head>
 
 <body class="sidebar-mini layout-fixed">
-	<#include "../_includes/header_body_start.ftl">
+	<#include "../_includes/header/body_start.ftl">
 	
 	<#if !embedded>
 		<#include "../_includes/sidebar.ftl">
@@ -91,7 +91,7 @@
 	<#if embedded == false>
 		<#include "../_includes/footer.ftl">
 	</#if>
-	<#include "../_includes/header_body_end.ftl">
+	<#include "../_includes/header/body_end.ftl">
 	
 	<#-- Post Scripts -->
 	<#include "../_includes/events/addEdit_postScripts.ftl">

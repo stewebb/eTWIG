@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<#include "../_includes/header_head.ftl">
+	<#include "../_includes/header/head.ftl">
 
 	<title>Delete Event - ${app.appName}</title>
 </head>
@@ -24,7 +24,7 @@
 <#assign cancelBtn = embedded ? then("Close", "Cancel")>
 
 <body class="sidebar-mini layout-fixed">
-	<#include "../_includes/header_body_start.ftl">
+	<#include "../_includes/header/body_start.ftl">
 	
 	<#if embedded == false>
 		<#include "../_includes/sidebar.ftl">
@@ -174,7 +174,7 @@
 		<#include "../_includes/footer.ftl">
 	</#if>
 	
-	<#include "../_includes/header_body_end.ftl">
+	<#include "../_includes/header/body_end.ftl">
 	
 	<#-- Custom JS for events operations-->
 	<script src="/static/js/etwig-events.js"></script>

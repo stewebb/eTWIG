@@ -12,13 +12,13 @@
 <html>
 <head>
 
-	<#include "../_includes/header_head.ftl">
+	<#include "../_includes/header/head.ftl">
 	<title>TWIG Template - ${app.appName}</title>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
 
-	<#include "../_includes/header_body_start.ftl">
+	<#include "../_includes/header/body_start.ftl">
 	<#include "../_includes/sidebar.ftl">
 	
 	<#-- Content Wrapper. -->
@@ -97,7 +97,7 @@
 	</div>
 	
 	<#include "../_includes/footer.ftl">
-	<#include "../_includes/header_body_end.ftl">
+	<#include "../_includes/header/body_end.ftl">
 	
 	<#-- JS for TWIG template options. -->
 	<script type="text/javascript" src="/static/js/etwig-twig-template.js"></script>

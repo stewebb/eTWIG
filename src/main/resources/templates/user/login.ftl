@@ -10,14 +10,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<#include "../_includes/header_head.ftl">
+	<#include "../_includes/header/head.ftl">
 	
 	<title>Welcome to eTWIG</title>
 </head>
 
 <body class="hold-transition login-page">
 	
-	<#include "../_includes/header_body_start.ftl">
+	<#include "../_includes/header/body_start.ftl">
 	<div class="login-box">
 	
 		<#-- Logo -->
@@ -85,7 +85,7 @@
   	</div>
 </div>
 
-<#include "../_includes/header_body_end.ftl">
+<#include "../_includes/header/body_end.ftl">
 
 <script>
 	var searchParams = new URLSearchParams(window.location.search);

@@ -36,13 +36,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<#include "../_includes/header_head.ftl">
+	<#include "../_includes/header/head.ftl">
 
 	<title>Edit Event - ${app.appName}</title>
 </head>
 
 <body class="sidebar-mini layout-fixed">
-	<#include "../_includes/header_body_start.ftl">
+	<#include "../_includes/header/body_start.ftl">
 	
 	<#if embedded == false>
 		<#include "../_includes/sidebar.ftl">
@@ -83,8 +83,6 @@
 					</div>
 				</div>
 				
-
-				
 			</div>
 		</section>
 
@@ -97,14 +95,7 @@
 		<#include "../_includes/footer.ftl">
 	</#if>
 	
-	<#include "../_includes/header_body_end.ftl">
-
-	<#-- CSS and JS for summernote editor.-->
-	<link rel="stylesheet" href="/static/css/summernote-bs4.min.css">
-	<script src="/static/js/summernote-bs4.min.js"></script>
-	
-	<#-- Custom JS for adding events-->
-	<script src="/static/js/etwig-events.js"></script>
+	<#include "../_includes/header/body_end.ftl">
 	
 	<#-- Post Scripts -->
 	<#include "../_includes/events/addEdit_postScripts.ftl">

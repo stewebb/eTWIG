@@ -12,12 +12,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<#include "../_includes/header_head.ftl">
+	<#include "../_includes/header/head.ftl">
 	<title>Event Calendar - ${app.appName}</title>
 </head>
 
 <body class="sidebar-mini layout-fixed">
-  	<#include "../_includes/header_body_start.ftl">
+  	<#include "../_includes/header/body_start.ftl">
 
 	<#if !embedded>
 		<#include "../_includes/sidebar.ftl">
@@ -141,7 +141,7 @@
   
   	<#include "../_includes/footer.ftl">
   	
-  	<#include "../_includes/header_body_end.ftl">
+  	<#include "../_includes/header/body_end.ftl">
   	
   	<#-- CSS and JS for event calendar. https://github.com/vkurko/calendar -->
 	<link rel="stylesheet" href="/static/css/vendor/event-calendar.min.css">

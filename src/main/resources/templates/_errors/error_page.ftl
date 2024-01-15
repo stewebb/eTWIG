@@ -11,13 +11,13 @@
 <html>
 <head>
 
-	<#include "../_includes/header_head.ftl">
+	<#include "../_includes/header/head.ftl">
 	
     <title>Http Status ${error.status} - ${error.error}</title>
 </head>
 
 <body>
-	<#include "../_includes/header_body_start.ftl">
+	<#include "../_includes/header/body_start.ftl">
 
 	<#assign color = "info">
     <#if error.status?starts_with("5")>
@@ -108,7 +108,7 @@
 		</section>
 	</div>
 	
-	<#include "../_includes/header_body_end.ftl">
+	<#include "../_includes/header/body_end.ftl">
 	
 </body>
 </html>

@@ -12,19 +12,19 @@
 <html>
 <head>
 
-	<#include "./_includes/header_head.ftl">
+	<#include "./_includes/header/head.ftl">
 	<title>Dashboard - ${app.appName}</title>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
 
-	<#include "./_includes/header_body_start.ftl">
+	<#include "./_includes/header/body_start.ftl">
 	<#include "./_includes/sidebar.ftl">
 	
 	<div class="content-wrapper">
 	</div>
 	
 	<#include "./_includes/footer.ftl">
-<#include "./_includes/header_body_end.ftl">
+<#include "./_includes/header/body_end.ftl">
 </body>
 </html>

@@ -12,12 +12,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<#include "../_includes/header_head.ftl">
+	<#include "../_includes/header/head.ftl">
 	<title>Error - ${app.appName}</title>
 </head>
 
 <body class="sidebar-mini layout-fixed">
-	<#include "../_includes/header_body_start.ftl">
+	<#include "../_includes/header/body_start.ftl">
 	
 	
 	<#if embedded == false>
@@ -62,7 +62,7 @@
 
 	</div>
 	
-	<#include "../_includes/header_body_end.ftl">
+	<#include "../_includes/header/body_end.ftl">
 	
 </body>
 </html>

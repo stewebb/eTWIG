@@ -12,14 +12,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<#include "../_includes/header_head.ftl">
+	<#include "../_includes/header/head.ftl">
 
 	<title>TWIG Template Designer - ${app.appName}</title>
 </head>
 
 <body class="sidebar-mini layout-fixed">
 
-	<#include "../_includes/header_body_start.ftl">
+	<#include "../_includes/header/body_start.ftl">
 	<#include "../_includes/sidebar.ftl">
 	<#include "../_includes/modal.ftl">
 	
@@ -140,7 +140,7 @@
             						<#assign next = true>
             						
               						<div id="twigTemplateBackground" role="tabpanel" class="bs-stepper-pane" aria-labelledby="">
-                						<#include "../_includes/twigTemplate_design_background.ftl">
+                						<#include "../_includes/twigTemplate/design_background.ftl">
 										<#include "../_includes/stepper_btn.ftl">
               						</div>
               						<#-- /Content 1: Background -->
@@ -152,7 +152,7 @@
               						<div id="twigTemplateLogo" role="tabpanel" class="bs-stepper-pane" aria-labelledby="twigTemplateSteppertrigger2">
                 						<#assign currentElement = design.logo>
                 						<#assign elementName = "logo">
-                						<#include "../_includes/twigTemplate_design_common.ftl">
+                						<#include "../_includes/twigTemplate/design_common.ftl">
                 						<#include "../_includes/stepper_btn.ftl">
               						</div>
               						<#-- /Content 2: Logo -->
@@ -164,7 +164,7 @@
               						<div id="twigTemplateTitle" role="tabpanel" class="bs-stepper-pane" aria-labelledby="twigTemplateSteppertrigger2">
                 						<#assign currentElement = design.title>
                 						<#assign elementName = "title">
-                						<#include "../_includes/twigTemplate_design_common.ftl">
+                						<#include "../_includes/twigTemplate/design_common.ftl">
                 						<#include "../_includes/stepper_btn.ftl">
               						</div>
               						<#-- /Content 3: Title -->
@@ -176,7 +176,7 @@
               						<div id="twigTemplateWeek" role="tabpanel" class="bs-stepper-pane" aria-labelledby="twigTemplateSteppertrigger2">
                 						<#assign currentElement = design.week>
                 						<#assign elementName = "week">
-                						<#include "../_includes/twigTemplate_design_common.ftl">
+                						<#include "../_includes/twigTemplate/design_common.ftl">
                 						<#include "../_includes/stepper_btn.ftl">
               						</div>
               						<#-- /Content 4: Week -->
@@ -206,7 +206,7 @@
 				<#-- /Card -->
 				
 				<#-- Preview -->
-				<#include "../_includes/twigTemplate_design_preview.ftl">
+				<#include "../_includes/twigTemplate/design_preview.ftl">
 			</div>
 		</section>
 		<#-- /Main area -->
@@ -216,7 +216,7 @@
 	
 	<#-- Footer -->
 	<#include "../_includes/footer.ftl">
-	<#include "../_includes/header_body_end.ftl">
+	<#include "../_includes/header/body_end.ftl">
 	
 	<#-- bs stepper -->
 	<link rel="stylesheet" href="/static/css/vendor/bs-stepper.min.css">
