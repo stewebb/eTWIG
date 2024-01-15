@@ -5,7 +5,7 @@ const RECOMMENDED_WIDTH = 1600;
 const RECOMMENDED_HEIGHT = 900;
 
 var templateBackgroundObj = new TemplateBackground();
-var templateLogoObj = new TemplateLogo();
+var templateLogoObj = new TemplateImage(5, 20, 0, 99);
 
 function twigTemplateDataTable(){
 	var dt = $('#twigTemplate').DataTable({
@@ -146,6 +146,10 @@ function getCurrentDesign(){
 		return;
 	}
 	
+	var logoImageWidth = $("#templateLogoImageContent").width();
+	var logoImageHeight = $("#templateLogoImageContent").height();
+	console.log(logoImageWidth, logoImageHeight);
+	
 	// Logo size (number input) and null/integer check.
 	var logoSize = $('#templateLogoSize').val();
 	if(logoSize.length == 0){
@@ -175,7 +179,7 @@ function getCurrentDesign(){
 
 	// Store logo info
 	templateLogoObj.set(logoEnabled, logoImage, logoSize, logoPosition);
-	console.log(templateLogoObj);
+	//console.log(templateLogoObj);
 	
 }
 

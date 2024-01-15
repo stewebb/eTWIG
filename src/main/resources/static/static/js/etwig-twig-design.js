@@ -60,7 +60,7 @@ class TemplateBackground{
 	}
 }
 
-class TemplateLogo{
+class TemplateImage{
 	
 	#enabled;
 	#image;
@@ -68,11 +68,18 @@ class TemplateLogo{
 	#posX;
 	#posY;
 	
-	#MIN_SIZE = 5;
-	#MAX_SIZE = 20;
+	#MIN_SIZE;
+	#MAX_SIZE;
 	
-	#MIN_POS = 0;
-	#MAX_POS = 99;
+	#MIN_POS;
+	#MAX_POS;
+	
+	constructor(minSize, maxSize, minPos, maxPos){
+		this.#MIN_SIZE = minSize;
+		this.#MAX_SIZE = maxSize;
+		this.#MIN_POS = minPos;
+		this.#MAX_POS = maxPos;
+	}
 	
 	#setEnabled(enabled){
 		

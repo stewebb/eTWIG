@@ -97,7 +97,7 @@
 										</button>		
   									</div>
 								</div>
-								<img src="/twig/assets?assetId=${backgroundImage}" class="img-fluid" id="templateBackgroundImageContent" />	
+								<img src="/assets/getPublicAsset?assetId=${backgroundImage}" class="img-fluid" id="templateBackgroundImageContent" />	
 							</div>
 						</div>
 						<#-- /Image -->	

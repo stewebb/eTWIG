@@ -1,5 +1,3 @@
-
-
 function assetSelectorDataTable(){
 	var dt = $('#assetSelector').DataTable({
         processing: true,
@@ -87,7 +85,7 @@ function previewAsset(asset){
     var callback = urlParams.get('callback');
     var image = urlParams.get('image');
 	
-	var fileURL = "/twig/assets?assetId=" + asset.id;
+	var fileURL = "/assets/getPublicAsset?assetId=" + asset.id;
 	var category = asset.fileCategory;
 	
 	/*

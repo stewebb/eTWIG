@@ -17,6 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -25,6 +26,7 @@ import net.grinecraft.etwig.services.AssetService;
 import net.grinecraft.etwig.util.type.FileType;
 
 @Controller
+@RequestMapping(value = "/assets")
 public class AssetController {
 	
 	@Autowired
@@ -38,8 +40,8 @@ public class AssetController {
 	 * @Permissions PUBLIC ACCESS
 	 */
 	
-	@RequestMapping(value = "/twig/assets")
-	public ResponseEntity<Resource> assets(@RequestParam Long assetId, @RequestParam (required=false) String download) throws Exception {
+	@GetMapping(value = "/getPublicAsset")
+	public ResponseEntity<Resource> getPublicAsset(@RequestParam Long assetId, @RequestParam (required=false) String download) throws Exception {
 		
 		// Get asset info, content and null check.
 		Asset asset = assetService.getAssetDetailsById(assetId);
@@ -75,7 +77,7 @@ public class AssetController {
     }
 	
 	
-	@RequestMapping("/assets/_selector")  
+	@RequestMapping("_selector")  
 	public String selector(Model model) throws Exception{
 		return "assets/selector";
 	}

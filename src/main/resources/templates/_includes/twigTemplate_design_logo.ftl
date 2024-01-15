@@ -44,7 +44,7 @@
 										</button>		
   									</div>
 								</div>
-								<img src="/twig/assets?assetId=${design.logo.image}" class="img-fluid" id="templateLogoImageContent" />	
+								<img src="/assets/getPublicAsset?assetId=${design.logo.image}" class="img-fluid" id="templateLogoImageContent" />	
 							</div>
 						</div>
 						<#-- /Image -->		

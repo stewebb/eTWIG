@@ -42,13 +42,21 @@ public class WebSecurityConfig{
 	@Autowired
 	private RememberMeService rememberMeService;
 	
+	private String[] publicUrls = {
+		"/static/**", 
+		"/api/public/**",
+		"/twig/**", 
+		"/error", 
+		"/assets/getPublicAsset"
+	};
+	
 	@SuppressWarnings("removal")
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
           
 		// Public access resources.
 		http.authorizeHttpRequests((requests) -> requests
-				.requestMatchers("/static/**", "/api/public/**", "/twig/**", "/error").permitAll()
+				.requestMatchers(this.publicUrls).permitAll()
 				.anyRequest().authenticated()
 			);
 		
