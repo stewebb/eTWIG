@@ -146,9 +146,11 @@ function getCurrentDesign(){
 		return;
 	}
 	
-	var logoImageWidth = $("#templateLogoImageContent").width();
-	var logoImageHeight = $("#templateLogoImageContent").height();
-	console.log(logoImageWidth, logoImageHeight);
+	// Validate image and get the width/height
+	var logoImageInfo = getImageInfo(logoImage);
+	if(logoImageInfo == null){
+		return;
+	}
 	
 	// Logo size (number input) and null/integer check.
 	var logoSize = $('#templateLogoSize').val();
@@ -181,6 +183,32 @@ function getCurrentDesign(){
 	templateLogoObj.set(logoEnabled, logoImage, logoSize, logoPosition);
 	//console.log(templateLogoObj);
 	
+}
+
+function getImageInfo(assetId){
+	var imageInfo = undefined;
+	
+	$.ajax({
+   		url: "/api/private/getImageInfo", 
+   		type: "GET",
+   		async: false,
+   		dataType: "json",
+   		data: {
+			assetId: assetId
+		},
+   		success: function (result) {
+			if(result.error > 0){
+				dangerToast("Failed to validate image", result.msg);
+			}else{
+				imageInfo = result.imageInfo;
+			}	
+    	},
+    	error: function (err) {
+    		dangerToast("Failed to validate image due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+    	}
+ 	});
+ 	
+ 	return imageInfo;
 }
 
 function setup() {

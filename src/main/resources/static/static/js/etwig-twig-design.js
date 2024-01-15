@@ -41,6 +41,8 @@ class TemplateBackground{
 		}
 	}
 	
+	
+	
 	set(enabled, mode, value){
 		this.#setEnabled(enabled);
 		this.#setMode(mode);
