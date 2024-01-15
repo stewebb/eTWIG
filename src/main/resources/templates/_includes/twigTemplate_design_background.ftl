@@ -65,7 +65,7 @@
 						<div class="form-group row" id="templateBackgroundColor" <#if !isBackgroundModeColor>style="display:none;"</#if>>
 							<label for="templateBackgroundColorInput" class="col-sm-2 col-form-label">Color</label>
 							<div class="col-sm-10">
-								<div class="input-group my-colorpicker2">
+								<div class="input-group color-picker">
 									<div class="input-group-prepend">
 										<span class="input-group-text">
 											<i class="fa-solid fa-palette" style="color:${backgroundColor}"></i>

@@ -66,6 +66,7 @@ class TemplateImage{
 	
 	#enabled;
 	#image;
+	#imageInfo;
 	#size;
 	#posX;
 	#posY;
@@ -93,6 +94,10 @@ class TemplateImage{
 	
 	#setImage(assetId){
 		this.#image = (assetId % 1 === 0) ? assetId : -1;
+	}
+	
+	#setImageInfo(imageInfo){
+		this.#imageInfo = imageInfo;
 	}
 	
 	#setSize(size){
@@ -140,9 +145,10 @@ class TemplateImage{
 		}
 	}
 	
-	set(enabled, image, size, position){
+	set(enabled, image, imageInfo, size, position){
 		this.#setEnabled(enabled);
 		this.#setImage(image);
+		this.#setImageInfo(imageInfo),
 		this.#setSize(size);
 		this.#setPosition(position);
 	}
@@ -153,6 +159,10 @@ class TemplateImage{
 	
 	getImage(){
 		return this.#image;
+	}
+	
+	getImageInfo(){
+		return this.#imageInfo;
 	}
 	
 	getPosition(){

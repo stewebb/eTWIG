@@ -3,7 +3,7 @@
 										<div class="button-container">
                 							
                 							<#-- Previous (Left) -->
-                	                		<button class="btn btn-outline-primary <#if !prev>hidden-btn</#if>" onclick="stepper2.previous()">
+                	                		<button class="btn btn-outline-primary <#if !prev>hidden-btn</#if>" onclick="twigTemplateStepper.previous()">
                 								<i class="fa-solid fa-backward"></i>&nbsp;Previous
                 							</button>
                 							
@@ -15,7 +15,7 @@
                 							
                 							<#-- Next or Submit (Right) -->
                 							<#if next>
-                								<button class="btn btn-outline-primary" onclick="stepper2.next();">
+                								<button class="btn btn-outline-primary" onclick="twigTemplateStepper.next();">
                 									<i class="fa-solid fa-forward"></i>&nbsp;Next
                 								</button>
                 							<#else>

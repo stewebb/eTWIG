@@ -105,6 +105,18 @@
             					<div class="bs-stepper-line"></div>
             					<#-- /Header 3: Title -->
             					
+            					<#-- Header 4:Week -->
+            					<div class="step" data-target="#twigTemplateWeek">
+              						<button type="button" class="step-trigger" role="tab" aria-controls="twigTemplateWeek">
+                						<span class="bs-stepper-circle">
+                  							<span class="fas fa-calendar-week" aria-hidden="true"></span>
+                						</span>
+                						<span class="bs-stepper-label">Week Name</span>
+              						</button>
+            					</div>
+            					<div class="bs-stepper-line"></div>
+            					<#-- Header 4:Week -->
+            					
             					<#-- Header n: Submit -->
             					<div class="step" data-target="#twigTemplateSubmit">
               						<button type="button" class="step-trigger" role="tab" aria-controls="twigTemplateSubmit">
@@ -137,8 +149,10 @@
               						<#assign prev = true>
             						<#assign next = true>
             						
-              						<div id="twigTemplateLogo" role="tabpanel" class="bs-stepper-pane" aria-labelledby="stepper2trigger2">
-                						<#include "../_includes/twigTemplate_design_logo.ftl">
+              						<div id="twigTemplateLogo" role="tabpanel" class="bs-stepper-pane" aria-labelledby="twigTemplateSteppertrigger2">
+                						<#assign currentElement = design.logo>
+                						<#assign elementName = "logo">
+                						<#include "../_includes/twigTemplate_design_common.ftl">
                 						<#include "../_includes/stepper_btn.ftl">
               						</div>
               						<#-- /Content 2: Logo -->
@@ -147,16 +161,30 @@
               						<#assign prev = true>
             						<#assign next = true>
             						
-              						<div id="twigTemplateTitle" role="tabpanel" class="bs-stepper-pane" aria-labelledby="stepper2trigger2">
-                						<#include "../_includes/twigTemplate_design_title.ftl">
+              						<div id="twigTemplateTitle" role="tabpanel" class="bs-stepper-pane" aria-labelledby="twigTemplateSteppertrigger2">
+                						<#assign currentElement = design.title>
+                						<#assign elementName = "title">
+                						<#include "../_includes/twigTemplate_design_common.ftl">
                 						<#include "../_includes/stepper_btn.ftl">
               						</div>
               						<#-- /Content 3: Title -->
               						
+              						<#-- Content 4: Week -->
+              						<#assign prev = true>
+            						<#assign next = true>
+            						
+              						<div id="twigTemplateWeek" role="tabpanel" class="bs-stepper-pane" aria-labelledby="twigTemplateSteppertrigger2">
+                						<#assign currentElement = design.week>
+                						<#assign elementName = "week">
+                						<#include "../_includes/twigTemplate_design_common.ftl">
+                						<#include "../_includes/stepper_btn.ftl">
+              						</div>
+              						<#-- /Content 4: Week -->
+              						
               						<#-- Content n: Submit -->
               						<#assign prev = true>
             						<#assign next = false>
-              						<div id="twigTemplateSubmit" role="tabpanel" class="bs-stepper-pane" aria-labelledby="stepper2trigger3">
+              						<div id="twigTemplateSubmit" role="tabpanel" class="bs-stepper-pane" aria-labelledby="twigTemplateSteppertrigger3">
 
 										<div class="callout callout-primary">
 											<h5 class="bold-text mb-3">Heads up!</h5>
@@ -209,27 +237,30 @@
 	<#-- p5.js -->
 	<script src="/static/js/p5.min.js"></script>
 	
-	
    	<#-- Post Scripts -->
 	<script>
 	
+		// A prompt diaglue displays if the window size is lower than the recommended size.
 		windowSizeCheck();
+		
+		// Initialize the preview.
 		getCurrentDesign();
 		
+		// Initialize all position input masks,
+		$("[id$='Position']").each(function() {
+			$('#'+this.id).inputmask('(99,99)', {placeholder: "(__,__)"});
+		});
 		
-		    $('.my-colorpicker2').colorpicker()
+		// Color picker
+		$('.color-picker').colorpicker()
+    	$('.color-picker').on('colorpickerChange', function(event) {
+      		$('.color-picker .fa-palette').css('color', event.color.toString());
+    	})
 
-    $('.my-colorpicker2').on('colorpickerChange', function(event) {
-      $('.my-colorpicker2 .fa-palette').css('color', event.color.toString());
-    })
-    
-      $("#templateLogoPosition").inputmask('(99,99)', {placeholder: "(__,__)"});
-      
-     stepper2 = new Stepper(document.querySelector('#twigTemplateDesignStepper'), {
-    linear: false
-  })
-  
-
+		// Initialize the template stepper
+     	twigTemplateStepper = new Stepper(document.querySelector('#twigTemplateDesignStepper'), {
+    		linear: false
+  		});
     </script>
 
 </body>

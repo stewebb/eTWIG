@@ -19,6 +19,8 @@ public class TwigTemplateDesignDTO {
 	
 	private Map<String, Object> title;
 	
+	private Map<String, Object> week;
+	
 	public TwigTemplateDesignDTO(TwigTemplate twigTemplate) throws Exception {
 		
 		this.id = twigTemplate.getId();
@@ -27,5 +29,6 @@ public class TwigTemplateDesignDTO {
 		this.background = jsonUtils.jsonToMap(twigTemplate.getBackground());
 		this.logo = jsonUtils.jsonToMap(twigTemplate.getLogo());
 		this.title = jsonUtils.jsonToMap(twigTemplate.getTitle());
+		this.week = jsonUtils.jsonToMap(twigTemplate.getWeek());
 	}
 }

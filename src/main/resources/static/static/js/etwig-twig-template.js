@@ -1,11 +1,13 @@
 const CANVAS_WIDTH = 1280;
 const CANVAS_HEIGHT = 720;
+const CANVAS_SHORT_SIDE = Math.min(CANVAS_WIDTH, CANVAS_HEIGHT);
 
 const RECOMMENDED_WIDTH = 1600;
 const RECOMMENDED_HEIGHT = 900;
 
 var templateBackgroundObj = new TemplateBackground();
 var templateLogoObj = new TemplateImage(5, 20, 0, 99);
+var templateTitleObj = new TemplateImage(5, 20, 0, 99);
 
 function twigTemplateDataTable(){
 	var dt = $('#twigTemplate').DataTable({
@@ -134,55 +136,64 @@ function getCurrentDesign(){
 	}
 	
 	// Store background info
-	templateBackgroundObj.set(backgroundEnabled, backgroundMode, backgroundValue);
+	templateBackgroundObj.set(backgroundEnabled, backgroundMode, backgroundValue);	
 	
-	// Logo enabled (checkbox)
-	var logoEnabled = $('#logoEnabled').is(':checked');
+	getCommonDesign("logo", templateLogoObj)
+	getCommonDesign("title", templateTitleObj)
 	
-	// Logo image (number input) and integer check.
-	var logoImage = $('#templateLogoImageInput').val();
-	if (!(logoImage % 1 === 0)){
-		warningToast("AssetId for logo image is not an integer.");
+	console.log(templateTitleObj);
+}
+
+function getCommonDesign(element, templateElementObj){
+	
+	var elementNameLower = element.toLowerCase();
+	var elementNameCapFirst = element[0].toUpperCase() + element.slice(1);
+	
+	// Enabled (checkbox)
+	var enabled = $('#' + elementNameLower + 'Enabled').is(':checked');
+	
+	// Image (number input) and integer check.
+	var image = $('#template' + elementNameCapFirst + 'ImageInput').val();
+	if (!(image % 1 === 0)){
+		warningToast("AssetId for "+ elementNameLower +" image is not an integer.");
 		return;
 	}
 	
 	// Validate image and get the width/height
-	var logoImageInfo = getImageInfo(logoImage);
-	if(logoImageInfo == null){
+	var imageInfo = getImageInfo(image);
+	if(imageInfo == null){
 		return;
 	}
 	
-	// Logo size (number input) and null/integer check.
-	var logoSize = $('#templateLogoSize').val();
-	if(logoSize.length == 0){
-		warningToast("Logo size is empty.");
+	// Size (number input) and null/integer check.
+	var size = $('#template' + elementNameCapFirst + 'Size').val();
+	if(size.length == 0){
+		warningToast(elementNameCapFirst + " size is empty.");
 		return;
 	}
 	
-	if (!(logoSize % 1 === 0)){
-		warningToast("Logo size is not an integer.");
+	if (!(size % 1 === 0)){
+		warningToast(elementNameCapFirst + " size is not an integer.");
 		return;
 	}
 	
-	// Logo position (number input) and null check
-	var logoPosition = $('#templateLogoPosition').val();
-	if(logoPosition.length == 0){
-		warningToast("Logo position is empty.");
+	// Position (number input) and null check
+	var position = $('#template' + elementNameCapFirst + 'Position').val();
+	if(position.length == 0){
+		warningToast(elementNameCapFirst + " position is empty.");
 		return;
 	}
 
 	// Regex check whether the position is well-formed. (NUM,NUM)	
 	const regex = /\((\d+),(\d+)\)/;
-	var match = logoPosition.match(regex);
+	var match = position.match(regex);
 	if(match == undefined || match == null){
-		warningToast("Logo position is not well-formed.", "It must be the format of (TWO_DIGIT_NUMBER,TWO_DIGIT_NUMBER)");
+		warningToast(elementNameCapFirst + " position is not well-formed.", "It must be the format of (TWO_DIGIT_NUMBER,TWO_DIGIT_NUMBER)");
 		return;
 	}
 
-	// Store logo info
-	templateLogoObj.set(logoEnabled, logoImage, logoSize, logoPosition);
-	//console.log(templateLogoObj);
-	
+	// Store info
+	templateElementObj.set(enabled, image, imageInfo,size, position);	
 }
 
 function getImageInfo(assetId){
@@ -198,7 +209,7 @@ function getImageInfo(assetId){
 		},
    		success: function (result) {
 			if(result.error > 0){
-				dangerToast("Failed to validate image", result.msg);
+				warningToast("Failed to validate image", result.msg);
 			}else{
 				imageInfo = result.imageInfo;
 			}	
@@ -219,15 +230,35 @@ function setup() {
 function draw() {
 	
 	// The background color is #DFDFDF.
-	background(0, 0, 94);
+	background(0, 0, 0);
 	
-	
+	// Template logo (red)
 	strokeWeight(6);	stroke(0, 100, 100);	noFill();
 	circle(
 		templateLogoObj.getPosX() * CANVAS_WIDTH * 0.01,
 		templateLogoObj.getPosY() * CANVAS_HEIGHT * 0.01,
-		templateLogoObj.getSize() * CANVAS_HEIGHT * 0.01
+		templateLogoObj.getSize() * CANVAS_SHORT_SIDE * 0.01
 	);
+	
+	var rectWidth = templateTitleObj.getImageInfo().width;
+	var rectHeight = templateTitleObj.getImageInfo().height;
+	
+	var rectShortSide = min(rectWidth, rectHeight);
+
+  	let desiredSize = CANVAS_SHORT_SIDE * templateTitleObj.getSize() * 0.01;
+  	let scaleFactor = desiredSize / rectShortSide;
+
+ 	let scaledRectWidth = rectWidth * scaleFactor;
+  	let scaledRectHeight = rectHeight * scaleFactor;
+	
+	// Template title (orange)
+	strokeWeight(6);	stroke(30, 100, 100);	noFill();
+	rect(
+		templateTitleObj.getPosX() * CANVAS_WIDTH * 0.01,
+		templateTitleObj.getPosY() * CANVAS_HEIGHT * 0.01,
+		scaledRectWidth, scaledRectHeight
+	)
+	
 	
 	//rect(0, 0, WIDTH, HEIGHT);
 	

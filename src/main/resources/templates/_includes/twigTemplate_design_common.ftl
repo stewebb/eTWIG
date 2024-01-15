@@ -8,25 +8,27 @@
 	This part contains the form of basic information like name, location, recurrent and description.
    -->
    
-	<#assign logoEnabledStr = design.logo.enabled?string("checked", "")>		
-	<#assign logoDisabledStr = design.logo.enabled?string("", "disabled")>		
+	<#assign enabledStr = currentElement.enabled?string("checked", "")>		
+	<#assign disabledStr =currentElement.enabled?string("", "disabled")>		
 				
-						<#-- Logo -->
+	<#assign elementNameLower = elementName?lower_case>
+	<#assign elementNameCapFirst = elementNameLower?cap_first>
+	
 						<#-- Enabled -->
 						<div class="form-group row">
-							<label for="logoEnabled" class="col-sm-2 col-form-label">Enabled</label>
+							<label for="${elementNameLower}Enabled" class="col-sm-2 col-form-label">Enabled</label>
 							<div class="col-sm-10">
 								<div class="icheck-primary mb-2">
-  									<input type="checkbox" id="logoEnabled" name="logoEnabled" onclick="toggleElementsByIdPattern('templateLogo', 'logoEnabled');" ${logoEnabledStr}>
-              						<label for="logoEnabled">Enabled</label>
+  									<input type="checkbox" id="${elementNameLower}Enabled" name="${elementNameLower}Enabled" onclick="toggleElementsByIdPattern('template${elementNameCapFirst}', '${elementNameLower}Enabled');" ${enabledStr}>
+              						<label for="${elementNameLower}Enabled">Enabled</label>
 								</div>
 							</div>
 						</div>
 						<#-- /Enabled -->
 						
 						<#-- Image -->
-						<div class="form-group row" id="templateLogoImage">
-							<label for="templateLogoImageInput" class="col-sm-2 col-form-label">Image</label>
+						<div class="form-group row" id="template${elementNameCapFirst}Image">
+							<label for="template${elementNameCapFirst}ImageInput" class="col-sm-2 col-form-label">Image</label>
 							<div class="col-sm-10">
 							
 								<div class="input-group mb-3">
@@ -36,22 +38,22 @@
 										</span>
 									</div>
 									
-									<input type="text" class="form-control template-image-input" id="templateLogoImageInput" value="${design.logo.image}" readonly>
+									<input type="text" class="form-control template-image-input" id="template${elementNameCapFirst}ImageInput" value="${currentElement.image}">
 									
 									<div class="input-group-append">
-    									<button type="button" id="templateLogoImageBtn" class="btn btn-outline-secondary" onclick="selectUpload('templateLogoImageInput', 'templateLogoImageContent');" ${logoDisabledStr}>
+    									<button type="button" id="template${elementNameCapFirst}ImageBtn" class="btn btn-outline-secondary" onclick="selectUpload('template${elementNameCapFirst}ImageInput', 'template${elementNameCapFirst}ImageContent');" ${disabledStr}>
 											<i class="fa-regular fa-upload"></i>&nbsp;Select/Upload
 										</button>		
   									</div>
 								</div>
-								<img src="/assets/getPublicAsset?assetId=${design.logo.image}" class="img-fluid" id="templateLogoImageContent" />	
+								<img src="/assets/getPublicAsset?assetId=${currentElement.image}" class="img-fluid" id="template${elementNameCapFirst}ImageContent" />	
 							</div>
 						</div>
 						<#-- /Image -->		
 								
 						<#-- Size -->
 						<div class="form-group row">
-							<label for="templateLogoSize" class="col-sm-2 col-form-label">Size</label>
+							<label for="template${elementNameCapFirst}Size" class="col-sm-2 col-form-label">Size</label>
 							<div class="col-sm-10">
 							
 								<div class="input-group">
@@ -61,7 +63,7 @@
 										</span>
 									</div>
 									
-									<input type="number" class="form-control" placeholder="Template logo size, the percentage of the short side of the TWIG. Allowed number: 5-20" id="templateLogoSize" value="${design.logo.size}" ${logoDisabledStr}>
+									<input type="number" class="form-control" placeholder="Template ${elementNameLower} size, the percentage of the short side of the TWIG. Allowed number: 5-20" id="template${elementNameCapFirst}Size" value="${currentElement.size}" ${disabledStr}>
 									<div class="input-group-append">
     									<span class="input-group-text">%</span>
   									</div>
@@ -72,7 +74,7 @@
 						
 						<#-- Position -->
 						<div class="form-group row">
-							<label for="templateLogoPosition" class="col-sm-2 col-form-label">Position</label>
+							<label for="template${elementNameCapFirst}Position" class="col-sm-2 col-form-label">Position</label>
 							<div class="col-sm-10">
 								<div class="input-group">
 								
@@ -82,7 +84,7 @@
 										</span>
 									</div>
 											
-									<input type="text" id= "templateLogoPosition" class="form-control" value="(${design.logo.position})" data-mask ${logoDisabledStr}>		
+									<input type="text" id= "template${elementNameCapFirst}Position" class="form-control" value="(${currentElement.position})" data-mask ${disabledStr}>		
 									<div class="input-group-append">
     									<span class="input-group-text">%</span>
   									</div>

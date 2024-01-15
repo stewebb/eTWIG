@@ -24,10 +24,10 @@
   			templateSelection: formatState,
 		});
 		
-		    $('.my-colorpicker2').colorpicker()
+		    $('.color-picker').colorpicker()
 
-    $('.my-colorpicker2').on('colorpickerChange', function(event) {
-      $('.my-colorpicker2 .fa-palette').css('color', event.color.toString());
+    $('.color-picker').on('colorpickerChange', function(event) {
+      $('.color-picker .fa-palette').css('color', event.color.toString());
     })
     
       $("#position").inputmask('99,99', {placeholder: "__,__"});

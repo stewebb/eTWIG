@@ -62,7 +62,8 @@ public class TwigTemplate {
 	private String background;
 	
 	/**
-	 * 	The "logo" column stores the style and content of the custom logo in JSON format.
+	 * 	The common element for multiple fields and widgets.
+	 * The accepted widgets: logo, title, week
 	 * {
 	 * 		"enabled" : ${ENABLED},
 	 * 		"image" : ${IMAGE},
@@ -74,13 +75,13 @@ public class TwigTemplate {
 	 * ${ENABLED} is a boolean value.
 	 * ${IMAGE} is the assetId in the asset table. It MUST be an image file.
 	 * 
-	 * ${SIZE} is the size of the logo, which is an integer between 5 and 20.
-	 * It is a proportion of the short side of the TWIG canvas.
-	 * Actual size = constrain(${SIZE}, 5, 20)
-	 * If ${SIZE} < 5,  ${SIZE} = 5.
-	 * If ${SIZE} > 20, ${SIZE} = 20.
+	 * ${SIZE} is the size of the widget, which is an integer between two numbers (user defined).
+	 * The short side of the widget is a proportion of the short side of the TWIG canvas.
+	 * Actual size = constrain(${SIZE}, MIN, MAX)
+	 * If ${SIZE} < MIN,  ${SIZE} = MIN.
+	 * If ${SIZE} > MAX, ${SIZE} = MAX.
 	 * 
-	 * ${POSX}, ${POSY} are the position of the logo, which are integers between 0 and 100.
+	 * ${POSX}, ${POSY} are the position of the widget, which are integers between 0 and 100.
 	 * They are the proportion of the long side and short side of the TWIG canvas respectively.
 	 * Actual poses = constrain(${POX}, 0, 100)
 	 */
@@ -88,25 +89,11 @@ public class TwigTemplate {
 	@Column(name = "logo")
 	private String logo;
 	
-	/**
-	 * 	The "title" column stores the style and content of the custom title in JSON format.
-	 * {
-	 * 		"enabled" : ${ENABLED},
-	 * 		"image" : ${IMAGE},
-	 * 		"size" : ${SIZE},
-	 * 		"position" : "${POSX}, ${POSY}"
-	 * }
-	 * 
-	 * Where:
-	 * ${ENABLED} is a boolean value.
-	 * ${IMAGE} is the assetId in the asset table.
-	 * ${SIZE} is the size of the title, which is an integer between 5 and 20.
-	 * ${POSX}, ${POSY} are the position of the title, which are integers between 0 and 100.
-	 */
-	
 	@Column(name = "title")
 	private String title;
 	
+	@Column(name = "week")
+	private String week;
 	
 	@Column(name = "available_from")
 	private LocalDate availableFrom;
