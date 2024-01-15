@@ -230,8 +230,8 @@
    	<script src="/static/js/vendor/jquery.inputmask.min.js"></script>
    
     <#-- JS for TWIG template options. -->
-	<script type="text/javascript" src="/static/js/etwig-twig-design.js"></script>
-	<script type="text/javascript" src="/static/js/etwig-twig-template.js"></script>
+	<script type="text/javascript" src="/static/js/etwig/twig-common.js"></script>
+	<script type="text/javascript" src="/static/js/etwig/twig-template-design.js"></script>
 	
 	<#-- p5.js -->
 	<script src="/static/js/vendor/p5.min.js"></script>

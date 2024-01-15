@@ -140,10 +140,12 @@
 	<#include "../_includes/header/body_end.ftl">
 	
 	<#--  JS for Asset Selector options. -->
-	<script type="text/javascript" src="/static/js/etwig-asset-management.js"></script>
+	<script type="text/javascript" src="/static/js/etwig/asset-management.js"></script>
 	
 	<script>
-    	var dt = assetSelectorDataTable();
+    	assetSelectorDataTable();
+
+		// By default, no asset is selected.
     	previewAsset(null);
 	</script>
 </body>

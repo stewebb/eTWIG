@@ -177,7 +177,7 @@
 	<#include "../_includes/header/body_end.ftl">
 	
 	<#-- Custom JS for events operations-->
-	<script src="/static/js/etwig-events.js"></script>
+	<script src="/static/js/etwig/events.js"></script>
 	
 	<script>
 		deleteEventCheckboxOnChange();

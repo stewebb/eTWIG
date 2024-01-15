@@ -48,7 +48,7 @@
 	<link rel="stylesheet" href="/static/css/etwig-style.css">
 	
 	<#-- eTWIG platform (JS). -->
-	<script src="/static/js/etwig-common.js"></script>	
+	<script src="/static/js/etwig/common.js"></script>	
 
 	
 		

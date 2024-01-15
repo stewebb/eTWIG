@@ -15,7 +15,7 @@
 	
 
 	<#-- Custom JS for adding/editing events-->
-	<script src="/static/js/etwig-events.js"></script>
+	<script src="/static/js/etwig/events.js"></script>
 	
    	<#-- Post Scripts -->
 	<script>

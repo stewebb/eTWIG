@@ -53,7 +53,7 @@
 	<#-- JS for date.js. -->
 	<script src="/static/js/date.min.js"></script>
 	
-		<#--  JS for p5.js.-->
+	<#--  JS for p5.js.-->
 	<script src="/static/js/p5.min.js"></script>
 	
 	<#-- CSS and JS for public TWIG content.-->

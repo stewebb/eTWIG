@@ -380,7 +380,7 @@ public class EventService {
 		}
 		
 		// Case 2: Event Manager, has edit view permission depends on the portfolio.
-		else if (userPermission == UserPermission.GRAPHICS_MANAGER) {
+		else if (userPermission == UserPermission.EVENT_MANAGER) {
 
 			// All portfolios that I have.
 			@SuppressWarnings("unchecked")

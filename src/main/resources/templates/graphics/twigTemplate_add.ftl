@@ -42,7 +42,7 @@
 	<#include "../_includes/footer.ftl">
 
 	<#include "../_includes/header/body_end.ftl">
-	<#include "../_includes/twigTemplate_addEdit/postScripts.ftl">
+	<#include "../_includes/twigTemplate/addEdit_postScripts.ftl">
 
 </body>
 </html>

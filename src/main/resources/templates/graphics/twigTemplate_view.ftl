@@ -100,7 +100,7 @@
 	<#include "../_includes/header/body_end.ftl">
 	
 	<#-- JS for TWIG template options. -->
-	<script type="text/javascript" src="/static/js/etwig-twig-template.js"></script>
+	<script type="text/javascript" src="/static/js/etwig/twig-template-table.js"></script>
 	
 	<script>
     	var dt = twigTemplateDataTable();

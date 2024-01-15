@@ -48,24 +48,28 @@
     							<i class="fa-solid fa-filter"></i>&nbsp;Filter
     						</button>
   						</li>
-  						
+  						<#-- /Tab: Filter -->
+
   						<#-- Tab: Settings -->
   						<li class="nav-item" role="presentation">
     						<button class="nav-link" id="settings-tab" data-toggle="tab" data-target="#settings" type="button" role="tab" aria-controls="settings" aria-selected="false">
     							<i class="fa-solid fa-screwdriver-wrench"></i>&nbsp;Settings
     						</button>
   						</li>
-  						
+  						<#-- /Tab: Settings -->
+
   						<#-- Tab: Share -->
   						<li class="nav-item" role="presentation">
     						<button class="nav-link" id="share-tab" data-toggle="tab" data-target="#share" type="button" role="tab" aria-controls="share" aria-selected="false">
     							<i class="fa-solid fa-share"></i>&nbsp;Share and Export
     						</button>
   						</li>
+						<#-- /Tab: Share -->
+
 					</ul>
 		
 					<div class="tab-content">
-					
+
 						<#-- Content: Filter -->
   						<div class="tab-pane fade show active" id="filter" role="tabpanel" aria-labelledby="filter-tab">
 							
@@ -96,7 +100,8 @@
       								</select>
       							</div>
      						</div>
-     						
+     						<#-- /Select Portfolio -->
+
      						<#-- Date -->
 							<div class="form-group row">
 								<label for="twigWeek" class="col-sm-2 col-form-label">Date</label>
@@ -112,13 +117,15 @@
 									<div id="weekWrapper" class="datepicker"></div>
 								</div>
 							</div>		
-     						
-     						<#-- Week -->
+     						<#-- /Date -->
+							
+							<#-- Week -->
      						<div class="form-group row">
      							<div class="col-sm-2"></div>
      							<div class="col-sm-10" id="calculatedWeek">
      							</div>
      						</div>
+							<#-- /Week -->
 
 						</div>
 						
@@ -143,6 +150,8 @@
       								</select>
       							</div>
      						</div>
+							<#-- /Select Resolution -->
+
 						</div>
 						
 						<#-- Content: Share -->
@@ -157,6 +166,7 @@
 									<span class="bold-text text-primary">Settings</span> on this TWIG.
 								</div>
 							</div>
+							<#-- /Suggestion box -->
 							
 							<#-- Export -->
 							<div class="row">
@@ -254,6 +264,7 @@
       					</button>
      				</div>
      			</div>
+				<#-- Apply and reset -->
      			
     		</div>
   		</div>

@@ -87,13 +87,12 @@
 		</section>
 
 	</div>
-	
-
 
 	<#-- Footer -->
 	<#if embedded == false>
 		<#include "../_includes/footer.ftl">
 	</#if>
+	<#-- /Footer -->
 	
 	<#include "../_includes/header/body_end.ftl">
 	

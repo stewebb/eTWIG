@@ -148,7 +148,7 @@
 	<script src="/static/js/vendor/event-calendar.min.js"></script>
 		
 	<#-- Custom JS for eTWIG calendar and datepicker. -->
-	<script src="/static/js/etwig-calendar.js"></script>
+	<script src="/static/js/etwig/calendar.js"></script>
 	
   	<script>
 		createDatePicker("#wrapper", "#datepicker-input", "#select-month");
