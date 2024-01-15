@@ -23,7 +23,7 @@
 								<a href="/graphics/twigTemplate">TWIG Template</a>
 							</li>
 							<li class="breadcrumb-item">
-								<a href="/graphics/twigTemplate/${modeStr?c_lower_case}">${modeStr}</a>
+								<a href="/graphics/twigTemplate/${modeStr?lower_case}">${modeStr}</a>
 							</li>
 						</ol>
 					</div>

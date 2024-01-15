@@ -53,7 +53,7 @@
   	
 		<#-- Page header -->
 		<#if embedded == false>
-    	<#include "../_includes/event_addEdit_header.ftl">
+    	<#include "../_includes/events/addEdit_header.ftl">
     	</#if>
     	
     	<#-- Main area -->
@@ -64,22 +64,22 @@
 					<div class="col-md-6">
 					
 						<#-- Basic Information -->		
-						<#include "../_includes/event_addEdit_basicInfo.ftl">
+						<#include "../_includes/events/addEdit_basicInfo.ftl">
 						
 						<#-- Organizer -->		
-						<#include "../_includes/event_addEdit_organizer.ftl">
+						<#include "../_includes/events/addEdit_organizer.ftl">
 					</div>
 					
 					<div class="col-md-6">
 					
 						<#-- Timing -->		
-						<#include "../_includes/event_addEdit_timing.ftl">
+						<#include "../_includes/events/addEdit_timing.ftl">
 						
 						<#-- Properties -->
-						<#include "../_includes/event_addEdit_properties.ftl">
+						<#include "../_includes/events/addEdit_properties.ftl">
 						
 						<#-- Footer -->
-						<#include "../_includes/event_addEdit_footer.ftl">
+						<#include "../_includes/events/addEdit_footer.ftl">
 					</div>
 				</div>
 				
@@ -107,6 +107,6 @@
 	<script src="/static/js/etwig-events.js"></script>
 	
 	<#-- Post Scripts -->
-	<#include "../_includes/event_addEdit_postScripts.ftl">
+	<#include "../_includes/events/addEdit_postScripts.ftl">
 </body>
 </html>

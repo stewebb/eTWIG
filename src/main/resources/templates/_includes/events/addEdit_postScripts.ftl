@@ -8,6 +8,14 @@
 	This part contains the JavaScript after the form. Commonly the initialization of some libraries.
    -->
    
+	<#-- Common resources -->
+   	<#-- CSS and JS for summernote editor.-->
+	<link rel="stylesheet" href="/static/css/summernote-bs4.min.css">
+	<script src="/static/js/summernote-bs4.min.js"></script>
+	
+	<#-- Custom JS for adding/editing events-->
+	<script src="/static/js/etwig-events.js"></script>
+	
    	<#-- Post Scripts -->
 	<script>
 	

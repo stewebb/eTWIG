@@ -20,7 +20,7 @@
 								
 								<#if disabled>
 									<#assign calloutTitle = "No edit permission">
-									<#include "./event_noPermission_callout.ftl">
+									<#include "./noPermission_callout.ftl">
 								</#if>
 								
 								<#-- Event ID -->

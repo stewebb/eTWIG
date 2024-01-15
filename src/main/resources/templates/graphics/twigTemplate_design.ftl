@@ -38,7 +38,7 @@
 							<li class="breadcrumb-item"><a href="/">Home</a></li>
 							<li class="breadcrumb-item">Graphics</li>
 							<li class="breadcrumb-item">
-								<a href="/graphics/twigTemplate">TWIG Template</a>
+								<a href="/graphics/twigTemplate/view">TWIG Template</a>
 							</li>
 							<li class="breadcrumb-item">
 								<a href="/graphics/twigTemplate/design">Design</a>

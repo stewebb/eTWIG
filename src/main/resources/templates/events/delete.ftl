@@ -52,6 +52,7 @@
       			</div>
     		</section>
     	</#if>
+    	<#-- /Page header -->
     	
     	<#-- Main area -->
     	<section class="content">
@@ -71,6 +72,7 @@
 						<div class="mb-3 bold-text text-danger">
 							This operation will delete the event and all related data PERMANENTLY. 
 						</div>
+						<#-- /Warning information -->
 						
 						<#-- Event information -->
 						<div class="mb-3 table-responsive">
@@ -82,32 +84,39 @@
       								<th scope="row">Event Id</th>
       								<td>${eventDetails.details.Id}</td>
     							</tr>
+    							<#--  /Event Id -->
     							
     							<#--  Event Name -->
  								<tr>
       								<th scope="row">Event Name</th>
       								<td>${eventDetails.details.name}</td>
     							</tr>
+    							<#--  /Event Name -->
     							
     							<#--  Event Start Time -->
     							<tr>
       								<th scope="row">Event Start Time</th>
       								<td>${eventDetails.details.startDateTime}</td>
     							</tr>
+    							<#--  /Event Start Time -->
     							
     							<#--  Portfolio -->
     							<tr>
       								<th scope="row">Portfolio</th>
       								<td style="background-color:#${eventDetails.portfolio.color}">${eventDetails.portfolio.name}</td>
     							</tr>
+    							<#--  /Portfolio -->
     							
     							<#--  Organizer -->
     							<tr>
       								<th scope="row">Organizer</th>
       								<td>${eventDetails.user.fullName}</td>
     							</tr>
+    							<#--  /Organizer -->
+    							
 							</table>
 						</div>
+						<#-- /Event information -->
 						
 						<#-- Display different callouts based on delete permission -->
 						<#if editPermission>
@@ -116,8 +125,9 @@
 							</div>
 						<#else>
 							<#assign calloutTitle = "No delete permission">
-							<#include "../_includes/event_noPermission_callout.ftl">
+							<#include "../_includes/events/noPermission_callout.ftl">
 						</#if>
+						<#-- /Display different callouts based on delete permission -->
 						
 						<#-- Confirm checkbox -->
 						<#if editPermission>
@@ -126,31 +136,39 @@
 								<label for="confirmDeletion"">Confirm deletion</label>
 							</div>
 						</#if>
+						<#-- /Confirm checkbox -->
 						
 						<#-- Delete option buttons -->
 						<div class="btn-group" role="group" style="float: right;">
 						
 							<#-- Delete -->
-								<#if editPermission>
+							<#if editPermission>
 								<button type="button" class="btn btn-outline-danger" id="deleteEventBtn" onclick="deleteEvent(${isEmbeddedStr});" disabled>
 									<i class="fa-regular fa-trash"></i>&nbsp;Delete event
 								</button>
 							</#if>
+							<#-- /Delete -->
 							
 							<#-- Cancel -->
 							<#assign cancelOnClickAction = embedded ? then("parent.$('#etwigModal').modal('hide');", "window.location.reload();")>
 							<button type="button" class="btn btn-outline-secondary" onclick="${cancelOnClickAction}">
 								<i class="fa-solid fa-xmark"></i>&nbsp;${cancelBtn}
 							</button>
+							<#-- /Cancel -->
+							
 						</div>
+						<#-- Delete option buttons -->
+						
 					</div>
-				</div>	
+				</div>
+				<#-- /Delete -->
 				
+			</div>	
 		</section>
+		<#-- /Main area -->
+		
 	</div>
 
-
-	
 	<#-- Footer -->
 	<#if embedded == false>
 		<#include "../_includes/footer.ftl">
