@@ -8,45 +8,36 @@
    -->
 	
 	<#-- JQuery (JS). -->
-	<script src="/static/js/jquery.min.js"></script>
+	<script src="/static/js/vendor/jquery.min.js"></script>
 	
 	<#-- Popper (JS). -->
-	<script src="/static/js/popper.min.js"></script>
+	<script src="/static/js/vendor/popper.min.js"></script>
 	
 	<#-- Bootstrap 4 (JS). -->
-	<script src="/static/js/bootstrap.min.js"></script>
+	<script src="/static/js/vendor/bootstrap.min.js"></script>
 	
 	<#-- date.js (JS) . -->
-	<script src="/static/js/date.min.js"></script>
-	
-
-	
-
+	<script src="/static/js/vendor/date.min.js"></script>
 	
 	<#-- icheck-bootstrap (CSS).-->
-	<link rel="stylesheet" href="/static/css/icheck-bootstrap.min.css">
+	<link rel="stylesheet" href="/static/css/vendor/icheck-bootstrap.min.css">
 	
 	<#-- ToastUI time picker (CSS and JS). -->
-	<link rel="stylesheet" href="/static/css/tui-time-picker.min.css">
-	<script src="/static/js/tui-time-picker.min.js"></script>
+	<link rel="stylesheet" href="/static/css/vendor/tui-time-picker.min.css">
+	<script src="/static/js/vendor/tui-time-picker.min.js"></script>
 	
 	<#-- ToastUI date picker (CSS and JS). -->
-	<link rel="stylesheet" href="/static/css/tui-date-picker.min.css">
-	<script src="/static/js/tui-date-picker.min.js"></script>
+	<link rel="stylesheet" href="/static/css/vendor/tui-date-picker.min.css">
+	<script src="/static/js/vendor/tui-date-picker.min.js"></script>
 	
-	<#-- Select 2 (CSS and JS).-->
-	<link rel="stylesheet" href="/static/css/select2.min.css"/>
-	<link rel="stylesheet" href="/static/css/select2-bootstrap4.min.css"/>
-	<script src="/static/js/select2.min.js"></script>
-
-	<#-- CSS and JS for AdminLTE. -->
-  	<link rel="stylesheet" href="/static/css/adminlte.min.css">
-	<script src="/static/js/adminlte.min.js"></script>
+	<#-- CSS and JS for AdminLTE (CSS and JS). -->
+  	<link rel="stylesheet" href="/static/css/vendor/adminlte.min.css">
+	<script src="/static/js/vendor/adminlte.min.js"></script>
 	
-		<#-- eTWIG platform (CSS). -->
+	<#-- eTWIG platform (CSS). -->
 	<link rel="stylesheet" href="/static/css/etwig-style.css">
 	
-		<#-- eTWIG platform (JS). -->
+	<#-- eTWIG platform (JS). -->
 	<script src="/static/js/etwig-common.js"></script>	
 
 	
