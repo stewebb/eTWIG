@@ -114,6 +114,7 @@
 										<div id="eventEndWrapper" class="datepicker"></div>
 									</div>
 								</div>			
+								<#-- /End Time -->
 								
 								<#-- Calculated -->
 								<#-- 

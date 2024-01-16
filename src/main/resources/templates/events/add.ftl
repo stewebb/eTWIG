@@ -54,6 +54,7 @@
 		<#if !embedded>
     		<#include "../_includes/events/addEdit_header.ftl">
     	</#if>
+    	<#-- /Page header -->
     	
     	<#-- Main area -->
     	<section class="content">
@@ -84,9 +85,11 @@
 				
 			</form>
 		</section>
-
+		<#-- /Main area -->
+		
 	</div>
-
+	<#-- /Content Wrapper -->
+	
 	<#-- Footer -->
 	<#if embedded == false>
 		<#include "../_includes/footer.ftl">

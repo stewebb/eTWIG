@@ -47,6 +47,7 @@
       			</div>
     		</section>
 		</#if>
+		<#-- /Page header -->
 		
     	<#-- Options and Calendar -->
     	<section class="content">
@@ -87,6 +88,7 @@
 										</span>
 									</div>
         							<div id="wrapper" class="datepicker"></div>
+        							<#-- /Date Options -->
         							
         							<#-- Event Options-->
         							<hr class="mt-3 mb-3"/>
@@ -103,18 +105,8 @@
 											To add an new event, simply click the <span class="bold-text text-primary">add event</span> button above. <br/>
 											To edit or delete an existing event, click the <span class="bold-text text-primary">event on the calendar</span>.
 										</div>
-									<#--
-									<#else>
-										<div class="callout callout-primary">
-											<h5 class="bold-text mb-3">
-												No edit permission
-											</h5>
-											Your user group is <span class="bold-text text-primary">${permission.description}</span>, however, only the
-											<span class="bold-text text-primary">Event managers</span> and <span class="bold-text text-primary">Administrators</span>
-											have edit permission on events.
-										</div>
-									-->
 									</#if>
+									<#-- /Event Options-->
 									
                 				</div>
               				</div>

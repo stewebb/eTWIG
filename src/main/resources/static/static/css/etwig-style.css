@@ -91,3 +91,7 @@
   opacity: 0; 
   pointer-events: none;
 }
+
+.fixed-textarea {
+	resize: none;
+}

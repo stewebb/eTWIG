@@ -23,7 +23,7 @@
 									<#include "./noPermission_callout.ftl">
 								</#if>
 								
-								<#-- Event ID -->
+								<#-- EventId -->
 								<#if isEdit>
 									<div class="form-group row">
 										<label for="eventId" class="col-sm-2 col-form-label">
@@ -41,6 +41,7 @@
 										</div>
 									</div>
 								</#if>
+								<#-- /EventId -->
 								
 								<#-- Name -->
 								<div class="form-group row">
@@ -58,6 +59,7 @@
 										</div>
 									</div>
 								</div>
+								<#-- /Name -->
 								
 								<#-- Location -->
 								<div class="form-group row">
@@ -74,7 +76,8 @@
 										</div>
 									</div>
 								</div>
-
+								<#-- /Location -->
+								
 								<#-- Recurrent -->
 								<#-- TODO Implement Recurrent function -->
 								<div class="form-group row">
@@ -108,11 +111,15 @@
 										</#if>
 									</div>
 								</div>
+								<#-- /Recurrent -->
 								
 								<#-- Description -->
 								<div class="form-group">
 									<label for="eventDescription">Description</label>
 									<div id="eventDescription"><#if isEdit>${eventDetails.details.description}</#if></div>
 								</div>
+								<#-- /Description -->
+								
 							</div>
 						</div>	
+						<#-- /Basic Information -->

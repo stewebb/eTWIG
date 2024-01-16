@@ -11,7 +11,7 @@
    				<#-- Submit Options -->
 				<div class="card">
 					<div class="card-body">
-						<div class="btn-group" role="group" style="float: right;">
+						<div class="btn-group right-div" role="group">
 						
 						<#-- Add -->
 							
