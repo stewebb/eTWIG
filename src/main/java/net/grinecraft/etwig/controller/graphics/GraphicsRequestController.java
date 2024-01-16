@@ -26,11 +26,13 @@ public class GraphicsRequestController {
 	@GetMapping("/event")  
 	public String view(Model model, @RequestParam Long eventId) throws Exception{
 		
-		BannerRequestEventInfoDTO eventInfo = eventService.findEventsForBannerRequestById(eventId);
-		System.out.println(eventInfo);
+		System.out.println(bannerRequestService.getRequestsByEvent(eventId));
 		
 		model.addAttribute("count", bannerRequestService.countByEventId(eventId));
+		model.addAttribute("requestInfo",bannerRequestService.getRequestsByEvent(eventId));
 		model.addAttribute("eventInfo",eventService.findEventsForBannerRequestById(eventId));
+
+		
 		return "graphics/request_event";
 	}
 }

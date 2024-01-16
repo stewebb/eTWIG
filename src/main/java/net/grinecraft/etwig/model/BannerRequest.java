@@ -53,4 +53,11 @@ public class BannerRequest {
 	
 	@Column(name = "response_time")
 	private LocalDateTime responseTime;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "asset_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Asset asset;
+	
+	@Column(name = "asset_id")
+	private Long assetId;
 }
