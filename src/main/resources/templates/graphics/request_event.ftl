@@ -7,6 +7,8 @@
 	function: The dashboard (site main) page.
    -->
 <#assign navbar = "GRAPHICS_REQUEST_VIEW">
+<#assign modeStr = (count == 0)?string("New Request", "Follow-up")>
+
 
 <!DOCTYPE html>
 <html>
@@ -59,6 +61,69 @@
 						</div>
 							
 						<div class="card-body">
+							<table class="table table-bordered">
+								
+								<#--  Event Id -->
+    							<tr>
+      								<th scope="row">Event Id</th>
+      								<td>${eventInfo.id}</td>
+    							</tr>
+    							<#--  /Event Id -->
+    							
+    							<#--  Name -->
+ 								<tr>
+      								<th scope="row">Name</th>
+      								<td>${eventInfo.name}</td>
+    							</tr>
+    							<#--  /Name -->
+    							
+    							<#--  Location -->
+ 								<tr>
+      								<th scope="row">Location</th>
+      								<td>${eventInfo.location}</td>
+    							</tr>
+    							<#--  /Location -->
+    							
+    							<#--  Type -->
+ 								<tr>
+      								<th scope="row">Type</th>
+      								<td>${(eventInfo.recurrent)?string("Recurrent","Single Time")} Event</td>
+    							</tr>
+    							<#--  /Name -->
+    							
+    							<#-- Start Time -->
+    							<tr>
+      								<th scope="row">Start Time</th>
+      								<td>${eventInfo.startTime}</td>
+    							</tr>
+    							<#--  /Start Time -->
+    							
+    							<#--  Portfolio -->
+    							<tr>
+      								<th scope="row">Portfolio</th>
+      								<td id="eventPortfolio" style="background-color:#${eventInfo.portfolio.color}">${eventInfo.portfolio.name}</td>
+    							</tr>
+    							<#--  /Portfolio -->
+    							
+    							<#--  Organizer -->
+    							<tr>
+      								<th scope="row">Organizer</th>
+      								<td>${eventInfo.organizer}</td>
+    							</tr>
+    							<#--  /Organizer -->
+    							
+							</table>
+						
+							<#-- Description -->
+							<blockquote>
+								<label>Description</label>
+								<#if eventInfo.description?has_content>
+									${eventInfo.description}
+								<#else>
+									<span>No description.</span>	
+								</#if>
+							</blockquote>
+							<#-- /Description -->
 								
 						</div>
 					</div>
@@ -70,7 +135,7 @@
 					<div class="card card-primary card-outline">
 						<div class="card-header">
 							<h3 class="card-title">
-								<i class="fa-solid fa-plus"></i>&nbsp;New request
+								<i class="fa-solid fa-plus"></i>&nbsp;${modeStr}
 							</h3>
 						</div>
 							
@@ -102,7 +167,7 @@
 											<i class="fa-solid fa-comment-dots"></i>
 										</span>
 									</div>
-									<textarea class="form-control fixed-textarea" placeholder="Additional comments (Optional, maximum length is 511 characters.)" id="comment" maxlength="511" rows="8"></textarea>
+									<textarea class="form-control fixed-textarea" placeholder="Additional comments (Optional, maximum length is 255 characters.)" id="comment" maxlength="255" rows="5"></textarea>
 								</div>
 							</div>			
 							<#-- /Comment -->
@@ -126,11 +191,25 @@
 			<div class="card card-primary card-outline">
 				<div class="card-header">
 					<h3 class="card-title">
-						<i class="fa-solid fa-clock-rotate-left"></i>&nbsp;Request history
+						<i class="fa-solid fa-clock-rotate-left"></i>&nbsp;
+						Request history [Count: ${count}]
 					</h3>
 				</div>
 							
 				<div class="card-body">
+				
+					<#-- No requests has been made. -->
+					<#if count == 0>
+						<div class="d-flex justify-content-center">
+							<i class="fa-regular fa-face-dizzy big-icons"></i>
+						</div>
+									
+						<div class="d-flex justify-content-center bold-text text-secondary">
+							No previous requests.
+						</div>
+					
+					<#else>
+					
 					<div class="timeline">
 
 						<#-- Latest -->
@@ -157,7 +236,9 @@
 							</div>
 						</div>
 
-					</div>			
+					</div>		
+					
+					</#if>		
 				</div>
 			</div>	
 			<#-- /Request history -->
@@ -169,5 +250,9 @@
 	
 	<#include "../_includes/footer.ftl">
 	<#include "../_includes/header/body_end.ftl">
+	
+	<script>
+		updateTextColor($('#eventPortfolio'));
+	</script>
 </body>
 </html>

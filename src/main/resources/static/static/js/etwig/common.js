@@ -123,5 +123,17 @@ function timeAgo(dateStr) {
     return "Just now";
 }
 
+function updateTextColor($element) {
+	var bgColor = $element.css('background-color');
+	var colors = bgColor.substring(bgColor.indexOf('(') + 1, bgColor.lastIndexOf(')')).split(/,\s*/);
+	var brightness = Math.sqrt(0.299 * (colors[0] * colors[0]) + 0.587 * (colors[1] * colors[1]) + 0.114 * (colors[2] * colors[2]));
+	
+	if (brightness < 128) {
+		$element.addClass('text-white');
+	} else {
+            $element.addClass('text-dark');
+    }
+}
+    
 // Leading zeros for the (positive) integers that below to 10. 
 const pad = (num) => (num < 10 ? '0' + num : num);

@@ -23,11 +23,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpSession;
+import net.grinecraft.etwig.dto.BannerRequestEventInfoDTO;
 import net.grinecraft.etwig.model.Event;
 import net.grinecraft.etwig.model.EventOption;
 import net.grinecraft.etwig.model.EventOptionKey;
 import net.grinecraft.etwig.model.Permission;
 import net.grinecraft.etwig.model.Portfolio;
+import net.grinecraft.etwig.model.RecurringEvent;
 import net.grinecraft.etwig.model.SingleTimeEvent;
 import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.repository.EventOptionRepository;
@@ -60,7 +62,17 @@ public class EventService {
 	/**
 	 * Public entry of the event services.
 	 * The access control modifiers are "public".
+	 * @throws Exception 
 	 */
+	
+	public BannerRequestEventInfoDTO findEventsForBannerRequestById(long eventId) throws Exception {
+		
+		Event event = (eventRepository == null) ? null :eventRepository.findById(eventId).orElse(null);
+		SingleTimeEvent singleTimeEvent = (singleTimeEventRepository == null) ? null : singleTimeEventRepository.findById(eventId).orElse(null);
+		RecurringEvent recurringEvent =  null;
+
+		return new BannerRequestEventInfoDTO(event, singleTimeEvent, recurringEvent);
+	}
 	
 	/**
 	 * Find the event detail by it's id.
