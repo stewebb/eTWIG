@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.ToString;
 import net.grinecraft.etwig.model.BannerRequest;
 import net.grinecraft.etwig.model.User;
+import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.NameUtils;
 
 @Getter
@@ -22,6 +23,8 @@ public class BannerRequestDTO {
 	
 	private LocalDateTime requestTime;
 	
+	private String requestTimeStr;
+	
 	private Boolean approved;
 	
 	private String approverName;
@@ -30,21 +33,26 @@ public class BannerRequestDTO {
 	
 	private LocalDateTime responseTime;
 	
+	private String responseTimeStr;
+	
 	private Long assetId;
 	
 	public BannerRequestDTO(BannerRequest bannerRequest) {
 		
 		this.id = bannerRequest.getId();
 		this.requestComment = bannerRequest.getRequestComment();
-		this.requestTime = bannerRequest.getRequestTime();
 		this.approved = bannerRequest.getApproved();
 		this.requestComment = bannerRequest.getRequestComment();
-		this.responseTime = bannerRequest.getRequestTime();
 		this.assetId = bannerRequest.getAssetId();
+		
+		// Request time
+		this.requestTime = bannerRequest.getRequestTime();
+		this.requestTimeStr = DateUtils.timeAgo(requestTime);
 		
 		if(approved == null) {
 			this.requestorName = null;
 			this.approverName = null;
+			this.responseTime = null;
 		}
 		
 		// Only get user name when this request is NOT pending!
@@ -53,6 +61,10 @@ public class BannerRequestDTO {
 			User approver = bannerRequest.getApprover();
 			this.requestorName = NameUtils.nameMerger(requestor.getFirstName(), requestor.getMiddleName(), requestor.getLastName());
 			this.approverName = NameUtils.nameMerger(approver.getFirstName(), approver.getMiddleName(), approver.getLastName());
+			
+			// Response time
+			this.responseTime = bannerRequest.getResponseTime();
+			this.responseTimeStr = DateUtils.timeAgo(responseTime);
 		}
-}
+	}
 }

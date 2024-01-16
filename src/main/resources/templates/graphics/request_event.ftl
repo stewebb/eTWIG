@@ -219,10 +219,15 @@
 									<#if request_info.approved?has_content>
 										<#assign approvalIcon = request_info.approved?string("check", "xmark")>
 										<#assign approvalIconColor = request_info.approved?string("success", "danger")>
+										<#assign operationTimeStr = request_info.responseTimeStr>
+										<#assign approvalStatus = request_info.approved?string("approved", "declined")>
 									<#else>
 										<#assign approvalIcon = "question">
 										<#assign approvalIconColor = "warning">
+										<#assign operationTimeStr = request_info.requestTimeStr>
+										<#assign approvalStatus = "pending">
 									</#if>
+									
 								<#-- Time Label -->
 								<#-- Latest (The first occurance). -->
 								<#if displayCount == 1>
@@ -239,23 +244,106 @@
 								</#if>
 								<#-- /Time Label -->
 								
-							<div>
-								<i class="fas fa-${approvalIcon} bg-${approvalIconColor}"></i>
-								<div class="timeline-item">
-									<span class="time"><i class="fas fa-clock"></i> 12:05</span>
-									<h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
-									<div class="timeline-body">
-										xxxxxxx
-									</div>
-
-									<#-- Action Buttons. -->
-									<div class="timeline-footer">
-										<a class="btn btn-primary btn-sm">Read more</a>
-										<a class="btn btn-danger btn-sm">Delete</a>
-									</div>
-									<#-- /Action Buttons. -->
+								<div>
 								
-								</div>
+									<i class="fas fa-${approvalIcon} bg-${approvalIconColor}"></i>
+									
+									<div class="timeline-item">
+									
+										<span class="time bold-text">
+											<i class="fa-regular fa-clock"></i>&nbsp;${operationTimeStr}
+										</span>
+										
+										<#-- Request status -->
+										<h3 class="timeline-header">
+											<#if request_info.approved?has_content>
+												${request_info.approverName} <span class="text-${approvalIconColor} bold-text">${approvalStatus}</span> your graphics request.
+											<#else>
+												Your graphics request is <span class="text-${approvalIconColor} bold-text">${approvalStatus}</span>.
+											</#if>
+										</h3>
+										<#-- /Request status -->
+										
+										<#-- Request related info -->
+										<div class="timeline-body">
+										
+											<#-- Request-->
+											<div class="container-fluid">
+											
+												<#-- Request Time -->
+    											<div class="row col-12 mb-2">
+        											<div class="col-md-3 text-left bold-text">Request Time</div>
+       												<div class="col-md-9">${request_info.requestTime} (${request_info.requestTimeStr})</div>
+    											</div>
+    											<#-- Request Time -->
+    											
+    											<#-- Expect return date -->
+    											<div class="row col-12 mb-2">
+        											<div class="col-md-3 text-left bold-text">Expect Return Date</div>
+       												<div class="col-md-9"></div>
+    											</div>
+    											<#-- /Expect return date -->
+    											
+    											<#-- Additional Comments -->
+    											<div class="row col-12 mb-2">
+        											<div class="col-md-3 text-left bold-text">Additional Comments</div>
+       												<div class="col-md-9">
+       													<#if request_info.requestComment?has_content>
+       														${request_info.requestComment}
+       													<#else>
+       														<span class="text-secondary">No comments</span>
+       													</#if>
+       												</div>
+    											</div>
+    											<#-- /Additional Comments -->
+    											
+											</div>						
+											<#-- /Request-->
+											
+											<#if request_info.approved?has_content>
+												<hr />
+
+												<#-- Response-->
+												<div class="container-fluid">
+											
+													<#-- Request Time -->
+    												<div class="row col-12 mb-2">
+        												<div class="col-md-3 text-left bold-text">Request Time</div>
+       													<div class="col-md-9"></div>
+    												</div>
+    											<#-- Request Time -->
+    											
+    											<#-- Expect return date -->
+    											<div class="row col-12 mb-2">
+        											<div class="col-md-3 text-left bold-text">Expect Return Date</div>
+       												<div class="col-md-9"></div>
+    											</div>
+    											<#-- /Expect return date -->
+    											
+    											<#-- Additional Comments -->
+    											<div class="row col-12 mb-2">
+        											<div class="col-md-3 text-left bold-text">Additional Comments</div>
+       												<div class="col-md-9">
+       												</div>
+    											</div>
+    											<#-- /Additional Comments -->
+    											
+											</div>						
+											<#-- /Response-->
+												</#if>	
+												
+										</div>
+										<#-- /Request related info -->
+										
+										<#-- Action Buttons. -->
+										<div class="timeline-footer">
+											<a class="btn btn-primary btn-sm">Read more</a>
+											<a class="btn btn-danger btn-sm">Delete</a>
+										</div>
+										<#-- /Action Buttons. -->
+								
+									</div>
+									
 							</div>
 								<#assign displayCount = displayCount + 1>
 								</#list>
