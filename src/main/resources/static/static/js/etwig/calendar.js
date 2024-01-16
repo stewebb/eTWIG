@@ -160,6 +160,11 @@ function editEventBtn(eventId){
     			</button>
   			</li>
   			<li class="nav-item" role="presentation">
+    			<button class="nav-link" id="delete-tab" data-toggle="tab" data-target="#graphics" type="button" role="tab" aria-controls="graphics" aria-selected="false">
+    				<i class="fa-solid fa-images"></i>&nbsp;Graphics
+    			</button>
+  			</li>
+  			<li class="nav-item" role="presentation">
     			<button class="nav-link" id="delete-tab" data-toggle="tab" data-target="#delete" type="button" role="tab" aria-controls="delete" aria-selected="false">
     				<i class="fa-solid fa-eraser"></i>&nbsp;Delete
     			</button>
@@ -172,6 +177,13 @@ function editEventBtn(eventId){
 					<iframe class="embed-responsive-item" src="/events/edit?eventId=${eventId}&embedded=true" allowfullscreen></iframe>
         		</div>
 			</div>
+			
+			<div class="tab-pane fade show" id="graphics" role="tabpanel" aria-labelledby="graphics-tab">
+				<div class="embed-responsive embed-responsive-1by1">
+					<iframe class="embed-responsive-item" src="/graphics/request/event?eventId=${eventId}&embedded=true" allowfullscreen></iframe>
+        		</div>
+			</div>
+			
   			<div class="tab-pane fade" id="delete" role="tabpanel" aria-labelledby="delete-tab">
   				<div class="embed-responsive embed-responsive-1by1">
 					<iframe class="embed-responsive-item" src="/events/delete?eventId=${eventId}&embedded=true" allowfullscreen></iframe>

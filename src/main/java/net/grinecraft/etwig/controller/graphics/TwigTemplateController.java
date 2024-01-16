@@ -1,9 +1,10 @@
 package net.grinecraft.etwig.controller.graphics;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -14,6 +15,8 @@ import net.grinecraft.etwig.services.TwigService;
 import net.grinecraft.etwig.util.NumberUtils;
 
 @Controller
+@Secured({"ROLE_ADMINISTRATOR", "ROLE_GRAPHICS_MANAGER"})
+@RequestMapping("/graphics/twigTemplate/")  
 public class TwigTemplateController {
 	
 	@Autowired
@@ -22,21 +25,21 @@ public class TwigTemplateController {
 	@Autowired
 	PortfolioService portfolioService;
 	
-	@RequestMapping("/graphics/twigTemplate/view")  
-	@PostAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR', 'ROLE_GRAPHICS_MANAGER')")
+	@GetMapping("/view")  
+	//@PostAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR', 'ROLE_GRAPHICS_MANAGER')")
 	public String view(Model model) throws Exception{
 		return "graphics/twigTemplate_view";
 	}
 	
-	@RequestMapping("/graphics/twigTemplate/add")  
-	@PostAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR', 'ROLE_GRAPHICS_MANAGER')")
+	@GetMapping("/add")  
+	//@PostAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR', 'ROLE_GRAPHICS_MANAGER')")
 	public String add(Model model) throws Exception{
 		model.addAttribute("portfolioSeparatedCalendar", portfolioService.getPortfolioListBySeparatedCalendar(true));		
 		return "graphics/twigTemplate_add";
 	}
 	
-	@RequestMapping("/graphics/twigTemplate/edit")  
-	@PostAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR', 'ROLE_GRAPHICS_MANAGER')")
+	@GetMapping("/edit")  
+	//@PostAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR', 'ROLE_GRAPHICS_MANAGER')")
 	public String edit(Model model, @RequestParam String templateId) throws Exception{
 		
 		TwigTemplateBasicInfoDTO template = getTemplate(templateId);
@@ -49,8 +52,8 @@ public class TwigTemplateController {
 		return "graphics/twigTemplate_edit";
 	}
 	
-	@RequestMapping("/graphics/twigTemplate/design")  
-	@PostAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR', 'ROLE_GRAPHICS_MANAGER')")
+	@GetMapping("/design")  
+	//@PostAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR', 'ROLE_GRAPHICS_MANAGER')")
 	public String design(Model model, @RequestParam(required=false) String templateId) throws Exception{
 		
 		TwigTemplateBasicInfoDTO template = getTemplate(templateId);

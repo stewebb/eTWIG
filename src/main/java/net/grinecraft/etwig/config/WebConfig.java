@@ -9,10 +9,15 @@
 
 package net.grinecraft.etwig.config;
 
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.http.CacheControl;
+import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import net.grinecraft.etwig.EtwigInterceptor;
@@ -29,9 +34,17 @@ public class WebConfig implements WebMvcConfigurer{
 	 * @param registry
 	 */
 	
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
+    @SuppressWarnings("null")
+	@Override
+    public void addInterceptors(@NonNull InterceptorRegistry registry) {
         registry.addInterceptor(userInterceptor);
+    }
+    
+    @Override
+    public void addResourceHandlers(@NonNull ResourceHandlerRegistry registry) {
+        //registry.addResourceHandler("/static/**")
+        //	.addResourceLocations("classpath:/static/static/")
+        //    .setCacheControl(CacheControl.maxAge(90, TimeUnit.DAYS));
     }
 
 }

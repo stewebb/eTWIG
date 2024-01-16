@@ -56,6 +56,7 @@
       		<img src="/static/images/eTWIG_white.png" alt="eTWIG Logo" class="brand-image">
       		<span class="brand-text font-weight-light">Admin</span>
     	</a>
+		<#-- /eTWIG Logo -->
 
     	<#-- Sidebar -->
     	<div class="sidebar">
@@ -86,7 +87,8 @@
               				<p>Dashboard</p>
             			</a>
           			</li>
-          		
+          			<#-- /Dashboard -->
+          			
           			<#-- TWIG -->
         			<li class="nav-item">
             			<a href="/twig/main" target="_blank" class="nav-link">
@@ -94,7 +96,8 @@
               				<p>TWIG</p>
             			</a>
           			</li>
-          
+          			<#-- /TWIG -->
+          			
 					<#-- Event Management -->
           			<li class="nav-header">Event Management</li>
           			
@@ -105,6 +108,7 @@
               				<p>Calendar</p>
             			</a>
           			</li>	
+          			<#-- /Event: Calendar -->
           			
           			<#-- Event: List -->
           			<#--
@@ -125,9 +129,21 @@
             				</a>
           				</li>	
           			</#if>
+          			<#-- /Event: Add -->
           			
           			<#-- Graphic Management -->
           			<li class="nav-header">Graphic Management</li>
+          			
+          			<#-- Graphics: Request -->
+          			<#if permission.name == "e" || permission.name == "a">
+        				<li class="nav-item">
+            				<a href="/graphics/request/view" class="nav-link <#if navbar=="GRAPHICS_REQUEST_VIEW">active</#if>">
+              					<i class="nav-icon fas fa-hand"></i>
+              					<p>Request</p>
+            				</a>
+          				</li>	
+          			</#if>
+          			<#-- /Graphics: Request -->
           			
           			<#-- TWIG Template -->
           			<#if permission.name == "g" || permission.name == "a">
@@ -148,17 +164,20 @@
               						<p>List View</p>
             					</a>
           					</li>	
+          					<#-- /TWIG Template: List View -->
           					
-          					<#-- TWIG Template: Designer -->
+          					<#-- TWIG Template: Add -->
 							<li class="nav-item">
             					<a href="/graphics/twigTemplate/add" class="nav-link <#if navbar=="TWIG_TEMPLATE_ADD">active</#if>">
               						<i class="nav-icon fas fa-plus"></i>
               						<p>Add</p>
             					</a>
           					</li>
+          					<#-- /TWIG Template: Add -->
+          					
 						</ul>
-
           			</#if>
+          			<#-- /TWIG Template -->
           			
           			<#-- Account -->
           			<li class="nav-header">Account</li>
