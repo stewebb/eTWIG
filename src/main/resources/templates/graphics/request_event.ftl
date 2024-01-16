@@ -6,9 +6,9 @@
 	website: https://etwig.grinecraft.net
 	function: The dashboard (site main) page.
    -->
+   
 <#assign navbar = "GRAPHICS_REQUEST_VIEW">
 <#assign modeStr = (count == 0)?string("New Request", "Follow-up")>
-
 
 <!DOCTYPE html>
 <html>
@@ -19,11 +19,13 @@
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
-
 	<#include "../_includes/header/body_start.ftl">
-	<#include "../_includes/sidebar.ftl">
 	
-	<div class="content-wrapper">
+	<#if !embedded>
+		<#include "../_includes/sidebar.ftl">
+	</#if>
+	
+	<div class="<#if !embedded>content-</#if>wrapper">
 	
 		<#-- Page header -->
 		<#-- <#if !embedded> -->
@@ -140,45 +142,56 @@
 						</div>
 							
 						<div class="card-body">
-					
-							<#-- Returning Date -->
-							<div class="form-group">
-								<label for="expectedDate">
-									Expect date to get your graphics.&nbsp;<span class="required-symbol">*</span>
-								</label>
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<span class="input-group-text">
-											<i class="fa-solid fa-clock"></i>
-										</span>
-									</div>
-									<input type="text" class="form-control" placeholder="Returning date for getting your graphic." id="returningDate">
-								</div>
-								<div id="eventEndWrapper" class="datepicker"></div>
-							</div>			
-							<#-- Returning Date -->
-								
-							<#-- Comment -->
-							<div class="form-group">
-								<label for="comment">Additional Comments</label>
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<span class="input-group-text">
-											<i class="fa-solid fa-comment-dots"></i>
-										</span>
-									</div>
-									<textarea class="form-control fixed-textarea" placeholder="Additional comments (Optional, maximum length is 255 characters.)" id="comment" maxlength="255" rows="5"></textarea>
-								</div>
-							</div>			
-							<#-- /Comment -->
 						
-							<#-- Submit -->
-							<div class="right-div" role="group">
-								<button type="button" class="btn btn-outline-primary">
-									<i class="fa-regular fa-check"></i>&nbsp;Submit
-								</button>
-							</div>
-							<#-- /Submit -->
+							<#-- Users are not allowed to add a followup if there has a pending request. -->
+							<#if hasPending>
+								<div class="callout callout-warning">
+									<h5 class="bold-text mb-3">This event has a pending request.</h5>	
+									Please wait the approver to make a desicion before you make a follow-up request. 
+									However, you can <span class="text-primary bold-text">remind the approver</span> at any time.
+								</div>
+							<#else>
+							
+								<#-- Returning Date -->
+								<div class="form-group">
+									<label for="expectedDate">
+										Expect date to get your graphics.&nbsp;<span class="required-symbol">*</span>
+									</label>
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text">
+												<i class="fa-solid fa-clock"></i>
+											</span>
+										</div>
+										<input type="text" class="form-control" placeholder="Returning date for getting your graphic." id="returningDate">
+									</div>
+									<div id="returningDateWrapper" class="datepicker"></div>
+								</div>			
+								<#-- Returning Date -->
+								
+								<#-- Comment -->
+								<div class="form-group">
+								<label for="comment">Additional Comments</label>
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text">
+												<i class="fa-solid fa-comment-dots"></i>
+											</span>
+										</div>
+										<textarea class="form-control fixed-textarea" placeholder="Additional comments (Optional, maximum length is 255 characters.)" id="comment" maxlength="255" rows="5"></textarea>
+									</div>
+								</div>			
+								<#-- /Comment -->
+						
+								<#-- Submit -->
+								<div class="right-div" role="group">
+									<button type="button" class="btn btn-outline-primary">
+										<i class="fa-regular fa-check"></i>&nbsp;Submit
+									</button>
+								</div>
+								<#-- /Submit -->
+							</#if>
+							
 						</div>
 					</div>
 				</div>
@@ -213,14 +226,19 @@
 						<div class="timeline">
 
 							<#if requestInfo?has_content>
+							
+								<#-- Each request, displayCount++ -->
 								<#assign displayCount = 1>
 								<#list requestInfo as request_id, request_info>
 								
+									<#-- Attributes for the request has a result. -->
 									<#if request_info.approved?has_content>
 										<#assign approvalIcon = request_info.approved?string("check", "xmark")>
 										<#assign approvalIconColor = request_info.approved?string("success", "danger")>
 										<#assign operationTimeStr = request_info.responseTimeStr>
 										<#assign approvalStatus = request_info.approved?string("approved", "declined")>
+									
+									<#-- Attributes for the request doesn't have a result. -->
 									<#else>
 										<#assign approvalIcon = "question">
 										<#assign approvalIconColor = "warning">
@@ -245,11 +263,8 @@
 								<#-- /Time Label -->
 								
 								<div>
-								
 									<i class="fas fa-${approvalIcon} bg-${approvalIconColor}"></i>
-									
 									<div class="timeline-item">
-									
 										<span class="time bold-text">
 											<i class="fa-regular fa-clock"></i>&nbsp;${operationTimeStr}
 										</span>
@@ -257,9 +272,9 @@
 										<#-- Request status -->
 										<h3 class="timeline-header">
 											<#if request_info.approved?has_content>
-												${request_info.approverName} <span class="text-${approvalIconColor} bold-text">${approvalStatus}</span> your graphics request.
+												${request_info.approverName} was <span class="text-${approvalIconColor} bold-text">${approvalStatus}</span> this request.
 											<#else>
-												Your graphics request is <span class="text-${approvalIconColor} bold-text">${approvalStatus}</span>.
+												This request is <span class="text-${approvalIconColor} bold-text">${approvalStatus}</span>.
 											</#if>
 										</h3>
 										<#-- /Request status -->
@@ -270,6 +285,13 @@
 											<#-- Request-->
 											<div class="container-fluid">
 											
+												<#-- Requester -->
+    											<div class="row col-12 mb-2">
+        											<div class="col-md-3 text-left bold-text">Requester</div>
+       												<div class="col-md-9">${request_info.requestorName}</div>
+    											</div>
+    											<#-- /Requester -->
+    											
 												<#-- Request Time -->
     											<div class="row col-12 mb-2">
         											<div class="col-md-3 text-left bold-text">Request Time</div>
@@ -280,7 +302,7 @@
     											<#-- Expect return date -->
     											<div class="row col-12 mb-2">
         											<div class="col-md-3 text-left bold-text">Expect Return Date</div>
-       												<div class="col-md-9"></div>
+       												<div class="col-md-9">${request_info.expectDate}</div>
     											</div>
     											<#-- /Expect return date -->
     											
@@ -297,6 +319,19 @@
     											</div>
     											<#-- /Additional Comments -->
     											
+												<#-- Action for pending requests. -->
+												<#if !request_info.approved?has_content>
+													<div class="row col-12 mb-2">
+        												<div class="col-md-3 text-left bold-text">Action</div>
+       													<div class="col-md-9">
+															<button type="button" class="btn btn-outline-primary" disabled>
+																<i class="fa-solid fa-bell"></i>&nbsp;Remind Approver
+															</button>
+														</div>
+    												</div>
+    											</#if>
+    											<#-- /Action for pending requests. -->
+    											
 											</div>						
 											<#-- /Request-->
 											
@@ -306,45 +341,62 @@
 												<#-- Response-->
 												<div class="container-fluid">
 											
-													<#-- Request Time -->
+													<#-- Approver -->
     												<div class="row col-12 mb-2">
-        												<div class="col-md-3 text-left bold-text">Request Time</div>
-       													<div class="col-md-9"></div>
+        												<div class="col-md-3 text-left bold-text">Approver</div>
+       													<div class="col-md-9">${request_info.approverName}</div>
     												</div>
-    											<#-- Request Time -->
+    												<#-- /Approver -->
     											
-    											<#-- Expect return date -->
-    											<div class="row col-12 mb-2">
-        											<div class="col-md-3 text-left bold-text">Expect Return Date</div>
-       												<div class="col-md-9"></div>
-    											</div>
-    											<#-- /Expect return date -->
+													<#-- Response Time -->
+    												<div class="row col-12 mb-2">
+        												<div class="col-md-3 text-left bold-text">Response Time</div>
+       													<div class="col-md-9">${request_info.responseTime} (${request_info.responseTimeStr})</div>
+    												</div>
+    												<#-- Response Time -->
     											
-    											<#-- Additional Comments -->
-    											<div class="row col-12 mb-2">
-        											<div class="col-md-3 text-left bold-text">Additional Comments</div>
-       												<div class="col-md-9">
-       												</div>
-    											</div>
-    											<#-- /Additional Comments -->
+    												<#-- Comments -->
+    												<div class="row col-12 mb-2">
+        												<div class="col-md-3 text-left bold-text">Comments</div>
+       													<div class="col-md-9">
+       														<#if request_info.responseComment?has_content>
+       															${request_info.responseComment}
+       														<#else>
+       															<span class="text-secondary">No comments</span>
+       														</#if>
+       													</div>
+    												</div>
+    												<#-- /Comments -->
     											
-											</div>						
-											<#-- /Response-->
-												</#if>	
+    												<#-- Asset and Action-->
+    												<#if request_info.approved>
+    													<div class="row col-12 mb-2">
+        													<div class="col-md-3 text-left bold-text">Asset</div>
+       														<div class="col-md-9">
+       															<img src="/assets/getPublicAsset?assetId=${request_info.assetId}" class="img-fluid" />	
+       														</div>
+    													</div>
+    													
+    													<div class="row col-12 mb-2">
+        													<div class="col-md-3 text-left bold-text">Action</div>
+       														<div class="col-md-9">
+																<a href="/assets/getPublicAsset?assetId=${request_info.assetId}&download=true" class="btn btn-outline-primary">
+																	<i class="fa-solid fa-download"></i>&nbsp;Download Asset
+																</a>
+															</div>
+    													</div>
+    												</#if>
+    												<#-- /Asset -->
+    												
+												</div>						
+												<#-- /Response-->
 												
+											</#if>	
 										</div>
 										<#-- /Request related info -->
-										
-										<#-- Action Buttons. -->
-										<div class="timeline-footer">
-											<a class="btn btn-primary btn-sm">Read more</a>
-											<a class="btn btn-danger btn-sm">Delete</a>
-										</div>
-										<#-- /Action Buttons. -->
-								
-									</div>
-									
-							</div>
+
+									</div>		
+								</div>
 								<#assign displayCount = displayCount + 1>
 								</#list>
 							</#if>
@@ -360,11 +412,30 @@
 
 	</div>
 	
-	<#include "../_includes/footer.ftl">
+	<#if !embedded>
+		<#include "../_includes/footer.ftl">
+	</#if>
 	<#include "../_includes/header/body_end.ftl">
 	
 	<script>
-		updateTextColor($('#eventPortfolio'));
+	
+		$(document ).ready(function() {
+			updateTextColor($('#eventPortfolio'));
+		});
+		
+		<#-- Only load datepicker when new request/follow-up is allowed. -->
+		<#if !hasPending>
+			var datepicker = new tui.DatePicker("#returningDateWrapper", {
+				date: Date.today(),
+				type: "date",
+				input: {
+					element: "#returningDate",
+					format: "yyyy-MM-dd",
+					usageStatistics: false
+				},
+			});
+		</#if>
+	
 	</script>
 </body>
 </html>

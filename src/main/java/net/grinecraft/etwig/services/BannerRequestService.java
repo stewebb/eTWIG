@@ -22,6 +22,11 @@ public class BannerRequestService {
 		return bannerRequestRepository.countByEventId(eventId);
 	}
 	
+	public boolean hasPendingRequests(Long eventId) {
+		//System.out.println(bannerRequestRepository.countByApprovedIsNullAndEventId(eventId));
+		return bannerRequestRepository.countByApprovedIsNullAndEventId(eventId) > 0;
+	}
+	
 	public LinkedHashMap<Long, BannerRequestDTO> getRequestsByEvent(Long eventId) { 
 		
 		// Get the original data.

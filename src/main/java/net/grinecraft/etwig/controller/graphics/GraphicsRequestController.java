@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import net.grinecraft.etwig.dto.BannerRequestEventInfoDTO;
 import net.grinecraft.etwig.services.BannerRequestService;
 import net.grinecraft.etwig.services.EventService;
+import net.grinecraft.etwig.util.BooleanUtils;
 
 @Controller
 @Secured({"ROLE_ADMINISTRATOR", "ROLE_EVENT_MANAGER"})
@@ -24,14 +25,25 @@ public class GraphicsRequestController {
 	private EventService eventService;
 	
 	@GetMapping("/event")  
-	public String view(Model model, @RequestParam Long eventId) throws Exception{
+	public String view(Model model, @RequestParam Long eventId, @RequestParam(required=false) String embedded) throws Exception{
 		
-		System.out.println(bannerRequestService.getRequestsByEvent(eventId));
-		
-		model.addAttribute("count", bannerRequestService.countByEventId(eventId));
-		model.addAttribute("requestInfo",bannerRequestService.getRequestsByEvent(eventId));
-		model.addAttribute("eventInfo",eventService.findEventsForBannerRequestById(eventId));
+		// Get event info and existence check.
+		BannerRequestEventInfoDTO event = eventService.findEventsForBannerRequestById(eventId);
+		if(event == null) {
+			model.addAttribute("embedded", false);
+			model.addAttribute("reason", "Event with id=" + eventId + " doesn't exist.");
+			return "_errors/custom_error";
+		}
+		model.addAttribute("eventInfo", event);
 
+		// Get the number of requests of this event.
+		model.addAttribute("count", bannerRequestService.countByEventId(eventId));
+		
+		// Has pending requests left.
+		model.addAttribute("hasPending", bannerRequestService.hasPendingRequests(eventId));
+		
+		model.addAttribute("requestInfo",bannerRequestService.getRequestsByEvent(eventId));
+		model.addAttribute("embedded", BooleanUtils.toBoolean(embedded));
 		
 		return "graphics/request_event";
 	}

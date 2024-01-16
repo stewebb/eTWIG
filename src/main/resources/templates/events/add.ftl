@@ -91,7 +91,7 @@
 	<#-- /Content Wrapper -->
 	
 	<#-- Footer -->
-	<#if embedded == false>
+	<#if !embedded>
 		<#include "../_includes/footer.ftl">
 	</#if>
 	<#include "../_includes/header/body_end.ftl">

@@ -1,5 +1,6 @@
 package net.grinecraft.etwig.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
@@ -60,4 +61,7 @@ public class BannerRequest {
 	
 	@Column(name = "asset_id")
 	private Long assetId;
+	
+	@Column(name = "expect_date")
+	private LocalDate expectDate;
 }

@@ -12,6 +12,8 @@ public interface BannerRequestRepository extends JpaRepository <BannerRequest, L
 
 	long countByEventId(long eventId);
 	
+    long countByApprovedIsNullAndEventId(long eventIds);
+	
     @Query(value = "SELECT * FROM banner_request WHERE event_id = ?1 ORDER BY id DESC LIMIT ?2", nativeQuery = true)
     List<BannerRequest> findByRequestsByEventDescending(Long eventId, int limit);
 
