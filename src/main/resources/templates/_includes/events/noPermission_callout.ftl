@@ -11,12 +11,13 @@
 									<div class="callout callout-primary">
 										<h5 class="bold-text mb-3">${calloutTitle}</h5>
 										This event was created by the user with <span class="bold-text" style="color:#${eventDetails.portfolio.color}">${eventDetails.portfolio.name}</span> portfolio. <br />
-										However, your portfolios are 
+										However, your portfolios are [
 										<#if portfolio?has_content>
         									<#list portfolio as portfolio_id, portfolio_info>
-        										<span class="bold-text" style="color:#${portfolio_info.color}">${portfolio_info.name}</span>
+        										<span class="bold-text" style="color:#${portfolio_info.color}">${portfolio_info.name}</span>,&nbsp;
         									</#list>
         								<#else>
         									<strong>Null</strong>
-        								</#if>.
+        								</#if>
+        								].
 									</div>

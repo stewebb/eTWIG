@@ -107,7 +107,7 @@ public class EventsAPIController {
 				
 		// Check the permission again in the backend.
 		LinkedHashMap<String, Object> event = eventService.findById(Long.parseLong(eventInfo.get("eventId").toString()));
-		if(!eventService.eventEditPermissionCheck(session, event)) {
+		if(!eventService.eventEditPermissionCheck(event)) {
 			return WebReturn.errorMsg("You don't have permission to edit this event.", false);
 		} 
 		

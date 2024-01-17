@@ -10,6 +10,13 @@
 <#assign navbar = "GRAPHICS_REQUEST_VIEW">
 <#assign modeStr = (count == 0)?string("New Request", "Follow-up")>
 
+<#-- Convert the "Embedded" boolean to String -->
+<#assign isEmbeddedStr = embedded ?string('true', 'false')>
+
+<#-- Edit permission check. -->
+<#assign disabled = !editPermission>
+<#assign disabledStr = editPermission ? string("", "disabled")>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,7 +35,7 @@
 	<div class="<#if !embedded>content-</#if>wrapper">
 	
 		<#-- Page header -->
-		<#-- <#if !embedded> -->
+		<#if !embedded>
     		<section class="content-header">
       			<div class="container-fluid">
         			<div class="row mb-2">
@@ -46,7 +53,7 @@
         			</div>
       			</div>
     		</section>
-		<#-- </#if>-->
+		</#if>
 		<#-- /Page header -->
 		
 	    <#-- Main area -->
@@ -150,7 +157,9 @@
 									Please wait the approver to make a desicion before you make a follow-up request. 
 									However, you can <span class="text-primary bold-text">remind the approver</span> at any time.
 								</div>
-							<#else>
+								
+							<#-- Also permission check. -->
+							<#elseif editPermission>
 							
 								<#-- Returning Date -->
 								<div class="form-group">
@@ -163,7 +172,7 @@
 												<i class="fa-solid fa-clock"></i>
 											</span>
 										</div>
-										<input type="text" class="form-control" placeholder="Returning date for getting your graphic." id="returningDate">
+										<input type="text" class="form-control" placeholder="Returning date for getting your graphic." id="returningDate" ${disabledStr}>
 									</div>
 									<div id="returningDateWrapper" class="datepicker"></div>
 								</div>			
@@ -171,26 +180,31 @@
 								
 								<#-- Comment -->
 								<div class="form-group">
-								<label for="comment">Additional Comments</label>
-									<div class="input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text">
-												<i class="fa-solid fa-comment-dots"></i>
-											</span>
-										</div>
-										<textarea class="form-control fixed-textarea" placeholder="Additional comments (Optional, maximum length is 255 characters.)" id="comment" maxlength="255" rows="5"></textarea>
-									</div>
+								<label for="comment">Additional Comments</label>										
+									<textarea class="form-control fixed-textarea" placeholder="Additional comments (Optional, maximum length is 255 characters.)" id="comment" maxlength="255" rows="5" ${disabledStr}></textarea>
 								</div>			
 								<#-- /Comment -->
 						
 								<#-- Submit -->
 								<div class="right-div" role="group">
-									<button type="button" class="btn btn-outline-primary">
+									<button type="button" class="btn btn-outline-primary" onclick="requestEvent(${isEmbeddedStr});" ${disabledStr}>
 										<i class="fa-regular fa-check"></i>&nbsp;Submit
 									</button>
 								</div>
 								<#-- /Submit -->
+							
+							<#else>
+								<#assign eventDetails = eventInfo>
+								<#assign calloutTitle = "No graphics request permission">
+								<#include "../_includes/events/noPermission_callout.ftl">
 							</#if>
+							
+							<#-- Cancel -->
+							<#assign cancelOnClickAction = embedded ? then("parent.$('#etwigModal').modal('hide');", "window.location.reload();")>
+							<#assign cancelBtn = embedded ? then("Close", "Cancel")>
+							<button type="button" class="btn btn-outline-secondary" onclick="${cancelOnClickAction}">
+								<i class="fa-solid fa-xmark"></i>&nbsp;${cancelBtn}
+							</button>
 							
 						</div>
 					</div>
@@ -324,7 +338,7 @@
 													<div class="row col-12 mb-2">
         												<div class="col-md-3 text-left bold-text">Action</div>
        													<div class="col-md-9">
-															<button type="button" class="btn btn-outline-primary" disabled>
+															<button type="button" class="btn btn-outline-primary" ${disabledStr}>
 																<i class="fa-solid fa-bell"></i>&nbsp;Remind Approver
 															</button>
 														</div>
@@ -415,7 +429,11 @@
 	<#if !embedded>
 		<#include "../_includes/footer.ftl">
 	</#if>
+	
 	<#include "../_includes/header/body_end.ftl">
+	
+	<#-- Custom JS for graphics request-->
+	<script src="/static/js/etwig/graphics-request.js"></script>
 	
 	<script>
 	
@@ -425,15 +443,7 @@
 		
 		<#-- Only load datepicker when new request/follow-up is allowed. -->
 		<#if !hasPending>
-			var datepicker = new tui.DatePicker("#returningDateWrapper", {
-				date: Date.today(),
-				type: "date",
-				input: {
-					element: "#returningDate",
-					format: "yyyy-MM-dd",
-					usageStatistics: false
-				},
-			});
+			createDatePicker();
 		</#if>
 	
 	</script>

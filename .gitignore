@@ -36,3 +36,4 @@ build/
 ### Python ###
 __pycache__
 /.apt_generated_tests/
+/bin/

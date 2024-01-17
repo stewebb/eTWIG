@@ -59,6 +59,9 @@ public class EventService {
 	@Autowired
 	private RecurringEventRepository recurringEventRepository;
 	
+	@Autowired
+	private HttpSession session;
+	
 	/**
 	 * Public entry of the event services.
 	 * The access control modifiers are "public".
@@ -380,7 +383,9 @@ public class EventService {
 	 * @throws Exception
 	 */
 	
-	public boolean eventEditPermissionCheck(HttpSession session, LinkedHashMap<String, Object> event) throws Exception {
+	// TODO remove duplicate
+	
+	public boolean eventEditPermissionCheck(LinkedHashMap<String, Object> event) throws Exception {
 		
 		// Get user permission
 		Permission permission = (Permission) session.getAttribute("permission");
@@ -403,7 +408,7 @@ public class EventService {
 			Long eventPortfolio = (Long) ((LinkedHashMap<String, Object>) event.get("portfolio")).get("id");
 		
 			// I have permission to edit the event if my portfolios contains the event portfolio.
-			return  myPortfolios.contains(eventPortfolio);
+			return myPortfolios.contains(eventPortfolio);
 		}
 		
 		// Case 3: Graphics Manager or uncategorized, has no edit permission.
@@ -411,4 +416,37 @@ public class EventService {
 			return false;
 		}
 	}
+	
+		public boolean eventEditPermissionCheck(Portfolio portfolio) throws Exception {
+		
+		// Get user permission
+		Permission permission = (Permission) session.getAttribute("permission");
+		UserPermission userPermission = UserPermission.fromString(permission.getName());
+		
+		// Case 1: Administrator, has edit permission.
+		if(userPermission == UserPermission.ADMINISTRATOR ) {
+			return true;
+		}
+		
+		// Case 2: Event Manager, has edit view permission depends on the portfolio.
+		else if (userPermission == UserPermission.EVENT_MANAGER) {
+
+			// All portfolios that I have.
+			@SuppressWarnings("unchecked")
+			Set<Long> myPortfolios = ((LinkedHashMap<Long, Portfolio>) session.getAttribute("portfolio")).keySet();
+		
+			// The portfolio of this event
+			//@SuppressWarnings("unchecked")
+			Long eventPortfolio = portfolio.getId();
+			
+			// I have permission to edit the event if my portfolios contains the event portfolio.
+			return myPortfolios.contains(eventPortfolio);
+		}
+		
+		// Case 3: Graphics Manager or uncategorized, has no edit permission.
+		else {
+			return false;
+		}
+	}
+
 }

@@ -39,8 +39,12 @@ public class GraphicsRequestController {
 		// Get the number of requests of this event.
 		model.addAttribute("count", bannerRequestService.countByEventId(eventId));
 		
-		// Has pending requests left.
+		// Has pending requests left?
 		model.addAttribute("hasPending", bannerRequestService.hasPendingRequests(eventId));
+		
+		// Edit permission check
+		model.addAttribute("editPermission", eventService.eventEditPermissionCheck(event.getPortfolio()));
+
 		
 		model.addAttribute("requestInfo",bannerRequestService.getRequestsByEvent(eventId));
 		model.addAttribute("embedded", BooleanUtils.toBoolean(embedded));

@@ -82,7 +82,7 @@ public class EditController {
 		if(Boolean.TRUE.equals(event.get("exists"))) {
 			model.addAttribute("eventId", id);
 			model.addAttribute("eventDetails", event);
-			model.addAttribute("editPermission", eventService.eventEditPermissionCheck(session, event));
+			model.addAttribute("editPermission", eventService.eventEditPermissionCheck(event));
 			
 			// The options that selected in this event.
 			model.addAttribute("selectedOptions", eventOptionService.getOptionsByEvent(id));
