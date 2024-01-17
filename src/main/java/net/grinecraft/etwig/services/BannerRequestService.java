@@ -1,5 +1,6 @@
 package net.grinecraft.etwig.services;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import net.grinecraft.etwig.dto.BannerRequestDTO;
 import net.grinecraft.etwig.model.BannerRequest;
 import net.grinecraft.etwig.repository.BannerRequestRepository;
+import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.MapUtils;
 
 @Service
@@ -46,7 +48,12 @@ public class BannerRequestService {
 	public void addRequest(Map<String, Object> requestInfo) {
 		
 		BannerRequest request = new BannerRequest();
-		request.setEventId(Long.parseLong(requestInfo.get("requestInfo").toString()));
+		request.setEventId(Long.parseLong(requestInfo.get("eventId").toString()));
+		request.setRequestorId(Long.parseLong(requestInfo.get("requester").toString()));
+		request.setRequestComment(requestInfo.get("requestComment").toString());
+		request.setExpectDate(DateUtils.safeParseDate(requestInfo.get("returningDate").toString(), "yyyy-MM-dd"));
+		request.setRequestTime(LocalDateTime.now());
 		
+		bannerRequestRepository.save(request);
 	}
 }

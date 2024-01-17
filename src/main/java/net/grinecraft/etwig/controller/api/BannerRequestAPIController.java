@@ -32,7 +32,7 @@ public class BannerRequestAPIController {
 	
 	@PostMapping(value = "/requestGraphic")
     public Map<String, Object> requestGraphic(@RequestBody Map<String, Object> requestInfo) {
-        //eventService.addEvent((LinkedHashMap<String, Object>) eventInfo);
+		bannerRequestService.addRequest(requestInfo);
         return WebReturn.errorMsg(null, true);
     }
 }
