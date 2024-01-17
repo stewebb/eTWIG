@@ -16,4 +16,4 @@ cp ./target/etwig-*.jar ./output/etwig.jar
 
 # ---- Run Application ----
 cd ./output
-java -jar ./etwig.jar
+java -jar ./etwig.jar &
