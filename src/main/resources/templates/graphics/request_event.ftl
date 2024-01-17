@@ -150,6 +150,11 @@
 							
 						<div class="card-body">
 						
+							<#-- Hidden inputs -->
+							<input type="hidden" id="eventId" value="${eventInfo.id}" />
+							<input type="hidden" id="requester" value="${user.userId}" />
+							<#-- /Hidden inputs -->
+							
 							<#-- Users are not allowed to add a followup if there has a pending request. -->
 							<#if hasPending>
 								<div class="callout callout-warning">
@@ -163,7 +168,7 @@
 							
 								<#-- Returning Date -->
 								<div class="form-group">
-									<label for="expectedDate">
+									<label for="returningDate">
 										Expect date to get your graphics.&nbsp;<span class="required-symbol">*</span>
 									</label>
 									<div class="input-group">
@@ -181,7 +186,7 @@
 								<#-- Comment -->
 								<div class="form-group">
 								<label for="comment">Additional Comments</label>										
-									<textarea class="form-control fixed-textarea" placeholder="Additional comments (Optional, maximum length is 255 characters.)" id="comment" maxlength="255" rows="5" ${disabledStr}></textarea>
+									<textarea id="requestComment" class="form-control fixed-textarea" placeholder="Additional comments (Optional, maximum length is 255 characters.)" id="comment" maxlength="255" rows="5" ${disabledStr}></textarea>
 								</div>			
 								<#-- /Comment -->
 						

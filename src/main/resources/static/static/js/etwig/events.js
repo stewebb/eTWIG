@@ -179,7 +179,7 @@ function addEvent(embedded, isEdit){
 		function() {
 			embedded ? parent.location.reload() : window.location.reload();
 		}, 
-		hasError ? 5000 : 2000
+		hasError ? 10000 : 2000
 	);
 }
 

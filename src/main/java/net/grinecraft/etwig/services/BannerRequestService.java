@@ -3,6 +3,7 @@ package net.grinecraft.etwig.services;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,14 +17,13 @@ import net.grinecraft.etwig.util.MapUtils;
 public class BannerRequestService {
 
 	@Autowired
-	private BannerRequestRepository  bannerRequestRepository;
+	private BannerRequestRepository bannerRequestRepository;
 	
 	public Long countByEventId(Long eventId) {
 		return bannerRequestRepository.countByEventId(eventId);
 	}
 	
 	public boolean hasPendingRequests(Long eventId) {
-		//System.out.println(bannerRequestRepository.countByApprovedIsNullAndEventId(eventId));
 		return bannerRequestRepository.countByApprovedIsNullAndEventId(eventId) > 0;
 	}
 	
@@ -41,5 +41,12 @@ public class BannerRequestService {
 		// Convert to LinkedHashMap
 		MapUtils mapUtils = new MapUtils();
 		return mapUtils.listToLinkedHashMap(requestDTOList, BannerRequestDTO::getId);
+	}
+	
+	public void addRequest(Map<String, Object> requestInfo) {
+		
+		BannerRequest request = new BannerRequest();
+		request.setEventId(Long.parseLong(requestInfo.get("requestInfo").toString()));
+		
 	}
 }
