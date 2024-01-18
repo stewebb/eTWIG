@@ -4,16 +4,15 @@
 	* @license: MIT
 	* @author: Steven Webb [xiaoancloud@outlook.com]
 	* @website: https://etwig.grinecraft.net
-	* @function: The User model, mapping the "users" table in the database.
-	* This model contains users' basic information like name. 
-	* It doesn't have data like password, which is modeled by UserAuth model, as they are only used in authentication purposes.
+	* @function: The class that mapping to "user" table in the database.
 	*/
 
 package net.grinecraft.etwig.model;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 import lombok.*;
-import net.grinecraft.etwig.util.NameUtils;
 
 @Data
 @AllArgsConstructor
@@ -24,23 +23,19 @@ import net.grinecraft.etwig.util.NameUtils;
 public class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
 	private long id;
 	
-	@Column(name = "first_name")
-	private String firstName;
-	
-	@Column(name = "middle_name")
-	private String middleName;
-	
-	@Column(name = "last_name")
-	private String lastName;
-	
+	@Column(name = "full_name")
+	private String fullName;
+
 	@Column(name = "email")
 	private String email;
 	
-	public String getFullName() {
-		return NameUtils.nameMerger(this.firstName, this.middleName, this.lastName);
-	}
+	@Column(name = "password")
+	private String password;
+	
+	@Column(name = "last_login")
+	private LocalDateTime lastLogin;
 }

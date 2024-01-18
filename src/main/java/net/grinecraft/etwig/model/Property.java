@@ -4,7 +4,7 @@
 	* @license: MIT
 	* @author: Steven Webb [xiaoancloud@outlook.com]
 	* @website: https://etwig.grinecraft.net
-	* @function: The Property model, mapping the "property" table in the database.
+	* @function: The class that mapping to "property" table in the database.
 	*/
 
 package net.grinecraft.etwig.model;

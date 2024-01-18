@@ -4,7 +4,7 @@
 	* @license: MIT
 	* @author: Steven Webb [xiaoancloud@outlook.com]
 	* @website: https://etwig.grinecraft.net
-	* @function: The Event model, mapping the "event" table in the database.
+	* @function: The class that mapping to "option" table in the database.
 	*/
 
 package net.grinecraft.etwig.model;
@@ -28,10 +28,10 @@ public class Option {
 	@Column(name = "name")
 	private String name;
 	
-	//@ManyToOne(cascade = CascadeType.ALL)
-	//@JoinColumn(name = "belongs_to", referencedColumnName = "id", insertable = false, updatable = false)
-    //private Property property;		// Read-only
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "belongs_to", referencedColumnName = "id", insertable = false, updatable = false)
+    private Property belongsToObj;
 	
 	@Column(name = "belongs_to")
-	private Long propertyId;
+	private Long belongsTo;
 }

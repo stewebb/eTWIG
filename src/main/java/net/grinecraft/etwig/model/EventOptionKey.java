@@ -4,7 +4,7 @@
 	* @license: MIT
 	* @author: Steven Webb [xiaoancloud@outlook.com]
 	* @website: https://etwig.grinecraft.net
-	* @function: The UserRole model has double key.
+	* @function: The class that mapping to "event_option" table in the database.
 	*/
 
 package net.grinecraft.etwig.model;

@@ -4,7 +4,7 @@
 	* @license: MIT
 	* @author: Steven Webb [xiaoancloud@outlook.com]
 	* @website: https://etwig.grinecraft.net
-	* @function: The TwigTemplate model, mapping the "twig_template" table in the database.
+	* @function: The class that mapping to "twig_template" table in the database.
 	*/
 
 package net.grinecraft.etwig.model;
@@ -31,12 +31,19 @@ public class TwigTemplate {
 	private String name;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "portfolio_id", referencedColumnName = "id", insertable = false, updatable = false)
-    private Portfolio portfolio;
+	@JoinColumn(name = "portfolio", referencedColumnName = "id", insertable = false, updatable = false)
+    private Portfolio portfolioObj;
 	
-	 @Column(name = "portfolio_id")
-	private Long portfolioId;
+	@Column(name = "portfolio")
+	private Long portfolio;
 	 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "creator", referencedColumnName = "id", insertable = false, updatable = false)
+	private User creatorObj;
+		
+	@Column(name = "creator")
+	private Long creator;
+	
 	/**
 	 * The "background" column stores the style and content of the TWIG background in JSON format.
 	 * {

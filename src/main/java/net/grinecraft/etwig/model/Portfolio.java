@@ -4,7 +4,7 @@
 	* @license: MIT
 	* @author: Steven Webb [xiaoancloud@outlook.com]
 	* @website: https://etwig.grinecraft.net
-	* @function: The Portfolio model, mapping the "portfolio" table in the database.
+	* @function: The class that mapping to "portfolio" table in the database.
 	*/
 
 package net.grinecraft.etwig.model;
@@ -37,9 +37,6 @@ public class Portfolio {
 	@Column(name = "icon")
 	private String icon;	
 	
-	@Column(name = "is_separated_calendar")
-	private boolean isSeparatedCalendar;	
-	
-	@Column(name = "parent")
-	private Integer parent;
+	@Column(name = "separated_calendar")
+	private boolean separatedCalendar;	
 }
