@@ -10,8 +10,10 @@
 package net.grinecraft.etwig;
 
 import java.util.LinkedHashMap;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,8 +22,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import net.grinecraft.etwig.config.ConfigFile;
-import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.model.User;
+import net.grinecraft.etwig.model.UserRole;
 
 @Component
 public class EtwigInterceptor implements HandlerInterceptor{
@@ -37,8 +39,9 @@ public class EtwigInterceptor implements HandlerInterceptor{
 	 * @param modelAndView
 	 */
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+	public void postHandle(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler, ModelAndView modelAndView) throws Exception {
 		
 		if(modelAndView == null) {
 			return;
@@ -65,17 +68,9 @@ public class EtwigInterceptor implements HandlerInterceptor{
 				modelAndView.addObject("user", userInfo);
 			}
 			
-			//Permission permission = (Permission) session.getAttribute("permission");
-			Object permission = null;
-			if(permission != null) {
-				//System.out.println(permission);
-				modelAndView.addObject("permission", permission);
-			}
-			
-			@SuppressWarnings("unchecked")
-			LinkedHashMap<Long, Portfolio> portfolio = (LinkedHashMap<Long, Portfolio>) session.getAttribute("portfolio");
-			if(portfolio != null && !portfolio.isEmpty()) {
-				modelAndView.addObject("portfolio", portfolio);
+			Set<UserRole> userRoles = (Set<UserRole>) session.getAttribute("role");
+			if(userRoles != null) {
+				modelAndView.addObject("role", userRoles);
 			}
 		}	
 		

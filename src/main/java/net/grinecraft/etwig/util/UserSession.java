@@ -1,15 +1,18 @@
 package net.grinecraft.etwig.util;
 
-import java.util.LinkedHashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import jakarta.servlet.http.HttpSession;
-import net.grinecraft.etwig.model.Portfolio;
+import net.grinecraft.etwig.dto.UserRoleDTO;
 import net.grinecraft.etwig.model.User;
+import net.grinecraft.etwig.model.UserRole;
+
 import net.grinecraft.etwig.repository.UserRepository;
-import net.grinecraft.etwig.services.UserRoleService;
+import net.grinecraft.etwig.repository.UserRoleRepository;
 
 @Component
 public class UserSession {
@@ -20,11 +23,8 @@ public class UserSession {
 	@Autowired
 	private UserRepository userRepository;
 	
-	//@Autowired
-	//private UserAuthRepository userAuthRepository;
-	
 	@Autowired
-	private UserRoleService userRoleService;
+	private UserRoleRepository userRoleRepository;
 	
 	private String email;
 	
@@ -34,22 +34,31 @@ public class UserSession {
 			throw new IllegalArgumentException("Email is required.");
 		}
 		
+		// Find user info
 		User user = userRepository.findByEmail(this.email);
-		//UserAuth userAuth = userAuthRepository.findByEmail(this.email);
+		if(user == null) {
+			throw new IllegalStateException("User authentication successfully, but the information cannot be found in the database.");
+		 }
 		
-		//if(user == null || userAuth == null) {
-		//	throw new IllegalStateException("User authentication successfully, but the information cannot be found in the database.");
-		// }
+		// Get user role from DB.
+		Long userId = user.getId();
+		Set<UserRole> userRoles = userRoleRepository.findByUserId(userId);	
 		
-		// Get user permission from DB.
-		//Permission permission = userAuth.getPermission();
-		//System.out.println(permission);
+		// Each user must has assigned at least 1 portfolio.
+		if(userRoles.isEmpty()) {
+			throw new IllegalStateException("User authentication successfully, but the user is not assigned to any portfolio.");
+		}
 		
-		// Get user portfolio from DB.
-		LinkedHashMap<Long, Portfolio> myPortfolios = userRoleService.getPortfoliosByUserId(user.getId());
+		// Use a DTO to avoid storing sensitive information in session.
+		Set<UserRoleDTO> userRoleDTOs = new HashSet<UserRoleDTO>();
+		
+		for(UserRole role : userRoles) {
+			userRoleDTOs.add(new UserRoleDTO(role));
+		}
+		System.out.println(userRoleDTOs);
+		
 		session.setAttribute("user", user);
-		session.setAttribute("permission", null);
-		session.setAttribute("portfolio", myPortfolios);
+		session.setAttribute("role", userRoles);
 	}
 	
 	public void setEmail(String email) {

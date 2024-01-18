@@ -33,17 +33,17 @@ public class UserRole {
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "_user", referencedColumnName = "id", insertable = false, updatable = false)
-	private User userObj;
+	private User user;
 		
 	@Column(name = "_user")
-	private Long user;
+	private Long userId;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "portfolio", referencedColumnName = "id", insertable = false, updatable = false)
-    private Portfolio portfolioObj;
+    private Portfolio portfolio;
 	
 	@Column(name = "portfolio")
-	private Long portfolio;
+	private Long portfolioId;
 	 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "_role", referencedColumnName = "id", insertable = false, updatable = false)

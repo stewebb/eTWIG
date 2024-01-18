@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import net.grinecraft.etwig.util.DataException;
 import net.grinecraft.etwig.util.UserSession;
 
 @Component
@@ -36,6 +37,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	 * @param request
 	 * @param response
 	 * @param authentication
+	 * @throws IOException 
 	 */
 	
 	@Override

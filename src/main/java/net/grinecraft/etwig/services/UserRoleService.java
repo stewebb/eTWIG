@@ -96,7 +96,7 @@ public class UserRoleService implements UserDetailsService{
         	throw new UsernameNotFoundException("User not found");
         }
 
-        Set<UserRole> userRoles = userRoleRepository.findByUser(user.getId());
+        Set<UserRole> userRoles = userRoleRepository.findByUserId(user.getId());
         return new CustomUserDetails(user, userRoles);
     }
 
