@@ -43,7 +43,7 @@ public class TwigService {
 			return null;
 		}
 		
-		Optional<TwigTemplateDesignDTO> twigTemplateopt = twigTemplateRepository.findDesignById(id);
+		Optional<TwigTemplateDesignDTO> twigTemplateopt = null;//twigTemplateRepository.findDesignById(id);
 		return twigTemplateopt.isPresent() ? twigTemplateopt.get() : null;
 	
 	}
@@ -61,7 +61,7 @@ public class TwigService {
 			return null;
 		}
 		
-		Optional<TwigTemplate> twigTemplateOpt = twigTemplateRepository.findByDateAndPortfolio(date, portfolioId);
+		Optional<TwigTemplate> twigTemplateOpt = null;//twigTemplateRepository.findByDateAndPortfolio(date, portfolioId);
 		return optionalToMap(twigTemplateOpt);
 	
 	}
@@ -93,12 +93,13 @@ public class TwigService {
 	
 	public Page<TwigTemplateBasicInfoDTO> getTwigTemplateList(int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
-		return twigTemplateRepository.findAllTwigTemplates(pageable);
+		//return twigTemplateRepository.findAllTwigTemplates(pageable);
+		return null;
 	}
 	
 	public TwigTemplateBasicInfoDTO getTwigTemplateBasicInfoById(Long twigTemplateId) {
 		
-		Optional<TwigTemplateBasicInfoDTO> twigTemplateOpt = twigTemplateRepository.findBasicInfoById(twigTemplateId);
+		Optional<TwigTemplateBasicInfoDTO> twigTemplateOpt = null;//twigTemplateRepository.findBasicInfoById(twigTemplateId);
 		if(!twigTemplateOpt.isPresent()) {
 			return null;
 		}

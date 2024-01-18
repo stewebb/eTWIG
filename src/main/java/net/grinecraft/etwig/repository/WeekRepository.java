@@ -26,6 +26,6 @@ public interface WeekRepository extends JpaRepository<Week, Long> {
 	 * @return
 	 */
 	
-    //public Optional<Week> findByMonday(LocalDate monday);
+    public Optional<Week> findByMonday(LocalDate monday);
     
 }

@@ -22,17 +22,19 @@ public class BannerRequestService {
 	private GraphicsRequestRepository bannerRequestRepository;
 	
 	public Long countByEventId(Long eventId) {
-		return bannerRequestRepository.countByEventId(eventId);
+		return null;
+		//return bannerRequestRepository.countByEventId(eventId);
 	}
 	
 	public boolean hasPendingRequests(Long eventId) {
-		return bannerRequestRepository.countByApprovedIsNullAndEventId(eventId) > 0;
+		return false;
+		//return bannerRequestRepository.countByApprovedIsNullAndEventId(eventId) > 0;
 	}
 	
 	public LinkedHashMap<Long, BannerRequestDTO> getRequestsByEvent(Long eventId) { 
 		
 		// Get the original data.
-		List<GraphicsRequest> requestList = bannerRequestRepository.findByRequestsByEventDescending(eventId, 10);
+		List<GraphicsRequest> requestList = null; //bannerRequestRepository.findByRequestsByEventDescending(eventId, 10);
 		
 		// Apply the DTO.
 		List<BannerRequestDTO> requestDTOList = new ArrayList<BannerRequestDTO>();

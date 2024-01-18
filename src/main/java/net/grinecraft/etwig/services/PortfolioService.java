@@ -52,6 +52,7 @@ public class PortfolioService {
 	
 	public LinkedHashMap<Long, Portfolio> getPortfolioListBySeparatedCalendar(Boolean isSeparatedCalendar){
 		
+		/*
 		if(isSeparatedCalendar == null) {
 			return mapUtils.listToLinkedHashMap(portfolioRepository.findAll(), Portfolio::getId);
 		}
@@ -65,6 +66,10 @@ public class PortfolioService {
 			return mapUtils.listToLinkedHashMap(portfolioRepository.findBySeparatedCalendarFalse(), Portfolio::getId);
 			
 		}
+		
+		*/
+		
+		return null;
 	}
 	
 	/**

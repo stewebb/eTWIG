@@ -19,7 +19,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "etwig_users")
+@Table(name = "etwig_user")
 public class User {
 
 	@Id
