@@ -32,7 +32,7 @@ public interface TwigTemplateRepository extends JpaRepository<TwigTemplate, Long
 	 * @return
 	 */
 	
-    public Optional<TwigTemplate> findById(long id);
+    //public Optional<TwigTemplate> findById(long id);
     
     /**
      * Find a TWIG template by a given date and portfolio
@@ -41,6 +41,8 @@ public interface TwigTemplateRepository extends JpaRepository<TwigTemplate, Long
      * @return
      */
     
+	
+	/*
     @Query("SELECT e FROM TwigTemplate e WHERE e.portfolioId = :portfolioId " +
             "AND (e.availableFrom IS NULL OR :currentDate >= e.availableFrom) " +
             "AND (e.availableTo IS NULL OR :currentDate <= e.availableTo) " +
@@ -60,5 +62,5 @@ public interface TwigTemplateRepository extends JpaRepository<TwigTemplate, Long
     @Query("SELECT new net.grinecraft.etwig.dto.TwigTemplateDesignDTO(t) " +
             "FROM TwigTemplate t WHERE t.id = :id")
     public Optional<TwigTemplateDesignDTO> findDesignById(long id);
-    
+    */
 }

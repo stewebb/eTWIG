@@ -30,8 +30,8 @@ public class Option {
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "belongs_to", referencedColumnName = "id", insertable = false, updatable = false)
-    private Property belongsToObj;
+    private Property belongsTo;
 	
 	@Column(name = "belongs_to")
-	private Long belongsTo;
+	private Long belongsToId;
 }

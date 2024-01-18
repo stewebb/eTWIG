@@ -57,12 +57,12 @@ public class PortfolioService {
 		}
 		
 		else if(isSeparatedCalendar == true) {
-			return mapUtils.listToLinkedHashMap(portfolioRepository.findByIsSeparatedCalendarTrue(), Portfolio::getId);
+			return mapUtils.listToLinkedHashMap(portfolioRepository.findBySeparatedCalendarTrue(), Portfolio::getId);
 		}
 		
 		// isSeparatedCalendar == false
 		else {
-			return mapUtils.listToLinkedHashMap(portfolioRepository.findByIsSeparatedCalendarFalse(), Portfolio::getId);
+			return mapUtils.listToLinkedHashMap(portfolioRepository.findBySeparatedCalendarFalse(), Portfolio::getId);
 			
 		}
 	}

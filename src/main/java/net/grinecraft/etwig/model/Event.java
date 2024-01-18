@@ -62,15 +62,15 @@ public class Event {
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "portfolio", referencedColumnName = "id", insertable = false, updatable = false)
-    private Portfolio portfolioObj;
+    private Portfolio portfolio;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "organizer", referencedColumnName = "id", insertable = false, updatable = false)
-    private User organizerObj;	
+    private User organizer;	
 	
 	@Column(name = "portfolio")
-	private Long portfolio;
+	private Long portfolioId;
 	
 	@Column(name = "organizer")
-	private Long organizer;
+	private Long organizerId;
 }

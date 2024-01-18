@@ -39,12 +39,12 @@ public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {
      * @return
      */
     
-    public List<Portfolio> findByIsSeparatedCalendarTrue();
+    public List<Portfolio> findBySeparatedCalendarTrue();
     
     /**
      * Find the portfolios without separated calendar.
      * @return
      */
     
-    public List<Portfolio> findByIsSeparatedCalendarFalse();
+    public List<Portfolio> findBySeparatedCalendarFalse();
 }

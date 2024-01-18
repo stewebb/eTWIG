@@ -69,10 +69,10 @@ public class GraphicsRequest {
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "asset", referencedColumnName = "id", insertable = false, updatable = false)
-    private Asset assetObj;
+    private Asset asset;
 	
 	@Column(name = "asset")
-	private Long asset;
+	private Long assetId;
 	
 
 }

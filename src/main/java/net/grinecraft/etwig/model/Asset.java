@@ -41,8 +41,8 @@ public class Asset {
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "uploader", referencedColumnName = "id", insertable = false, updatable = false)
-    private User uploaderObj;
+    private User uploader;
 	
 	@Column(name = "uploader")
-	private Long uploader;
+	private Long uploaderId;
 }

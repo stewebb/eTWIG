@@ -32,17 +32,17 @@ public class TwigTemplate {
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "portfolio", referencedColumnName = "id", insertable = false, updatable = false)
-    private Portfolio portfolioObj;
+    private Portfolio portfolio;
 	
 	@Column(name = "portfolio")
-	private Long portfolio;
+	private Long portfolioId;
 	 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "creator", referencedColumnName = "id", insertable = false, updatable = false)
-	private User creatorObj;
+	private User creator;
 		
 	@Column(name = "creator")
-	private Long creator;
+	private Long creatorId;
 	
 	/**
 	 * The "background" column stores the style and content of the TWIG background in JSON format.

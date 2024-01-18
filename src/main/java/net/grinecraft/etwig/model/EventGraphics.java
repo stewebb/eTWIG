@@ -29,17 +29,17 @@ public class EventGraphics {
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "event", referencedColumnName = "id", insertable = false, updatable = false)
-    private Event eventObj;
+    private Event event;
 	
 	@Column(name = "event")
-	private Long event;
+	private Long eventId;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "operator", referencedColumnName = "id", insertable = false, updatable = false)
-    private User operatorObj;
+    private User operator;
 	
 	@Column(name = "operator")
-	private Long operator;
+	private Long operatorId;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "asset", referencedColumnName = "id", insertable = false, updatable = false)
