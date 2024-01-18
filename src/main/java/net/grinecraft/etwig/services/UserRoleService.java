@@ -10,7 +10,10 @@
 package net.grinecraft.etwig.services;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,8 +21,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import net.grinecraft.etwig.handler.CustomUserDetails;
 import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.model.User;
+import net.grinecraft.etwig.model.UserRole;
 import net.grinecraft.etwig.repository.PortfolioRepository;
 import net.grinecraft.etwig.repository.UserRepository;
 import net.grinecraft.etwig.repository.UserRoleRepository;
@@ -83,33 +88,16 @@ public class UserRoleService implements UserDetailsService{
     }
     
     @Override
-	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		User user= userRepository.findByEmail(email);
-        if (user == null) {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        
+    	// Find user details
+    	User user = userRepository.findByEmail(email);
+        if(user == null) {
         	throw new UsernameNotFoundException("User not found");
         }
-                
-        //System.out.println(getAuthorities(userAuth));
-        
-        return new org.springframework.security.core.userdetails.User(
-        		user.getEmail(), 
-        		user.getPassword(), 
-        		getAuthorities(user)
-        );
-	}
-	
-	/**
-	 * Get user permission from the database.
-	 * @param userAuth
-	 * @return
-	 */
-	
-    private Collection<? extends GrantedAuthority> getAuthorities(User userAuth) {
-    	 //Permission permission = userAuth.getPermission();
-         //UserPermission userPermission = UserPermission.fromString(permission.getName());
-         //return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + userPermission.name()));
-    	
-    	return null;
+
+        Set<UserRole> userRoles = userRoleRepository.findByUser(user.getId());
+        return new CustomUserDetails(user, userRoles);
     }
 
 }
