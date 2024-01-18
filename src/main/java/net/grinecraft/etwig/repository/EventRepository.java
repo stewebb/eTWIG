@@ -27,10 +27,10 @@ public interface EventRepository extends JpaRepository<Event, Long>{
 	 * @param id
 	 * @return
 	 */
-	public Optional<Event> findById(long id);
+	//public Optional<Event> findById(long id);
 
-	@Query(value = "SELECT * FROM event_single_time u WHERE u.start_datetime >= :dts and u.start_datetime <= :dte", nativeQuery = true)
-	public List<Event> findByDateRange(@Param("dts") LocalDate startDateTime, @Param("dte") LocalDate endDateTime);
+	//@Query(value = "SELECT * FROM event_single_time u WHERE u.start_datetime >= :dts and u.start_datetime <= :dte", nativeQuery = true)
+	//public List<Event> findByDateRange(@Param("dts") LocalDate startDateTime, @Param("dte") LocalDate endDateTime);
     
     //@Query("SELECT s FROM SingleTimeEvent s WHERE s.portfolio IN :portfolios ORDER BY s.id DESC")
     ///List<Event> findByMultiPortfolios(@Param("portfolios") Collection<Long> portfolios);

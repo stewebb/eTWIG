@@ -22,5 +22,5 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
 	 * Find all properties in the database.
 	 */
 	
-    public List<Property> findAll();
+    //public List<Property> findAll();
 }

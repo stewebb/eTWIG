@@ -26,5 +26,5 @@ public interface EventOptionRepository extends JpaRepository<EventOption, EventO
 	 * @return
 	 */
 	
-    List<EventOption> findByIdEventId(Long eventId);
+    //List<EventOption> findByIdEventId(Long eventId);
 }

@@ -47,8 +47,8 @@ public class UserRole {
 	 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "_role", referencedColumnName = "id", insertable = false, updatable = false)
-	private Role roleObj;
+	private Role role;
 		
 	@Column(name = "_role")
-	private Long role;
+	private Long roleId;
 }

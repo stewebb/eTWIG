@@ -25,7 +25,7 @@ public interface UserRoleRepository extends JpaRepository<UserRole, Long> {
 	 * @return
 	 */
 	
-    List<UserRole> findByUser(Long userId);
+   // List<UserRole> findByUser(Long userId);
     
     /**
      * Find all users who are in the same given portfolio.
@@ -33,5 +33,5 @@ public interface UserRoleRepository extends JpaRepository<UserRole, Long> {
      * @return
      */
     
-    List<UserRole> findByPortfolio(Long portfolioId);
+    //List<UserRole> findByPortfolio(Long portfolioId);
 }
