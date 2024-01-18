@@ -17,7 +17,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "portfolio")
+@Table(name = "etwig_portfolio")
 public class Portfolio {
 	
 	@Id

@@ -17,7 +17,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "user_role")
+@Table(name = "etwig_user_role")
 public class UserRole {
 
 	@EmbeddedId

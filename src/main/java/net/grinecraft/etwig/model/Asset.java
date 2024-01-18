@@ -4,7 +4,7 @@
 	* @license: MIT
 	* @author: Steven Webb [xiaoancloud@outlook.com]
 	* @website: https://etwig.grinecraft.net
-	* @function: The Asset model, mapping the "asset" table in the database.
+	* @function: The class that mapping to "asset" table in the database.
 	*/
 
 package net.grinecraft.etwig.model;
@@ -19,7 +19,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "asset")
+@Table(name = "etwig_asset")
 public class Asset {
 	
 	@Id
@@ -33,16 +33,16 @@ public class Asset {
 	@Column(name = "stored_name")
 	private String storedName;
 	
-	@Column(name = "last_modified")
-	private LocalDateTime lastModified;
-	
 	@Column(name = "size")
-	private long fileSize;
+	private long size;
+	
+	@Column(name = "uploaded_time")
+	private LocalDateTime uploadedTime;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "editor", referencedColumnName = "id", insertable = false, updatable = false)
-    private User user;
+	@JoinColumn(name = "uploader", referencedColumnName = "id", insertable = false, updatable = false)
+    private User uploaderObj;
 	
-	@Column(name = "editor")
-	private Long editor;
+	@Column(name = "uploader")
+	private Long uploader;
 }

@@ -18,7 +18,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "week")
+@Table(name = "etwig_week")
 public class Week {
 	
 	@Id

@@ -20,7 +20,7 @@ import net.grinecraft.etwig.util.NameUtils;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "users")
+@Table(name = "etwig_users")
 public class User {
 
 	@Id

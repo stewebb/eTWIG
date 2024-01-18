@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 import lombok.Getter;
 import lombok.ToString;
-import net.grinecraft.etwig.model.BannerRequest;
+import net.grinecraft.etwig.model.GraphicsRequest;
 import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.NameUtils;
@@ -38,7 +38,7 @@ public class BannerRequestDTO {
 	
 	private Long assetId;
 	
-	public BannerRequestDTO(BannerRequest bannerRequest) {
+	public BannerRequestDTO(GraphicsRequest bannerRequest) {
 		
 		this.id = bannerRequest.getId();
 		

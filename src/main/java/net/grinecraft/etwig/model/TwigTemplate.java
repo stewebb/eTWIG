@@ -19,7 +19,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "twig_template")
+@Table(name = "etwig_twig_template")
 public class TwigTemplate {
 	
 	@Id

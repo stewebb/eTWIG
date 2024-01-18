@@ -17,7 +17,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "event_option")
+@Table(name = "etwig_event_option")
 public class EventOption {
 
 	@EmbeddedId

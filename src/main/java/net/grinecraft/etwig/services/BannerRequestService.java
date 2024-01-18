@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import net.grinecraft.etwig.dto.BannerRequestDTO;
-import net.grinecraft.etwig.model.BannerRequest;
+import net.grinecraft.etwig.model.GraphicsRequest;
 import net.grinecraft.etwig.repository.BannerRequestRepository;
 import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.MapUtils;
@@ -32,11 +32,11 @@ public class BannerRequestService {
 	public LinkedHashMap<Long, BannerRequestDTO> getRequestsByEvent(Long eventId) { 
 		
 		// Get the original data.
-		List<BannerRequest> requestList = bannerRequestRepository.findByRequestsByEventDescending(eventId, 10);
+		List<GraphicsRequest> requestList = bannerRequestRepository.findByRequestsByEventDescending(eventId, 10);
 		
 		// Apply the DTO.
 		List<BannerRequestDTO> requestDTOList = new ArrayList<BannerRequestDTO>();
-		for (BannerRequest request : requestList) {
+		for (GraphicsRequest request : requestList) {
 			requestDTOList.add(new BannerRequestDTO(request));
 		}	 
 		
@@ -47,7 +47,7 @@ public class BannerRequestService {
 	
 	public void addRequest(Map<String, Object> requestInfo) {
 		
-		BannerRequest request = new BannerRequest();
+		GraphicsRequest request = new GraphicsRequest();
 		request.setEventId(Long.parseLong(requestInfo.get("eventId").toString()));
 		request.setRequestorId(Long.parseLong(requestInfo.get("requester").toString()));
 		request.setRequestComment(requestInfo.get("requestComment").toString());
