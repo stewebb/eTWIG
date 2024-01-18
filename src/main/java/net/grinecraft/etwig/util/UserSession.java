@@ -1,13 +1,13 @@
 package net.grinecraft.etwig.util;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import jakarta.servlet.http.HttpSession;
-import net.grinecraft.etwig.dto.UserRoleDTO;
+import net.grinecraft.etwig.dto.UserAccessDTO;
+import net.grinecraft.etwig.dto.UserDTO;
 import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.model.UserRole;
 
@@ -49,16 +49,9 @@ public class UserSession {
 			throw new IllegalStateException("User authentication successfully, but the user is not assigned to any portfolio.");
 		}
 		
-		// Use a DTO to avoid storing sensitive information in session.
-		Set<UserRoleDTO> userRoleDTOs = new HashSet<UserRoleDTO>();
-		
-		for(UserRole role : userRoles) {
-			userRoleDTOs.add(new UserRoleDTO(role));
-		}
-		System.out.println(userRoleDTOs);
-		
-		session.setAttribute("user", user);
-		session.setAttribute("role", userRoles);
+		// Store user and permission
+		session.setAttribute("user", new UserDTO(user));
+		session.setAttribute("access", new UserAccessDTO(userRoles));
 	}
 	
 	public void setEmail(String email) {

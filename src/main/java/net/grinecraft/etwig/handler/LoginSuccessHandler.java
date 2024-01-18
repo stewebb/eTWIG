@@ -55,8 +55,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     	}
     	
     	// Get user object
-	    //User user = userRepository.findByEmail(email);
-	    //UserSession userSession = new UserSession();
 	    userSession.setEmail(email);
 		userSession.put();
 	    	    

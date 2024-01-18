@@ -95,3 +95,7 @@
 .fixed-textarea {
 	resize: none;
 }
+
+.main-sidebar {
+    background-color: black!important;
+}

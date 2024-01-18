@@ -49,12 +49,12 @@
     </nav>
     
     <#-- Main Sidebar -->
-  	<aside class="main-sidebar sidebar-dark-primary elevation-4">
+  	<aside class="main-sidebar sidebar-dark-primary elevation-4" >
   	
     	<#-- eTWIG Logo -->
     	<a href="/" class="brand-link">
       		<img src="/static/images/eTWIG_white.png" alt="eTWIG Logo" class="brand-image">
-      		<span class="brand-text font-weight-light">Admin</span>
+      		<span class="brand-text font-weight-light">&nbsp;</span>
     	</a>
 		<#-- /eTWIG Logo -->
 
@@ -70,7 +70,7 @@
         		
         		<div class="info">
           			<a href="#" class="d-block">
-          				<#if user?has_content>${user.username}</#if>
+          				<#if user?has_content>${user.fullName}</#if>
           			</a>
         		</div>
         	
@@ -80,64 +80,23 @@
       		<nav class="mt-2">
         		<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         	
-        			<#-- Dashboard -->
-        			<li class="nav-item">
-            			<a href="/" class="nav-link <#if navbar=="DASHBOARD">active</#if>">
-              				<i class="nav-icon fas fa-gauge-high"></i>
-              				<p>Dashboard</p>
-            			</a>
-          			</li>
-          			<#-- /Dashboard -->
-          			
-          			<#-- TWIG -->
-        			<li class="nav-item">
-            			<a href="/twig/main" target="_blank" class="nav-link">
-              				<i class="nav-icon fas fa-tree"></i>
-              				<p>TWIG</p>
-            			</a>
-          			</li>
-          			<#-- /TWIG -->
-          			
+        			<#include "./sidebar_content/dashboard.ftl">
+        			<#include "./sidebar_content/twig.ftl">
+ 			 
 					<#-- Event Management -->
           			<li class="nav-header">Event Management</li>
           			
-          			<#-- Event: Calendar -->
-        			<li class="nav-item">
-            			<a href="/events/calendar" class="nav-link <#if navbar=="CALENDAR">active</#if>">
-              				<i class="nav-icon fas fa-calendar"></i>
-              				<p>Calendar</p>
-            			</a>
-          			</li>	
-          			<#-- /Event: Calendar -->
-          			
-          			<#-- Event: List -->
-          			<#--
-        			<li class="nav-item">
-            			<a href="#" class="nav-link">
-              				<i class="nav-icon fas fa-list"></i>
-              				<p>List</p>
-            			</a>
-          			</li>		
-          			->
-          			
-          			<#-- Event: Add -->
-          			<#if permission.name == "e" || permission.name == "a">
-        				<li class="nav-item">
-            				<a href="/events/add" class="nav-link <#if navbar=="ADD_EVENT">active</#if>">
-              					<i class="nav-icon fas fa-plus"></i>
-              					<p>Add</p>
-            				</a>
-          				</li>	
-          			</#if>
-          			<#-- /Event: Add -->
+					<#include "./sidebar_content/calendar.ftl">
+
+					<#include "./sidebar_content/event_add.ftl">
           			
           			<#-- Graphic Management -->
           			<li class="nav-header">Graphic Management</li>
           			
           			<#-- Graphics: Request -->
-          			<#if permission.name == "e" || permission.name == "a">
+          			<#if access.eventsAccess>
         				<li class="nav-item">
-            				<a href="/graphics/request/view" class="nav-link <#if navbar=="GRAPHICS_REQUEST_VIEW">active</#if>">
+            				<a href="/graphics/request/view" class="nav-link">
               					<i class="nav-icon fas fa-hand"></i>
               					<p>Request</p>
             				</a>
@@ -145,8 +104,19 @@
           			</#if>
           			<#-- /Graphics: Request -->
           			
+          			<#-- Graphics: Approve -->
+          			<#if access.graphicsAccess>
+        				<li class="nav-item">
+            				<a href="/graphics/approve/view" class="nav-link <#if navbar=="GRAPHICS_REQUEST_APPROVE">active</#if>">
+              					<i class="nav-icon fas fa-circle-check"></i>
+              					<p>Approve</p>
+            				</a>
+          				</li>	
+          			</#if>
+          			<#-- /Graphics: Approve -->
+          			
           			<#-- TWIG Template -->
-          			<#if permission.name == "g" || permission.name == "a">
+          			<#if access.graphicsAccess>
           				<li class="nav-item has-treeview menu-open">
 						<a href="#" class="nav-link <#if navbar?starts_with("TWIG_TEMPLATE_")>active</#if>">
 							<i class="nav-icon far fa-paste"></i>
@@ -187,6 +157,8 @@
               				<p>Logout</p>
             			</a>
           			</li>
+          			<#-- /Account -->
+        	        		
         		</ul>
       		</nav>
     	</div>

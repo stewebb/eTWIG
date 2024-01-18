@@ -22,7 +22,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import net.grinecraft.etwig.config.ConfigFile;
-import net.grinecraft.etwig.model.User;
+import net.grinecraft.etwig.dto.UserAccessDTO;
+import net.grinecraft.etwig.dto.UserDTO;
 import net.grinecraft.etwig.model.UserRole;
 
 @Component
@@ -55,23 +56,19 @@ public class EtwigInterceptor implements HandlerInterceptor{
 		HttpSession session = request.getSession(false);
 		if(session != null) {
 			
-			// Only proceed of session already set up
-			User user = (User) session.getAttribute("user");
-			if (user != null) {
-				
-				// Get the in-session user info.
-				LinkedHashMap<String, Object> userInfo = new LinkedHashMap<String, Object>();
-				userInfo.put("userId", user.getId());
-				userInfo.put("username", null);
-				
-				// Put user info into Interceptor
-				modelAndView.addObject("user", userInfo);
+			// Put user details into session
+			UserDTO userDTO = (UserDTO) session.getAttribute("user");
+			if (userDTO == null) {
+				throw new IllegalStateException("Cannot get user detail from session.");
 			}
+			modelAndView.addObject("user", userDTO);
 			
-			Set<UserRole> userRoles = (Set<UserRole>) session.getAttribute("role");
-			if(userRoles != null) {
-				modelAndView.addObject("role", userRoles);
+			// Put user access into session
+			UserAccessDTO userAccess = (UserAccessDTO) session.getAttribute("access");
+			if(userAccess == null) {
+				throw new IllegalStateException("Cannot get user permission detail from session.");
 			}
+			modelAndView.addObject("access", userAccess);
 		}	
 		
 		/**
