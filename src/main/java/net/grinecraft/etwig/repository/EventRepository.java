@@ -9,6 +9,7 @@
 
 package net.grinecraft.etwig.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,4 +24,5 @@ public interface EventRepository extends JpaRepository<Event, Long>{
 	 * @return
 	 */
 	public Optional<Event> findById(long id);
+
 }

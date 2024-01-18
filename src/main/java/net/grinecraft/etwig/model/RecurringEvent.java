@@ -22,7 +22,6 @@ import lombok.*;
 public class RecurringEvent {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
 	private int id;
 	

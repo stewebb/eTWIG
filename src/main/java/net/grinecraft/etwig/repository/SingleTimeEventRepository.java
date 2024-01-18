@@ -10,6 +10,7 @@
 package net.grinecraft.etwig.repository;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,4 +40,7 @@ public interface SingleTimeEventRepository extends JpaRepository<SingleTimeEvent
 	 * @return
 	 */
     public Optional<SingleTimeEvent> findById(long id);
+    
+    @Query("SELECT s FROM SingleTimeEvent s WHERE s.portfolio IN :portfolios ORDER BY s.id DESC")
+    List<SingleTimeEvent> findByMultiPortfolios(@Param("portfolios") Collection<Long> portfolios);
 }
