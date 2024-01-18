@@ -31,7 +31,6 @@ public interface AssetRepository extends JpaRepository<Asset, Long> {
 	
     public Optional<Asset> findById(long id);
     
-  @Query("SELECT new net.grinecraft.etwig.dto.AssetBasicInfoDTO(a) " +
-             "FROM Asset a JOIN a.user u")
+  @Query("SELECT new net.grinecraft.etwig.dto.AssetBasicInfoDTO(a) FROM Asset a JOIN a.user u")
     public Page<AssetBasicInfoDTO> findAllBasicInfo(Pageable pageable);
 }

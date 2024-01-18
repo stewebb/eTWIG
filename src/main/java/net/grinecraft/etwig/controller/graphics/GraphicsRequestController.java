@@ -43,8 +43,8 @@ public class GraphicsRequestController {
 		model.addAttribute("hasPending", bannerRequestService.hasPendingRequests(eventId));
 		
 		// Edit permission check
-		model.addAttribute("editPermission", eventService.eventEditPermissionCheck(event.getPortfolio()));
-
+		//model.addAttribute("editPermission", eventService.eventEditPermissionCheck(event.getPortfolio()));
+		model.addAttribute("editPermission", null);
 		
 		model.addAttribute("requestInfo",bannerRequestService.getRequestsByEvent(eventId));
 		model.addAttribute("embedded", BooleanUtils.toBoolean(embedded));

@@ -108,6 +108,8 @@ public class TwigAPIController {
 	
 	@RequestMapping("/api/private/getAssetList")  
     public Page<AssetBasicInfoDTO> getAssetList(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-        return assetService.getAssetList(page, size);
+        //return assetService.getAssetList(page, size);
+		
+		return null;
     }
 }

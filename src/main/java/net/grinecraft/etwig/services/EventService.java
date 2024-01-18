@@ -27,15 +27,10 @@ import net.grinecraft.etwig.dto.BannerRequestEventInfoDTO;
 import net.grinecraft.etwig.model.Event;
 import net.grinecraft.etwig.model.EventOption;
 import net.grinecraft.etwig.model.EventOptionKey;
-import net.grinecraft.etwig.model.Permission;
 import net.grinecraft.etwig.model.Portfolio;
-import net.grinecraft.etwig.model.RecurringEvent;
-import net.grinecraft.etwig.model.SingleTimeEvent;
 import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.repository.EventOptionRepository;
 import net.grinecraft.etwig.repository.EventRepository;
-import net.grinecraft.etwig.repository.RecurringEventRepository;
-import net.grinecraft.etwig.repository.SingleTimeEventRepository;
 import net.grinecraft.etwig.util.DataException;
 import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.ListUtils;
@@ -53,11 +48,11 @@ public class EventService {
 	@Autowired
 	private EventOptionRepository eventOptionRepository;
 	
-	@Autowired
-	private SingleTimeEventRepository singleTimeEventRepository;
+	//@Autowired
+	//private SingleTimeEventRepository singleTimeEventRepository;
 	
-	@Autowired
-	private RecurringEventRepository recurringEventRepository;
+	//@Autowired
+	//private RecurringEventRepository recurringEventRepository;
 	
 	@Autowired
 	private HttpSession session;
@@ -70,11 +65,13 @@ public class EventService {
 	
 	public BannerRequestEventInfoDTO findEventsForBannerRequestById(long eventId) throws Exception {
 		
-		Event event = (eventRepository == null) ? null :eventRepository.findById(eventId).orElse(null);
-		SingleTimeEvent singleTimeEvent = (singleTimeEventRepository == null) ? null : singleTimeEventRepository.findById(eventId).orElse(null);
-		RecurringEvent recurringEvent =  null;
+		//Event event = (eventRepository == null) ? null :eventRepository.findById(eventId).orElse(null);
+		//SingleTimeEvent singleTimeEvent = (singleTimeEventRepository == null) ? null : singleTimeEventRepository.findById(eventId).orElse(null);
+		//RecurringEvent recurringEvent =  null;
 
-		return new BannerRequestEventInfoDTO(event, singleTimeEvent, recurringEvent);
+		//return new BannerRequestEventInfoDTO(event, singleTimeEvent, recurringEvent);
+		
+		return null;
 	}
 	
 	/**
@@ -87,6 +84,8 @@ public class EventService {
 	 */
 	
 	public LinkedHashMap<String, Object> findById(long id) throws Exception {
+		
+		/*
 		LinkedHashMap<String, Object> event = new LinkedHashMap<String, Object>();
 		LinkedHashMap<String, Object> eventInfoSingleTime = getSingleTimeEventById(id);
 		LinkedHashMap<String, Object> eventInfoRecurring = getRecurringEventById(id);
@@ -113,6 +112,8 @@ public class EventService {
 			event.put("exists", false);
 		}
 		return event;
+		*/
+		return null;
 	}
 	
 	/**
@@ -125,6 +126,7 @@ public class EventService {
 	
 	public LinkedHashMap<Long, Object> findByDateRange(LocalDate givenDate, DateRange dateRange) throws Exception{
 		
+		/*
 		// Step 1: Date check
 		LocalDate last = null;
 		LocalDate next = null;
@@ -145,17 +147,20 @@ public class EventService {
 		}
 		
 		// Step 2: Check all single time events in the given date range.
-        List<SingleTimeEvent> singleTimeEventsList = singleTimeEventRepository.findByDateRange(last, next);
-        LinkedHashMap<Long, Object> allEvents = new LinkedHashMap<>();
-        for(SingleTimeEvent singleTimeEvents : singleTimeEventsList) {      	
-        	Long id = singleTimeEvents.getId();
-        	allEvents.put(id, getSingleTimeEventById(id));
-        }
+        //List<SingleTimeEvent> singleTimeEventsList = singleTimeEventRepository.findByDateRange(last, next);
+        //LinkedHashMap<Long, Object> allEvents = new LinkedHashMap<>();
+        //for(SingleTimeEvent singleTimeEvents : singleTimeEventsList) {      	
+       // 	Long id = singleTimeEvents.getId();
+       // 	allEvents.put(id, getSingleTimeEventById(id));
+       // }
         
         // Step 2: Check all recurring events in the given date range.
         // TODO
         
-        return allEvents;
+       // return allEvents;
+        * 
+        * */return null;
+        
 	}
 
 	/**
@@ -163,6 +168,8 @@ public class EventService {
 	 * @param eventInfo The event details.
 	 */
 	public void addEvent(LinkedHashMap<String, Object> eventInfo) {
+		
+		/*
 		boolean isRecurrent = BooleanUtils.toBoolean(eventInfo.get("isRecurrent").toString());
 		
 		// Insert details into the general event table.
@@ -186,6 +193,8 @@ public class EventService {
 		
 		ArrayList<Long> optionList = ListUtils.stringArrayToLongArray(ListUtils.stringToArrayList(eventInfo.get("properties").toString()));
 		updateEventOptionBulky(newEventId, optionList);
+		
+		*/
 	}
 	
 	/**
@@ -194,6 +203,8 @@ public class EventService {
 	 */
 	
 	public void editEvent(LinkedHashMap<String, Object> eventInfo) {
+		
+		/*
 		boolean isRecurrent = BooleanUtils.toBoolean(eventInfo.get("isRecurrent").toString());
 		Long eventId = Long.parseLong(eventInfo.get("eventId").toString());
 		
@@ -209,6 +220,8 @@ public class EventService {
 		
 		ArrayList<Long> optionList = ListUtils.stringArrayToLongArray(ListUtils.stringToArrayList(eventInfo.get("properties").toString()));
 		updateEventOptionBulky(eventId, optionList);
+		
+		*/
 	}
 	
 	/**
@@ -225,7 +238,10 @@ public class EventService {
 	 * @throws DataException If the violation of the data integrity is detected.
 	 */
 	
-	private LinkedHashMap<String, Object> getSingleTimeEventById(long id) throws Exception {		
+	private LinkedHashMap<String, Object> getSingleTimeEventById(long id) throws Exception {
+		return null;		
+		
+		/*
 		if(singleTimeEventRepository == null) {
 			return null;
 		}
@@ -258,6 +274,8 @@ public class EventService {
 		details.put("portfolio", this.portfolioToMap(singleTimeEvent.getEvent().getPortfolio()));
 		details.put("user", this.userInfo(singleTimeEvent.getEvent().getUser()));
 		return details;
+		
+		*/
 	}
 	
 	/**
@@ -280,6 +298,8 @@ public class EventService {
 	 */
 	
 	private void updateSingleTimeEvent(Long eventId, LinkedHashMap<String, Object> eventInfo) {
+		
+		/*
 		SingleTimeEvent newSingleTimeEvent = new SingleTimeEvent();
 		
 		newSingleTimeEvent.setId(eventId);
@@ -295,6 +315,8 @@ public class EventService {
 		newSingleTimeEvent.setUnit(eventInfo.get("timeUnit").toString());
 		
 		singleTimeEventRepository.save(newSingleTimeEvent);
+		
+		*/
 	}
 	
 	/**
@@ -306,6 +328,8 @@ public class EventService {
 	@Transactional
 	private void updateEventOptionBulky(Long eventId, List<Long> optionIds) {
 		
+		/*
+		
 		// Remove all existing options associations for the event.
         List<EventOption> existingEventOptions = eventOptionRepository.findByIdEventId(eventId);
         eventOptionRepository.deleteAll(existingEventOptions);
@@ -315,6 +339,8 @@ public class EventService {
             .map(optionId -> new EventOption(new EventOptionKey(eventId, optionId)))
             .collect(Collectors.toList());
         eventOptionRepository.saveAll(newEventOptions);
+        
+        */
     }
 	
 	/**
@@ -328,8 +354,9 @@ public class EventService {
 	 * @throws DataException When data integrity has been violated.
 	 */
 	
-	private void dataIntegrityCheck(SingleTimeEvent singleTimeEvent) throws DataException {
+	//private void dataIntegrityCheck(SingleTimeEvent singleTimeEvent) throws DataException {
 		
+		/**
 		Event event = singleTimeEvent.getEvent();
 		if(event == null) {
 			throw new DataException("The event id=" + singleTimeEvent.getId() + " exists in event_single_time table but doesn't exist in event table.");
@@ -342,7 +369,8 @@ public class EventService {
 		if(event.getUser() == null) {
 			throw new DataException("The organizer of event id=" + singleTimeEvent.getId() + " doesn't exist. PLease check the user table.");
 		}
-	}
+		*/
+	//}
 	
 	/**
 	 * Convert portfolio object to a LinkedHashMap
@@ -352,6 +380,8 @@ public class EventService {
 	 */
 	
 	private LinkedHashMap<String, Object> portfolioToMap(Portfolio portfolio) throws Exception{
+		
+		/*
 		LinkedHashMap<String, Object> portfolioInfo = new LinkedHashMap<String, Object>();
 		
 		for (Field field : portfolio.getClass().getDeclaredFields()) {
@@ -360,6 +390,10 @@ public class EventService {
         }
 
         return portfolioInfo;		
+        
+        */
+		
+		return null;
 	}
 	
 	/**
@@ -387,6 +421,7 @@ public class EventService {
 	
 	public boolean eventEditPermissionCheck(LinkedHashMap<String, Object> event) throws Exception {
 		
+		/*
 		// Get user permission
 		Permission permission = (Permission) session.getAttribute("permission");
 		UserPermission userPermission = UserPermission.fromString(permission.getName());
@@ -415,10 +450,14 @@ public class EventService {
 		else {
 			return false;
 		}
+		
+		*/
+		return false;
 	}
 	
 		public boolean eventEditPermissionCheck(Portfolio portfolio) throws Exception {
 		
+			/*
 		// Get user permission
 		Permission permission = (Permission) session.getAttribute("permission");
 		UserPermission userPermission = UserPermission.fromString(permission.getName());
@@ -447,6 +486,10 @@ public class EventService {
 		else {
 			return false;
 		}
+		
+		*/
+			
+			return false;
 	}
 
 }

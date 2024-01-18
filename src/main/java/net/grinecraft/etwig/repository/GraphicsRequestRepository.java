@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import net.grinecraft.etwig.model.GraphicsRequest;
 
 
-public interface BannerRequestRepository extends JpaRepository <GraphicsRequest, Long>  {
+public interface GraphicsRequestRepository extends JpaRepository <GraphicsRequest, Long>  {
 
 	long countByEventId(long eventId);
 	

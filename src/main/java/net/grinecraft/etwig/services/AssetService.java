@@ -59,14 +59,14 @@ public class AssetService {
 	 * @return The asset object with that Id, or null if no asset with that id.
 	 */
 	
-	public Asset getAssetDetailsById(long id) {
-		if(assetRepository == null) {
-			return null;
-		}
+	// public Asset getAssetDetailsById(long id) {
+	// 	if(assetRepository == null) {
+	// 		return null;
+	// 	}
 		
-		Optional<Asset> assetOpt = assetRepository.findById(id);
-		return assetOpt.isPresent() ? assetOpt.get() : null;
-	}
+	// 	Optional<Asset> assetOpt = assetRepository.findById(id);
+	// 	return assetOpt.isPresent() ? assetOpt.get() : null;
+	// }
 	
 	
 	/**
@@ -76,50 +76,50 @@ public class AssetService {
 	 * @throws Exception
 	 */
 	
-	public Resource getAssetContent(Asset asset) throws Exception {
+	//public Resource getAssetContent(Asset asset) throws Exception {
 		
 		// Get file info and check existence.
 		//Asset asset = this.getAssetDetailsById(id);
-		if(asset == null) {
-			return null;
-		}
+	//	if(asset == null) {
+	//		return null;
+	//	}
 		
 		// Retrieve the file from the file system
-		Path file = rootLocation.resolve(asset.getStoredName());
-		return new UrlResource(file.toUri());		
-	}
+	//	Path file = rootLocation.resolve(asset.getStoredName());
+	//	return new UrlResource(file.toUri());		
+	//}
 	
-	public Page<AssetBasicInfoDTO> getAssetList(int page, int size) {
-		Pageable pageable = PageRequest.of(page, size);
-		return assetRepository.findAllBasicInfo(pageable);
-	}
+	//public Page<AssetBasicInfoDTO> getAssetList(int page, int size) {
+	//	Pageable pageable = PageRequest.of(page, size);
+	//	return assetRepository.findAllBasicInfo(pageable);
+	//}
 	
-	public void uploadFile(MultipartFile file) throws IOException {
-		Asset newAsset = new Asset();
-		
+	//public void uploadFile(MultipartFile file) throws IOException {
+	//	Asset newAsset = new Asset();
+	//	
 		// The original filename
-		String fileName = file.getOriginalFilename();
-		newAsset.setOriginalName(fileName);
+	//	String fileName = file.getOriginalFilename();
+	//	newAsset.setOriginalName(fileName);
 		
 		// Rename the file as <UUID>.<EXTENSION>
-        String extension = FilenameUtils.getExtension(fileName);
-        String storedFileName = UUID.randomUUID().toString() + "." + extension;
-        newAsset.setStoredName(storedFileName);
+    //    String extension = FilenameUtils.getExtension(fileName);
+    //    String storedFileName = UUID.randomUUID().toString() + "." + extension;
+    //    newAsset.setStoredName(storedFileName);
         
         // Other file attributes.
-        newAsset.setFileSize(file.getSize());
-        newAsset.setLastModified(LocalDateTime.now());
+    //    newAsset.setFileSize(file.getSize());
+    //    newAsset.setLastModified(LocalDateTime.now());
         
         // The related user info
-        User user = (User) session.getAttribute("user");
-        newAsset.setEditor(user.getId());
+     //   User user = (User) session.getAttribute("user");
+     //   newAsset.setEditor(user.getId());
         
         // Copy file to the file system before insert the data.
-        File destFile = new File(this.rootLocation + File.separator + storedFileName);
-        FileUtils.copyInputStreamToFile(file.getInputStream(), destFile);
+	// File destFile = new File(this.rootLocation + File.separator + storedFileName);
+	// FileUtils.copyInputStreamToFile(file.getInputStream(), destFile);
         
-        assetRepository.save(newAsset);
-	}
+	//  assetRepository.save(newAsset);
+	// }
 	
 
 }

@@ -15,10 +15,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import net.grinecraft.etwig.model.UserRole;
-import net.grinecraft.etwig.model.UserRoleKey;
 
 @Repository
-public interface UserRoleRepository extends JpaRepository<UserRole, UserRoleKey> {
+public interface UserRoleRepository extends JpaRepository<UserRole, Long> {
 	
 	/**
 	 * Find all portfolios of a user.
@@ -26,7 +25,7 @@ public interface UserRoleRepository extends JpaRepository<UserRole, UserRoleKey>
 	 * @return
 	 */
 	
-    List<UserRole> findByIdUserId(Long userId);
+    List<UserRole> findByUser(Long userId);
     
     /**
      * Find all users who are in the same given portfolio.
@@ -34,5 +33,5 @@ public interface UserRoleRepository extends JpaRepository<UserRole, UserRoleKey>
      * @return
      */
     
-    List<UserRole> findByIdPortfolioId(Long portfolioId);
+    List<UserRole> findByPortfolio(Long portfolioId);
 }

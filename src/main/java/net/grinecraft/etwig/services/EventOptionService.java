@@ -66,7 +66,7 @@ public class EventOptionService {
             if(option != null) {
             	
             	// For each event, get all options.
-                Long propertyId = option.getPropertyId();
+                Long propertyId = null;//option.getPropertyId();
                 
                 // For an event, each property must has 0-1 option(s). i.e., each option must has 1 property.
                 // If there has multiple properties for a single option, there must has some problems.

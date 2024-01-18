@@ -6,16 +6,14 @@ import lombok.Getter;
 import lombok.ToString;
 import net.grinecraft.etwig.model.Event;
 import net.grinecraft.etwig.model.Portfolio;
-import net.grinecraft.etwig.model.RecurringEvent;
-import net.grinecraft.etwig.model.SingleTimeEvent;
 import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.util.DataException;
-import net.grinecraft.etwig.util.NameUtils;
 
 @Getter
 @ToString
 public class BannerRequestEventInfoDTO {
 
+	/*
 	private long id;
 	
 	private boolean recurrent;
@@ -65,4 +63,6 @@ public class BannerRequestEventInfoDTO {
 			this.startTime = singleTimeEvent.getStartDateTime();
 		}
 	}
+	
+	*/
 }

@@ -20,10 +20,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import net.grinecraft.etwig.config.ConfigFile;
-import net.grinecraft.etwig.model.Permission;
 import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.model.User;
-import net.grinecraft.etwig.util.NameUtils;
 
 @Component
 public class EtwigInterceptor implements HandlerInterceptor{
@@ -61,13 +59,14 @@ public class EtwigInterceptor implements HandlerInterceptor{
 				// Get the in-session user info.
 				LinkedHashMap<String, Object> userInfo = new LinkedHashMap<String, Object>();
 				userInfo.put("userId", user.getId());
-				userInfo.put("username", NameUtils.nameMerger(user.getFirstName(), user.getMiddleName(), user.getLastName()));
+				userInfo.put("username", null);
 				
 				// Put user info into Interceptor
 				modelAndView.addObject("user", userInfo);
 			}
 			
-			Permission permission = (Permission) session.getAttribute("permission");
+			//Permission permission = (Permission) session.getAttribute("permission");
+			Object permission = null;
 			if(permission != null) {
 				//System.out.println(permission);
 				modelAndView.addObject("permission", permission);

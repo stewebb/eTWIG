@@ -8,7 +8,6 @@ import lombok.ToString;
 import net.grinecraft.etwig.model.GraphicsRequest;
 import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.util.DateUtils;
-import net.grinecraft.etwig.util.NameUtils;
 
 @Getter
 @ToString
@@ -40,6 +39,7 @@ public class BannerRequestDTO {
 	
 	public BannerRequestDTO(GraphicsRequest bannerRequest) {
 		
+		/*
 		this.id = bannerRequest.getId();
 		
 		this.expectDate = bannerRequest.getExpectDate();
@@ -72,5 +72,7 @@ public class BannerRequestDTO {
 			this.responseTime = bannerRequest.getResponseTime();
 			this.responseTimeStr = DateUtils.timeAgo(responseTime);
 		}
+		
+		*/
 	}
 }

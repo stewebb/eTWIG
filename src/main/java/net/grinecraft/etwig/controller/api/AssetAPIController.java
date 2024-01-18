@@ -39,13 +39,15 @@ public class AssetAPIController {
 		} 
 		
 		// Copy file and add related info
-		assetService.uploadFile(file);
-		return WebReturn.errorMsg("", true);
+		//assetService.uploadFile(file);
+		//return WebReturn.errorMsg("", true);
+		
+		return null;
     }
 	
 	@GetMapping("/getImageInfo")
     public Map<String, Object> getImageInfo(@RequestParam Long assetId) throws Exception {
-		
+		/*
 		// Asset information check.
 		Asset asset = assetService.getAssetDetailsById(assetId);
 		if(asset == null) {
@@ -76,5 +78,7 @@ public class AssetAPIController {
 		Map<String, Object> myReturn = WebReturn.errorMsg(null, true);
 		myReturn.put("imageInfo", imageInfo);
 		return myReturn;
+		
+		*/return null;
     }
 }

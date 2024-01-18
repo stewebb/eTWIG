@@ -24,7 +24,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import net.grinecraft.etwig.handler.CustomAuthenticationEntryPoint;
 import net.grinecraft.etwig.handler.LoginSuccessHandler;
 import net.grinecraft.etwig.services.RememberMeService;
-import net.grinecraft.etwig.services.UserAuthService;
+import net.grinecraft.etwig.services.UserRoleService;
 
 @SuppressWarnings("deprecation")
 @Configuration
@@ -34,7 +34,7 @@ import net.grinecraft.etwig.services.UserAuthService;
 public class WebSecurityConfig{
 
 	@Autowired
-    private UserAuthService userAuthService;
+    private UserRoleService userRoleService;
 	
 	@Autowired
 	private LoginSuccessHandler loginSuccessHandler;
@@ -107,7 +107,7 @@ public class WebSecurityConfig{
 	
     @Autowired
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    	auth.userDetailsService(userAuthService).passwordEncoder(passwordEncoder());
+    	auth.userDetailsService(userRoleService).passwordEncoder(passwordEncoder());
     }
 
    /**

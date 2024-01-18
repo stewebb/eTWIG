@@ -6,11 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import jakarta.servlet.http.HttpSession;
-import net.grinecraft.etwig.model.Permission;
 import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.model.User;
-import net.grinecraft.etwig.model.UserAuth;
-import net.grinecraft.etwig.repository.UserAuthRepository;
 import net.grinecraft.etwig.repository.UserRepository;
 import net.grinecraft.etwig.services.UserRoleService;
 
@@ -23,8 +20,8 @@ public class UserSession {
 	@Autowired
 	private UserRepository userRepository;
 	
-	@Autowired
-	private UserAuthRepository userAuthRepository;
+	//@Autowired
+	//private UserAuthRepository userAuthRepository;
 	
 	@Autowired
 	private UserRoleService userRoleService;
@@ -38,20 +35,20 @@ public class UserSession {
 		}
 		
 		User user = userRepository.findByEmail(this.email);
-		UserAuth userAuth = userAuthRepository.findByEmail(this.email);
+		//UserAuth userAuth = userAuthRepository.findByEmail(this.email);
 		
-		if(user == null || userAuth == null) {
-			throw new IllegalStateException("User authentication successfully, but the information cannot be found in the database.");
-		 }
+		//if(user == null || userAuth == null) {
+		//	throw new IllegalStateException("User authentication successfully, but the information cannot be found in the database.");
+		// }
 		
 		// Get user permission from DB.
-		Permission permission = userAuth.getPermission();
+		//Permission permission = userAuth.getPermission();
 		//System.out.println(permission);
 		
 		// Get user portfolio from DB.
 		LinkedHashMap<Long, Portfolio> myPortfolios = userRoleService.getPortfoliosByUserId(user.getId());
 		session.setAttribute("user", user);
-		session.setAttribute("permission", permission);
+		session.setAttribute("permission", null);
 		session.setAttribute("portfolio", myPortfolios);
 	}
 	
