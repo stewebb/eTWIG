@@ -18,13 +18,15 @@ import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpSession;
 import net.grinecraft.etwig.dto.BannerRequestEventInfoDTO;
+import net.grinecraft.etwig.dto.EventBasicInfoDTO;
 import net.grinecraft.etwig.dto.EventDetailsDTO;
 import net.grinecraft.etwig.model.Event;
 import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.repository.EventOptionRepository;
 import net.grinecraft.etwig.repository.EventRepository;
-import net.grinecraft.etwig.util.DataException;
+import net.grinecraft.etwig.util.DateUtils;
+import net.grinecraft.etwig.util.exception.DataException;
 import net.grinecraft.etwig.util.type.DateRange;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -79,42 +81,25 @@ public class EventService {
 	 * @throws Exception 
 	 */
 	
-	public LinkedHashMap<Long, Object> findByDateRange(LocalDate givenDate, DateRange dateRange) throws Exception{
+	public LinkedHashMap<Long, EventBasicInfoDTO> getMonthlyBasicInfoListByDateRange(LocalDate givenDate) throws Exception{
 		
-		/*
-		// Step 1: Date check
-		LocalDate last = null;
-		LocalDate next = null;
-		
-		if(dateRange == DateRange.MONTH) {
-			last = DateUtils.findFirstDayOfThisMonth(givenDate);
-			next = DateUtils.findFirstDayOfNextMonth(givenDate);
-		}
-		
-		else if(dateRange == DateRange.WEEK) {
-			last = DateUtils.findThisMonday(givenDate);
-			next = DateUtils.findNextMonday(givenDate);
-		}
-		
-		else {
-			last = givenDate;
-			next = DateUtils.findTomorrow(givenDate);
-		}
-		
+		// Step 1: Get the date boundary
+		LocalDate last = DateUtils.findFirstDayOfThisMonth(givenDate);
+		LocalDate next = DateUtils.findFirstDayOfNextMonth(givenDate);
+        LinkedHashMap<Long, EventBasicInfoDTO> allEvents = new LinkedHashMap<>();
+
 		// Step 2: Check all single time events in the given date range.
-        //List<SingleTimeEvent> singleTimeEventsList = singleTimeEventRepository.findByDateRange(last, next);
-        //LinkedHashMap<Long, Object> allEvents = new LinkedHashMap<>();
-        //for(SingleTimeEvent singleTimeEvents : singleTimeEventsList) {      	
-       // 	Long id = singleTimeEvents.getId();
-       // 	allEvents.put(id, getSingleTimeEventById(id));
-       // }
-        
-        // Step 2: Check all recurring events in the given date range.
+		List<Event> singleTimeEventsList = eventRepository.findByDateRange(last, next);
+        for(Event event : singleTimeEventsList) {      	
+        	Long id = event.getId();
+        	allEvents.put(id, new EventBasicInfoDTO(event));
+        }
+		
+        // Step 3: Check all recurring events in the given date range.
         // TODO
         
-       // return allEvents;
-        * 
-        * */return null;
+       
+        return allEvents;
         
 	}
 

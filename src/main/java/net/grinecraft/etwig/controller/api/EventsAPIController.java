@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpSession;
+import net.grinecraft.etwig.dto.EventBasicInfoDTO;
 import net.grinecraft.etwig.dto.EventDetailsDTO;
 import net.grinecraft.etwig.services.EventService;
 import net.grinecraft.etwig.util.DateUtils;
@@ -43,29 +44,10 @@ public class EventsAPIController {
 	 * @authentication True
 	 */
 	
-	@RequestMapping("/api/private/getEventList")  
-	public Map<String, Object> getEventList(@RequestParam String date, @RequestParam String range) throws Exception{
-		
-		// Check the date is well-formed of not.
-		LocalDate givenDate = DateUtils.safeParseDate(date, "yyyy-MM-dd");
-		if(givenDate == null) {
-			return WebReturn.errorMsg("date is invalid. It must be yyyy-mm-dd.", false);
-		}
-		
-		// Get the event list
-		Map<String, Object> myReturn = WebReturn.errorMsg(null, true);
-	    myReturn.put("events", eventService.findByDateRange(givenDate, DateRange.safeValueOf(range)));
-		return myReturn;
+	@RequestMapping("/api/private/getMonthlyEventList")  
+	public LinkedHashMap<Long, EventBasicInfoDTO> getMonthlyEventList(@RequestParam String date, @RequestParam String range) throws Exception{
+		return eventService.getMonthlyBasicInfoListByDateRange(DateUtils.safeParseDate(date, "yyyy-MM-dd"));
 	}
-	
-	/**
-	 * Get the event information by a specific given id.
-	 * @param eventId The ID of the event
-	 * @param showAllDetails
-	 * @return
-	 * @throws Exception
-	 * @authentication True
-	 */
 	
 	/**
 	 * Get the event information by a specific given id.

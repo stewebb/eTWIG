@@ -7,7 +7,7 @@
 	* @function: An exception when data integrity has been violated. 
 	*/
 
-package net.grinecraft.etwig.util;
+package net.grinecraft.etwig.util.exception;
 
 public class DataException extends java.lang.Exception {
 

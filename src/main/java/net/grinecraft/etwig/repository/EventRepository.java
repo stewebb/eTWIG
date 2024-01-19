@@ -27,9 +27,11 @@ public interface EventRepository extends JpaRepository<Event, Long>{
 	 * @param id
 	 * @return
 	 */
+	
 	public Optional<Event> findById(long id);
 
-	@Query(value = "SELECT * FROM etwig_event e WHERE e.recurrment = false AND e.start_datetime >= :dts and e.start_datetime <= :dte", nativeQuery = true)
+	
+	@Query(value = "SELECT * FROM etwig_event e WHERE e.recurring = false AND e.start_time >= :dts and e.start_time <= :dte", nativeQuery = true)
 	public List<Event> findByDateRange(@Param("dts") LocalDate startDateTime, @Param("dte") LocalDate endDateTime);
     
     //@Query("SELECT s FROM SingleTimeEvent s WHERE s.portfolio IN :portfolios ORDER BY s.id DESC")

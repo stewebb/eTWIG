@@ -13,6 +13,7 @@ import java.time.*;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 
+import net.grinecraft.etwig.util.exception.InvalidDateFormatException;
 import net.grinecraft.etwig.util.type.EventTimeUnit;
 
 /**
@@ -33,7 +34,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 			Date date = DateUtils.parseDate(dateStr, patternStr);
 			return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		} catch (Exception e) {
-			return null;
+	        throw new InvalidDateFormatException("Invalid date format: " + dateStr + ", which is not fit in the pattern:" + patternStr);
 		}
 	}
 	

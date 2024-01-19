@@ -18,7 +18,7 @@ import net.grinecraft.etwig.model.EventOption;
 import net.grinecraft.etwig.model.Option;
 import net.grinecraft.etwig.repository.EventOptionRepository;
 import net.grinecraft.etwig.repository.OptionRepository;
-import net.grinecraft.etwig.util.DataException;
+import net.grinecraft.etwig.util.exception.DataException;
 
 @Service
 public class EventOptionService {

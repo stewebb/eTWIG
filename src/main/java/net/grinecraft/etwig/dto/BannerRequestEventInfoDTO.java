@@ -7,7 +7,7 @@ import lombok.ToString;
 import net.grinecraft.etwig.model.Event;
 import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.model.User;
-import net.grinecraft.etwig.util.DataException;
+import net.grinecraft.etwig.util.exception.DataException;
 
 @Getter
 @ToString
