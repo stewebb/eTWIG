@@ -39,7 +39,7 @@ public class BannerRequestAPIController {
     public Map<String, Object> requestGraphic(@RequestBody Map<String, Object> requestInfo) throws Exception {
 		
 		// Check permission again!
-		LinkedHashMap<String, Object> event = eventService.findById(Long.parseLong(requestInfo.get("eventId").toString()));
+		LinkedHashMap<String, Object> event = eventService.findById(Long.parseLong(requestInfo.get("eventId").toString()), false);
 		if(!eventService.eventEditPermissionCheck(event)) {
 			return WebReturn.errorMsg("You don't have permission to make this request.", false);
 		} 

@@ -78,7 +78,7 @@ public class EditController {
 		}
 			
 		// Check eventId can be founded in database or not
-		LinkedHashMap<String, Object> event = eventService.findById(id);
+		LinkedHashMap<String, Object> event = eventService.findById(id, false);
 		if(Boolean.TRUE.equals(event.get("exists"))) {
 			model.addAttribute("eventId", id);
 			model.addAttribute("eventDetails", event);

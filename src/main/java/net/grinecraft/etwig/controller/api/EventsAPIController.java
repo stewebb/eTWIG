@@ -74,8 +74,10 @@ public class EventsAPIController {
 			return WebReturn.errorMsg("eventId is invalid. It must be an Integer.", false);
 		} 
 			
+		eventService.findById(eventIdNum, false);
+		
 		Map<String, Object> myReturn = WebReturn.errorMsg(null, true);
-	    myReturn.putAll(eventService.findById(eventIdNum));
+	   // myReturn.putAll(eventService.findById(eventIdNum));
 		
 		return myReturn;
 	}
@@ -106,7 +108,7 @@ public class EventsAPIController {
     public Map<String, Object> editEvent(HttpSession session, @RequestBody Map<String, Object> eventInfo) throws Exception {
 				
 		// Check the permission again in the backend.
-		LinkedHashMap<String, Object> event = eventService.findById(Long.parseLong(eventInfo.get("eventId").toString()));
+		LinkedHashMap<String, Object> event = eventService.findById(Long.parseLong(eventInfo.get("eventId").toString()), false);
 		if(!eventService.eventEditPermissionCheck(event)) {
 			return WebReturn.errorMsg("You don't have permission to edit this event.", false);
 		} 

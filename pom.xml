@@ -114,6 +114,12 @@
     		<version>2.6</version>
 		</dependency>
 		
+		<dependency>
+    		<groupId>org.mnode.ical4j</groupId>
+    		<artifactId>ical4j</artifactId>
+   			<version>4.0.0-rc3</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

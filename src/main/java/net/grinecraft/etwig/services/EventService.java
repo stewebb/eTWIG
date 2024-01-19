@@ -9,34 +9,22 @@
 
 package net.grinecraft.etwig.services;
 
-import java.lang.reflect.Field;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import net.grinecraft.etwig.util.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpSession;
 import net.grinecraft.etwig.dto.BannerRequestEventInfoDTO;
 import net.grinecraft.etwig.model.Event;
-import net.grinecraft.etwig.model.EventOption;
-import net.grinecraft.etwig.model.EventOptionKey;
 import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.repository.EventOptionRepository;
 import net.grinecraft.etwig.repository.EventRepository;
 import net.grinecraft.etwig.util.DataException;
-import net.grinecraft.etwig.util.DateUtils;
-import net.grinecraft.etwig.util.ListUtils;
 import net.grinecraft.etwig.util.type.DateRange;
-import net.grinecraft.etwig.util.type.UserPermission;
-
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -83,7 +71,17 @@ public class EventService {
 	 * @throws DataException when event is both both recurring and single time.
 	 */
 	
-	public LinkedHashMap<String, Object> findById(long id) throws Exception {
+	public LinkedHashMap<String, Object> findById(long id, boolean basicOnly) throws Exception {
+		
+		Optional<Event> eventOpt = eventRepository.findById(id);
+		if (!eventOpt.isPresent()){
+			return null;
+		}
+		
+		Event event = eventOpt.get();
+		System.out.println(event);
+		
+		
 		
 		/*
 		LinkedHashMap<String, Object> event = new LinkedHashMap<String, Object>();
