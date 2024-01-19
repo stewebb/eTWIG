@@ -14,7 +14,7 @@
 	<packaging>jar</packaging>
 	<name>etwig</name>
 	<description>
-		eTWIG - The event management software for university communities.
+		eTWIG - The event management software for Griffin Hall.
 	</description>
 	<properties>
 		<java.version>17</java.version>
@@ -115,9 +115,9 @@
 		</dependency>
 		
 		<dependency>
-    		<groupId>org.mnode.ical4j</groupId>
-    		<artifactId>ical4j</artifactId>
-   			<version>4.0.0-rc3</version>
+    		<groupId>org.dmfs</groupId>
+    		<artifactId>lib-recur</artifactId>
+    		<version>0.15.0</version>
 		</dependency>
 
 	</dependencies>

@@ -10,9 +10,12 @@
 package net.grinecraft.etwig.services;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +29,7 @@ import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.repository.EventOptionRepository;
 import net.grinecraft.etwig.repository.EventRepository;
 import net.grinecraft.etwig.util.DateUtils;
+import net.grinecraft.etwig.util.RecurringEventUtils;
 import net.grinecraft.etwig.util.exception.DataException;
 import net.grinecraft.etwig.util.type.DateRange;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,21 +87,39 @@ public class EventService {
 	
 	public LinkedHashMap<Long, EventBasicInfoDTO> getMonthlyBasicInfoListByDateRange(LocalDate givenDate) throws Exception{
 		
-		// Step 1: Get the date boundary
+		// Get the date boundary
 		LocalDate last = DateUtils.findFirstDayOfThisMonth(givenDate);
 		LocalDate next = DateUtils.findFirstDayOfNextMonth(givenDate);
         LinkedHashMap<Long, EventBasicInfoDTO> allEvents = new LinkedHashMap<>();
 
-		// Step 2: Check all single time events in the given date range.
-		List<Event> singleTimeEventsList = eventRepository.findByDateRange(last, next);
-        for(Event event : singleTimeEventsList) {      	
-        	Long id = event.getId();
-        	allEvents.put(id, new EventBasicInfoDTO(event));
+		// Get all single time events in the given date range.
+		List<Event> singleTimeEventList = eventRepository.findSingleTimeEventByDateRange(last, next);
+        for(Event event : singleTimeEventList) {     
+        	EventBasicInfoDTO eventBasicInfo = new EventBasicInfoDTO(event);
+        	eventBasicInfo.setStartTime(event.getStartTime());
+        	allEvents.put(event.getId(), eventBasicInfo);
         }
-		
-        // Step 3: Check all recurring events in the given date range.
-        // TODO
-        
+        	
+        // Get all recurring time events in the given date range.
+        List<Event> recurringEventList = eventRepository.findByRecurringTrue();
+        for(Event event : recurringEventList) {      	
+        	
+        	// Calculate recurring dates and skip the events with no occurrence.
+        	RecurringEventUtils recurringEventUtils = new RecurringEventUtils(event.getRRule(), last, next, event.getStartTime());
+        	Set<LocalDateTime> recurringDates = recurringEventUtils.calculateRecurringDates();
+        	if(recurringDates.isEmpty()) {
+        		continue;
+        	}
+        	
+        	// Add details to DTO
+        	EventBasicInfoDTO eventBasicInfo = new EventBasicInfoDTO(event);
+        	eventBasicInfo.setStartTime(recurringDates);
+        	allEvents.put(event.getId(), eventBasicInfo);
+        	
+            //Set<LocalDateTime> recurringDates = recurringEventUtils.ca
+            // recurringDates.forEach(date -> System.out.println("Event on: " + date));
+             
+        }
        
         return allEvents;
         
