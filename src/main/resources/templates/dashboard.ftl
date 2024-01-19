@@ -27,7 +27,7 @@
 		<#include "./_includes/navbar.ftl">
 
 		<div class="content-wrapper">
-			123
+			
 
 
 

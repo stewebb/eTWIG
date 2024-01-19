@@ -1,7 +1,7 @@
         
         <#-- Nav -->
-        <nav class="main-header navbar navbar-expand-md navbar-light navbar-white no-padding mt-2">
-            <div class="container">
+        <nav class="main-header navbar navbar-expand-md navbar-light navbar-white no-padding">
+            <div class="container-fluid">
             
             	<#-- Logo -->
 				<a href="/" class="navbar-brand">
@@ -19,7 +19,7 @@
 					<ul class="navbar-nav">
 					
 						<#-- Dashboard -->
-						<li class="nav-item" <#if navbar=="DASHBOARD">active</#if>>
+						<li class="nav-item <#if navbar=="DASHBOARD">active</#if>">
 							<a href="/" class="nav-link navbar-border">
 								<i class="fa-solid fa-gauge-high"></i>&nbsp;Dashboard
 							</a>
@@ -35,7 +35,7 @@
 						<#-- /TWIG -->
 						
 						<#-- Events -->
-						<li class="nav-item" <#if navbar=="CALENDAR">active</#if>>
+						<li class="nav-item <#if navbar=="CALENDAR">active</#if>">
 							<a href="/events/calendar" class="nav-link navbar-border">
 								<i class="fa-solid fa-calendar-check"></i>&nbsp;Events
 							</a>
@@ -73,9 +73,9 @@
 								</ul>
 							</li>
 						</#if>
-					<#-- /Graphics -->
+					    <#-- /Graphics -->
 					
-					<#-- Admin -->
+					    <#-- Admin -->
           				<#if access.adminAccess || true>
 							<li class="nav-item dropdown">
 							
@@ -90,10 +90,10 @@
 								</ul>
 							</li>
 						</#if>
-					<#-- /Admin -->
-					
-					
-				</ul>
+					    <#-- /Admin -->
+
+				    </ul>
+                </div>
 			</div>
 			<#-- /Navbar left-->
 			
@@ -130,7 +130,7 @@
                 	
                 	<#-- User icon -->
                 	<a class="nav-link navbar-border" data-toggle="dropdown" href="#">
-                   		<i class="fa-solid fa-user"></i>&nbsp;Account
+                   		<i class="fa-solid fa-user"></i>
                 	</a>
                 	<#-- /User icon -->
                 	

@@ -35,6 +35,12 @@
 }
 */
 
+.navbar .nav-item.active, .navbar .nav-item.active .nav-link {
+    background-color: #004AAD;
+    color: #fff; 
+    font-weight: bold;
+}
+
 /* A helper style to get a bold text. */
 .bold-text{
 	font-weight: bold;
