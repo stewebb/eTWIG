@@ -50,7 +50,7 @@
 			</section>
 			<#-- /Page header -->
 			
-			<#-- Options and Calendar -->
+			<#-- Functions -->
 			<section class="content">
 				<div class="container-fluid">
 					<div class="row col-12">
@@ -59,6 +59,7 @@
 						<div class="col-md-3">
 							<div class="sticky-top mb-3">
 
+								<#-- Options -->
 								<div class="card card-primary card-outline">
 									<div class="card-header">
 										<h3 class="card-title">
@@ -69,14 +70,14 @@
 										
 										<#-- Date Options -->
 										<div class="mb-3 btn-group w-100">
-											<button type="button" class="btn btn-outline-primary" onclick="currentDate=currentDate.last().month();changeCalendar();">
-												<i class="fa-solid fa-backward"></i>&nbsp;Last
+											<button type="button" class="btn btn-outline-secondary" onclick="currentDate=currentDate.last().month();changeCalendar();">
+												<i class="fa-solid fa-backward"></i>&nbsp;Last Month
 											</button>
-											<button type="button" class="btn btn-outline-primary" onclick="currentDate=Date.today();changeCalendar();">
+											<button type="button" class="btn btn-outline-secondary" onclick="currentDate=Date.today();changeCalendar();">
 												<i class="fa-solid fa-rotate"></i>&nbsp;Reset
 											</button>
-											<button type="button" class="btn btn-outline-primary" onclick="currentDate=currentDate.next().month();changeCalendar();">
-												<i class="fa-solid fa-forward"></i>&nbsp;Next
+											<button type="button" class="btn btn-outline-secondary" onclick="currentDate=currentDate.next().month();changeCalendar();">
+												<i class="fa-solid fa-forward"></i>&nbsp;Next Month
 											</button>
 										</div>
 										
@@ -96,14 +97,92 @@
 										<hr class="mt-3 mb-3"/>
 										
 										<#if true>
-											<button type="button" class="btn btn-block btn-outline-primary mb-3" onclick="addEventBtn();">
-												<i class="fa-solid fa-add"></i>&nbsp;Add Event
+											<button type="button" class="btn btn-block btn-outline-primary" onclick="addEventBtn();">
+												<i class="fa-solid fa-add"></i>&nbsp;New Event
 											</button>	
 										</#if>
 										<#-- /Event Options-->
 										
 									</div>
 								</div>
+								<#-- /Options -->
+
+								<#-- Filter -->
+								<div class="card card-primary card-outline">
+									<div class="card-header">
+										<h3 class="card-title">
+											<i class="fa-solid fa-filter"></i>&nbsp;Filter
+										</h3>
+									</div>
+									<div class="card-body">
+
+										<#-- Portfolio -->
+										<div class="form-group row">
+											<label for="eventPortfolio" class="col-xl-4 col-form-label">Portfolio</label>
+											<div class="col-xl-8 input-group">
+									
+													<div class="input-group-prepend">
+														<span class="input-group-text">
+															<i class="fa-solid fa-briefcase"></i>
+														</span>
+													</div>
+									
+													<select class="form-control select2" name="eventPortfolio" id="eventPortfolio">
+      										
+        												<optgroup label="My Portfolio(s)">
+        									
+        									
+        												<#if portfolio?has_content>
+        													<#list portfolio as portfolio_id, portfolio_info>
+																<option data-color="#${portfolio_info.color}" data-icon="<#if portfolio_info.icon?has_content>${portfolio_info.icon}</#if>" value="${portfolio_id}">
+																	${portfolio_info.name}
+																</option>
+															</#list>
+        												</#if>
+        									
+      												</select>
+											</div>
+										</div>
+										<#-- /Portfolio -->
+
+										<#-- Recurrence-->
+										<div class="form-group row">
+											<label for="eventRecurrence" class="col-xl-4 col-form-label">Recurrence</label>
+											<div class="col-sm-8">
+												<div class="form-group clearfix">
+										
+													<#-- All-->
+													<div class="icheck-primary">
+														<input type="radio" id="allEvents" name="eventRecurrence" checked value="0">
+														<label for="allEvents">All events</label>
+													</div>
+													<#-- /All-->
+											
+													<#-- Single time-->
+													<div class="icheck-primary">
+														<input type="radio" id="singleTime" name="eventRecurrence" value="-1" >
+														<label for="singleTime">Single Time</label>
+													</div>
+													<#-- /Single time-->
+
+													<#-- Recurring-->
+													<div class="icheck-primary">
+														<input type="radio" id="recurring" name="eventRecurrence" value="1" >
+														<label for="recurring">Recurring</label>
+													</div>
+													<#-- /Recurring-->
+
+												</div>
+											</div>
+										</div>
+										<#-- Recurrence-->
+
+									</div>
+								</div>
+								<#-- /Filter -->
+
+
+
 							</div>
 						</div>
 						<#-- Options -->
@@ -126,9 +205,11 @@
 					</div>
 				</div>
 			</section>
+			<#-- /Functions -->
+
 		</div>
-	
-  </div>
+  	</div>
+
   	<#include "../_includes/footer.ftl">
   	
   	<#include "../_includes/header/body_end.ftl">
@@ -143,6 +224,12 @@
   	<script>
 		createDatePicker("#wrapper", "#datepicker-input", "#select-month");
 		createCalendar("etwig-public-calendar", currentDate.toString('yyyy-MM-dd'));
+
+		$('#eventPortfolio').select2({
+    		theme: 'bootstrap4',
+    		templateResult: formatState,
+  			templateSelection: formatState,
+		});
     </script>
     
 </body>

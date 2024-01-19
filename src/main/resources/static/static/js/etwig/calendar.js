@@ -23,8 +23,6 @@ var currentDate = Date.today();
 function createCalendar(elem, currentMonth){
 	var calendarElem = document.getElementById(elem);
 	
-	// Only has "Month View" currently
-	// TODO: Support Week view
 	var calendarProperties = {
 		view: 'dayGridMonth',
 	    headerToolbar: {
@@ -32,7 +30,6 @@ function createCalendar(elem, currentMonth){
 			center: 'title',
 			end: ''
 		},
-		//scrollTime: '09:00:00',
     	events: getEventListByRange(currentMonth, "month"),
     	eventClick: function (info) {
 			editEventBtn(info.event.id);
@@ -81,40 +78,20 @@ function getEventListByRange(date, range){
 					// Get start and end time
 					var eventStartDateTime = new Date(startTimeSet[i]);
 					var eventEndDateTime = new Date(startTimeSet[i]).addMinutes(value.duration);
+					
+					// Italic font for recurring events.
+					var textFont = value.recurring ? "italic" : "weight-normal";
     				
     				// Save data
 					eventList.push({
 						  id: id,
 						  start: eventStartDateTime.toString('yyyy-MM-dd HH:mm'),
 						  end: eventEndDateTime.toString('yyyy-MM-dd HH:mm'),
-						  title: value.name, 
-						  color: "#" + value.portfolioColor}
-					); 
+						  title: {html: `<span class="font-${textFont}">${value.name}</span>`},
+						  color: "#" + value.portfolioColor
+					}); 
 				}
-				
-				
-				//console.log(value.startTimeSet);
-				
-				
-				/*
-				var eventStartDateTime = new Date(value.details.startDateTime);
-				console.log(eventStartDateTime);
-				
-				var eventEndDateTime = calculateEndDateTime(value.details.startDateTime, value.dutation);
-					
-  					// Transfer the dates and other information to the frontend.
-  					eventList.push({
-						  id: id,
-						  start: eventStartDateTime.toString('yyyy-MM-dd HH:mm'),
-						  end: eventEndDateTime.toString('yyyy-MM-dd HH:mm'),
-						  title: value.details.name, 
-						  color: "#" + value.portfolio.color}
-					); 
-  					*/
-				})
-			
-			
-			
+			})
         },
         
         // Toast error info when it happens
