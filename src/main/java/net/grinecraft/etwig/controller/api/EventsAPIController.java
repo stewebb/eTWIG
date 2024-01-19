@@ -9,7 +9,6 @@
 
 package net.grinecraft.etwig.controller.api;
 
-import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -25,9 +24,7 @@ import net.grinecraft.etwig.dto.EventBasicInfoDTO;
 import net.grinecraft.etwig.dto.EventDetailsDTO;
 import net.grinecraft.etwig.services.EventService;
 import net.grinecraft.etwig.util.DateUtils;
-import net.grinecraft.etwig.util.NumberUtils;
 import net.grinecraft.etwig.util.WebReturn;
-import net.grinecraft.etwig.util.type.DateRange;
 
 @RestController
 public class EventsAPIController {
@@ -36,16 +33,14 @@ public class EventsAPIController {
 	EventService eventService;
 	
 	/**
-	 * The getEventList API
-	 * @param date The given specific date
-	 * @param range The given date range
+	 * Get the event list in a monthly view, by a given date.
+	 * @param date
 	 * @return
 	 * @throws Exception
-	 * @authentication True
 	 */
 	
 	@RequestMapping("/api/private/getMonthlyEventList")  
-	public LinkedHashMap<Long, EventBasicInfoDTO> getMonthlyEventList(@RequestParam String date, @RequestParam String range) throws Exception{
+	public LinkedHashMap<Long, EventBasicInfoDTO> getMonthlyEventList(@RequestParam String date) throws Exception{
 		return eventService.getMonthlyBasicInfoListByDateRange(DateUtils.safeParseDate(date, "yyyy-MM-dd"));
 	}
 	

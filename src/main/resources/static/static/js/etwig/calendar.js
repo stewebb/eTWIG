@@ -58,27 +58,49 @@ function createCalendar(elem, currentMonth){
 
 function getEventListByRange(date, range){
 	var eventList = []; 
-	var url = '/api/private/getEventList';
+	var url = '/api/private/getMonthlyEventList';
 	$.ajax({ 
 		type: 'GET', 
     	url: url, 
     	async: false,
     	data: { 
 			date: date,
-			range: range
 		}, 
     	dataType: 'json',
 		success: function(json) {
+			//console.log(json);
 			
-			// HTTP response normally, but has other kinds of error (e.g, invalid input)
-			if(json.error > 0){
-    			dangerToast("Failed to get events.", json.msg);
-			}
-			
-			else{
-				jQuery.each(json.events, function(id, value) {
-					var eventStartDateTime = new Date(value.details.startDateTime);
-					var eventEndDateTime = new Date(value.details.endDateTime);
+			// Iterate all dates.
+			jQuery.each(json, function(id, value) {
+				
+				// Iterate the start dates, especially for recurring events.
+				var startTimeSet = value.startTimeSet;
+				var setLen = startTimeSet.length;
+				for (var i = 0; i < setLen; i++) {
+					
+					// Get start and end time
+					var eventStartDateTime = new Date(startTimeSet[i]);
+					var eventEndDateTime = new Date(startTimeSet[i]).addMinutes(value.duration);
+    				
+    				// Save data
+					eventList.push({
+						  id: id,
+						  start: eventStartDateTime.toString('yyyy-MM-dd HH:mm'),
+						  end: eventEndDateTime.toString('yyyy-MM-dd HH:mm'),
+						  title: value.name, 
+						  color: "#" + value.portfolioColor}
+					); 
+				}
+				
+				
+				//console.log(value.startTimeSet);
+				
+				
+				/*
+				var eventStartDateTime = new Date(value.details.startDateTime);
+				console.log(eventStartDateTime);
+				
+				var eventEndDateTime = calculateEndDateTime(value.details.startDateTime, value.dutation);
 					
   					// Transfer the dates and other information to the frontend.
   					eventList.push({
@@ -88,9 +110,11 @@ function getEventListByRange(date, range){
 						  title: value.details.name, 
 						  color: "#" + value.portfolio.color}
 					); 
-  					
+  					*/
 				})
-			}
+			
+			
+			
         },
         
         // Toast error info when it happens

@@ -4,7 +4,7 @@
             <div class="container-fluid">
             
             	<#-- Logo -->
-				<a href="/" class="navbar-brand">
+				<a href="/" class="navbar-brand navbar-border">
 					<img src="/static/images/eTWIG.png" alt="eTWIG Logo" class="brand-image">
 					<span class="brand-text font-weight-light">&nbsp;</span>
 				</a>
