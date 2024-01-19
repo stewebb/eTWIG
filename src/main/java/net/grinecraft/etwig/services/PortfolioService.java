@@ -10,7 +10,7 @@
 package net.grinecraft.etwig.services;
 
 import java.util.LinkedHashMap;
-import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,12 +32,11 @@ public class PortfolioService {
 	}
 	
 	/**
-	 * Get the list of all portfolios
-	 * @return A LinkedHashMap all portfolios
+	 * Get the list of all portfolios.
+	 * @return
 	 */
 	
 	public LinkedHashMap<Long, Portfolio> getAllPortfolioList(){
-		//return listToMap((List<Portfolio>) portfolioRepository.findAll());
 		return mapUtils.listToLinkedHashMap(portfolioRepository.findAll(), Portfolio::getId);
 	}
 	
@@ -46,7 +45,7 @@ public class PortfolioService {
 	 * @param isSeparatedCalendar 
 	 * True get the portfolios WITH separated calendar.
 	 * False get the portfolios WITHOUT separated calendar.
-	 * Null get all portfolios REGARDLESS the separated calendar option.
+	 * Null get all portfolios REGARDLESS OF the separated calendar option.
 	 * @return A LinkedHashMap of the portfolios that meet the above requirements.
 	 */
 	
@@ -79,11 +78,22 @@ public class PortfolioService {
 	 */
 	
 	public Portfolio getPortfolioById(long id) {
+		
+		/*
 		if(portfolioRepository == null) {
 			return null;
 		}
 		
 		Optional<Portfolio> portfolioOpt = portfolioRepository.findById(id);
 		return portfolioOpt.isPresent() ? portfolioOpt.get() : null;
+		*/
+		
+		return portfolioRepository == null ? null : portfolioRepository.findById(id).orElse(null);
 	}
+	
+	public Set<Portfolio> getMyPortfolios(){
+		return null;
+		
+	}
+	
 }

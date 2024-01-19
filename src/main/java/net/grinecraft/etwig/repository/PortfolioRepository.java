@@ -24,7 +24,7 @@ public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {
 	 * Find all portfolios in the database.
 	 */
 	
-    //public List<Portfolio> findAll();
+    public List<Portfolio> findAll();
     
     /**
      * Find a specific portfolio by its id.
@@ -32,19 +32,19 @@ public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {
      * @return
      */
     
-    //public Optional<Portfolio> findById(long id);
+    public Optional<Portfolio> findById(long id);
     
     /**
      * Find the portfolios with separated calendar.
      * @return
      */
     
-   // public List<Portfolio> findBySeparatedCalendarTrue();
+    public List<Portfolio> findBySeparatedCalendarTrue();
     
     /**
      * Find the portfolios without separated calendar.
      * @return
      */
     
-   // public List<Portfolio> findBySeparatedCalendarFalse();
+    public List<Portfolio> findBySeparatedCalendarFalse();
 }

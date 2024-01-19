@@ -58,17 +58,15 @@ public class EtwigInterceptor implements HandlerInterceptor{
 			
 			// Put user details into session
 			UserDTO userDTO = (UserDTO) session.getAttribute("user");
-			if (userDTO == null) {
-				throw new IllegalStateException("Cannot get user detail from session.");
+			if (userDTO != null) {
+				modelAndView.addObject("user", userDTO);
 			}
-			modelAndView.addObject("user", userDTO);
 			
 			// Put user access into session
 			UserAccessDTO userAccess = (UserAccessDTO) session.getAttribute("access");
-			if(userAccess == null) {
-				throw new IllegalStateException("Cannot get user permission detail from session.");
+			if(userAccess != null) {
+				modelAndView.addObject("access", userAccess);
 			}
-			modelAndView.addObject("access", userAccess);
 		}	
 		
 		/**

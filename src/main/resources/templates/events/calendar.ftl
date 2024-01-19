@@ -23,9 +23,8 @@
 	<div class="wrapper">
 
 		<#-- Navbar -->
-		<#if !embedded>
-			<#include "../_includes/navbar.ftl">
-		</#if>
+		<#include "../_includes/navbar.ftl">
+		
 		<#-- /Navbar -->
 	
 		<#include "../_includes/modal.ftl">
@@ -148,7 +147,7 @@
 										<#-- Recurrence-->
 										<div class="form-group row">
 											<label for="eventRecurrence" class="col-xl-4 col-form-label">Recurrence</label>
-											<div class="col-sm-8">
+											<div class="col-xl-8">
 												<div class="form-group clearfix">
 										
 													<#-- All-->
@@ -176,6 +175,24 @@
 											</div>
 										</div>
 										<#-- Recurrence-->
+
+										<#-- Apply and reset button -->
+										<div class="button-container">
+                							
+                							<#-- Reset (Left) -->
+                	                		<button type="button"class="btn btn-outline-secondary">
+                								<i class="fa-solid fa-rotate-left"></i>&nbsp;Reset
+                							</button>
+                							<#-- /Reset (Left) -->
+                						
+											<#-- Apply (Right) -->
+                							<button type="button" class="btn btn-outline-primary right-div">
+                								<i class="fa-solid fa-check"></i>&nbsp;Apply
+                							</button>
+                							<#-- /Apply (Right) -->
+                							
+                						</div>
+										<#-- Apply and reset button -->
 
 									</div>
 								</div>

@@ -134,6 +134,17 @@ function updateTextColor($element) {
             $element.addClass('text-dark');
     }
 }
-    
+ 
+
+/**
+ * Hide the navbar if the page is in a frame.
+ */
+
+$(document).ready(function() {
+	if (window.self !== window.top) {
+		$('.navbar').hide();
+	}
+});
+           
 // Leading zeros for the (positive) integers that below to 10. 
 const pad = (num) => (num < 10 ? '0' + num : num);

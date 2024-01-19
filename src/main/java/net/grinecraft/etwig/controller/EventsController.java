@@ -7,13 +7,14 @@
  	* @function: The controller for add/edit/delete event.
  */
 
-package net.grinecraft.etwig.controller.events;
+package net.grinecraft.etwig.controller;
 
 import java.util.LinkedHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,7 +30,8 @@ import net.grinecraft.etwig.util.BooleanUtils;
 import net.grinecraft.etwig.util.NumberUtils;
 
 @Controller
-public class EditController {
+@RequestMapping("/events")
+public class EventsController {
 
 	@Autowired
 	EventService eventService;
@@ -48,7 +50,35 @@ public class EditController {
 	
 	@Autowired
 	EventOptionService eventOptionService;
-
+	
+	@Autowired
+	HttpSession session;
+	
+	/**
+	 * Event calendar page.
+	 * @param model
+	 * @return
+	 */
+	
+	@GetMapping("/calendar")  
+	public String calendar(Model model){
+		return "events/calendar";
+	}
+	
+	/**
+	 * Add event page.
+	 * @param model
+	 * @return
+	 */
+	
+	@PostAuthorize("hasAuthority('ROLE_EVENTS')")
+	@RequestMapping("/add")  
+	public String add(Model model){
+        addCommonAttributes(model);
+		return "events/add";
+	}
+	
+	
 	/**
 	 * Edit or delete event page.
 	 * They have the same validation part, so they are mapped to the same method.
@@ -97,25 +127,7 @@ public class EditController {
 			return "_errors/custom_error";
 		}			
 	}
-	
-	/**
-	 * Add event page.
-	 * @param session
-	 * @param model
-	 * @param embedded True the page is embedded  into a frame. Otherwise the page is standalone.
-	 * @return
-	 * @throws Exception
-	 * @Permissions Event Manager, admin FULL; OTHERS NONE
-	 */
-	
-    @PostAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR', 'ROLE_EVENT_MANAGER')")
-	@RequestMapping("/events/add")  
-	public String add(Model model, @RequestParam(required = false) String embedded) throws Exception{
-        model.addAttribute("embedded", BooleanUtils.toBoolean(embedded));
-        addCommonAttributes(model);
-		return "events/add";
-	}
-	
+
 	/**
 	 * The attributes that will be added in all pages. 
 	 * @param model
