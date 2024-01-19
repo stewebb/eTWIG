@@ -39,8 +39,8 @@ public class Event {
 	@Column(name = "start_time")
 	private LocalDateTime startTime;
 	
-	@Column(name = "end_time")
-	private LocalDateTime endTime;
+	@Column(name = "duration")
+	private int duration;
 	
 	@Column(name = "all_day_event")
 	private boolean allDayEvent;
@@ -60,17 +60,10 @@ public class Event {
 	@Column(name = "override_recurring")
 	private Integer overrideRecurring;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "portfolio", referencedColumnName = "id", insertable = false, updatable = false)
-    private Portfolio portfolio;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_role", referencedColumnName = "id", insertable = false, updatable = false)
+    private UserRole userRole;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "organizer", referencedColumnName = "id", insertable = false, updatable = false)
-    private User organizer;	
-	
-	@Column(name = "portfolio")
-	private Long portfolioId;
-	
-	@Column(name = "organizer")
-	private Long organizerId;
+	@Column(name = "user_role")
+	private Long userRoleId;
 }

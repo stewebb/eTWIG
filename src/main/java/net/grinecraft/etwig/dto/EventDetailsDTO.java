@@ -2,41 +2,77 @@ package net.grinecraft.etwig.dto;
 
 import java.time.LocalDateTime;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import net.grinecraft.etwig.model.Event;
+import net.grinecraft.etwig.model.Portfolio;
+import net.grinecraft.etwig.model.User;
+import net.grinecraft.etwig.model.UserRole;
 
-@NoArgsConstructor
 @Getter
 @ToString
-public class EventDetailsDTO extends EventBasicInfoDTO{
+public class EventDetailsDTO {
 
-	private String description;
+	/**
+	 * Event basic information.
+	 */
 	
+	private Long id;
+	private String name;
 	private String location;
-	
-	private boolean allDayEvent;
-	
-	private String rRule;
-	
+	private String description;
 	private LocalDateTime createdTime;
-	
 	private LocalDateTime updatedTime;
 	
-	private Long organizerId;
+	/**
+	 * Timing
+	 */
 	
-	@Override
-	public void setBasicInfo(Event event) {
-		super.setBasicInfo(event);
+	private boolean recurring;
+	private boolean allDayEvent;
+	private LocalDateTime startTime;
+	private int duration;
+	private String rRule;
+	
+	
+	/**
+	 * Portfolio, organizer and role.
+	 */
+	
+	private Long portfolioId;
+	private String portfolioName;
+	private String portfolioColor;
+	private Long organizerId;
+	private String organizerName;
+	private String position;
+
+	public EventDetailsDTO(Event event) {
 		
-		this.description = event.getDescription();
+		// Event basic information.
+		this.id = event.getId();
+		this.name = event.getName();
 		this.location = event.getLocation();
-		this.allDayEvent = event.isAllDayEvent();
-		this.rRule = event.getRRule();
+		this.description = event.getDescription();
 		this.createdTime = event.getCreatedTime();
 		this.updatedTime = event.getUpdatedTime();
-		this.organizerId = event.getOrganizerId();
-		 
+		
+		// Timing
+		this.recurring = event.isRecurring();
+		this.allDayEvent = event.isAllDayEvent();
+		this.startTime = event.getStartTime();
+		this.duration = event.getDuration();
+		this.rRule = event.getRRule();
+		
+		// Portfolio, organizer and role.
+		UserRole userRole = event.getUserRole();
+		Portfolio portfolio = userRole.getPortfolio();
+		User organizer = userRole.getUser();
+		
+		this.portfolioId = portfolio.getId();
+		this.portfolioName = portfolio.getName();
+		this.portfolioColor = portfolio.getColor();
+		this.organizerId = organizer.getId();
+		this.organizerName = organizer.getFullName();
+		this.position = userRole.getPosition();
 	}
+
 }

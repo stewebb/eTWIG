@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpSession;
 import net.grinecraft.etwig.dto.BannerRequestEventInfoDTO;
+import net.grinecraft.etwig.dto.EventDetailsDTO;
 import net.grinecraft.etwig.model.Event;
 import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.model.User;
@@ -64,54 +65,10 @@ public class EventService {
 	
 	/**
 	 * Find the event detail by it's id.
-	 * @param id The event id
-	 * @param showAllDetails True show all event details. False show only the essential details.
-	 * @return The event information, or empty LinkedHashMap if the event doesn't exist.
-	 * @throws IllegalAccessException | IllegalArgumentException 
-	 * @throws DataException when event is both both recurring and single time.
-	 */
-	
-	public LinkedHashMap<String, Object> findById(long id, boolean basicOnly) throws Exception {
-		
-		Optional<Event> eventOpt = eventRepository.findById(id);
-		if (!eventOpt.isPresent()){
-			return null;
-		}
-		
-		Event event = eventOpt.get();
-		System.out.println(event);
-		
-		
-		
-		/*
-		LinkedHashMap<String, Object> event = new LinkedHashMap<String, Object>();
-		LinkedHashMap<String, Object> eventInfoSingleTime = getSingleTimeEventById(id);
-		LinkedHashMap<String, Object> eventInfoRecurring = getRecurringEventById(id);
-		
-		// The event is recurring
-		if(eventInfoRecurring != null && eventInfoSingleTime == null) {
-			event.put("exists", true);
-			event.putAll(eventInfoRecurring); 
-		}
-		
-		// The event is single time
-		else if (eventInfoRecurring == null && eventInfoSingleTime != null) {
-			event.put("exists", true);
-			event.putAll(eventInfoSingleTime); 
-		}
-		
-		// The event is both recurring and single time
-		else if (eventInfoRecurring != null && eventInfoSingleTime != null) {
-			throw new DataException("The event id=" + id + " is both recurring and single time. However, it must be either recurring or single time. ");
-		}
-		
-		// The event is neither recurring nor single time. i.e., It doesn't exist at all!
-		else {
-			event.put("exists", false);
-		}
-		return event;
-		*/
-		return null;
+	 * @param id
+	 * @return EventDetailsDTO
+	 */	public EventDetailsDTO findById(long id) {
+		return eventRepository.findById(id).map(EventDetailsDTO::new).orElse(null);
 	}
 	
 	/**

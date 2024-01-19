@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpSession;
+import net.grinecraft.etwig.dto.EventDetailsDTO;
 import net.grinecraft.etwig.services.EventService;
 import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.NumberUtils;
@@ -66,20 +67,15 @@ public class EventsAPIController {
 	 * @authentication True
 	 */
 	
+	/**
+	 * Get the event information by a specific given id.
+	 * @param eventId
+	 * @return
+	 */
+	
 	@RequestMapping("/api/private/getEventById")  
-	public Map<String, Object> getEventById(@RequestParam String eventId) throws Exception{
-		Long eventIdNum = NumberUtils.safeCreateLong(eventId);
-
-		if(eventIdNum == null) {
-			return WebReturn.errorMsg("eventId is invalid. It must be an Integer.", false);
-		} 
-			
-		eventService.findById(eventIdNum, false);
-		
-		Map<String, Object> myReturn = WebReturn.errorMsg(null, true);
-	   // myReturn.putAll(eventService.findById(eventIdNum));
-		
-		return myReturn;
+	public EventDetailsDTO getEventById(@RequestParam Long eventId){
+		return eventService.findById(eventId);
 	}
 	
 	/**
@@ -108,7 +104,7 @@ public class EventsAPIController {
     public Map<String, Object> editEvent(HttpSession session, @RequestBody Map<String, Object> eventInfo) throws Exception {
 				
 		// Check the permission again in the backend.
-		LinkedHashMap<String, Object> event = eventService.findById(Long.parseLong(eventInfo.get("eventId").toString()), false);
+		LinkedHashMap<String, Object> event = null;//eventService.findById(Long.parseLong(eventInfo.get("eventId").toString()));
 		if(!eventService.eventEditPermissionCheck(event)) {
 			return WebReturn.errorMsg("You don't have permission to edit this event.", false);
 		} 
