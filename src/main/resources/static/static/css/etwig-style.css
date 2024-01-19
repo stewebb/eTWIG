@@ -29,6 +29,12 @@
 	color: #004aad!important;
 }
 
+/*
+.navbar .nav-item.active {
+    background-color: #004AAD;
+}
+*/
+
 /* A helper style to get a bold text. */
 .bold-text{
 	font-weight: bold;
@@ -96,6 +102,20 @@
 	resize: none;
 }
 
-.main-sidebar {
-    background-color: black!important;
+.no-padding {
+	padding: 0;
+}
+
+.navbar-border {
+  position:relative;
+}
+
+.navbar-border:hover::after {
+  content:'';
+  position:absolute;
+  width: 100%;
+  height: 0;    
+  left:0;
+  bottom: 0;
+  border-bottom: 3px solid #004AAD;  
 }

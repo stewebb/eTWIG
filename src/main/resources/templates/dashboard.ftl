@@ -16,15 +16,26 @@
 	<title>Dashboard - ${app.appName}</title>
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed">
-
+<body class="hold-transition layout-top-nav">
+	
 	<#include "./_includes/header/body_start.ftl">
-	<#include "./_includes/sidebar.ftl">
+	<div class="wrapper">
+
+
+
 	
-	<div class="content-wrapper">
+		<#include "./_includes/navbar.ftl">
+
+		<div class="content-wrapper">
+			123
+
+
+
+
+			
+		</div>
 	</div>
-	
 	<#include "./_includes/footer.ftl">
-<#include "./_includes/header/body_end.ftl">
+	<#include "./_includes/header/body_end.ftl">
 </body>
 </html>
