@@ -58,72 +58,105 @@
     		<section class="content">
 				<div class="container-fluid">
 				
-					<#--
-					<div class="card card-primary card-outline">
-						<div class="card-header">
-							<h3 class="card-title">
-								<i class="fa-regular fa-gear"></i>&nbsp;Options
-							</h3>
-						</div>
-						<div class="card-body">
-						</div>
-					</div>
-					-->
+					<#-- Stepper -->
+					<div id="eventStepper" class="bs-stepper bg-white">
 
-				
-			
-					<div id="stepper2" class="bs-stepper bg-white">
-          <div class="bs-stepper-header" role="tablist">
-            <div class="step" data-target="#test-nl-1">
-              <button type="button" class="step-trigger" role="tab" id="stepper2trigger1" aria-controls="test-nl-1">
-                <span class="bs-stepper-circle">
-                  <span class="fas fa-user" aria-hidden="true"></span>
-                </span>
-                <span class="bs-stepper-label">Name</span>
-              </button>
-            </div>
-            <div class="bs-stepper-line"></div>
-            <div class="step" data-target="#test-nl-2">
-              <button type="button" class="step-trigger" role="tab" id="stepper2trigger2" aria-controls="test-nl-2">
-                <span class="bs-stepper-circle">
-                  <span class="fas fa-map-marked" aria-hidden="true"></span>
-                </span>
-                <span class="bs-stepper-label">Address</span>
-              </button>
-            </div>
-            <div class="bs-stepper-line"></div>
-            <div class="step" data-target="#test-nl-3">
-              <button type="button" class="step-trigger" role="tab" id="stepper2trigger3" aria-controls="test-nl-3">
-                <span class="bs-stepper-circle">
-                  <span class="fas fa-save" aria-hidden="true"></span>
-                </span>
-                <span class="bs-stepper-label">Submit</span>
-              </button>
-            </div>
-          </div>
-          <div class="bs-stepper-content">
-            <form onSubmit="return false">
-              <div id="test-nl-1" role="tabpanel" class="bs-stepper-pane" aria-labelledby="stepper2trigger1">
-                <div class="form-group">
-                  <label for="exampleInputName1">Name</label>
-                  <input type="email" class="form-control" id="exampleInputName1" placeholder="Enter your name">
-                </div>
-                <button class="btn btn-primary" onclick="stepper2.next()">Next</button>
-              </div>
-              <div id="test-nl-2" role="tabpanel" class="bs-stepper-pane" aria-labelledby="stepper2trigger2">
-                <div class="form-group">
-                  <label for="exampleInpuAddress1">Address</label>
-                  <input type="email" class="form-control" id="exampleInpuAddress1" placeholder="Enter your address">
-                </div>
-                <button class="btn btn-primary" onclick="stepper2.next()">Next</button>
-              </div>
-              <div id="test-nl-3" role="tabpanel" class="bs-stepper-pane text-center" aria-labelledby="stepper2trigger3">
-                <button type="submit" class="btn btn-primary mt-5">Submit</button>
-              </div>
-            </form>
-          </div>
-        </div>
-				
+						<#-- Header -->
+          				<div class="bs-stepper-header" role="tablist">
+
+							<#-- Header 1: Basic Info -->
+            				<div class="step" data-target="#eventBasicInfo">
+              					<button type="button" class="step-trigger" role="tab" id="eventSteppertrigger1" aria-controls="eventBasicInfo">
+                					<span class="bs-stepper-circle">
+                  						<span class="fas fa-circle-info" aria-hidden="true"></span>
+                					</span>
+                					<span class="bs-stepper-label">Basic Info</span>
+              					</button>
+            				</div>
+							<#-- /Header 1: Basic Info -->
+
+							<#-- Header 2: Timing -->
+            				<div class="bs-stepper-line"></div>
+            				<div class="step" data-target="#eventTiming">
+              					<button type="button" class="step-trigger" role="tab" id="eventSteppertrigger2" aria-controls="eventTiming">
+                					<span class="bs-stepper-circle">
+                  						<span class="fas fa-clock" aria-hidden="true"></span>
+                					</span>
+                					<span class="bs-stepper-label">Timing</span>
+              					</button>
+            				</div>
+							<#-- /Header 2: Timing -->
+
+							<#-- Header 3: Organizer -->
+           	 				<div class="bs-stepper-line"></div>
+            				<div class="step" data-target="#eventOrganizer">
+              					<button type="button" class="step-trigger" role="tab" id="eventSteppertrigger3" aria-controls="eventOrganizer">
+                					<span class="bs-stepper-circle">
+                  						<span class="fas fa-user-tie" aria-hidden="true"></span>
+                					</span>
+                					<span class="bs-stepper-label">Organizer</span>
+              					</button>
+            				</div>
+							<#-- /Header 3: Organizer -->
+
+							<#-- Header 4: Additional Info -->
+							<div class="bs-stepper-line"></div>
+            				<div class="step" data-target="#eventAdditionalInfo">
+              					<button type="button" class="step-trigger" role="tab" id="eventSteppertrigger1" aria-controls="eventAdditionalInfo">
+                					<span class="bs-stepper-circle">
+                  						<span class="fas fa-map-pin" aria-hidden="true"></span>
+                					</span>
+                					<span class="bs-stepper-label">Additional Info</span>
+              					</button>
+            				</div>
+							<#-- /Header 4: Additional Info -->
+
+          				</div>
+						<#-- /Header -->
+
+						<#-- Content -->
+          				<div class="bs-stepper-content">
+
+							<#-- Content 1: Basic Info -->
+							<#assign prev = false>
+            				<#assign next = true>
+            						
+              				<div id="eventBasicInfo" role="tabpanel" class="bs-stepper-pane" aria-labelledby="eventSteppertrigger1">
+              					<#include "../_includes/events/addEdit_basicInfo.ftl">	
+                				<#include "../_includes/events/stepper_btn.ftl">
+              				</div>
+							<#-- /Content 1: Basic Info -->
+
+							<#-- Content 2: Timing -->
+							<#assign prev = true>
+            				<#assign next = true>
+              				<div id="eventTiming" role="tabpanel" class="bs-stepper-pane" aria-labelledby="eventSteppertrigger2">
+                				<#include "../_includes/events/stepper_btn.ftl">
+              				</div>
+							<#-- /Content 2: Timing -->
+
+							<#-- Content 3: Organizer -->
+							<#assign prev = true>
+            				<#assign next = true>
+              				<div id="eventOrganizer" role="tabpanel" class="bs-stepper-pane text-center" aria-labelledby="eventSteppertrigger3">
+                				<#include "../_includes/events/stepper_btn.ftl">
+              				</div>
+							<#-- /Content 3: Organizer -->
+
+							<#-- Content 4: Additional Info -->
+							<#assign prev = true>
+            				<#assign next = false>
+			  				<div id="eventAdditionalInfo" role="tabpanel" class="bs-stepper-pane text-center" aria-labelledby="eventSteppertrigger3">
+                				<#include "../_includes/events/stepper_btn.ftl">
+              				</div>
+            				<#-- /Content 4: Additional Info -->
+
+          				</div>
+						<#-- Content -->
+
+        			</div>
+					<#-- Stepper -->
+					
 				</div>
 			</section>
 			<#-- /Main area -->

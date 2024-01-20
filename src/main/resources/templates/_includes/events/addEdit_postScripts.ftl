@@ -24,11 +24,11 @@
 	<script>
 	
 		// Initialize the description box
-		//initDescriptionBox('#eventDescription');
+		initDescriptionBox('#eventDescription');
 		
-		//<#if disabled>
-		//	$('#eventDescription').summernote('disable');
-		//</#if>
+		<#if disabled>
+			$('#eventDescription').summernote('disable');
+		</#if>
 		
 		// Time pickers for both start and end time
 		//startTimePicker = createDatePicker("#eventStartWrapper", "#eventStartTime", "date", "yyyy-MM-dd HH:mm A");
@@ -53,7 +53,7 @@
 		//});
 
 		// Initialize the template stepper
-     	stepper2 = new Stepper(document.querySelector('#stepper2'), {
+     	eventStepper = new Stepper(document.querySelector('#eventStepper'), {
     		linear: false
   		});
     </script>

@@ -192,7 +192,7 @@ function initDescriptionBox(boxElem){
 	$(boxElem).summernote({
 		placeholder: 'Event description',
         tabsize: 4,
-        height: 200,
+        height: 350,
         minHeight: 200,
   		maxHeight: 500,
   		toolbar: [
