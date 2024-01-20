@@ -131,7 +131,8 @@
 							<#assign prev = true>
             				<#assign next = true>
               				<div id="eventTiming" role="tabpanel" class="bs-stepper-pane" aria-labelledby="eventSteppertrigger2">
-                				<#include "../_includes/events/stepper_btn.ftl">
+                				<#include "../_includes/events/addEdit_timing.ftl">	
+								<#include "../_includes/events/stepper_btn.ftl">
               				</div>
 							<#-- /Content 2: Timing -->
 
@@ -156,7 +157,7 @@
 
         			</div>
 					<#-- Stepper -->
-					
+
 				</div>
 			</section>
 			<#-- /Main area -->

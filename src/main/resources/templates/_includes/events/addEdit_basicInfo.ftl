@@ -12,6 +12,7 @@
 						<div class="container-fluid">
 							<div class="row col-12">
 
+								<#-- Col 1 -->
 								<div class="col-md-6">
 									<div class="mb-2">&nbsp;</div>
 
@@ -72,7 +73,9 @@
 									<#-- /Location -->
 
 								</div>
+								<#-- /Col 1 -->
 
+								<#-- Col 2 -->
 								<div class="col-md-6">
 
 									<#-- Description -->
@@ -84,6 +87,7 @@
 									<#-- /Description -->
 
 								</div>
+								<#-- /Col 2 -->
 							</div>
 						</div>
 								
@@ -100,40 +104,7 @@
 								
 								
 								
-								<#-- Recurrent -->
-								<#--
-								<div class="form-group row">
-									<label for="event-recurrent" class="col-sm-2 col-form-label">
-										Recurrent&nbsp;<span class="required-symbol">*</span>
-									</label>
-									<div class="col-sm-10">
-										<div class="form-group clearfix">
-											<div class="icheck-primary">
-												<input type="radio" id="single-time-event" name="event-recurrent" checked="">
-												<label for="single-time-event">Single Time</label>
-											</div>
-											<div class="icheck-primary">
-												<input type="radio" id="recurring-event" name="event-recurrent" disabled>
-												<label for="recurring-event">Recurring</label>
-											</div>
-										</div>				
-										
-										<#if !disabled>
-											<#if isEdit>
-												<div class="callout callout-warning">
-													<h5 class="bold-text mb-3">Recurrent Option Disabled</h5>
-													You cannot change the recurrent option for an existing event. If you want to do so, please delate the event and create a new event.
-												</div>
-											<#else>
-												<div class="callout callout-info">
-													<h5 class="bold-text mb-3">Be Careful!</h5>
-													Once you set the recurrent option, it cannot be changed unless you delete the event completely, then add a new event.
-												</div>
-											</#if>
-										</#if>
-									</div>
-								</div>
-								<#-- /Recurrent -->
+								
 								
 								
 								
