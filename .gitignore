@@ -37,3 +37,7 @@ build/
 __pycache__
 /.apt_generated_tests/
 /bin/
+
+### Node JS Modules ###
+node_modules/
+dist/

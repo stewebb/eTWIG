@@ -34,8 +34,53 @@ function getEventInfo(){
 	}
 	
 	// Positive eventId, search it in the DB.
+	var eventInfo;
+	$.ajax({ 
+		type: 'GET', 
+    	url: '/api/private/getEventById', 
+    	data: { 
+			eventId: eventId,
+		}, 
+    	async: false,
+		success: function(json) {
+			eventInfo = json;
+        },
+        
+        // Toast error info when it happens
+    	error: function(err) {   		
+			dangerToast("Failed to get event information due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+		}
+	});
+	
+	if(eventInfo == undefined || eventInfo == null || eventInfo.length == 0){
+		warningToast("The event with id=" + eventId + " does not exist");
+		initAddOption();
+		return;
+	}
     
-    console.log(eventId);
+    // Get eventId
+    $('#eventIdBlock').show();
+    $('#eventId').text(eventInfo.id);
+    
+    // Get name and location
+    $('#eventName').val(eventInfo.name);
+    $('#eventLocation').val(eventInfo.location);
+    
+    // Get organizer info and set it to read-only.
+    var position = eventInfo.position;
+    $("#eventRole").append(`<option value="${position.userRoleId}">${position.position}, ${position.portfolioName}</option>`);
+    $("#eventRole").prop('disabled', true);
+    
+    // Get created and updated time.
+    $('#eventCreatedTimeBlock').show();
+    $('#eventUpdatedTimeBlock').show();
+    $('#eventCreatedTime').text((new Date(eventInfo.createdTime)).toString('yyyy-MM-dd HH:mm:ss'));
+    $('#eventUpdatedTime').text((new Date(eventInfo.updatedTime)).toString('yyyy-MM-dd HH:mm:ss'));
+    
+    // Get description
+    $('#eventDescription').html(eventInfo.description);
+    
+    console.log(eventInfo);
 }
 
 
@@ -277,6 +322,11 @@ function initAddOption(){
 	setRecurrentMode(0);
 	setAllDayEvent(false);
 	
+	// Set the hidden fields.
+	$('#eventIdBlock').hide();
+	$('#eventCreatedTimeBlock').hide();
+    $('#eventUpdatedTimeBlock').hide();
+   
 	// Set the title.
 	$('#eventPageTitle').text('Add event');
 	$('#eventPageLink').text('Add event');
@@ -291,7 +341,6 @@ function initAddOption(){
 			
 			// Iterate all roles.
 			jQuery.each(json, function(id, value) {
-				console.log(value);
 				$("#eventRole").append(`<option value="${value.userRoleId}">${value.position}, ${value.portfolioName}</option>`);
 			})
         },

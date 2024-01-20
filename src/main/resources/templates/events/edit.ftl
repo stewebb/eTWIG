@@ -158,13 +158,21 @@
 	<#-- jQuery inputmask -->
    	<script src="/static/js/vendor/jquery.inputmask.min.js"></script>
 
+	<#-- rrule.js -->
+   	<script type="module" src="/static/js/etwig/bundle.min.js"></script>
+
 	<#-- Custom JS for adding/editing events-->
 	<script src="/static/js/etwig/events.js"></script>
 	
    	<#-- Post Scripts -->
 	<script>
-
+		console.log(txt);
 		$(document).ready(function() {
+			
+
+
+			// Initialize the description box
+			initDescriptionBox('#eventDescription');
 
 			// Date and time inputs.
     		createDatePickers();
@@ -191,39 +199,6 @@
     			linear: false
   			});
 		});
-
-
-	
-		// Initialize the description box
-		initDescriptionBox('#eventDescription');
-		
-
-		//<#--if disabled>
-		//	$('#eventDescription').summernote('disable');
-		//</#if-->
-		
-		// Time pickers for both start and end time
-		//startTimePicker = createDatePicker("#eventStartWrapper", "#eventStartTime", "date", "yyyy-MM-dd HH:mm A");
-		//endTimePicker = createDatePicker("#eventEndWrapper", "#eventEndTime", "date", "yyyy-MM-dd HH:mm A");
-		
-		//<#--if isEdit>
-		//	startTimePicker.setDate(Date.parse("${eventDetails.details.startDateTime}"));
-		//	endTimePicker.setDate(Date.parse("${eventDetails.details.endDateTime}"));
-		//</if-->
-		
-		// Register those time unit buttons
-      	//timeUnitBtnOnChange(startTimePicker);      	
-      	
-      	//$('.common-select-box').select2({
-    	//	theme: 'bootstrap4',
-		//});
-		
-      	//$('#eventPortfolio').select2({
-    	//	theme: 'bootstrap4',
-    	//	templateResult: formatState,
-  		//	templateSelection: formatState,
-		//});
-
 		
     </script>
 </body>

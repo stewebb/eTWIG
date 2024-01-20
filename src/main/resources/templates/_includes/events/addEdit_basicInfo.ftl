@@ -17,23 +17,10 @@
 									<div class="mb-2">&nbsp;</div>
 
 									<#-- EventId -->
-									<#--
-										<div class="form-group row">
-											<label for="eventId" class="col-lg-3 col-form-label">
-												Id&nbsp;<span class="required-symbol">*</span>
-											</label>
-											<div class="col-lg-9">
-												<div class="input-group">
-													<div class="input-group-prepend">
-														<span class="input-group-text">
-															<i class="fa-solid fa-hashtag"></i>
-														</span>
-													</div>
-													<input type="number" class="form-control" id="eventId" disabled>
-												</div>
-											</div>
-										</div>
-									-->
+									<div class="form-group row" id="eventIdBlock" style="display:none">
+										<label for="EventId" class="col-lg-3">eventId</label>
+										<div class="col-lg-9" id="eventId"></div>
+									</div>
 									<#-- /EventId -->
 
 									<#-- Name -->
@@ -50,7 +37,7 @@
 												</div>
 												<input type="text" class="form-control" id="eventName" maxlength="63">
 											</div>
-											<small class="form-text text-muted">Event name (required), up to 63 characters.</small>
+											<small class="form-text text-muted">Up to 63 characters.</small>
 										</div>
 									</div>
 									<#-- /Name -->
@@ -91,6 +78,20 @@
 										</div>
 									</div>
 									<#-- Organzier Role -->
+
+									<#-- Created Time -->
+									<div class="form-group row" id="eventCreatedTimeBlock" style="display:none;">
+										<label for="eventCreatedTime" class="col-lg-3">Created Time</label>
+										<div class="col-lg-9" id="eventCreatedTime"></div>
+									</div>
+									<#-- /Created Time -->
+
+									<#-- Updated Time -->
+									<div class="form-group row" id="eventUpdatedTimeBlock" style="display:none;">
+										<label for="eventUpdatedTime" class="col-lg-3">Updated Time</label>
+										<div class="col-lg-9" id="eventUpdatedTime"></div>
+									</div>
+									<#-- /Updated Time -->
 
 								</div>
 								<#-- /Col 1 -->
