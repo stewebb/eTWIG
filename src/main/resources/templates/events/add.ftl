@@ -87,19 +87,7 @@
             				</div>
 							<#-- /Header 2: Timing -->
 
-							<#-- Header 3: Organizer -->
-           	 				<div class="bs-stepper-line"></div>
-            				<div class="step" data-target="#eventOrganizer">
-              					<button type="button" class="step-trigger" role="tab" id="eventSteppertrigger3" aria-controls="eventOrganizer">
-                					<span class="bs-stepper-circle">
-                  						<span class="fas fa-user-tie" aria-hidden="true"></span>
-                					</span>
-                					<span class="bs-stepper-label">Organizer</span>
-              					</button>
-            				</div>
-							<#-- /Header 3: Organizer -->
-
-							<#-- Header 4: Additional Info -->
+							<#-- Header 3: Additional Info -->
 							<div class="bs-stepper-line"></div>
             				<div class="step" data-target="#eventAdditionalInfo">
               					<button type="button" class="step-trigger" role="tab" id="eventSteppertrigger1" aria-controls="eventAdditionalInfo">
@@ -109,7 +97,7 @@
                 					<span class="bs-stepper-label">Additional Info</span>
               					</button>
             				</div>
-							<#-- /Header 4: Additional Info -->
+							<#-- /Header 3: Additional Info -->
 
           				</div>
 						<#-- /Header -->
@@ -136,21 +124,14 @@
               				</div>
 							<#-- /Content 2: Timing -->
 
-							<#-- Content 3: Organizer -->
-							<#assign prev = true>
-            				<#assign next = true>
-              				<div id="eventOrganizer" role="tabpanel" class="bs-stepper-pane text-center" aria-labelledby="eventSteppertrigger3">
-                				<#include "../_includes/events/stepper_btn.ftl">
-              				</div>
-							<#-- /Content 3: Organizer -->
-
-							<#-- Content 4: Additional Info -->
+							<#-- Content 3: Additional Info -->
 							<#assign prev = true>
             				<#assign next = false>
 			  				<div id="eventAdditionalInfo" role="tabpanel" class="bs-stepper-pane text-center" aria-labelledby="eventSteppertrigger3">
-                				<#include "../_includes/events/stepper_btn.ftl">
+                				<#include "../_includes/events/addEdit_additionalInfo.ftl">	
+								<#include "../_includes/events/stepper_btn.ftl">
               				</div>
-            				<#-- /Content 4: Additional Info -->
+            				<#-- /Content 3: Additional Info -->
 
           				</div>
 						<#-- Content -->

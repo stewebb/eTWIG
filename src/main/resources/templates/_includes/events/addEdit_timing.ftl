@@ -32,19 +32,17 @@
 												</div>
 											</div>				
 											
-											<#if !disabled>
-												<#if isEdit>
+													<#--
 													<div class="callout callout-warning">
 														<h5 class="bold-text mb-3">Recurrent Option Disabled</h5>
 														You cannot change the recurrent option for an existing event. If you want to do so, please delate the event and create a new event.
 													</div>
-												<#else>
+													-->
 													<div class="callout callout-primary">
 														<h5 class="bold-text mb-3">Be Careful!</h5>
 														Once you set the recurrent option, it cannot be changed unless you delete the event completely, then add a new event.
 													</div>
-												</#if>
-											</#if>
+												
 										</div>
 									</div>
 									<#-- /Recurrent -->
@@ -70,7 +68,7 @@
 								<#-- Col 2 -->
 								<div class="col-md-6">
 
-									<div id="singleTimeEventOptions" style="display:none;">
+									<div id="singleTimeEventOptions">
 									
 										<#-- Start Date -->
 										<div class="form-group row">
@@ -84,7 +82,7 @@
 															<i class="fa-regular fa-calendar"></i>
 														</span>
 													</div>
-													<input type="text" class="form-control" placeholder="Event Start Date" id="eventStartDate" ${disabledStr}>
+													<input type="text" class="form-control" id="eventStartDate">
 												</div>
 												<div id="eventStartWrapper" class="datepicker"></div>
 											</div>
@@ -103,7 +101,7 @@
 															<i class="fa-solid fa-hourglass-start"></i>
 														</span>
 													</div>
-													<input type="text" class="form-control" placeholder="Event Start Time" id="eventStartTime" ${disabledStr}>
+													<input type="text" class="form-control" id="eventStartTime">
 												</div>
 												<div id="eventStartWrapper" class="datepicker"></div>
 											</div>
@@ -122,7 +120,7 @@
 															<i class="fa-solid fa-hourglass-end"></i>
 														</span>
 													</div>
-													<input type="text" class="form-control" placeholder="Event End Date" id="eventEndDate" <#if isEdit && !editPermission>disabled</#if>>
+													<input type="text" class="form-control" id="eventEndDate">
 												</div>
 												<div id="eventEndWrapper" class="datepicker"></div>
 											</div>
@@ -141,7 +139,7 @@
 															<i class="fa-solid fa-hourglass-end"></i>
 														</span>
 													</div>
-													<input type="text" class="form-control" placeholder="Event End Time" id="eventEndTime" <#if isEdit && !editPermission>disabled</#if>>
+													<input type="text" class="form-control" id="eventEndTime">
 												</div>
 												<div id="eventEndWrapper" class="datepicker"></div>
 											</div>
@@ -153,6 +151,7 @@
 											<label for="eventDuration" class="col-lg-3">Duration</label>
 											<div class="col-lg-9">
 												123
+												<small class="form-text text-muted">Automatically calculated.</small>
 											</div>
 										</div>			
 										<#-- /Duration -->
@@ -162,6 +161,7 @@
 											<label for="eventPossibleClashes" class="col-lg-3">Possible Clashes</label>
 											<div class="col-lg-9">
 												123
+												<small class="form-text text-muted">You can add an event anyway regardless of the possible clashes. (Not recommended)</small>
 											</div>
 										</div>			
 										<#-- /Possible clashes -->
@@ -181,7 +181,7 @@
 															<i class="fa-solid fa-clock"></i>
 														</span>
 													</div>
-													<input type="text" class="form-control" placeholder="Event Time" id="eventTime" ${disabledStr}>
+													<input type="text" class="form-control" id="eventTime">
 												</div>
 												<div id="eventStartWrapper" class="datepicker"></div>
 											</div>
@@ -189,7 +189,7 @@
 										<#-- /Event Time -->
 
 										<#-- Duration -->
-										<div class="form-group row" id="durationInput" <#if durationHidden>style="display:none;"</#if>>
+										<div class="form-group row" id="durationInput" >
 											<label for="eventDuration" class="col-lg-3 col-form-label">
 												Duration&nbsp;<span class="required-symbol">*</span>
 											</label>
@@ -200,7 +200,7 @@
 															<i class="fa-solid fa-hourglass-half"></i>
 														</span>
 													</div>
-													<input type="number" min="0" class="form-control" placeholder="Event Duration" id="eventDuration" value="${duration}" ${disabledStr}>
+													<input type="number" min="0" class="form-control" id="eventDuration">
 													<div class="input-group-append">
 														<span class="input-group-text" id="unitText">Minites(s)</span>
 													</div>
@@ -219,19 +219,19 @@
 												
 													<#-- Daily -->
 													<div class="icheck-primary d-inline mr-2">
-														<input type="radio" id="daily" name="eventFrequency" checked value="h" ${disabledStr}>
+														<input type="radio" id="daily" name="eventFrequency" checked value="h">
 														<label for="daily">Daily</label>
 													</div>
 													
 													<#-- Weekly -->
 													<div class="icheck-primary d-inline mr-2">
-														<input type="radio" id="weekly" name="eventFrequency" value="d" ${disabledStr}>
+														<input type="radio" id="weekly" name="eventFrequency" value="d">
 														<label for="weekly">Weekly</label>
 													</div>
 													
 													<#-- Monthly-->
 													<div class="icheck-primary d-inline mr-2">
-														<input type="radio" id="monthly" name="eventFrequency" value="w" ${disabledStr}>
+														<input type="radio" id="monthly" name="eventFrequency" value="w">
 														<label for="monthly">Monthly</label>
 													</div>
 													
@@ -250,8 +250,9 @@
 															<i class="fa-solid fa-hourglass-start"></i>
 														</span>
 													</div>
-													<input type="text" class="form-control" placeholder="Event Start Date" id="eventValidFrom" ${disabledStr}>
+													<input type="text" class="form-control" id="eventValidFrom">
 												</div>
+												<small class="form-text text-muted">The date when the recurrence start. (Optional)</small>
 												<div id="eventStartWrapper" class="datepicker"></div>
 											</div>
 										</div>
@@ -267,8 +268,9 @@
 															<i class="fa-solid fa-hourglass-end"></i>
 														</span>
 													</div>
-													<input type="text" class="form-control" placeholder="Event End Date" id="eventValidTo" <#if isEdit && !editPermission>disabled</#if>>
+													<input type="text" class="form-control" id="eventValidTo">
 												</div>
+												<small class="form-text text-muted">The date when the recurrence end. (Optional)</small>
 												<div id="eventEndWrapper" class="datepicker"></div>
 											</div>
 										</div>			
@@ -285,8 +287,9 @@
 															<i class="fa-solid fa-stopwatch"></i>
 														</span>
 													</div>
-													<input type="number" min="2" class="form-control" placeholder="Event Count" id="eventCount" ${disabledStr}>
+													<input type="number" min="2" class="form-control" id="eventCount">
 												</div>
+												<small class="form-text text-muted">How many occurrences will be generated. The lowest number allowed is 2. (Optional)</small>
 											</div>
 										</div>
 										<#-- /Count -->
@@ -302,8 +305,9 @@
 															<i class="fa-solid fa-person-running"></i>
 														</span>
 													</div>
-													<input type="number" min="1" class="form-control" placeholder="Event Interval" id="eventInterval" ${disabledStr}>
+													<input type="number" min="1" class="form-control" id="eventInterval">
 												</div>
+												<small class="form-text text-muted">The interval between each frequency iteration. (Optional)</small>
 											</div>
 										</div>
 										<#-- /Interval -->
@@ -318,7 +322,7 @@
 															<i class="fa-solid fa-calendar-week"></i>
 														</span>
 													</div>
-													<select class="form-control select2bs4" multiple="multiple" data-placeholder="Select zero or more day of week">
+													<select class="form-control select2bs4" multiple="multiple">
 														<option value="0">Monday</option>
 														<option value="1">Tuesday</option>
 														<option value="2">Wednesday</option>
@@ -326,8 +330,9 @@
 														<option value="4">Friday</option>
 														<option value="5">Saturday</option>
 														<option value="6">Sunday</option>
-													</select>									
+													</select>	
 												</div>
+												<small class="form-text text-muted">The day of week to apply the recurrence to. (Mon-Sun)	(Optional)</small>
 											</div>
 										</div>
 										<#-- /By week day -->
@@ -342,7 +347,7 @@
 															<i class="fa-solid fa-calendar-days"></i>
 														</span>
 													</div>
-													<select class="form-control select2bs4" multiple="multiple" data-placeholder="Select zero or more months">
+													<select class="form-control select2bs4" multiple="multiple">
 														<option value="1">January</option>
 														<option value="2">February</option>
 														<option value="3">March</option>
@@ -357,6 +362,7 @@
 														<option value="12">December</option>				
 													</select>									
 												</div>
+												<small class="form-text text-muted">The month to apply the recurrence to. (Jan-Dec)	(Optional)</small>
 											</div>
 										</div>
 										<#-- /By month -->
@@ -372,26 +378,29 @@
 															<i class="fa-solid fa-calendar-days"></i>
 														</span>
 													</div>
-													<input type="number" min="1" class="form-control" placeholder="Event Interval" id="eventByMonthDay" ${disabledStr}>
+													<input type="number" min="1" class="form-control" id="eventByMonthDay">
 												</div>
+												<small class="form-text text-muted">The day of month to apply the recurrence to. (Optional)</small>
 											</div>
 										</div>
 										<#-- By Month Day -->
 
-										<#-- Recurrent Rule -->
+										<#-- Recurrence Rule -->
 										<div class="form-group row" id="eventRRule">
-											<label for="eventRRule" class="col-lg-3">Recurrent Rule</label>
+											<label for="eventRRule" class="col-lg-3">Recurrence Rule</label>
 											<div class="col-lg-9">
 												123
+												<small class="form-text text-muted">The recurrence rule in computer-friendly language. (iCalendar RFC 5545)</small>
 											</div>
 										</div>			
-										<#-- /Recurrent Rule -->
+										<#-- /Recurrence Rule -->
 
 										<#-- In English -->
 										<div class="form-group row" id="eventRRule">
 											<label for="eventRRuleInEnglish" class="col-lg-3">In English</label>
 											<div class="col-lg-9">
 												123
+												<small class="form-text text-muted">The recurrence rule in human-friendly language. (English)</small>
 											</div>
 										</div>			
 										<#-- /In English -->
@@ -403,40 +412,4 @@
 
 							</div>
 						</div>
-
-						<#--
-						
-													
-								
-								
-								
-								
-								
-								<#-- Calculated 
-								<#-- 
-								<div class="form-group row">
-									<label for="eventCalculatedTime" class="col-sm-2 col-form-label">Calculated Times</label>
-									<div class="col-sm-10 table-responsive">				
-										<table class="table table-bordered">
-  											<thead>
-    											<tr>
-      												<th scope="col">Start</th>
-      												<th scope="col">Duration</th>
-      												<th scope="col">End</th>
-    											</tr>
-  											</thead>
-  											<tbody>
-												<tr>
-      												<td>Null</td>
-      												<td>Null</td>
-      												<td>Null</td>
-    											</tr>
-  											</tbody>
-										</table>
-										
-									</div>
-								</div>		
-								
-							</div>
-						</div>
-						-->
+						<#-- /Timing -->

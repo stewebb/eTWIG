@@ -19,17 +19,17 @@
 									<#-- EventId -->
 									<#if isEdit>
 										<div class="form-group row">
-											<label for="eventId" class="col-sm-2 col-form-label">
+											<label for="eventId" class="col-lg-3 col-form-label">
 												Id&nbsp;<span class="required-symbol">*</span>
 											</label>
-											<div class="col-sm-10">
+											<div class="col-lg-9">
 												<div class="input-group">
 													<div class="input-group-prepend">
 														<span class="input-group-text">
 															<i class="fa-solid fa-hashtag"></i>
 														</span>
 													</div>
-													<input type="number" class="form-control" placeholder="Event ID" id="eventId" value="${eventId}" disabled>
+													<input type="number" class="form-control" id="eventId" disabled>
 												</div>
 											</div>
 										</div>
@@ -38,17 +38,17 @@
 
 									<#-- Name -->
 									<div class="form-group row">
-										<label for="eventName" class="col-sm-2 col-form-label">
+										<label for="eventName" class="col-lg-3 col-form-label">
 											Name&nbsp;<span class="required-symbol">*</span>
 										</label>
-										<div class="col-sm-10">
+										<div class="col-lg-9">
 											<div class="input-group">
 												<div class="input-group-prepend">
 													<span class="input-group-text">
 														<i class="fa-solid fa-lightbulb"></i>
 													</span>
 												</div>
-												<input type="text" class="form-control" placeholder="Event Name" id="eventName" maxlength="63" value="<#if isEdit>${eventDetails.details.name}</#if>" ${disabledStr}>
+												<input type="text" class="form-control" id="eventName" maxlength="63">
 											</div>
 											<small class="form-text text-muted">Event name (required), up to 63 characters.</small>
 										</div>
@@ -57,20 +57,41 @@
 
 									<#-- Location -->
 									<div class="form-group row">
-										<label for="eventLocation" class="col-sm-2 col-form-label">Location</label>
-										<div class="col-sm-10">
+										<label for="eventLocation" class="col-lg-3 col-form-label">Location</label>
+										<div class="col-lg-9">
 											<div class="input-group">
 												<div class="input-group-prepend">
 													<span class="input-group-text">
 														<i class="fa-solid fa-location-dot"></i>
 													</span>
 												</div>
-												<input type="text" class="form-control" placeholder="Event Location" id="eventLocation" maxlength="63" value="<#if isEdit>${eventDetails.details.location}</#if>" ${disabledStr}>
+												<input type="text" class="form-control" id="eventLocation" maxlength="63">
 											</div>
 											<small class="form-text text-muted">Event location (optional), up to 63 characters.</small>
 										</div>
 									</div>
 									<#-- /Location -->
+
+									<#-- Organzier Role -->
+									<div class="form-group row">
+										<label for="eventRole" class="col-lg-3 col-form-label">
+											Organzier Role&nbsp;<span class="required-symbol">*</span>
+											</label>
+										<div class="col-lg-9">
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text">
+														<i class="fa-solid fa-user-tie"></i>
+													</span>
+												</div>
+												
+												<select class="form-control select2" name="eventRole" id="eventRole">
+													
+												</select>
+											</div>
+										</div>
+									</div>
+									<#-- Organzier Role -->
 
 								</div>
 								<#-- /Col 1 -->
@@ -81,7 +102,7 @@
 									<#-- Description -->
 									<div class="form-group">
 										<label for="eventDescription">Description</label>
-										<div id="eventDescription"><#if isEdit>${eventDetails.details.description}</#if></div>
+										<div id="eventDescription"></div>
 										<small class="form-text text-muted">Event description (optional), up to 65,535 characters.</small>
 									</div>
 									<#-- /Description -->
@@ -90,23 +111,4 @@
 								<#-- /Col 2 -->
 							</div>
 						</div>
-								
-								<#--
-								<#if disabled>
-									<#assign calloutTitle = "No edit permission">
-									<#include "./noPermission_callout.ftl">
-								</#if>
-								-->
-
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-							
 						<#-- /Basic Information -->
