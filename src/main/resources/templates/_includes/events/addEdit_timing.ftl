@@ -17,16 +17,16 @@
 
 									<#-- Recurrent -->
 									<div class="form-group row">
-										<label for="event-recurrent" class="col-sm-2 col-form-label">
+										<label for="event-recurrent" class="col-sm-2">
 											Recurrent&nbsp;<span class="required-symbol">*</span>
 										</label>
 										<div class="col-sm-10">
 											<div class="form-group clearfix">
-												<div class="icheck-primary">
+												<div class="icheck-primary d-inline mr-2">
 													<input type="radio" id="single-time-event" name="event-recurrent" checked="">
 													<label for="single-time-event">Single Time</label>
 												</div>
-												<div class="icheck-primary">
+												<div class="icheck-primary d-inline mr-2">
 													<input type="radio" id="recurring-event" name="event-recurrent">
 													<label for="recurring-event">Recurring</label>
 												</div>
@@ -70,12 +70,332 @@
 								<#-- Col 2 -->
 								<div class="col-md-6">
 
-									<div id="singleTimeEventOptions">
-									1
+									<div id="singleTimeEventOptions" style="display:none;">
+									
+										<#-- Start Date -->
+										<div class="form-group row">
+											<label for="eventStartDate" class="col-sm-3 col-form-label">
+												Start Date&nbsp;<span class="required-symbol">*</span>
+											</label>
+											<div class="col-sm-9">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text">
+															<i class="fa-regular fa-calendar"></i>
+														</span>
+													</div>
+													<input type="text" class="form-control" placeholder="Event Start Date" id="eventStartDate" ${disabledStr}>
+												</div>
+												<div id="eventStartWrapper" class="datepicker"></div>
+											</div>
+										</div>
+										<#-- /Start Date -->
+
+										<#-- Start Time -->
+										<div class="form-group row">
+											<label for="eventStartTime" class="col-lg-3 col-form-label">
+												Start Time&nbsp;<span class="required-symbol">*</span>
+											</label>
+											<div class="col-lg-9">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text">
+															<i class="fa-solid fa-hourglass-start"></i>
+														</span>
+													</div>
+													<input type="text" class="form-control" placeholder="Event Start Time" id="eventStartTime" ${disabledStr}>
+												</div>
+												<div id="eventStartWrapper" class="datepicker"></div>
+											</div>
+										</div>
+										<#-- /Start Time -->
+
+										<#-- End Date -->
+										<div class="form-group row" id="eventEndDate">
+											<label for="eventEndDate" class="col-lg-3 col-form-label">
+												End Date&nbsp;<span class="required-symbol">*</span>
+											</label>
+											<div class="col-lg-9">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text">
+															<i class="fa-solid fa-hourglass-end"></i>
+														</span>
+													</div>
+													<input type="text" class="form-control" placeholder="Event End Date" id="eventEndDate" <#if isEdit && !editPermission>disabled</#if>>
+												</div>
+												<div id="eventEndWrapper" class="datepicker"></div>
+											</div>
+										</div>			
+										<#-- /End Date -->
+
+										<#-- End Time -->
+										<div class="form-group row" id="eventEndTime">
+											<label for="eventEndTime" class="col-lg-3 col-form-label">
+												End Time&nbsp;<span class="required-symbol">*</span>
+											</label>
+											<div class="col-lg-9">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text">
+															<i class="fa-solid fa-hourglass-end"></i>
+														</span>
+													</div>
+													<input type="text" class="form-control" placeholder="Event End Time" id="eventEndTime" <#if isEdit && !editPermission>disabled</#if>>
+												</div>
+												<div id="eventEndWrapper" class="datepicker"></div>
+											</div>
+										</div>			
+										<#-- /End Time -->
+
+										<#-- Duration -->
+										<div class="form-group row" id="eventDuration">
+											<label for="eventDuration" class="col-lg-3">Duration</label>
+											<div class="col-lg-9">
+												123
+											</div>
+										</div>			
+										<#-- /Duration -->
+
+										<#-- Possible clashes -->
+										<div class="form-group row" id="eventPossibleClashes">
+											<label for="eventPossibleClashes" class="col-lg-3">Possible Clashes</label>
+											<div class="col-lg-9">
+												123
+											</div>
+										</div>			
+										<#-- /Possible clashes -->
 									</div>
 
 									<div id="recurringEventOptions">
-									2
+
+										<#-- Event Time -->
+										<div class="form-group row">
+											<label for="eventTime" class="col-lg-3 col-form-label">
+												Start Time&nbsp;<span class="required-symbol">*</span>
+											</label>
+											<div class="col-lg-9">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text">
+															<i class="fa-solid fa-clock"></i>
+														</span>
+													</div>
+													<input type="text" class="form-control" placeholder="Event Time" id="eventTime" ${disabledStr}>
+												</div>
+												<div id="eventStartWrapper" class="datepicker"></div>
+											</div>
+										</div>
+										<#-- /Event Time -->
+
+										<#-- Duration -->
+										<div class="form-group row" id="durationInput" <#if durationHidden>style="display:none;"</#if>>
+											<label for="eventDuration" class="col-lg-3 col-form-label">
+												Duration&nbsp;<span class="required-symbol">*</span>
+											</label>
+											<div class="col-lg-9">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text">
+															<i class="fa-solid fa-hourglass-half"></i>
+														</span>
+													</div>
+													<input type="number" min="0" class="form-control" placeholder="Event Duration" id="eventDuration" value="${duration}" ${disabledStr}>
+													<div class="input-group-append">
+														<span class="input-group-text" id="unitText">Minites(s)</span>
+													</div>
+												</div>
+											</div>
+										</div>
+										<#-- /Duration -->
+
+										<#-- Frequency-->
+										<div class="form-group row">
+											<label for="eventFrequency" class="col-lg-3">
+												Frequency&nbsp;<span class="required-symbol">*</span>
+											</label>
+											<div class="col-lg-9">
+												<div class="form-group clearfix">
+												
+													<#-- Daily -->
+													<div class="icheck-primary d-inline mr-2">
+														<input type="radio" id="daily" name="eventFrequency" checked value="h" ${disabledStr}>
+														<label for="daily">Daily</label>
+													</div>
+													
+													<#-- Weekly -->
+													<div class="icheck-primary d-inline mr-2">
+														<input type="radio" id="weekly" name="eventFrequency" value="d" ${disabledStr}>
+														<label for="weekly">Weekly</label>
+													</div>
+													
+													<#-- Monthly-->
+													<div class="icheck-primary d-inline mr-2">
+														<input type="radio" id="monthly" name="eventFrequency" value="w" ${disabledStr}>
+														<label for="monthly">Monthly</label>
+													</div>
+													
+												</div>
+											</div>
+										</div>
+										<#-- /Frequency -->
+
+										<#-- Valid from -->
+										<div class="form-group row">
+											<label for="eventValidFrom" class="col-sm-3 col-form-label">Valid From</label>
+											<div class="col-sm-9">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text">
+															<i class="fa-solid fa-hourglass-start"></i>
+														</span>
+													</div>
+													<input type="text" class="form-control" placeholder="Event Start Date" id="eventValidFrom" ${disabledStr}>
+												</div>
+												<div id="eventStartWrapper" class="datepicker"></div>
+											</div>
+										</div>
+										<#-- /Valid from -->
+
+										<#-- Valid to -->
+										<div class="form-group row" id="eventEndDate">
+											<label for="eventValidTo" class="col-lg-3 col-form-label">Valid To</label>
+											<div class="col-lg-9">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text">
+															<i class="fa-solid fa-hourglass-end"></i>
+														</span>
+													</div>
+													<input type="text" class="form-control" placeholder="Event End Date" id="eventValidTo" <#if isEdit && !editPermission>disabled</#if>>
+												</div>
+												<div id="eventEndWrapper" class="datepicker"></div>
+											</div>
+										</div>			
+										<#-- /Valid to -->
+
+										<#-- Count -->
+										<div class="form-group row" id="eventCount">
+											<label for="eventCount" class="col-lg-3 col-form-label">Count</label>
+											<div class="col-lg-9">
+
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text">
+															<i class="fa-solid fa-stopwatch"></i>
+														</span>
+													</div>
+													<input type="number" min="2" class="form-control" placeholder="Event Count" id="eventCount" ${disabledStr}>
+												</div>
+											</div>
+										</div>
+										<#-- /Count -->
+
+										<#-- Interval -->
+										<div class="form-group row" id="eventInterval">
+											<label for="eventInterval" class="col-lg-3 col-form-label">Interval</label>
+											<div class="col-lg-9">
+
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text">
+															<i class="fa-solid fa-person-running"></i>
+														</span>
+													</div>
+													<input type="number" min="1" class="form-control" placeholder="Event Interval" id="eventInterval" ${disabledStr}>
+												</div>
+											</div>
+										</div>
+										<#-- /Interval -->
+
+										<#-- By week day -->
+										<div class="form-group row" id="eventByWeekDay">
+											<label for="eventByWeekDay" class="col-lg-3 col-form-label">By Week Day</label>
+											<div class="col-lg-9">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text">
+															<i class="fa-solid fa-calendar-week"></i>
+														</span>
+													</div>
+													<select class="form-control select2bs4" multiple="multiple" data-placeholder="Select zero or more day of week">
+														<option value="0">Monday</option>
+														<option value="1">Tuesday</option>
+														<option value="2">Wednesday</option>
+														<option value="3">Thursday</option>
+														<option value="4">Friday</option>
+														<option value="5">Saturday</option>
+														<option value="6">Sunday</option>
+													</select>									
+												</div>
+											</div>
+										</div>
+										<#-- /By week day -->
+
+										<#-- By month -->
+										<div class="form-group row" id="eventByWeekDay">
+											<label for="eventByMonth" class="col-lg-3 col-form-label">By Month</label>
+											<div class="col-lg-9">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text">
+															<i class="fa-solid fa-calendar-days"></i>
+														</span>
+													</div>
+													<select class="form-control select2bs4" multiple="multiple" data-placeholder="Select zero or more months">
+														<option value="1">January</option>
+														<option value="2">February</option>
+														<option value="3">March</option>
+														<option value="4">April</option>
+														<option value="5">May</option>
+														<option value="6">June</option>
+														<option value="7">July</option>
+														<option value="8">August</option>
+														<option value="9">September</option>
+														<option value="10">October</option>
+														<option value="11">November</option>
+														<option value="12">December</option>				
+													</select>									
+												</div>
+											</div>
+										</div>
+										<#-- /By month -->
+
+										<#-- By Month Day -->
+										<div class="form-group row" id="eventInterval">
+											<label for="eventByMonthDay" class="col-lg-3 col-form-label">By Month Day</label>
+											<div class="col-lg-9">
+
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text">
+															<i class="fa-solid fa-calendar-days"></i>
+														</span>
+													</div>
+													<input type="number" min="1" class="form-control" placeholder="Event Interval" id="eventByMonthDay" ${disabledStr}>
+												</div>
+											</div>
+										</div>
+										<#-- By Month Day -->
+
+										<#-- Recurrent Rule -->
+										<div class="form-group row" id="eventRRule">
+											<label for="eventRRule" class="col-lg-3">Recurrent Rule</label>
+											<div class="col-lg-9">
+												123
+											</div>
+										</div>			
+										<#-- /Recurrent Rule -->
+
+										<#-- In English -->
+										<div class="form-group row" id="eventRRule">
+											<label for="eventRRuleInEnglish" class="col-lg-3">In English</label>
+											<div class="col-lg-9">
+												123
+											</div>
+										</div>			
+										<#-- /In English -->
+
 									</div>
 
 								</div>
@@ -85,102 +405,12 @@
 						</div>
 
 						<#--
-						<div class="form-group row">
-									<label for="eventTimeUnit" class="col-sm-2 col-form-label">
-										Time Unit&nbsp;<span class="required-symbol">*</span>
-									</label>
-									<div class="col-sm-10">
-										<div class="form-group clearfix">
-										
-											<#-- Hour
-											<div class="icheck-primary">
-												<input type="radio" id="hour" name="eventTimeUnit" <#if timeUnit == "h">checked</#if> value="h" ${disabledStr}>
-												<label for="hour">Hour</label>
-											</div>
-											
-											<#-- Day
-											<div class="icheck-primary">
-												<input type="radio" id="day" name="eventTimeUnit" <#if timeUnit == "d">checked</#if> value="d" ${disabledStr}>
-												<label for="day">Day [00:00-23:59]</label>
-											</div>
-											
-											<#-- Week
-											<div class="icheck-primary">
-												<input type="radio" id="week" name="eventTimeUnit" <#if timeUnit == "w">checked</#if> value="w" ${disabledStr}>
-												<label for="week">Week [00:00 Mon-23:59 Sun]</label>
-											</div>
-											
-											<#-- Month
-											<div class="icheck-primary">
-												<input type="radio" id="month" name="eventTimeUnit" <#if timeUnit == "m">checked</#if> value="m" ${disabledStr}>
-												<label for="month">Month [00:00 1st day-23:59 last day]</label>
-											</div>
-											
-											<#-- Customize
-											<div class="icheck-primary">
-												<input type="radio" id="customize" name="eventTimeUnit" <#if timeUnit == "c">checked</#if> value="c" ${disabledStr}>
-												<label for="customize">Custom</label>
-											</div>
-										</div>
-									</div>
-								</div>
+						
+													
 								
-								<#-- Start Time 
-								<div class="form-group row">
-									<label for="eventStartTime" class="col-sm-2 col-form-label">
-										Start Time&nbsp;<span class="required-symbol">*</span>
-									</label>
-									<div class="col-sm-10">
-										<div class="input-group">
-											<div class="input-group-prepend">
-												<span class="input-group-text">
-													<i class="fa-solid fa-hourglass-start"></i>
-												</span>
-											</div>
-											<input type="text" class="form-control" placeholder="Event Start Time" id="eventStartTime" ${disabledStr}>
-										</div>
-										<div id="eventStartWrapper" class="datepicker"></div>
-									</div>
-								</div>					
 								
-								<#-- Duration 
-								<div class="form-group row" id="durationInput" <#if durationHidden>style="display:none;"</#if>>
-									<label for="eventDuration" class="col-sm-2 col-form-label">
-										Duration&nbsp;<span class="required-symbol">*</span>
-									</label>
-									<div class="col-sm-10">
-										<div class="input-group">
-											<div class="input-group-prepend">
-												<span class="input-group-text">
-													<i class="fa-solid fa-hourglass-half"></i>
-												</span>
-											</div>
-											<input type="number" min="0" class="form-control" placeholder="Event Duration" id="eventDuration" value="${duration}" ${disabledStr}>
-											<div class="input-group-append">
-												<span class="input-group-text" id="unitText">Hour(s)</span>
-											</div>
-										</div>
-									</div>
-								</div>
 								
-								<#-- End Time 
-								<div class="form-group row" id="endTimeInput" <#if !durationHidden>style="display:none;"</#if>>
-									<label for="eventEndTime" class="col-sm-2 col-form-label">
-										End Time&nbsp;<span class="required-symbol">*</span>
-									</label>
-									<div class="col-sm-10">
-										<div class="input-group">
-											<div class="input-group-prepend">
-												<span class="input-group-text">
-													<i class="fa-solid fa-hourglass-end"></i>
-												</span>
-											</div>
-											<input type="text" class="form-control" placeholder="Event End Time" id="eventEndTime" <#if isEdit && !editPermission>disabled</#if>>
-										</div>
-										<div id="eventEndWrapper" class="datepicker"></div>
-									</div>
-								</div>			
-								<#-- /End Time 
+								
 								
 								<#-- Calculated 
 								<#-- 

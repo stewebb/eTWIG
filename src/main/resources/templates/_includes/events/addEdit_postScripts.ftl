@@ -52,6 +52,10 @@
   		//	templateSelection: formatState,
 		//});
 
+		$('.select2bs4').select2({
+      		theme: 'bootstrap4'
+    	})
+
 		// Initialize the template stepper
      	eventStepper = new Stepper(document.querySelector('#eventStepper'), {
     		linear: false
