@@ -4,31 +4,10 @@
 	license: MIT
 	author: Steven Webb [xiaoancloud@outlook.com]
 	website: https://etwig.grinecraft.net
-	function: The add event page.
+	function: The add/edit event page.
    -->
    
 <#assign navbar = "CALENDAR">
-
-<#-- Add mode. -->
-<#assign isEdit = false>
-<#assign isEditStr = "false">
-
-<#-- In add mode, inputs are also enabled, -->
-<#assign disabled = false>
-<#assign disabledStr ="">
-
-<#-- In add mode, mode is always called "Add". -->
-<#assign modeStr = "Add">
-
-<#-- In add mode, the link of this page is always "/event/add". -->
-<#assign link = "add">
-
-<#-- In add mode, the default time unit is always h (hour) and the default duration is always 1.  -->
-<#assign timeUnit = "h">
-<#assign duration = 1>
-
-<#-- In add mode, the duration input will never been hidden.  -->
-<#assign durationHidden = false>
 
 <!DOCTYPE html>
 <html>
@@ -51,8 +30,26 @@
   		<div class="content-wrapper">
   	
 			<#-- Page header -->
-    		<#include "../_includes/events/addEdit_header.ftl">
-    		<#-- /Page header -->
+	    	<section class="content-header">
+	      		<div class="container-fluid">
+	        		<div class="row mb-2">
+	          			<div class="col-sm-6">
+	            			<h1 class="bold-text">
+	            				
+	            			</h1>
+	          			</div>
+	          			<div class="col-sm-6">
+	            			<ol class="breadcrumb float-sm-right">
+	              				<li class="breadcrumb-item"><a href="/">Home</a></li>
+	              				<li class="breadcrumb-item">Events</li>
+	              				<li class="breadcrumb-item active">
+	              					<a href="/events/">Event</a>
+	              				</li>
+	            			</ol>
+	          			</div>
+	        		</div>
+	      		</div>
+	    	</section>
     	
     		<#-- Main area -->
     		<section class="content">
@@ -154,7 +151,58 @@
 	
 	<#include "../_includes/header/body_end.ftl">
 	
-	<#-- Post Scripts -->
-	<#include "../_includes/events/addEdit_postScripts.ftl">
+	<#-- Common resources -->
+   	<#-- CSS and JS for summernote editor.-->
+	<link rel="stylesheet" href="/static/css/vendor/summernote-bs4.min.css">
+	<script src="/static/js/vendor/summernote-bs4.min.js"></script>
+	
+	<#-- bs stepper -->
+	<link rel="stylesheet" href="/static/css/vendor/bs-stepper.min.css">
+	<script src="/static/js/vendor/bs-stepper.min.js"></script>
+
+	<#-- Custom JS for adding/editing events-->
+	<script src="/static/js/etwig/events.js"></script>
+	
+   	<#-- Post Scripts -->
+	<script>
+	
+		// Initialize the description box
+		initDescriptionBox('#eventDescription');
+		
+		<#if disabled>
+			$('#eventDescription').summernote('disable');
+		</#if>
+		
+		// Time pickers for both start and end time
+		//startTimePicker = createDatePicker("#eventStartWrapper", "#eventStartTime", "date", "yyyy-MM-dd HH:mm A");
+		//endTimePicker = createDatePicker("#eventEndWrapper", "#eventEndTime", "date", "yyyy-MM-dd HH:mm A");
+		
+		//<#if isEdit>
+		//	startTimePicker.setDate(Date.parse("${eventDetails.details.startDateTime}"));
+		//	endTimePicker.setDate(Date.parse("${eventDetails.details.endDateTime}"));
+		//</#if>
+		
+		// Register those time unit buttons
+      	//timeUnitBtnOnChange(startTimePicker);      	
+      	
+      	//$('.common-select-box').select2({
+    	//	theme: 'bootstrap4',
+		//});
+		
+      	//$('#eventPortfolio').select2({
+    	//	theme: 'bootstrap4',
+    	//	templateResult: formatState,
+  		//	templateSelection: formatState,
+		//});
+
+		$('.select2bs4').select2({
+      		theme: 'bootstrap4'
+    	})
+
+		// Initialize the template stepper
+     	eventStepper = new Stepper(document.querySelector('#eventStepper'), {
+    		linear: false
+  		});
+    </script>
 </body>
 </html>
