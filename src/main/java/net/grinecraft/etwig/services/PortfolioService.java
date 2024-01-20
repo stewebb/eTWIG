@@ -10,13 +10,12 @@
 package net.grinecraft.etwig.services;
 
 import java.util.LinkedHashMap;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.repository.PortfolioRepository;
+import net.grinecraft.etwig.repository.UserRoleRepository;
 import net.grinecraft.etwig.util.MapUtils;
 
 @Service
@@ -78,22 +77,7 @@ public class PortfolioService {
 	 */
 	
 	public Portfolio getPortfolioById(long id) {
-		
-		/*
-		if(portfolioRepository == null) {
-			return null;
-		}
-		
-		Optional<Portfolio> portfolioOpt = portfolioRepository.findById(id);
-		return portfolioOpt.isPresent() ? portfolioOpt.get() : null;
-		*/
-		
 		return portfolioRepository == null ? null : portfolioRepository.findById(id).orElse(null);
-	}
-	
-	public Set<Portfolio> getMyPortfolios(){
-		return null;
-		
 	}
 	
 }

@@ -56,8 +56,6 @@ public class EventsController {
 	
 	/**
 	 * Event calendar page.
-	 * @param model
-	 * @return
 	 */
 	
 	@GetMapping("/calendar")  
@@ -67,8 +65,6 @@ public class EventsController {
 	
 	/**
 	 * Add event page.
-	 * @param model
-	 * @return
 	 */
 	
 	@PostAuthorize("hasAuthority('ROLE_EVENTS')")
@@ -131,7 +127,6 @@ public class EventsController {
 	/**
 	 * The attributes that will be added in all pages. 
 	 * @param model
-	 * @Permissions Event Manager, admin FULL; OTHERS NONE
 	 */
 	
 	private void addCommonAttributes(Model model) {
