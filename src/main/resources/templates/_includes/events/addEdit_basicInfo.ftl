@@ -17,7 +17,7 @@
 									<div class="mb-2">&nbsp;</div>
 
 									<#-- EventId -->
-									<#if isEdit>
+									<#--
 										<div class="form-group row">
 											<label for="eventId" class="col-lg-3 col-form-label">
 												Id&nbsp;<span class="required-symbol">*</span>
@@ -33,7 +33,7 @@
 												</div>
 											</div>
 										</div>
-									</#if>
+									-->
 									<#-- /EventId -->
 
 									<#-- Name -->

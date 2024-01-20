@@ -84,7 +84,7 @@
 													</div>
 													<input type="text" class="form-control" id="eventStartDate">
 												</div>
-												<div id="eventStartWrapper" class="datepicker"></div>
+												<div id="eventStartDateWrapper" class="datepicker"></div>
 											</div>
 										</div>
 										<#-- /Start Date -->
@@ -101,15 +101,15 @@
 															<i class="fa-solid fa-hourglass-start"></i>
 														</span>
 													</div>
-													<input type="text" class="form-control" id="eventStartTime">
+													<input type="text" class="form-control event-time" id="eventStartTime" placeholder="__:__">
 												</div>
-												<div id="eventStartWrapper" class="datepicker"></div>
+												<small class="form-text text-muted">Event starting time in a 24-hour clock.</small>
 											</div>
 										</div>
 										<#-- /Start Time -->
 
 										<#-- End Date -->
-										<div class="form-group row" id="eventEndDate">
+										<div class="form-group row">
 											<label for="eventEndDate" class="col-lg-3 col-form-label">
 												End Date&nbsp;<span class="required-symbol">*</span>
 											</label>
@@ -122,7 +122,7 @@
 													</div>
 													<input type="text" class="form-control" id="eventEndDate">
 												</div>
-												<div id="eventEndWrapper" class="datepicker"></div>
+												<div id="eventEndDateWrapper" class="datepicker"></div>
 											</div>
 										</div>			
 										<#-- /End Date -->
@@ -139,9 +139,9 @@
 															<i class="fa-solid fa-hourglass-end"></i>
 														</span>
 													</div>
-													<input type="text" class="form-control" id="eventEndTime">
+													<input type="text" class="form-control event-time" id="eventEndTime" placeholder="__:__">
 												</div>
-												<div id="eventEndWrapper" class="datepicker"></div>
+												<small class="form-text text-muted">Event ending time in a 24-hour clock.</small>
 											</div>
 										</div>			
 										<#-- /End Time -->
@@ -171,7 +171,7 @@
 
 										<#-- Event Time -->
 										<div class="form-group row">
-											<label for="eventTime" class="col-lg-3 col-form-label">
+											<label for="eventRecurringTime" class="col-lg-3 col-form-label">
 												Start Time&nbsp;<span class="required-symbol">*</span>
 											</label>
 											<div class="col-lg-9">
@@ -181,9 +181,9 @@
 															<i class="fa-solid fa-clock"></i>
 														</span>
 													</div>
-													<input type="text" class="form-control" id="eventTime">
+													<input type="text" class="form-control event-time" id="eventRecurringTime" placeholder="__:__">
 												</div>
-												<div id="eventStartWrapper" class="datepicker"></div>
+												<small class="form-text text-muted">Event starting time in a 24-hour clock.</small>
 											</div>
 										</div>
 										<#-- /Event Time -->
@@ -242,7 +242,7 @@
 
 										<#-- Valid from -->
 										<div class="form-group row">
-											<label for="eventValidFrom" class="col-sm-3 col-form-label">Valid From</label>
+											<label for="eventValidFromDate" class="col-sm-3 col-form-label">Valid From</label>
 											<div class="col-sm-9">
 												<div class="input-group">
 													<div class="input-group-prepend">
@@ -250,17 +250,17 @@
 															<i class="fa-solid fa-hourglass-start"></i>
 														</span>
 													</div>
-													<input type="text" class="form-control" id="eventValidFrom">
+													<input type="text" class="form-control" id="eventValidFromDate">
 												</div>
 												<small class="form-text text-muted">The date when the recurrence start. (Optional)</small>
-												<div id="eventStartWrapper" class="datepicker"></div>
+												<div id="eventValidFromDateWrapper" class="datepicker"></div>
 											</div>
 										</div>
 										<#-- /Valid from -->
 
 										<#-- Valid to -->
 										<div class="form-group row" id="eventEndDate">
-											<label for="eventValidTo" class="col-lg-3 col-form-label">Valid To</label>
+											<label for="eventValidToDate" class="col-lg-3 col-form-label">Valid To</label>
 											<div class="col-lg-9">
 												<div class="input-group">
 													<div class="input-group-prepend">
@@ -268,10 +268,10 @@
 															<i class="fa-solid fa-hourglass-end"></i>
 														</span>
 													</div>
-													<input type="text" class="form-control" id="eventValidTo">
+													<input type="text" class="form-control" id="eventValidToDate">
 												</div>
 												<small class="form-text text-muted">The date when the recurrence end. (Optional)</small>
-												<div id="eventEndWrapper" class="datepicker"></div>
+												<div id="eventValidToDateWrapper" class="datepicker"></div>
 											</div>
 										</div>			
 										<#-- /Valid to -->

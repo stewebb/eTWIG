@@ -278,6 +278,7 @@ function timeUnitBtnOnChange(startTimePicker){
  * @returns The created datepicker element.
  */
 
+/*
 function createDatePicker(htmlElem, pickerElem, type, format){
 
 	// Create the date picker
@@ -294,6 +295,27 @@ function createDatePicker(htmlElem, pickerElem, type, format){
         },
 	});
 	return datepicker;
+}
+*/
+
+function createDatePickers() {
+	
+    // Select all elements with IDs that match the pattern "event*Date"
+    $('[id^="event"][id$="Date"]').each(function() {
+        var inputId = '#' + this.id;
+        var wrapperId = '#' + this.id + 'Wrapper';
+
+        // Initialize the date picker
+        new tui.DatePicker(wrapperId, {
+            date: Date.today(),
+            type: "date",
+            input: {
+                element: inputId,
+                format: "yyyy-MM-dd",
+                usageStatistics: false
+            },
+        });
+    });
 }
 
 /**

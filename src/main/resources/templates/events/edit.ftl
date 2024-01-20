@@ -151,7 +151,7 @@
 	
 	<#include "../_includes/header/body_end.ftl">
 	
-	<#-- Common resources -->
+	<#-- Resources -->
    	<#-- CSS and JS for summernote editor.-->
 	<link rel="stylesheet" href="/static/css/vendor/summernote-bs4.min.css">
 	<script src="/static/js/vendor/summernote-bs4.min.js"></script>
@@ -160,27 +160,40 @@
 	<link rel="stylesheet" href="/static/css/vendor/bs-stepper.min.css">
 	<script src="/static/js/vendor/bs-stepper.min.js"></script>
 
+	<#-- jQuery inputmask -->
+   	<script src="/static/js/vendor/jquery.inputmask.min.js"></script>
+
 	<#-- Custom JS for adding/editing events-->
 	<script src="/static/js/etwig/events.js"></script>
 	
    	<#-- Post Scripts -->
 	<script>
+
+		$(document).ready(function() {
+
+			// Date and time inputs.
+    		createDatePickers();
+			$('.event-time').inputmask('99:99');
+		});
+
+
 	
 		// Initialize the description box
 		initDescriptionBox('#eventDescription');
 		
-		<#if disabled>
-			$('#eventDescription').summernote('disable');
-		</#if>
+
+		//<#--if disabled>
+		//	$('#eventDescription').summernote('disable');
+		//</#if-->
 		
 		// Time pickers for both start and end time
 		//startTimePicker = createDatePicker("#eventStartWrapper", "#eventStartTime", "date", "yyyy-MM-dd HH:mm A");
 		//endTimePicker = createDatePicker("#eventEndWrapper", "#eventEndTime", "date", "yyyy-MM-dd HH:mm A");
 		
-		//<#if isEdit>
+		//<#--if isEdit>
 		//	startTimePicker.setDate(Date.parse("${eventDetails.details.startDateTime}"));
 		//	endTimePicker.setDate(Date.parse("${eventDetails.details.endDateTime}"));
-		//</#if>
+		//</if-->
 		
 		// Register those time unit buttons
       	//timeUnitBtnOnChange(startTimePicker);      	
