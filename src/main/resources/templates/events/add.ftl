@@ -7,14 +7,11 @@
 	function: The add event page.
    -->
    
-<#assign navbar = "ADD_EVENT">
+<#assign navbar = "CALENDAR">
 
 <#-- Add mode. -->
 <#assign isEdit = false>
 <#assign isEditStr = "false">
-
-<#-- Convert the "Embedded" boolean to String -->
-<#assign isEmbeddedStr = embedded ?string('true', 'false')>
 
 <#-- In add mode, inputs are also enabled, -->
 <#assign disabled = false>
@@ -40,60 +37,106 @@
 	<title>Add Event - ${app.appName}</title>
 </head>
 
-<body class="sidebar-mini layout-fixed">
+<body class="hold-transition layout-top-nav">
 	<#include "../_includes/header/body_start.ftl">
-	
-	<#if !embedded>
-		<#include "../_includes/sidebar.ftl">
-	</#if>
-	
-	<#-- Content Wrapper -->
-  	<div class="<#if !embedded>content-</#if>wrapper">
-  	
-		<#-- Page header -->
-		<#if !embedded>
-    		<#include "../_includes/events/addEdit_header.ftl">
-    	</#if>
-    	<#-- /Page header -->
-    	
-    	<#-- Main area -->
-    	<section class="content">
-			<form class="container-fluid" id="addEventForm" action="/events/add" method="post">
-			
-				<div class="row">
-					<div class="col-md-6">
-					
-						<#-- Basic Information -->		
-						<#include "../_includes/events/addEdit_basicInfo.ftl">			
-									
-						<#-- Organizer -->		
-						<#include "../_includes/events/addEdit_organizer.ftl">
-					</div>
-					
-					<div class="col-md-6">
-					
-						<#-- Timing -->		
-						<#include "../_includes/events/addEdit_timing.ftl">
 
-						<#-- Properties -->
-						<#include "../_includes/events/addEdit_properties.ftl">
-						
-						<#-- Footer -->
-						<#include "../_includes/events/addEdit_footer.ftl">
-					</div>
-				</div>
+	<#-- Main Wrapper -->
+	<div class="wrapper">
+
+		<#-- Navbar -->
+		<#include "../_includes/navbar.ftl">
+		<#-- /Navbar -->
+
+		<#-- Content Wrapper. -->
+  		<div class="content-wrapper">
+  	
+			<#-- Page header -->
+    		<#include "../_includes/events/addEdit_header.ftl">
+    		<#-- /Page header -->
+    	
+    		<#-- Main area -->
+    		<section class="content">
+				<div class="container-fluid">
 				
-			</form>
-		</section>
-		<#-- /Main area -->
+					<#--
+					<div class="card card-primary card-outline">
+						<div class="card-header">
+							<h3 class="card-title">
+								<i class="fa-regular fa-gear"></i>&nbsp;Options
+							</h3>
+						</div>
+						<div class="card-body">
+						</div>
+					</div>
+					-->
+
+				
+			
+					<div id="stepper2" class="bs-stepper bg-white">
+          <div class="bs-stepper-header" role="tablist">
+            <div class="step" data-target="#test-nl-1">
+              <button type="button" class="step-trigger" role="tab" id="stepper2trigger1" aria-controls="test-nl-1">
+                <span class="bs-stepper-circle">
+                  <span class="fas fa-user" aria-hidden="true"></span>
+                </span>
+                <span class="bs-stepper-label">Name</span>
+              </button>
+            </div>
+            <div class="bs-stepper-line"></div>
+            <div class="step" data-target="#test-nl-2">
+              <button type="button" class="step-trigger" role="tab" id="stepper2trigger2" aria-controls="test-nl-2">
+                <span class="bs-stepper-circle">
+                  <span class="fas fa-map-marked" aria-hidden="true"></span>
+                </span>
+                <span class="bs-stepper-label">Address</span>
+              </button>
+            </div>
+            <div class="bs-stepper-line"></div>
+            <div class="step" data-target="#test-nl-3">
+              <button type="button" class="step-trigger" role="tab" id="stepper2trigger3" aria-controls="test-nl-3">
+                <span class="bs-stepper-circle">
+                  <span class="fas fa-save" aria-hidden="true"></span>
+                </span>
+                <span class="bs-stepper-label">Submit</span>
+              </button>
+            </div>
+          </div>
+          <div class="bs-stepper-content">
+            <form onSubmit="return false">
+              <div id="test-nl-1" role="tabpanel" class="bs-stepper-pane" aria-labelledby="stepper2trigger1">
+                <div class="form-group">
+                  <label for="exampleInputName1">Name</label>
+                  <input type="email" class="form-control" id="exampleInputName1" placeholder="Enter your name">
+                </div>
+                <button class="btn btn-primary" onclick="stepper2.next()">Next</button>
+              </div>
+              <div id="test-nl-2" role="tabpanel" class="bs-stepper-pane" aria-labelledby="stepper2trigger2">
+                <div class="form-group">
+                  <label for="exampleInpuAddress1">Address</label>
+                  <input type="email" class="form-control" id="exampleInpuAddress1" placeholder="Enter your address">
+                </div>
+                <button class="btn btn-primary" onclick="stepper2.next()">Next</button>
+              </div>
+              <div id="test-nl-3" role="tabpanel" class="bs-stepper-pane text-center" aria-labelledby="stepper2trigger3">
+                <button type="submit" class="btn btn-primary mt-5">Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+				
+				</div>
+			</section>
+			<#-- /Main area -->
 		
+		</div>
+		<#-- /Content Wrapper -->
+
 	</div>
-	<#-- /Content Wrapper -->
+	<#-- Main Wrapper -->
 	
 	<#-- Footer -->
-	<#if !embedded>
-		<#include "../_includes/footer.ftl">
-	</#if>
+	<#include "../_includes/footer.ftl">
+	
 	<#include "../_includes/header/body_end.ftl">
 	
 	<#-- Post Scripts -->

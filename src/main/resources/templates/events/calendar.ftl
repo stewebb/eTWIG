@@ -24,8 +24,6 @@
 
 		<#-- Navbar -->
 		<#include "../_includes/navbar.ftl">
-		
-		<#-- /Navbar -->
 	
 		<#include "../_includes/modal.ftl">
 

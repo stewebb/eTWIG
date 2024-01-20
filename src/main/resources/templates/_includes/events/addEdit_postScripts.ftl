@@ -13,6 +13,9 @@
 	<link rel="stylesheet" href="/static/css/vendor/summernote-bs4.min.css">
 	<script src="/static/js/vendor/summernote-bs4.min.js"></script>
 	
+	<#-- bs stepper -->
+	<link rel="stylesheet" href="/static/css/vendor/bs-stepper.min.css">
+	<script src="/static/js/vendor/bs-stepper.min.js"></script>
 
 	<#-- Custom JS for adding/editing events-->
 	<script src="/static/js/etwig/events.js"></script>
@@ -21,31 +24,36 @@
 	<script>
 	
 		// Initialize the description box
-		initDescriptionBox('#eventDescription');
+		//initDescriptionBox('#eventDescription');
 		
-		<#if disabled>
-			$('#eventDescription').summernote('disable');
-		</#if>
+		//<#if disabled>
+		//	$('#eventDescription').summernote('disable');
+		//</#if>
 		
 		// Time pickers for both start and end time
-		startTimePicker = createDatePicker("#eventStartWrapper", "#eventStartTime", "date", "yyyy-MM-dd HH:mm A");
-		endTimePicker = createDatePicker("#eventEndWrapper", "#eventEndTime", "date", "yyyy-MM-dd HH:mm A");
+		//startTimePicker = createDatePicker("#eventStartWrapper", "#eventStartTime", "date", "yyyy-MM-dd HH:mm A");
+		//endTimePicker = createDatePicker("#eventEndWrapper", "#eventEndTime", "date", "yyyy-MM-dd HH:mm A");
 		
-		<#if isEdit>
-			startTimePicker.setDate(Date.parse("${eventDetails.details.startDateTime}"));
-			endTimePicker.setDate(Date.parse("${eventDetails.details.endDateTime}"));
-		</#if>
+		//<#if isEdit>
+		//	startTimePicker.setDate(Date.parse("${eventDetails.details.startDateTime}"));
+		//	endTimePicker.setDate(Date.parse("${eventDetails.details.endDateTime}"));
+		//</#if>
 		
 		// Register those time unit buttons
-      	timeUnitBtnOnChange(startTimePicker);      	
+      	//timeUnitBtnOnChange(startTimePicker);      	
       	
-      	$('.common-select-box').select2({
-    		theme: 'bootstrap4',
-		});
+      	//$('.common-select-box').select2({
+    	//	theme: 'bootstrap4',
+		//});
 		
-      	$('#eventPortfolio').select2({
-    		theme: 'bootstrap4',
-    		templateResult: formatState,
-  			templateSelection: formatState,
-		});
+      	//$('#eventPortfolio').select2({
+    	//	theme: 'bootstrap4',
+    	//	templateResult: formatState,
+  		//	templateSelection: formatState,
+		//});
+
+		// Initialize the template stepper
+     	stepper2 = new Stepper(document.querySelector('#stepper2'), {
+    		linear: false
+  		});
     </script>
