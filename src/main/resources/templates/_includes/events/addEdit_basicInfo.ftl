@@ -85,10 +85,9 @@
 													</span>
 												</div>
 												
-												<select class="form-control select2" name="eventRole" id="eventRole">
-													
-												</select>
+												<select class="form-control select2bs4" name="eventRole" id="eventRole"></select>
 											</div>
+											<small class="form-text text-muted">The position and associated portfolio, divided by comma.</small>
 										</div>
 									</div>
 									<#-- Organzier Role -->

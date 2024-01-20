@@ -23,11 +23,11 @@
 										<div class="col-sm-10">
 											<div class="form-group clearfix">
 												<div class="icheck-primary d-inline mr-2">
-													<input type="radio" id="single-time-event" name="event-recurrent" checked="">
+													<input type="radio" id="single-time-event" name="event-recurrent" checked="" value="0">
 													<label for="single-time-event">Single Time</label>
 												</div>
 												<div class="icheck-primary d-inline mr-2">
-													<input type="radio" id="recurring-event" name="event-recurrent">
+													<input type="radio" id="recurring-event" name="event-recurrent" value="1">
 													<label for="recurring-event">Recurring</label>
 												</div>
 											</div>				
@@ -38,10 +38,10 @@
 														You cannot change the recurrent option for an existing event. If you want to do so, please delate the event and create a new event.
 													</div>
 													-->
-													<div class="callout callout-primary">
-														<h5 class="bold-text mb-3">Be Careful!</h5>
-														Once you set the recurrent option, it cannot be changed unless you delete the event completely, then add a new event.
-													</div>
+											<div class="callout callout-primary">
+												<h5 class="bold-text mb-3">Be Careful!</h5>
+												Once you set the recurrent option, it cannot be changed unless you delete the event completely, then add a new event.
+											</div>
 												
 										</div>
 									</div>
@@ -90,7 +90,7 @@
 										<#-- /Start Date -->
 
 										<#-- Start Time -->
-										<div class="form-group row">
+										<div class="form-group row" id="eventStartTimeBlock">
 											<label for="eventStartTime" class="col-lg-3 col-form-label">
 												Start Time&nbsp;<span class="required-symbol">*</span>
 											</label>
@@ -128,7 +128,7 @@
 										<#-- /End Date -->
 
 										<#-- End Time -->
-										<div class="form-group row" id="eventEndTime">
+										<div class="form-group row" id="eventEndTimeBlock">
 											<label for="eventEndTime" class="col-lg-3 col-form-label">
 												End Time&nbsp;<span class="required-symbol">*</span>
 											</label>
@@ -170,7 +170,7 @@
 									<div id="recurringEventOptions">
 
 										<#-- Event Time -->
-										<div class="form-group row">
+										<div class="form-group row" id="eventRecurringTimeBlock">
 											<label for="eventRecurringTime" class="col-lg-3 col-form-label">
 												Start Time&nbsp;<span class="required-symbol">*</span>
 											</label>

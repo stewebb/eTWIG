@@ -34,17 +34,12 @@
 	      		<div class="container-fluid">
 	        		<div class="row mb-2">
 	          			<div class="col-sm-6">
-	            			<h1 class="bold-text">
-	            				
-	            			</h1>
+	            			<h1 class="bold-text" id="eventPageTitle"></h1>
 	          			</div>
 	          			<div class="col-sm-6">
 	            			<ol class="breadcrumb float-sm-right">
-	              				<li class="breadcrumb-item"><a href="/">Home</a></li>
-	              				<li class="breadcrumb-item">Events</li>
-	              				<li class="breadcrumb-item active">
-	              					<a href="/events/">Event</a>
-	              				</li>
+	              				<li class="breadcrumb-item active"><a href="/events/calendar">Events</a></li>
+	              				<li class="breadcrumb-item active"><a href="#" id="eventPageLink">Event</a></li>
 	            			</ol>
 	          			</div>
 	        		</div>
@@ -174,6 +169,27 @@
 			// Date and time inputs.
     		createDatePickers();
 			$('.event-time').inputmask('99:99');
+
+			// Get event info and display it.
+			getEventInfo();
+
+			
+			$('input[type=radio][name=event-recurrent]').change(function() {
+				setRecurrentMode(this.value);
+			});
+
+			$('#eventAllDayEvent').change(function() {
+				setAllDayEvent(this.checked); 
+    		});
+
+			$('.select2bs4').select2({
+      			theme: 'bootstrap4'
+    		})
+
+			// Initialize the template stepper
+     		eventStepper = new Stepper(document.querySelector('#eventStepper'), {
+    			linear: false
+  			});
 		});
 
 
@@ -208,14 +224,7 @@
   		//	templateSelection: formatState,
 		//});
 
-		$('.select2bs4').select2({
-      		theme: 'bootstrap4'
-    	})
-
-		// Initialize the template stepper
-     	eventStepper = new Stepper(document.querySelector('#eventStepper'), {
-    		linear: false
-  		});
+		
     </script>
 </body>
 </html>

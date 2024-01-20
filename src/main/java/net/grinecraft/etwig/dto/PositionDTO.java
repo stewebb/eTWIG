@@ -10,13 +10,13 @@ public class PositionDTO {
 	
 	private Long userRoleId;
 	private String position;
-	private String email;
-	private Long portfolioId;
+	private String portfolioName;
+	//private Long portfolioId;
 	
 	public PositionDTO(UserRole userRole){
 		this.userRoleId = userRole.getId();
 		this.position = userRole.getPosition();
-		this.email = userRole.getEmail();
-		this.portfolioId = userRole.getPortfolioId();
+		this.portfolioName = userRole.getPortfolio().getName();
+		//this.portfolioId = userRole.getPortfolioId();
 	}
 }

@@ -7,6 +7,39 @@
  	* @function: Add, edit and delete events.
  	*/
 
+function getEventInfo(){
+	
+	// Get eventId
+	var urlParams = new URLSearchParams(window.location.search);
+    var eventId = urlParams.get('eventId');
+    
+    // Null check.
+    if(eventId == undefined || eventId == null || eventId.length == 0){
+		warningToast("The eventId provided is empty.", "It must be not empty, and an integer. This page will be switched to Add Event mode.");
+		initAddOption();
+		return;
+	}
+    
+    // Invalid check (not an integer).
+    if(eventId % 1 !== 0){
+		warningToast(eventId +" is not a valid eventId", "It must be an integer. This page will be switched to Add Event mode.");
+		initAddOption();
+		return;
+	}
+    
+    // Zero or Negative eventId, add event mode.
+    if(eventId <= 0){
+		initAddOption();
+		return;
+	}
+	
+	// Positive eventId, search it in the DB.
+    
+    console.log(eventId);
+}
+
+
+
 /**
  * Validate the add event form. If passed, add the event.
  * @param embedded True if the event add page is in the "embed" mode, i.e., this page is in the frame of the calendar. 
@@ -208,95 +241,15 @@ function initDescriptionBox(boxElem){
 	});
 }
 
-/**
- * Change timing options based on time units
- * @param startTimePicker The ToastUI datepicker element of the start time.
- */
-
-function timeUnitBtnOnChange(startTimePicker){
-	$('input[type=radio][name=eventTimeUnit]').change(function() {
-		
-		// Custom time unit: input a specific end time. Otherwise, input a time range with appropriate duration.
-		if(this.value == "c"){
-			$("#durationInput").hide();
-			$("#endTimeInput").show();
-		}else{
-			$("#durationInput").show();
-			$("#endTimeInput").hide();
-		}
-		
-		// Always set the default time to "12 AM".
-		var timePicker = startTimePicker.getTimePicker();
-		timePicker.setTime(0, 0);
-		
-		// Change some values based on the choices.
-		switch (this.value){
-			
-			// Hour
-			case "h":
-				$('#unitText').text("Hour(s)");
-				startTimePicker.setType("date");
-				timePicker.show();
-				break;
-			
-			// Day
-			case "d":
-				$('#unitText').text("Day(s)");
-				startTimePicker.setType("date");
-				timePicker.hide();
-				break;	
-				
-			// Week
-			case "w":
-				$('#unitText').text("Week(s)");
-				startTimePicker.setType("date");
-				timePicker.hide();
-				break;	
-				
-			// Month
-			case "m":
-				$('#unitText').text("Month(s)");
-				startTimePicker.setType("month");
-				timePicker.hide();
-				break;
-
-			// Custom
-			default:
-				startTimePicker.setType("date");
-				timePicker.show();
-				break;	
-		}
-	});
+function setRecurrentMode(recurrentMode){
+	$('#singleTimeEventOptions').toggle(recurrentMode == 0);
+    $('#recurringEventOptions').toggle(recurrentMode != 0);
 }
 
-/**
- * Create ToastUI date picker
- * @param htmlElem The element of datepicker wrapper.
- * @param pickerElem The element of date input.
- * @param type The picker type.
- * @param format Time format.
- * @returns The created datepicker element.
- */
-
-/*
-function createDatePicker(htmlElem, pickerElem, type, format){
-
-	// Create the date picker
-	var datepicker = new tui.DatePicker(htmlElem, {
-		date: Date.today(),
-		type: type,
-		input: {
-			element: pickerElem,
-			format: format,
-			usageStatistics: false
-		},
-		timePicker: {
-          inputType: 'spinbox'
-        },
-	});
-	return datepicker;
+function setAllDayEvent(allDayEvent){
+	$('[id^="event"][id$="TimeBlock"]').toggle(allDayEvent);
+    $('[id^="event"][id$="TimeBlock"]').toggle(!allDayEvent);
 }
-*/
 
 function createDatePickers() {
 	
@@ -316,6 +269,39 @@ function createDatePickers() {
             },
         });
     });
+}
+
+function initAddOption(){
+	
+	// Set the default options.
+	setRecurrentMode(0);
+	setAllDayEvent(false);
+	
+	// Set the title.
+	$('#eventPageTitle').text('Add event');
+	$('#eventPageLink').text('Add event');
+	$('#eventPageLink').attr('href', '/events/edit?eventId=-1');
+	
+	// Set the role(s).
+	$.ajax({ 
+		type: 'GET', 
+    	url: '/api/private/getMyPositions', 
+    	async: false,
+		success: function(json) {
+			
+			// Iterate all roles.
+			jQuery.each(json, function(id, value) {
+				console.log(value);
+				$("#eventRole").append(`<option value="${value.userRoleId}">${value.position}, ${value.portfolioName}</option>`);
+			})
+        },
+        
+        // Toast error info when it happens
+    	error: function(err) {   		
+			dangerToast("Failed to get user positions due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+		}
+	});
+	
 }
 
 /**
