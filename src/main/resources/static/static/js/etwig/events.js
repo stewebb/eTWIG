@@ -71,8 +71,8 @@ function getEventInfo(datePickersMap){
     $('#eventId').text(eventInfo.id);
     
     // Set the title.
-	$('#eventPageTitle').text('Edit event: ' + eventInfo.name);
-	$('#eventPageLink').text('Edit event');
+	$('#eventPageTitle').text('Edit Event: ' + eventInfo.name);
+	$('#eventPageLink').text('Edit Event');
 	$('#eventPageLink').attr('href', '/events/edit?eventId=' + eventInfo.id);
     
     // Get name and location
@@ -442,8 +442,8 @@ function initAddOption(){
     $('#eventUpdatedTimeBlock').hide();
    
 	// Set the title.
-	$('#eventPageTitle').text('Add event');
-	$('#eventPageLink').text('Add event');
+	$('#eventPageTitle').text('Add Event');
+	$('#eventPageLink').text('Add Event');
 	$('#eventPageLink').attr('href', '/events/edit?eventId=-1');
 	
 	// Set the role(s).

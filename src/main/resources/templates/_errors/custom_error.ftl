@@ -9,6 +9,8 @@
 	e.g., invalid eventId
    -->
 
+	<#assign navbar = "ERROR">
+	
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,51 +18,48 @@
 	<title>Error - ${app.appName}</title>
 </head>
 
-<body class="sidebar-mini layout-fixed">
+<body class="hold-transition layout-top-nav">
 	<#include "../_includes/header/body_start.ftl">
 	
-	
-	<#if embedded == false>
-		<#assign navbar = "OTHER">
-		<#include "../_includes/sidebar.ftl">
-	</#if>
-	 
-	 
-	<#-- Content Wrapper -->
-  	<div class="<#if embedded == false>content-</#if>wrapper mt-3">
+	<#-- Main Wrapper -->
+	<div class="wrapper">
+
+		<#-- Navbar -->
+		<#include "../_includes/navbar.ftl">
+		<#-- /Navbar -->
+
+		<#-- Content Wrapper. -->
+  		<div class="content-wrapper">
   	
-    	<#-- Main area -->
-    	<section class="content">
-			<div class="container-fluid">
-			
-				<#-- Error description -->
-				<div class="card card-warning card-outline">
+			<#-- Error description -->
+			<div class="card card-warning card-outline">
 				
-					<div class="card-header">
-						<h3 class="card-title bold-text text-warning">
-							<i class="fa-solid fa-circle-exclamation"></i>&nbsp;An error happenes
-						</h3>
-					</div>
+				<div class="card-header">
+					<h3 class="card-title bold-text text-warning">
+						<i class="fa-solid fa-circle-exclamation"></i>&nbsp;An error happenes
+					</h3>
+				</div>
 					
-					<div class="card-body">
-					
-						<div class="mb-3">
-							<span class="bold-text">Description:</span>&nbsp;
-							<#if reason?has_content>${reason}</#if>
-						</div>
-						
-						<div class="d-flex justify-content-center">
-							<button class="btn btn-outline-primary" onclick="window.history.back();">
-								<i class="fa-solid fa-rotate-left"></i>&nbsp;Go Back
-							</button>
-						</div>
-						
+				<div class="card-body">
+					<div class="mb-3">
+						<span class="bold-text">Description:</span>&nbsp;
+						<#if reason?has_content>${reason}</#if>
 					</div>
+						
+					<div class="d-flex justify-content-center">
+						<button class="btn btn-outline-primary" onclick="window.history.back();">
+							<i class="fa-solid fa-rotate-left"></i>&nbsp;Go Back
+						</button>
+					</div>
+						
 				</div>
 			</div>
-		</section>
+		
+		</div>
+		<#-- /Content Wrapper -->
 
 	</div>
+	<#-- Main Wrapper -->
 	
 	<#include "../_includes/header/body_end.ftl">
 	

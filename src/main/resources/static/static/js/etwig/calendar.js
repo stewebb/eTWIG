@@ -187,57 +187,6 @@ function createDatePicker(htmlElem, pickerElem, buttonElem){
 	}); 
 }
 
-function editEventBtn(eventId){
-	
-	$('#etwigModalTitle').text('Edit Event');
-	$('#etwigModalBody').html(`
-		<ul class="nav nav-tabs mb-3" id="editDelete" role="tablist">
-  			<li class="nav-item" role="presentation">
-    			<button class="nav-link active" id="edit-tab" data-toggle="tab" data-target="#edit" type="button" role="tab" aria-controls="edit" aria-selected="true">
-    				<i class="fa-solid fa-pencil"></i>&nbsp;Edit
-    			</button>
-  			</li>
-  			<li class="nav-item" role="presentation">
-    			<button class="nav-link" id="delete-tab" data-toggle="tab" data-target="#graphics" type="button" role="tab" aria-controls="graphics" aria-selected="false">
-    				<i class="fa-solid fa-images"></i>&nbsp;Graphics
-    			</button>
-  			</li>
-  			<li class="nav-item" role="presentation">
-    			<button class="nav-link" id="delete-tab" data-toggle="tab" data-target="#delete" type="button" role="tab" aria-controls="delete" aria-selected="false">
-    				<i class="fa-solid fa-eraser"></i>&nbsp;Delete
-    			</button>
-  			</li>
-		</ul>
-		
-		<div class="tab-content" id="editTabContent">
-  			<div class="tab-pane fade show active" id="edit" role="tabpanel" aria-labelledby="edit-tab">
-				<div class="embed-responsive embed-responsive-1by1">
-					<iframe class="embed-responsive-item" src="/events/edit?eventId=${eventId}&embedded=true" allowfullscreen></iframe>
-        		</div>
-			</div>
-			
-			<div class="tab-pane fade show" id="graphics" role="tabpanel" aria-labelledby="graphics-tab">
-				<div class="embed-responsive embed-responsive-1by1">
-					<iframe class="embed-responsive-item" src="/graphics/request/event?eventId=${eventId}&embedded=true" allowfullscreen></iframe>
-        		</div>
-			</div>
-			
-  			<div class="tab-pane fade" id="delete" role="tabpanel" aria-labelledby="delete-tab">
-  				<div class="embed-responsive embed-responsive-1by1">
-					<iframe class="embed-responsive-item" src="/events/delete?eventId=${eventId}&embedded=true" allowfullscreen></iframe>
-        		</div>
-			</div>
-		</div>
- 	`);
-	
-	// This modal cannot be closed when clicking outside area.  
-	$('#etwigModal').modal({
-    	backdrop: 'static',
-    	keyboard: false,
-	})
-	$('#etwigModal').modal('show');
-}
-
 /**
  * Helper function, change the calendar value.
  */
