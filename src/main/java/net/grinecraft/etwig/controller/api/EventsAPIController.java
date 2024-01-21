@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpSession;
-import net.grinecraft.etwig.dto.EventBasicInfoDTO;
+import net.grinecraft.etwig.dto.SingleTimeEventBasicInfoDTO;
 import net.grinecraft.etwig.dto.EventDetailsDTO;
 import net.grinecraft.etwig.services.EventService;
 import net.grinecraft.etwig.util.DateUtils;
@@ -39,9 +39,9 @@ public class EventsAPIController {
 	 * @throws Exception
 	 */
 	
-	@RequestMapping("/api/private/getMonthlyEventList")  
-	public LinkedHashMap<Long, EventBasicInfoDTO> getMonthlyEventList(@RequestParam String date) throws Exception{
-		return eventService.getMonthlyBasicInfoListByDateRange(DateUtils.safeParseDate(date, "yyyy-MM-dd"));
+	@RequestMapping("/api/private/getMonthlySingleTimeEventList")  
+	public LinkedHashMap<Long, SingleTimeEventBasicInfoDTO> getMonthlySingleTimeEventList(@RequestParam String date) throws Exception{
+		return eventService.getMonthlySingleTimeEventByDateRange(DateUtils.safeParseDate(date, "yyyy-MM-dd"));
 	}
 	
 	/**

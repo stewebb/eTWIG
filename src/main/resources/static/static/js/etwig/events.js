@@ -67,11 +67,18 @@ function getEventInfo(datePickersMap){
 	 */
 	
     // Get eventId
+    var eventId = eventInfo.id;
     $('#eventIdBlock').show();
-    $('#eventId').text(eventInfo.id);
+    $('#eventId').text(eventId);
+    
+    // Set the title.
+    var name = eventInfo.name;
+	$('#eventPageTitle').text('Edit event: ' + name);
+	$('#eventPageLink').text('Edit event');
+	$('#eventPageLink').attr('href', '/events/edit?eventId=' + eventId);
     
     // Get name and location
-    $('#eventName').val(eventInfo.name);
+    $('#eventName').val(name);
     $('#eventLocation').val(eventInfo.location);
     
     // Get organizer info and set it to read-only.
@@ -102,7 +109,12 @@ function getEventInfo(datePickersMap){
     $('#eventDuration').val(eventInfo.duration);
     $('#eventDurationCalculated').text(formatTime(eventInfo.duration));
     
-    
+    // Get recurrent info.
+    var rRule = new ETwig.EtwigRRule(eventInfo.rrule);
+	
+	var rule = rRule.getRuleObj();
+	console.log(rule);
+			
     console.log(eventInfo);
     console.log(datePickersMap);
 }

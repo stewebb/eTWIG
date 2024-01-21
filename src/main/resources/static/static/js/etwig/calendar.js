@@ -55,7 +55,7 @@ function createCalendar(elem, currentMonth){
 
 function getEventListByRange(date, range){
 	var eventList = []; 
-	var url = '/api/private/getMonthlyEventList';
+	var url = '/api/private/getMonthlySingleTimeEventList';
 	$.ajax({ 
 		type: 'GET', 
     	url: url, 
@@ -68,16 +68,11 @@ function getEventListByRange(date, range){
 			//console.log(json);
 			
 			// Iterate all dates.
-			jQuery.each(json, function(id, value) {
-				
-				// Iterate the start dates, especially for recurring events.
-				var startTimeSet = value.startTimeSet;
-				var setLen = startTimeSet.length;
-				for (var i = 0; i < setLen; i++) {
+			jQuery.each(json, function(id, value) {				
 					
 					// Get start and end time
-					var eventStartDateTime = new Date(startTimeSet[i]);
-					var eventEndDateTime = new Date(startTimeSet[i]).addMinutes(value.duration);
+					var eventStartDateTime = new Date(value.startTime);
+					var eventEndDateTime = new Date(value.startTime).addMinutes(value.duration);
 					
 					// Italic font for recurring events.
 					var textFont = value.recurring ? "italic" : "weight-normal";
@@ -90,7 +85,7 @@ function getEventListByRange(date, range){
 						  title: {html: `<span class="font-${textFont}">${value.name}</span>`},
 						  color: "#" + value.portfolioColor
 					}); 
-				}
+				
 			})
         },
         

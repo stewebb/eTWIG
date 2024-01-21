@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpSession;
 import net.grinecraft.etwig.dto.BannerRequestEventInfoDTO;
-import net.grinecraft.etwig.dto.EventBasicInfoDTO;
+import net.grinecraft.etwig.dto.SingleTimeEventBasicInfoDTO;
 import net.grinecraft.etwig.dto.EventDetailsDTO;
 import net.grinecraft.etwig.model.Event;
 import net.grinecraft.etwig.model.Portfolio;
@@ -77,29 +77,21 @@ public class EventService {
 		return eventRepository.findById(id).map(EventDetailsDTO::new).orElse(null);
 	}
 	
-	/**
-	 * Get all events that happens in the month/week/day of the given date.
-	 * @param givenDate A given date in LocalDate format
-	 * @param dateRange An enum that specifies what kinds of data range will be chosen. [Month, Week, Day]
-	 * @return The hashmap of all required events.
-	 * @throws Exception 
-	 */
 	
-	public LinkedHashMap<Long, EventBasicInfoDTO> getMonthlyBasicInfoListByDateRange(LocalDate givenDate) throws Exception{
+	public LinkedHashMap<Long, SingleTimeEventBasicInfoDTO> getMonthlySingleTimeEventByDateRange(LocalDate givenDate) throws Exception{
 		
 		// Get the date boundary
 		LocalDate last = DateUtils.findFirstDayOfThisMonth(givenDate);
 		LocalDate next = DateUtils.findFirstDayOfNextMonth(givenDate);
-        LinkedHashMap<Long, EventBasicInfoDTO> allEvents = new LinkedHashMap<>();
+        LinkedHashMap<Long, SingleTimeEventBasicInfoDTO> allEvents = new LinkedHashMap<>();
 
 		// Get all single time events in the given date range.
 		List<Event> singleTimeEventList = eventRepository.findSingleTimeEventByDateRange(last, next);
         for(Event event : singleTimeEventList) {     
-        	EventBasicInfoDTO eventBasicInfo = new EventBasicInfoDTO(event);
-        	eventBasicInfo.setStartTime(event.getStartTime());
-        	allEvents.put(event.getId(), eventBasicInfo);
+        	allEvents.put(event.getId(), new SingleTimeEventBasicInfoDTO(event));
         }
-        	
+        
+        /*
         // Get all recurring time events in the given date range.
         List<Event> recurringEventList = eventRepository.findByRecurringTrue();
         for(Event event : recurringEventList) {      	
@@ -120,6 +112,8 @@ public class EventService {
             // recurringDates.forEach(date -> System.out.println("Event on: " + date));
              
         }
+        
+        */
        
         return allEvents;
         
