@@ -13,7 +13,7 @@ public interface GraphicsRequestRepository extends JpaRepository <GraphicsReques
 	
     long countByApprovedIsNullAndEventId(long eventIds);
 	
-    @Query(value = "SELECT * FROM etwig_graphics_request WHERE event_id = ?1 ORDER BY id DESC LIMIT ?2", nativeQuery = true)
+    @Query(value = "SELECT * FROM etwig_graphics_request WHERE event = ?1 ORDER BY id DESC LIMIT ?2", nativeQuery = true)
     List<GraphicsRequest> findByRequestsByEventDescending(Long eventId, int limit);
 
 }

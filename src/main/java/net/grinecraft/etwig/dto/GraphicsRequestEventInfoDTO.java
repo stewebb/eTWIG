@@ -24,8 +24,7 @@ public class GraphicsRequestEventInfoDTO {
 	// Organizer-related info
 	private String organizerName;
 	private String organizerPosition;
-	private String portfolioName;
-	private String portfolioColor;
+	private Portfolio portfolio;
 	
 	public GraphicsRequestEventInfoDTO(Event event) throws Exception {
 		
@@ -40,12 +39,10 @@ public class GraphicsRequestEventInfoDTO {
 		
 		// Organizer-related info
 		UserRole userRole = event.getUserRole();
-		Portfolio portfolio = userRole.getPortfolio();
 		
 		this.organizerPosition = userRole.getPosition();
 		this.organizerName = userRole.getUser().getFullName();
-		this.portfolioName = portfolio.getName();
-		this.portfolioColor = portfolio.getColor();
+		this.portfolio = userRole.getPortfolio();
 		
 	}
 	

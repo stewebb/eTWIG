@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import jakarta.servlet.http.HttpSession;
 import net.grinecraft.etwig.dto.GraphicsRequestEventInfoDTO;
 import net.grinecraft.etwig.dto.SingleTimeEventBasicInfoDTO;
+import net.grinecraft.etwig.dto.UserAccessDTO;
 import net.grinecraft.etwig.dto.EventDetailsDTO;
 import net.grinecraft.etwig.dto.RecurringEventBasicInfoDTO;
 import net.grinecraft.etwig.model.Event;
@@ -40,6 +41,9 @@ public class EventService {
 	private EventRepository eventRepository;
 	
 	@Autowired
+	private UserRoleService userRoleService;
+	
+	@Autowired
 	private EventOptionRepository eventOptionRepository;
 	
 	
@@ -53,14 +57,8 @@ public class EventService {
 	 */
 	
 	public GraphicsRequestEventInfoDTO findEventsForGraphicsRequestById(long eventId) throws Exception {
-		
-		//Event event = (eventRepository == null) ? null :eventRepository.findById(eventId).orElse(null);
-		//SingleTimeEvent singleTimeEvent = (singleTimeEventRepository == null) ? null : singleTimeEventRepository.findById(eventId).orElse(null);
-		//RecurringEvent recurringEvent =  null;
-
-		//return new BannerRequestEventInfoDTO(event, singleTimeEvent, recurringEvent);
-		
-		return null;
+		Event event = (eventRepository == null) ? null :eventRepository.findById(eventId).orElse(null);
+		return new GraphicsRequestEventInfoDTO(event);
 	}
 	
 	/**
@@ -399,41 +397,48 @@ public class EventService {
 		return false;
 	}
 	
-		public boolean eventEditPermissionCheck(Portfolio portfolio) throws Exception {
+	
+	public boolean eventEditPermissionCheck(Portfolio portfolio) throws Exception {
+			
+		// Get user authority
+		UserAccessDTO access = (UserAccessDTO) session.getAttribute("access");
 		
-			/*
-		// Get user permission
-		Permission permission = (Permission) session.getAttribute("permission");
-		UserPermission userPermission = UserPermission.fromString(permission.getName());
-		
-		// Case 1: Administrator, has edit permission.
-		if(userPermission == UserPermission.ADMINISTRATOR ) {
+		// Case 1: System administrators have edit permission, regardless of which portfolio the user has.
+		if(access.isAdminAccess()) {
 			return true;
 		}
 		
-		// Case 2: Event Manager, has edit view permission depends on the portfolio.
-		else if (userPermission == UserPermission.EVENT_MANAGER) {
+		// Case 2: This user has events access, has edit view permission depends on the portfolio.
+		else if (access.isEventsAccess()) {
 
 			// All portfolios that I have.
-			@SuppressWarnings("unchecked")
-			Set<Long> myPortfolios = ((LinkedHashMap<Long, Portfolio>) session.getAttribute("portfolio")).keySet();
+			Set<Portfolio> myPortfolios = userRoleService.getMyPortfolios();
+			
+			// Iterate my portfolios, if any of them matches the given portfolio, I have edit permission.
+			for(Portfolio myPortfolio : myPortfolios) {
+				if(myPortfolio.equals(portfolio)) {
+					return true;
+				}
+			}
+			
+			// Otherwise I don't have edit permission.
+			return false;
+			
+			//@SuppressWarnings("unchecked")
+			//Set<Long> myPortfolios = ((LinkedHashMap<Long, Portfolio>) session.getAttribute("portfolio")).keySet();
 		
 			// The portfolio of this event
 			//@SuppressWarnings("unchecked")
-			Long eventPortfolio = portfolio.getId();
+			//Long eventPortfolio = portfolio.getId();
 			
 			// I have permission to edit the event if my portfolios contains the event portfolio.
-			return myPortfolios.contains(eventPortfolio);
+			//return myPortfolios.contains(eventPortfolio);
 		}
 		
-		// Case 3: Graphics Manager or uncategorized, has no edit permission.
+		// Case 3: Other users have no edit permission.
 		else {
 			return false;
 		}
-		
-		*/
-			
-			return false;
 	}
 
 }

@@ -18,9 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import net.grinecraft.etwig.dto.EventDetailsDTO;
+import net.grinecraft.etwig.dto.GraphicsRequestEventInfoDTO;
 import net.grinecraft.etwig.services.EventService;
+import net.grinecraft.etwig.services.GraphicsRequestService;
 import net.grinecraft.etwig.services.OptionService;
 import net.grinecraft.etwig.services.PropertyService;
+import net.grinecraft.etwig.util.BooleanUtils;
 
 @Controller
 @RequestMapping("/events")
@@ -34,6 +37,9 @@ public class EventsController {
 	
 	@Autowired
 	EventService eventService;
+	
+	@Autowired
+	private GraphicsRequestService graphicsRequestService;
 	
 	/**
 	 * Event calendar page.
@@ -56,14 +62,6 @@ public class EventsController {
 		return "events/edit";
 	}
 	
-	@PostAuthorize("hasAuthority('ROLE_EVENTS')")
-	@RequestMapping("/_edit")  
-	public String editEmbedded(Model model){
-		model.addAttribute("allProperties", propertyService.findAll());		
-        model.addAttribute("allOptions", optionService.findAllGroupByProperties());	
-		return "events/edit";
-	}
-	
 	/**
 	 * Manage event page.
 	 */
@@ -81,5 +79,32 @@ public class EventsController {
 		
 		model.addAttribute("eventInfo", eventInfo);		
 		return "events/manage";
+	}
+	
+	@PostAuthorize("hasAuthority('ROLE_EVENTS')")
+	@GetMapping("/graphicsRequest")  
+	public String graphicsRequest(Model model, @RequestParam Long eventId) throws Exception{
+		
+		// Get event info and existence check.
+		GraphicsRequestEventInfoDTO event = eventService.findEventsForGraphicsRequestById(eventId);
+		if(event == null) {
+			model.addAttribute("reason", "Event with id=" + eventId + " doesn't exist.");
+			return "_errors/custom_error";
+		}
+		model.addAttribute("eventInfo", event);
+
+		// Get the number of requests of this event.
+		model.addAttribute("count", graphicsRequestService.countByEventId(eventId));
+		
+		// Has pending requests left?
+		model.addAttribute("hasPending", graphicsRequestService.hasPendingRequests(eventId));
+		
+		// Edit permission check
+		model.addAttribute("editPermission", eventService.eventEditPermissionCheck(event.getPortfolio()));
+		//model.addAttribute("editPermission", null);
+		
+		model.addAttribute("requestInfo",graphicsRequestService.getRequestsByEvent(eventId));
+		
+		return "events/graphics_request";
 	}
 }

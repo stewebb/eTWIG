@@ -7,7 +7,7 @@
 	function: The dashboard (site main) page.
    -->
    
-<#assign navbar = "GRAPHICS_REQUEST_VIEW">
+<#assign navbar = "CALENDAR">
 <#assign modeStr = (count == 0)?string("New Request", "Follow-up")>
 
 <#-- Convert the "Embedded" boolean to String -->
