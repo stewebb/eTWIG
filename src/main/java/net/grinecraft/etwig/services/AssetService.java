@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.apache.commons.io.FilenameUtils;
@@ -59,14 +58,9 @@ public class AssetService {
 	 * @return The asset object with that Id, or null if no asset with that id.
 	 */
 	
-	// public Asset getAssetDetailsById(long id) {
-	// 	if(assetRepository == null) {
-	// 		return null;
-	// 	}
-		
-	// 	Optional<Asset> assetOpt = assetRepository.findById(id);
-	// 	return assetOpt.isPresent() ? assetOpt.get() : null;
-	// }
+	public Asset getAssetDetailsById(long id) {
+		return assetRepository == null ? null : assetRepository.findById(id).orElse(null);
+	}
 	
 	
 	/**
@@ -76,50 +70,57 @@ public class AssetService {
 	 * @throws Exception
 	 */
 	
-	//public Resource getAssetContent(Asset asset) throws Exception {
-		
-		// Get file info and check existence.
-		//Asset asset = this.getAssetDetailsById(id);
-	//	if(asset == null) {
-	//		return null;
-	//	}
+	@SuppressWarnings("null")
+	public Resource getAssetContent(Asset asset) throws Exception {
 		
 		// Retrieve the file from the file system
-	//	Path file = rootLocation.resolve(asset.getStoredName());
-	//	return new UrlResource(file.toUri());		
-	//}
+		Path file = rootLocation.resolve(asset.getStoredName());
+		return new UrlResource(file.toUri());		
+	}
 	
-	//public Page<AssetBasicInfoDTO> getAssetList(int page, int size) {
-	//	Pageable pageable = PageRequest.of(page, size);
-	//	return assetRepository.findAllBasicInfo(pageable);
-	//}
+	/**
+	 * Get the list of assets with pages.
+	 * @param page
+	 * @param size
+	 * @return
+	 */
 	
-	//public void uploadFile(MultipartFile file) throws IOException {
-	//	Asset newAsset = new Asset();
-	//	
+	public Page<AssetBasicInfoDTO> getAssetList(int page, int size) {
+			Pageable pageable = PageRequest.of(page, size);
+			return assetRepository.findAllBasicInfo(pageable);
+	}
+	
+	/**
+	 * Upload the file to the server and add the related information to database.
+	 * @param file
+	 * @throws IOException
+	 */
+	
+	public void uploadFile(MultipartFile file) throws IOException {
+		Asset newAsset = new Asset();
+		
 		// The original filename
-	//	String fileName = file.getOriginalFilename();
-	//	newAsset.setOriginalName(fileName);
+		String fileName = file.getOriginalFilename();
+		newAsset.setOriginalName(fileName);
 		
 		// Rename the file as <UUID>.<EXTENSION>
-    //    String extension = FilenameUtils.getExtension(fileName);
-    //    String storedFileName = UUID.randomUUID().toString() + "." + extension;
-    //    newAsset.setStoredName(storedFileName);
-        
-        // Other file attributes.
-    //    newAsset.setFileSize(file.getSize());
-    //    newAsset.setLastModified(LocalDateTime.now());
-        
-        // The related user info
-     //   User user = (User) session.getAttribute("user");
-     //   newAsset.setEditor(user.getId());
-        
-        // Copy file to the file system before insert the data.
-	// File destFile = new File(this.rootLocation + File.separator + storedFileName);
-	// FileUtils.copyInputStreamToFile(file.getInputStream(), destFile);
-        
-	//  assetRepository.save(newAsset);
-	// }
+        String extension = FilenameUtils.getExtension(fileName);
+        String storedFileName = UUID.randomUUID().toString() + "." + extension;
+       	newAsset.setStoredName(storedFileName);
+       
+       	// Other file attributes.
+       	newAsset.setSize(file.getSize());
+       	newAsset.setUploadedTime(LocalDateTime.now());
+       
+       	// The related user info
+       	User user = (User) session.getAttribute("user");
+       	newAsset.setUploaderId(user.getId());
+       
+       	// Copy file to the file system before insert the data.
+       	File destFile = new File(this.rootLocation + File.separator + storedFileName);
+       	FileUtils.copyInputStreamToFile(file.getInputStream(), destFile);
+       
+       	assetRepository.save(newAsset);
+	}
 	
-
 }

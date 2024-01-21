@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import net.grinecraft.etwig.dto.BannerRequestEventInfoDTO;
-import net.grinecraft.etwig.services.BannerRequestService;
+import net.grinecraft.etwig.dto.GraphicsRequestEventInfoDTO;
+import net.grinecraft.etwig.services.GraphicsRequestService;
 import net.grinecraft.etwig.services.EventService;
 import net.grinecraft.etwig.util.BooleanUtils;
 
@@ -19,7 +19,7 @@ import net.grinecraft.etwig.util.BooleanUtils;
 public class GraphicsRequestController {
 
 	@Autowired
-	private BannerRequestService bannerRequestService;
+	private GraphicsRequestService bannerRequestService;
 	
 	@Autowired
 	private EventService eventService;
@@ -28,7 +28,7 @@ public class GraphicsRequestController {
 	public String view(Model model, @RequestParam Long eventId, @RequestParam(required=false) String embedded) throws Exception{
 		
 		// Get event info and existence check.
-		BannerRequestEventInfoDTO event = eventService.findEventsForBannerRequestById(eventId);
+		GraphicsRequestEventInfoDTO event = eventService.findEventsForGraphicsRequestById(eventId);
 		if(event == null) {
 			model.addAttribute("embedded", false);
 			model.addAttribute("reason", "Event with id=" + eventId + " doesn't exist.");

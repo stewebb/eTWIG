@@ -9,53 +9,51 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import net.grinecraft.etwig.dto.BannerRequestDTO;
+import net.grinecraft.etwig.dto.GraphicsRequestDTO;
 import net.grinecraft.etwig.model.GraphicsRequest;
 import net.grinecraft.etwig.repository.GraphicsRequestRepository;
 import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.MapUtils;
 
 @Service
-public class BannerRequestService {
+public class GraphicsRequestService {
 
 	@Autowired
-	private GraphicsRequestRepository bannerRequestRepository;
+	private GraphicsRequestRepository graphicsRequestRepository;
 	
 	public Long countByEventId(Long eventId) {
-		return null;
-		//return bannerRequestRepository.countByEventId(eventId);
+		return graphicsRequestRepository.countByEventId(eventId);
 	}
 	
 	public boolean hasPendingRequests(Long eventId) {
-		return false;
-		//return bannerRequestRepository.countByApprovedIsNullAndEventId(eventId) > 0;
+		return graphicsRequestRepository.countByApprovedIsNullAndEventId(eventId) > 0;
 	}
 	
-	public LinkedHashMap<Long, BannerRequestDTO> getRequestsByEvent(Long eventId) { 
+	public LinkedHashMap<Long, GraphicsRequestDTO> getRequestsByEvent(Long eventId) { 
 		
 		// Get the original data.
-		List<GraphicsRequest> requestList = null; //bannerRequestRepository.findByRequestsByEventDescending(eventId, 10);
+		List<GraphicsRequest> requestList = graphicsRequestRepository.findByRequestsByEventDescending(eventId, 10);
 		
 		// Apply the DTO.
-		List<BannerRequestDTO> requestDTOList = new ArrayList<BannerRequestDTO>();
+		List<GraphicsRequestDTO> requestDTOList = new ArrayList<GraphicsRequestDTO>();
 		for (GraphicsRequest request : requestList) {
-			requestDTOList.add(new BannerRequestDTO(request));
+			requestDTOList.add(new GraphicsRequestDTO(request));
 		}	 
 		
 		// Convert to LinkedHashMap
 		MapUtils mapUtils = new MapUtils();
-		return mapUtils.listToLinkedHashMap(requestDTOList, BannerRequestDTO::getId);
+		return mapUtils.listToLinkedHashMap(requestDTOList, GraphicsRequestDTO::getId);
 	}
 	
 	public void addRequest(Map<String, Object> requestInfo) {
 		
 		GraphicsRequest request = new GraphicsRequest();
-		//request.setEventId(Long.parseLong(requestInfo.get("eventId").toString()));
-		//request.setRequestorId(Long.parseLong(requestInfo.get("requester").toString()));
+		request.setEventId(Long.parseLong(requestInfo.get("eventId").toString()));
+		request.setRequesterId(Long.parseLong(requestInfo.get("requester").toString()));
 		request.setRequestComment(requestInfo.get("requestComment").toString());
 		request.setExpectDate(DateUtils.safeParseDate(requestInfo.get("returningDate").toString(), "yyyy-MM-dd"));
 		request.setRequestTime(LocalDateTime.now());
 		
-		bannerRequestRepository.save(request);
+		graphicsRequestRepository.save(request);
 	}
 }

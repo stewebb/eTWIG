@@ -30,17 +30,17 @@ public class GraphicsRequest {
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "event", referencedColumnName = "id", insertable = false, updatable = false)
-    private Event eventObj;
+    private Event event;
 	
 	@Column(name = "event")
-	private Long event;
+	private Long eventId;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "requester", referencedColumnName = "id", insertable = false, updatable = false)
-    private User requesterObj;
+    private User requester;
 	
 	@Column(name = "requester")
-	private Long requester;
+	private Long requesterId;
 	
 	@Column(name = "request_comment")
 	private String requestComment;
@@ -56,10 +56,10 @@ public class GraphicsRequest {
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "approver", referencedColumnName = "id", insertable = false, updatable = false)
-    private User approverObj;
+    private User approver;
 	
 	@Column(name = "approver")
-	private Long approver;
+	private Long approverId;
 	
 	@Column(name = "response_comment")
 	private String responseComment;

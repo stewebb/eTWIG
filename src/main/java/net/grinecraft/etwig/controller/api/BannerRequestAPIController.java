@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import net.grinecraft.etwig.services.BannerRequestService;
+import net.grinecraft.etwig.services.GraphicsRequestService;
 import net.grinecraft.etwig.services.EventService;
 import net.grinecraft.etwig.util.WebReturn;
 
@@ -21,7 +21,7 @@ import net.grinecraft.etwig.util.WebReturn;
 public class BannerRequestAPIController {
 	
 	@Autowired
-	private BannerRequestService bannerRequestService;
+	private GraphicsRequestService bannerRequestService;
 	
 	@Autowired
 	private EventService eventService;

@@ -7,14 +7,13 @@ import org.springframework.data.jpa.repository.Query;
 
 import net.grinecraft.etwig.model.GraphicsRequest;
 
-
 public interface GraphicsRequestRepository extends JpaRepository <GraphicsRequest, Long>  {
 
-	//long countByEventId(long eventId);
+	long countByEventId(long eventId);
 	
-   // long countByApprovedIsNullAndEventId(long eventIds);
+    long countByApprovedIsNullAndEventId(long eventIds);
 	
-   // @Query(value = "SELECT * FROM banner_request WHERE event_id = ?1 ORDER BY id DESC LIMIT ?2", nativeQuery = true)
-   // List<GraphicsRequest> findByRequestsByEventDescending(Long eventId, int limit);
+    @Query(value = "SELECT * FROM etwig_graphics_request WHERE event_id = ?1 ORDER BY id DESC LIMIT ?2", nativeQuery = true)
+    List<GraphicsRequest> findByRequestsByEventDescending(Long eventId, int limit);
 
 }

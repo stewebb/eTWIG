@@ -20,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpSession;
-import net.grinecraft.etwig.dto.BannerRequestEventInfoDTO;
+import net.grinecraft.etwig.dto.GraphicsRequestEventInfoDTO;
 import net.grinecraft.etwig.dto.SingleTimeEventBasicInfoDTO;
 import net.grinecraft.etwig.dto.EventDetailsDTO;
 import net.grinecraft.etwig.dto.RecurringEventBasicInfoDTO;
@@ -42,11 +42,6 @@ public class EventService {
 	@Autowired
 	private EventOptionRepository eventOptionRepository;
 	
-	//@Autowired
-	//private SingleTimeEventRepository singleTimeEventRepository;
-	
-	//@Autowired
-	//private RecurringEventRepository recurringEventRepository;
 	
 	@Autowired
 	private HttpSession session;
@@ -57,7 +52,7 @@ public class EventService {
 	 * @throws Exception 
 	 */
 	
-	public BannerRequestEventInfoDTO findEventsForBannerRequestById(long eventId) throws Exception {
+	public GraphicsRequestEventInfoDTO findEventsForGraphicsRequestById(long eventId) throws Exception {
 		
 		//Event event = (eventRepository == null) ? null :eventRepository.findById(eventId).orElse(null);
 		//SingleTimeEvent singleTimeEvent = (singleTimeEventRepository == null) ? null : singleTimeEventRepository.findById(eventId).orElse(null);

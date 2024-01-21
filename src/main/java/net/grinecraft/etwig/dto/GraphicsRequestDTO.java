@@ -6,57 +6,45 @@ import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.ToString;
 import net.grinecraft.etwig.model.GraphicsRequest;
-import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.util.DateUtils;
 
 @Getter
 @ToString
-public class BannerRequestDTO {
+public class GraphicsRequestDTO {
 	
+	// Requests-related fields
 	private Long id;
-	
 	private LocalDate expectDate;
-		
-	private String requestorName;
-	
+	private String requesterName;
 	private String requestComment;
-	
 	private LocalDateTime requestTime;
-	
 	private String requestTimeStr;
 	
+	// Approvel-related fields
 	private Boolean approved;
-	
 	private String approverName;
-	
 	private String responseComment;
-	
 	private LocalDateTime responseTime;
-	
 	private String responseTimeStr;
-	
 	private Long assetId;
 	
-	public BannerRequestDTO(GraphicsRequest bannerRequest) {
+	public GraphicsRequestDTO(GraphicsRequest graphicsRequest) {
 		
-		/*
-		this.id = bannerRequest.getId();
 		
-		this.expectDate = bannerRequest.getExpectDate();
+		this.id = graphicsRequest.getId();
+		this.expectDate = graphicsRequest.getExpectDate();
+		this.requestComment = graphicsRequest.getRequestComment();
 		
-		this.requestComment = bannerRequest.getRequestComment();
-		
-		this.approved = bannerRequest.getApproved();
-		this.responseComment = bannerRequest.getResponseComment();
-		this.assetId = bannerRequest.getAssetId();
+		this.approved = graphicsRequest.getApproved();
+		this.responseComment = graphicsRequest.getResponseComment();
+		this.assetId = graphicsRequest.getAssetId();
 		
 		// Request time
-		this.requestTime = bannerRequest.getRequestTime();
+		this.requestTime = graphicsRequest.getRequestTime();
 		this.requestTimeStr = DateUtils.timeAgo(requestTime);
 		
 		// Requester (show full name)
-		User requestor = bannerRequest.getRequestor();
-		this.requestorName = NameUtils.nameMerger(requestor.getFirstName(), requestor.getMiddleName(), requestor.getLastName());
+		this.requesterName = graphicsRequest.getRequester().getFullName();
 		
 		if(approved == null) {
 			this.approverName = null;
@@ -65,14 +53,13 @@ public class BannerRequestDTO {
 		
 		// Only get user name when this request is NOT pending!
 		else {
-			User approver = bannerRequest.getApprover();
-			this.approverName = NameUtils.nameMerger(approver.getFirstName(), approver.getMiddleName(), approver.getLastName());
+			this.approverName = graphicsRequest.getApprover().getFullName();
 			
 			// Response time
-			this.responseTime = bannerRequest.getResponseTime();
+			this.responseTime = graphicsRequest.getResponseTime();
 			this.responseTimeStr = DateUtils.timeAgo(responseTime);
 		}
 		
-		*/
+		
 	}
 }
