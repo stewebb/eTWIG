@@ -77,7 +77,7 @@
 								<#-- Graphics Request -->	
 								<li class="nav-item">
 									<a class="nav-link" href="#request" data-toggle="tab">
-										<i class="fa-solid fa-image"></i>&nbsp;Graphics
+										<i class="fa-solid fa-image"></i>&nbsp;Graphics Request
 									</a>
 								</li>
 								<#-- /Graphics Request -->	
@@ -87,15 +87,10 @@
 						</div>
 						<#-- Tab header -->
 
-						<#-- Tab content -->
 						<div class="card-body">
 							<div class="tab-content">
-							
-								<#-- View/Edit -->	
-								<div class="tab-pane active" id="edit">
-									<iframe src="/events/edit?eventId=${eventInfo.id}" class="fullscreen-iframe"></iframe>
-								</div>
-								<#-- /View/Edit -->	
+								<div class="tab-pane active" id="edit"></div>
+
 								<div class="tab-pane" id="request"></div>
 
 								<!--<div class="tab-pane" id="tab_3"></div>-->
@@ -103,8 +98,6 @@
 							</div>
 
 						</div>
-						<#-- /Tab content -->
-						
 					</div>
 
 				</div>

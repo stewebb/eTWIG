@@ -43,7 +43,7 @@
 						<#-- /Events -->
 						
 						<#-- Graphics -->
-          				<#if access.graphicsAccess || true>
+          				<#if access.graphicsAccess>
 							<li class="nav-item dropdown">
 							
 								<#-- Dropdown btn -->
@@ -76,7 +76,7 @@
 					    <#-- /Graphics -->
 					
 					    <#-- Admin -->
-          				<#if access.adminAccess || true>
+          				<#if access.adminAccess>
 							<li class="nav-item dropdown">
 							
 								<#-- Dropdown btn -->

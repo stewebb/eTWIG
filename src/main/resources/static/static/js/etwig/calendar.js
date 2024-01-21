@@ -32,7 +32,8 @@ function createCalendar(elem, currentMonth){
 		},
     	events: getEventList(currentMonth),
     	eventClick: function (info) {
-			$(location).attr('href', '/events/manage?eventId=' + info.event.id);
+			//console.log(info)
+			$(location).attr('href', '/events/edit?eventId=' + info.event.id);
 		},
     	dayMaxEvents: true,
     	nowIndicator: true,
@@ -122,7 +123,7 @@ function getRecurringTimeEventListByRange(date){
 			
 			// Iterate all dates.
 			jQuery.each(json, function(id, value) {				
-					
+				
 				var rRule = new ETwig.EtwigRRule(value.rrule);
 				var rule = rRule.getRuleObj();
 								
@@ -138,11 +139,11 @@ function getRecurringTimeEventListByRange(date){
 					
 					// Get start and end time for each event.
 					var eventStartDateTime = combineDateAndTime(occurance[i], value.eventTime);
-					var eventEndDateTime = eventStartDateTime.addMinutes(value.duration);
+					var eventEndDateTime = combineDateAndTime(occurance[i], value.eventTime).addMinutes(value.duration);
 					
 					// Save data
 					eventList.push({
-						id: id,
+						id: value.id,
 						start: eventStartDateTime.toString('yyyy-MM-dd HH:mm'),
 						end: eventEndDateTime.toString('yyyy-MM-dd HH:mm'),
 						title: {html: `<span class="font-italic">${value.name}</span>`},
