@@ -203,7 +203,7 @@
 													</div>
 													<input type="number" min="0" class="form-control" id="eventDuration">
 													<div class="input-group-append">
-														<span class="input-group-text" id="unitText">Minites(s)</span>
+														<span class="input-group-text" id="unitText">Minutes(s)</span>
 													</div>
 												</div>
 											</div>
@@ -391,8 +391,8 @@
 
 										<#-- Description -->
 										<div class="form-group row">
-											<label for="eventRRuleDiscription" class="col-lg-3">Description</label>
-											<div class="col-lg-9" id="eventRRuleDiscription"></div>
+											<label for="eventRRuleDescription" class="col-lg-3">Description</label>
+											<div class="col-lg-9" id="eventRRuleDescription"></div>
 										</div>			
 										<#-- Description -->
 

@@ -59,10 +59,10 @@
 									</div>
 									<#-- /Location -->
 
-									<#-- Organzier Role -->
+									<#-- Organizer Role -->
 									<div class="form-group row">
 										<label for="eventRole" class="col-lg-3 col-form-label">
-											Organzier Role&nbsp;<span class="required-symbol">*</span>
+											Organizer Role&nbsp;<span class="required-symbol">*</span>
 											</label>
 										<div class="col-lg-9">
 											<div class="input-group">
@@ -77,7 +77,7 @@
 											<small class="form-text text-muted">The position and associated portfolio, divided by comma.</small>
 										</div>
 									</div>
-									<#-- Organzier Role -->
+									<#-- Organizer Role -->
 
 									<#-- Created Time -->
 									<div class="form-group row" id="eventCreatedTimeBlock" style="display:none;">

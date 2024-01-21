@@ -22,6 +22,6 @@ public interface OptionRepository extends JpaRepository<Option, Long> {
 	 * Find all options in the database.
 	 */
 	
-    //public List<Option> findAll();
+    public List<Option> findAll();
     
 }

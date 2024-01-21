@@ -36,7 +36,7 @@
 				
 				<div class="card-header">
 					<h3 class="card-title bold-text text-warning">
-						<i class="fa-solid fa-circle-exclamation"></i>&nbsp;An error happenes
+						<i class="fa-solid fa-circle-exclamation"></i>&nbsp;An error happens
 					</h3>
 				</div>
 					

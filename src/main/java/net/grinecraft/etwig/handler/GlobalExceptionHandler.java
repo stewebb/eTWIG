@@ -3,8 +3,6 @@ package net.grinecraft.etwig.handler;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.server.ResponseStatusException;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

@@ -133,13 +133,13 @@ function getRecurringTimeEventListByRange(date){
 					return;
 				}
 				
-				// Get and iterate all occurances in this month.
-    			var occurance = rRule.getOccuranceBetween(firstDay, lastDay);
-    			for(var i=0; i< occurance.length; i++){
+				// Get and iterate all occurrences in this month.
+    			var occurrence = rRule.getOccuranceBetween(firstDay, lastDay);
+    			for(var i=0; i< occurrence.length; i++){
 					
 					// Get start and end time for each event.
-					var eventStartDateTime = combineDateAndTime(occurance[i], value.eventTime);
-					var eventEndDateTime = combineDateAndTime(occurance[i], value.eventTime).addMinutes(value.duration);
+					var eventStartDateTime = combineDateAndTime(occurrence[i], value.eventTime);
+					var eventEndDateTime = combineDateAndTime(occurrence[i], value.eventTime).addMinutes(value.duration);
 					
 					// Save data
 					eventList.push({

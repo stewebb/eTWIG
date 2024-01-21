@@ -43,11 +43,11 @@
 
 											<div class="form-group row">
 
-												<#-- Porperty name -->
+												<#-- Property name -->
 												<label for="property-${property_id}" class="col-sm-6 col-form-label">
 													${property_info.name}&nbsp;${mandatorySymbol}
 												</label>
-												<#-- /Porperty name -->
+												<#-- /Property name -->
 
 												<div class="col-sm-6 input-group">
 									

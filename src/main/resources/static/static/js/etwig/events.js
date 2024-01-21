@@ -173,7 +173,7 @@ function getEventInfo(datePickersMap){
 		$('#eventRRuleDiscription').text(rule.toText());
 		//rule.options.until == null ? $('#eventValidToDate').val('') : datePickersMap.get('eventValidToDate').setDate(rule.options.until);
 
-		// Recurrion mode.
+		// Recursion mode.
 		setRecurrentMode(true);
 		$('input[name="event-recurrent"][value="1"]').prop('checked', true);
 		

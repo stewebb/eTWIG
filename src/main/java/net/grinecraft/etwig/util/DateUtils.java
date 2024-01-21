@@ -17,8 +17,6 @@ import java.util.List;
 import java.time.temporal.TemporalAdjusters;
 
 import net.grinecraft.etwig.util.exception.InvalidDateFormatException;
-import net.grinecraft.etwig.util.type.EventTimeUnit;
-
 import org.dmfs.rfc5545.*;
 import org.dmfs.rfc5545.recur.*;
 
@@ -121,39 +119,6 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 		return date.plusDays(1);
     }
     
-    /**
-     * Calculate the event end time
-     * @param timeUnit One of the elements of EventTimeUnit Enum
-     * @param startTime Event start time in LocalDateTime format
-     * @param multiplier The duration
-     * @return Calculated event end time, in LocalDateTime format.
-     */
-    
-    public static LocalDateTime calculateEndTime(EventTimeUnit timeUnit, LocalDateTime startTime, int multiplier) {
-    	
-    	float totalMinutes = 0;
-    	switch (timeUnit) {
-        	case HOUR:
-        		totalMinutes = multiplier * 60;
-        		break;
-        	case DAY:
-        		totalMinutes = multiplier * 1440; // 24 * 60
-        		break;
-        	case WEEK:
-        		totalMinutes = multiplier * 10080; // 7 * 24 * 60
-        		break;
-        	case MONTH:
-        		totalMinutes = multiplier * 43200; // 30 days in a month
-        		break;
-    		default:
-    			totalMinutes = multiplier;
-    		break;
-    	}
-
-    	// Keeping only the integer part of the total minutes
-    	long minutesToAdd = (long) totalMinutes;
-    	return startTime.plusMinutes(minutesToAdd);
-    }
     
     public static String timeAgo(LocalDateTime date) {
         LocalDateTime now = LocalDateTime.now();

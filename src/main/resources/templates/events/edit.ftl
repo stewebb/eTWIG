@@ -210,11 +210,6 @@
 	<script>
 
 		$(document).ready(function() {
-			
-			//var myInstance = new ETwig.EtwigRRule("RRULE:FREQ=MONTHLYCOUNT=5");
-			//var a = myInstance.getRuleObj();
-			//console.log(a);
-
 
 			// Initialize the description box
 			initDescriptionBox('#eventDescription');

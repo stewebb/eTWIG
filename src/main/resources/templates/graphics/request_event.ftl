@@ -159,7 +159,7 @@
 							<#if hasPending>
 								<div class="callout callout-warning">
 									<h5 class="bold-text mb-3">This event has a pending request.</h5>	
-									Please wait the approver to make a desicion before you make a follow-up request. 
+									Please wait the approver to make a decision before you make a follow-up request. 
 									However, you can <span class="text-primary bold-text">remind the approver</span> at any time.
 								</div>
 								
