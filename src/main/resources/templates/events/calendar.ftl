@@ -232,6 +232,9 @@
   	<#-- CSS and JS for event calendar. https://github.com/vkurko/calendar -->
 	<link rel="stylesheet" href="/static/css/vendor/event-calendar.min.css">
 	<script src="/static/js/vendor/event-calendar.min.js"></script>
+
+	<#-- rrule.js -->
+   	<script src="/static/js/etwig/recurrent.min.js"></script>
 		
 	<#-- Custom JS for eTWIG calendar and datepicker. -->
 	<script src="/static/js/etwig/calendar.js"></script>

@@ -10,23 +10,27 @@
 package net.grinecraft.etwig.controller.api;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpSession;
 import net.grinecraft.etwig.dto.SingleTimeEventBasicInfoDTO;
 import net.grinecraft.etwig.dto.EventDetailsDTO;
+import net.grinecraft.etwig.dto.RecurringEventBasicInfoDTO;
 import net.grinecraft.etwig.services.EventService;
 import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.WebReturn;
 
 @RestController
+@RequestMapping("/api/private/")  
 public class EventsAPIController {
 
 	@Autowired
@@ -39,9 +43,14 @@ public class EventsAPIController {
 	 * @throws Exception
 	 */
 	
-	@RequestMapping("/api/private/getMonthlySingleTimeEventList")  
+	@GetMapping("/getMonthlySingleTimeEventList")  
 	public LinkedHashMap<Long, SingleTimeEventBasicInfoDTO> getMonthlySingleTimeEventList(@RequestParam String date) throws Exception{
-		return eventService.getMonthlySingleTimeEventByDateRange(DateUtils.safeParseDate(date, "yyyy-MM-dd"));
+		return eventService.getMonthlySingleTimeEventsByDateRange(DateUtils.safeParseDate(date, "yyyy-MM-dd"));
+	}
+	
+	@GetMapping("/getAllRecurringEventList")  
+	public List<RecurringEventBasicInfoDTO> getAllRecurringEventList() throws Exception{
+		return eventService.getAllRecurringEvents();
 	}
 	
 	/**
@@ -50,7 +59,7 @@ public class EventsAPIController {
 	 * @return
 	 */
 	
-	@RequestMapping("/api/private/getEventById")  
+	@GetMapping("/getEventById")  
 	public EventDetailsDTO getEventById(@RequestParam Long eventId){
 		return eventService.findById(eventId);
 	}
@@ -62,7 +71,7 @@ public class EventsAPIController {
 	 * @authentication True
 	 */
 	
-	@RequestMapping(value = "/api/private/addEvent", method = RequestMethod.POST)
+	@PostMapping(value = "/addEvent")
     public Map<String, Object> addEvent(@RequestBody Map<String, Object> eventInfo) {
         eventService.addEvent((LinkedHashMap<String, Object>) eventInfo);
         return WebReturn.errorMsg(null, true);
@@ -77,7 +86,7 @@ public class EventsAPIController {
 	 * @authentication True
 	 */
 	
-	@RequestMapping(value = "/api/private/editEvent", method = RequestMethod.POST)
+	@PostMapping(value = "/editEvent")
     public Map<String, Object> editEvent(HttpSession session, @RequestBody Map<String, Object> eventInfo) throws Exception {
 				
 		// Check the permission again in the backend.

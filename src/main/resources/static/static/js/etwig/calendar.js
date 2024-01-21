@@ -30,7 +30,7 @@ function createCalendar(elem, currentMonth){
 			center: 'title',
 			end: ''
 		},
-    	events: getEventListByRange(currentMonth, "month"),
+    	events: getEventList(currentMonth),
     	eventClick: function (info) {
 			editEventBtn(info.event.id);
 		},
@@ -46,6 +46,12 @@ function createCalendar(elem, currentMonth){
 	calendar = new EventCalendar(calendarElem, calendarProperties);
 }
 
+function getEventList(date){
+	var eventList = getSingleTimeEventListByRange(date); 
+	getRecurringTimeEventListByRange(date);
+	return eventList;
+}
+
 /**
  * Get the event list based on a specific range
  * @param dateStr The String contains current month/week/day.
@@ -53,39 +59,89 @@ function createCalendar(elem, currentMonth){
  * @returns A list of events objects
  */
 
-function getEventListByRange(date, range){
+function getSingleTimeEventListByRange(date){
 	var eventList = []; 
-	var url = '/api/private/getMonthlySingleTimeEventList';
 	$.ajax({ 
 		type: 'GET', 
-    	url: url, 
+    	url: '/api/private/getMonthlySingleTimeEventList', 
     	async: false,
     	data: { 
 			date: date,
 		}, 
     	dataType: 'json',
 		success: function(json) {
-			//console.log(json);
 			
 			// Iterate all dates.
 			jQuery.each(json, function(id, value) {				
 					
-					// Get start and end time
-					var eventStartDateTime = new Date(value.startTime);
-					var eventEndDateTime = new Date(value.startTime).addMinutes(value.duration);
+				// Get start and end time
+				var eventStartDateTime = new Date(value.startTime);
+				var eventEndDateTime = new Date(value.startTime).addMinutes(value.duration);
 					
-					// Italic font for recurring events.
-					var textFont = value.recurring ? "italic" : "weight-normal";
+				// Italic font for recurring events.
+				//var textFont = value.recurring ? "italic" : "weight-normal";
     				
-    				// Save data
-					eventList.push({
-						  id: id,
-						  start: eventStartDateTime.toString('yyyy-MM-dd HH:mm'),
-						  end: eventEndDateTime.toString('yyyy-MM-dd HH:mm'),
-						  title: {html: `<span class="font-${textFont}">${value.name}</span>`},
-						  color: "#" + value.portfolioColor
-					}); 
+    			// Save data
+				eventList.push({
+					  id: id,
+					  start: eventStartDateTime.toString('yyyy-MM-dd HH:mm'),
+					  end: eventEndDateTime.toString('yyyy-MM-dd HH:mm'),
+					  title: {html: `<span class="font-weight-normal">${value.name}</span>`},
+					  color: "#" + value.portfolioColor
+				}); 	
+			})
+        },
+        
+        // Toast error info when it happens
+    	error: function(err) {   		
+			dangerToast("Failed to get calendar due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+		}
+	});
+	return eventList;
+}
+
+function getRecurringTimeEventListByRange(date){
+	var eventList = []; 
+	$.ajax({ 
+		type: 'GET', 
+    	url: '/api/private/getAllRecurringEventList', 
+    	async: false,
+    	data: { 
+			date: date,
+		}, 
+    	dataType: 'json',
+		success: function(json) {
+			
+			// Iterate all dates.
+			jQuery.each(json, function(id, value) {				
+					
+				console.log(value);
+				var rRule = new ETwig.EtwigRRule(value.rrule);
+				var rule = rRule.getRuleObj();
 				
+				console.log(rule);
+				
+				// Failed to parse rRule, skip it.
+				if(rule == undefined || rule == null){
+					dangerToast("Failed to parse Recurrence Rule .", value.rrule + " is not a valid iCalendar RFC 5545 Recurrence Rule.");
+					return;
+				}
+				
+				// Get start and end time
+				//var eventStartDateTime = new Date(value.startTime);
+				//var eventEndDateTime = new Date(value.startTime).addMinutes(value.duration);
+					
+				// Italic font for recurring events.
+				//var textFont = value.recurring ? "italic" : "weight-normal";
+    				
+    			// Save data
+				//eventList.push({
+				//	  id: id,
+				//	  start: eventStartDateTime.toString('yyyy-MM-dd HH:mm'),
+				//	  end: eventEndDateTime.toString('yyyy-MM-dd HH:mm'),
+				//	  title: {html: `<span class="font-weight-normal">${value.name}</span>`},
+				//	  color: "#" + value.portfolioColor
+				//}); 	
 			})
         },
         
@@ -207,5 +263,5 @@ function changeCalendar(){
     	
     // Change calendar value.
     calendar.setOption('date', yearMonthStr);
-    calendar.setOption('events', getEventListByRange(yearMonthStr, "month"));
+    calendar.setOption('events', getSingleTimeEventListByRange(yearMonthStr, "month"));
 }
