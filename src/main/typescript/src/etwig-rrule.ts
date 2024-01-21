@@ -1,16 +1,4 @@
-import { datetime, RRule, RRuleSet, rrulestr } from 'rrule'
-
-// Create a rule:
-const rule = new RRule({
-  freq: RRule.WEEKLY,
-  interval: 5,
-  byweekday: [RRule.MO, RRule.FR],
-  dtstart: datetime(2012, 2, 1, 10, 30),
-  until: datetime(2012, 12, 31)
-})
-
-//var txt = rule.toText();
-//console.log(txt)
+import { datetime, RRule} from 'rrule'
 
 /**@class
  * The class to receive a RFC 5545 rRule and convert it into an object.
@@ -18,7 +6,7 @@ const rule = new RRule({
 
 export class EtwigRRule {
 	
-	ruleObj: object | undefined;
+	ruleObj: RRule | undefined;
 	
 	/**@constructor
 	 * Receive 
@@ -26,7 +14,7 @@ export class EtwigRRule {
 	
     constructor(public ruleStr: string) {
 		try{
-			this.ruleObj = rrulestr(ruleStr);
+			this.ruleObj = RRule.fromString(ruleStr);
 		}
 		catch (error){
 			this.ruleObj = undefined;
@@ -40,6 +28,18 @@ export class EtwigRRule {
 	
 	getRuleObj(){
 		return this.ruleObj;
+	}
+	
+	getOccuranceBetween(startDate: Date, endDate: Date){
+		
+		// Null check.
+		if(this.ruleObj == undefined || startDate == undefined || endDate == undefined){
+			return undefined;
+		}
+		
+		var startDateTime = datetime(startDate.getFullYear(), startDate.getMonth() + 1, startDate.getDate());
+		var endDateTime = datetime(endDate.getFullYear(), endDate.getMonth() + 1, endDate.getDate());
+		return this.ruleObj.between(startDateTime, endDateTime);
 	}
 
    

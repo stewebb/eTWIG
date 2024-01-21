@@ -47,9 +47,9 @@ function createCalendar(elem, currentMonth){
 }
 
 function getEventList(date){
-	var eventList = getSingleTimeEventListByRange(date); 
-	getRecurringTimeEventListByRange(date);
-	return eventList;
+	var singleTimeEventList = getSingleTimeEventListByRange(date); 
+	var recurringEventList = getRecurringTimeEventListByRange(date);
+	return singleTimeEventList.concat(recurringEventList);
 }
 
 /**
@@ -101,6 +101,16 @@ function getSingleTimeEventListByRange(date){
 }
 
 function getRecurringTimeEventListByRange(date){
+	
+	// Calculate the first and last day of the month for a given date.
+	var dateObj = Date.parse(date);
+	var year = dateObj.getFullYear();
+    var month = dateObj.getMonth();
+    var firstDay = new Date(year, month, 1);
+    var lastDay = new Date(year, month + 1, 0);
+    
+    //console.log(firstDay);
+    				
 	var eventList = []; 
 	$.ajax({ 
 		type: 'GET', 
@@ -115,33 +125,37 @@ function getRecurringTimeEventListByRange(date){
 			// Iterate all dates.
 			jQuery.each(json, function(id, value) {				
 					
-				console.log(value);
+				//console.log(value);
 				var rRule = new ETwig.EtwigRRule(value.rrule);
 				var rule = rRule.getRuleObj();
 				
-				console.log(rule);
+				//console.log(rule);
 				
 				// Failed to parse rRule, skip it.
 				if(rule == undefined || rule == null){
-					dangerToast("Failed to parse Recurrence Rule .", value.rrule + " is not a valid iCalendar RFC 5545 Recurrence Rule.");
+					dangerToast("Failed to parse Recurrence Rule.", value.rrule + " is not a valid iCalendar RFC 5545 Recurrence Rule.");
 					return;
 				}
 				
-				// Get start and end time
-				//var eventStartDateTime = new Date(value.startTime);
-				//var eventEndDateTime = new Date(value.startTime).addMinutes(value.duration);
+				// Get and iterate all occurances in this month.
+    			var occurance = rRule.getOccuranceBetween(firstDay, lastDay);
+    			for(var i=0; i< occurance.length; i++){
 					
-				// Italic font for recurring events.
-				//var textFont = value.recurring ? "italic" : "weight-normal";
-    				
-    			// Save data
-				//eventList.push({
-				//	  id: id,
-				//	  start: eventStartDateTime.toString('yyyy-MM-dd HH:mm'),
-				//	  end: eventEndDateTime.toString('yyyy-MM-dd HH:mm'),
-				//	  title: {html: `<span class="font-weight-normal">${value.name}</span>`},
-				//	  color: "#" + value.portfolioColor
-				//}); 	
+
+					// Get start and end time for each event.
+					var eventStartDateTime = combineDateAndTime(occurance[i], value.eventTime);
+					var eventEndDateTime = eventStartDateTime.addMinutes(value.duration);
+					console.log(eventEndDateTime);
+					
+					// Save data
+					eventList.push({
+						id: id,
+						start: eventStartDateTime.toString('yyyy-MM-dd HH:mm'),
+						end: eventEndDateTime.toString('yyyy-MM-dd HH:mm'),
+						title: {html: `<span class="font-italic">${value.name}</span>`},
+						color: "#" + value.portfolioColor
+					}); 	
+				}
 			})
         },
         
@@ -263,5 +277,28 @@ function changeCalendar(){
     	
     // Change calendar value.
     calendar.setOption('date', yearMonthStr);
-    calendar.setOption('events', getSingleTimeEventListByRange(yearMonthStr, "month"));
+    calendar.setOption('events', getEventList(yearMonthStr, "month"));
+}
+
+function combineDateAndTime(date, timeString) {
+    // Ensure the input is a Date object
+    if (!(date instanceof Date)) {
+        console.error("First argument must be a Date object.");
+        return;
+    }
+
+    // Ensure the time string is in the correct format
+    if (!/^\d{2}:\d{2}:\d{2}$/.test(timeString)) {
+        console.error("Time string must be in the format 'hh:mm:ss'.");
+        return;
+    }
+
+    // Split the time string into hours, minutes, and seconds
+    const [hours, minutes, seconds] = timeString.split(':').map(Number);
+
+    // Create a new Date object with the same date but with specified time
+    const combinedDateTime = new Date(date);
+    combinedDateTime.setHours(hours, minutes, seconds);
+
+    return combinedDateTime;
 }

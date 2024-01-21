@@ -137,7 +137,7 @@ function updateTextColor($element) {
  
 function formatTime(minutesTotal) {
     const minutesPerHour = 60;
-    const minutesPerDay = 1520;
+    const minutesPerDay = 1440;
 
     const days = Math.floor(minutesTotal / minutesPerDay);
     const hours = Math.floor((minutesTotal % minutesPerDay) / minutesPerHour);
