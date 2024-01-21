@@ -54,7 +54,7 @@
 												</div>
 												<input type="text" class="form-control" id="eventLocation" maxlength="63">
 											</div>
-											<small class="form-text text-muted">Event location (optional), up to 63 characters.</small>
+											<small class="form-text text-muted">Up to 63 characters.</small>
 										</div>
 									</div>
 									<#-- /Location -->
@@ -103,7 +103,7 @@
 									<div class="form-group">
 										<label for="eventDescription">Description</label>
 										<div id="eventDescription"></div>
-										<small class="form-text text-muted">Event description (optional), up to 65,535 characters.</small>
+										<small class="form-text text-muted">Up to 65,535 characters.</small>
 									</div>
 									<#-- /Description -->
 

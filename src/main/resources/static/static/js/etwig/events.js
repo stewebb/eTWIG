@@ -7,12 +7,16 @@
  	* @function: Add, edit and delete events.
  	*/
 
-function getEventInfo(){
+function getEventInfo(datePickersMap){
 	
 	// Get eventId
 	var urlParams = new URLSearchParams(window.location.search);
     var eventId = urlParams.get('eventId');
     
+    /**
+	 * Add mode.
+	 */
+	
     // Null check.
     if(eventId == undefined || eventId == null || eventId.length == 0){
 		warningToast("The eventId provided is empty.", "It must be not empty, and an integer. This page will be switched to Add Event mode.");
@@ -58,6 +62,10 @@ function getEventInfo(){
 		return;
 	}
     
+    /**
+	 * Edit mode.
+	 */
+	
     // Get eventId
     $('#eventIdBlock').show();
     $('#eventId').text(eventInfo.id);
@@ -80,7 +88,23 @@ function getEventInfo(){
     // Get description
     $('#eventDescription').html(eventInfo.description);
     
+    // Get event start and end datetime
+    var eventStartDate = Date.parse(eventInfo.startTime);    
+    datePickersMap.get('eventStartDate').setDate(eventStartDate);
+    $('#eventStartTime').val(eventStartDate.toString('HH:mm'));
+    $('#eventRecurringTime').val(eventStartDate.toString('HH:mm'));
+    
+    var eventEndDate = eventStartDate.addMinutes(eventInfo.duration);
+    datePickersMap.get('eventEndDate').setDate(eventEndDate);
+    $('#eventEndTime').val(eventEndDate.toString('HH:mm'));
+    
+    // Get the duration
+    $('#eventDuration').val(eventInfo.duration);
+    $('#eventDurationCalculated').text(formatTime(eventInfo.duration));
+    
+    
     console.log(eventInfo);
+    console.log(datePickersMap);
 }
 
 
@@ -297,6 +321,7 @@ function setAllDayEvent(allDayEvent){
 }
 
 function createDatePickers() {
+	var datePickersMap = new Map();
 	
     // Select all elements with IDs that match the pattern "event*Date"
     $('[id^="event"][id$="Date"]').each(function() {
@@ -304,7 +329,7 @@ function createDatePickers() {
         var wrapperId = '#' + this.id + 'Wrapper';
 
         // Initialize the date picker
-        new tui.DatePicker(wrapperId, {
+        var datePicker = new tui.DatePicker(wrapperId, {
             date: Date.today(),
             type: "date",
             input: {
@@ -313,7 +338,12 @@ function createDatePickers() {
                 usageStatistics: false
             },
         });
+        
+        // Also store this in a map.
+		datePickersMap.set(this.id, datePicker);
     });
+    
+    return datePickersMap;
 }
 
 function initAddOption(){

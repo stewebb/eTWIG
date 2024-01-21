@@ -85,6 +85,7 @@
 													<input type="text" class="form-control" id="eventStartDate">
 												</div>
 												<div id="eventStartDateWrapper" class="datepicker"></div>
+												<small class="form-text text-muted">yyyy-MM-dd format</small>
 											</div>
 										</div>
 										<#-- /Start Date -->
@@ -103,7 +104,7 @@
 													</div>
 													<input type="text" class="form-control event-time" id="eventStartTime" placeholder="__:__">
 												</div>
-												<small class="form-text text-muted">Event starting time in a 24-hour clock.</small>
+												<small class="form-text text-muted">In a 24-hour clock</small>
 											</div>
 										</div>
 										<#-- /Start Time -->
@@ -123,6 +124,7 @@
 													<input type="text" class="form-control" id="eventEndDate">
 												</div>
 												<div id="eventEndDateWrapper" class="datepicker"></div>
+												<small class="form-text text-muted">yyyy-MM-dd format</small>
 											</div>
 										</div>			
 										<#-- /End Date -->
@@ -141,26 +143,25 @@
 													</div>
 													<input type="text" class="form-control event-time" id="eventEndTime" placeholder="__:__">
 												</div>
-												<small class="form-text text-muted">Event ending time in a 24-hour clock.</small>
+												<small class="form-text text-muted">In a 24-hour clock</small>
 											</div>
 										</div>			
 										<#-- /End Time -->
 
 										<#-- Duration -->
-										<div class="form-group row" id="eventDuration">
-											<label for="eventDuration" class="col-lg-3">Duration</label>
+										<div class="form-group row">
+											<label for="eventDurationCalculated" class="col-lg-3">Duration</label>
 											<div class="col-lg-9">
-												123
-												<small class="form-text text-muted">Automatically calculated.</small>
+												<div id="eventDurationCalculated"></div>
 											</div>
 										</div>			
 										<#-- /Duration -->
 
 										<#-- Possible clashes -->
-										<div class="form-group row" id="eventPossibleClashes">
+										<div class="form-group row">
 											<label for="eventPossibleClashes" class="col-lg-3">Possible Clashes</label>
 											<div class="col-lg-9">
-												123
+												<div id="eventPossibleClashes"></div>
 												<small class="form-text text-muted">You can add an event anyway regardless of the possible clashes. (Not recommended)</small>
 											</div>
 										</div>			

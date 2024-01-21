@@ -159,7 +159,7 @@
    	<script src="/static/js/vendor/jquery.inputmask.min.js"></script>
 
 	<#-- rrule.js -->
-   	<script type="module" src="/static/js/etwig/bundle.min.js"></script>
+   	<script type="module" src="/static/js/etwig/recurrent.min.js"></script>
 
 	<#-- Custom JS for adding/editing events-->
 	<script src="/static/js/etwig/events.js"></script>
@@ -169,20 +169,20 @@
 
 		$(document).ready(function() {
 			
-			var myInstance = new MyLibrary.EtwigRRule("RRULE:FREQ=MONTHLY;COUNT=5");
-			var a = myInstance.getRuleObj();
-			console.log(a);
+			//var myInstance = new ETwig.EtwigRRule("RRULE:FREQ=MONTHLYCOUNT=5");
+			//var a = myInstance.getRuleObj();
+			//console.log(a);
 
 
 			// Initialize the description box
 			initDescriptionBox('#eventDescription');
 
 			// Date and time inputs.
-    		createDatePickers();
+    		var datePickersMap = createDatePickers();
 			$('.event-time').inputmask('99:99');
 
 			// Get event info and display it.
-			getEventInfo();
+			getEventInfo(datePickersMap);
 
 			
 			$('input[type=radio][name=event-recurrent]').change(function() {

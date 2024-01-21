@@ -12,17 +12,27 @@ const rule = new RRule({
 //var txt = rule.toText();
 //console.log(txt)
 
+/**@class
+ * The class to receive a RFC 5545 rRule and convert it into an object.
+ */
+
 export class EtwigRRule {
 	
-	ruleObj: object;
+	ruleObj: object | undefined;
+	
+	/**@constructor
+	 * Receive 
+	 */
 	
     constructor(public ruleStr: string) {
-		this.ruleObj = rrulestr(ruleStr);
+		try{
+			this.ruleObj = rrulestr(ruleStr);
+		}
+		catch (error){
+			this.ruleObj = undefined;
+		}
+		
 	}
-
-	//setRuleStr(str: string){
-	//	this.ruleStr = str;
-	//}
 	
 	getRuleStr(){
 		return this.ruleStr;

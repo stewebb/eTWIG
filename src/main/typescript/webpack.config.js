@@ -5,7 +5,7 @@ module.exports = {
   entry: './src/etwig-rrule.js', // Your main JavaScript file
   output: {
     filename: 'bundle.min.js', // The output bundle
-    library: 'MyLibrary', //add this line to enable re-use
+    library: 'ETwig', //add this line to enable re-use
     path: path.resolve(__dirname, 'dist'), // Output directory
     libraryTarget: 'umd', // Universal Module Definition
     //globalObject: 'this'

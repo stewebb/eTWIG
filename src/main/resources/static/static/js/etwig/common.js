@@ -135,6 +135,29 @@ function updateTextColor($element) {
     }
 }
  
+function formatTime(minutesTotal) {
+    const minutesPerHour = 60;
+    const minutesPerDay = 1520;
+
+    const days = Math.floor(minutesTotal / minutesPerDay);
+    const hours = Math.floor((minutesTotal % minutesPerDay) / minutesPerHour);
+    const minutes = minutesTotal % minutesPerHour;
+
+    let formattedTime = "";
+    if (days > 0) {
+        formattedTime += days + (days === 1 ? " day" : " days");
+    }
+    if (hours > 0) {
+        if (formattedTime.length > 0) formattedTime += ", ";
+        formattedTime += hours + (hours === 1 ? " hour" : " hours");
+    }
+    if (minutes > 0) {
+        if (formattedTime.length > 0) formattedTime += ", ";
+        formattedTime += minutes + (minutes === 1 ? " minute" : " minutes");
+    }
+
+    return formattedTime;
+}
 
 /**
  * Hide the navbar if the page is in a frame.

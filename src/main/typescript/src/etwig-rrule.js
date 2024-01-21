@@ -15,11 +15,13 @@ const rule = new rrule_1.RRule({
 class EtwigRRule {
     constructor(ruleStr) {
         this.ruleStr = ruleStr;
-        this.ruleObj = (0, rrule_1.rrulestr)(ruleStr);
+        try {
+            this.ruleObj = (0, rrule_1.rrulestr)(ruleStr);
+        }
+        catch (error) {
+            this.ruleObj = undefined;
+        }
     }
-    //setRuleStr(str: string){
-    //	this.ruleStr = str;
-    //}
     getRuleStr() {
         return this.ruleStr;
     }
