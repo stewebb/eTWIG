@@ -93,6 +93,7 @@ function getEventInfo(datePickersMap){
     // Get description
     $('#eventDescription').html(eventInfo.description);
     
+    
     // Get event start and end datetime
     var eventStartDate = Date.parse(eventInfo.startTime);    
     datePickersMap.get('eventStartDate').setDate(eventStartDate);
@@ -118,6 +119,10 @@ function getEventInfo(datePickersMap){
 		if(eventInfo.rrule != undefined && eventInfo.rrule != null && eventInfo.rrule.length > 0){
 			dangerToast("Failed to parse Recurrence Rule.", eventInfo.rrule + " is not a valid iCalendar RFC 5545 Recurrence Rule.");
 		}
+		
+		// Single time mode
+    	setRecurrentMode(false);
+    	$('input[name="event-recurrent"][value="0"]').prop('checked', true);
 	}
 	
 	// This is a recurring event.
@@ -151,15 +156,31 @@ function getEventInfo(datePickersMap){
        		});
 		}
 		
-
+		// Set by month
+		if(rule.options.bymonth != null){
+			$('#eventByMonth option').each(function() {
+       	 		if (rule.options.bymonth.includes(parseInt($(this).val()))) {
+           			$(this).prop('selected', true);
+       			}    
+       		});
+		}
+		
+		// Set by month day
+		$('#eventByMonthDay').val(rule.options.bymonthday);
+		
+		// Display the rule.
+		//$('#eventRFCRRule').text(rule.toString());
+		$('#eventRRuleDiscription').text(rule.toText());
 		//rule.options.until == null ? $('#eventValidToDate').val('') : datePickersMap.get('eventValidToDate').setDate(rule.options.until);
 
-		console.log(rule.options);
+		// Recurrion mode.
+		setRecurrentMode(true);
+		$('input[name="event-recurrent"][value="1"]').prop('checked', true);
+		
+		//console.log(rule.options);
 	}
 	
-			
-    //console.log(eventInfo);
-    //console.log(datePickersMap);
+
 }
 
 

@@ -184,7 +184,7 @@
 													</div>
 													<input type="text" class="form-control event-time" id="eventRecurringTime" placeholder="__:__">
 												</div>
-												<small class="form-text text-muted">Event starting time in a 24-hour clock.</small>
+												<small class="form-text text-muted">In a 24-hour clock.</small>
 											</div>
 										</div>
 										<#-- /Event Time -->
@@ -311,7 +311,7 @@
 													</div>
 													<input type="number" min="1" class="form-control" id="eventInterval">
 												</div>
-												<small class="form-text text-muted">The interval between each frequency iteration. (Optional)</small>
+												<small class="form-text text-muted">The interval between each frequency iteration.</small>
 											</div>
 										</div>
 										<#-- /Interval -->
@@ -336,13 +336,13 @@
 														<option value="6">Sunday</option>
 													</select>	
 												</div>
-												<small class="form-text text-muted">The day of week to apply the recurrence to. (Mon-Sun)	(Optional)</small>
+												<small class="form-text text-muted">The day of week to apply the recurrence to.</small>
 											</div>
 										</div>
 										<#-- /By week day -->
 
 										<#-- By month -->
-										<div class="form-group row" id="eventByWeekDay">
+										<div class="form-group row">
 											<label for="eventByMonth" class="col-lg-3 col-form-label">By Month</label>
 											<div class="col-lg-9">
 												<div class="input-group">
@@ -351,7 +351,7 @@
 															<i class="fa-solid fa-calendar-days"></i>
 														</span>
 													</div>
-													<select class="form-control select2bs4" multiple="multiple">
+													<select class="form-control select2bs4" multiple="multiple" id="eventByMonth">
 														<option value="1">January</option>
 														<option value="2">February</option>
 														<option value="3">March</option>
@@ -366,13 +366,13 @@
 														<option value="12">December</option>				
 													</select>									
 												</div>
-												<small class="form-text text-muted">The month to apply the recurrence to. (Jan-Dec)	(Optional)</small>
+												<small class="form-text text-muted">The month to apply the recurrence to</small>
 											</div>
 										</div>
 										<#-- /By month -->
 
 										<#-- By Month Day -->
-										<div class="form-group row" id="eventInterval">
+										<div class="form-group row">
 											<label for="eventByMonthDay" class="col-lg-3 col-form-label">By Month Day</label>
 											<div class="col-lg-9">
 
@@ -382,32 +382,40 @@
 															<i class="fa-solid fa-calendar-days"></i>
 														</span>
 													</div>
-													<input type="number" min="1" class="form-control" id="eventByMonthDay">
+													<input type="text" class="form-control" id="eventByMonthDay">
 												</div>
-												<small class="form-text text-muted">The day of month to apply the recurrence to. (Optional)</small>
+												<small class="form-text text-muted">The day of month to apply the recurrence to. Use comma to divide each number.</small>
 											</div>
 										</div>
 										<#-- By Month Day -->
 
-										<#-- Recurrence Rule -->
-										<div class="form-group row" id="eventRRule">
-											<label for="eventRRule" class="col-lg-3">Recurrence Rule</label>
-											<div class="col-lg-9">
-												123
-												<small class="form-text text-muted">The recurrence rule in computer-friendly language. (iCalendar RFC 5545)</small>
-											</div>
+										<#-- Description -->
+										<div class="form-group row">
+											<label for="eventRRuleDiscription" class="col-lg-3">Description</label>
+											<div class="col-lg-9" id="eventRRuleDiscription"></div>
 										</div>			
-										<#-- /Recurrence Rule -->
+										<#-- Description -->
 
-										<#-- In English -->
-										<div class="form-group row" id="eventRRule">
-											<label for="eventRRuleInEnglish" class="col-lg-3">In English</label>
-											<div class="col-lg-9">
-												123
-												<small class="form-text text-muted">The recurrence rule in human-friendly language. (English)</small>
+										<#-- All dates -->
+										<div class="form-group row">
+											<label for="eventRRuleAllDates" class="col-lg-3">All dates</label>
+											<div class="col-lg-9 card-body table-responsive p-0" style="max-height: 300px;">
+												<table class="table table-head-fixed text-nowrap table-striped table-hover">
+													<thead>
+														<tr>
+															<th>Day of week</th>
+															<th>Year</th>
+															<th>Month</th>
+															<th>Day</th>
+														</tr>
+													</thead>
+													<tbody>
+
+													</tbody>
+												</table>
 											</div>
-										</div>			
-										<#-- /In English -->
+										</div>
+										<#-- /All dates -->
 
 									</div>
 
