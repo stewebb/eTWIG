@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.EtwigRRule = void 0;
 const rrule_1 = require("rrule");
 // Create a rule:
 const rule = new rrule_1.RRule({
@@ -9,5 +10,21 @@ const rule = new rrule_1.RRule({
     dtstart: (0, rrule_1.datetime)(2012, 2, 1, 10, 30),
     until: (0, rrule_1.datetime)(2012, 12, 31)
 });
-var txt = rule.toText();
-console.log(txt);
+//var txt = rule.toText();
+//console.log(txt)
+class EtwigRRule {
+    constructor(ruleStr) {
+        this.ruleStr = ruleStr;
+        this.ruleObj = (0, rrule_1.rrulestr)(ruleStr);
+    }
+    //setRuleStr(str: string){
+    //	this.ruleStr = str;
+    //}
+    getRuleStr() {
+        return this.ruleStr;
+    }
+    getRuleObj() {
+        return this.ruleObj;
+    }
+}
+exports.EtwigRRule = EtwigRRule;

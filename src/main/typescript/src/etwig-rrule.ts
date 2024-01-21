@@ -9,5 +9,28 @@ const rule = new RRule({
   until: datetime(2012, 12, 31)
 })
 
-var txt = rule.toText();
-console.log(txt)
+//var txt = rule.toText();
+//console.log(txt)
+
+export class EtwigRRule {
+	
+	ruleObj: object;
+	
+    constructor(public ruleStr: string) {
+		this.ruleObj = rrulestr(ruleStr);
+	}
+
+	//setRuleStr(str: string){
+	//	this.ruleStr = str;
+	//}
+	
+	getRuleStr(){
+		return this.ruleStr;
+	}
+	
+	getRuleObj(){
+		return this.ruleObj;
+	}
+
+   
+}

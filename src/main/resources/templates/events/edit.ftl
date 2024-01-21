@@ -166,9 +166,12 @@
 	
    	<#-- Post Scripts -->
 	<script>
-		console.log(txt);
+
 		$(document).ready(function() {
 			
+			var myInstance = new MyLibrary.EtwigRRule("RRULE:FREQ=MONTHLY;COUNT=5");
+			var a = myInstance.getRuleObj();
+			console.log(a);
 
 
 			// Initialize the description box
