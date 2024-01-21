@@ -220,19 +220,19 @@
 												
 													<#-- Daily -->
 													<div class="icheck-primary d-inline mr-2">
-														<input type="radio" id="daily" name="eventFrequency" checked value="h">
+														<input type="radio" id="daily" name="eventFrequency" checked value="3">
 														<label for="daily">Daily</label>
 													</div>
 													
 													<#-- Weekly -->
 													<div class="icheck-primary d-inline mr-2">
-														<input type="radio" id="weekly" name="eventFrequency" value="d">
+														<input type="radio" id="weekly" name="eventFrequency" value="2">
 														<label for="weekly">Weekly</label>
 													</div>
 													
 													<#-- Monthly-->
 													<div class="icheck-primary d-inline mr-2">
-														<input type="radio" id="monthly" name="eventFrequency" value="w">
+														<input type="radio" id="monthly" name="eventFrequency" value="1">
 														<label for="monthly">Monthly</label>
 													</div>
 													
@@ -240,6 +240,8 @@
 											</div>
 										</div>
 										<#-- /Frequency -->
+
+
 
 										<#-- Valid from -->
 										<div class="form-group row">
@@ -260,14 +262,15 @@
 										<#-- /Valid from -->
 
 										<#-- Valid to -->
-										<div class="form-group row" id="eventEndDate">
+										<div class="form-group row">
 											<label for="eventValidToDate" class="col-lg-3 col-form-label">Valid To</label>
 											<div class="col-lg-9">
 												<div class="input-group">
 													<div class="input-group-prepend">
-														<span class="input-group-text">
-															<i class="fa-solid fa-hourglass-end"></i>
-														</span>
+														<div class="icheck-primary">
+															<input type="checkbox" id="eventValidToDateEnabled" checked>
+															<label for="eventValidToDateEnabled"></label>
+														</div>
 													</div>
 													<input type="text" class="form-control" id="eventValidToDate">
 												</div>
@@ -278,7 +281,7 @@
 										<#-- /Valid to -->
 
 										<#-- Count -->
-										<div class="form-group row" id="eventCount">
+										<div class="form-group row">
 											<label for="eventCount" class="col-lg-3 col-form-label">Count</label>
 											<div class="col-lg-9">
 
@@ -296,7 +299,7 @@
 										<#-- /Count -->
 
 										<#-- Interval -->
-										<div class="form-group row" id="eventInterval">
+										<div class="form-group row">
 											<label for="eventInterval" class="col-lg-3 col-form-label">Interval</label>
 											<div class="col-lg-9">
 
@@ -314,7 +317,7 @@
 										<#-- /Interval -->
 
 										<#-- By week day -->
-										<div class="form-group row" id="eventByWeekDay">
+										<div class="form-group row">
 											<label for="eventByWeekDay" class="col-lg-3 col-form-label">By Week Day</label>
 											<div class="col-lg-9">
 												<div class="input-group">
@@ -323,7 +326,7 @@
 															<i class="fa-solid fa-calendar-week"></i>
 														</span>
 													</div>
-													<select class="form-control select2bs4" multiple="multiple">
+													<select class="form-control select2bs4" multiple="multiple" id="eventByWeekDay">
 														<option value="0">Monday</option>
 														<option value="1">Tuesday</option>
 														<option value="2">Wednesday</option>

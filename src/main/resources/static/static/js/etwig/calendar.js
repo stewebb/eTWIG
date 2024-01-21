@@ -32,7 +32,7 @@ function createCalendar(elem, currentMonth){
 		},
     	events: getEventList(currentMonth),
     	eventClick: function (info) {
-			editEventBtn(info.event.id);
+			$(location).attr('href', '/events/manage?eventId=' + info.event.id);
 		},
     	dayMaxEvents: true,
     	nowIndicator: true,
@@ -108,9 +108,7 @@ function getRecurringTimeEventListByRange(date){
     var month = dateObj.getMonth();
     var firstDay = new Date(year, month, 1);
     var lastDay = new Date(year, month + 1, 0);
-    
-    //console.log(firstDay);
-    				
+        				
 	var eventList = []; 
 	$.ajax({ 
 		type: 'GET', 
@@ -125,12 +123,9 @@ function getRecurringTimeEventListByRange(date){
 			// Iterate all dates.
 			jQuery.each(json, function(id, value) {				
 					
-				//console.log(value);
 				var rRule = new ETwig.EtwigRRule(value.rrule);
 				var rule = rRule.getRuleObj();
-				
-				//console.log(rule);
-				
+								
 				// Failed to parse rRule, skip it.
 				if(rule == undefined || rule == null){
 					dangerToast("Failed to parse Recurrence Rule.", value.rrule + " is not a valid iCalendar RFC 5545 Recurrence Rule.");
@@ -141,11 +136,9 @@ function getRecurringTimeEventListByRange(date){
     			var occurance = rRule.getOccuranceBetween(firstDay, lastDay);
     			for(var i=0; i< occurance.length; i++){
 					
-
 					// Get start and end time for each event.
 					var eventStartDateTime = combineDateAndTime(occurance[i], value.eventTime);
 					var eventEndDateTime = eventStartDateTime.addMinutes(value.duration);
-					console.log(eventEndDateTime);
 					
 					// Save data
 					eventList.push({
@@ -192,27 +185,6 @@ function createDatePicker(htmlElem, pickerElem, buttonElem){
   		currentDate = datepicker.getDate();
   		changeCalendar(currentDate);
 	}); 
-}
-
-/**
- * Actions for click "Add Event" button.
- */
-
-function addEventBtn(){
-	
-	$('#etwigModalTitle').text('Add Event');
-	$('#etwigModalBody').html(`
-		<div class="embed-responsive embed-responsive-1by1">
-			<iframe class="embed-responsive-item" src="/events/add?embedded=true" allowfullscreen></iframe>
-        </div>`
-    );
-	
-	// This modal cannot be closed when clicking outside area.  
-	$('#etwigModal').modal({
-    	backdrop: 'static',
-    	keyboard: false,
-	})
-	$('#etwigModal').modal('show');
 }
 
 function editEventBtn(eventId){
@@ -274,7 +246,7 @@ function changeCalendar(){
 	
 	// Convert to yyyy-mm-dd format.
     var yearMonthStr = currentDate.toString('yyyy-MM-dd');
-    	
+    
     // Change calendar value.
     calendar.setOption('date', yearMonthStr);
     calendar.setOption('events', getEventList(yearMonthStr, "month"));

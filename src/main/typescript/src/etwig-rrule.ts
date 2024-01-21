@@ -37,6 +37,8 @@ export class EtwigRRule {
 			return undefined;
 		}
 		
+		
+		// Re-format start and end date.
 		var startDateTime = datetime(startDate.getFullYear(), startDate.getMonth() + 1, startDate.getDate());
 		var endDateTime = datetime(endDate.getFullYear(), endDate.getMonth() + 1, endDate.getDate());
 		return this.ruleObj.between(startDateTime, endDateTime);

@@ -94,9 +94,9 @@
 										<hr class="mt-3 mb-3"/>
 										
 										<#if true>
-											<button type="button" class="btn btn-block btn-outline-primary" onclick="addEventBtn();">
+											<a class="btn btn-block btn-outline-primary" href="/events/edit?eventId=-1">
 												<i class="fa-solid fa-add"></i>&nbsp;New Event
-											</button>	
+											</a>	
 										</#if>
 										<#-- /Event Options-->
 										

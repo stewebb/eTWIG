@@ -67,18 +67,16 @@ function getEventInfo(datePickersMap){
 	 */
 	
     // Get eventId
-    var eventId = eventInfo.id;
     $('#eventIdBlock').show();
-    $('#eventId').text(eventId);
+    $('#eventId').text(eventInfo.id);
     
     // Set the title.
-    var name = eventInfo.name;
-	$('#eventPageTitle').text('Edit event: ' + name);
+	$('#eventPageTitle').text('Edit event: ' + eventInfo.name);
 	$('#eventPageLink').text('Edit event');
-	$('#eventPageLink').attr('href', '/events/edit?eventId=' + eventId);
+	$('#eventPageLink').attr('href', '/events/edit?eventId=' + eventInfo.id);
     
     // Get name and location
-    $('#eventName').val(name);
+    $('#eventName').val(eventInfo.name);
     $('#eventLocation').val(eventInfo.location);
     
     // Get organizer info and set it to read-only.
@@ -111,12 +109,57 @@ function getEventInfo(datePickersMap){
     
     // Get recurrent info.
     var rRule = new ETwig.EtwigRRule(eventInfo.rrule);
-	
 	var rule = rRule.getRuleObj();
-	console.log(rule);
+	
+	// This is a single time event, or the rRule is invalid.
+	if(rule == undefined || rule == null){
+		
+		// Invalid rRule check.
+		if(eventInfo.rrule != undefined && eventInfo.rrule != null && eventInfo.rrule.length > 0){
+			dangerToast("Failed to parse Recurrence Rule.", eventInfo.rrule + " is not a valid iCalendar RFC 5545 Recurrence Rule.");
+		}
+	}
+	
+	// This is a recurring event.
+	else{
+		
+		// Set the frequency.
+		$('input[name="eventFrequency"][value="' + rule.options.freq + '"]').prop('checked', true);
+		
+		// Set valid from
+		datePickersMap.get('eventValidFromDate').setDate(rule.options.dtstart);
+		
+		// Set valid to
+		$('#eventValidToDateEnabled').prop('checked', rule.options.until != null);
+		setValidTo(rule.options.until != null);
+		if(rule.options.until != null){
+			datePickersMap.get('eventValidToDate').setDate(rule.options.until);
+		}
+		
+		// Set count
+		$('#eventCount').val(rule.options.count);
+		
+		// Set interval
+		$('#eventInterval').val(rule.options.interval);
+		
+		// Set by weekday
+		if(rule.options.byweekday != null){
+			$('#eventByWeekDay option').each(function() {
+       	 		if (rule.options.byweekday.includes(parseInt($(this).val()))) {
+           			$(this).prop('selected', true);
+       			}    
+       		});
+		}
+		
+
+		//rule.options.until == null ? $('#eventValidToDate').val('') : datePickersMap.get('eventValidToDate').setDate(rule.options.until);
+
+		console.log(rule.options);
+	}
+	
 			
-    console.log(eventInfo);
-    console.log(datePickersMap);
+    //console.log(eventInfo);
+    //console.log(datePickersMap);
 }
 
 
@@ -332,6 +375,13 @@ function setAllDayEvent(allDayEvent){
     $('[id^="event"][id$="TimeBlock"]').toggle(!allDayEvent);
 }
 
+function setValidTo(enableValidTo){
+	$('#eventValidToDate').attr('disabled', !enableValidTo);
+	if(!enableValidTo){
+		$('#eventValidToDate').val('');
+	}
+}
+
 function createDatePickers() {
 	var datePickersMap = new Map();
 	
@@ -363,6 +413,7 @@ function initAddOption(){
 	// Set the default options.
 	setRecurrentMode(0);
 	setAllDayEvent(false);
+	setValidTo(true);
 	
 	// Set the hidden fields.
 	$('#eventIdBlock').hide();

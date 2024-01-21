@@ -192,7 +192,10 @@
 			$('#eventAllDayEvent').change(function() {
 				setAllDayEvent(this.checked); 
     		});
-
+			$('#eventValidToDateEnabled').change(function(){
+				setValidTo(this.checked);
+			})
+			
 			$('.select2bs4').select2({
       			theme: 'bootstrap4'
     		})
