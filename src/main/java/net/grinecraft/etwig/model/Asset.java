@@ -36,7 +36,7 @@ public class Asset {
 	@Column(name = "size")
 	private long size;
 	
-	@Column(name = "uploaded_time")
+	@Column(name = "upload_time")
 	private LocalDateTime uploadedTime;
 	
 	@ManyToOne(cascade = CascadeType.ALL)

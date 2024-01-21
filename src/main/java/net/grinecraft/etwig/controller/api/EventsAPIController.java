@@ -89,7 +89,7 @@ public class EventsAPIController {
 	@PostMapping(value = "/editEvent")
     public Map<String, Object> editEvent(HttpSession session, @RequestBody Map<String, Object> eventInfo) throws Exception {
 				
-		// Check the permission again in the backend.
+		// Check the permission again in the back end.
 		LinkedHashMap<String, Object> event = null;//eventService.findById(Long.parseLong(eventInfo.get("eventId").toString()));
 		if(!eventService.eventEditPermissionCheck(event)) {
 			return WebReturn.errorMsg("You don't have permission to edit this event.", false);

@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import net.grinecraft.etwig.dto.AssetBasicInfoDTO;
 import net.grinecraft.etwig.model.Asset;
 import net.grinecraft.etwig.services.AssetService;
 import net.grinecraft.etwig.util.WebReturn;
@@ -39,15 +41,13 @@ public class AssetAPIController {
 		} 
 		
 		// Copy file and add related info
-		//assetService.uploadFile(file);
-		//return WebReturn.errorMsg("", true);
-		
-		return null;
+		assetService.uploadFile(file);
+		return WebReturn.errorMsg("", true);
     }
 	
 	@GetMapping("/getImageInfo")
     public Map<String, Object> getImageInfo(@RequestParam Long assetId) throws Exception {
-		/*
+		
 		// Asset information check.
 		Asset asset = assetService.getAssetDetailsById(assetId);
 		if(asset == null) {
@@ -78,7 +78,11 @@ public class AssetAPIController {
 		Map<String, Object> myReturn = WebReturn.errorMsg(null, true);
 		myReturn.put("imageInfo", imageInfo);
 		return myReturn;
-		
-		*/return null;
+
+    }
+	
+	@GetMapping("/getAssetList")  
+    public Page<AssetBasicInfoDTO> getAssetList(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return assetService.getAssetList(page, size);
     }
 }

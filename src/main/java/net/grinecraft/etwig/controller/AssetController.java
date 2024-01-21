@@ -40,13 +40,13 @@ public class AssetController {
 	 * @Permissions PUBLIC ACCESS
 	 */
 	
-	@SuppressWarnings("unused")
+	@SuppressWarnings("null")
 	@GetMapping(value = "/getPublicAsset")
 	public ResponseEntity<Resource> getPublicAsset(@RequestParam Long assetId, @RequestParam (required=false) String download) throws Exception {
 		
 		// Get asset info, content and null check.
-		Asset asset = null;//assetService.getAssetDetailsById(assetId);
-		Resource resource = null;//assetService.getAssetContent(asset);
+		Asset asset = assetService.getAssetDetailsById(assetId);
+		Resource resource = assetService.getAssetContent(asset);
 		if(resource == null) {
 			return ResponseEntity.notFound().build();
 		}
