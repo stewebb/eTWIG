@@ -22,7 +22,7 @@ public class GraphicsRequestEventInfoDTO {
 	private int duration;
 	
 	// Organizer-related info
-	private String organizerName;
+	private UserDTO organizer;
 	private String organizerPosition;
 	private Portfolio portfolio;
 	
@@ -41,7 +41,7 @@ public class GraphicsRequestEventInfoDTO {
 		UserRole userRole = event.getUserRole();
 		
 		this.organizerPosition = userRole.getPosition();
-		this.organizerName = userRole.getUser().getFullName();
+		this.organizer = new UserDTO(userRole.getUser());
 		this.portfolio = userRole.getPortfolio();
 		
 	}

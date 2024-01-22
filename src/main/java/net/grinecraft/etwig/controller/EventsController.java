@@ -23,6 +23,7 @@ import net.grinecraft.etwig.services.EventService;
 import net.grinecraft.etwig.services.GraphicsRequestService;
 import net.grinecraft.etwig.services.OptionService;
 import net.grinecraft.etwig.services.PropertyService;
+import net.grinecraft.etwig.services.UserRoleService;
 import net.grinecraft.etwig.util.BooleanUtils;
 
 @Controller
@@ -37,6 +38,9 @@ public class EventsController {
 	
 	@Autowired
 	EventService eventService;
+	
+	@Autowired
+	private UserRoleService userRoleService;
 	
 	@Autowired
 	private GraphicsRequestService graphicsRequestService;
@@ -92,19 +96,14 @@ public class EventsController {
 			return "_errors/custom_error";
 		}
 		model.addAttribute("eventInfo", event);
+		model.addAttribute("requestInfo",graphicsRequestService.getRequestsByEvent(eventId));
 
 		// Get the number of requests of this event.
 		model.addAttribute("count", graphicsRequestService.countByEventId(eventId));
 		
-		// Has pending requests left?
-		model.addAttribute("hasPending", graphicsRequestService.hasPendingRequests(eventId));
-		
 		// Edit permission check
 		model.addAttribute("editPermission", eventService.eventEditPermissionCheck(event.getPortfolio()));
-		//model.addAttribute("editPermission", null);
-		
-		model.addAttribute("requestInfo",graphicsRequestService.getRequestsByEvent(eventId));
-		
+		model.addAttribute("myPortfolios", userRoleService.getMyPortfolios());
 		return "events/graphics";
 	}
 }

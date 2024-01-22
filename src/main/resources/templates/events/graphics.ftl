@@ -100,87 +100,161 @@
 								<div class="col-md-6">
 								
 									<#-- Event Information -->
-									<h5 class="mt-3 mb-2 bold-text">
-										<i class="fa-solid fa-circle-info"></i>&nbsp;Event Information
-									</h5>
+									<div class="mb-2">
+										<h5 class="mb-2 bold-text text-primary">
+											<i class="fa-solid fa-circle-info ="></i>&nbsp;Event Information
+										</h5>
 
-									<table class="table table-bordered">
-												
-										<#-- Event Id -->
-										<tr>
-											<th scope="row">Event Id</th>
-											<td>${eventInfo.id}</td>
-										</tr>
-										<#-- /Event Id -->
-												
-										<#-- Name -->
-										<tr>
-											<th scope="row">Name</th>
-											<td>${eventInfo.name}</td>
-										</tr>
-										<#-- /Name -->
-												
-										<#-- Location -->
-										<tr>
-											<th scope="row">Location</th>
-											<td><#if eventInfo.location?has_content>${eventInfo.location}</#if></td>
-										</tr>
-										<#--  /Location -->
-												
-										<#-- Type -->
-										<tr>
-											<th scope="row">Type</th>
-											<td>${(eventInfo.recurrent)?string("Recurring","Single Time")} Event</td>
-										</tr>
-										<#-- /Type -->
-												
-										<#-- Start Time -->
-										<tr>
-											<th scope="row">Start Time</th>
-											<td>${eventInfo.startTime}</td>
-										</tr>
-										<#-- /Start Time -->
-												
-										<#--  Organizer -->
-										<tr>
-											<th scope="row">Organizer</th>
-											<td>${eventInfo.organizerName}</td>
-										</tr>
-										<#--  /Organizer -->
+										<#-- Basic Info -->
+										<table class="table table-bordered">
+													
+											<#-- Event Id -->
+											<tr>
+												<th scope="row">Event Id</th>
+												<td>${eventInfo.id}</td>
+											</tr>
+											<#-- /Event Id -->
+													
+											<#-- Name -->
+											<tr>
+												<th scope="row">Name</th>
+												<td>${eventInfo.name}</td>
+											</tr>
+											<#-- /Name -->
+													
+											<#-- Location -->
+											<tr>
+												<th scope="row">Location</th>
+												<td><#if eventInfo.location?has_content>${eventInfo.location}</#if></td>
+											</tr>
+											<#--  /Location -->
+													
+											<#-- Type -->
+											<tr>
+												<th scope="row">Type</th>
+												<td>${(eventInfo.recurrent)?string("Recurring","Single Time")} Event</td>
+											</tr>
+											<#-- /Type -->
+													
+											<#-- Start Time -->
+											<tr>
+												<th scope="row">Start Time</th>
+												<td>${eventInfo.startTime}</td>
+											</tr>
+											<#-- /Start Time -->
+													
+											<#--  Organizer -->
+											<tr>
+												<th scope="row">Organizer</th>
+												<td>${eventInfo.organizer.fullName}</td>
+											</tr>
+											<#--  /Organizer -->
 
-										<#-- Position and Portfolio -->
-										<tr>
-											<th scope="row">Position and Portfolio</th>
-											<td id="eventPortfolio" style="background-color:#${eventInfo.portfolio.color}">
-												${eventInfo.organizerPosition}, ${eventInfo.portfolio.name}
-											</td>
-										</tr>
-										<#-- /Position and Portfolio -->
-												
-									</table>
-									<#-- /Event Information -->
+											<#-- Position and Portfolio -->
+											<tr>
+												<th scope="row">Position and Portfolio</th>
+												<td id="eventPortfolio" style="background-color:#${eventInfo.portfolio.color}">
+													${eventInfo.organizerPosition}, ${eventInfo.portfolio.name}
+												</td>
+											</tr>
+											<#-- /Position and Portfolio -->
+													
+										</table>
+										<#-- /Basic Info -->
 
-									<#-- Description -->
-									<blockquote>
-										<label>Description</label>
-										<#if eventInfo.description?has_content>
-											${eventInfo.description}
-										<#else>
-											<span>No description.</span>	
-										</#if>
-									</blockquote>
-									<#-- /Description -->			
-									
+										<#-- Description -->
+										<blockquote>
+											<label>Description</label>
+											<#if eventInfo.description?has_content>
+												${eventInfo.description}
+											<#else>
+												<span>No description.</span>	
+											</#if>
+										</blockquote>
+										<#-- /Description -->	
+
+									</div>
+									<#-- Event Information -->
+
 									<#-- Current Graphics -->
-									<h5 class="mt-3 mb-2 bold-text">
-										<i class="fa-solid fa-icons"></i>&nbsp;Current Graphics
-									</h5>
+									<div class="mb-2">
+										<h5 class="mb-2 bold-text text-primary">
+											<i class="fa-solid fa-icons"></i>&nbsp;Current Graphics
+										</h5>
+									</div>
+									<#-- /Current Graphics -->
+
 								</div>
 								<#-- Col 1 -->
 								
 							
 								<#-- Col 2 -->
 								<div class="col-md-6">
+
+									<#-- User Input -->
+									<div class="mb-2">
+										<h5 class="mb-2 bold-text text-primary">
+											<i class="fa-solid fa-circle-plus"></i>&nbsp;${modeStr}
+										</h5>
+
+										<#-- Hidden inputs -->
+										<input type="hidden" id="eventId" value="${eventInfo.id}" />
+										<input type="hidden" id="requester" value="${eventInfo.organizer.id}" />
+										<#-- /Hidden inputs -->
+									
+										<#-- Permission check. -->
+										<#if editPermission>
+										
+											<#-- Returning Date -->
+											<div class="form-group">
+												<label for="returningDate">
+													Returning date&nbsp;<span class="required-symbol">*</span>
+												</label>
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text">
+															<i class="fa-solid fa-clock"></i>
+														</span>
+													</div>
+													<input type="text" class="form-control" id="returningDate" ${disabledStr}>
+												</div>
+												<div id="returningDateWrapper" class="datepicker"></div>
+												<small class="form-text text-muted">Returning date for getting your graphic.</small>
+											</div>			
+											<#-- Returning Date -->
+											
+											<#-- Comment -->
+											<div class="form-group">
+											<label for="comment">Additional Comments</label>										
+											<textarea id="requestComment" class="form-control fixed-textarea" id="comment" maxlength="255" rows="5" ${disabledStr}></textarea>
+											<small class="form-text text-muted">Additional comments and requirements, up to 255 characters.</small>
+											</div>			
+											<#-- /Comment -->
+									
+											<#-- Submit -->
+											<div class="right-div" role="group">
+												<button type="button" class="btn btn-outline-primary" onclick="requestEvent();" ${disabledStr}>
+													<i class="fa-regular fa-check"></i>&nbsp;Submit
+												</button>
+											</div>
+											<#-- /Submit -->
+										
+										<#else>
+											<#assign eventDetails = eventInfo>
+											<#assign calloutTitle = "No graphics permission">
+											<#include "../_includes/events/noPermission_callout.ftl">
+										</#if>
+									</div>
+									<#-- /User Input -->
+
+									<#-- Request history -->
+									<div class="mb-2">
+										<h5 class="mb-2 bold-text text-primary">
+											<i class="fa-solid fa-clock-rotate-left"></i>&nbsp;Request history [Count: ${count}]
+										</h5>
+									</div>
+									<#-- /Request history -->
+									
 								</div>
 								<#-- /Col 2 -->
 
@@ -203,5 +277,19 @@
 	
 	<#include "../_includes/footer.ftl">
 	<#include "../_includes/header/body_end.ftl">
+
+	<#-- Custom JS for graphics request-->
+	<script src="/static/js/etwig/graphics-request.js"></script>
+	
+	<script>
+	
+		$(document).ready(function() {
+			updateTextColor($('#eventPortfolio'));
+		});
+		
+		createDatePicker();
+	
+	</script>
+
 </body>
 </html>

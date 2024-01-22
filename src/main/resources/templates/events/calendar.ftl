@@ -95,7 +95,7 @@
 										
 										<#if true>
 											<a class="btn btn-block btn-outline-primary" href="/events/edit?eventId=-1">
-												<i class="fa-solid fa-add"></i>&nbsp;New Event
+												<i class="fa-solid fa-calendar-plus"></i>&nbsp;New Event
 											</a>	
 										</#if>
 										<#-- /Event Options-->
