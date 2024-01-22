@@ -1,6 +1,7 @@
 package net.grinecraft.etwig.services;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -11,20 +12,22 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+
 import freemarker.template.Configuration;
+import freemarker.template.Template;
 import jakarta.mail.internet.MimeMessage;
 import net.grinecraft.etwig.config.ConfigFile;
 import net.grinecraft.etwig.dto.EventDetailsDTO;
+import net.grinecraft.etwig.dto.GraphicsRequestEventInfoDTO;
 import net.grinecraft.etwig.dto.PositionDTO;
+import net.grinecraft.etwig.dto.UserDTO;
 import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.model.UserRole;
 import net.grinecraft.etwig.repository.UserRoleRepository;
 
 @Service
 public class EmailService {
-	
-    //Template t = freemarkerConfig.getTemplate("email-template.ftl");
-    //String html = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
 	
 	@Autowired
 	private ConfigFile config;
@@ -72,22 +75,29 @@ public class EmailService {
     	}
     	
    		// Get requester and event info.
+    	Long eventId = Long.parseLong(requestInfo.get("requesterRole").toString());
+    	GraphicsRequestEventInfoDTO event = eventService.findEventsForGraphicsRequestById(eventId);
 		UserRole requesterRole = userRoleService.findById(Long.parseLong(requestInfo.get("requesterRole").toString()));
-		EventDetailsDTO event = eventService.findById(Long.parseLong(requestInfo.get("eventId").toString()));
 		User requester = requesterRole.getUser();
 		
-		// Generate email subject and content.
+		// Generate email subject.
 		StringBuilder subject = new StringBuilder();
 		subject.append(requesterRole.getPosition() + " ");
 		subject.append(requester.getFullName());
-		subject.append(" made a graphics request on the event ");
+		subject.append(" made a graphics request on ");
 		subject.append(event.getName());
-		subject.append(" on " + LocalDateTime.now());
 		
-		//String subject = requester.getFullName() + " made a ";
+		// Generate email content
+		Template t = freemarkerConfig.getTemplate("_emails/graphic_request.ftl");
+		HashMap<String, Object> model = new HashMap<String, Object>();
+		model.put("eventInfo", event);
+		model.put("requestInfo", requestInfo);
+		model.put("organizer", new UserDTO(requester));
+	    String content = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
+		
 		// Iterate all graphics managers
 		for(PositionDTO graphicsManager : graphicsManagers) {
-			sendEmail(graphicsManager.getEmail(), subject.toString(), "1");
+			sendEmail(graphicsManager.getEmail(), subject.toString(), content);
 		}
     		
     	//System.out.println(graphicsManagers);

@@ -112,10 +112,4 @@ public class EventsController {
 		model.addAttribute("myPortfolios", userRoleService.getMyPortfolios());
 		return "events/graphics";
 	}
-	
-	@GetMapping("/email")
-		public String sendMail() throws Exception {
-			//emailService.sendEmail("test@au", "test", null);
-			return null;
-	}
 }
