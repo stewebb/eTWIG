@@ -115,7 +115,7 @@ public class EventsController {
 	
 	@GetMapping("/email")
 		public String sendMail() throws Exception {
-			emailService.sendEmail("test@au", "test", null);
+			//emailService.sendEmail("test@au", "test", null);
 			return null;
 	}
 }

@@ -1,6 +1,5 @@
 package net.grinecraft.etwig.controller.api;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import net.grinecraft.etwig.services.GraphicsRequestService;
 import net.grinecraft.etwig.dto.EventDetailsDTO;
+import net.grinecraft.etwig.services.EmailService;
 import net.grinecraft.etwig.services.EventService;
 import net.grinecraft.etwig.util.WebReturn;
 
@@ -22,16 +22,19 @@ import net.grinecraft.etwig.util.WebReturn;
 public class GraphicsRequestAPIController {
 	
 	@Autowired
-	private GraphicsRequestService bannerRequestService;
+	private GraphicsRequestService graphicsRequestService;
 	
 	@Autowired
 	private EventService eventService;
+	
+	@Autowired
+	private EmailService emailService;
 
 	@GetMapping("/countRequestsByEventId")
     public Map<String, Object> countRequestsByEventId(@RequestParam Long eventId) throws Exception {
 		
 		Map<String, Object> myReturn = WebReturn.errorMsg(null, true);
-		myReturn.put("count", bannerRequestService.countByEventId(eventId));
+		myReturn.put("count", graphicsRequestService.countByEventId(eventId));
 		return myReturn;
 		
 	}
@@ -44,8 +47,12 @@ public class GraphicsRequestAPIController {
 		if(!eventService.eventEditPermissionCheck(event.getPosition().getPortfolio())) {
 			return WebReturn.errorMsg("You don't have permission to make this request.", false);
 		} 
-				
-		bannerRequestService.addRequest(requestInfo);
+		
+		// Add request info to the DB.
+		graphicsRequestService.addRequest(requestInfo);
+
+		// Send an email to all graphics managers
+		emailService.graphicsRequest(requestInfo);		
         return WebReturn.errorMsg(null, true);
     }
 }

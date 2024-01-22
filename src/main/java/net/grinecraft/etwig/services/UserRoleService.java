@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,7 +26,6 @@ import net.grinecraft.etwig.handler.CustomUserDetails;
 import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.model.UserRole;
-import net.grinecraft.etwig.repository.PortfolioRepository;
 import net.grinecraft.etwig.repository.UserRepository;
 import net.grinecraft.etwig.repository.UserRoleRepository;
 
@@ -38,9 +38,6 @@ public class UserRoleService implements UserDetailsService{
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private PortfolioRepository portfolioRepository;
-    
     @Autowired
 	private HttpSession session;
     
@@ -60,6 +57,13 @@ public class UserRoleService implements UserDetailsService{
 	    }
     	UserDTO user = (UserDTO) session.getAttribute("user");
     	return userRoleRepository.getPositionsByUserId(user.getId());
+    }
+    
+    public UserRole findById(@NonNull Long userRoleId) {
+    	if(userRoleRepository == null) {
+    		return null;
+    	}
+        return userRoleRepository.findById(userRoleId).orElse(null);
     }
     
     @Override

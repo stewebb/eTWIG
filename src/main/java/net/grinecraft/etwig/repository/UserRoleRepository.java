@@ -44,4 +44,7 @@ public interface UserRoleRepository extends JpaRepository<UserRole, Long> {
 	
 	@Query("SELECT new net.grinecraft.etwig.dto.PositionDTO(u) FROM UserRole u WHERE u.userId = :userId")
 	Set<PositionDTO> getPositionsByUserId(Long userId);
+	
+	@Query("SELECT new net.grinecraft.etwig.dto.PositionDTO(u) FROM UserRole u JOIN u.role r WHERE r.graphicsAccess = true OR r.adminAccess = true")
+	Set<PositionDTO> getGraphicsManagers();
 }

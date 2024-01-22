@@ -10,8 +10,6 @@
 package net.grinecraft.etwig;
 
 import java.util.LinkedHashMap;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
@@ -24,13 +22,12 @@ import jakarta.servlet.http.HttpSession;
 import net.grinecraft.etwig.config.ConfigFile;
 import net.grinecraft.etwig.dto.UserAccessDTO;
 import net.grinecraft.etwig.dto.UserDTO;
-import net.grinecraft.etwig.model.UserRole;
 
 @Component
 public class EtwigInterceptor implements HandlerInterceptor{
 	
 	@Autowired
-	ConfigFile config;
+	private ConfigFile config;
 	
 	/**
 	 * Add data that shared across the application.

@@ -67,6 +67,7 @@ public class EventService {
 	 * @param id
 	 * @return EventDetailsDTO
 	 */	
+	
 	public EventDetailsDTO findById(long id) {
 		return eventRepository.findById(id).map(EventDetailsDTO::new).orElse(null);
 	}

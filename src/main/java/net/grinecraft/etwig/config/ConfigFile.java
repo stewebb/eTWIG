@@ -46,5 +46,9 @@ public class ConfigFile implements WebMvcConfigurer{
     
     @Value("${etwig.security.cookie-key}")
     private String cookieKey;
+    
+    @Value("${etwig.mail.display-name}")
+    private String displayName;
+
 
 }
