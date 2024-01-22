@@ -238,7 +238,11 @@
 			$('#eventRequestNow').change(function(){
 				setGraphicsRequest(this.checked);
 			})
-			
+
+			$('.event-rrule-options').change(function(){
+				getRRuleByInput();
+			})
+
 			$('.select2bs4').select2({
       			theme: 'bootstrap4'
     		})

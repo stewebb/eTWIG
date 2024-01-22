@@ -7,6 +7,12 @@
  	* @function: Add, edit and delete events.
  	*/
 
+/**
+ * A hard limit of the recurrent event counts to avoid infinite loops when trying to get all occurrences. It's usually a big number.
+ */
+
+COUNT_HARD_LIMIT = 1000;
+
 function getEventInfo(datePickersMap){
 	
 	// Get eventId
@@ -111,7 +117,7 @@ function getEventInfo(datePickersMap){
     $('#eventDurationCalculated').text(formatTime(eventInfo.duration));
     
     // Get recurrent info.
-    var rRule = new ETwig.EtwigRRule(eventInfo.rrule);
+    var rRule = new ETwig.RRuleFromStr(eventInfo.rrule);
 	var rule = rRule.getRuleObj();
 	
 	// This is a single time event, or the rRule is invalid.
@@ -180,12 +186,110 @@ function getEventInfo(datePickersMap){
 		$('input[name="event-recurrent"][value="1"]').prop('checked', true);
 		
 		//console.log(rule.options);
+		getRRuleByInput();
 	}
 	
-
 }
 
+function getRRuleByInput(){
+	var currentRule = {};
+	//currentRule["tzid"] = 'Australia/Brisbane';
+	
+	// Frequency: 1 -> Monthly, 2 -> Weekly, 3 -> Daily
+	var eventFrequency = parseInt($('input[type=radio][name=eventFrequency]:checked').val());
+	currentRule["freq"] = constrainNumber(eventFrequency, 1 , 3);
+	
+	// Valid From
+	currentRule["dtstart"] = Date.parse($('#eventValidFromDate').val());
+	
+	// Valid To
+	var validToEnabled = $('#eventValidToDateEnabled').is(':checked');
+	var validToDate = Date.parse($('#eventValidToDate').val());
+	var validToIsValid = validToEnabled && validToDate !=undefined && validToDate != null;
+	
+	if(validToIsValid){
+		currentRule["until"] = Date.parse($('#eventValidToDate').val());
+	}
+	
+	if(!validToIsValid){
+		currentRule["count"] = COUNT_HARD_LIMIT;
+	}
+	
+	// Count: A number with at least 2.
+	var eventCount = parseInt($('#eventCount').val());
+	if(!isNaN(eventCount)){
+		currentRule["count"] = constrainNumber(eventCount, 2, COUNT_HARD_LIMIT);
+	}
+	
+	// Interval
+	var eventInterval = parseInt($('#eventInterval').val());
+	if(!isNaN(eventInterval)){
+		currentRule["interval"] = Math.max(eventInterval, 1);
+	}
+	
+	// By week day. 0 -> Monday, ..., 6 -> Sunday
+	var eventByWeekDay = $('#eventByWeekDay').val();
+	if(eventByWeekDay.length > 0){
+		
+		// Convert each string in the array to a number
+        var eventByMonthInt = eventByWeekDay.map(function(item) {
+            return parseInt(constrainNumber(item, 0, 6), 10);
+        });
+        currentRule["byweekday"] = eventByMonthInt;
+	}
+	
+	// By month. 0 -> Jan, ..., 11 -> Dec
+	var eventByMonth = $('#eventByMonth').val();
+	if(eventByMonth.length > 0){
+        var eventByMonthInt = eventByMonth.map(function(item) {
+            return parseInt(constrainNumber(item, 1, 12), 10);
+        });
+        currentRule["bymonth"] = eventByMonthInt;
+	}
+	
+	// By month day
+	var eventByMonthDay = $('#eventByMonthDay').val();
+    var eventByMonthDayInt = eventByMonthDay.split(',').filter(function(item) {
+        return /^\d+$/.test(item);
+    }).map(Number);
+	
+	if(eventByMonthDayInt.length > 0){
+		currentRule["bymonthday"] = eventByMonthDayInt;
+	}
 
+	// Get recurrent info.
+    var rRule = new ETwig.RRuleFromForm(currentRule);
+    rRule.generateRRule();
+	var allDates = rRule.all();
+	
+	// Set description
+    $('#eventRRuleDescription').text(rRule.toText());
+    
+    // Clear existing data
+    $('#eventRRuleAllDates tbody').empty();
+    $('#eventRRuleAllDatesNum').text(allDates.length);
+
+    // Process and append new data
+    $.each(allDates, function(i, date) {
+        // Extracting date components
+        
+        date = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+        
+        var dayOfWeek = date.toLocaleString('default', { weekday: 'long' });
+        var year = date.getFullYear();
+        var month = date.toLocaleString('default', { month: 'long' });
+        var dateOfMonth = getOrdinalIndicator(date.getDate());
+
+        // Append row to table
+        $('#eventRRuleAllDates tbody').append(
+            '<tr><td>' + dayOfWeek + '</td><td>' + year + '</td><td>' + month + '</td><td>' + dateOfMonth + '</td></tr>'
+        );
+    });
+    
+    //console.log(currentRule); 
+	//console.log(rRule.all());
+	//console.log(rRule.toString());
+}
 
 /**
  * Validate the add event form. If passed, add the event.
@@ -389,16 +493,19 @@ function initDescriptionBox(boxElem){
 }
 
 function setRecurrentMode(recurrentMode){
+	//getRRuleByInput();
 	$('#singleTimeEventOptions').toggle(recurrentMode == 0);
     $('#recurringEventOptions').toggle(recurrentMode != 0);
 }
 
 function setAllDayEvent(allDayEvent){
+	//getRRuleByInput();
 	$('[id^="event"][id$="TimeBlock"]').toggle(allDayEvent);
     $('[id^="event"][id$="TimeBlock"]').toggle(!allDayEvent);
 }
 
 function setValidTo(enableValidTo){
+	getRRuleByInput();
 	$('#eventValidToDate').attr('disabled', !enableValidTo);
 	if(!enableValidTo){
 		$('#eventValidToDate').val('');
@@ -432,6 +539,14 @@ function createDatePickers() {
         // Also store this in a map.
 		datePickersMap.set(this.id, datePicker);
     });
+    	
+	// Set onchange listener
+	datePickersMap.get('eventValidFromDate').on('change', () => {
+    	getRRuleByInput();
+	});
+	datePickersMap.get('eventValidToDate').on('change', () => {
+    	getRRuleByInput();
+	});
     
     return datePickersMap;
 }
@@ -475,6 +590,12 @@ function initAddOption(){
 		}
 	});
 	
+}
+
+function getOrdinalIndicator(n) {
+    var s = ["th", "st", "nd", "rd"];
+    var v = n % 100;
+    return n + (s[(v - 20) % 10] || s[v] || s[0]);
 }
 
 /**

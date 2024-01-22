@@ -159,6 +159,12 @@ function formatTime(minutesTotal) {
     return formattedTime;
 }
 
+function constrainNumber(num, min, max){
+	if(num < min)	return min;
+	if(num > max)	return max;
+	return num;
+}
+
 /**
  * Hide the navbar if the page is in a frame.
  */

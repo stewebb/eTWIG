@@ -219,19 +219,19 @@
 												<div class="form-group clearfix">
 												
 													<#-- Daily -->
-													<div class="icheck-primary d-inline mr-2">
+													<div class="icheck-primary d-inline mr-2 event-rrule-options">
 														<input type="radio" id="daily" name="eventFrequency" checked value="3">
 														<label for="daily">Daily</label>
 													</div>
 													
 													<#-- Weekly -->
-													<div class="icheck-primary d-inline mr-2">
+													<div class="icheck-primary d-inline mr-2 event-rrule-options">
 														<input type="radio" id="weekly" name="eventFrequency" value="2">
 														<label for="weekly">Weekly</label>
 													</div>
 													
 													<#-- Monthly-->
-													<div class="icheck-primary d-inline mr-2">
+													<div class="icheck-primary d-inline mr-2 event-rrule-options">
 														<input type="radio" id="monthly" name="eventFrequency" value="1">
 														<label for="monthly">Monthly</label>
 													</div>
@@ -240,8 +240,6 @@
 											</div>
 										</div>
 										<#-- /Frequency -->
-
-
 
 										<#-- Valid from -->
 										<div class="form-group row">
@@ -253,7 +251,7 @@
 															<i class="fa-solid fa-hourglass-start"></i>
 														</span>
 													</div>
-													<input type="text" class="form-control" id="eventValidFromDate">
+													<input type="text" class="form-control event-rrule-options" id="eventValidFromDate">
 												</div>
 												<small class="form-text text-muted">The date when the recurrence start. (Optional)</small>
 												<div id="eventValidFromDateWrapper" class="datepicker"></div>
@@ -272,7 +270,7 @@
 															<label for="eventValidToDateEnabled"></label>
 														</div>
 													</div>
-													<input type="text" class="form-control" id="eventValidToDate">
+													<input type="text" class="form-control event-rrule-options" id="eventValidToDate">
 												</div>
 												<small class="form-text text-muted">The date when the recurrence end. (Optional)</small>
 												<div id="eventValidToDateWrapper" class="datepicker"></div>
@@ -291,7 +289,7 @@
 															<i class="fa-solid fa-stopwatch"></i>
 														</span>
 													</div>
-													<input type="number" min="2" class="form-control" id="eventCount">
+													<input type="number" min="2" class="form-control event-rrule-options" id="eventCount">
 												</div>
 												<small class="form-text text-muted">How many occurrences will be generated. The lowest number allowed is 2. (Optional)</small>
 											</div>
@@ -309,7 +307,7 @@
 															<i class="fa-solid fa-person-running"></i>
 														</span>
 													</div>
-													<input type="number" min="1" class="form-control" id="eventInterval">
+													<input type="number" min="1" class="form-control event-rrule-options" id="eventInterval">
 												</div>
 												<small class="form-text text-muted">The interval between each frequency iteration.</small>
 											</div>
@@ -326,7 +324,7 @@
 															<i class="fa-solid fa-calendar-week"></i>
 														</span>
 													</div>
-													<select class="form-control select2bs4" multiple="multiple" id="eventByWeekDay">
+													<select class="form-control select2bs4 event-rrule-options" multiple="multiple" id="eventByWeekDay">
 														<option value="0">Monday</option>
 														<option value="1">Tuesday</option>
 														<option value="2">Wednesday</option>
@@ -351,7 +349,7 @@
 															<i class="fa-solid fa-calendar-days"></i>
 														</span>
 													</div>
-													<select class="form-control select2bs4" multiple="multiple" id="eventByMonth">
+													<select class="form-control select2bs4 event-rrule-options" multiple="multiple" id="eventByMonth">
 														<option value="1">January</option>
 														<option value="2">February</option>
 														<option value="3">March</option>
@@ -382,7 +380,7 @@
 															<i class="fa-solid fa-calendar-days"></i>
 														</span>
 													</div>
-													<input type="text" class="form-control" id="eventByMonthDay">
+													<input type="text" class="form-control event-rrule-options" id="eventByMonthDay">
 												</div>
 												<small class="form-text text-muted">The day of month to apply the recurrence to. Use comma to divide each number.</small>
 											</div>
@@ -399,20 +397,23 @@
 										<#-- All dates -->
 										<div class="form-group row">
 											<label for="eventRRuleAllDates" class="col-lg-3">All dates</label>
-											<div class="col-lg-9 card-body table-responsive p-0" style="max-height: 300px;">
-												<table class="table table-head-fixed text-nowrap table-striped table-hover">
-													<thead>
-														<tr>
-															<th>Day of week</th>
-															<th>Year</th>
-															<th>Month</th>
-															<th>Day</th>
-														</tr>
-													</thead>
-													<tbody>
+											<div class="col-lg-9">
+												<span class="text-bold" id="eventRRuleAllDatesNum"></span>&nbsp; record(s).
+												<div class="table-responsive" style="max-height: 300px;">
+													<table class="table table-head-fixed text-nowrap table-striped table-hover" id="eventRRuleAllDates">
+														<thead>
+															<tr>
+																<th>Day of week</th>
+																<th>Year</th>
+																<th>Month</th>
+																<th>Day</th>
+															</tr>
+														</thead>
+														<tbody>
 
-													</tbody>
-												</table>
+														</tbody>
+													</table>
+												</div>
 											</div>
 										</div>
 										<#-- /All dates -->

@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EtwigRRule = void 0;
+exports.RRuleFromForm = exports.RRuleFromStr = void 0;
 const rrule_1 = require("rrule");
-/**@class
+/**
  * The class to receive a RFC 5545 rRule and convert it into an object.
  */
-class EtwigRRule {
+class RRuleFromStr {
     /**@constructor
      * Receive
      */
@@ -24,14 +24,41 @@ class EtwigRRule {
     getRuleObj() {
         return this.ruleObj;
     }
-    getOccuranceBetween(startDate, endDate) {
+    getOccurrenceBetween(startDate, endDate) {
         // Null check.
         if (this.ruleObj == undefined || startDate == undefined || endDate == undefined) {
             return undefined;
         }
+        // Re-format start and end date.
         var startDateTime = (0, rrule_1.datetime)(startDate.getFullYear(), startDate.getMonth() + 1, startDate.getDate());
         var endDateTime = (0, rrule_1.datetime)(endDate.getFullYear(), endDate.getMonth() + 1, endDate.getDate());
         return this.ruleObj.between(startDateTime, endDateTime);
     }
 }
-exports.EtwigRRule = EtwigRRule;
+exports.RRuleFromStr = RRuleFromStr;
+class RRuleFromForm {
+    constructor(input) {
+        this.input = input;
+    }
+    generateRRule() {
+        try {
+            this.rule = new rrule_1.RRule(this.input);
+        }
+        catch (error) {
+            this.rule = undefined;
+        }
+    }
+    toText() {
+        var _a;
+        return (_a = this.rule) === null || _a === void 0 ? void 0 : _a.toText();
+    }
+    toString() {
+        var _a;
+        return (_a = this.rule) === null || _a === void 0 ? void 0 : _a.toString();
+    }
+    all() {
+        var _a;
+        return (_a = this.rule) === null || _a === void 0 ? void 0 : _a.all();
+    }
+}
+exports.RRuleFromForm = RRuleFromForm;
