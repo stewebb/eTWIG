@@ -64,22 +64,13 @@
 														</div>
 											
 														<#-- Each property has a select box. -->
-														<select class="form-control select2 common-select-box property-select-box" name="property-${property_id}" data-property-name="${property_info.name}" data-mandatory=${mandatoryStr}>
+														<select class="form-control select2bs4 property-select-box" name="property-${property_id}" data-property-name="${property_info.name}" data-mandatory=${mandatoryStr}>
 															<option value="-1">(Not selected)</option>
 									
 															<#-- Get all options of a property -->
 															<#if allOptions[string_id]?has_content>
 																<#list allOptions[string_id] as opt>
-															
-																	<#-- Get the selected event in edit mode. -->
-																	<#if isEdit && selectedOptions?has_content>
-																		<#assign selectedStr = (selectedOptions?seq_contains(opt.id))?string('selected', '')>
-																	<#else>
-																		<#assign selectedStr = ''>
-																	</#if>
-																	<#-- /Get the selected event in edit mode. -->
-																	
-																	<option value="${opt.id}" ${selectedStr}>${opt.name}</option>
+																	<option value="${opt.id}">${opt.name}</option>
 																</#list>
 															</#if>
 															<#-- /Get all options of a property -->

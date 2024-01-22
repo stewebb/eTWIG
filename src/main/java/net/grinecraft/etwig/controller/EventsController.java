@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import net.grinecraft.etwig.dto.EventDetailsDTO;
 import net.grinecraft.etwig.dto.GraphicsRequestEventInfoDTO;
+import net.grinecraft.etwig.services.EmailService;
 import net.grinecraft.etwig.services.EventService;
 import net.grinecraft.etwig.services.GraphicsRequestService;
 import net.grinecraft.etwig.services.OptionService;
@@ -31,16 +32,19 @@ import net.grinecraft.etwig.util.BooleanUtils;
 public class EventsController {
 
 	@Autowired
-	PropertyService propertyService;
+	private PropertyService propertyService;
 	
 	@Autowired
-	OptionService optionService;
+	private OptionService optionService;
 	
 	@Autowired
-	EventService eventService;
+	private EventService eventService;
 	
 	@Autowired
 	private UserRoleService userRoleService;
+	
+	@Autowired
+	private EmailService emailService;
 	
 	@Autowired
 	private GraphicsRequestService graphicsRequestService;
@@ -107,5 +111,11 @@ public class EventsController {
 		model.addAttribute("editPermission", eventService.eventEditPermissionCheck(event.getPortfolio()));
 		model.addAttribute("myPortfolios", userRoleService.getMyPortfolios());
 		return "events/graphics";
+	}
+	
+	@GetMapping("/email")
+		public String sendMail() throws Exception {
+			emailService.sendEmail("test@au", "test", null);
+			return null;
 	}
 }
