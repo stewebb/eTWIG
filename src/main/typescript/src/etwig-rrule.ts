@@ -30,7 +30,7 @@ export class EtwigRRule {
 		return this.ruleObj;
 	}
 	
-	getOccuranceBetween(startDate: Date, endDate: Date){
+	getOccurrenceBetween(startDate: Date, endDate: Date){
 		
 		// Null check.
 		if(this.ruleObj == undefined || startDate == undefined || endDate == undefined){

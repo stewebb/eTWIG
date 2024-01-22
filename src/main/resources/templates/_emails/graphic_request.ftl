@@ -11,7 +11,9 @@
 			color: white;
 			text-align: center;
         }
-
+		.no-horizontal-border{
+			border: 0;
+		}
         .bold-text{
 	        font-weight: bold;
         }
@@ -70,7 +72,12 @@
 					${eventInfo.organizerPosition}, ${eventInfo.portfolio.name}
 				</td>
 			</tr>
-	
+			
+			<tr>
+				<td class="no-horizontal-border">&nbsp;</td>
+				<td class="no-horizontal-border">&nbsp;</td>
+			</tr>
+			
 			<tr class="table-background">
 				<th scope="col" colspan="2">Graphics request details</th>
 			</tr>

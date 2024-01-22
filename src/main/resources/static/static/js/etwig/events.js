@@ -76,7 +76,7 @@ function getEventInfo(datePickersMap){
 	$('#eventPageLink').attr('href', '/events/edit?eventId=' + eventInfo.id);
 	$('#eventGraphicsTab').show();
 	$('#eventGraphicsLink').attr('href', '/events/graphics?eventId=' + eventInfo.id);
-	
+	$('#eventRequestNowBlock').hide();
     
     // Get name and location
     $('#eventName').val(eventInfo.name);
@@ -405,6 +405,11 @@ function setValidTo(enableValidTo){
 	}
 }
 
+function setGraphicsRequest(graphicsRequest){
+	$('#returningDate').attr('disabled', !graphicsRequest);
+	$('#requestComment').attr('disabled', !graphicsRequest);
+}
+
 function createDatePickers() {
 	var datePickersMap = new Map();
 	
@@ -437,12 +442,14 @@ function initAddOption(){
 	setRecurrentMode(0);
 	setAllDayEvent(false);
 	setValidTo(true);
+	setGraphicsRequest(false);
 	
 	// Set the hidden fields.
 	$('#eventIdBlock').hide();
 	$('#eventCreatedTimeBlock').hide();
     $('#eventUpdatedTimeBlock').hide();
     $('#eventGraphicsTab').hide();
+    $('#eventRequestNowBlock').show();
    
 	// Set the title.
 	$('#eventPageTitle').text('Add Event');
