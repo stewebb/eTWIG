@@ -49,7 +49,7 @@ public class GraphicsRequestService {
 		
 		GraphicsRequest request = new GraphicsRequest();
 		request.setEventId(Long.parseLong(requestInfo.get("eventId").toString()));
-		request.setRequesterId(Long.parseLong(requestInfo.get("requester").toString()));
+		request.setRequesterRoleId(Long.parseLong(requestInfo.get("requesterRole").toString()));
 		request.setRequestComment(requestInfo.get("requestComment").toString());
 		request.setExpectDate(DateUtils.safeParseDate(requestInfo.get("returningDate").toString(), "yyyy-MM-dd"));
 		request.setRequestTime(LocalDateTime.now());

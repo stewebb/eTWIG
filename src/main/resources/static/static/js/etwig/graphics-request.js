@@ -16,7 +16,7 @@ function requestEvent(embedded){
 	var eventId = $('#eventId').val();
 	
 	// Requester: Required but provided.
-	var requester = $('#requester').val();
+	var requesterRole = $('#requesterRole').val();
 	
 	// Returning Date: Required.
 	var returningDate = $('#returningDate').val();
@@ -31,10 +31,12 @@ function requestEvent(embedded){
 	// Create an object for the new request.
 	var newRequestObj = {
 		"eventId" : eventId,
-		"requester": requester,
+		"requesterRole": requesterRole,
 		"returningDate": returningDate,
 		"requestComment": requestComment
 	};
+	
+	//console.log(newRequestObj);
 	
 	var hasError = true;
 	$.ajax({

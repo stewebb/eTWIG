@@ -15,14 +15,14 @@ public class GraphicsRequestDTO {
 	// Requests-related fields
 	private Long id;
 	private LocalDate expectDate;
-	private String requesterName;
+	private UserDTO requester;
 	private String requestComment;
 	private LocalDateTime requestTime;
 	private String requestTimeStr;
 	
 	// Approvel-related fields
 	private Boolean approved;
-	private String approverName;
+	private UserDTO approver;
 	private String responseComment;
 	private LocalDateTime responseTime;
 	private String responseTimeStr;
@@ -43,17 +43,18 @@ public class GraphicsRequestDTO {
 		this.requestTime = graphicsRequest.getRequestTime();
 		this.requestTimeStr = DateUtils.timeAgo(requestTime);
 		
-		// Requester (show full name)
-		this.requesterName = graphicsRequest.getRequester().getFullName();
+		// Requester
+		this.requester = new UserDTO(graphicsRequest.getRequesterRole().getUser());
 		
+		// The request status is pending.
 		if(approved == null) {
-			this.approverName = null;
+			this.approver = null;
 			this.responseTime = null;
 		}
 		
 		// Only get user name when this request is NOT pending!
 		else {
-			this.approverName = graphicsRequest.getApprover().getFullName();
+			this.approver = new UserDTO(graphicsRequest.getApproverRole().getUser());
 			
 			// Response time
 			this.responseTime = graphicsRequest.getResponseTime();

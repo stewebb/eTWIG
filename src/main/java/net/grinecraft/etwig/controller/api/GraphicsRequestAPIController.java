@@ -12,13 +12,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.grinecraft.etwig.services.GraphicsRequestService;
+import net.grinecraft.etwig.dto.EventDetailsDTO;
 import net.grinecraft.etwig.services.EventService;
 import net.grinecraft.etwig.util.WebReturn;
 
 @RestController
 @RequestMapping(value = "/api/private/")
 //@Secured({"ROLE_ADMINISTRATOR", "ROLE_EVENT_MANAGER"})
-public class BannerRequestAPIController {
+public class GraphicsRequestAPIController {
 	
 	@Autowired
 	private GraphicsRequestService bannerRequestService;
@@ -39,8 +40,8 @@ public class BannerRequestAPIController {
     public Map<String, Object> requestGraphic(@RequestBody Map<String, Object> requestInfo) throws Exception {
 		
 		// Check permission again!
-		LinkedHashMap<String, Object> event = null; eventService.findById(Long.parseLong(requestInfo.get("eventId").toString()));
-		if(!eventService.eventEditPermissionCheck(event)) {
+		EventDetailsDTO event = eventService.findById(Long.parseLong(requestInfo.get("eventId").toString()));
+		if(!eventService.eventEditPermissionCheck(event.getPosition().getPortfolio())) {
 			return WebReturn.errorMsg("You don't have permission to make this request.", false);
 		} 
 				

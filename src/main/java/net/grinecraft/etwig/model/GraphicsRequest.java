@@ -36,11 +36,11 @@ public class GraphicsRequest {
 	private Long eventId;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "requester", referencedColumnName = "id", insertable = false, updatable = false)
-    private User requester;
+	@JoinColumn(name = "requester_role", referencedColumnName = "id", insertable = false, updatable = false)
+    private UserRole requesterRole;
 	
-	@Column(name = "requester")
-	private Long requesterId;
+	@Column(name = "requester_role")
+	private Long requesterRoleId;
 	
 	@Column(name = "request_comment")
 	private String requestComment;
@@ -55,11 +55,11 @@ public class GraphicsRequest {
 	private Boolean approved;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "approver", referencedColumnName = "id", insertable = false, updatable = false)
-    private User approver;
+	@JoinColumn(name = "approver_role", referencedColumnName = "id", insertable = false, updatable = false)
+    private UserRole approverRole;
 	
-	@Column(name = "approver")
-	private Long approverId;
+	@Column(name = "approver_role")
+	private Long approverRoleId;
 	
 	@Column(name = "response_comment")
 	private String responseComment;

@@ -25,6 +25,7 @@ public class GraphicsRequestEventInfoDTO {
 	private UserDTO organizer;
 	private String organizerPosition;
 	private Portfolio portfolio;
+	private Long userRoleId;
 	
 	public GraphicsRequestEventInfoDTO(Event event) throws Exception {
 		
@@ -43,6 +44,7 @@ public class GraphicsRequestEventInfoDTO {
 		this.organizerPosition = userRole.getPosition();
 		this.organizer = new UserDTO(userRole.getUser());
 		this.portfolio = userRole.getPortfolio();
+		this.userRoleId = userRole.getId();
 		
 	}
 	
