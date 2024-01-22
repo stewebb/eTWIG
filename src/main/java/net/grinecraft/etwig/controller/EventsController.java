@@ -61,6 +61,7 @@ public class EventsController {
 	@PostAuthorize("hasAuthority('ROLE_EVENTS')")
 	@RequestMapping("/edit")  
 	public String edit(Model model){
+		System.out.println(optionService.findAllGroupByProperties());
 		model.addAttribute("allProperties", propertyService.findAll());		
         model.addAttribute("allOptions", optionService.findAllGroupByProperties());	
 		return "events/edit";

@@ -189,8 +189,8 @@
 											
 								<#-- Col 2 -->
 								<div class="col-md-6">
-
-									<#-- User Input -->
+								
+								<#-- User Input -->
 									<div class="mb-2">
 										<h5 class="mb-2 bold-text text-primary">
 											<i class="fa-solid fa-circle-plus"></i>&nbsp;${modeStr}
@@ -203,33 +203,8 @@
 									
 										<#-- Permission check. -->
 										<#if editPermission>
-										
-											<#-- Returning Date -->
-											<div class="form-group">
-												<label for="returningDate">
-													Returning date&nbsp;<span class="required-symbol">*</span>
-												</label>
-												<div class="input-group">
-													<div class="input-group-prepend">
-														<span class="input-group-text">
-															<i class="fa-solid fa-clock"></i>
-														</span>
-													</div>
-													<input type="text" class="form-control" id="returningDate" ${disabledStr}>
-												</div>
-												<div id="returningDateWrapper" class="datepicker"></div>
-												<small class="form-text text-muted">Returning date for getting your graphic.</small>
-											</div>			
-											<#-- Returning Date -->
+											<#include "../_includes/events/graphics_newRequest.ftl">
 											
-											<#-- Comment -->
-											<div class="form-group">
-											<label for="comment">Additional Comments</label>										
-											<textarea id="requestComment" class="form-control fixed-textarea" maxlength="255" rows="5" ${disabledStr}></textarea>
-											<small class="form-text text-muted">Additional comments and requirements, up to 255 characters.</small>
-											</div>			
-											<#-- /Comment -->
-									
 											<#-- Submit -->
 											<div class="right-div" role="group">
 												<button type="button" class="btn btn-outline-primary" onclick="requestEvent();" ${disabledStr}>
@@ -244,7 +219,7 @@
 											<#include "../_includes/events/noPermission_callout.ftl">
 										</#if>
 									</div>
-									<#-- /User Input -->
+									<#-- /User Input -->						
 
 									<#-- Request history -->
 									<div class="mb-2">
@@ -480,7 +455,9 @@
 			updateTextColor($('#eventPortfolio'));
 		});
 		
-		createDatePicker();
+		<#if editPermission>
+			createDatePicker();
+		</#if>
 	
 	</script>
 

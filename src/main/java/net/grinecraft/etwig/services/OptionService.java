@@ -46,9 +46,8 @@ public class OptionService {
 	public Map<String, List<Option>> findAllGroupByProperties() {
 		
 		List<Option> optionList = optionRepository.findAll();
-		//Map<String, List<Option>> optionGrouped = optionList.stream().collect(Collectors.groupingBy(w -> Long.toString(w.getPropertyId())));		
-		//return optionGrouped;
-		return null;
+		Map<String, List<Option>> optionGrouped = optionList.stream().collect(Collectors.groupingBy(w -> Long.toString(w.getBelongsToId())));		
+		return optionGrouped;
         
 	}
 	

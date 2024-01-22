@@ -2,17 +2,11 @@
 										<#-- Previous and Next button -->
 										<div class="button-container">
                 							
-                							<#-- Previous or Cancel (Left) -->
-                							<#if prev>
-                	                			<button class="btn btn-outline-secondary" onclick="eventStepper.previous()">
-                									<i class="fa-solid fa-backward"></i>&nbsp;Previous
-                								</button>
-                							<#else>
-                								<button class="btn btn-outline-secondary" onclick="">
-                									<i class="fa-solid fa-xmark"></i>&nbsp;Cancel
-                								</button>
-                							</#if>
-                							<#-- /Previous or Cancel (Left) -->
+                							<#-- Previous (Left) -->
+                	                		<button class="btn btn-outline-secondary <#if !prev>hidden-btn</#if>" onclick="eventStepper.previous()">
+                								<i class="fa-solid fa-backward"></i>&nbsp;Previous
+                							</button>
+                							<#-- /Previous (Left) -->
                 							
                 							<#-- Next or Submit (Right) -->
                 							<#if next>

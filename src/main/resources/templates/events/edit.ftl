@@ -67,15 +67,15 @@
 
 								<#-- View/Edit -->	
 								<li class="nav-item">
-									<a class="nav-link active" href="#edit" data-toggle="tab">
+									<a class="nav-link active" href="#">
 										<i class="fa-solid fa-pen-to-square"></i>&nbsp;Edit
 									</a>
 								</li>
 								<#-- /View/Edit -->	
 
 								<#-- Graphics Request -->	
-								<li class="nav-item">
-									<a class="nav-link" href="#request" data-toggle="tab">
+								<li class="nav-item" id="eventGraphicsTab">
+									<a class="nav-link" href="#" id="eventGraphicsLink">
 										<i class="fa-solid fa-image"></i>&nbsp;Graphics
 									</a>
 								</li>
