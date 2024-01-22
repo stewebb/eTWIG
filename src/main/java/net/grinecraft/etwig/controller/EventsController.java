@@ -82,8 +82,8 @@ public class EventsController {
 	}
 	
 	@PostAuthorize("hasAuthority('ROLE_EVENTS')")
-	@GetMapping("/graphicsRequest")  
-	public String graphicsRequest(Model model, @RequestParam Long eventId) throws Exception{
+	@GetMapping("/graphics")  
+	public String graphics(Model model, @RequestParam Long eventId) throws Exception{
 		
 		// Get event info and existence check.
 		GraphicsRequestEventInfoDTO event = eventService.findEventsForGraphicsRequestById(eventId);
@@ -105,6 +105,6 @@ public class EventsController {
 		
 		model.addAttribute("requestInfo",graphicsRequestService.getRequestsByEvent(eventId));
 		
-		return "events/graphics_request";
+		return "events/graphics";
 	}
 }

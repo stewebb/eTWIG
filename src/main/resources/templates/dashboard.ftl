@@ -19,22 +19,22 @@
 <body class="hold-transition layout-top-nav">
 	
 	<#include "./_includes/header/body_start.ftl">
+	
+	<#-- Main Wrapper -->
 	<div class="wrapper">
-
-
 
 	
 		<#include "./_includes/navbar.ftl">
 
+		<#-- Content Wrapper. -->
 		<div class="content-wrapper">
 			
-
-
-
-
 			
 		</div>
+		<#-- /Content Wrapper. -->
 	</div>
+	<#-- Main Wrapper -->
+	
 	<#include "./_includes/footer.ftl">
 	<#include "./_includes/header/body_end.ftl">
 </body>

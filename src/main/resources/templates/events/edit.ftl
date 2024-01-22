@@ -45,12 +45,13 @@
 	        		</div>
 	      		</div>
 	    	</section>
+			<#-- /Page header -->
     	
     		<#-- Main area -->
     		<section class="content">
 				<div class="container-fluid">
 
-					<div class="card">
+					<div class="card card-primary card-outline">
 						<div class="card-header d-flex p-0">
 
 							<#-- Tabs -->

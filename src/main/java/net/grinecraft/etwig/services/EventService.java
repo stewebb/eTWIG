@@ -58,7 +58,7 @@ public class EventService {
 	
 	public GraphicsRequestEventInfoDTO findEventsForGraphicsRequestById(long eventId) throws Exception {
 		Event event = (eventRepository == null) ? null :eventRepository.findById(eventId).orElse(null);
-		return new GraphicsRequestEventInfoDTO(event);
+		return (event == null) ?  null : new GraphicsRequestEventInfoDTO(event);
 	}
 	
 	/**
