@@ -3,6 +3,8 @@ package net.grinecraft.etwig.controller.api;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.grinecraft.etwig.services.GraphicsRequestService;
+import net.grinecraft.etwig.dto.GraphicsPendingRequestsBasicInfoDTO;
 import net.grinecraft.etwig.dto.events.EventDetailsDTO;
 import net.grinecraft.etwig.services.EmailService;
 import net.grinecraft.etwig.services.EventService;
@@ -36,9 +39,9 @@ public class GraphicsRequestAPIController {
 		Map<String, Object> myReturn = WebReturn.errorMsg(null, true);
 		myReturn.put("count", graphicsRequestService.countByEventId(eventId));
 		return myReturn;
-		
 	}
 	
+	@PostAuthorize("hasAuthority('ROLE_EVENTS')")
 	@PostMapping(value = "/requestGraphic")
     public Map<String, Object> requestGraphic(@RequestBody Map<String, Object> requestInfo) throws Exception {
 		
@@ -55,4 +58,10 @@ public class GraphicsRequestAPIController {
 		emailService.graphicsRequest(requestInfo);		
         return WebReturn.errorMsg(null, true);
     }
+	
+	@PostAuthorize("hasAuthority('ROLE_GRAPHICS')")
+	@GetMapping(value = "/getPendingRequests")
+	public Page<GraphicsPendingRequestsBasicInfoDTO> getPendingRequests(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) throws Exception {
+		return graphicsRequestService.getPendingRequests(page, size);
+	}
 }

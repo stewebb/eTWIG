@@ -2,6 +2,8 @@ package net.grinecraft.etwig.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -15,5 +17,8 @@ public interface GraphicsRequestRepository extends JpaRepository <GraphicsReques
 	
     @Query(value = "SELECT * FROM etwig_graphics_request WHERE event = ?1 ORDER BY id DESC LIMIT ?2", nativeQuery = true)
     List<GraphicsRequest> findByRequestsByEventDescending(Long eventId, int limit);
+    
+    // All pending events, order by excepted date DESC.
+    Page<GraphicsRequest> findByApprovedIsNullOrderByExpectDateDesc(Pageable pageable);
 
 }

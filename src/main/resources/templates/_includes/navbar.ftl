@@ -44,11 +44,11 @@
 						
 						<#-- Graphics -->
           				<#if access.graphicsAccess>
-							<li class="nav-item dropdown">
+							<li class="nav-item dropdown <#if navbar?starts_with("GRAPHICS_")>active</#if>">
 							
 								<#-- Dropdown btn -->
 								<a id="graphicsSubMenu" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link navbar-border">
-									<i class="fa-solid fa-icons"></i>&nbsp;Graphics&nbsp;<i class="fa-solid fa-caret-down"></i>
+									<i class="fa-solid fa-icons active"></i>&nbsp;Graphics&nbsp;<i class="fa-solid fa-caret-down"></i>
 								</a>
 								<#-- /Dropdown btn -->
 								
@@ -56,7 +56,7 @@
 								
 									<#-- Graphics Approval -->
 									<li>
-										<a href="#" class="dropdown-item <#if navbar=="GRAPHICS_APPROVAL">active</#if>">
+										<a href="/graphics/approval/list" class="dropdown-item <#if navbar=="GRAPHICS_APPROVAL">active</#if>">
 											<i class="fa-solid fa-circle-check"></i>&nbsp;Approval
 										</a>
 									</li>
@@ -64,7 +64,7 @@
 									
 									<#-- TWIG Template -->
 									<li>
-										<a href="#" class="dropdown-item <#if navbar=="TWIG_TEMPLATE">active</#if>">
+										<a href="#" class="dropdown-item <#if navbar=="GRAPHICS_TWIG_TEMPLATE">active</#if>">
 											<i class="fa-solid fa-lines-leaning"></i>&nbsp;TWIG Template
 										</a>
 									</li>

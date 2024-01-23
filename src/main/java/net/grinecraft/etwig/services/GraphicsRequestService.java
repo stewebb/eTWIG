@@ -7,8 +7,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import net.grinecraft.etwig.dto.AssetBasicInfoDTO;
+import net.grinecraft.etwig.dto.GraphicsPendingRequestsBasicInfoDTO;
 import net.grinecraft.etwig.dto.GraphicsRequestDTO;
 import net.grinecraft.etwig.model.GraphicsRequest;
 import net.grinecraft.etwig.repository.GraphicsRequestRepository;
@@ -27,6 +32,12 @@ public class GraphicsRequestService {
 	
 	public boolean hasPendingRequests(Long eventId) {
 		return graphicsRequestRepository.countByApprovedIsNullAndEventId(eventId) > 0;
+	}
+	
+	public Page<GraphicsPendingRequestsBasicInfoDTO> getPendingRequests(int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		Page<GraphicsRequest> requests =  graphicsRequestRepository.findByApprovedIsNullOrderByExpectDateDesc(pageable);
+		return requests.map(GraphicsPendingRequestsBasicInfoDTO::new);
 	}
 	
 	public LinkedHashMap<Long, GraphicsRequestDTO> getRequestsByEvent(Long eventId) { 
