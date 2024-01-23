@@ -9,9 +9,9 @@
 															<i class="fa-solid fa-clock"></i>
 														</span>
 													</div>
-													<input type="text" class="form-control" id="returningDate" ${disabledStr}>
+													<input type="text" class="form-control" id="eventGraphicsDate" ${disabledStr}>
 												</div>
-												<div id="returningDateWrapper" class="datepicker"></div>
+												<div id="eventGraphicsDateWrapper" class="datepicker"></div>
 												<small class="form-text text-muted">Returning date for getting your graphic.</small>
 											</div>			
 											<#-- Returning Date -->

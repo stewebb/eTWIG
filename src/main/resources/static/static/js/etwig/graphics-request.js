@@ -1,9 +1,9 @@
 function createDatePicker(){
-	var datepicker = new tui.DatePicker("#returningDateWrapper", {
+	var datepicker = new tui.DatePicker("#eventGraphicsDateWrapper", {
 		date: Date.today(),
 		type: "date",
 		input: {
-			element: "#returningDate",
+			element: "#eventGraphicsDate",
 			format: "yyyy-MM-dd",
 			usageStatistics: false
 		},

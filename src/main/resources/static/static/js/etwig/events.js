@@ -294,9 +294,6 @@ function getRRuleByInput(){
         );
     });
     
-    //console.log(currentRule); 
-	//console.log(rRule.all());
-	//console.log(rRule.toString());
 	return rRule.toString();
 }
 
@@ -309,6 +306,7 @@ function addEvent(){
 	
 	// Current mode, 0 -> Add, 1-> Edit
 	var isEdit = parseInt($('#isEdit').val());
+	var mode =  isEdit ? "edit" : "add";
 	newEventObj["isEdit"] = (isEdit > 0);
 	
 	// Event id: Required in edit mode and provided
@@ -318,8 +316,10 @@ function addEvent(){
 	var eventName = $.trim($('#eventName').val());
 	if(eventName.length == 0){
 		warningToast("Event name is required.");
+		//$('#eventName').addClass('is-invalid');
 		return;
 	}
+	//$('#eventName').removeClass('is-invalid');
 	newEventObj["name"] = eventName;
 	
 	// Event location
@@ -346,13 +346,13 @@ function addEvent(){
 		var parsedStartDate = Date.parse($('#eventStartDate').val());
 		var parsedEndDate = Date.parse($('#eventEndDate').val());
 
-		if(parsedStartDate.length == 0 || parsedStartDate == null){
-			warningToast("Event start date is empty or invalid.");
+		if(parsedStartDate == null || parsedStartDate.length == 0){
+			warningToast("Event start date is required, and it must be yyyy-MM-dd format.");
 			return;
 		}
 		
-		if(parsedEndDate.length == 0 || parsedEndDate == null){
-			warningToast("Event end date is empty or invalid.");
+		if(parsedEndDate == null || parsedEndDate.length == 0){
+			warningToast("Event end date is required, and it must be yyyy-MM-dd format.");
 			return;
 		}
 		
@@ -373,21 +373,26 @@ function addEvent(){
 			eventEndTime = $('#eventEndTime').val();
 			
 			if(eventStartTime.length == 0){
-				warningToast("Event start time is empty or invalid.");
+				warningToast("Event start time is required, and it must be HH:mm format.");
 				return;
 			}
 			
 			if(eventEndTime.length == 0){
-				warningToast("Event end time is empty or invalid.");
+				warningToast("Event end time is required, and it must be HH:mm format.");
 				return;
 			}
 		}
 		
-		
-			
 		var singleTime = {};
 		singleTime["startDateTime"] = combineDateAndTime(parsedStartDate, eventStartTime + ':00');
 		singleTime["endDateTime"] = combineDateAndTime(parsedEndDate, eventEndTime + ':00');
+		
+		// Time sequence check
+		var timestampDiff = singleTime["endDateTime"] - singleTime["startDateTime"];
+		if(timestampDiff <= 0){
+			warningToast("Event end time must after start time.");
+			return;
+		}
 		newEventObj["singleTime"] = singleTime;
 	}
 	
@@ -406,7 +411,7 @@ function addEvent(){
 			eventRecurringTime = $('#eventRecurringTime').val();
 		
 			if(eventRecurringTime.length == 0){
-				warningToast("Event start time is empty or invalid.");
+				warningToast("Event start time is required, and it must be HH:mm format.");
 				return;
 			}
 		}
@@ -432,59 +437,10 @@ function addEvent(){
 		newEventObj["recurring"]  = recurring;
 	}
 	
-	console.log(newEventObj);
-	return; 
+	/**
+	 * Additional info.
+	 */
 	
-	// Event duration: Required only if the eventTimeUnit is not "customize""
-	var eventDuration = $('#eventDuration').val();
-	var realDuration = 0;
-	
-	// Event endTime: Required only if the eventTimeUnit is "customize""
-	var eventEndTime = $('#eventEndTime').val();
-	var parsedEndTime = Date.parse(eventEndTime);
-	
-	// Check "Duration" / "End Time" by selected time units.
-	if(eventTimeUnit == "c"){
-		
-		if(eventEndTime.length == 0){
-			warningToast("Event end time is required");
-			return;
-		}
-		
-		if(parsedEndTime == null){
-			warningToast("Event end time is not well-formed.");
-			return;
-		}
-		
-		var timestampDiff = parsedEndTime.getTime() - parsedStartTime.getTime();
-		if(timestampDiff <= 0){
-			warningToast("Event end time must after start time.");
-			return;
-		}
-		
-		// timestampDiff unit is millisecond, realDuration unit is minute
-		realDuration = timestampDiff / 60000;
-	}
-	
-	else{
-		if(eventDuration.length == 0){
-			warningToast("Event duration is required, and it must be a number.");
-			return;
-		}
-		
-		if(eventDuration <= 0){
-			warningToast("Event duration must be a positive number.");
-			return;
-		}
-		realDuration = eventDuration;
-	}
-	
-	// Event portfolio: Required
-	var eventPortfolio = $('#eventPortfolio').find(":selected").val();
-	
-	// Event Organizer: Required
-	var eventOrganizer = $('#eventOrganizer').find(":selected").val();
-
 	// Properties 
 	var selectedProperties = [];
 	var mandatoryCheckPassed = true;
@@ -493,7 +449,7 @@ function addEvent(){
     	//var propertyId = $(this).data('property-id');
     	var propertyName = $(this).data('property-name');
     	var isMandatory = $(this).data('mandatory');
-    	var selectedValue = $(this).val();
+    	var selectedValue = parseInt($(this).val());
 
 		// Mandatory check
 		if(isMandatory && selectedValue <= 0){
@@ -511,31 +467,30 @@ function addEvent(){
 	if(!mandatoryCheckPassed){
 		return;
 	}
+	newEventObj["properties"]  = selectedProperties;
 	
+	// Graphics request (only abailable when adding an event)
+	if(!isEdit && $("#eventRequestNow").is(':checked')){
+		var graphics = {};
+		
+		// Returning Date
+		var returningDate = Date.parse($('#returningDate').val());
+		if( returningDate == null || returningDate.length == 0){
+			warningToast("Graphics returning date is required, and it must be yyyy-MM-dd format.");
+			return;
+		}
+		graphics["returningDate"] = returningDate;
+		
+		// Additional comments
+		graphics["comments"] = requestComment;
+		newEventObj["graphics"] = graphics;
+	}
+	
+	console.log(newEventObj);
 	return;
-	
-	// Create an object for the new event.
-	var newEventObj = {
-		"eventId" : eventId,
-		"isRecurrent": false,
-		"name": eventName,
-		"location": eventLocation,
-		"description": eventDescription,
-		"timeUnit": eventTimeUnit,
-		"startTime": eventStartDate,
-		"duration": realDuration,
-		"portfolio": eventPortfolio,
-		"organizer": eventOrganizer,
-		"properties": selectedProperties
-	};
-	
-	// POST the new (or changed) event into the event add/edit API
-	var url = isEdit ? "/api/private/editEvent" : "/api/private/addEvent";
-	var mode =  isEdit ? "edit" : "add";
-	
 	var hasError = true;
 	$.ajax({
-   		url: url, 
+   		url: '/api/private/editEvent', 
    		type: "POST",
    		async: false,
    		dataType: "json",
@@ -560,7 +515,7 @@ function addEvent(){
 	// More timeout if error happens.
 	setTimeout(
 		function() {
-			embedded ? parent.location.reload() : window.location.reload();
+			window.location.reload();
 		}, 
 		hasError ? 10000 : 2000
 	);
