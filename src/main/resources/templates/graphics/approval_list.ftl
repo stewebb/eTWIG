@@ -54,7 +54,7 @@
 				<div class="row">
 
 					<#-- Pending requests -->
-					<div class="col-md-6">
+					<div class="col-md-12">
 						<div class="card card-primary card-outline">
 						
 							<div class="card-header">
@@ -94,10 +94,11 @@
 					</div>
 					<#-- /Pending requests -->
 
-					<#-- Finalized requests -->
+					<#-- Finalized requests --
+			
 					<div class="col-md-6">
 					</div>
-					<#-- /Finalized requests -->
+					-- /Finalized requests -->
 				</div>
 			</div>
 
