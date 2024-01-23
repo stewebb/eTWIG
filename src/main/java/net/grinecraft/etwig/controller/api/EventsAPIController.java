@@ -81,16 +81,24 @@ public class EventsAPIController {
 		
 		// Invalid or negative eventId, add event.
 		if(eventId == null || eventId <= 0) {
-			eventService.editEvent(eventInfo, false);
+			eventService.editEvent(eventInfo, null);
+			return WebReturn.errorMsg(null, true);
 		}
-		// Check the permission again in the back end.
-		LinkedHashMap<String, Object> event = null;//eventService.findById(Long.parseLong(eventInfo.get("eventId").toString()));
-		//if(!eventService.eventEditPermissionCheck(event)) {
-		//	return WebReturn.errorMsg("You don't have permission to edit this event.", false);
-		//} 
+		
+		// Event not exist, add mode.
+		EventDetailsDTO event = eventService.findById(eventId);
+		if(event == null) {
+			eventService.editEvent(eventInfo, null);
+			return WebReturn.errorMsg(null, true);
+		}
+		
+		// Event exist, edit mode.
+		if(!eventService.eventEditPermissionCheck(event.getPosition().getPortfolio())) {
+			return WebReturn.errorMsg("You don't have permission to edit event.", false);
+		} 
 		
 		// Then edit event in the DB.
-        //eventService.editEvent((LinkedHashMap<String, Object>) eventInfo);
+		eventService.editEvent(eventInfo, event);
         return WebReturn.errorMsg(null, true);
     }
 }

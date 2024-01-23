@@ -5,6 +5,7 @@ import java.util.Map;
 
 import lombok.Getter;
 import lombok.ToString;
+import net.grinecraft.etwig.dto.EventDetailsDTO;
 import net.grinecraft.etwig.model.Event;
 import net.grinecraft.etwig.util.BooleanUtils;
 import net.grinecraft.etwig.util.DateUtils;
@@ -14,7 +15,7 @@ import net.grinecraft.etwig.util.DateUtils;
 public class AddEditEventDTO {
 	
 	// Mode
-	private boolean isEdit;
+	private EventDetailsDTO currentEvent;
 	
 	// Basic info
 	private Long id;
@@ -33,8 +34,11 @@ public class AddEditEventDTO {
 	private String rRule;
 	
 	@SuppressWarnings("unchecked")
-	public AddEditEventDTO(Map<String, Object> eventInfo, boolean isEdit) {
+	public AddEditEventDTO(Map<String, Object> eventInfo, EventDetailsDTO currentEvent) {
 
+		// Mode
+		this.currentEvent = currentEvent;
+		
 		// Basic info
 		this.id = Long.parseLong(eventInfo.get("id").toString());
 		this.name = eventInfo.get("name").toString();
@@ -46,12 +50,14 @@ public class AddEditEventDTO {
 		this.updatedTime = LocalDateTime.now();
 		
 		// Add mode, update both created time and updated time.
-		if(!this.isEdit) {
+		if(currentEvent == null) {
 			this.createdTime = LocalDateTime.now();
+		}else {
+			this.createdTime = currentEvent.getCreatedTime();
 		}
 		
 		// Timing
-		this.recurring = BooleanUtils.toBoolean(eventInfo.get("recurring").toString());
+		this.recurring = BooleanUtils.toBoolean(eventInfo.get("isRecurring").toString());
 		this.allDayEvent = BooleanUtils.toBoolean(eventInfo.get("allDayEvent").toString());
 		this.duration = Integer.parseInt(eventInfo.get("duration").toString());
 
@@ -68,7 +74,6 @@ public class AddEditEventDTO {
 		else {
 			Map<String, Object> singleTime = (Map<String, Object>) eventInfo.get("singleTime");
 			String eventStartTimeStr = singleTime.get("startDateTime").toString();
-			System.out.println(eventStartTimeStr);
 			this.startTime = DateUtils.safeParseDateTime(eventStartTimeStr, "yyyy-MM-dd'T'HH:mm:ss.SSSX");
 		}
 
@@ -84,11 +89,8 @@ public class AddEditEventDTO {
 		event.setDescription(this.description);
 		event.setUserRoleId(this.userRoleId);
 		event.setUpdatedTime(this.updatedTime);
-				
-		if(!this.isEdit) {
-			event.setCreatedTime(this.createdTime);
-		}
-		
+		event.setCreatedTime(this.createdTime);
+
 		// Timing
 		event.setRecurring(this.recurring);
 		event.setAllDayEvent(this.allDayEvent);

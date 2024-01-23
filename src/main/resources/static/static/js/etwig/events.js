@@ -339,7 +339,7 @@ function addEvent(){
 	
 	// Event recurrent: 0 -> Single time 1-> recurrent
 	var eventRecurrent = parseInt($('input[type=radio][name=event-recurrent]:checked').val());
-	newEventObj["recurring"]  = (eventRecurrent > 0);
+	newEventObj["isRecurring"]  = (eventRecurrent > 0);
 	
 	// All day event
 	var allDayEvent = $("#eventAllDayEvent").is(':checked');

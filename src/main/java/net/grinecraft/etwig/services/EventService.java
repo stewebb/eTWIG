@@ -10,6 +10,7 @@
 package net.grinecraft.etwig.services;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -36,6 +37,7 @@ import net.grinecraft.etwig.model.UserRole;
 import net.grinecraft.etwig.repository.EventOptionRepository;
 import net.grinecraft.etwig.repository.EventRepository;
 import net.grinecraft.etwig.util.DateUtils;
+import net.grinecraft.etwig.util.ListUtils;
 import net.grinecraft.etwig.util.exception.DataException;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -104,11 +106,23 @@ public class EventService {
 	 */
 	
 	@SuppressWarnings("null")
-	public void editEvent(Map<String, Object> eventInfo, boolean isEdit) {
+	public void editEvent(Map<String, Object> eventInfo, EventDetailsDTO currentEvent) {
 		
-		AddEditEventDTO newEventDTO = new AddEditEventDTO(eventInfo, isEdit);
-		System.out.println(newEventDTO.toEntity());
+		// Add event
+		AddEditEventDTO newEventDTO = new AddEditEventDTO(eventInfo, currentEvent);
+		//System.out.println(newEventDTO);
 		eventRepository.save(newEventDTO.toEntity());
+		
+		// Add options
+		if(currentEvent != null) {
+			
+			System.out.println(eventInfo.get("properties").toString());
+			
+			ArrayList<Long> optionList = ListUtils.stringArrayToLongArray(ListUtils.stringToArrayList(eventInfo.get("properties").toString()));
+			updateEventOptionBulky(newEventDTO.getId(), optionList);
+		}
+
+	
 		
 		/*
 		boolean isRecurrent = BooleanUtils.toBoolean(eventInfo.get("isRecurrent").toString());
@@ -124,10 +138,7 @@ public class EventService {
 			updateSingleTimeEvent(eventId, eventInfo);
 		}
 		
-		ArrayList<Long> optionList = ListUtils.stringArrayToLongArray(ListUtils.stringToArrayList(eventInfo.get("properties").toString()));
-		updateEventOptionBulky(eventId, optionList);
-		
-		*/
+			*/
 	}
 	
 	/**
