@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.dto;
+package net.grinecraft.etwig.dto.user;
 
 import lombok.Getter;
 import lombok.ToString;

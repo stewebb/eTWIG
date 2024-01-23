@@ -1,9 +1,10 @@
-package net.grinecraft.etwig.dto;
+package net.grinecraft.etwig.dto.events;
 
 import java.time.LocalDateTime;
 
 import lombok.Getter;
 import lombok.ToString;
+import net.grinecraft.etwig.dto.user.UserDTO;
 import net.grinecraft.etwig.model.Event;
 import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.model.UserRole;

@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpSession;
 import net.grinecraft.etwig.dto.PositionDTO;
-import net.grinecraft.etwig.dto.UserDTO;
+import net.grinecraft.etwig.dto.user.UserDTO;
 import net.grinecraft.etwig.handler.CustomUserDetails;
 import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.model.User;

@@ -20,8 +20,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import net.grinecraft.etwig.config.ConfigFile;
-import net.grinecraft.etwig.dto.UserAccessDTO;
-import net.grinecraft.etwig.dto.UserDTO;
+import net.grinecraft.etwig.dto.user.UserAccessDTO;
+import net.grinecraft.etwig.dto.user.UserDTO;
 
 @Component
 public class EtwigInterceptor implements HandlerInterceptor{

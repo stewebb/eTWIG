@@ -145,12 +145,6 @@
 						</a>	
 						<#-- /Profile -->
 						
-						<#-- Settings -->						
-						<a href="/user/settings" class="dropdown-item">
-							<i class="fa-solid fa-user-gear"></i>&nbsp;Settings
-						</a>	
-						<#-- /Settings -->
-						
 						<#-- Logout -->						
 						<a href="/user/logout" class="dropdown-item">
 							<i class="fa-solid fa-right-from-bracket"></i>&nbsp;Logout

@@ -1,27 +1,30 @@
-package net.grinecraft.etwig.dto;
+package net.grinecraft.etwig.dto.events;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 import lombok.*;
 import net.grinecraft.etwig.model.Event;
 
 @Getter
 @ToString
-public class SingleTimeEventBasicInfoDTO {
+public class RecurringEventBasicInfoDTO {
 
 	private Long id;
 	private String name;
-	private LocalDateTime startTime;
+	private LocalTime eventTime;
 	private int duration;
 	private String portfolioColor;
+	private String rRule;
 	
 
-	public SingleTimeEventBasicInfoDTO(Event event) {
+	public RecurringEventBasicInfoDTO(Event event) {
 		
 		this.id = event.getId();
 		this.name = event.getName();
-		this.startTime = event.getStartTime();
+		this.eventTime = event.getStartTime().toLocalTime();
 		this.duration = event.getDuration();
 		this.portfolioColor = event.getUserRole().getPortfolio().getColor();
+		this.rRule = event.getRRule().trim();
 	}
 
 

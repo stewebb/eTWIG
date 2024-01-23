@@ -31,7 +31,7 @@ import org.springframework.data.domain.Pageable;
 
 import net.grinecraft.etwig.config.ConfigFile;
 import net.grinecraft.etwig.dto.AssetBasicInfoDTO;
-import net.grinecraft.etwig.dto.UserDTO;
+import net.grinecraft.etwig.dto.user.UserDTO;
 import net.grinecraft.etwig.model.Asset;
 import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.repository.AssetRepository;

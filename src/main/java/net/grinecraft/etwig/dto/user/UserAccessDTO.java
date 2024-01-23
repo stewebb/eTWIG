@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.dto;
+package net.grinecraft.etwig.dto.user;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,7 +15,7 @@ public class UserAccessDTO {
 	private boolean graphicsAccess = false;
 	private boolean adminAccess = false;
 	
-	private Set<Long> myRoles = new HashSet<Long>();
+	private Set<Role> myRoles = new HashSet<Role>();
 	
 	public UserAccessDTO(Set<UserRole> userRoles) {
 		
@@ -24,7 +24,7 @@ public class UserAccessDTO {
 			Role role = userRole.getRole();
 			
 			// Add my roles
-			myRoles.add(role.getId());
+			myRoles.add(role);
 			
 			// Grant all permissions immediately as long as the user is admin.
 			if(role.isAdminAccess()) {

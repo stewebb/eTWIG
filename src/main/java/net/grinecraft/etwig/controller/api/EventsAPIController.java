@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import net.grinecraft.etwig.dto.SingleTimeEventBasicInfoDTO;
 import net.grinecraft.etwig.dto.events.EventDetailsDTO;
-import net.grinecraft.etwig.dto.RecurringEventBasicInfoDTO;
+import net.grinecraft.etwig.dto.events.RecurringEventBasicInfoDTO;
+import net.grinecraft.etwig.dto.events.SingleTimeEventBasicInfoDTO;
 import net.grinecraft.etwig.services.EventOptionService;
 import net.grinecraft.etwig.services.EventService;
 import net.grinecraft.etwig.util.DateUtils;

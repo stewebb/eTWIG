@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import jakarta.servlet.http.HttpSession;
-import net.grinecraft.etwig.dto.UserAccessDTO;
-import net.grinecraft.etwig.dto.UserDTO;
+import net.grinecraft.etwig.dto.user.UserAccessDTO;
+import net.grinecraft.etwig.dto.user.UserDTO;
 import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.model.UserRole;
 

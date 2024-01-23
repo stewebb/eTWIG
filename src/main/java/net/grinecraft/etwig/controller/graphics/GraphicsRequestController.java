@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import net.grinecraft.etwig.dto.GraphicsRequestEventInfoDTO;
 import net.grinecraft.etwig.services.GraphicsRequestService;
+import net.grinecraft.etwig.dto.events.GraphicsRequestEventInfoDTO;
 import net.grinecraft.etwig.services.EventService;
 import net.grinecraft.etwig.util.BooleanUtils;
 
