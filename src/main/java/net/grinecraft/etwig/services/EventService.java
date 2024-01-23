@@ -26,6 +26,8 @@ import net.grinecraft.etwig.dto.UserAccessDTO;
 import net.grinecraft.etwig.dto.EventDetailsDTO;
 import net.grinecraft.etwig.dto.RecurringEventBasicInfoDTO;
 import net.grinecraft.etwig.model.Event;
+import net.grinecraft.etwig.model.EventOption;
+import net.grinecraft.etwig.model.EventOptionKey;
 import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.model.UserRole;
@@ -92,53 +94,6 @@ public class EventService {
 			return null;
 		}
 		return eventRepository.findByRecurringTrue().stream().map(RecurringEventBasicInfoDTO::new).collect(Collectors.toList());
-
-		/*
-		Set<RecurringEventBasicInfoDTO> recurringEventSet = new HashSet<RecurringEventBasicInfoDTO>();
-		List<Event> events = eventRepository.findByRecurringTrue();
-		
-		for(Event event : events) {
-			recurringEventSet.add(new RecurringEventBasicInfoDTO(event));
-		}
-		
-		return recurringEventSet;
-		*/
-		
-		
-	}
-
-	/**
-	 * Add an event to the database
-	 * @param eventInfo The event details.
-	 */
-	public void addEvent(LinkedHashMap<String, Object> eventInfo) {
-		
-		/*
-		boolean isRecurrent = BooleanUtils.toBoolean(eventInfo.get("isRecurrent").toString());
-		
-		// Insert details into the general event table.
-		Event newEvent = new Event();
-		newEvent.setRecurring(isRecurrent);
-		newEvent.setPortfolioId(Long.parseLong(eventInfo.get("portfolio").toString()));
-		newEvent.setOrganizerId(Long.parseLong(eventInfo.get("organizer").toString()));
-		
-		Long newEventId = eventRepository.save(newEvent).getId();
-		//System.out.println(newEventId);
-		
-		// Insert specific data (recurrent events)
-		if(isRecurrent) {
-			// TODO Recurrent Event
-		}
-		
-		// Insert specific data (single time events)
-		else {
-			updateSingleTimeEvent(newEventId, eventInfo);
-		}
-		
-		ArrayList<Long> optionList = ListUtils.stringArrayToLongArray(ListUtils.stringToArrayList(eventInfo.get("properties").toString()));
-		updateEventOptionBulky(newEventId, optionList);
-		
-		*/
 	}
 	
 	/**
@@ -174,68 +129,6 @@ public class EventService {
 	 */
 	
 	/**
-	 * Get all details of a single time event by it's id.
-	 * @param id The id of that event.
-	 * @return The event object. If event doesn't exist, return null.
-	 * @throws IllegalAccessException 
-	 * @throws IllegalArgumentException 
-	 * @throws DataException If the violation of the data integrity is detected.
-	 */
-	
-	private LinkedHashMap<String, Object> getSingleTimeEventById(long id) throws Exception {
-		return null;		
-		
-		/*
-		if(singleTimeEventRepository == null) {
-			return null;
-		}
-		
-		// Find the event table (join with portfolio and users table).
-		Optional<SingleTimeEvent> singleTimeEventOptional = singleTimeEventRepository.findById(id);
-		if (!singleTimeEventOptional.isPresent()){
-			return null;
-		}
-		
-		// Gather required objects and data integrity check
-		SingleTimeEvent singleTimeEvent = singleTimeEventOptional.get();
-		dataIntegrityCheck(singleTimeEvent);
-		
-		LinkedHashMap<String, Object> details = new LinkedHashMap<String, Object>();
-		
-		// Add event info
-		LinkedHashMap<String, Object> eventInfo = new LinkedHashMap<String, Object>();
-		eventInfo.put("Id", singleTimeEvent.getId());
-		eventInfo.put("name", singleTimeEvent.getName());
-		eventInfo.put("description", singleTimeEvent.getDescription());
-		eventInfo.put("location", singleTimeEvent.getLocation());
-		eventInfo.put("startDateTime", singleTimeEvent.getStartDateTime());
-		eventInfo.put("endDateTime", singleTimeEvent.getEndDateTime());
-		eventInfo.put("duration", singleTimeEvent.getDuration());
-		eventInfo.put("unit", singleTimeEvent.getUnitAbbr());
-		details.put("details", eventInfo);
-		
-		// Add portfolio and user info
-		details.put("portfolio", this.portfolioToMap(singleTimeEvent.getEvent().getPortfolio()));
-		details.put("user", this.userInfo(singleTimeEvent.getEvent().getUser()));
-		return details;
-		
-		*/
-	}
-	
-	/**
-	 * Get all details related to a recurring event by it's id.
-	 * @param id The id of that event.
-	 * @param showAllDetails True to show all details, false to show brief information.
-	 * @return A linkedHashMap about the details of the event. If event doesn't exist, return null.
-	 * @throws DataException If the violation of the data integrity is detected.
-	 */
-	
-	private LinkedHashMap<String, Object> getRecurringEventById(long id) {
-		// TODO
-		return null;
-	}
-	
-	/**
 	 * Add a single time event to database
 	 * @param eventId The id of the event
 	 * @param eventInfo The event details
@@ -269,11 +162,10 @@ public class EventService {
 	 * @param optionIds A list with all options that associated for the event.
 	 */
 	
+	@SuppressWarnings("null")
 	@Transactional
 	private void updateEventOptionBulky(Long eventId, List<Long> optionIds) {
-		
-		/*
-		
+
 		// Remove all existing options associations for the event.
         List<EventOption> existingEventOptions = eventOptionRepository.findByIdEventId(eventId);
         eventOptionRepository.deleteAll(existingEventOptions);
@@ -283,38 +175,13 @@ public class EventService {
             .map(optionId -> new EventOption(new EventOptionKey(eventId, optionId)))
             .collect(Collectors.toList());
         eventOptionRepository.saveAll(newEventOptions);
-        
-        */
+
     }
 	
 	/**
 	 * Helper methods below, they are only used in this class.
 	 * The access control modifiers are "private".
 	 */
-	
-	/**
-	 * Check the data integrity
-	 * @param singleTimeEvent The singleTimeEvent object
-	 * @throws DataException When data integrity has been violated.
-	 */
-	
-	//private void dataIntegrityCheck(SingleTimeEvent singleTimeEvent) throws DataException {
-		
-		/**
-		Event event = singleTimeEvent.getEvent();
-		if(event == null) {
-			throw new DataException("The event id=" + singleTimeEvent.getId() + " exists in event_single_time table but doesn't exist in event table.");
-		}
-		
-		if(event.getPortfolio() == null) {
-			throw new DataException("The portfolio of event id=" + singleTimeEvent.getId() + " doesn't exist. PLease check the portfolio table.");
-		}
-		
-		if(event.getUser() == null) {
-			throw new DataException("The organizer of event id=" + singleTimeEvent.getId() + " doesn't exist. PLease check the user table.");
-		}
-		*/
-	//}
 	
 	/**
 	 * Convert portfolio object to a LinkedHashMap

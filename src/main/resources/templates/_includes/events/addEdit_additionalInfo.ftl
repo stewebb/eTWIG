@@ -116,7 +116,9 @@
 												<input type="checkbox" id="eventRequestNow" name="eventRequestNow">
 												<label for="eventRequestNow">Request a graphics now (Optional)</label>
 											</div>
-											<small class="form-text text-muted">You can also request the graphics later by clicking the "graphics" tab.</small>
+											<small class="form-text text-muted">
+												You can also request the graphics later by clicking the "graphics" tab after adding the event.
+											</small>
 										</div>
 										<#-- /Request a grphic now -->
 

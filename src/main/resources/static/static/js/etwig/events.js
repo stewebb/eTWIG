@@ -310,7 +310,7 @@ function addEvent(){
 	newEventObj["isEdit"] = (isEdit > 0);
 	
 	// Event id: Required in edit mode and provided
-	newEventObj["id"] = $('#eventId').text();
+	newEventObj["id"] = parseInt($('#eventId').text());
 	
 	// Event name
 	var eventName = $.trim($('#eventName').val());
@@ -339,6 +339,10 @@ function addEvent(){
 	var eventRecurrent = parseInt($('input[type=radio][name=event-recurrent]:checked').val());
 	newEventObj["recurring"]  = (eventRecurrent > 0);
 	
+	// All day event
+	var allDayEvent = $("#eventAllDayEvent").is(':checked');
+	newEventObj["allDayEvent"]  = (allDayEvent);
+	
 	// Single Time event
 	if(eventRecurrent == 0){
 		
@@ -361,7 +365,7 @@ function addEvent(){
 		var eventEndTime;
 		
 		// All day event
-		if($("#eventAllDayEvent").is(':checked')){
+		if(allDayEvent){
 			eventStartTime = '00:00';
 			eventEndTime = '00:00';
 		}
@@ -387,12 +391,17 @@ function addEvent(){
 		singleTime["startDateTime"] = combineDateAndTime(parsedStartDate, eventStartTime + ':00');
 		singleTime["endDateTime"] = combineDateAndTime(parsedEndDate, eventEndTime + ':00');
 		
-		// Time sequence check
+		// Calculate the duration
 		var timestampDiff = singleTime["endDateTime"] - singleTime["startDateTime"];
+		//console.log(timestampDiff);
 		if(timestampDiff <= 0){
 			warningToast("Event end time must after start time.");
 			return;
 		}
+		
+		// Time unit is minute. 1min = 60 seconds = 60,000 milliseconds.
+		newEventObj["duration"] = timestampDiff / 60000;
+
 		newEventObj["singleTime"] = singleTime;
 	}
 	
@@ -402,7 +411,7 @@ function addEvent(){
 		var eventRecurringTime;
 		
 		// All day event
-		if($("#eventAllDayEvent").is(':checked')){
+		if(allDayEvent){
 			eventRecurringTime = '00:00';
 		}
 		
@@ -425,7 +434,7 @@ function addEvent(){
 			warningToast("Event duration is required, and it must be a positive integer.");
 			return;
 		}
-		recurring["duration"] = eventDuration;
+		newEventObj["duration"] = eventDuration;
 		
 		// RRule
 		var eventRRule = getRRuleByInput();

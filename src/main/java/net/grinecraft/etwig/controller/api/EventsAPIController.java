@@ -27,6 +27,7 @@ import net.grinecraft.etwig.dto.EventDetailsDTO;
 import net.grinecraft.etwig.dto.RecurringEventBasicInfoDTO;
 import net.grinecraft.etwig.services.EventService;
 import net.grinecraft.etwig.util.DateUtils;
+import net.grinecraft.etwig.util.NumberUtils;
 import net.grinecraft.etwig.util.WebReturn;
 
 @RestController
@@ -65,19 +66,6 @@ public class EventsAPIController {
 	}
 	
 	/**
-	 * Add an event into the database.
-	 * @param eventInfo The object that contains the details of new event. 
-	 * @return
-	 * @authentication True
-	 */
-	
-	@PostMapping(value = "/addEvent")
-    public Map<String, Object> addEvent(@RequestBody Map<String, Object> eventInfo) {
-        eventService.addEvent((LinkedHashMap<String, Object>) eventInfo);
-        return WebReturn.errorMsg(null, true);
-    }
-	
-	/**
 	 * Edit an existing event.
 	 * @param session
 	 * @param eventInfo
@@ -87,8 +75,15 @@ public class EventsAPIController {
 	 */
 	
 	@PostMapping(value = "/editEvent")
-    public Map<String, Object> editEvent(HttpSession session, @RequestBody Map<String, Object> eventInfo) throws Exception {
+    public Map<String, Object> editEvent(@RequestBody Map<String, Object> eventInfo) throws Exception {
 				
+		// Get event type
+		Long eventId = NumberUtils.safeCreateLong(eventInfo.get("eventId").toString());
+		
+		// Invalid or negative eventId, add event.
+		if(eventId == null || eventId <= 0) {
+			
+		}
 		// Check the permission again in the back end.
 		LinkedHashMap<String, Object> event = null;//eventService.findById(Long.parseLong(eventInfo.get("eventId").toString()));
 		//if(!eventService.eventEditPermissionCheck(event)) {
