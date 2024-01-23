@@ -310,7 +310,9 @@ function addEvent(){
 	newEventObj["isEdit"] = (isEdit > 0);
 	
 	// Event id: Required in edit mode and provided
-	newEventObj["id"] = parseInt($('#eventId').text());
+	var eventId = parseInt($('#eventId').text());
+	console.log(eventId)
+	isNaN(eventId) ? newEventObj["id"] = -1 : newEventObj["id"] = eventId;
 	
 	// Event name
 	var eventName = $.trim($('#eventName').val());
@@ -496,7 +498,7 @@ function addEvent(){
 	}
 	
 	console.log(newEventObj);
-	return;
+	
 	var hasError = true;
 	$.ajax({
    		url: '/api/private/editEvent', 
@@ -522,12 +524,12 @@ function addEvent(){
 
 	// Post-add operations
 	// More timeout if error happens.
-	setTimeout(
-		function() {
-			window.location.reload();
-		}, 
-		hasError ? 10000 : 2000
-	);
+	//setTimeout(
+	//	function() {
+	//		window.location.reload();
+	//	}, 
+	//	hasError ? 10000 : 2000
+	//);
 }
 
 /**

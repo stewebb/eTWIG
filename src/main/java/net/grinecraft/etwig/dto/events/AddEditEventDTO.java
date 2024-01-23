@@ -33,11 +33,8 @@ public class AddEditEventDTO {
 	private String rRule;
 	
 	@SuppressWarnings("unchecked")
-	public AddEditEventDTO(Map<String, Object> eventInfo) {
-		
-		// Mode
-		this.isEdit = BooleanUtils.toBoolean(eventInfo.get("isEdit").toString());
-		
+	public AddEditEventDTO(Map<String, Object> eventInfo, boolean isEdit) {
+
 		// Basic info
 		this.id = Long.parseLong(eventInfo.get("id").toString());
 		this.name = eventInfo.get("name").toString();
@@ -62,7 +59,8 @@ public class AddEditEventDTO {
 		if(this.recurring) {
 			Map<String, Object> recurring = (Map<String, Object>) eventInfo.get("recurring");
 			String eventStartTimeStr = recurring.get("recurringTime").toString();
-			this.startTime = DateUtils.safeParseDateTime(eventStartTimeStr, "yyyy-MM-dd hh:mm a");
+			
+			this.startTime = DateUtils.safeParseDateTime(eventStartTimeStr, "yyyy-MM-dd'T'HH:mm:ss.SSSX");
 			this.rRule = recurring.get("rrule").toString();
 		}
 		
@@ -70,7 +68,8 @@ public class AddEditEventDTO {
 		else {
 			Map<String, Object> singleTime = (Map<String, Object>) eventInfo.get("singleTime");
 			String eventStartTimeStr = singleTime.get("startDateTime").toString();
-			this.startTime = DateUtils.safeParseDateTime(eventStartTimeStr, "yyyy-MM-dd hh:mm a");
+			System.out.println(eventStartTimeStr);
+			this.startTime = DateUtils.safeParseDateTime(eventStartTimeStr, "yyyy-MM-dd'T'HH:mm:ss.SSSX");
 		}
 
 	}

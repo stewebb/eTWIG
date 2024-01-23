@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.servlet.http.HttpSession;
 import net.grinecraft.etwig.dto.SingleTimeEventBasicInfoDTO;
 import net.grinecraft.etwig.dto.EventDetailsDTO;
 import net.grinecraft.etwig.dto.RecurringEventBasicInfoDTO;
@@ -78,11 +77,11 @@ public class EventsAPIController {
     public Map<String, Object> editEvent(@RequestBody Map<String, Object> eventInfo) throws Exception {
 				
 		// Get event type
-		Long eventId = NumberUtils.safeCreateLong(eventInfo.get("eventId").toString());
+		Long eventId = NumberUtils.safeCreateLong(eventInfo.get("id").toString());
 		
 		// Invalid or negative eventId, add event.
 		if(eventId == null || eventId <= 0) {
-			
+			eventService.editEvent(eventInfo, false);
 		}
 		// Check the permission again in the back end.
 		LinkedHashMap<String, Object> event = null;//eventService.findById(Long.parseLong(eventInfo.get("eventId").toString()));
@@ -91,7 +90,7 @@ public class EventsAPIController {
 		//} 
 		
 		// Then edit event in the DB.
-        eventService.editEvent((LinkedHashMap<String, Object>) eventInfo);
+        //eventService.editEvent((LinkedHashMap<String, Object>) eventInfo);
         return WebReturn.errorMsg(null, true);
     }
 }

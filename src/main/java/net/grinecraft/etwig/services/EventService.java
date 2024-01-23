@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -23,6 +24,7 @@ import jakarta.servlet.http.HttpSession;
 import net.grinecraft.etwig.dto.GraphicsRequestEventInfoDTO;
 import net.grinecraft.etwig.dto.SingleTimeEventBasicInfoDTO;
 import net.grinecraft.etwig.dto.UserAccessDTO;
+import net.grinecraft.etwig.dto.events.AddEditEventDTO;
 import net.grinecraft.etwig.dto.EventDetailsDTO;
 import net.grinecraft.etwig.dto.RecurringEventBasicInfoDTO;
 import net.grinecraft.etwig.model.Event;
@@ -101,7 +103,12 @@ public class EventService {
 	 * @param eventInfo The event details.
 	 */
 	
-	public void editEvent(LinkedHashMap<String, Object> eventInfo) {
+	@SuppressWarnings("null")
+	public void editEvent(Map<String, Object> eventInfo, boolean isEdit) {
+		
+		AddEditEventDTO newEventDTO = new AddEditEventDTO(eventInfo, isEdit);
+		System.out.println(newEventDTO.toEntity());
+		eventRepository.save(newEventDTO.toEntity());
 		
 		/*
 		boolean isRecurrent = BooleanUtils.toBoolean(eventInfo.get("isRecurrent").toString());
