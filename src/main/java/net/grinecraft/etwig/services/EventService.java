@@ -26,7 +26,7 @@ import net.grinecraft.etwig.dto.GraphicsRequestEventInfoDTO;
 import net.grinecraft.etwig.dto.SingleTimeEventBasicInfoDTO;
 import net.grinecraft.etwig.dto.UserAccessDTO;
 import net.grinecraft.etwig.dto.events.AddEditEventDTO;
-import net.grinecraft.etwig.dto.EventDetailsDTO;
+import net.grinecraft.etwig.dto.events.EventDetailsDTO;
 import net.grinecraft.etwig.dto.RecurringEventBasicInfoDTO;
 import net.grinecraft.etwig.model.Event;
 import net.grinecraft.etwig.model.EventOption;

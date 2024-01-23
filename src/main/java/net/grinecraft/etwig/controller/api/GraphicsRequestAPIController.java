@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.grinecraft.etwig.services.GraphicsRequestService;
-import net.grinecraft.etwig.dto.EventDetailsDTO;
+import net.grinecraft.etwig.dto.events.EventDetailsDTO;
 import net.grinecraft.etwig.services.EmailService;
 import net.grinecraft.etwig.services.EventService;
 import net.grinecraft.etwig.util.WebReturn;

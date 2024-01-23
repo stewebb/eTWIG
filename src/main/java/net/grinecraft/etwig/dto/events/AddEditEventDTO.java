@@ -5,7 +5,6 @@ import java.util.Map;
 
 import lombok.Getter;
 import lombok.ToString;
-import net.grinecraft.etwig.dto.EventDetailsDTO;
 import net.grinecraft.etwig.model.Event;
 import net.grinecraft.etwig.util.BooleanUtils;
 import net.grinecraft.etwig.util.DateUtils;

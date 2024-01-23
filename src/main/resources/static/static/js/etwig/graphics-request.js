@@ -19,8 +19,8 @@ function requestEvent(embedded){
 	var requesterRole = $('#requesterRole').val();
 	
 	// Returning Date: Required.
-	var returningDate = $('#returningDate').val();
-	if(returningDate.length == 0){
+	var eventGraphicsDate = $('#eventGraphicsDate').val();
+	if(eventGraphicsDate.length == 0){
 		warningToast("Graphics returning date is required");
 		return;
 	}
@@ -32,7 +32,7 @@ function requestEvent(embedded){
 	var newRequestObj = {
 		"eventId" : eventId,
 		"requesterRole": requesterRole,
-		"returningDate": returningDate,
+		"returningDate": eventGraphicsDate,
 		"requestComment": requestComment
 	};
 	

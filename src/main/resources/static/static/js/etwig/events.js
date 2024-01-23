@@ -186,9 +186,12 @@ function getEventInfo(datePickersMap){
 		setRecurrentMode(true);
 		$('input[name="event-recurrent"][value="1"]').prop('checked', true);
 		
-		//console.log(rule.options);
+		// Get RRule and selected options.
 		getRRuleByInput();
+		
 	}
+	
+	getSelectedOptions(eventId);
 	
 }
 
@@ -524,12 +527,12 @@ function addEvent(){
 
 	// Post-add operations
 	// More timeout if error happens.
-	//setTimeout(
-	//	function() {
-	//		window.location.reload();
-	//	}, 
-	//	hasError ? 10000 : 2000
-	//);
+	setTimeout(
+		function() {
+			window.location.reload();
+		}, 
+		hasError ? 10000 : 2000
+	);
 }
 
 /**
@@ -672,4 +675,42 @@ function deleteEventCheckboxOnChange(){
 	$('#confirmDeletion').change(function() {
 		$('#deleteEventBtn').prop('disabled', !this.checked);
     });
+}
+
+function getSelectedOptions(eventId){
+	//console.log(eventId)
+	// No need to get in add mode.
+	if(eventId <= 0){
+		return;
+	}
+	
+	$.ajax({ 
+		type: 'GET', 
+    	url: '/api/private/getSelectedOptionsByEventId', 
+    	data: {
+			eventId: eventId
+		},
+    	async: false,
+		success: function(json) {
+			
+			// Iterate all selected choices.
+			jQuery.each(json, function(id, value) {
+				$('.property-select-box option[value='+value+']').attr('selected','selected');
+			})
+			
+			//if(choices.length == 0){
+			//	return;
+			//}
+			
+			// Iterate all available choices.
+			//$('.property-select-box').each(function(index) {
+        	//	$('.id_100 option[value=val2]').attr('selected','selected');
+    		//});
+        },
+        
+        // Toast error info when it happens
+    	error: function(err) {   		
+			dangerToast("Failed to get selected options due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+		}
+	});
 }

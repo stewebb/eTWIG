@@ -9,6 +9,7 @@
 
 package net.grinecraft.etwig.controller.api;
 
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,8 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.grinecraft.etwig.dto.SingleTimeEventBasicInfoDTO;
-import net.grinecraft.etwig.dto.EventDetailsDTO;
+import net.grinecraft.etwig.dto.events.EventDetailsDTO;
 import net.grinecraft.etwig.dto.RecurringEventBasicInfoDTO;
+import net.grinecraft.etwig.services.EventOptionService;
 import net.grinecraft.etwig.services.EventService;
 import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.NumberUtils;
@@ -35,6 +37,9 @@ public class EventsAPIController {
 
 	@Autowired
 	EventService eventService;
+	
+	@Autowired
+	EventOptionService eventOptionService;
 	
 	/**
 	 * Get the event list in a monthly view, by a given date.
@@ -62,6 +67,11 @@ public class EventsAPIController {
 	@GetMapping("/getEventById")  
 	public EventDetailsDTO getEventById(@RequestParam Long eventId){
 		return eventService.findById(eventId);
+	}
+	
+	@GetMapping("/getSelectedOptionsByEventId")  
+	public HashSet<Long> getSelectedOptionsByEventId(@RequestParam Long eventId) throws Exception {
+		return eventOptionService.getOptionsByEvent(eventId);
 	}
 	
 	/**

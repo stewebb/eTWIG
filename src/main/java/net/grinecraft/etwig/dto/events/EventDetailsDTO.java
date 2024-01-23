@@ -1,8 +1,9 @@
-package net.grinecraft.etwig.dto;
+package net.grinecraft.etwig.dto.events;
 
 import java.time.LocalDateTime;
 
 import lombok.*;
+import net.grinecraft.etwig.dto.PositionDTO;
 import net.grinecraft.etwig.model.Event;
 
 @Getter
