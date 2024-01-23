@@ -105,6 +105,7 @@
 								<#-- /Options -->
 
 								<#-- Filter -->
+								<!--
 								<div class="card card-primary card-outline">
 									<div class="card-header">
 										<h3 class="card-title">
@@ -195,7 +196,7 @@
 									</div>
 								</div>
 								<#-- /Filter -->
-
+								-->
 
 
 							</div>

@@ -158,13 +158,15 @@
 										<#-- /Duration -->
 
 										<#-- Possible clashes -->
+										<!--
 										<div class="form-group row">
 											<label for="eventPossibleClashes" class="col-lg-3">Possible Clashes</label>
 											<div class="col-lg-9">
 												<div id="eventPossibleClashes"></div>
 												<small class="form-text text-muted">You can add an event anyway regardless of the possible clashes. (Not recommended)</small>
 											</div>
-										</div>			
+										</div>	
+										-->		
 										<#-- /Possible clashes -->
 									</div>
 
