@@ -75,6 +75,7 @@ function getEventInfo(datePickersMap){
     // Get eventId
     $('#eventIdBlock').show();
     $('#eventId').text(eventInfo.id);
+    $('#isEdit').val('1');
     
     // Set the title.
 	$('#eventPageTitle').text('Edit Event: ' + eventInfo.name);
@@ -267,7 +268,14 @@ function getRRuleByInput(){
     
     // Clear existing data
     $('#eventRRuleAllDates tbody').empty();
-    $('#eventRRuleAllDatesNum').text(allDates.length);
+    
+    // Calculate occurrences
+    $('#eventRRuleAllDatesNum').text(allDates.length + ' occurrence(s)');
+	if(allDates.length == 0){
+		$('#eventRRuleAllDatesNum').attr("class","text-danger bold-text");
+	}else{
+		$('#eventRRuleAllDatesNum').attr("class","");
+	}
 
     // Process and append new data
     $.each(allDates, function(i, date) {
@@ -289,54 +297,143 @@ function getRRuleByInput(){
     //console.log(currentRule); 
 	//console.log(rRule.all());
 	//console.log(rRule.toString());
+	return rRule.toString();
 }
 
-/**
- * Validate the add event form. If passed, add the event.
- * @param embedded True if the event add page is in the "embed" mode, i.e., this page is in the frame of the calendar. 
- * 					The modal should be closed after operation.
- * 					False otherwise. The page should refresh after operation.
- * @param isEdit True the mode is edit event, other the mode is add event.
- */
-
-function addEvent(embedded, isEdit){
+function addEvent(){
+	var newEventObj = {};
 	
-	// Event id: Required in edit mode.
-	var eventId = $('#eventId').val();
-	if(isEdit && eventId.length == 0){
-		warningToast("Event id is required in edit mode.");
-		return;
-	}
+	/**
+	 * Basic Info.
+	 */
 	
-	// Event name: Required
+	// Current mode, 0 -> Add, 1-> Edit
+	var isEdit = parseInt($('#isEdit').val());
+	newEventObj["isEdit"] = (isEdit > 0);
+	
+	// Event id: Required in edit mode and provided
+	newEventObj["id"] = $('#eventId').text();
+	
+	// Event name
 	var eventName = $.trim($('#eventName').val());
 	if(eventName.length == 0){
 		warningToast("Event name is required.");
 		return;
 	}
+	newEventObj["name"] = eventName;
 	
-	// Event location: Optional
-	var eventLocation = $.trim($('#eventLocation').val());
+	// Event location
+	newEventObj["location"] = $('#eventLocation').val();
 	
-	// Event description: Optional
-	var eventDescription = $("#eventDescription").summernote("code");
+	// Event description
+	newEventObj["description"] = $("#eventDescription").summernote("code");
 	
-	// Event time unit: Required
-	var eventTimeUnit = $('input[type=radio][name=eventTimeUnit]:checked').val();
+	// Event Organizer Role
+	newEventObj["eventRole"]  = parseInt($('#eventRole').find(":selected").val());
 	
-	// Event startTime: Required
-	var eventStartTime = $('#eventStartTime').val();
-	var parsedStartTime = Date.parse(eventStartTime);
+	/**
+	 * Timing
+	 */
 	
-	if(eventStartTime.length == 0){
-		warningToast("Event start time is required");
-		return;
+	// Event recurrent: 0 -> Single time 1-> recurrent
+	var eventRecurrent = parseInt($('input[type=radio][name=event-recurrent]:checked').val());
+	newEventObj["recurring"]  = (eventRecurrent > 0);
+	
+	// Single Time event
+	if(eventRecurrent == 0){
+		
+		// Start and end date
+		var parsedStartDate = Date.parse($('#eventStartDate').val());
+		var parsedEndDate = Date.parse($('#eventEndDate').val());
+
+		if(parsedStartDate.length == 0 || parsedStartDate == null){
+			warningToast("Event start date is empty or invalid.");
+			return;
+		}
+		
+		if(parsedEndDate.length == 0 || parsedEndDate == null){
+			warningToast("Event end date is empty or invalid.");
+			return;
+		}
+		
+		// Start and end time
+		var eventStartTime;
+		var eventEndTime;
+		
+		// All day event
+		if($("#eventAllDayEvent").is(':checked')){
+			eventStartTime = '00:00';
+			eventEndTime = '00:00';
+		}
+		
+		// Not all day event
+		else{
+			
+			eventStartTime = $('#eventStartTime').val();
+			eventEndTime = $('#eventEndTime').val();
+			
+			if(eventStartTime.length == 0){
+				warningToast("Event start time is empty or invalid.");
+				return;
+			}
+			
+			if(eventEndTime.length == 0){
+				warningToast("Event end time is empty or invalid.");
+				return;
+			}
+		}
+		
+		
+			
+		var singleTime = {};
+		singleTime["startDateTime"] = combineDateAndTime(parsedStartDate, eventStartTime + ':00');
+		singleTime["endDateTime"] = combineDateAndTime(parsedEndDate, eventEndTime + ':00');
+		newEventObj["singleTime"] = singleTime;
 	}
 	
-	if(parsedStartTime == null){
-		warningToast("Event start time is not well-formed.");
-		return;
+	// Recurring event
+	else{
+		var recurring = {};
+		var eventRecurringTime;
+		
+		// All day event
+		if($("#eventAllDayEvent").is(':checked')){
+			eventRecurringTime = '00:00';
+		}
+		
+		// Not all day event
+		else{
+			eventRecurringTime = $('#eventRecurringTime').val();
+		
+			if(eventRecurringTime.length == 0){
+				warningToast("Event start time is empty or invalid.");
+				return;
+			}
+		}
+		
+		// Start time
+		recurring["recurringTime"] = combineDateAndTime(Date.today(), eventRecurringTime + ':00');
+		
+		// Duration
+		var eventDuration = parseInt($('#eventDuration').val());
+		if(isNaN(eventDuration) || eventDuration <= 0){
+			warningToast("Event duration is required, and it must be a positive integer.");
+			return;
+		}
+		recurring["duration"] = eventDuration;
+		
+		// RRule
+		var eventRRule = getRRuleByInput();
+		if(eventRRule == undefined || eventRRule == null){
+			warningToast("Invalid Recurrence Rule.", eventRRule + " is not a valid iCalendar RFC 5545 Recurrence Rule.");
+			return;
+		}
+		recurring["rrule"] = eventRRule;
+		newEventObj["recurring"]  = recurring;
 	}
+	
+	console.log(newEventObj);
+	return; 
 	
 	// Event duration: Required only if the eventTimeUnit is not "customize""
 	var eventDuration = $('#eventDuration').val();
@@ -415,6 +512,8 @@ function addEvent(embedded, isEdit){
 		return;
 	}
 	
+	return;
+	
 	// Create an object for the new event.
 	var newEventObj = {
 		"eventId" : eventId,
@@ -423,7 +522,7 @@ function addEvent(embedded, isEdit){
 		"location": eventLocation,
 		"description": eventDescription,
 		"timeUnit": eventTimeUnit,
-		"startTime": eventStartTime,
+		"startTime": eventStartDate,
 		"duration": realDuration,
 		"portfolio": eventPortfolio,
 		"organizer": eventOrganizer,
@@ -570,6 +669,7 @@ function initAddOption(){
 	$('#eventPageTitle').text('Add Event');
 	$('#eventPageLink').text('Add Event');
 	$('#eventPageLink').attr('href', '/events/edit?eventId=-1');
+	$('#isEdit').val('0');
 	
 	// Set the role(s).
 	$.ajax({ 
@@ -580,7 +680,7 @@ function initAddOption(){
 			
 			// Iterate all roles.
 			jQuery.each(json, function(id, value) {
-				$("#eventRole").append(`<option value="${value.userRoleId}">${value.position}, ${value.portfolioName}</option>`);
+				$("#eventRole").append(`<option value="${value.userRoleId}">${value.position}, ${value.portfolio.name}</option>`);
 			})
         },
         

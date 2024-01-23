@@ -222,7 +222,6 @@
 			// Get event info and display it.
 			getEventInfo(datePickersMap);
 
-			
 			$('input[type=radio][name=event-recurrent]').change(function() {
 				setRecurrentMode(this.value);
 			});

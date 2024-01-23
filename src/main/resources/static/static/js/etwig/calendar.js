@@ -138,8 +138,10 @@ function getRecurringTimeEventListByRange(date){
     			for(var i=0; i< occurrence.length; i++){
 					
 					// Get start and end time for each event.
-					var eventStartDateTime = combineDateAndTime(occurrence[i], value.eventTime);
-					var eventEndDateTime = combineDateAndTime(occurrence[i], value.eventTime).addMinutes(value.duration);
+					var occurrenceDate = new Date(occurrence[i].getTime() + occurrence[i].getTimezoneOffset() * 60000);
+					
+					var eventStartDateTime = combineDateAndTime(occurrenceDate, value.eventTime);
+					var eventEndDateTime = combineDateAndTime(occurrenceDate, value.eventTime).addMinutes(value.duration);
 					
 					// Save data
 					eventList.push({
@@ -200,27 +202,4 @@ function changeCalendar(){
     // Change calendar value.
     calendar.setOption('date', yearMonthStr);
     calendar.setOption('events', getEventList(yearMonthStr, "month"));
-}
-
-function combineDateAndTime(date, timeString) {
-    // Ensure the input is a Date object
-    if (!(date instanceof Date)) {
-        console.error("First argument must be a Date object.");
-        return;
-    }
-
-    // Ensure the time string is in the correct format
-    if (!/^\d{2}:\d{2}:\d{2}$/.test(timeString)) {
-        console.error("Time string must be in the format 'hh:mm:ss'.");
-        return;
-    }
-
-    // Split the time string into hours, minutes, and seconds
-    const [hours, minutes, seconds] = timeString.split(':').map(Number);
-
-    // Create a new Date object with the same date but with specified time
-    const combinedDateTime = new Date(date);
-    combinedDateTime.setHours(hours, minutes, seconds);
-
-    return combinedDateTime;
 }

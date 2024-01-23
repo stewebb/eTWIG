@@ -15,6 +15,7 @@
 								<#-- Col 1 -->
 								<div class="col-md-6">
 									<div class="mb-2">&nbsp;</div>
+									<input type="hidden" id="isEdit" value="0" />
 
 									<#-- EventId -->
 									<div class="form-group row" id="eventIdBlock" style="display:none">

@@ -14,7 +14,7 @@
                 									<i class="fa-solid fa-forward"></i>&nbsp;Next
                 								</button>
                 							<#else>
-                								<button type="submit" class="btn btn-outline-primary right-div">
+                								<button type="button" class="btn btn-outline-primary right-div" onclick="addEvent();">
                 									<i class="fa-solid fa-check"></i>&nbsp;Submit
                 								</button>
                 							</#if>

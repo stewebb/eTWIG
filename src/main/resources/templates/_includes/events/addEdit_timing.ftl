@@ -398,7 +398,7 @@
 										<div class="form-group row">
 											<label for="eventRRuleAllDates" class="col-lg-3">All dates</label>
 											<div class="col-lg-9">
-												<span class="text-bold" id="eventRRuleAllDatesNum"></span>&nbsp; record(s).
+												<span id="eventRRuleAllDatesNum"></span>
 												<div class="table-responsive" style="max-height: 300px;">
 													<table class="table table-head-fixed text-nowrap table-striped table-hover" id="eventRRuleAllDates">
 														<thead>
