@@ -126,19 +126,33 @@
                 <#-- /Notifications -->
 
                 <#-- Account -->
-                <li class="nav-item dropdown">
-                	
+                <li class="nav-item dropdown <#if navbar=="USER">active</#if>">
+						
                 	<#-- User icon -->
                 	<a class="nav-link navbar-border" data-toggle="dropdown" href="#">
                    		<i class="fa-solid fa-user"></i>
                 	</a>
                 	<#-- /User icon -->
                 	
-					<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+					<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right ">
+						                	
+                		<span class="dropdown-header">${user.fullName}</span>
 						<div class="dropdown-divider"></div>
 						
+						<#-- Profile -->						
+						<a href="/user/profile" class="dropdown-item">
+							<i class="fa-regular fa-id-badge"></i>&nbsp;Profile
+						</a>	
+						<#-- /Profile -->
+						
+						<#-- Settings -->						
+						<a href="/user/settings" class="dropdown-item">
+							<i class="fa-solid fa-user-gear"></i>&nbsp;Settings
+						</a>	
+						<#-- /Settings -->
+						
 						<#-- Logout -->						
-						<a href="#" class="dropdown-item">
+						<a href="/user/logout" class="dropdown-item">
 							<i class="fa-solid fa-right-from-bracket"></i>&nbsp;Logout
 						</a>	
 						<#-- /Logout -->
