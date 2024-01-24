@@ -17,6 +17,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpSession;
@@ -41,11 +42,11 @@ public class UserRoleService implements UserDetailsService{
     @Autowired
 	private HttpSession session;
     
-    private UserDTO currentUser;
+    //private UserDTO currentUser;
     
-    public UserRoleService() {
-    	this.currentUser = (UserDTO) session.getAttribute("user");
-    }
+    //public UserRoleService() {
+    //	this.currentUser = (UserDTO) session.getAttribute("user");
+    //}
     
     public Set<Portfolio> getMyPortfolios(){
 		//if (userRoleRepository == null) {
@@ -53,16 +54,16 @@ public class UserRoleService implements UserDetailsService{
 	    //}
 		
 		// Get my roles, then get my portfolios
-		//UserDTO user = (UserDTO) session.getAttribute("user");
-		return userRoleRepository.findByUserId(this.currentUser.getId()).stream().map(UserRole::getPortfolio).collect(Collectors.toSet());
+		UserDTO currentUser = (UserDTO) session.getAttribute("user");
+		return userRoleRepository.findByUserId(currentUser.getId()).stream().map(UserRole::getPortfolio).collect(Collectors.toSet());
 	}
     
     public Set<PositionDTO> getMyPositions(){
     	//if (userRoleRepository == null) {
 	    //    return null;
 	   // }
-    	//UserDTO user = (UserDTO) session.getAttribute("user");
-    	return userRoleRepository.getPositionsByUserId(this.currentUser.getId());
+    	UserDTO currentUser = (UserDTO) session.getAttribute("user");
+    	return userRoleRepository.getPositionsByUserId(currentUser.getId());
     }
     
     public UserRole findById(@NonNull Long userRoleId) {
@@ -74,7 +75,8 @@ public class UserRoleService implements UserDetailsService{
     
     @SuppressWarnings("null")
 	public User getMyDetails() {
-    	return userRepository.findById(this.currentUser.getId()).orElse(null);
+    	UserDTO currentUser = (UserDTO) session.getAttribute("user");
+    	return userRepository.findById(currentUser.getId()).orElse(null);
     }
     
     @Override
@@ -88,6 +90,12 @@ public class UserRoleService implements UserDetailsService{
 
         Set<UserRole> userRoles = userRoleRepository.findByUserId(user.getId());
         return new CustomUserDetails(user, userRoles);
+    }
+    
+    public void changePassword(User user, String newPassword) {
+        String encodedPassword = (new BCryptPasswordEncoder()).encode(newPassword);
+        user.setPassword(encodedPassword);
+        userRepository.save(user);
     }
 
 }

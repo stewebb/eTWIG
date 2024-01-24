@@ -158,7 +158,7 @@
 										<#-- /Confirm new pwd -->
 										
 										<#-- Submit -->
-										<button type="button" class="btn btn-outline-primary right-div">
+										<button type="button" class="btn btn-outline-primary right-div" onclick = "changePassword();">
                 							<i class="fa-solid fa-check"></i>&nbsp;Submit
                 						</button>
 										<#-- /Submit -->
@@ -186,5 +186,8 @@
 	
 	<#include "../_includes/footer.ftl">
 	<#include "../_includes/header/body_end.ftl">
+
+	<#-- Custom JS for profile management-->
+	<script src="/static/js/etwig/user.js"></script>
 </body>
 </html>
