@@ -212,9 +212,6 @@
 
 		$(document).ready(function() {
 
-			// Initialize the description box
-			initDescriptionBox('#eventDescription');
-
 			// Date and time inputs.
     		var datePickersMap = createDatePickers();
 			$('.event-time').inputmask('99:99');
@@ -250,6 +247,9 @@
      		eventStepper = new Stepper(document.querySelector('#eventStepper'), {
     			linear: false
   			});
+
+			// Initialize the description box
+			initDescriptionBox('#eventDescription');
 		});
 		
     </script>
