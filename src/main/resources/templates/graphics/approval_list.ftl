@@ -82,6 +82,7 @@
 											<th>Requester</th>
 											<th>Position</th>
 											<th>Expect date</th>
+											<th>Comments</th>
 											<th>Action</th>
 										</tr>
 									</thead>

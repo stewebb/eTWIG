@@ -3,6 +3,7 @@ function pendingApprovalDataTable(){
         processing: true,
         serverSide: true,
         searching: false, 
+        bAutoWidth: false,
         ajax: {
             url: "/api/private/getPendingRequests",
             data: function (d) {
@@ -20,6 +21,7 @@ function pendingApprovalDataTable(){
             { data: "requesterName"},
             { data: "requesterPosition"},
             { data: "expectDate", render: expectDateRender},
+            { data: "requestComments"},
             {mRender:actionRender}
         ]
     });
@@ -27,29 +29,55 @@ function pendingApprovalDataTable(){
 }
 
 function expectDateRender(data, type, row) {
-                if (type === 'display') {
-                    var today = new Date();
-                    var date = new Date(data);
-                    var timeDiff = date.getTime() - today.getTime();
-                    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+	
+	if (type === 'display') {
+		var today = new Date();
+		var date = new Date(data);
+		var timeDiff = date.getTime() - today.getTime();
+		var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
-                    if (diffDays < 0) {
-                        return data + '&nbsp;<span class="badge badge-danger">Overdue</span>';
-                    } else if (diffDays < 3) {
-                        return data + '&nbsp;<span class="badge badge-warning">3 days left</span>';
-                    }
-                }
-                return data;
-            }
+		var color;
+		var text;
+		
+		// Overdue
+		if (diffDays < 0) {
+			color = "danger";
+			text = "Overdue";
+		} 
+                    
+		// Due today
+		else if (diffDays == 0) {
+			color = "warning";
+			text = "Due today";
+		} 
+		
+		// 1 day left
+		else if (diffDays == 1) {
+			color = "warning";
+			text = "1 day left";
+		} 
+		
+		// 2-5 days left
+		else if (diffDays <= 5) {
+			color = "warning";
+			text = diffDays + " days left";
+		} 
+		
+		// 5+ days
+		else{
+			color = "primary";
+			text = diffDays + " days left";
+		}
+		return `${data}&nbsp;<span class="badge badge-${color}">${text}</span>`;
+		
+	}	
+	return data;
+}
 
 function actionRender(data, type, full){
 	return `
-		<a href="/graphics/approval/action?eventId=${full.id}" class="btn btn-outline-primary btn-sm mr-2">
-			<i class="fa-solid fa-check"></i>&nbsp;Approve
-		</a>
-		
-		<a href="/graphics/approval/action?eventId=${full.id}" class="btn btn-outline-danger btn-sm">
-			<i class="fa-solid fa-xmark"></i>&nbsp;Reject
+		<a href="/graphics/approval/decide?eventId=${full.id}" class="btn btn-outline-primary btn-sm">
+			<i class="fa-solid fa-check"></i>&nbsp;Decide
 		</a>
 	`;
 }

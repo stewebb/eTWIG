@@ -1,10 +1,7 @@
 package net.grinecraft.etwig.services;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +16,6 @@ import freemarker.template.Template;
 import jakarta.mail.internet.MimeMessage;
 import net.grinecraft.etwig.config.ConfigFile;
 import net.grinecraft.etwig.dto.PositionDTO;
-import net.grinecraft.etwig.dto.events.EventDetailsDTO;
 import net.grinecraft.etwig.dto.events.GraphicsRequestEventInfoDTO;
 import net.grinecraft.etwig.dto.user.UserDTO;
 import net.grinecraft.etwig.model.User;
@@ -75,10 +71,11 @@ public class EmailService {
     	}
     	
    		// Get requester and event info.
-    	Long eventId = Long.parseLong(requestInfo.get("requesterRole").toString());
+    	Long eventId = Long.parseLong(requestInfo.get("eventId").toString());
     	GraphicsRequestEventInfoDTO event = eventService.findEventsForGraphicsRequestById(eventId);
 		UserRole requesterRole = userRoleService.findById(Long.parseLong(requestInfo.get("requesterRole").toString()));
 		User requester = requesterRole.getUser();
+		System.out.print(event);
 		
 		// Generate email subject.
 		StringBuilder subject = new StringBuilder();
