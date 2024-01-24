@@ -41,29 +41,40 @@ public class UserRoleService implements UserDetailsService{
     @Autowired
 	private HttpSession session;
     
+    private UserDTO currentUser;
+    
+    public UserRoleService() {
+    	this.currentUser = (UserDTO) session.getAttribute("user");
+    }
+    
     public Set<Portfolio> getMyPortfolios(){
-		if (userRoleRepository == null) {
-	        return null;
-	    }
+		//if (userRoleRepository == null) {
+	    //    return null;
+	    //}
 		
 		// Get my roles, then get my portfolios
-		UserDTO user = (UserDTO) session.getAttribute("user");
-		return userRoleRepository.findByUserId(user.getId()).stream().map(UserRole::getPortfolio).collect(Collectors.toSet());
+		//UserDTO user = (UserDTO) session.getAttribute("user");
+		return userRoleRepository.findByUserId(this.currentUser.getId()).stream().map(UserRole::getPortfolio).collect(Collectors.toSet());
 	}
     
     public Set<PositionDTO> getMyPositions(){
-    	if (userRoleRepository == null) {
-	        return null;
-	    }
-    	UserDTO user = (UserDTO) session.getAttribute("user");
-    	return userRoleRepository.getPositionsByUserId(user.getId());
+    	//if (userRoleRepository == null) {
+	    //    return null;
+	   // }
+    	//UserDTO user = (UserDTO) session.getAttribute("user");
+    	return userRoleRepository.getPositionsByUserId(this.currentUser.getId());
     }
     
     public UserRole findById(@NonNull Long userRoleId) {
-    	if(userRoleRepository == null) {
-    		return null;
-    	}
+    	//if(userRoleRepository == null) {
+    	//	return null;
+    	//}
         return userRoleRepository.findById(userRoleId).orElse(null);
+    }
+    
+    @SuppressWarnings("null")
+	public User getMyDetails() {
+    	return userRepository.findById(this.currentUser.getId()).orElse(null);
     }
     
     @Override

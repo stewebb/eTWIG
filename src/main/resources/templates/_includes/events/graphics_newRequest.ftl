@@ -18,8 +18,8 @@
 											
 											<#-- Comment -->
 											<div class="form-group">
-											<label for="comment">Additional Comments</label>										
-											<textarea id="requestComment" class="form-control fixed-textarea" maxlength="255" rows="5" ${disabledStr}></textarea>
-											<small class="form-text text-muted">Additional comments and requirements, up to 255 characters.</small>
+												<label for="comment">Additional Comments</label>										
+												<textarea id="requestComment" class="form-control fixed-textarea" maxlength="255" rows="5" ${disabledStr}></textarea>
+												<small class="form-text text-muted">Additional comments and requirements, up to 255 characters.</small>
 											</div>			
 											<#-- /Comment -->

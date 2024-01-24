@@ -98,7 +98,75 @@
 								</div>
 
 								<div class="card-body">
-								The body of the card
+
+									<#-- Change password. -->
+									<div class="mb-2">
+										<h5 class="bold-text mb-2">Change password</h5>
+
+										<#-- Current pwd -->
+										<div class="form-group row">
+											<label for="currentPassword" class="col-lg-3 col-form-label">
+												Current password&nbsp;<span class="required-symbol">*</span>
+											</label>
+											<div class="col-lg-9">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text">
+															<i class="fa-solid fa-key"></i>
+														</span>
+													</div>
+													<input type="password" class="form-control" id="currentPassword">
+												</div>
+											</div>
+										</div>
+										<#-- /Current pwd -->
+
+										<#-- New pwd -->
+										<div class="form-group row">
+											<label for="newPassword" class="col-lg-3 col-form-label">
+												New password&nbsp;<span class="required-symbol">*</span>
+											</label>
+											<div class="col-lg-9">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text">
+															<i class="fa-solid fa-key"></i>
+														</span>
+													</div>
+													<input type="password" class="form-control" id="newPassword">
+												</div>
+											</div>
+										</div>
+										<#-- /New pwd -->
+
+										<#-- Confirm new pwd -->
+										<div class="form-group row">
+											<label for="confirmNewPassword" class="col-lg-3 col-form-label">
+												Confirm new password&nbsp;<span class="required-symbol">*</span>
+											</label>
+											<div class="col-lg-9">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text">
+															<i class="fa-solid fa-key"></i>
+														</span>
+													</div>
+													<input type="password" class="form-control" id="confirmNewPassword">
+												</div>
+											</div>
+										</div>
+										<#-- /Confirm new pwd -->
+										
+										<#-- Submit -->
+										<button type="button" class="btn btn-outline-primary right-div">
+                							<i class="fa-solid fa-check"></i>&nbsp;Submit
+                						</button>
+										<#-- /Submit -->
+
+									</div>
+									<#-- /Change password. -->
+
+									
 								</div>
 
 							</div>
