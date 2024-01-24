@@ -51,7 +51,7 @@
 
 									<#-- Avatar -->
 									<div class="text-center">
-										<img class="profile-user-img img-fluid img-circle" src="https://www.gravatar.com/avatar/">
+										<img class="profile-user-img img-fluid img-circle" src="/img">
 									</div>
 									<#-- /Avatar -->
 									
@@ -135,6 +135,9 @@
 													</div>
 													<input type="password" class="form-control" id="newPassword">
 												</div>
+												<small class="form-text text-muted">
+													Must be at least 8 characters long and include uppercase, lowercase and numbers.
+												</small>
 											</div>
 										</div>
 										<#-- /New pwd -->

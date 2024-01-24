@@ -263,14 +263,14 @@
 														</#if>
 														
 													<#-- Time Label -->
-													<#-- Latest (The first occurance). -->
+													<#-- Latest (The first occurrence). -->
 													<#if displayCount == 1>
 														<div class="time-label">
 															<span class="bg-primary">Latest</span>
 														</div>
 													</#if>
 													
-													<#-- Previous (The second occurance). -->
+													<#-- Previous (The second occurrence). -->
 													<#if displayCount == 2>
 														<div class="time-label">
 															<span class="bg-secondary">Previous</span>

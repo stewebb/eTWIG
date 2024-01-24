@@ -27,11 +27,13 @@
 						<#-- /Dashboard -->
 						
 						<#-- TWIG -->
+						<!--
 						<li class="nav-item">
 							<a href="/twig" class="nav-link navbar-border">
 								<i class="fa-solid fa-tree"></i>&nbsp;TWIG
 							</a>
 						</li>
+						-->
 						<#-- /TWIG -->
 						
 						<#-- Events -->

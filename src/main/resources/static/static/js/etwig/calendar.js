@@ -35,6 +35,9 @@ function createCalendar(elem, currentMonth){
 			//console.log(info)
 			$(location).attr('href', '/events/edit?eventId=' + info.event.id);
 		},
+		dateClick: function (info) {
+			$(location).attr('href', '/events/edit?eventId=-1');
+		},
     	dayMaxEvents: true,
     	nowIndicator: true,
     	selectable: false,

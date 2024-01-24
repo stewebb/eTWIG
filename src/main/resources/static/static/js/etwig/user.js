@@ -21,6 +21,12 @@ function changePassword(){
 		return;
 	}
 	
+	// Password complexity
+	if(!isPasswordComplex(newPassword)){
+		warningToast("The new password must be at least 8 characters long and include uppercase, lowercase and numbers.");
+		return;	
+	}
+	
 	var passwordObj = {
 		currentPassword: currentPassword,
 		newPassword: newPassword,
@@ -57,4 +63,14 @@ function changePassword(){
 		}, 
 		hasError ? 10000 : 2000
 	);
+}
+
+function isPasswordComplex(password) {
+    const minLength = 8;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumbers = /\d/.test(password);
+    //const hasSpecialChars = /[\!\@\#\$\%\^\&\*\(\)\_\+\-\=\[\]\{\}\;\:\'\"\,\<\.\>\/\?\\|\`]/.test(password);
+
+    return password.length >= minLength && hasUpperCase && hasLowerCase && hasNumbers;
 }

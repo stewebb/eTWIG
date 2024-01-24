@@ -111,16 +111,16 @@ public class EventService {
 		// Add event
 		AddEditEventDTO newEventDTO = new AddEditEventDTO(eventInfo, currentEvent);
 		//System.out.println(newEventDTO);
-		eventRepository.save(newEventDTO.toEntity());
+		Event addedEvent = eventRepository.save(newEventDTO.toEntity());
 		
 		// Add options
-		if(currentEvent != null) {
+		//if(currentEvent != null) {
 			
-			System.out.println(eventInfo.get("properties").toString());
+			//System.out.println(eventInfo.get("properties").toString());
 			
 			ArrayList<Long> optionList = ListUtils.stringArrayToLongArray(ListUtils.stringToArrayList(eventInfo.get("properties").toString()));
-			updateEventOptionBulky(newEventDTO.getId(), optionList);
-		}
+			updateEventOptionBulky(addedEvent.getId(), optionList);
+		//}
 
 	
 		

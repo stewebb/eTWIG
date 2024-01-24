@@ -483,6 +483,7 @@ function addEvent(){
 	}
 	newEventObj["properties"]  = selectedProperties;
 	
+	/*
 	// Graphics request (only abailable when adding an event)
 	if(!isEdit && $("#eventRequestNow").is(':checked')){
 		var graphics = {};
@@ -499,8 +500,8 @@ function addEvent(){
 		graphics["comments"] = requestComment;
 		newEventObj["graphics"] = graphics;
 	}
-	
-	console.log(newEventObj);
+	*/
+	//console.log(newEventObj);
 	
 	var hasError = true;
 	$.ajax({
@@ -529,7 +530,7 @@ function addEvent(){
 	// More timeout if error happens.
 	setTimeout(
 		function() {
-			window.location.reload();
+			isEdit ? window.location.reload() : $(location).attr('href','/events/calendar');
 		}, 
 		hasError ? 10000 : 2000
 	);
