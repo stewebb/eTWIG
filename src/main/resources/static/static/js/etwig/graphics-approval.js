@@ -116,7 +116,7 @@ function approvedRender(data, type, row){
 
 function pendingActionRender(data, type, full){
 	return `
-		<a href="/graphics/approval/decide?eventId=${full.id}" class="btn btn-outline-primary btn-sm">
+		<a href="/graphics/approval/decide?requestId=${full.id}" class="btn btn-outline-primary btn-sm">
 			<i class="fa-solid fa-check"></i>&nbsp;Decide
 		</a>
 	`;

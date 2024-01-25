@@ -24,8 +24,6 @@
 
 		<#-- Navbar -->
 		<#include "../_includes/navbar.ftl">
-	
-		<#include "../_includes/modal.ftl">
 
 		<#-- Content Wrapper. -->
   		<div class="content-wrapper">

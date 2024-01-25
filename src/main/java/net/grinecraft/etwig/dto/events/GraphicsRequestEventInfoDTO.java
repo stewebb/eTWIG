@@ -28,7 +28,7 @@ public class GraphicsRequestEventInfoDTO {
 	private Portfolio portfolio;
 	private Long userRoleId;
 	
-	public GraphicsRequestEventInfoDTO(Event event) throws Exception {
+	public GraphicsRequestEventInfoDTO(Event event) {
 		
 		// Event-related info
 		this.id = event.getId();

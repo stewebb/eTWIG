@@ -5,14 +5,17 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import net.grinecraft.etwig.dto.graphics.PendingRequestsBasicInfoDTO;
+import net.grinecraft.etwig.dto.graphics.PendingRequestsDetailsDTO;
 import net.grinecraft.etwig.dto.graphics.FinalizedRequestsBasicInfoDTO;
 import net.grinecraft.etwig.dto.graphics.GraphicsRequestDTO;
 import net.grinecraft.etwig.model.GraphicsRequest;
@@ -60,6 +63,17 @@ public class GraphicsRequestService {
 		// Convert to LinkedHashMap
 		MapUtils mapUtils = new MapUtils();
 		return mapUtils.listToLinkedHashMap(requestDTOList, GraphicsRequestDTO::getId);
+	}
+	
+	public PendingRequestsDetailsDTO getRequestsById(@NonNull Long requestId) {
+		
+		// Get a specific request
+		Optional<GraphicsRequest> requestOpt = graphicsRequestRepository.findById(requestId);
+		if(requestOpt.isEmpty()) {
+			return null;
+		}
+
+		return new PendingRequestsDetailsDTO(requestOpt.get());
 	}
 	
 	public void addRequest(Map<String, Object> requestInfo) {
