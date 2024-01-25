@@ -65,15 +65,21 @@ public class GraphicsRequestService {
 		return mapUtils.listToLinkedHashMap(requestDTOList, GraphicsRequestDTO::getId);
 	}
 	
-	public PendingRequestsDetailsDTO getRequestsById(@NonNull Long requestId) {
+	public PendingRequestsDetailsDTO getPendingRequestsById(@NonNull Long requestId) {
 		
 		// Get a specific request
 		Optional<GraphicsRequest> requestOpt = graphicsRequestRepository.findById(requestId);
 		if(requestOpt.isEmpty()) {
 			return null;
 		}
+		
+		// Only get **pending** requests.
+		GraphicsRequest request = requestOpt.get();
+		if(request.getApproved() != null) {
+			return null;
+		}
 
-		return new PendingRequestsDetailsDTO(requestOpt.get());
+		return new PendingRequestsDetailsDTO(request);
 	}
 	
 	public void addRequest(Map<String, Object> requestInfo) {

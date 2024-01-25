@@ -1,6 +1,8 @@
 package net.grinecraft.etwig.dto.graphics;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import lombok.Getter;
 import lombok.ToString;
 import net.grinecraft.etwig.dto.events.GraphicsRequestEventInfoDTO;
@@ -14,9 +16,10 @@ import net.grinecraft.etwig.model.UserRole;
 public class PendingRequestsDetailsDTO {
 	
 	private Long id;
-	
 	private GraphicsRequestEventInfoDTO event;
+
 	private UserDTO requester;
+	private LocalDateTime requestTime;
 	private String requesterPosition;
 	private Portfolio requesterPortfolio;
 
@@ -26,6 +29,7 @@ public class PendingRequestsDetailsDTO {
 	public PendingRequestsDetailsDTO(GraphicsRequest graphicsRequest) {
 		this.id = graphicsRequest.getId();
 		this.event = new GraphicsRequestEventInfoDTO(graphicsRequest.getEvent());
+		this.requestTime = graphicsRequest.getRequestTime();
 		this.expectDate = graphicsRequest.getExpectDate();
 		this.requestComments = graphicsRequest.getRequestComment();
 		

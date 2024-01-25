@@ -32,9 +32,9 @@ public class ApprovalController {
 	public String decide(Model model, @RequestParam @NonNull Long requestId) throws Exception{
 		
 		// Get request info
-		PendingRequestsDetailsDTO request = graphicsRequestService.getRequestsById(requestId);
+		PendingRequestsDetailsDTO request = graphicsRequestService.getPendingRequestsById(requestId);
 		if(request == null) {
-			model.addAttribute("reason", "Graphics request with id=" + requestId + " doesn't exist.");
+			model.addAttribute("reason", "Graphics request with id=" + requestId + " doesn't exist, or it has been finalized.");
 			return "_errors/custom_error";
 		}
 		

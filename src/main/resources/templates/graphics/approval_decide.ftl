@@ -58,7 +58,7 @@
 						<div class="col-md-6">
 
 							<#-- Event Info -->
-							<div class="card card-primary card-outline">
+							<div class="card card-primary card-outline mb-3">
 								<div class="card-header">
 									<h3 class="card-title">
 										<i class="fa-solid fa-circle-info ="></i>&nbsp;Event Information
@@ -71,8 +71,70 @@
 								</div>
 							</div>
 							<#-- /Event Info -->
-							
 
+							<#-- Request Info -->
+							<div class="card card-primary card-outline">
+								<div class="card-header">
+									<h3 class="card-title">
+										<i class="fa-solid fa-hand"></i>&nbsp;Request Information
+									</h3>
+								</div>
+								<div class="card-body">
+
+										<#-- Basic Info -->
+										<table class="table table-bordered">
+													
+											<#-- Request Id -->
+											<tr>
+												<th scope="row">Request Id</th>
+												<td>${requestInfo.id}</td>
+											</tr>
+											<#-- /Request Id -->
+
+
+											<#-- Request Time -->
+											<tr>
+												<th scope="row">Request Time</th>
+												<td></td>
+											</tr>
+											<#-- /Request Time -->
+													
+											<#-- Expect Date -->
+											<tr>
+												<th scope="row">Expect Date</th>
+												<td>${requestInfo.expectDate}</td>
+											</tr>
+											<#-- /Expect Date -->
+													
+											<#-- Comment -->
+											<tr>
+												<th scope="row">Comment</th>
+												<td><#if requestInfo.requestComments?has_content>${requestInfo.requestComments}</#if></td>
+											</tr>
+											<#-- /Comment -->
+														
+											<#-- Requester -->
+											<tr>
+												<th scope="row">Requester</th>
+												<td>${requestInfo.requester.fullName}</td>
+											</tr>
+											<#-- /Requester -->
+
+											<#-- Position and Portfolio -->
+											<tr>
+												<th scope="row">Position and Portfolio</th>
+												<td id="eventPortfolio" style="background-color:#${requestInfo.requesterPortfolio.color}">
+													${requestInfo.requesterPosition}, ${requestInfo.requesterPortfolio.name}
+												</td>
+											</tr>
+											<#-- /Position and Portfolio -->
+													
+										</table>
+										<#-- /Basic Info -->
+
+								</div>
+							</div>
+							<#-- /Request Info -->
 							
 						</div>
 						<#-- /Information area -->
