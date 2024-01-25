@@ -76,7 +76,7 @@ public class GraphicsRequestAPIController {
 	
 	@PostAuthorize("hasAuthority('ROLE_GRAPHICS')")
 	@PostMapping(value = "/approveRequests")
-	public Map<String, Object> approveRequests(@RequestBody Map<String, Object> decisionInfo) {
+	public Map<String, Object> approveRequests(@RequestBody Map<String, Object> decisionInfo) throws Exception {
 		
 		// Get current request
 		Long requestId = NumberUtils.safeCreateLong(decisionInfo.get("id").toString());

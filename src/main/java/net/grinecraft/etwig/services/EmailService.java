@@ -17,6 +17,7 @@ import jakarta.mail.internet.MimeMessage;
 import net.grinecraft.etwig.config.ConfigFile;
 import net.grinecraft.etwig.dto.PositionDTO;
 import net.grinecraft.etwig.dto.events.GraphicsRequestEventInfoDTO;
+import net.grinecraft.etwig.dto.graphics.FinalizedRequestsDetailsDTO;
 import net.grinecraft.etwig.dto.user.UserDTO;
 import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.model.UserRole;
@@ -75,7 +76,7 @@ public class EmailService {
     	GraphicsRequestEventInfoDTO event = eventService.findEventsForGraphicsRequestById(eventId);
 		UserRole requesterRole = userRoleService.findById(Long.parseLong(requestInfo.get("requesterRole").toString()));
 		User requester = requesterRole.getUser();
-		System.out.print(event);
+		//System.out.print(event);
 		
 		// Generate email subject.
 		StringBuilder subject = new StringBuilder();
@@ -99,5 +100,18 @@ public class EmailService {
     		
     	//System.out.println(graphicsManagers);
 		return true;
+    }
+    
+    public void graphicsApprovalNotification(FinalizedRequestsDetailsDTO approvalInfo) throws Exception {
+    	
+    	// Get response and event info.
+    	String approvedStr = approvalInfo.isApproved() ? "approved" : "declined";
+    	
+    	// Generate email subject.
+    	StringBuilder subject = new StringBuilder();
+    	subject.append("The graphics request of event" + approvalInfo.getEventName());
+    	subject.append("has been" + approvedStr);
+
+    	sendEmail(approvalInfo.getRequestRoleEmail(), subject.toString(), "");
     }
 }

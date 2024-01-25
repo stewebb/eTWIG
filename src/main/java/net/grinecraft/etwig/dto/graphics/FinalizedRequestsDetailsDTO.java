@@ -5,9 +5,6 @@ import java.time.LocalDateTime;
 
 import lombok.Getter;
 import lombok.ToString;
-import net.grinecraft.etwig.dto.AssetBasicInfoDTO;
-import net.grinecraft.etwig.dto.events.GraphicsRequestEventInfoDTO;
-import net.grinecraft.etwig.dto.user.UserDTO;
 import net.grinecraft.etwig.model.Event;
 import net.grinecraft.etwig.model.GraphicsRequest;
 import net.grinecraft.etwig.model.Portfolio;
@@ -20,7 +17,7 @@ public class FinalizedRequestsDetailsDTO {
 	private Long id;
 	
 	// Response Info
-	private Boolean approved;
+	private boolean isApproved;
 	private String responseComment;
 	private LocalDateTime responseTime;
 	private Long assetId;
@@ -41,6 +38,7 @@ public class FinalizedRequestsDetailsDTO {
 	private String requesterPosition;
 	private String requesterPortfolioName;
 	private String requesterPortfolioColor;
+	private String requestRoleEmail;
 	
 	// Event Info
 	private String eventName;
@@ -60,18 +58,13 @@ public class FinalizedRequestsDetailsDTO {
 		this.id = graphicsRequest.getId();
 		
 		// Response Info
-		this.approved = graphicsRequest.getApproved();
+		this.isApproved = graphicsRequest.getApproved();
 		this.responseComment = graphicsRequest.getResponseComment();
 		this.responseTime = graphicsRequest.getResponseTime();
 		this.assetId = graphicsRequest.getAssetId();
 		
 		// Approver Info
-		UserRole approverRole = graphicsRequest.getApproverRole();
-		Portfolio approverPortfolio = approverRole.getPortfolio();
-		this.approverName = approverRole.getUser().getFullName();
-		this.approverPosition = approverRole.getPosition();
-		this.approverPortfolioName = approverPortfolio.getName();
-		this.approverPortfolioColor = approverPortfolio.getColor();
+		//UserRole approverRole = graphicsRequest.getApproverRole();
 		
 		// Request Info
 		this.requestComment = graphicsRequest.getRequestComment();
@@ -85,6 +78,7 @@ public class FinalizedRequestsDetailsDTO {
 		this.requesterPosition = requesterRole.getPosition();
 		this.requesterPortfolioName = requesterPortfolio.getName();
 		this.requesterPortfolioColor = requesterPortfolio.getColor();
+		this.requestRoleEmail = requesterRole.getEmail();
 		
 		// Event Info
 		Event event = graphicsRequest.getEvent();
@@ -102,5 +96,17 @@ public class FinalizedRequestsDetailsDTO {
 		this.organizerPosition = eventOrganizerRole.getPosition();
 		this.organizerPortfolioName = eventOrganizerPortfolio.getName();
 		this.organizerPortfolioColor = eventOrganizerPortfolio.getColor();
+	}
+	
+	/**
+	 * The approver has no foreign key constrain, need to be added manually.
+	 */
+	
+	public void setApprover(UserRole approverRole) {
+		Portfolio approverPortfolio = approverRole.getPortfolio();
+		this.approverName = approverRole.getUser().getFullName();
+		this.approverPosition = approverRole.getPosition();
+		this.approverPortfolioName = approverPortfolio.getName();
+		this.approverPortfolioColor = approverPortfolio.getColor();
 	}
 }

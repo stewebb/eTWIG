@@ -42,34 +42,17 @@ public class UserRoleService implements UserDetailsService{
     @Autowired
 	private HttpSession session;
     
-    //private UserDTO currentUser;
-    
-    //public UserRoleService() {
-    //	this.currentUser = (UserDTO) session.getAttribute("user");
-    //}
-    
     public Set<Portfolio> getMyPortfolios(){
-		//if (userRoleRepository == null) {
-	    //    return null;
-	    //}
-		
-		// Get my roles, then get my portfolios
 		UserDTO currentUser = (UserDTO) session.getAttribute("user");
 		return userRoleRepository.findByUserId(currentUser.getId()).stream().map(UserRole::getPortfolio).collect(Collectors.toSet());
 	}
     
     public Set<PositionDTO> getMyPositions(){
-    	//if (userRoleRepository == null) {
-	    //    return null;
-	   // }
     	UserDTO currentUser = (UserDTO) session.getAttribute("user");
     	return userRoleRepository.getPositionsByUserId(currentUser.getId());
     }
     
     public UserRole findById(@NonNull Long userRoleId) {
-    	//if(userRoleRepository == null) {
-    	//	return null;
-    	//}
         return userRoleRepository.findById(userRoleId).orElse(null);
     }
     

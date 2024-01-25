@@ -18,6 +18,7 @@ import net.grinecraft.etwig.dto.graphics.PendingRequestsBasicInfoDTO;
 import net.grinecraft.etwig.dto.graphics.PendingRequestsDetailsDTO;
 import net.grinecraft.etwig.dto.graphics.ApproveRequestsDTO;
 import net.grinecraft.etwig.dto.graphics.FinalizedRequestsBasicInfoDTO;
+import net.grinecraft.etwig.dto.graphics.FinalizedRequestsDetailsDTO;
 import net.grinecraft.etwig.dto.graphics.GraphicsRequestDTO;
 import net.grinecraft.etwig.model.GraphicsRequest;
 import net.grinecraft.etwig.repository.GraphicsRequestRepository;
@@ -29,6 +30,12 @@ public class GraphicsRequestService {
 
 	@Autowired
 	private GraphicsRequestRepository graphicsRequestRepository;
+	
+	@Autowired
+	private EmailService emailService;
+	
+	@Autowired
+	private UserRoleService userRoleService;
 	
 	public GraphicsRequest findById(Long requestId) {
 		return graphicsRequestRepository.findById(requestId).orElse(null);
@@ -100,8 +107,22 @@ public class GraphicsRequestService {
 	}
 	
 	@SuppressWarnings("null")
-	public void approveRequest(GraphicsRequest currentRequest, Map<String, Object> decisionInfo) {
+	public void approveRequest(GraphicsRequest currentRequest, Map<String, Object> decisionInfo) throws Exception {
 		ApproveRequestsDTO request = new ApproveRequestsDTO(currentRequest, decisionInfo);
-		graphicsRequestRepository.save(request.toEntity());
+		
+		// Update request info
+		GraphicsRequest updatedRequest = request.toEntity();
+		graphicsRequestRepository.save(updatedRequest);
+		
+		// Re-query the request data (to avoid some null values)
+		updatedRequest = this.findById(updatedRequest.getId());
+		//System.out.println(updatedRequest);
+		
+		// Need to set the approver info manually
+		FinalizedRequestsDetailsDTO detail = new FinalizedRequestsDetailsDTO(updatedRequest);
+		detail.setApprover(userRoleService.findById(updatedRequest.getApproverRoleId()));
+		
+		// Send email
+		emailService.graphicsApprovalNotification(new FinalizedRequestsDetailsDTO(updatedRequest));
 	}
 }
