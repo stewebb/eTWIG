@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -19,10 +21,10 @@ import net.grinecraft.etwig.dto.PositionDTO;
 import net.grinecraft.etwig.dto.events.GraphicsRequestEventInfoDTO;
 import net.grinecraft.etwig.dto.graphics.FinalizedRequestsDetailsDTO;
 import net.grinecraft.etwig.dto.user.UserDTO;
+import net.grinecraft.etwig.model.Asset;
 import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.model.UserRole;
 import net.grinecraft.etwig.repository.UserRoleRepository;
-
 @Service
 public class EmailService {
 	
@@ -44,8 +46,11 @@ public class EmailService {
     @Autowired
     private EventService eventService;
     
+    @Autowired
+    private AssetService assetService;
+    
     @SuppressWarnings("null")
-	private void sendEmail(String to, String subject, String content) throws Exception {
+	private void sendEmail(String to, String subject, String content, HashMap<String, Resource> attachments) throws Exception {
             MimeMessage message = emailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             
@@ -59,7 +64,14 @@ public class EmailService {
             helper.setTo(to);
             helper.setText(content, true);
             helper.setSubject(subject);
-
+            
+            // Add attachments
+            if(attachments != null) {
+            	for (Map.Entry<String, Resource> attachment : attachments.entrySet()) {
+                    helper.addAttachment(attachment.getKey(), attachment.getValue());
+                }
+            }
+            
             emailSender.send(message);
     }
     
@@ -95,7 +107,7 @@ public class EmailService {
 		
 		// Iterate all graphics managers
 		for(PositionDTO graphicsManager : graphicsManagers) {
-			sendEmail(graphicsManager.getEmail(), subject.toString(), content);
+			sendEmail(graphicsManager.getEmail(), subject.toString(), content, null);
 		}
     		
     	//System.out.println(graphicsManagers);
@@ -104,11 +116,27 @@ public class EmailService {
     
     public void graphicsApprovalNotification(FinalizedRequestsDetailsDTO approvalInfo) throws Exception {
     	
-    	System.out.println(approvalInfo);
+    	//System.out.println(approvalInfo);
     	
     	// Get response and event info.
     	String approvedStr = approvalInfo.isApproved() ? "approved" : "declined";
     	
+    	// Get assets info and content
+    	HashMap<String, Resource> attachments = new HashMap<String, Resource>();
+
+    	// Only get asset content when a request was approved.
+    	if(approvalInfo.isApproved()) {
+    		Long assetId = approvalInfo.getAssetId();
+        	Asset asset = assetService.getAssetDetailsById(assetId);
+    		Resource resource = assetService.getAssetContent(asset);
+        	String assetName = asset.getOriginalName();
+        	
+    		if(resource != null && (resource.exists() || resource.isReadable())) {
+    			attachments.put(assetName, resource);
+    		}
+    	}
+    	
+		
     	// Generate email subject.
     	StringBuilder subject = new StringBuilder();
     	subject.append("The graphics request of event " + approvalInfo.getEventName());
@@ -121,6 +149,6 @@ public class EmailService {
     	model.put("approvedStr", approvedStr);
     	String content = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
 
-    	sendEmail(approvalInfo.getRequestRoleEmail(), subject.toString(), content);
+    	sendEmail(approvalInfo.getRequestRoleEmail(), subject.toString(), content, attachments);
     }
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Graphics Request Approval</title>
+    <title>Graphics Request Results</title>
     <style>
         .text-theme{
             color: #004AAD;
@@ -39,11 +39,19 @@
 </head>
 
 <body>
+
+	<#assign nameParts = approvalInfo.requesterName?split(" ")>
+	<#assign firstName = nameParts[0]>
+	
+	<p>Dear ${firstName},</p>
+	<p>Your graphics request for the event <b>${approvalInfo.eventName}</b> has been ${approvedStr}. Here are the details of this request.</p>
+	<p>&nbsp;</p>
+	
     <h2 class="text-theme">Graphics Request Results</h2>
     <table>
 		<tr class="${approvedStr}">
 			<th scope="col">Result</th>
-			<td></td>
+			<td>${approvedStr?cap_first}</td>
 		</tr>
 
 		<tr>
@@ -84,12 +92,12 @@
 
 		<tr>
 			<th scope="row">Expect Date</th>
-			<td>${approvalInfo.requestTime}</td>
+			<td>${approvalInfo.expectDate}</td>
 		</tr>
 
 		<tr>
 			<th scope="row">Additional Comments</th>
-			<td>${approvalInfo.requestTime}</td>
+			<td>${approvalInfo.requestComment}</td>
 		</tr>
 
 		<tr>

@@ -41,6 +41,7 @@ public class FinalizedRequestsDetailsDTO {
 	private String requestRoleEmail;
 	
 	// Event Info
+	private Long eventId;
 	private String eventName;
 	private String eventLocation;
 	//private String eventDescription;
@@ -82,6 +83,7 @@ public class FinalizedRequestsDetailsDTO {
 		
 		// Event Info
 		Event event = graphicsRequest.getEvent();
+		this.eventId = graphicsRequest.getEventId();
 		this.eventName = event.getName();
 		this.eventLocation = event.getLocation();
 		//this.eventDescription = event.getDescription();
