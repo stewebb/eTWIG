@@ -181,6 +181,31 @@
 									</div>
 									<#-- /Feedback -->
 
+									<#-- Assets -->
+									<div class="form-group row">
+										<label for="graphicsApprovalAssets" class="col-sm-2 col-form-label">Image</label>
+										<div class="col-sm-10">
+										
+											<div class="input-group mb-3">
+												<div class="input-group-prepend">
+													<span class="input-group-text">
+														<i class="fa-solid fa-image"></i>
+													</span>
+												</div>
+												
+												<input type="text" class="form-control template-image-input" id="graphicsApprovalAssets">
+												
+												<div class="input-group-append">
+													<button type="button" id="graphicsApprovalAssetsBtn" class="btn btn-outline-secondary">
+														<i class="fa-regular fa-upload"></i>&nbsp;Select/Upload
+													</button>		
+												</div>
+											</div>
+											
+										</div>
+									</div>
+									<#-- /Assets -->	
+
 								</div>
 							</div>
 						<#-- Response -->
