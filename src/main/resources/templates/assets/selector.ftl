@@ -13,13 +13,21 @@
 <html>
 <head>
 
-	<#include "../_includes/header/head.ftl">
+	<#-- include "../_includes/header/head.ftl" -->
 	<title>Asset selector - ${app.appName}</title>
 </head>
 
 <body>
 
-	<#include "../_includes/header/body_start.ftl">
+	<#-- Check whether this page is included in a normal page, by checking whether jQuery is loaded. -->
+	<script>
+	if (typeof jQuery == 'undefined') {
+		alert("Warning: This page is not supposed to be openned directly.");
+		window.location.href = '/';
+	}
+	</script>
+
+	<#--include "../_includes/header/body_start.ftl"-->
 	
 	<div class="wrapper">
 
@@ -112,7 +120,7 @@
 							<#-- /Download -->
 							
 							<#-- Cancel -->
-							<button type="button" class="btn btn-outline-secondary" onclick="parent.$('#etwigModal').modal('hide');">
+							<button type="button" class="btn btn-outline-secondary" onclick="$('#etwigModal').modal('hide');">
 								<i class="fa-solid fa-xmark"></i>&nbsp;Close
 							</button>
 							<#-- /Cancel -->
@@ -137,12 +145,14 @@
 	
 	</div>
 	
-	<#include "../_includes/header/body_end.ftl">
+	<#--include "../_includes/header/body_end.ftl"-->
 	
 	<#--  JS for Asset Selector options. -->
-	<script type="text/javascript" src="/static/js/etwig/asset-management.js"></script>
+	<script type="text/javascript" src="/static/js/etwig/asset.js"></script>
 	
 	<script>
+
+		
     	assetSelectorDataTable();
 
 		// By default, no asset is selected.

@@ -146,7 +146,7 @@
 	<#include "../_includes/footer.ftl">
 	<#include "../_includes/header/body_end.ftl">
 	
-	<#-- JS for Graphics Approval List -->
+	<#-- JS for Graphics Approval -->
 	<script type="text/javascript" src="/static/js/etwig/graphics-approval.js"></script>
 	
 	<script>

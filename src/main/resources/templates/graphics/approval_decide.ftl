@@ -24,6 +24,7 @@
 	<#-- Main Wrapper -->
 	<div class="wrapper">
 		<#include "../_includes/navbar.ftl">
+		<#include "../_includes/modal.ftl">
 
 		<#-- Content Wrapper. -->
 		<div class="content-wrapper">
@@ -192,16 +193,16 @@
 														<i class="fa-solid fa-image"></i>
 													</span>
 												</div>
-												
-												<input type="text" class="form-control template-image-input" id="graphicsApprovalAssets">
+												<input type="text" class="form-control template-image-input" id="uploadCallback" readonly>
 												
 												<div class="input-group-append">
-													<button type="button" id="graphicsApprovalAssetsBtn" class="btn btn-outline-secondary">
+													<button type="button" id="graphicsApprovalAssetsBtn" class="btn btn-outline-secondary" onclick="selectUpload();">
 														<i class="fa-regular fa-upload"></i>&nbsp;Select/Upload
 													</button>		
 												</div>
 											</div>
-											
+
+											<img src="about:blank" class="img-fluid" id="uploadImage" />			
 										</div>
 									</div>
 									<#-- /Assets -->	
@@ -229,8 +230,8 @@
 	<#include "../_includes/footer.ftl">
 	<#include "../_includes/header/body_end.ftl">
 
-	<#-- Custom JS for graphics request
-	<script src="/static/js/etwig/graphics-request.js"></script> -->
+	<#-- JS for Graphics Approval -->
+	<script type="text/javascript" src="/static/js/etwig/graphics-approval.js"></script>
 	
 	<script>
 	

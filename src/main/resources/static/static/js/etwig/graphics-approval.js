@@ -109,9 +109,6 @@ function expectDateRender(data, type, row) {
 
 function approvedRender(data, type, row){
 	return data ? `<i class="fa-solid fa-check text-success bold-text"></i>` : `<i class="fa-solid fa-xmark text-danger bold-text"></i>`;
-	
-	//console.log(data)
-	//return data;
 }
 
 function pendingActionRender(data, type, full){
@@ -128,4 +125,11 @@ function finalizedActionRender(data, type, full){
 			<i class="fa-solid fa-eye"></i>&nbsp;Details
 		</a>
 	`;
+}
+
+function selectUpload(){
+	
+	$('#etwigModalTitle').text('Select/Upload');
+	$("#etwigModalBody").load("/assets/_selector");
+	$('#etwigModal').modal('show');
 }
