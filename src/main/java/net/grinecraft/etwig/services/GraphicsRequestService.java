@@ -122,7 +122,10 @@ public class GraphicsRequestService {
 		FinalizedRequestsDetailsDTO detail = new FinalizedRequestsDetailsDTO(updatedRequest);
 		detail.setApprover(userRoleService.findById(updatedRequest.getApproverRoleId()));
 		
+		//System.out.println(updatedRequest.getApproverRoleId());
+		//System.out.println(userRoleService.findById(updatedRequest.getApproverRoleId()));
+		
 		// Send email
-		emailService.graphicsApprovalNotification(new FinalizedRequestsDetailsDTO(updatedRequest));
+		emailService.graphicsApprovalNotification(detail);
 	}
 }

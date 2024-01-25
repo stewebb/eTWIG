@@ -43,7 +43,7 @@ public class FinalizedRequestsDetailsDTO {
 	// Event Info
 	private String eventName;
 	private String eventLocation;
-	private String eventDescription;
+	//private String eventDescription;
 	private boolean eventRecurrent;
 	private LocalDateTime eventStartTime;
 	private int eventDuration;
@@ -84,7 +84,7 @@ public class FinalizedRequestsDetailsDTO {
 		Event event = graphicsRequest.getEvent();
 		this.eventName = event.getName();
 		this.eventLocation = event.getLocation();
-		this.eventDescription = event.getDescription();
+		//this.eventDescription = event.getDescription();
 		this.eventRecurrent = event.isRecurring();
 		this.eventStartTime = event.getStartTime();
 		this.eventDuration = event.getDuration();
@@ -103,10 +103,15 @@ public class FinalizedRequestsDetailsDTO {
 	 */
 	
 	public void setApprover(UserRole approverRole) {
+		
+		//System.out.println(approverRole);
+		
 		Portfolio approverPortfolio = approverRole.getPortfolio();
 		this.approverName = approverRole.getUser().getFullName();
 		this.approverPosition = approverRole.getPosition();
 		this.approverPortfolioName = approverPortfolio.getName();
 		this.approverPortfolioColor = approverPortfolio.getColor();
+		
+		//System.out.println(approverName);
 	}
 }

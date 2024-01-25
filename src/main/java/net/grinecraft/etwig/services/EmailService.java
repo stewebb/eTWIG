@@ -104,14 +104,23 @@ public class EmailService {
     
     public void graphicsApprovalNotification(FinalizedRequestsDetailsDTO approvalInfo) throws Exception {
     	
+    	System.out.println(approvalInfo);
+    	
     	// Get response and event info.
     	String approvedStr = approvalInfo.isApproved() ? "approved" : "declined";
     	
     	// Generate email subject.
     	StringBuilder subject = new StringBuilder();
-    	subject.append("The graphics request of event" + approvalInfo.getEventName());
-    	subject.append("has been" + approvedStr);
+    	subject.append("The graphics request of event " + approvalInfo.getEventName());
+    	subject.append(" has been " + approvedStr + ".");
+    	
+    	// Generate email content
+    	Template t = freemarkerConfig.getTemplate("_emails/graphic_approval.ftl");
+    	HashMap<String, Object> model = new HashMap<String, Object>();
+    	model.put("approvalInfo", approvalInfo);
+    	model.put("approvedStr", approvedStr);
+    	String content = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
 
-    	sendEmail(approvalInfo.getRequestRoleEmail(), subject.toString(), "");
+    	sendEmail(approvalInfo.getRequestRoleEmail(), subject.toString(), content);
     }
 }
