@@ -128,8 +128,68 @@ function finalizedActionRender(data, type, full){
 }
 
 function selectUpload(){
-	
 	$('#etwigModalTitle').text('Select/Upload');
 	$("#etwigModalBody").load("/assets/_selector");
 	$('#etwigModal').modal('show');
+}
+
+function setAssetsUpload(approvedMode){
+	$('#graphicsApprovalAssets').toggle(approvedMode == 1);
+}
+
+function decide(){
+	var approvalDecisionObj = {}
+	
+	// Approval option, 1 -> Approved, 0 -> Declined, NaN -> Not Selected
+	var graphicsApprovalOption = parseInt($('input[type=radio][name=graphicsApprovalOption]:checked').val());
+	if(isNaN(graphicsApprovalOption)){
+		warningToast("Make a decision is required");
+		return;
+	}
+	approvalDecisionObj["approved"] = graphicsApprovalOption > 0;
+	
+	// Comments
+	approvalDecisionObj["comments"] = $('#graphicsApprovalComments').val();
+	
+	// Assets
+	if(approvalDecisionObj["approved"]){
+		var assetId = parseInt($('#uploadCallback').val());
+		if(isNaN(assetId)){
+			warningToast("Selecting an asset is the qequisite for approving a graphic request.");
+			return;
+		}
+		approvalDecisionObj["asset"] = assetId;
+	}
+	
+	var hasError = true;
+	$.ajax({
+   		url: '/api/private/approveRequests', 
+   		type: "POST",
+   		async: false,
+   		dataType: "json",
+   		contentType: "application/json; charset=utf-8",
+   		data: JSON.stringify(approvalDecisionObj),
+   		success: function (result) {
+			if(result.error > 0){
+				dangerToast("Failed to submit a decision.", result.msg);
+				hasError = true;
+			}else{
+				successToast("Deciside made successfully.");
+				hasError = false;
+			}	
+    	},
+    	error: function (err) {
+    		dangerToast("Failed to submit a decision due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+    		hasError = true;
+    	}
+ 	});
+
+	// Post-add operations
+	// More timeout if error happens.
+	setTimeout(
+		function() {
+			$(location).attr('href','/graphics/approval/list');
+		}, 
+		hasError ? 10000 : 2000
+	);
 }

@@ -71,4 +71,10 @@ public class GraphicsRequestAPIController {
 	public Page<FinalizedRequestsBasicInfoDTO> getFinalizedRequests(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) throws Exception {
 		return graphicsRequestService.getFinalizedRequests(page, size);
 	}
+	
+	@PostAuthorize("hasAuthority('ROLE_GRAPHICS')")
+	@GetMapping(value = "/approveRequests")
+	public Map<String, Object> approveRequests(@RequestBody Map<String, Object> decisionInfo) {
+		return null;
+	}
 }

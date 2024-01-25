@@ -183,8 +183,10 @@
 									<#-- /Feedback -->
 
 									<#-- Assets -->
-									<div class="form-group row">
-										<label for="graphicsApprovalAssets" class="col-sm-2 col-form-label">Image</label>
+									<div class="form-group row" id="graphicsApprovalAssets" style="display:none;">
+										<label for="graphicsApprovalAssets" class="col-sm-2 col-form-label">
+											Assets&nbsp;<span class="required-symbol">*</span>
+										</label>
 										<div class="col-sm-10">
 										
 											<div class="input-group mb-3">
@@ -206,6 +208,14 @@
 										</div>
 									</div>
 									<#-- /Assets -->	
+
+									<#-- Submit -->
+									<div class="right-div" role="group">
+										<button type="button" class="btn btn-outline-primary" onclick="decide();">
+											<i class="fa-regular fa-check"></i>&nbsp;Submit
+										</button>
+									</div>
+									<#-- /Submit -->
 
 								</div>
 							</div>
@@ -236,9 +246,12 @@
 	<script>
 	
 
-		//$(document).ready(function() {
-		//	updateTextColor($('#eventPortfolio'));
-		//});
+		$(document).ready(function() {
+			$('input[type=radio][name=graphicsApprovalOption]').change(function() {
+				setAssetsUpload(this.value);
+			});
+			updateTextColor($('#eventPortfolio'));
+		});
 	
 	</script>
 
