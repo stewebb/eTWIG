@@ -58,7 +58,7 @@ public class GraphicsRequestAPIController {
 		graphicsRequestService.addRequest(requestInfo);
 
 		// Send an email to all graphics managers
-		emailService.graphicsRequest(requestInfo);		
+		emailService.graphicsRequestNotification(requestInfo);		
         return WebReturn.errorMsg(null, true);
     }
 	

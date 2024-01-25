@@ -62,7 +62,7 @@ public class EmailService {
             emailSender.send(message);
     }
     
-    public boolean graphicsRequest(Map<String, Object> requestInfo) throws Exception {
+    public boolean graphicsRequestNotification(Map<String, Object> requestInfo) throws Exception {
 
     	// Get all graphics managers
     	Set<PositionDTO> graphicsManagers = userRoleRepository.getGraphicsManagers();
