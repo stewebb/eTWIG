@@ -31,16 +31,10 @@
 													<label for="recurring-event">Recurring</label>
 												</div>
 											</div>				
-											
-													<#--
-													<div class="callout callout-warning">
-														<h5 class="bold-text mb-3">Recurrent Option Disabled</h5>
-														You cannot change the recurrent option for an existing event. If you want to do so, please delate the event and create a new event.
-													</div>
-													-->
+
 											<div class="callout callout-primary">
 												<h5 class="bold-text mb-3">Be Careful!</h5>
-												Once you set the recurrent option, it cannot be changed unless you delete the event completely, then add a new event.
+												If you switch between recurrent options, some timing information may lose and they are not recoverable.
 											</div>
 												
 										</div>

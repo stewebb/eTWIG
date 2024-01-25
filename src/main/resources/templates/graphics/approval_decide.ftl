@@ -142,6 +142,49 @@
 						<#-- Col 2 -->
 						<div class="col-md-6">	
 
+						<#-- Response -->
+							<div class="card card-primary card-outline">
+								<div class="card-header">
+									<h3 class="card-title">
+										<i class="fa-solid fa-reply"></i>&nbsp;Make a decision
+									</h3>
+								</div>
+								<div class="card-body">
+
+									<#-- Decision -->
+									<div class="form-group row">
+										<label for="graphicsApprovalOption" class="col-sm-2">
+											Decision&nbsp;<span class="required-symbol">*</span>
+										</label>
+										<div class="col-sm-10">
+											<div class="form-group clearfix">
+												<div class="icheck-success d-inline mr-2">
+													<input type="radio" id="graphicsApprovalApproved" name="graphicsApprovalOption" value="1">
+													<label for="graphicsApprovalApproved">Approved</label>
+												</div>
+												<div class="icheck-danger d-inline mr-2">
+													<input type="radio" id="graphicsApprovalDeclined" name="graphicsApprovalOption" value="0">
+													<label for="graphicsApprovalDeclined">Declined</label>
+												</div>
+											</div>				
+										</div>
+									</div>
+									<#-- /Decision -->
+
+									<#-- Feedback -->
+									<div class="form-group row">
+										<label for="graphicsApprovalComments" class="col-sm-2">Comments</label>
+										<div class="col-sm-10">
+											<textarea id="graphicsApprovalComments" class="form-control fixed-textarea" maxlength="255" rows="5"></textarea>
+											<small class="form-text text-muted">Feedback to requester, up to 255 characters.</small>
+										</div>
+									</div>
+									<#-- /Feedback -->
+
+								</div>
+							</div>
+						<#-- Response -->
+
 						</div>
 						<#-- /Col 2 -->
 
