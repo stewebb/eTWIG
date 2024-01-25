@@ -16,8 +16,10 @@ import net.grinecraft.etwig.services.GraphicsRequestService;
 import net.grinecraft.etwig.dto.events.EventDetailsDTO;
 import net.grinecraft.etwig.dto.graphics.FinalizedRequestsBasicInfoDTO;
 import net.grinecraft.etwig.dto.graphics.PendingRequestsBasicInfoDTO;
+import net.grinecraft.etwig.model.GraphicsRequest;
 import net.grinecraft.etwig.services.EmailService;
 import net.grinecraft.etwig.services.EventService;
+import net.grinecraft.etwig.util.NumberUtils;
 import net.grinecraft.etwig.util.WebReturn;
 
 @RestController
@@ -73,8 +75,24 @@ public class GraphicsRequestAPIController {
 	}
 	
 	@PostAuthorize("hasAuthority('ROLE_GRAPHICS')")
-	@GetMapping(value = "/approveRequests")
+	@PostMapping(value = "/approveRequests")
 	public Map<String, Object> approveRequests(@RequestBody Map<String, Object> decisionInfo) {
-		return null;
+		
+		// Get current request
+		Long requestId = NumberUtils.safeCreateLong(decisionInfo.get("id").toString());
+		
+		// Invalid or negative eventId, add event.
+		if(requestId == null || requestId <= 0) {
+			return WebReturn.errorMsg("The requestId is invalid.", false);
+		}
+		
+		// Check the existence
+		GraphicsRequest currentRequest = graphicsRequestService.findById(requestId);
+		if(currentRequest == null) {
+			return WebReturn.errorMsg("The graphics request of requestId= " + requestId + " does not exist.", false);
+		}
+		
+		graphicsRequestService.approveRequest(currentRequest, decisionInfo);
+		return WebReturn.errorMsg(null, true);
 	}
 }

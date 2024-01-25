@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import net.grinecraft.etwig.dto.graphics.PendingRequestsBasicInfoDTO;
 import net.grinecraft.etwig.dto.graphics.PendingRequestsDetailsDTO;
+import net.grinecraft.etwig.dto.graphics.ApproveRequestsDTO;
 import net.grinecraft.etwig.dto.graphics.FinalizedRequestsBasicInfoDTO;
 import net.grinecraft.etwig.dto.graphics.GraphicsRequestDTO;
 import net.grinecraft.etwig.model.GraphicsRequest;
@@ -28,6 +29,10 @@ public class GraphicsRequestService {
 
 	@Autowired
 	private GraphicsRequestRepository graphicsRequestRepository;
+	
+	public GraphicsRequest findById(Long requestId) {
+		return graphicsRequestRepository.findById(requestId).orElse(null);
+	}
 	
 	public Long countByEventId(Long eventId) {
 		return graphicsRequestRepository.countByEventId(eventId);
@@ -45,7 +50,7 @@ public class GraphicsRequestService {
 	
 	public Page<FinalizedRequestsBasicInfoDTO> getFinalizedRequests(int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
-		Page<GraphicsRequest> requests =  graphicsRequestRepository.findByApprovedIsNotNullOrderByExpectDateDesc(pageable);
+		Page<GraphicsRequest> requests =  graphicsRequestRepository.findByApprovedIsNotNullOrderByResponseTimeDesc(pageable);
 		return requests.map(FinalizedRequestsBasicInfoDTO::new);
 	}
 	
@@ -92,5 +97,11 @@ public class GraphicsRequestService {
 		request.setRequestTime(LocalDateTime.now());
 		
 		graphicsRequestRepository.save(request);
+	}
+	
+	@SuppressWarnings("null")
+	public void approveRequest(GraphicsRequest currentRequest, Map<String, Object> decisionInfo) {
+		ApproveRequestsDTO request = new ApproveRequestsDTO(currentRequest, decisionInfo);
+		graphicsRequestRepository.save(request.toEntity());
 	}
 }

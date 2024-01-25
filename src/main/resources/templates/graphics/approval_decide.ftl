@@ -88,7 +88,7 @@
 											<#-- Request Id -->
 											<tr>
 												<th scope="row">Request Id</th>
-												<td>${requestInfo.id}</td>
+												<td id="requestId">${requestInfo.id}</td>
 											</tr>
 											<#-- /Request Id -->
 
@@ -151,6 +151,26 @@
 									</h3>
 								</div>
 								<div class="card-body">
+
+									<#-- Approver Role -->
+									<div class="form-group row">
+										<label for="approverRole" class="col-sm-2 col-form-label">
+											Role&nbsp;<span class="required-symbol">*</span>
+											</label>
+										<div class="col-sm-10">
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text">
+														<i class="fa-solid fa-user-tie"></i>
+													</span>
+												</div>
+												
+												<select class="form-control select2bs4" name="approverRole" id="approverRole"></select>
+											</div>
+											<small class="form-text text-muted">The position and associated portfolio, divided by comma.</small>
+										</div>
+									</div>
+									<#-- Approver Role -->
 
 									<#-- Decision -->
 									<div class="form-group row">
@@ -250,7 +270,14 @@
 			$('input[type=radio][name=graphicsApprovalOption]').change(function() {
 				setAssetsUpload(this.value);
 			});
-			updateTextColor($('#eventPortfolio'));
+
+			$('.select2bs4').select2({
+      			theme: 'bootstrap4'
+    		})
+
+			getMyPositions("#approverRole");
+
+			//updateTextColor($('#eventPortfolio'));
 		});
 	
 	</script>

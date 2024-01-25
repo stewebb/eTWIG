@@ -140,6 +140,12 @@ function setAssetsUpload(approvedMode){
 function decide(){
 	var approvalDecisionObj = {}
 	
+	// requestId
+	approvalDecisionObj["id"]  = parseInt($('#requestId').text());
+	
+	// Role
+	approvalDecisionObj["role"]  = parseInt($('#approverRole').find(":selected").val());
+	
 	// Approval option, 1 -> Approved, 0 -> Declined, NaN -> Not Selected
 	var graphicsApprovalOption = parseInt($('input[type=radio][name=graphicsApprovalOption]:checked').val());
 	if(isNaN(graphicsApprovalOption)){
@@ -155,11 +161,13 @@ function decide(){
 	if(approvalDecisionObj["approved"]){
 		var assetId = parseInt($('#uploadCallback').val());
 		if(isNaN(assetId)){
-			warningToast("Selecting an asset is the qequisite for approving a graphic request.");
+			warningToast("Selecting an asset is the requisite for approving a graphic request.");
 			return;
 		}
 		approvalDecisionObj["asset"] = assetId;
 	}
+	
+	console.log(approvalDecisionObj);
 	
 	var hasError = true;
 	$.ajax({

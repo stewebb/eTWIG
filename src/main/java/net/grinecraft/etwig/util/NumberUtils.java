@@ -35,13 +35,14 @@ public class NumberUtils extends org.apache.commons.lang3.math.NumberUtils{
 	 * Convert a String to long without exception
 	 * @param str The input String
 	 * @return A long number if the String can be converted to Long. Null if the String cannot be converted to Long.
+	 * If the String itself is null, return null directly.
 	 */
 	
 	public static Long safeCreateLong(String str) {
 		try {
-			return createLong(str);
-		} catch (NumberFormatException e) {
-			return null;
-		}
+	        return str != null ? Long.valueOf(str) : null;
+	    } catch (NumberFormatException e) {
+	        return null;
+	    }
 	}
 }

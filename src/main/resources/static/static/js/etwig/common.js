@@ -188,6 +188,26 @@ function combineDateAndTime(date, timeString) {
     return combinedDateTime;
 }
 
+function getMyPositions(selectElem){
+	$.ajax({ 
+		type: 'GET', 
+    	url: '/api/private/getMyPositions', 
+    	async: false,
+		success: function(json) {
+			
+			// Iterate all roles.
+			jQuery.each(json, function(id, value) {
+				$(selectElem).append(`<option value="${value.userRoleId}">${value.position}, ${value.portfolio.name}</option>`);
+			})
+        },
+        
+        // Toast error info when it happens
+    	error: function(err) {   		
+			dangerToast("Failed to get user positions due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+		}
+	});
+}
+
 /**
  * Hide the navbar if the page is in a frame.
  */

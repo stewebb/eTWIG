@@ -21,6 +21,6 @@ public interface GraphicsRequestRepository extends JpaRepository <GraphicsReques
     // All pending requests, order by excepted date DESC.
     Page<GraphicsRequest> findByApprovedIsNullOrderByExpectDateDesc(Pageable pageable);
 
-    // All requests, order by excepted date DESC.
-    Page<GraphicsRequest> findByApprovedIsNotNullOrderByExpectDateDesc(Pageable pageable);
+    // All requests, order by response time DESC.
+    Page<GraphicsRequest> findByApprovedIsNotNullOrderByResponseTimeDesc(Pageable pageable);
 }
