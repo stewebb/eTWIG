@@ -12,9 +12,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import net.grinecraft.etwig.dto.AssetBasicInfoDTO;
-import net.grinecraft.etwig.dto.GraphicsPendingRequestsBasicInfoDTO;
-import net.grinecraft.etwig.dto.GraphicsRequestDTO;
+import net.grinecraft.etwig.dto.graphics.PendingRequestsBasicInfoDTO;
+import net.grinecraft.etwig.dto.graphics.FinalizedRequestsBasicInfoDTO;
+import net.grinecraft.etwig.dto.graphics.GraphicsRequestDTO;
 import net.grinecraft.etwig.model.GraphicsRequest;
 import net.grinecraft.etwig.repository.GraphicsRequestRepository;
 import net.grinecraft.etwig.util.DateUtils;
@@ -34,10 +34,16 @@ public class GraphicsRequestService {
 		return graphicsRequestRepository.countByApprovedIsNullAndEventId(eventId) > 0;
 	}
 	
-	public Page<GraphicsPendingRequestsBasicInfoDTO> getPendingRequests(int page, int size) {
+	public Page<PendingRequestsBasicInfoDTO> getPendingRequests(int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
 		Page<GraphicsRequest> requests =  graphicsRequestRepository.findByApprovedIsNullOrderByExpectDateDesc(pageable);
-		return requests.map(GraphicsPendingRequestsBasicInfoDTO::new);
+		return requests.map(PendingRequestsBasicInfoDTO::new);
+	}
+	
+	public Page<FinalizedRequestsBasicInfoDTO> getFinalizedRequests(int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		Page<GraphicsRequest> requests =  graphicsRequestRepository.findByApprovedIsNotNullOrderByExpectDateDesc(pageable);
+		return requests.map(FinalizedRequestsBasicInfoDTO::new);
 	}
 	
 	public LinkedHashMap<Long, GraphicsRequestDTO> getRequestsByEvent(Long eventId) { 

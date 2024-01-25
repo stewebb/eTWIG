@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.grinecraft.etwig.services.GraphicsRequestService;
-import net.grinecraft.etwig.dto.GraphicsPendingRequestsBasicInfoDTO;
 import net.grinecraft.etwig.dto.events.EventDetailsDTO;
+import net.grinecraft.etwig.dto.graphics.FinalizedRequestsBasicInfoDTO;
+import net.grinecraft.etwig.dto.graphics.PendingRequestsBasicInfoDTO;
 import net.grinecraft.etwig.services.EmailService;
 import net.grinecraft.etwig.services.EventService;
 import net.grinecraft.etwig.util.WebReturn;
@@ -61,7 +62,13 @@ public class GraphicsRequestAPIController {
 	
 	@PostAuthorize("hasAuthority('ROLE_GRAPHICS')")
 	@GetMapping(value = "/getPendingRequests")
-	public Page<GraphicsPendingRequestsBasicInfoDTO> getPendingRequests(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) throws Exception {
+	public Page<PendingRequestsBasicInfoDTO> getPendingRequests(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) throws Exception {
 		return graphicsRequestService.getPendingRequests(page, size);
+	}
+	
+	@PostAuthorize("hasAuthority('ROLE_GRAPHICS')")
+	@GetMapping(value = "/getFinalizedRequests")
+	public Page<FinalizedRequestsBasicInfoDTO> getFinalizedRequests(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) throws Exception {
+		return graphicsRequestService.getFinalizedRequests(page, size);
 	}
 }

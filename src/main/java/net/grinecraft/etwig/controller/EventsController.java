@@ -17,15 +17,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import net.grinecraft.etwig.dto.events.EventDetailsDTO;
 import net.grinecraft.etwig.dto.events.GraphicsRequestEventInfoDTO;
-import net.grinecraft.etwig.services.EmailService;
 import net.grinecraft.etwig.services.EventService;
 import net.grinecraft.etwig.services.GraphicsRequestService;
 import net.grinecraft.etwig.services.OptionService;
 import net.grinecraft.etwig.services.PropertyService;
 import net.grinecraft.etwig.services.UserRoleService;
-import net.grinecraft.etwig.util.BooleanUtils;
 
 @Controller
 @RequestMapping("/events")
@@ -44,9 +41,6 @@ public class EventsController {
 	private UserRoleService userRoleService;
 	
 	@Autowired
-	private EmailService emailService;
-	
-	@Autowired
 	private GraphicsRequestService graphicsRequestService;
 	
 	/**
@@ -62,32 +56,13 @@ public class EventsController {
 	 * Add/Edit event page.
 	 */
 	
-	@PostAuthorize("hasAuthority('ROLE_EVENTS')")
+	//@PostAuthorize("hasAuthority('ROLE_EVENTS')")
 	@RequestMapping("/edit")  
 	public String edit(Model model){
 		System.out.println(optionService.findAllGroupByProperties());
 		model.addAttribute("allProperties", propertyService.findAll());		
         model.addAttribute("allOptions", optionService.findAllGroupByProperties());	
 		return "events/edit";
-	}
-	
-	/**
-	 * Manage event page.
-	 */
-	
-	@PostAuthorize("hasAuthority('ROLE_EVENTS')")
-	@GetMapping("/manage")  
-	public String manage(Model model, @RequestParam Long eventId){
-
-		// Always do null check.
-		EventDetailsDTO eventInfo = eventService.findById(eventId);
-		if(eventInfo == null) {
-			model.addAttribute("reason", "Event with id=" + eventId + " does not exist.");
-			return "_errors/custom_error";
-		}
-		
-		model.addAttribute("eventInfo", eventInfo);		
-		return "events/manage";
 	}
 	
 	@PostAuthorize("hasAuthority('ROLE_EVENTS')")

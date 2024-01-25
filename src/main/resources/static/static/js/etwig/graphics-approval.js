@@ -22,7 +22,40 @@ function pendingApprovalDataTable(){
             { data: "requesterPosition"},
             { data: "expectDate", render: expectDateRender},
             { data: "requestComments"},
-            {mRender:actionRender}
+            {mRender:pendingActionRender}
+        ]
+    });
+    return dt;
+}
+
+function finalizedApprovalDataTable(){
+	var dt = $('#finalizedRequestsList').DataTable({
+        processing: true,
+        serverSide: true,
+        searching: false, 
+        bAutoWidth: false,
+        ajax: {
+            url: "/api/private/getFinalizedRequests",
+            data: function (d) {
+                d.page = d.start / d.length;
+                d.size = d.length;
+            },
+            type: "GET",
+            dataSrc: function (json) {
+                return json.content;
+            }
+        },
+        columns: [
+            { data: "id" },
+            { data: "eventName" },
+            { data: "requesterName"},
+            { data: "requesterPosition"},
+            { data: "expectDate"},
+            { data: "approved", render: approvedRender},
+            { data: "approverName"},
+            { data: "approverPosition"},
+            { data: "responseTime"},
+            {mRender: finalizedActionRender}
         ]
     });
     return dt;
@@ -74,10 +107,25 @@ function expectDateRender(data, type, row) {
 	return data;
 }
 
-function actionRender(data, type, full){
+function approvedRender(data, type, row){
+	return data ? `<i class="fa-solid fa-check text-success bold-text"></i>` : `<i class="fa-solid fa-xmark text-danger bold-text"></i>`;
+	
+	//console.log(data)
+	//return data;
+}
+
+function pendingActionRender(data, type, full){
 	return `
 		<a href="/graphics/approval/decide?eventId=${full.id}" class="btn btn-outline-primary btn-sm">
 			<i class="fa-solid fa-check"></i>&nbsp;Decide
+		</a>
+	`;
+}
+
+function finalizedActionRender(data, type, full){
+	return `
+		<a href="/graphics/approval/view?eventId=${full.id}" class="btn btn-outline-primary btn-sm">
+			<i class="fa-solid fa-eye"></i>&nbsp;Details
 		</a>
 	`;
 }

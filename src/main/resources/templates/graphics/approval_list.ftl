@@ -50,61 +50,96 @@
 
 			<#-- Main Content -->
 			<section class="content">
-			<div class="container-fluid">
-				<div class="row">
+				<div class="container-fluid">
 
 					<#-- Pending requests -->
-					<div class="col-md-12">
-						<div class="card card-primary card-outline">
-						
-							<div class="card-header">
-								<h3 class="card-title">
-									<i class="fa-solid fa-circle-question"></i>&nbsp;Pending requests
-								</h3>
+					<div class="card card-primary card-outline">
+						<div class="card-header">
+							<h3 class="card-title">
+								<i class="fa-solid fa-circle-question"></i>&nbsp;Pending requests
+							</h3>
+						</div>
+
+						<div class="card-body table-responsive">
+									
+							<#-- Button Options -->
+							<div class="btn-group mb-3">
+								<button type="button" class="btn btn-outline-secondary" onclick = "dt.ajax.reload();">
+									<i class="fa-solid fa-rotate"></i>&nbsp;Reload
+								</button>
 							</div>
+							<#-- /Button Options -->
 
-							<div class="card-body table-responsive">
-								
-								<#-- Button Options -->
-								<div class="btn-group mb-3">
-									<button type="button" class="btn btn-outline-secondary" onclick = "dt.ajax.reload();">
-										<i class="fa-solid fa-rotate"></i>&nbsp;Reload
-									</button>
-								</div>
-								<#-- /Button Options -->
+							<#-- Table Content -->
+							<table id="pendingRequestsList" class="table table-hover table-striped">
+								<thead>
+									<tr>
+										<th>id</th>
+										<th>Event</th>
+										<th>Requester</th>
+										<th>Position</th>
+										<th>Expect date</th>
+										<th>Comments</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+							<#-- /Table Content -->
 
-								<#-- Table Content -->
-								<table id="pendingRequestsList" class="table table-hover table-striped">
-									<thead>
-										<tr>
-											<th>id</th>
-											<th>Event</th>
-											<th>Requester</th>
-											<th>Position</th>
-											<th>Expect date</th>
-											<th>Comments</th>
-											<th>Action</th>
-										</tr>
-									</thead>
-									<tbody></tbody>
-								</table>
-								<#-- /Table Content -->
-
-							</div>
 						</div>
 					</div>
 					<#-- /Pending requests -->
 
-					<#-- Finalized requests --
-			
-					<div class="col-md-6">
+					<#-- Finalized requests -->
+					<div class="card card-primary card-outline">
+						<div class="card-header">
+							<h3 class="card-title">
+								<i class="fa-solid fa-thumbs-up"></i>&nbsp;Finalized requests
+							</h3>
+						</div>
+
+						<div class="card-body table-responsive">
+									
+							<#-- Button Options -->
+							<div class="btn-group mb-3">
+								<button type="button" class="btn btn-outline-secondary" onclick = "dt.ajax.reload();">
+									<i class="fa-solid fa-rotate"></i>&nbsp;Reload
+								</button>
+							</div>
+							<#-- /Button Options -->
+
+							<#-- Table Content -->
+							<table id="finalizedRequestsList" class="table table-hover table-striped">
+								<thead>
+									<tr>
+										<th>id</th>
+										<th>Event</th>
+										<th>Requester</th>
+										<th>Position</th>
+										<th>Expect date</th>
+										<th>Approved</th>
+										<th>Approver</th>
+										<th>Position</th>
+										<th>Response time</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+							<#-- /Table Content -->
+
+						</div>
 					</div>
-					-- /Finalized requests -->
+					<#-- /Finalized requests -->
+
 				</div>
-			</div>
+			</section>
+			<#-- /Main Content -->
 
 		</div>
 		<#-- /Content Wrapper. -->
+
 	</div>
 	<#-- Main Wrapper -->
 	
@@ -115,7 +150,8 @@
 	<script type="text/javascript" src="/static/js/etwig/graphics-approval.js"></script>
 	
 	<script>
-    	var dt = pendingApprovalDataTable();
+    	pendingApprovalDataTable();
+		finalizedApprovalDataTable();
 	</script>
 </body>
 </html>

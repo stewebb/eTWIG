@@ -1,6 +1,8 @@
-package net.grinecraft.etwig.dto;
+package net.grinecraft.etwig.dto.graphics;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import lombok.Getter;
 import lombok.ToString;
 import net.grinecraft.etwig.model.GraphicsRequest;
@@ -8,36 +10,40 @@ import net.grinecraft.etwig.model.UserRole;
 
 @Getter
 @ToString
-public class GraphicsPendingRequestsBasicInfoDTO {
+public class FinalizedRequestsBasicInfoDTO {
 	
 	private Long id;
 	private String eventName;
+	
+	// Requester
 	private String requesterName;
 	private String requesterPosition;
-	private String requesterPortfolioColor;
 	private LocalDate expectDate;
-	private String requestComments;
 	
-	public GraphicsPendingRequestsBasicInfoDTO(GraphicsRequest graphicsRequest) {
+	// Approver
+	private boolean approved;
+	private String approverName;
+	private String approverPosition;
+	private LocalDateTime responseTime;
+	
+	public FinalizedRequestsBasicInfoDTO(GraphicsRequest graphicsRequest) {
+		
+		
 		this.id = graphicsRequest.getId();
 		this.eventName = graphicsRequest.getEvent().getName();
 		this.expectDate = graphicsRequest.getExpectDate();
 		
-		// Get the first 31 characters of the comment.
-		String comment = graphicsRequest.getRequestComment();
-		if(comment == null) {
-			this.requestComments = "";
-		} else if (comment.length() <= 31){
-			this.requestComments = comment;
-		} else {
-			comment.substring(0, 31);
-		}
-		
+		// Requester
 		UserRole requesterRole = graphicsRequest.getRequesterRole();
 		this.requesterName = requesterRole.getUser().getFullName();
 		this.requesterPosition = requesterRole.getPosition();
-		this.requesterPortfolioColor = requesterRole.getPortfolio().getColor();
 		
+		// Approver
+		this.approved = graphicsRequest.getApproved();
+		this.responseTime = graphicsRequest.getResponseTime();
 		
+		UserRole approverRole = graphicsRequest.getApproverRole();
+		this.approverName = approverRole.getUser().getFullName();
+		this.approverPosition = approverRole.getPosition();
 	}
 }

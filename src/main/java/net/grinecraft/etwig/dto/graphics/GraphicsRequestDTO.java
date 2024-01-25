@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.dto;
+package net.grinecraft.etwig.dto.graphics;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
