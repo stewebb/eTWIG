@@ -128,7 +128,7 @@
 													
 		<tr>
 			<th scope="row">Location</th>
-			<td>${approvalInfo.eventLocation}</td>
+			<td><#if approvalInfo.eventLocation?has_content>${approvalInfo.eventLocation}</#if></td>
 		</tr>
 													
 		<tr>

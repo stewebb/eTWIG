@@ -275,8 +275,11 @@
       			theme: 'bootstrap4'
     		})
 
-			getMyPositions("#approverRole");
-
+			//getMyPositions("#approverRole");
+			var myPositions = getMyPositions();
+			for (var key in myPositions) {
+  				$("#approverRole").append('<option value="' + myPositions[key].userRoleId + '">' + myPositions[key].position + ', ' + myPositions[key].portfolioName + '</option>');
+			}
 			//updateTextColor($('#eventPortfolio'));
 		});
 	

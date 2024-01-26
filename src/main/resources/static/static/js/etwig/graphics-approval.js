@@ -167,7 +167,7 @@ function decide(){
 		approvalDecisionObj["asset"] = assetId;
 	}
 	
-	console.log(approvalDecisionObj);
+	//console.log(approvalDecisionObj);
 	
 	var hasError = true;
 	$.ajax({
