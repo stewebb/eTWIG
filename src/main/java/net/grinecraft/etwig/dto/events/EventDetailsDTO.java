@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import lombok.*;
 import net.grinecraft.etwig.dto.PositionDTO;
 import net.grinecraft.etwig.model.Event;
+import net.grinecraft.etwig.model.Portfolio;
+import net.grinecraft.etwig.model.UserRole;
 
 @Getter
 @ToString
@@ -36,7 +38,13 @@ public class EventDetailsDTO {
 	 * Portfolio, organizer and role.
 	 */
 	
-	private PositionDTO position;
+	private String OrganizerName;
+	private Long userRoleId;
+	private String positionName;
+	private Long portfolioId;
+	private String portfolioName;
+	
+	//private PositionDTO position;
 	
 
 	public EventDetailsDTO(Event event) {
@@ -56,7 +64,15 @@ public class EventDetailsDTO {
 		this.duration = event.getDuration();
 		this.rRule = event.getRRule();
 		
-		this.position = new PositionDTO(event.getUserRole());
+		//this.position = new PositionDTO(event.getUserRole());
+		UserRole organizerRole = event.getUserRole();
+		this.userRoleId = organizerRole.getId();
+		this.OrganizerName = organizerRole.getUser().getFullName();
+		this.positionName = organizerRole.getPosition();
+		
+		Portfolio portfolio = organizerRole.getPortfolio();
+		this.portfolioId = portfolio.getId();
+		this.portfolioName = portfolio.getName();
 	}
 
 }

@@ -90,8 +90,8 @@ function getEventInfo(datePickersMap){
     $('#eventLocation').val(eventInfo.location);
     
     // Get organizer info and set it to read-only.
-    var position = eventInfo.position;
-    $("#eventRole").append(`<option value="${position.userRoleId}">${position.position}, ${position.portfolio.name}</option>`);
+    $('#eventOrganizer').text(eventInfo.organizerName);
+    $("#eventRole").append(`<option value="${eventInfo.userRoleId}">${eventInfo.positionName}, ${eventInfo.portfolioName}</option>`);
     $("#eventRole").prop('disabled', true);
     
     // Get created and updated time.

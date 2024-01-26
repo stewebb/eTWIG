@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.grinecraft.etwig.services.GraphicsRequestService;
+import net.grinecraft.etwig.services.PortfolioService;
 import net.grinecraft.etwig.dto.events.EventDetailsDTO;
 import net.grinecraft.etwig.dto.graphics.FinalizedRequestsBasicInfoDTO;
 import net.grinecraft.etwig.dto.graphics.PendingRequestsBasicInfoDTO;
 import net.grinecraft.etwig.model.GraphicsRequest;
+import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.services.EmailService;
 import net.grinecraft.etwig.services.EventService;
 import net.grinecraft.etwig.util.NumberUtils;
@@ -35,6 +37,9 @@ public class GraphicsRequestAPIController {
 	
 	@Autowired
 	private EmailService emailService;
+	
+	@Autowired
+	private PortfolioService portfolioService;
 
 	@GetMapping("/countRequestsByEventId")
     public Map<String, Object> countRequestsByEventId(@RequestParam Long eventId) throws Exception {
@@ -50,7 +55,8 @@ public class GraphicsRequestAPIController {
 		
 		// Check permission again!
 		EventDetailsDTO event = eventService.findById(Long.parseLong(requestInfo.get("eventId").toString()));
-		if(!eventService.eventEditPermissionCheck(event.getPosition().getPortfolio())) {
+		Portfolio eventPortfolio = portfolioService.getPortfolioById(event.getPortfolioId());
+		if(!eventService.eventEditPermissionCheck(eventPortfolio)) {
 			return WebReturn.errorMsg("You don't have permission to make this request.", false);
 		} 
 		

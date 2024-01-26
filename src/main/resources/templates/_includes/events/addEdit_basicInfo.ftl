@@ -60,6 +60,13 @@
 									</div>
 									<#-- /Location -->
 
+									<#-- Organizer -->
+									<div class="form-group row">
+										<label for="eventOrganizer" class="col-lg-3">Organizer</label>
+										<div class="col-lg-9" id="eventOrganizer"></div>
+									</div>
+									<#-- /Organizer -->
+
 									<#-- Organizer Role -->
 									<div class="form-group row">
 										<label for="eventRole" class="col-lg-3 col-form-label">

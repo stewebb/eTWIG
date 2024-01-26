@@ -102,6 +102,7 @@
             <#-- Navbar right-->
 			<ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
 
+				<!--
                 <#-- Notifications -->
                 <li class="nav-item dropdown">
                 	
@@ -126,6 +127,7 @@
                     </div>
 				</li>
                 <#-- /Notifications -->
+				-->
 
                 <#-- Account -->
                 <li class="nav-item dropdown <#if navbar=="USER">active</#if>">
@@ -138,7 +140,16 @@
                 	
 					<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right ">
 						                	
-                		<span class="dropdown-header">${user.fullName}</span>
+						<div class="user-panel d-flex justify-content-center mt-2 mb-2">
+							<div class="image">
+								<img src="" class="img-circle elevation-3">
+								</div>
+								<div class="info">
+								<a href="#" class="d-block">${user.fullName}</a>
+							</div>
+						</div>
+
+
 						<div class="dropdown-divider"></div>
 						
 						<#-- Profile -->						

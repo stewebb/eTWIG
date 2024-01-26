@@ -9,19 +9,12 @@
 
 package net.grinecraft.etwig.services;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.UUID;
-
-import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +33,6 @@ import net.grinecraft.etwig.config.ConfigFile;
 import net.grinecraft.etwig.dto.AssetBasicInfoDTO;
 import net.grinecraft.etwig.dto.user.UserDTO;
 import net.grinecraft.etwig.model.Asset;
-import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.repository.AssetRepository;
 import net.grinecraft.etwig.util.FileUtils;
 
@@ -130,31 +122,5 @@ public class AssetService {
        
        	assetRepository.save(newAsset);
 	}
-	
-	public byte[] generateImageWithInitials(String initials) throws IOException {
-        int width = 100;
-        int height = 100;
-
-        // Create a buffered image
-        BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = bufferedImage.createGraphics();
-
-        // Draw a circle or any shape
-        g2d.setColor(Color.LIGHT_GRAY);
-        g2d.fillOval(0, 0, width, height);
-
-        // Add initials
-        g2d.setColor(Color.BLACK);
-        g2d.setFont(new Font("Arial", Font.BOLD, 40));
-        g2d.drawString(initials, 20, 55);
-
-        // Release resources
-        g2d.dispose();
-
-        // Write to byte array
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(bufferedImage, "png", baos);
-        return baos.toByteArray();
-    }
 	
 }
