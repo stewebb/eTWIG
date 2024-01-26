@@ -383,6 +383,25 @@
 										</div>
 										<#-- By Month Day -->
 
+										<#-- Excluded dates -->
+										<div class="form-group row">
+											<label for="eventExcludedDates" class="col-lg-3 col-form-label">Excluded Dates</label>
+											<div class="col-lg-9">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text">
+															<i class="fa-solid fa-calendar-xmark"></i>
+														</span>
+													</div>
+													<select class="form-control select2bs4 event-rrule-options" multiple="multiple" id="eventExcludedDates">
+			
+													</select>									
+												</div>
+												<small class="form-text text-muted">The dates that you want to exclude.</small>
+											</div>
+										</div>
+										<#-- Excluded dates -->
+
 										<#-- Description -->
 										<div class="form-group row">
 											<label for="eventRRuleDescription" class="col-lg-3">Description</label>
@@ -403,6 +422,7 @@
 																<th>Year</th>
 																<th>Month</th>
 																<th>Day</th>
+																<th>Exclude</th>
 															</tr>
 														</thead>
 														<tbody>

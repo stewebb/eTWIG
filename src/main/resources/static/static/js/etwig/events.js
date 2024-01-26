@@ -285,11 +285,21 @@ function getRRuleByInput(){
 	if(eventByMonthDayInt.length > 0){
 		currentRule["bymonthday"] = eventByMonthDayInt;
 	}
+	
+	// Excluded Dates
+	var eventExcludedDates = $('#eventExcludedDates').val();
+	var excludedDatesObj = eventExcludedDates.map(dateStr => Date.parse(dateStr));
+	console.log(excludedDatesObj)
+	
 
 	// Get recurrent info.
     var rRule = new ETwig.RRuleFromForm(currentRule);
     rRule.generateRRule();
+    //rRule.multiExDate(excludedDatesObj)
+    
 	var allDates = rRule.all();
+	
+	console.log(rRule.toString());
 	
 	// Set description
     $('#eventRRuleDescription').text(rRule.toText());
@@ -310,6 +320,7 @@ function getRRuleByInput(){
         // Extracting date components
         
         date = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+        var dateStr = date.toString('yyyy-MM-dd');
         
         var dayOfWeek = date.toLocaleString('default', { weekday: 'long' });
         var year = date.getFullYear();
@@ -318,11 +329,27 @@ function getRRuleByInput(){
 
         // Append row to table
         $('#eventRRuleAllDates tbody').append(
-            '<tr><td>' + dayOfWeek + '</td><td>' + year + '</td><td>' + month + '</td><td>' + dateOfMonth + '</td></tr>'
+            `<tr>
+            	<td>${dayOfWeek}</td>
+            	<td>${year}</td>
+            	<td>${month}</td>
+            	<td>${dateOfMonth}</td>
+            	<td>
+            		<button class="btn btn-outline-danger btn-xs" onclick="addExcludeDate(this, '${dateStr}');">
+            			<i class="fa-solid fa-calendar-xmark"></i>
+            		</button>
+            	</td>
+            </tr>`
         );
     });
     
 	return rRule.toString();
+}
+
+function addExcludeDate(btn, dateStr){
+	$(btn).closest('tr').remove();
+	$('#eventExcludedDates').append(`<option value="${dateStr}" selected>${dateStr}</option>`);
+	getRRuleByInput();
 }
 
 function addEvent(){

@@ -66,7 +66,7 @@
 									
 									<#-- TWIG Template -->
 									<li>
-										<a href="#" class="dropdown-item <#if navbar=="GRAPHICS_TWIG_TEMPLATE">active</#if>">
+										<a href="/graphics/twigTemplate/list" class="dropdown-item <#if navbar=="GRAPHICS_TWIG_TEMPLATE">active</#if>">
 											<i class="fa-solid fa-lines-leaning"></i>&nbsp;TWIG Template
 										</a>
 									</li>
