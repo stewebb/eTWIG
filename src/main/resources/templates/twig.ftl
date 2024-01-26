@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<#include "../_includes/header/head.ftl">
+	<#include "./_includes/header/head.ftl">
 	
 	<#-- Custom CSS and JS for public TWIG. -->
 	<link rel="stylesheet" href="/static/css/etwig-twig.css">
@@ -20,7 +20,7 @@
 </head>
 
 <body style="height: 100%;">
-	<#include "../_includes/header/body_start.ftl">
+	<#include "./_includes/header/body_start.ftl">
 
 	<iframe src="/twig/content" class="fullscreen-iframe" id="twigFrame"></iframe>
 
@@ -277,7 +277,7 @@
     	</button>
 	</div>
 	
-	<#include "../_includes/header/body_end.ftl">
+	<#include "./_includes/header/body_end.ftl">
 	
 	<#-- JS for generating QR codes. -->
 	<script src="/static/js/vendor/qrcode.min.js"></script>

@@ -58,17 +58,14 @@
 							<h3 class="card-title">
 								<i class="fa-solid fa-circle-question"></i>&nbsp;Pending requests
 							</h3>
+							<div class="card-tools">
+								<button type="button" class="btn btn-tool" onclick="pendingDT.ajax.reload();">
+									<i class="fas fa-sync-alt"></i>
+								</button>
+							</div>
 						</div>
 
 						<div class="card-body table-responsive">
-									
-							<#-- Button Options -->
-							<div class="btn-group mb-3">
-								<button type="button" class="btn btn-outline-secondary" onclick = "dt.ajax.reload();">
-									<i class="fa-solid fa-rotate"></i>&nbsp;Reload
-								</button>
-							</div>
-							<#-- /Button Options -->
 
 							<#-- Table Content -->
 							<table id="pendingRequestsList" class="table table-hover table-striped">
@@ -97,18 +94,15 @@
 							<h3 class="card-title">
 								<i class="fa-solid fa-thumbs-up"></i>&nbsp;Finalized requests
 							</h3>
+							<div class="card-tools">
+								<button type="button" class="btn btn-tool" onclick="finalizedDT.ajax.reload();">
+									<i class="fas fa-sync-alt"></i>
+								</button>
+							</div>
 						</div>
 
 						<div class="card-body table-responsive">
 									
-							<#-- Button Options -->
-							<div class="btn-group mb-3">
-								<button type="button" class="btn btn-outline-secondary" onclick = "dt.ajax.reload();">
-									<i class="fa-solid fa-rotate"></i>&nbsp;Reload
-								</button>
-							</div>
-							<#-- /Button Options -->
-
 							<#-- Table Content -->
 							<table id="finalizedRequestsList" class="table table-hover table-striped">
 								<thead>
@@ -150,8 +144,8 @@
 	<script type="text/javascript" src="/static/js/etwig/graphics-approval.js"></script>
 	
 	<script>
-    	pendingApprovalDataTable();
-		finalizedApprovalDataTable();
+    	var pendingDT = pendingApprovalDataTable();
+		var finalizedDT = finalizedApprovalDataTable();
 	</script>
 </body>
 </html>

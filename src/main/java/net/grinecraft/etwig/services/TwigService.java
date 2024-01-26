@@ -85,8 +85,8 @@ public class TwigService {
 		templateMap.put("id", twigTemplate.getId());
 		
 		// Convert the JSON field in the to map, so the field will be validated automatically.
-		templateMap.put("background", jsonUtils.jsonToMap(twigTemplate.getBackground()));
-		templateMap.put("logo", jsonUtils.jsonToMap(twigTemplate.getLogo()));
+		//templateMap.put("background", jsonUtils.jsonToMap(twigTemplate.getBackground()));
+		//templateMap.put("logo", jsonUtils.jsonToMap(twigTemplate.getLogo()));
 		
 		return templateMap;
 	}
