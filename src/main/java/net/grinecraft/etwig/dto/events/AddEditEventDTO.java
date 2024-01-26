@@ -31,6 +31,7 @@ public class AddEditEventDTO {
 	private LocalDateTime startTime;
 	private int duration;
 	private String rRule;
+	private String excluded;
 	
 	@SuppressWarnings("unchecked")
 	public AddEditEventDTO(Map<String, Object> eventInfo, EventDetailsDTO currentEvent) {
@@ -67,6 +68,9 @@ public class AddEditEventDTO {
 			
 			this.startTime = DateUtils.safeParseDateTime(eventStartTimeStr, "yyyy-MM-dd'T'HH:mm:ss.SSSX");
 			this.rRule = recurring.get("rrule").toString();
+			
+			Object eventExcluded = recurring.get("excluded");
+			this.excluded = (eventExcluded == null) ? null : eventExcluded.toString();
 		}
 		
 		// Single time events
@@ -96,6 +100,7 @@ public class AddEditEventDTO {
 		event.setStartTime(this.startTime);
 		event.setDuration(this.duration);
 		event.setRRule(this.rRule);
+		event.setExcludedDates(excluded);
 		
 		return event;
 	}

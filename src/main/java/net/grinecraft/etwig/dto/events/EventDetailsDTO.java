@@ -32,7 +32,7 @@ public class EventDetailsDTO {
 	private LocalDateTime startTime;
 	private int duration;
 	private String rRule;
-	
+	private String excluded;
 	
 	/**
 	 * Portfolio, organizer and role.
@@ -63,6 +63,7 @@ public class EventDetailsDTO {
 		this.startTime = event.getStartTime();
 		this.duration = event.getDuration();
 		this.rRule = event.getRRule();
+		this.excluded = event.getExcludedDates();
 		
 		//this.position = new PositionDTO(event.getUserRole());
 		UserRole organizerRole = event.getUserRole();

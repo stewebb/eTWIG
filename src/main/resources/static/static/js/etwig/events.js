@@ -214,6 +214,14 @@ function getEventInfo(datePickersMap){
 		// Get RRule and selected options.
 		getRRuleByInput();
 		
+		// Excluded dates
+		var excludedDatesStr = eventInfo.excluded.replace(/^\[|\]$/g, '').trim();
+		var excludeDates = excludedDatesStr.split(/\s*,\s*/);
+		
+		for(var i=0; i<excludeDates.length; i++){
+			addExcludeDate(excludeDates[i]);
+		}
+		
 	}
 	
 	getSelectedOptions(eventId);
@@ -285,12 +293,6 @@ function getRRuleByInput(){
 	if(eventByMonthDayInt.length > 0){
 		currentRule["bymonthday"] = eventByMonthDayInt;
 	}
-	
-	// Excluded Dates
-	var eventExcludedDates = $('#eventExcludedDates').val();
-	var excludedDatesObj = eventExcludedDates.map(dateStr => Date.parse(dateStr));
-	console.log(excludedDatesObj)
-	
 
 	// Get recurrent info.
     var rRule = new ETwig.RRuleFromForm(currentRule);
@@ -299,7 +301,7 @@ function getRRuleByInput(){
     
 	var allDates = rRule.all();
 	
-	console.log(rRule.toString());
+	//console.log(rRule.toString());
 	
 	// Set description
     $('#eventRRuleDescription').text(rRule.toText());
@@ -335,7 +337,7 @@ function getRRuleByInput(){
             	<td>${month}</td>
             	<td>${dateOfMonth}</td>
             	<td>
-            		<button class="btn btn-outline-danger btn-xs" onclick="addExcludeDate(this, '${dateStr}');">
+            		<button class="btn btn-outline-danger btn-xs" onclick="addExcludeDate('${dateStr}');">
             			<i class="fa-solid fa-calendar-xmark"></i>
             		</button>
             	</td>
@@ -346,10 +348,10 @@ function getRRuleByInput(){
 	return rRule.toString();
 }
 
-function addExcludeDate(btn, dateStr){
-	$(btn).closest('tr').remove();
+function addExcludeDate(dateStr){
+	//$(btn).closest('tr').remove();
 	$('#eventExcludedDates').append(`<option value="${dateStr}" selected>${dateStr}</option>`);
-	getRRuleByInput();
+	//getRRuleByInput();
 }
 
 function addEvent(){
@@ -500,6 +502,10 @@ function addEvent(){
 			return;
 		}
 		recurring["rrule"] = eventRRule;
+		
+		// Excluded Dates
+		recurring ["excluded"] = [...new Set($('#eventExcludedDates').val())]
+		
 		newEventObj["recurring"]  = recurring;
 	}
 	
@@ -554,7 +560,7 @@ function addEvent(){
 	}
 	*/
 	//console.log(newEventObj);
-	
+	//return;
 	var hasError = true;
 	$.ajax({
    		url: '/api/private/editEvent', 
