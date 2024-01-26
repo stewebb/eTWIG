@@ -19,6 +19,10 @@ function getEventInfo(datePickersMap){
 	var urlParams = new URLSearchParams(window.location.search);
     var eventId = urlParams.get('eventId');
     
+    // Get my positions
+    var myPositions = getMyPositions();
+    //console.log(position);
+    
     /**
 	 * Add mode.
 	 */
@@ -26,20 +30,20 @@ function getEventInfo(datePickersMap){
     // Null check.
     if(eventId == undefined || eventId == null || eventId.length == 0){
 		warningToast("The eventId provided is empty.", "It must be not empty, and an integer. This page will be switched to Add Event mode.");
-		initAddOption();
+		initAddOption(myPositions);
 		return;
 	}
     
     // Invalid check (not an integer).
     if(eventId % 1 !== 0){
 		warningToast(eventId +" is not a valid eventId", "It must be an integer. This page will be switched to Add Event mode.");
-		initAddOption();
+		initAddOption(myPositions);
 		return;
 	}
     
     // Zero or Negative eventId, add event mode.
     if(eventId <= 0){
-		initAddOption();
+		initAddOption(myPositions);
 		return;
 	}
 	
@@ -64,13 +68,34 @@ function getEventInfo(datePickersMap){
 	
 	if(eventInfo == undefined || eventInfo == null || eventInfo.length == 0){
 		warningToast("The event with id=" + eventId + " does not exist");
-		initAddOption();
+		initAddOption(myPositions);
 		return;
 	}
     
     /**
 	 * Edit mode.
 	 */
+	
+	// Permission Check
+	var myPortfolioIds = [];
+	var myPortfolioNames = [];
+	for (let key in myPositions) {
+  		myPortfolioIds.push(myPositions[key].portfolioId)
+  		myPortfolioNames.push(myPositions[key].portfolioName)
+	}
+	
+	// My portfolios should includes the event portfolio.
+	if (!myPortfolioIds.includes(eventInfo.portfolioId)){
+		$('#noPermissionCallout').html(`
+			<div class="callout callout-primary">
+				<h5 class="bold-text mb-3">No edit permission</h5>
+					This event was created by the user with <span class="bold-text" style="color:#000000">${eventInfo.portfolioName}</span> portfolio. <br />
+					However, your portfolios are [
+					<span class="bold-text" style="color:#000000}">${myPortfolioNames}</span>, ].
+			</div>
+		`)
+	}
+	//console.log(myPortfolioNames);
 	
     // Get eventId
     $('#eventIdBlock').show();
@@ -102,7 +127,6 @@ function getEventInfo(datePickersMap){
     
     // Get description
     $('#eventDescription').html(eventInfo.description);
-    //console.log(eventInfo.description);
     
     // Get event start and end datetime
     var eventStartDate = Date.parse(eventInfo.startTime);    
@@ -621,7 +645,7 @@ function createDatePickers() {
     return datePickersMap;
 }
 
-function initAddOption(){
+function initAddOption(myPositions){
 	
 	// Set the default options.
 	setRecurrentMode(0);
@@ -643,7 +667,10 @@ function initAddOption(){
 	$('#isEdit').val('0');
 	
 	// Set the role(s).
-	getMyPositions("#eventRole");
+	for (let key in myPositions) {
+  		//myPortfolioIds.push(myPositions[key].portfolioId);
+  		$("#eventRole").append(`<option value="${myPositions[key].userRoleId}">${myPositions[key].position}, ${myPositions[key].portfolioName}</option>`);
+	}
 	
 }
 
@@ -664,7 +691,7 @@ function deleteEventCheckboxOnChange(){
 }
 
 function getSelectedOptions(eventId){
-	//console.log(eventId)
+
 	// No need to get in add mode.
 	if(eventId <= 0){
 		return;
@@ -683,15 +710,6 @@ function getSelectedOptions(eventId){
 			jQuery.each(json, function(id, value) {
 				$('.property-select-box option[value='+value+']').attr('selected','selected');
 			})
-			
-			//if(choices.length == 0){
-			//	return;
-			//}
-			
-			// Iterate all available choices.
-			//$('.property-select-box').each(function(index) {
-        	//	$('.id_100 option[value=val2]').attr('selected','selected');
-    		//});
         },
         
         // Toast error info when it happens

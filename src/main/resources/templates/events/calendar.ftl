@@ -89,9 +89,8 @@
 										<#-- /Date Options -->
 										
 										<#-- Event Options-->
-										<hr class="mt-3 mb-3"/>
-										
-										<#if true>
+										<#if access.eventsAccess>
+											<hr class="mt-3 mb-3"/>
 											<a class="btn btn-block btn-outline-primary" href="/events/edit?eventId=-1">
 												<i class="fa-solid fa-calendar-plus"></i>&nbsp;New Event
 											</a>	
