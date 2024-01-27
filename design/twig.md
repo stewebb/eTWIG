@@ -9,17 +9,49 @@ A **TWIG** (abbreviation of *This Week In Griffin*) is a graphic collection and 
 
 As the name implies, **TWIG Template** is a template of each TWIG. A template can be applied on the events in a single week, or multiple weeks, it can be also applied on one or more portfolios.
 
-The details of each TWIG template is stored in a  
+### Database storage structure
+
+The details of each TWIG template is stored in the **twig_template** table in the main eTWIG database, including the following fields:
+
+- **id**: The identification number of each template, which is the primary key of this table. [integer, not null]
+- **name**: The name of this template [varchar 63, not null].
+- **available_from**: The template is invalid before this date. Null means there no restrictions on this date. [date, null allowed]
+- **available_to**: The template is invalid after this date. Null means there no restrictions on this date. [date, null allowed]
+- **creator_role**: The person/role who created this template. It is the foreign key of the id field in **user_role** table. [integer, not null]
+- **portfolio**: The portfolio scope of this template. [integer, not null] It can be:
+  - **The portfolio id**, which specifies a designated portfolio. In this case, it can be treated as the foreign key of the id field in the portfolio table.
+  - **A negative number**, which stands for all portfolios.
+- **design**: The design of the template in PostgreSQL jsonb format.
+
+### Design JSON structure
+
+Each template can be expressed in a tree-based data structure, which contains one or more nodes. Each node can be:
+
+- **An image** that is stored on the server filesystem, which corresponding to the assets subsystem. (Leaf Node)
+- **A styled text** which has the adjustable attributes (e.g., size, color and weight). (Leaf Node)
+- **Another node**.
+
+```mermaid
+flowchart LR
+
+    node_0
+    node_0 --- image_0
+    node_0 --- text_0
+    node_0 --- image_1
+    node_0 --- node_1
+    node_1 --- image_2
+    node_1 --- image_3
+    node_1 --- text_1
+    node_1 --- node_2
+    node_2 --- image_4
+
+```
+
 
 /**
- * 
- * 
- * 
- * 
+ *  
  *  three kinds of widgets:
- * Images: An image that is stored on the server filesystem, which corresponding to the assets subsystem.
- * Texts: A styled text. The size, color and weight of the text can be adjusted.
- * Data: This is a
+ 
  * 
  * So the elements on each TWIG 
  * ---------------------------------------------
