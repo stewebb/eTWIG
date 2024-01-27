@@ -1,6 +1,6 @@
 									        <#-- Returning Date -->
 											<div class="form-group">
-												<label for="returningDate">
+												<label for="eventGraphicsDate">
 													Returning date&nbsp;<span class="required-symbol">*</span>
 												</label>
 												<div class="input-group">

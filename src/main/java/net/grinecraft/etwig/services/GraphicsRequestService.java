@@ -1,6 +1,5 @@
 package net.grinecraft.etwig.services;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -20,9 +19,9 @@ import net.grinecraft.etwig.dto.graphics.ApproveRequestsDTO;
 import net.grinecraft.etwig.dto.graphics.FinalizedRequestsBasicInfoDTO;
 import net.grinecraft.etwig.dto.graphics.FinalizedRequestsDetailsDTO;
 import net.grinecraft.etwig.dto.graphics.GraphicsRequestDTO;
+import net.grinecraft.etwig.dto.graphics.NewRequestDTO;
 import net.grinecraft.etwig.model.GraphicsRequest;
 import net.grinecraft.etwig.repository.GraphicsRequestRepository;
-import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.MapUtils;
 
 @Service
@@ -96,15 +95,19 @@ public class GraphicsRequestService {
 	
 	public void addRequest(Map<String, Object> requestInfo) {
 		
-		GraphicsRequest request = new GraphicsRequest();
-		request.setEventId(Long.parseLong(requestInfo.get("eventId").toString()));
-		request.setRequesterRoleId(Long.parseLong(requestInfo.get("requesterRole").toString()));
-		request.setRequestComment(requestInfo.get("requestComment").toString());
-		request.setExpectDate(DateUtils.safeParseDate(requestInfo.get("returningDate").toString(), "yyyy-MM-dd"));
-		request.setRequestTime(LocalDateTime.now());
+		//GraphicsRequest request = new GraphicsRequest();
+		//request.setEventId(Long.parseLong(requestInfo.get("eventId").toString()));
+		//request.setRequesterRoleId(Long.parseLong(requestInfo.get("requesterRole").toString()));
+		//request.setRequestComment(requestInfo.get("requestComment").toString());
+		//request.setExpectDate(DateUtils.safeParseDate(requestInfo.get("returningDate").toString(), "yyyy-MM-dd"));
+		//request.setRequestTime(LocalDateTime.now());
 		
-		graphicsRequestRepository.save(request);
+		NewRequestDTO newRequest = new NewRequestDTO();
+		newRequest.fromMap(requestInfo);
+		graphicsRequestRepository.save(newRequest.toEntity());
 	}
+	
+	//public void addRequest 
 	
 	@SuppressWarnings("null")
 	public void approveRequest(GraphicsRequest currentRequest, Map<String, Object> decisionInfo) throws Exception {

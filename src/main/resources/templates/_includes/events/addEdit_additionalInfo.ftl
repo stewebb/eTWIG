@@ -105,7 +105,6 @@
 								<div class="col-md-6" style="text-align:left;">
 
 									<#-- Graphics Request --> 
-									<!--
 									<div id="eventRequestNowBlock">
 										<h5 class="mb-3 bold-text text-primary">
 											<i class="fa-solid fa-hand"></i>&nbsp;Graphics Request
@@ -128,7 +127,6 @@
 										<#include "./graphics_newRequest.ftl">
 									</div>
 									<#-- Graphics Request --> 
-									-->
 								</div>
 								<#-- /Col 2 -->
 								

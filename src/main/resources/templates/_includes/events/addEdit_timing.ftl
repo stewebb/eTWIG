@@ -239,7 +239,9 @@
 
 										<#-- Valid from -->
 										<div class="form-group row">
-											<label for="eventValidFromDate" class="col-sm-3 col-form-label">Valid From</label>
+											<label for="eventValidFromDate" class="col-sm-3 col-form-label">
+												Valid From&nbsp;<span class="required-symbol">*</span>
+											</label>
 											<div class="col-sm-9">
 												<div class="input-group">
 													<div class="input-group-prepend">
@@ -249,7 +251,7 @@
 													</div>
 													<input type="text" class="form-control event-rrule-options" id="eventValidFromDate">
 												</div>
-												<small class="form-text text-muted">The date when the recurrence start. (Optional)</small>
+												<small class="form-text text-muted">The date when the recurrence start.</small>
 												<div id="eventValidFromDateWrapper" class="datepicker"></div>
 											</div>
 										</div>
@@ -268,7 +270,7 @@
 													</div>
 													<input type="text" class="form-control event-rrule-options" id="eventValidToDate">
 												</div>
-												<small class="form-text text-muted">The date when the recurrence end. (Optional)</small>
+												<small class="form-text text-muted">The date when the recurrence end.</small>
 												<div id="eventValidToDateWrapper" class="datepicker"></div>
 											</div>
 										</div>			
@@ -287,7 +289,7 @@
 													</div>
 													<input type="number" min="2" class="form-control event-rrule-options" id="eventCount">
 												</div>
-												<small class="form-text text-muted">How many occurrences will be generated. The lowest number allowed is 2. (Optional)</small>
+												<small class="form-text text-muted">How many occurrences will be generated. The smallest number allowed is 2.</small>
 											</div>
 										</div>
 										<#-- /Count -->

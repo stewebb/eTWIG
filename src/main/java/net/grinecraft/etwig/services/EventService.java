@@ -26,6 +26,7 @@ import net.grinecraft.etwig.dto.events.EventDetailsDTO;
 import net.grinecraft.etwig.dto.events.GraphicsRequestEventInfoDTO;
 import net.grinecraft.etwig.dto.events.RecurringEventBasicInfoDTO;
 import net.grinecraft.etwig.dto.events.SingleTimeEventBasicInfoDTO;
+import net.grinecraft.etwig.dto.graphics.NewRequestDTO;
 import net.grinecraft.etwig.dto.user.UserAccessDTO;
 import net.grinecraft.etwig.model.Event;
 import net.grinecraft.etwig.model.EventOption;
@@ -33,6 +34,7 @@ import net.grinecraft.etwig.model.EventOptionKey;
 import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.repository.EventOptionRepository;
 import net.grinecraft.etwig.repository.EventRepository;
+import net.grinecraft.etwig.repository.GraphicsRequestRepository;
 import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.ListUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,6 +51,8 @@ public class EventService {
 	@Autowired
 	private EventOptionRepository eventOptionRepository;
 	
+	@Autowired
+	private GraphicsRequestRepository graphicsRequestRepository;
 	
 	@Autowired
 	private HttpSession session;
@@ -110,8 +114,19 @@ public class EventService {
 		Event addedEvent = eventRepository.save(newEventDTO.toEntity());
 		
 		// Add options
+		Long eventId = addedEvent.getId();
 		ArrayList<Long> optionList = ListUtils.stringArrayToLongArray(ListUtils.stringToArrayList(eventInfo.get("properties").toString()));
-		updateEventOptionBulky(addedEvent.getId(), optionList);
+		updateEventOptionBulky(eventId, optionList);
+		
+		// Optional graphics requests
+		Map<String, Object> graphics = (Map<String, Object>) eventInfo.get("graphics");
+		if(graphics == null) {
+			return;
+		}
+		
+		NewRequestDTO newRequest = new NewRequestDTO();
+		newRequest.fromParam(eventId, addedEvent.getUserRoleId(), graphics.get("comments").toString(), null);
+		graphicsRequestRepository.save(newRequest.toEntity());
 	}
 	
 	/**

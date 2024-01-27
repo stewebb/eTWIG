@@ -543,26 +543,26 @@ function addEvent(){
 	}
 	newEventObj["properties"]  = selectedProperties;
 	
-	/*
-	// Graphics request (only abailable when adding an event)
+	
+	// Graphics request (only available when adding an event)
 	if(!isEdit && $("#eventRequestNow").is(':checked')){
 		var graphics = {};
 		
 		// Returning Date
-		var returningDate = Date.parse($('#returningDate').val());
-		if( returningDate == null || returningDate.length == 0){
+		var eventGraphicsDate = Date.parse($('#eventGraphicsDate').val());
+		if(eventGraphicsDate == null || eventGraphicsDate.length == 0){
 			warningToast("Graphics returning date is required, and it must be yyyy-MM-dd format.");
 			return;
 		}
-		graphics["returningDate"] = returningDate;
+		graphics["returningDate"] = eventGraphicsDate.toString("yyyy-MM-dd");
 		
 		// Additional comments
-		graphics["comments"] = requestComment;
+		graphics["comments"] =  $("#requestComment").val();
 		newEventObj["graphics"] = graphics;
 	}
-	*/
-	//console.log(newEventObj);
-	//return;
+	
+	console.log(newEventObj);
+	return;
 	var hasError = true;
 	$.ajax({
    		url: '/api/private/editEvent', 
