@@ -561,8 +561,8 @@ function addEvent(){
 		newEventObj["graphics"] = graphics;
 	}
 	
-	console.log(newEventObj);
-	return;
+	//console.log(newEventObj);
+	//return;
 	var hasError = true;
 	$.ajax({
    		url: '/api/private/editEvent', 
