@@ -125,7 +125,7 @@ public class EventService {
 		}
 		
 		NewRequestDTO newRequest = new NewRequestDTO();
-		newRequest.fromParam(eventId, addedEvent.getUserRoleId(), graphics.get("comments").toString(), null);
+		newRequest.fromParam(eventId, addedEvent.getUserRoleId(), graphics.get("comments").toString(), graphics.get("returningDate").toString());
 		graphicsRequestRepository.save(newRequest.toEntity());
 	}
 	
