@@ -215,13 +215,15 @@ function getEventInfo(datePickersMap){
 		getRRuleByInput();
 		
 		// Excluded dates
-		var excludedDatesStr = eventInfo.excluded.replace(/^\[|\]$/g, '').trim();
-		var excludeDates = excludedDatesStr.split(/\s*,\s*/);
-		
-		for(var i=0; i<excludeDates.length; i++){
-			addExcludeDate(excludeDates[i]);
+		var excludedDates = eventInfo.excluded;
+		if(excludedDates != undefined && excludedDates != null){
+			var excludedDatesStr = excludedDates.replace(/^\[|\]$/g, '').trim();
+			var excludeDates = excludedDatesStr.split(/\s*,\s*/);
+			
+			for(var i=0; i<excludeDates.length; i++){
+				addExcludeDate(excludeDates[i]);
+			}
 		}
-		
 	}
 	
 	getSelectedOptions(eventId);
