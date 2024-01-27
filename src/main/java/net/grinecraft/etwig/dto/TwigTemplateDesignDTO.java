@@ -13,22 +13,13 @@ public class TwigTemplateDesignDTO {
 
 	private Long id;
 	
-	private Map<String, Object> background;
-	
-	private Map<String, Object> logo;
-	
-	private Map<String, Object> title;
-	
-	private Map<String, Object> week;
+	private Map<String, Object> design;
 	
 	public TwigTemplateDesignDTO(TwigTemplate twigTemplate) throws Exception {
 		
 		this.id = twigTemplate.getId();
 		
 		JSONUtils jsonUtils = new JSONUtils();
-		this.background = jsonUtils.jsonToMap(twigTemplate.getBackground());
-		this.logo = jsonUtils.jsonToMap(twigTemplate.getLogo());
-		this.title = jsonUtils.jsonToMap(twigTemplate.getTitle());
-		this.week = jsonUtils.jsonToMap(twigTemplate.getWeek());
+		this.design = jsonUtils.jsonToMap(twigTemplate.getDesign());
 	}
 }

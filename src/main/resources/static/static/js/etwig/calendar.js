@@ -125,7 +125,9 @@ function getRecurringTimeEventListByRange(date){
 		success: function(json) {
 			
 			// Iterate all dates.
-			jQuery.each(json, function(id, value) {				
+			jQuery.each(json, function(id, value) {			
+				
+				//console.log(value.excluded)	;
 				
 				var rRule = new ETwig.RRuleFromStr(value.rrule);
 				var rule = rRule.getRuleObj();
@@ -142,6 +144,15 @@ function getRecurringTimeEventListByRange(date){
 					
 					// Get start and end time for each event.
 					var occurrenceDate = new Date(occurrence[i].getTime() + occurrence[i].getTimezoneOffset() * 60000);
+					
+					if(value.excluded != null){
+						//console.log(value.excluded.includes(occurrenceDate.toString('yyyy-MM-dd')))
+						//console.log(occurrenceDate.toString('yyyy-MM-dd'))
+						if(value.excluded.includes(occurrenceDate.toString('yyyy-MM-dd'))){
+							continue;
+						}
+					}
+					
 					
 					var eventStartDateTime = combineDateAndTime(occurrenceDate, value.eventTime);
 					var eventEndDateTime = combineDateAndTime(occurrenceDate, value.eventTime).addMinutes(value.duration);

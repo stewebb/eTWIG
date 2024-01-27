@@ -14,7 +14,7 @@
 
 								<#-- Col 1 -->
 								<div class="col-md-6">
-									<div class="mb-2">&nbsp;</div>
+									<div class="mb-2" id="noPermissionCallout">&nbsp;</div>
 									<input type="hidden" id="isEdit" value="0" />
 
 									<#-- EventId -->
@@ -59,6 +59,13 @@
 										</div>
 									</div>
 									<#-- /Location -->
+
+									<#-- Organizer -->
+									<div class="form-group row">
+										<label for="eventOrganizer" class="col-lg-3">Organizer</label>
+										<div class="col-lg-9" id="eventOrganizer"></div>
+									</div>
+									<#-- /Organizer -->
 
 									<#-- Organizer Role -->
 									<div class="form-group row">

@@ -109,9 +109,6 @@ function expectDateRender(data, type, row) {
 
 function approvedRender(data, type, row){
 	return data ? `<i class="fa-solid fa-check text-success bold-text"></i>` : `<i class="fa-solid fa-xmark text-danger bold-text"></i>`;
-	
-	//console.log(data)
-	//return data;
 }
 
 function pendingActionRender(data, type, full){
@@ -128,4 +125,79 @@ function finalizedActionRender(data, type, full){
 			<i class="fa-solid fa-eye"></i>&nbsp;Details
 		</a>
 	`;
+}
+
+function selectUpload(){
+	$('#etwigModalTitle').text('Select/Upload');
+	$("#etwigModalBody").load("/assets/_selector");
+	$('#etwigModal').modal('show');
+}
+
+function setAssetsUpload(approvedMode){
+	$('#graphicsApprovalAssets').toggle(approvedMode == 1);
+}
+
+function decide(){
+	var approvalDecisionObj = {}
+	
+	// requestId
+	approvalDecisionObj["id"]  = parseInt($('#requestId').text());
+	
+	// Role
+	approvalDecisionObj["role"]  = parseInt($('#approverRole').find(":selected").val());
+	
+	// Approval option, 1 -> Approved, 0 -> Declined, NaN -> Not Selected
+	var graphicsApprovalOption = parseInt($('input[type=radio][name=graphicsApprovalOption]:checked').val());
+	if(isNaN(graphicsApprovalOption)){
+		warningToast("Make a decision is required");
+		return;
+	}
+	approvalDecisionObj["approved"] = graphicsApprovalOption > 0;
+	
+	// Comments
+	approvalDecisionObj["comments"] = $('#graphicsApprovalComments').val();
+	
+	// Assets
+	if(approvalDecisionObj["approved"]){
+		var assetId = parseInt($('#uploadCallback').val());
+		if(isNaN(assetId)){
+			warningToast("Selecting an asset is the requisite for approving a graphic request.");
+			return;
+		}
+		approvalDecisionObj["asset"] = assetId;
+	}
+	
+	//console.log(approvalDecisionObj);
+	
+	var hasError = true;
+	$.ajax({
+   		url: '/api/private/approveRequests', 
+   		type: "POST",
+   		async: false,
+   		dataType: "json",
+   		contentType: "application/json; charset=utf-8",
+   		data: JSON.stringify(approvalDecisionObj),
+   		success: function (result) {
+			if(result.error > 0){
+				dangerToast("Failed to submit a decision.", result.msg);
+				hasError = true;
+			}else{
+				successToast("Deciside made successfully.");
+				hasError = false;
+			}	
+    	},
+    	error: function (err) {
+    		dangerToast("Failed to submit a decision due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+    		hasError = true;
+    	}
+ 	});
+
+	// Post-add operations
+	// More timeout if error happens.
+	setTimeout(
+		function() {
+			$(location).attr('href','/graphics/approval/list');
+		}, 
+		hasError ? 10000 : 2000
+	);
 }

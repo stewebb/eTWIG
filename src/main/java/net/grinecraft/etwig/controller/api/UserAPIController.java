@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.grinecraft.etwig.dto.PositionDTO;
+import net.grinecraft.etwig.dto.PositionWithoutEmailDTO;
 import net.grinecraft.etwig.model.User;
 import net.grinecraft.etwig.services.UserRoleService;
 import net.grinecraft.etwig.util.WebReturn;
@@ -28,7 +29,7 @@ public class UserAPIController {
     //private PasswordEncoder passwordEncoder;
 	
 	@GetMapping("/getMyPositions")
-    public Set<PositionDTO> getMyPositions() throws Exception {
+    public Set<PositionWithoutEmailDTO> getMyPositions() throws Exception {
 		return userRoleService.getMyPositions();
 	}
 	

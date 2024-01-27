@@ -15,7 +15,7 @@ public class RecurringEventBasicInfoDTO {
 	private int duration;
 	private String portfolioColor;
 	private String rRule;
-	
+	private String excluded;
 
 	public RecurringEventBasicInfoDTO(Event event) {
 		
@@ -25,6 +25,7 @@ public class RecurringEventBasicInfoDTO {
 		this.duration = event.getDuration();
 		this.portfolioColor = event.getUserRole().getPortfolio().getColor();
 		this.rRule = event.getRRule().trim();
+		this.excluded = event.getExcludedDates();
 	}
 
 

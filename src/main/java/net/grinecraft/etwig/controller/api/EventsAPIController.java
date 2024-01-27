@@ -25,8 +25,10 @@ import org.springframework.web.bind.annotation.RestController;
 import net.grinecraft.etwig.dto.events.EventDetailsDTO;
 import net.grinecraft.etwig.dto.events.RecurringEventBasicInfoDTO;
 import net.grinecraft.etwig.dto.events.SingleTimeEventBasicInfoDTO;
+import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.services.EventOptionService;
 import net.grinecraft.etwig.services.EventService;
+import net.grinecraft.etwig.services.PortfolioService;
 import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.NumberUtils;
 import net.grinecraft.etwig.util.WebReturn;
@@ -36,10 +38,13 @@ import net.grinecraft.etwig.util.WebReturn;
 public class EventsAPIController {
 
 	@Autowired
-	EventService eventService;
+	private EventService eventService;
 	
 	@Autowired
-	EventOptionService eventOptionService;
+	private EventOptionService eventOptionService;
+	
+	@Autowired
+	private PortfolioService portfolioService;
 	
 	/**
 	 * Get the event list in a monthly view, by a given date.
@@ -102,8 +107,9 @@ public class EventsAPIController {
 			return WebReturn.errorMsg(null, true);
 		}
 		
-		// Event exist, edit mode.
-		if(!eventService.eventEditPermissionCheck(event.getPosition().getPortfolio())) {
+		// Event exist, edit mode. But check permission again.
+		Portfolio eventPortfolio = portfolioService.getPortfolioById(event.getPortfolioId());
+		if(!eventService.eventEditPermissionCheck(eventPortfolio)) {
 			return WebReturn.errorMsg("You don't have permission to edit event.", false);
 		} 
 		

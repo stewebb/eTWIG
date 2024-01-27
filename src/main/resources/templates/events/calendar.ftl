@@ -52,7 +52,7 @@
 
 						<#-- Options -->
 						<div class="col-md-3">
-							<div class="sticky-top mb-3">
+							<div class="mb-3">
 
 								<#-- Options -->
 								<div class="card card-primary card-outline">
@@ -89,9 +89,8 @@
 										<#-- /Date Options -->
 										
 										<#-- Event Options-->
-										<hr class="mt-3 mb-3"/>
-										
-										<#if true>
+										<#if access.eventsAccess>
+											<hr class="mt-3 mb-3"/>
 											<a class="btn btn-block btn-outline-primary" href="/events/edit?eventId=-1">
 												<i class="fa-solid fa-calendar-plus"></i>&nbsp;New Event
 											</a>	
@@ -101,6 +100,41 @@
 									</div>
 								</div>
 								<#-- /Options -->
+
+								<#-- Legend -->
+								<div class="card card-primary card-outline">
+									<div class="card-header">
+										<h3 class="card-title">
+											<i class="fa-solid fa-location-crosshairs"></i>&nbsp;Legend
+										</h3>
+									</div>
+									<div class="card-body">
+										
+										<#-- Portfolio -->
+										<div class="row">
+											<#list portfolios as portfolio>
+												<div class="col-lg-6">
+													<div class="legend-item" style="border: 1px solid #${portfolio.color};">
+														<span style="color: #${portfolio.color}">
+															${portfolio.name}
+															<#if portfolio.abbreviation?has_content>
+																&nbsp;(${portfolio.abbreviation})
+															</#if>
+														</span>
+													</div>
+												</div>
+											</#list>
+										</div>
+										<#-- /Portfolio -->
+
+										<div class="row bold-text">
+											<div class="col-lg-6">Single Time Event</div>
+											<div class="col-lg-6 font-italic">Recurring Event</div>
+										</div>
+
+									</div>
+								</div>
+								<#-- /Legend -->
 
 								<#-- Filter -->
 								<!--

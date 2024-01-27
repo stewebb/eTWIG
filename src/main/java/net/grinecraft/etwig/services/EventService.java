@@ -11,7 +11,6 @@ package net.grinecraft.etwig.services;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,18 +26,17 @@ import net.grinecraft.etwig.dto.events.EventDetailsDTO;
 import net.grinecraft.etwig.dto.events.GraphicsRequestEventInfoDTO;
 import net.grinecraft.etwig.dto.events.RecurringEventBasicInfoDTO;
 import net.grinecraft.etwig.dto.events.SingleTimeEventBasicInfoDTO;
+import net.grinecraft.etwig.dto.graphics.NewRequestDTO;
 import net.grinecraft.etwig.dto.user.UserAccessDTO;
 import net.grinecraft.etwig.model.Event;
 import net.grinecraft.etwig.model.EventOption;
 import net.grinecraft.etwig.model.EventOptionKey;
 import net.grinecraft.etwig.model.Portfolio;
-import net.grinecraft.etwig.model.User;
-import net.grinecraft.etwig.model.UserRole;
 import net.grinecraft.etwig.repository.EventOptionRepository;
 import net.grinecraft.etwig.repository.EventRepository;
+import net.grinecraft.etwig.repository.GraphicsRequestRepository;
 import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.ListUtils;
-import net.grinecraft.etwig.util.exception.DataException;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -53,6 +51,8 @@ public class EventService {
 	@Autowired
 	private EventOptionRepository eventOptionRepository;
 	
+	@Autowired
+	private GraphicsRequestRepository graphicsRequestRepository;
 	
 	@Autowired
 	private HttpSession session;
@@ -114,31 +114,19 @@ public class EventService {
 		Event addedEvent = eventRepository.save(newEventDTO.toEntity());
 		
 		// Add options
-		//if(currentEvent != null) {
-			
-			//System.out.println(eventInfo.get("properties").toString());
-			
-			ArrayList<Long> optionList = ListUtils.stringArrayToLongArray(ListUtils.stringToArrayList(eventInfo.get("properties").toString()));
-			updateEventOptionBulky(addedEvent.getId(), optionList);
-		//}
-
-	
+		Long eventId = addedEvent.getId();
+		ArrayList<Long> optionList = ListUtils.stringArrayToLongArray(ListUtils.stringToArrayList(eventInfo.get("properties").toString()));
+		updateEventOptionBulky(eventId, optionList);
 		
-		/*
-		boolean isRecurrent = BooleanUtils.toBoolean(eventInfo.get("isRecurrent").toString());
-		Long eventId = Long.parseLong(eventInfo.get("eventId").toString());
-		
-		// Update specific data (recurrent events)
-		if(isRecurrent) {
-			// TODO Recurrent Event
-		}
-				
-		// Insert specific data (single time events)
-		else {
-			updateSingleTimeEvent(eventId, eventInfo);
+		// Optional graphics requests
+		Map<String, Object> graphics = (Map<String, Object>) eventInfo.get("graphics");
+		if(graphics == null) {
+			return;
 		}
 		
-			*/
+		NewRequestDTO newRequest = new NewRequestDTO();
+		newRequest.fromParam(eventId, addedEvent.getUserRoleId(), graphics.get("comments").toString(), graphics.get("returningDate").toString());
+		graphicsRequestRepository.save(newRequest.toEntity());
 	}
 	
 	/**
@@ -146,33 +134,7 @@ public class EventService {
 	 * The access control modifiers are "private".
 	 */
 	
-	/**
-	 * Add a single time event to database
-	 * @param eventId The id of the event
-	 * @param eventInfo The event details
-	 */
-	
-	private void updateSingleTimeEvent(Long eventId, LinkedHashMap<String, Object> eventInfo) {
-		
-		/*
-		SingleTimeEvent newSingleTimeEvent = new SingleTimeEvent();
-		
-		newSingleTimeEvent.setId(eventId);
-		newSingleTimeEvent.setName(eventInfo.get("name").toString());
-		newSingleTimeEvent.setDescription(eventInfo.get("description").toString());
-		newSingleTimeEvent.setLocation(eventInfo.get("location").toString());
-		
-		String eventStartTimeStr = eventInfo.get("startTime").toString();
-		newSingleTimeEvent.setStartDateTime(DateUtils.safeParseDateTime(eventStartTimeStr, "yyyy-MM-dd hh:mm a"));
-		newSingleTimeEvent.setDuration(Integer.parseInt(eventInfo.get("duration").toString()));
-		
-		// TODO Float number duration.
-		newSingleTimeEvent.setUnit(eventInfo.get("timeUnit").toString());
-		
-		singleTimeEventRepository.save(newSingleTimeEvent);
-		
-		*/
-	}
+
 	
 	/**
 	 * Update event options bulky, by removing all all existing options first, and then add all new options.
@@ -200,43 +162,6 @@ public class EventService {
 	 * Helper methods below, they are only used in this class.
 	 * The access control modifiers are "private".
 	 */
-	
-	/**
-	 * Convert portfolio object to a LinkedHashMap
-	 * @param portfolio The portfolio object
-	 * @return The LinkedHashMap form of portfolio object.
-	 * @throws IllegalAccessException | IllegalArgumentException
-	 */
-	
-	private LinkedHashMap<String, Object> portfolioToMap(Portfolio portfolio) throws Exception{
-		
-		/*
-		LinkedHashMap<String, Object> portfolioInfo = new LinkedHashMap<String, Object>();
-		
-		for (Field field : portfolio.getClass().getDeclaredFields()) {
-            field.setAccessible(true);
-            portfolioInfo.put(field.getName(), field.get(portfolio));
-        }
-
-        return portfolioInfo;		
-        
-        */
-		
-		return null;
-	}
-	
-	/**
-	 * Convert user object to a LinkedHashMap, however, only the id and full name are picked.
-	 * @param user The user object
-	 * @return The LinkedHashMap form of user object.
-	 */
-	
-	private LinkedHashMap<String, Object> userInfo(User user){
-		LinkedHashMap<String, Object> userInfo = new LinkedHashMap<String, Object>();
-		userInfo.put("Id", user.getId());
-		userInfo.put("fullName", user.getFullName());
-		return userInfo;
-	}
 	
 	public boolean eventEditPermissionCheck(Portfolio portfolio) throws Exception {
 			

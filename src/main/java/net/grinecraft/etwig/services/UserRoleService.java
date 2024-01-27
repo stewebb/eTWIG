@@ -9,6 +9,7 @@
 
 package net.grinecraft.etwig.services;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpSession;
 import net.grinecraft.etwig.dto.PositionDTO;
+import net.grinecraft.etwig.dto.PositionWithoutEmailDTO;
 import net.grinecraft.etwig.dto.user.UserDTO;
 import net.grinecraft.etwig.handler.CustomUserDetails;
 import net.grinecraft.etwig.model.Portfolio;
@@ -42,34 +44,24 @@ public class UserRoleService implements UserDetailsService{
     @Autowired
 	private HttpSession session;
     
-    //private UserDTO currentUser;
-    
-    //public UserRoleService() {
-    //	this.currentUser = (UserDTO) session.getAttribute("user");
-    //}
-    
     public Set<Portfolio> getMyPortfolios(){
-		//if (userRoleRepository == null) {
-	    //    return null;
-	    //}
-		
-		// Get my roles, then get my portfolios
 		UserDTO currentUser = (UserDTO) session.getAttribute("user");
 		return userRoleRepository.findByUserId(currentUser.getId()).stream().map(UserRole::getPortfolio).collect(Collectors.toSet());
 	}
     
-    public Set<PositionDTO> getMyPositions(){
-    	//if (userRoleRepository == null) {
-	    //    return null;
-	   // }
+    public Set<PositionWithoutEmailDTO> getMyPositions(){
     	UserDTO currentUser = (UserDTO) session.getAttribute("user");
-    	return userRoleRepository.getPositionsByUserId(currentUser.getId());
+    	Set<UserRole> myRoles = userRoleRepository.findByUserId(currentUser.getId());
+    	return myRoles.stream().map(PositionWithoutEmailDTO::new).collect(Collectors.toSet());
+    	
+    	//Set<PositionWithoutEmailDTO> myPositions = new HashSet();
+    	//for(UserRole r : myRoles) {
+    	//	myPositions.add(new PositionWithoutEmailDTO(r));
+    	//}
+    	//return myPositions;
     }
     
     public UserRole findById(@NonNull Long userRoleId) {
-    	//if(userRoleRepository == null) {
-    	//	return null;
-    	//}
         return userRoleRepository.findById(userRoleId).orElse(null);
     }
     

@@ -21,6 +21,7 @@ import net.grinecraft.etwig.dto.events.GraphicsRequestEventInfoDTO;
 import net.grinecraft.etwig.services.EventService;
 import net.grinecraft.etwig.services.GraphicsRequestService;
 import net.grinecraft.etwig.services.OptionService;
+import net.grinecraft.etwig.services.PortfolioService;
 import net.grinecraft.etwig.services.PropertyService;
 import net.grinecraft.etwig.services.UserRoleService;
 
@@ -43,12 +44,16 @@ public class EventsController {
 	@Autowired
 	private GraphicsRequestService graphicsRequestService;
 	
+	@Autowired
+	private PortfolioService portfolioService;
+	
 	/**
 	 * Event calendar page.
 	 */
 	
 	@GetMapping("/calendar")  
 	public String calendar(Model model){
+		model.addAttribute("portfolios", portfolioService.getAllPortfolioList());
 		return "events/calendar";
 	}
 	

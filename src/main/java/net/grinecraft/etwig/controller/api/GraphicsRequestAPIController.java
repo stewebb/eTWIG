@@ -13,11 +13,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.grinecraft.etwig.services.GraphicsRequestService;
+import net.grinecraft.etwig.services.PortfolioService;
 import net.grinecraft.etwig.dto.events.EventDetailsDTO;
 import net.grinecraft.etwig.dto.graphics.FinalizedRequestsBasicInfoDTO;
 import net.grinecraft.etwig.dto.graphics.PendingRequestsBasicInfoDTO;
+import net.grinecraft.etwig.model.GraphicsRequest;
+import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.services.EmailService;
 import net.grinecraft.etwig.services.EventService;
+import net.grinecraft.etwig.util.NumberUtils;
 import net.grinecraft.etwig.util.WebReturn;
 
 @RestController
@@ -33,6 +37,9 @@ public class GraphicsRequestAPIController {
 	
 	@Autowired
 	private EmailService emailService;
+	
+	@Autowired
+	private PortfolioService portfolioService;
 
 	@GetMapping("/countRequestsByEventId")
     public Map<String, Object> countRequestsByEventId(@RequestParam Long eventId) throws Exception {
@@ -48,7 +55,8 @@ public class GraphicsRequestAPIController {
 		
 		// Check permission again!
 		EventDetailsDTO event = eventService.findById(Long.parseLong(requestInfo.get("eventId").toString()));
-		if(!eventService.eventEditPermissionCheck(event.getPosition().getPortfolio())) {
+		Portfolio eventPortfolio = portfolioService.getPortfolioById(event.getPortfolioId());
+		if(!eventService.eventEditPermissionCheck(eventPortfolio)) {
 			return WebReturn.errorMsg("You don't have permission to make this request.", false);
 		} 
 		
@@ -56,7 +64,7 @@ public class GraphicsRequestAPIController {
 		graphicsRequestService.addRequest(requestInfo);
 
 		// Send an email to all graphics managers
-		emailService.graphicsRequest(requestInfo);		
+		emailService.graphicsRequestNotification(requestInfo);		
         return WebReturn.errorMsg(null, true);
     }
 	
@@ -70,5 +78,27 @@ public class GraphicsRequestAPIController {
 	@GetMapping(value = "/getFinalizedRequests")
 	public Page<FinalizedRequestsBasicInfoDTO> getFinalizedRequests(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) throws Exception {
 		return graphicsRequestService.getFinalizedRequests(page, size);
+	}
+	
+	@PostAuthorize("hasAuthority('ROLE_GRAPHICS')")
+	@PostMapping(value = "/approveRequests")
+	public Map<String, Object> approveRequests(@RequestBody Map<String, Object> decisionInfo) throws Exception {
+		
+		// Get current request
+		Long requestId = NumberUtils.safeCreateLong(decisionInfo.get("id").toString());
+		
+		// Invalid or negative eventId, add event.
+		if(requestId == null || requestId <= 0) {
+			return WebReturn.errorMsg("The requestId is invalid.", false);
+		}
+		
+		// Check the existence
+		GraphicsRequest currentRequest = graphicsRequestService.findById(requestId);
+		if(currentRequest == null) {
+			return WebReturn.errorMsg("The graphics request of requestId= " + requestId + " does not exist.", false);
+		}
+		
+		graphicsRequestService.approveRequest(currentRequest, decisionInfo);
+		return WebReturn.errorMsg(null, true);
 	}
 }

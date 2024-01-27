@@ -7,6 +7,8 @@
 	function: The dashboard (site main) page.
    -->
 <#assign navbar = "USER">
+<#assign nameParts = user.fullName?split(" ")>
+<#assign firstName = nameParts[0]>
 
 <!DOCTYPE html>
 <html>
@@ -51,7 +53,7 @@
 
 									<#-- Avatar -->
 									<div class="text-center">
-										<img class="profile-user-img img-fluid img-circle" src="/img">
+										<img class="profile-user-img img-fluid img-circle" src="https://api.dicebear.com/7.x/identicon/svg?seed=${firstName}">
 									</div>
 									<#-- /Avatar -->
 									

@@ -57,8 +57,8 @@ public class Event {
 	@Column(name = "updated_time")
 	private LocalDateTime updatedTime;
 	
-	@Column(name = "override_recurring")
-	private Integer overrideRecurring;
+	@Column(name = "excluded_dates")
+	private String excludedDates;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_role", referencedColumnName = "id", insertable = false, updatable = false)

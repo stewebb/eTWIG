@@ -19,6 +19,10 @@ function getEventInfo(datePickersMap){
 	var urlParams = new URLSearchParams(window.location.search);
     var eventId = urlParams.get('eventId');
     
+    // Get my positions
+    var myPositions = getMyPositions();
+    //console.log(position);
+    
     /**
 	 * Add mode.
 	 */
@@ -26,20 +30,20 @@ function getEventInfo(datePickersMap){
     // Null check.
     if(eventId == undefined || eventId == null || eventId.length == 0){
 		warningToast("The eventId provided is empty.", "It must be not empty, and an integer. This page will be switched to Add Event mode.");
-		initAddOption();
+		initAddOption(myPositions);
 		return;
 	}
     
     // Invalid check (not an integer).
     if(eventId % 1 !== 0){
 		warningToast(eventId +" is not a valid eventId", "It must be an integer. This page will be switched to Add Event mode.");
-		initAddOption();
+		initAddOption(myPositions);
 		return;
 	}
     
     // Zero or Negative eventId, add event mode.
     if(eventId <= 0){
-		initAddOption();
+		initAddOption(myPositions);
 		return;
 	}
 	
@@ -64,13 +68,34 @@ function getEventInfo(datePickersMap){
 	
 	if(eventInfo == undefined || eventInfo == null || eventInfo.length == 0){
 		warningToast("The event with id=" + eventId + " does not exist");
-		initAddOption();
+		initAddOption(myPositions);
 		return;
 	}
     
     /**
 	 * Edit mode.
 	 */
+	
+	// Permission Check
+	var myPortfolioIds = [];
+	var myPortfolioNames = [];
+	for (let key in myPositions) {
+  		myPortfolioIds.push(myPositions[key].portfolioId)
+  		myPortfolioNames.push(myPositions[key].portfolioName)
+	}
+	
+	// My portfolios should includes the event portfolio.
+	if (!myPortfolioIds.includes(eventInfo.portfolioId)){
+		$('#noPermissionCallout').html(`
+			<div class="callout callout-primary">
+				<h5 class="bold-text mb-3">No edit permission</h5>
+					This event was created by the user with <span class="bold-text" style="color:#000000">${eventInfo.portfolioName}</span> portfolio. <br />
+					However, your portfolios are [
+					<span class="bold-text" style="color:#000000}">${myPortfolioNames}</span>, ].
+			</div>
+		`)
+	}
+	//console.log(myPortfolioNames);
 	
     // Get eventId
     $('#eventIdBlock').show();
@@ -90,8 +115,8 @@ function getEventInfo(datePickersMap){
     $('#eventLocation').val(eventInfo.location);
     
     // Get organizer info and set it to read-only.
-    var position = eventInfo.position;
-    $("#eventRole").append(`<option value="${position.userRoleId}">${position.position}, ${position.portfolio.name}</option>`);
+    $('#eventOrganizer').text(eventInfo.organizerName);
+    $("#eventRole").append(`<option value="${eventInfo.userRoleId}">${eventInfo.positionName}, ${eventInfo.portfolioName}</option>`);
     $("#eventRole").prop('disabled', true);
     
     // Get created and updated time.
@@ -102,7 +127,6 @@ function getEventInfo(datePickersMap){
     
     // Get description
     $('#eventDescription').html(eventInfo.description);
-    //console.log(eventInfo.description);
     
     // Get event start and end datetime
     var eventStartDate = Date.parse(eventInfo.startTime);    
@@ -190,6 +214,16 @@ function getEventInfo(datePickersMap){
 		// Get RRule and selected options.
 		getRRuleByInput();
 		
+		// Excluded dates
+		var excludedDates = eventInfo.excluded;
+		if(excludedDates != undefined && excludedDates != null){
+			var excludedDatesStr = excludedDates.replace(/^\[|\]$/g, '').trim();
+			var excludeDates = excludedDatesStr.split(/\s*,\s*/);
+			
+			for(var i=0; i<excludeDates.length; i++){
+				addExcludeDate(excludeDates[i]);
+			}
+		}
 	}
 	
 	getSelectedOptions(eventId);
@@ -265,7 +299,11 @@ function getRRuleByInput(){
 	// Get recurrent info.
     var rRule = new ETwig.RRuleFromForm(currentRule);
     rRule.generateRRule();
+    //rRule.multiExDate(excludedDatesObj)
+    
 	var allDates = rRule.all();
+	
+	//console.log(rRule.toString());
 	
 	// Set description
     $('#eventRRuleDescription').text(rRule.toText());
@@ -286,6 +324,7 @@ function getRRuleByInput(){
         // Extracting date components
         
         date = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+        var dateStr = date.toString('yyyy-MM-dd');
         
         var dayOfWeek = date.toLocaleString('default', { weekday: 'long' });
         var year = date.getFullYear();
@@ -294,11 +333,27 @@ function getRRuleByInput(){
 
         // Append row to table
         $('#eventRRuleAllDates tbody').append(
-            '<tr><td>' + dayOfWeek + '</td><td>' + year + '</td><td>' + month + '</td><td>' + dateOfMonth + '</td></tr>'
+            `<tr>
+            	<td>${dayOfWeek}</td>
+            	<td>${year}</td>
+            	<td>${month}</td>
+            	<td>${dateOfMonth}</td>
+            	<td>
+            		<button class="btn btn-outline-danger btn-xs" onclick="addExcludeDate('${dateStr}');">
+            			<i class="fa-solid fa-calendar-xmark"></i>
+            		</button>
+            	</td>
+            </tr>`
         );
     });
     
 	return rRule.toString();
+}
+
+function addExcludeDate(dateStr){
+	//$(btn).closest('tr').remove();
+	$('#eventExcludedDates').append(`<option value="${dateStr}" selected>${dateStr}</option>`);
+	//getRRuleByInput();
 }
 
 function addEvent(){
@@ -449,6 +504,10 @@ function addEvent(){
 			return;
 		}
 		recurring["rrule"] = eventRRule;
+		
+		// Excluded Dates
+		recurring ["excluded"] = [...new Set($('#eventExcludedDates').val())]
+		
 		newEventObj["recurring"]  = recurring;
 	}
 	
@@ -484,26 +543,26 @@ function addEvent(){
 	}
 	newEventObj["properties"]  = selectedProperties;
 	
-	/*
-	// Graphics request (only abailable when adding an event)
+	
+	// Graphics request (only available when adding an event)
 	if(!isEdit && $("#eventRequestNow").is(':checked')){
 		var graphics = {};
 		
 		// Returning Date
-		var returningDate = Date.parse($('#returningDate').val());
-		if( returningDate == null || returningDate.length == 0){
+		var eventGraphicsDate = Date.parse($('#eventGraphicsDate').val());
+		if(eventGraphicsDate == null || eventGraphicsDate.length == 0){
 			warningToast("Graphics returning date is required, and it must be yyyy-MM-dd format.");
 			return;
 		}
-		graphics["returningDate"] = returningDate;
+		graphics["returningDate"] = eventGraphicsDate.toString("yyyy-MM-dd");
 		
 		// Additional comments
-		graphics["comments"] = requestComment;
+		graphics["comments"] =  $("#requestComment").val();
 		newEventObj["graphics"] = graphics;
 	}
-	*/
-	//console.log(newEventObj);
 	
+	//console.log(newEventObj);
+	//return;
 	var hasError = true;
 	$.ajax({
    		url: '/api/private/editEvent', 
@@ -621,7 +680,7 @@ function createDatePickers() {
     return datePickersMap;
 }
 
-function initAddOption(){
+function initAddOption(myPositions){
 	
 	// Set the default options.
 	setRecurrentMode(0);
@@ -643,23 +702,10 @@ function initAddOption(){
 	$('#isEdit').val('0');
 	
 	// Set the role(s).
-	$.ajax({ 
-		type: 'GET', 
-    	url: '/api/private/getMyPositions', 
-    	async: false,
-		success: function(json) {
-			
-			// Iterate all roles.
-			jQuery.each(json, function(id, value) {
-				$("#eventRole").append(`<option value="${value.userRoleId}">${value.position}, ${value.portfolio.name}</option>`);
-			})
-        },
-        
-        // Toast error info when it happens
-    	error: function(err) {   		
-			dangerToast("Failed to get user positions due to a HTTP " + err.status + " error.", err.responseJSON.exception);
-		}
-	});
+	for (let key in myPositions) {
+  		//myPortfolioIds.push(myPositions[key].portfolioId);
+  		$("#eventRole").append(`<option value="${myPositions[key].userRoleId}">${myPositions[key].position}, ${myPositions[key].portfolioName}</option>`);
+	}
 	
 }
 
@@ -680,7 +726,7 @@ function deleteEventCheckboxOnChange(){
 }
 
 function getSelectedOptions(eventId){
-	//console.log(eventId)
+
 	// No need to get in add mode.
 	if(eventId <= 0){
 		return;
@@ -699,15 +745,6 @@ function getSelectedOptions(eventId){
 			jQuery.each(json, function(id, value) {
 				$('.property-select-box option[value='+value+']').attr('selected','selected');
 			})
-			
-			//if(choices.length == 0){
-			//	return;
-			//}
-			
-			// Iterate all available choices.
-			//$('.property-select-box').each(function(index) {
-        	//	$('.id_100 option[value=val2]').attr('selected','selected');
-    		//});
         },
         
         // Toast error info when it happens

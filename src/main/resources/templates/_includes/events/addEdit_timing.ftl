@@ -31,16 +31,10 @@
 													<label for="recurring-event">Recurring</label>
 												</div>
 											</div>				
-											
-													<#--
-													<div class="callout callout-warning">
-														<h5 class="bold-text mb-3">Recurrent Option Disabled</h5>
-														You cannot change the recurrent option for an existing event. If you want to do so, please delate the event and create a new event.
-													</div>
-													-->
+
 											<div class="callout callout-primary">
 												<h5 class="bold-text mb-3">Be Careful!</h5>
-												Once you set the recurrent option, it cannot be changed unless you delete the event completely, then add a new event.
+												If you switch between recurrent options, some timing information may lose and they are not recoverable.
 											</div>
 												
 										</div>
@@ -245,7 +239,9 @@
 
 										<#-- Valid from -->
 										<div class="form-group row">
-											<label for="eventValidFromDate" class="col-sm-3 col-form-label">Valid From</label>
+											<label for="eventValidFromDate" class="col-sm-3 col-form-label">
+												Valid From&nbsp;<span class="required-symbol">*</span>
+											</label>
 											<div class="col-sm-9">
 												<div class="input-group">
 													<div class="input-group-prepend">
@@ -255,7 +251,7 @@
 													</div>
 													<input type="text" class="form-control event-rrule-options" id="eventValidFromDate">
 												</div>
-												<small class="form-text text-muted">The date when the recurrence start. (Optional)</small>
+												<small class="form-text text-muted">The date when the recurrence start.</small>
 												<div id="eventValidFromDateWrapper" class="datepicker"></div>
 											</div>
 										</div>
@@ -274,7 +270,7 @@
 													</div>
 													<input type="text" class="form-control event-rrule-options" id="eventValidToDate">
 												</div>
-												<small class="form-text text-muted">The date when the recurrence end. (Optional)</small>
+												<small class="form-text text-muted">The date when the recurrence end.</small>
 												<div id="eventValidToDateWrapper" class="datepicker"></div>
 											</div>
 										</div>			
@@ -293,7 +289,7 @@
 													</div>
 													<input type="number" min="2" class="form-control event-rrule-options" id="eventCount">
 												</div>
-												<small class="form-text text-muted">How many occurrences will be generated. The lowest number allowed is 2. (Optional)</small>
+												<small class="form-text text-muted">How many occurrences will be generated. The smallest number allowed is 2.</small>
 											</div>
 										</div>
 										<#-- /Count -->
@@ -389,6 +385,25 @@
 										</div>
 										<#-- By Month Day -->
 
+										<#-- Excluded dates -->
+										<div class="form-group row">
+											<label for="eventExcludedDates" class="col-lg-3 col-form-label">Excluded Dates</label>
+											<div class="col-lg-9">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text">
+															<i class="fa-solid fa-calendar-xmark"></i>
+														</span>
+													</div>
+													<select class="form-control select2bs4 event-rrule-options" multiple="multiple" id="eventExcludedDates">
+			
+													</select>									
+												</div>
+												<small class="form-text text-muted">The dates that you want to exclude.</small>
+											</div>
+										</div>
+										<#-- Excluded dates -->
+
 										<#-- Description -->
 										<div class="form-group row">
 											<label for="eventRRuleDescription" class="col-lg-3">Description</label>
@@ -409,6 +424,7 @@
 																<th>Year</th>
 																<th>Month</th>
 																<th>Day</th>
+																<th>Exclude</th>
 															</tr>
 														</thead>
 														<tbody>

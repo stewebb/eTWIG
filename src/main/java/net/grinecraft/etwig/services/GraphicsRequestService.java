@@ -1,6 +1,5 @@
 package net.grinecraft.etwig.services;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -16,11 +15,13 @@ import org.springframework.stereotype.Service;
 
 import net.grinecraft.etwig.dto.graphics.PendingRequestsBasicInfoDTO;
 import net.grinecraft.etwig.dto.graphics.PendingRequestsDetailsDTO;
+import net.grinecraft.etwig.dto.graphics.ApproveRequestsDTO;
 import net.grinecraft.etwig.dto.graphics.FinalizedRequestsBasicInfoDTO;
+import net.grinecraft.etwig.dto.graphics.FinalizedRequestsDetailsDTO;
 import net.grinecraft.etwig.dto.graphics.GraphicsRequestDTO;
+import net.grinecraft.etwig.dto.graphics.NewRequestDTO;
 import net.grinecraft.etwig.model.GraphicsRequest;
 import net.grinecraft.etwig.repository.GraphicsRequestRepository;
-import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.MapUtils;
 
 @Service
@@ -28,6 +29,16 @@ public class GraphicsRequestService {
 
 	@Autowired
 	private GraphicsRequestRepository graphicsRequestRepository;
+	
+	@Autowired
+	private EmailService emailService;
+	
+	@Autowired
+	private UserRoleService userRoleService;
+	
+	public GraphicsRequest findById(Long requestId) {
+		return graphicsRequestRepository.findById(requestId).orElse(null);
+	}
 	
 	public Long countByEventId(Long eventId) {
 		return graphicsRequestRepository.countByEventId(eventId);
@@ -45,7 +56,7 @@ public class GraphicsRequestService {
 	
 	public Page<FinalizedRequestsBasicInfoDTO> getFinalizedRequests(int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
-		Page<GraphicsRequest> requests =  graphicsRequestRepository.findByApprovedIsNotNullOrderByExpectDateDesc(pageable);
+		Page<GraphicsRequest> requests =  graphicsRequestRepository.findByApprovedIsNotNullOrderByResponseTimeDesc(pageable);
 		return requests.map(FinalizedRequestsBasicInfoDTO::new);
 	}
 	
@@ -84,13 +95,40 @@ public class GraphicsRequestService {
 	
 	public void addRequest(Map<String, Object> requestInfo) {
 		
-		GraphicsRequest request = new GraphicsRequest();
-		request.setEventId(Long.parseLong(requestInfo.get("eventId").toString()));
-		request.setRequesterRoleId(Long.parseLong(requestInfo.get("requesterRole").toString()));
-		request.setRequestComment(requestInfo.get("requestComment").toString());
-		request.setExpectDate(DateUtils.safeParseDate(requestInfo.get("returningDate").toString(), "yyyy-MM-dd"));
-		request.setRequestTime(LocalDateTime.now());
+		//GraphicsRequest request = new GraphicsRequest();
+		//request.setEventId(Long.parseLong(requestInfo.get("eventId").toString()));
+		//request.setRequesterRoleId(Long.parseLong(requestInfo.get("requesterRole").toString()));
+		//request.setRequestComment(requestInfo.get("requestComment").toString());
+		//request.setExpectDate(DateUtils.safeParseDate(requestInfo.get("returningDate").toString(), "yyyy-MM-dd"));
+		//request.setRequestTime(LocalDateTime.now());
 		
-		graphicsRequestRepository.save(request);
+		NewRequestDTO newRequest = new NewRequestDTO();
+		newRequest.fromMap(requestInfo);
+		graphicsRequestRepository.save(newRequest.toEntity());
+	}
+	
+	//public void addRequest 
+	
+	@SuppressWarnings("null")
+	public void approveRequest(GraphicsRequest currentRequest, Map<String, Object> decisionInfo) throws Exception {
+		ApproveRequestsDTO request = new ApproveRequestsDTO(currentRequest, decisionInfo);
+		
+		// Update request info
+		GraphicsRequest updatedRequest = request.toEntity();
+		graphicsRequestRepository.save(updatedRequest);
+		
+		// Re-query the request data (to avoid some null values)
+		updatedRequest = this.findById(updatedRequest.getId());
+		//System.out.println(updatedRequest);
+		
+		// Need to set the approver info manually
+		FinalizedRequestsDetailsDTO detail = new FinalizedRequestsDetailsDTO(updatedRequest);
+		detail.setApprover(userRoleService.findById(updatedRequest.getApproverRoleId()));
+		
+		//System.out.println(updatedRequest.getApproverRoleId());
+		//System.out.println(userRoleService.findById(updatedRequest.getApproverRoleId()));
+		
+		// Send email
+		emailService.graphicsApprovalNotification(detail);
 	}
 }

@@ -38,11 +38,11 @@ public class TwigTemplate {
 	private Long portfolioId;
 	 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "creator", referencedColumnName = "id", insertable = false, updatable = false)
-	private User creator;
+	@JoinColumn(name = "creator_role", referencedColumnName = "id", insertable = false, updatable = false)
+	private UserRole creatorRole;
 		
-	@Column(name = "creator")
-	private Long creatorId;
+	@Column(name = "creator_role")
+	private Long creatorRoleId;
 	
 	/**
 	 * The "background" column stores the style and content of the TWIG background in JSON format.
@@ -65,42 +65,8 @@ public class TwigTemplate {
 	 * Otherwise, ${VALUE} is the assetId in the asset table.
 	 */
 	
-	@Column(name = "background")
-	private String background;
-	
-	/**
-	 * 	The common element for multiple fields and widgets.
-	 * The accepted widgets: logo, title, week
-	 * {
-	 * 		"enabled" : ${ENABLED},
-	 * 		"image" : ${IMAGE},
-	 * 		"size" : ${SIZE},
-	 * 		"position" : "${POSX}, ${POSY}"
-	 * }
-	 * 
-	 * Where:
-	 * ${ENABLED} is a boolean value.
-	 * ${IMAGE} is the assetId in the asset table. It MUST be an image file.
-	 * 
-	 * ${SIZE} is the size of the widget, which is an integer between two numbers (user defined).
-	 * The short side of the widget is a proportion of the short side of the TWIG canvas.
-	 * Actual size = constrain(${SIZE}, MIN, MAX)
-	 * If ${SIZE} < MIN,  ${SIZE} = MIN.
-	 * If ${SIZE} > MAX, ${SIZE} = MAX.
-	 * 
-	 * ${POSX}, ${POSY} are the position of the widget, which are integers between 0 and 100.
-	 * They are the proportion of the long side and short side of the TWIG canvas respectively.
-	 * Actual poses = constrain(${POX}, 0, 100)
-	 */
-	
-	@Column(name = "logo")
-	private String logo;
-	
-	@Column(name = "title")
-	private String title;
-	
-	@Column(name = "week")
-	private String week;
+	@Column(name = "design")
+	private String design;
 	
 	@Column(name = "available_from")
 	private LocalDate availableFrom;

@@ -24,6 +24,7 @@
 	<#-- Main Wrapper -->
 	<div class="wrapper">
 		<#include "../_includes/navbar.ftl">
+		<#include "../_includes/modal.ftl">
 
 		<#-- Content Wrapper. -->
 		<div class="content-wrapper">
@@ -87,7 +88,7 @@
 											<#-- Request Id -->
 											<tr>
 												<th scope="row">Request Id</th>
-												<td>${requestInfo.id}</td>
+												<td id="requestId">${requestInfo.id}</td>
 											</tr>
 											<#-- /Request Id -->
 
@@ -142,6 +143,104 @@
 						<#-- Col 2 -->
 						<div class="col-md-6">	
 
+						<#-- Response -->
+							<div class="card card-primary card-outline">
+								<div class="card-header">
+									<h3 class="card-title">
+										<i class="fa-solid fa-reply"></i>&nbsp;Make a decision
+									</h3>
+								</div>
+								<div class="card-body">
+
+									<#-- Approver Role -->
+									<div class="form-group row">
+										<label for="approverRole" class="col-sm-2 col-form-label">
+											Role&nbsp;<span class="required-symbol">*</span>
+											</label>
+										<div class="col-sm-10">
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text">
+														<i class="fa-solid fa-user-tie"></i>
+													</span>
+												</div>
+												
+												<select class="form-control select2bs4" name="approverRole" id="approverRole"></select>
+											</div>
+											<small class="form-text text-muted">The position and associated portfolio, divided by comma.</small>
+										</div>
+									</div>
+									<#-- Approver Role -->
+
+									<#-- Decision -->
+									<div class="form-group row">
+										<label for="graphicsApprovalOption" class="col-sm-2">
+											Decision&nbsp;<span class="required-symbol">*</span>
+										</label>
+										<div class="col-sm-10">
+											<div class="form-group clearfix">
+												<div class="icheck-success d-inline mr-2">
+													<input type="radio" id="graphicsApprovalApproved" name="graphicsApprovalOption" value="1">
+													<label for="graphicsApprovalApproved">Approved</label>
+												</div>
+												<div class="icheck-danger d-inline mr-2">
+													<input type="radio" id="graphicsApprovalDeclined" name="graphicsApprovalOption" value="0">
+													<label for="graphicsApprovalDeclined">Declined</label>
+												</div>
+											</div>				
+										</div>
+									</div>
+									<#-- /Decision -->
+
+									<#-- Feedback -->
+									<div class="form-group row">
+										<label for="graphicsApprovalComments" class="col-sm-2">Comments</label>
+										<div class="col-sm-10">
+											<textarea id="graphicsApprovalComments" class="form-control fixed-textarea" maxlength="255" rows="5"></textarea>
+											<small class="form-text text-muted">Feedback to requester, up to 255 characters.</small>
+										</div>
+									</div>
+									<#-- /Feedback -->
+
+									<#-- Assets -->
+									<div class="form-group row" id="graphicsApprovalAssets" style="display:none;">
+										<label for="graphicsApprovalAssets" class="col-sm-2 col-form-label">
+											Assets&nbsp;<span class="required-symbol">*</span>
+										</label>
+										<div class="col-sm-10">
+										
+											<div class="input-group mb-3">
+												<div class="input-group-prepend">
+													<span class="input-group-text">
+														<i class="fa-solid fa-image"></i>
+													</span>
+												</div>
+												<input type="text" class="form-control template-image-input" id="uploadCallback" readonly>
+												
+												<div class="input-group-append">
+													<button type="button" id="graphicsApprovalAssetsBtn" class="btn btn-outline-secondary" onclick="selectUpload();">
+														<i class="fa-regular fa-upload"></i>&nbsp;Select/Upload
+													</button>		
+												</div>
+											</div>
+
+											<img src="about:blank" class="img-fluid" id="uploadImage" />			
+										</div>
+									</div>
+									<#-- /Assets -->	
+
+									<#-- Submit -->
+									<div class="right-div" role="group">
+										<button type="button" class="btn btn-outline-primary" onclick="decide();">
+											<i class="fa-regular fa-check"></i>&nbsp;Submit
+										</button>
+									</div>
+									<#-- /Submit -->
+
+								</div>
+							</div>
+						<#-- Response -->
+
 						</div>
 						<#-- /Col 2 -->
 
@@ -161,15 +260,28 @@
 	<#include "../_includes/footer.ftl">
 	<#include "../_includes/header/body_end.ftl">
 
-	<#-- Custom JS for graphics request
-	<script src="/static/js/etwig/graphics-request.js"></script> -->
+	<#-- JS for Graphics Approval -->
+	<script type="text/javascript" src="/static/js/etwig/graphics-approval.js"></script>
 	
 	<script>
 	
 
-		//$(document).ready(function() {
-		//	updateTextColor($('#eventPortfolio'));
-		//});
+		$(document).ready(function() {
+			$('input[type=radio][name=graphicsApprovalOption]').change(function() {
+				setAssetsUpload(this.value);
+			});
+
+			$('.select2bs4').select2({
+      			theme: 'bootstrap4'
+    		})
+
+			//getMyPositions("#approverRole");
+			var myPositions = getMyPositions();
+			for (var key in myPositions) {
+  				$("#approverRole").append('<option value="' + myPositions[key].userRoleId + '">' + myPositions[key].position + ', ' + myPositions[key].portfolioName + '</option>');
+			}
+			//updateTextColor($('#eventPortfolio'));
+		});
 	
 	</script>
 
