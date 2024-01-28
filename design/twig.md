@@ -25,7 +25,38 @@ The details of each TWIG template is stored in the **twig_template** table in th
 
 ### Design JSON structure
 
-Each template is a **non-binary tree**, and each node contains zero or or more children, which is expressed in an array of other node objects. There are also **data** part on each node, here is a sample definition in JavaScript.
+Each template is a **non-binary tree**, and each node contains zero or or more children, which can be expressed in an array of other node objects. There are also **data** part on each node.
+
+If a node has no children nodes, it is a **leaf node**, which can carry the following type of widgets:
+
+- **An image** that is stored on the server filesystem, which is corresponding to the assets subsystem. (Leaf Node)
+- **A styled text** which has the adjustable attributes (e.g., size, color and weight). (Leaf Node)
+- **A event table** that contains multiple event graphics.
+
+Otherwise, the node is an **internal node**, it can only carry the following type of widget:
+
+- **A sub-template** that is a smaller version of TWIG template.
+
+```mermaid
+flowchart LR
+
+    template_0
+    template_0 --- text_0
+    template_0 --- image_1
+    template_0 --- template_1
+    template_1 --- image_2
+    template_1 --- image_3
+    template_1 --- text_1
+    template_1 --- template_2
+    template_2 --- image_4
+    template_0 --- template_3
+    template_3 --- event_table_0
+
+```
+
+#### Node
+
+Each node contains two fields: **children** and **data**. Children is a **list** of the Node objects of other nodes, while data is a object of Data classes (one of Image, Text, Table and Template). Here is a sample definition in JavaScript.
 
 ``` js
 class Node {
@@ -37,50 +68,15 @@ class Node {
 }
 ```
 
-If a node has **no children nodes**, it is a **leaf node**, which can carry the following 
+The layer of the widgets are based on the height of the tree, the node of top-layer widgets always have a higher height than the node of bottom-layer widgets.
 
+#### Template
 
+Template is a **group of widgets** which is always occupy a rectangle area, it has the following properties:
 
-Each node can be:
+- **posX**: The X coordinate of the starting point of a template.
+- **posY**: The Y coordinate of the starting point of a template.
+- **Width**: The width of the template area.
+- **Height**: The height of the template area.
 
-- **An image** that is stored on the server filesystem, which corresponding to the assets subsystem. (Leaf Node)
-- **A styled text** which has the adjustable attributes (e.g., size, color and weight). (Leaf Node)
-- **Another node**.
-
-```mermaid
-flowchart LR
-
-    node_0
-    node_0 --- image_0
-    node_0 --- text_0
-    node_0 --- image_1
-    node_0 --- node_1
-    node_1 --- image_2
-    node_1 --- image_3
-    node_1 --- text_1
-    node_1 --- node_2
-    node_2 --- image_4
-
-```
-
-
-/**
- *  
- *  three kinds of widgets:
- 
- * 
- * So the elements on each TWIG 
- * ---------------------------------------------
- * |   
- * |    LO      Title              Week    
- * |    GO
- * |
- * |
- * |
- * |
- * |
- * |
- * |
- * |
- * -------------------------------------------- 
-*/
+#### Image
