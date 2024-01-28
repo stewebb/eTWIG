@@ -38,8 +38,6 @@ class TWIG{
 
     #deserializeHelper(jsonObject) {
 
-        //console.log(jsonObject)
-
         var widget = null;
         var widgetObj = jsonObject.widget;
         let node = new TwigNode();
@@ -47,11 +45,14 @@ class TWIG{
         switch (widgetObj.type) {
             case 'IMAGE':
                 widget = new Image(widgetObj);
+            
             case 'EVENT_TABLES':
                 widget = new EventTable(widgetObj);
             case 'TEMPLATE':
                 widget = new Template();
                 widget.fromJson(widgetObj);
+            case 'TEXT':
+                widget = new Text();
         }
 
         node.setWidget(widget);
@@ -184,11 +185,56 @@ class Image {
         this.width = width;
     }
 
+    fromJson(jsonObject){
+        this.assetId = jsonObject.assetId;
+        this.posX = jsonObject.posX;
+        this.posY = jsonObject.posY;
+        this.width = jsonObject.width;  
+    }
+
     toString(){
         return `Image(${this.assetId}, ${this.posX}, ${this.posY}, ${this.width})`; 
     }
 
 }
+
+/**
+ * **The Text object** is a normal text that displays on the screen, which contains the following properties:
+ * 
+ * - **posX**: The X coordinate of the text.
+ * - **posY**: The Y coordinate of the text.
+ * - **content**: The content of the text.
+ * - **color**: The color of the text in hexadecimal form. (e.g., #FF0000 means red).
+ * - **size**: The font size.
+ */
+
+class Text {
+
+    constructor(){
+        this.type = "TEXT";
+    }
+
+    setValues(posX, posY, content, color, size) {
+        this.posX = posX;
+        this.posY = posY;
+        this.content = content;
+        this.color = color;
+        this.size = size;
+    }
+
+    fromJson(jsonObject){
+        this.posX = jsonObject.posX;
+        this.posY = jsonObject.posY;
+        this.content = jsonObject.content;
+        this.color = jsonObject.color;
+        this.size = jsonObject.size;
+    }
+
+    toString(){
+        return `Template(${this.posX}, ${this.posY}, ${this.content}, ${this.color}, ${this.size})`; 
+    }
+}
+
 
 /**
  * **The event tables object** is the collection of events. 
@@ -219,6 +265,15 @@ class EventTable {
         this.dayEnd = dayEnd;
     }
 
+    fromJson(jsonObject){
+        this.posX = jsonObject.posX;
+        this.posY = jsonObject.posY;
+        this.width = jsonObject.width;
+        this.height = jsonObject.height;
+        this.dayStart = jsonObject.dayStart;
+        this.dayEnd = jsonObject.dayEnd;
+    }
+
     toString(){
         return `EventTable(${this.posX}, ${this.posY}, ${this.width}, ${this.height}, ${this.dayStart}, ${this.dayEnd})`; 
     }
@@ -226,51 +281,18 @@ class EventTable {
 
 var twig = new TWIG(true);
 
-var template = new Template();
-template.setValues(0, 0, 1920, 1080);
+// Place a 1920x1080 canvas, depth=0
+var t = new Template(); t.setValues(0, 0, 1920, 1080);  twig.root.setWidget(t);
 
-twig.root.setWidget(template);
+    // A 1920x1080 background, depth=0, child=0
+    var background = new TwigNode();
+    var b = new Image();    b.setValues(1,0,0,1920);   background.setWidget(b);
+ 
+    // The title area
+    var title = new TwigNode();
+    var t = new Template(); t.setValues(0, 0, 1280, 720);  title.setWidget(t);
 
-var a = twig.serialize();
+    twig.root.addChild(background);
+    twig.root.addChild(title);
 
-console.log(a)
-var twig2 = new TWIG(false);
-twig2.deserialize(a);
-
-twig2.root.printTree();
-
-
-//console.log(twig2)
-/*
-// A 1920x1080 canvas
-var root = new TwigNode();
-
-var template = new Template();
-root.setWidget(template);
-
-// A 1920x1080 background
-var background = new TwigNode();
-
-var b = new Image();
-b.setValues(1, 0, 0, 1920);
-background.setWidget(b);
-
-// The title area
-var titleArea = new TwigNode();
-
-var title = new Template()
-title.setValues(0, 0, 1920, 1080);
-titleArea.setWidget(title);
-
-var logo = new TwigNode();
-var w = new Image();
-w.setValues(2, 0, 0, 240);
-logo.setWidget(w);
-titleArea.addChild(logo)
-
-root.addChild(background);
-root.addChild(titleArea);
-
-root.printTree();
-
-*/
+twig.root.printTree();

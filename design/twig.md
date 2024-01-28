@@ -88,8 +88,10 @@ The **layer** of the widgets are based on the height of the tree, the node of to
 
 #### Text
 
-**The Text object** contains the following properties:
+**The Text object** is a normal text that displays on the screen, which contains the following properties:
 
+- **posX**: The X coordinate of the text.
+- **posY**: The Y coordinate of the text.
 - **content**: The content of the text.
 - **color**: The color of the text in hexadecimal form. (e.g., #FF0000 means red).
 - **size**: The font size.
