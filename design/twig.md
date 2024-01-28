@@ -3,7 +3,7 @@
 A **TWIG** (abbreviation of *This Week In Griffin*) is a graphic collection and summarization of Griffin Hall's weekly events, which consists of two parts:
 
 - TWIG Template
-- Event Data
+- Event Graphics
 
 ## TWIG Template
 
@@ -19,13 +19,29 @@ The details of each TWIG template is stored in the **twig_template** table in th
 - **available_to**: The template is invalid after this date. Null means there no restrictions on this date. [date, null allowed]
 - **creator_role**: The person/role who created this template. It is the foreign key of the id field in **user_role** table. [integer, not null]
 - **portfolio**: The portfolio scope of this template. [integer, not null] It can be:
-  - **The portfolio id**, which specifies a designated portfolio. In this case, it can be treated as the foreign key of the id field in the portfolio table.
+  - **A portfolio id**, which specifies a designated portfolio. In this case, it can be treated as the foreign key of the id field in the portfolio table.
   - **A negative number**, which stands for all portfolios.
 - **design**: The design of the template in PostgreSQL jsonb format.
 
 ### Design JSON structure
 
-Each template can be expressed in a tree-based data structure, which contains one or more nodes. Each node can be:
+Each template is a **non-binary tree**, and each node contains zero or or more children, which is expressed in an array of other node objects. There are also **data** part on each node, here is a sample definition in JavaScript.
+
+``` js
+class Node {
+
+  constructor() {
+    this.children = [node1, node2]; // Array of other node
+    this.data = image1;             // Object of a data widget
+  }
+}
+```
+
+If a node has **no children nodes**, it is a **leaf node**, which can carry the following 
+
+
+
+Each node can be:
 
 - **An image** that is stored on the server filesystem, which corresponding to the assets subsystem. (Leaf Node)
 - **A styled text** which has the adjustable attributes (e.g., size, color and weight). (Leaf Node)
