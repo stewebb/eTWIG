@@ -61,6 +61,7 @@ class Node {
 
   constructor() {
     this.children = [node1, node2]; // Array of other node
+    //this.id = uuid;                 // A uuid that specifies this node.
     this.data = image1;             // Object of a data widget
   }
 }
@@ -70,7 +71,7 @@ The **layer** of the widgets are based on the height of the tree, the node of to
 
 #### Template
 
-Template is a **group of widgets** which is always occupy a rectangle area, it has the following properties:
+**The Template object** is a group of widgets with a rectangle area, it has the following properties:
 
 - **posX**: The X coordinate of the starting point of a template.
 - **posY**: The Y coordinate of the starting point of a template.
@@ -79,7 +80,7 @@ Template is a **group of widgets** which is always occupy a rectangle area, it h
 
 #### Image
 
-Image is a **reference** of an asset in the **asset** table in the database. It is usually a **transparent** PNG image (unless the background, which is not transparent). The Image object contains the following properties:
+**The Image object** is a reference of an asset in the **asset** table in the database. It is usually a **transparent** PNG image (unless the background, which is not transparent). The Image object contains the following properties:
 
 - **assetId**: The identification number of the asset.
 - **posX**: The X coordinate of the starting point of a template.
@@ -88,19 +89,25 @@ Image is a **reference** of an asset in the **asset** table in the database. It 
 
 #### Text
 
-The Text object contains the following properties:
+**The Text object** contains the following properties:
 
 - **content**: The content of the text.
 - **color**: The color of the text in hexadecimal form. (e.g., #FF0000 means red).
 - **size**: The font size.
 
-#### Even Table
+#### Event Table
 
-The event tables are the **collection** of events. They are the core content of each TWIG. Each event table actually is another "template" but it can only contains the event graphics but not other widgets. The Even Table object contains the following properties:
+**The event tables object** is the collection of events. They are the core content of each TWIG, and also another kind of calendar.
+
+Each event table actually is another "template" but it can only includes the event graphics and not other widgets. The Event Table object contains the following properties:
 
 - **posX**: The X coordinate of the starting point of the table.
 - **posY**: The Y coordinate of the starting point of the table.
 - **width**: The width of the table.
 - **height**: The height of the the table.
-- **start**: The starting time of a day.
-- **end**: The ending time of a day. 
+- **dayStart**: The starting time of a day (e.g., 8 AM).
+- **dayEnd**: The ending time of a day.
+
+## Event Graphics
+
+**Event Graphics** are also images. They are managed internally in the **event tables object**  and will be fetched based on some conditions (e.g., week and portfolio)
