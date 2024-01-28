@@ -54,7 +54,7 @@ flowchart LR
 
 #### Node
 
-Each node contains two fields: **children** and **data**. Children is a **list** of the Node objects of other nodes, while data is a object of Data classes (one of Image, Text, Table and Template). Here is a sample definition in JavaScript.
+Each node contains two fields: **children** and **widget**. Children is a **list** of the Node objects of other nodes, while widget is a object of Widget classes (one of Image, Text, Table and Template). Here is a sample definition in JavaScript.
 
 ``` js
 class Node {
@@ -62,7 +62,7 @@ class Node {
   constructor() {
     this.children = [node1, node2]; // Array of other node
     //this.id = uuid;                 // A uuid that specifies this node.
-    this.data = image1;             // Object of a data widget
+    this.widget = image1;             // Object of a data widget
   }
 }
 ```
@@ -71,7 +71,7 @@ The **layer** of the widgets are based on the height of the tree, the node of to
 
 #### Template
 
-**The Template object** is a group of widgets with a rectangle area, it has the following properties:
+**The Template object** is a group of widgets with a rectangle area. **The widget of the root node should be a template.** It has the following properties:
 
 - **posX**: The X coordinate of the starting point of a template.
 - **posY**: The Y coordinate of the starting point of a template.

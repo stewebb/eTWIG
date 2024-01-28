@@ -1,14 +1,17 @@
 
 
 class TwigNode{
-
     constructor() {
         this.children = [];
-        this.data = null;
+        this.widget = null;
     }
 
     addChild(childNode){
         this.children.push(childNode);
+    }
+
+    setWidget(widget){
+        this.widget = widget;
     }
 
     /**
@@ -26,207 +29,63 @@ class TwigNode{
      */
 
     printTree(indent = 0) {
-        console.log(' '.repeat(indent) + this.data);
+        console.log(' '.repeat(indent) + this.widget);
         this.children.forEach(child => child.printTree(indent + 2));
     }
     
 }
 
-
 class Template {
-    #posX; // Private field for the X coordinate
-    #posY; // Private field for the Y coordinate
-    #width; // Private field for the width
-    #height; // Private field for the height
 
+    /**
+     * **The Template object** is a group of widgets with a rectangle area. 
+     * **The widget of the root node should be a template.** It has the following properties:
+     * @param {int} posX The X coordinate of the starting point of a template.
+     * @param {int} posY The Y coordinate of the starting point of a template.
+     * @param {int} width The width of the template area.
+     * @param {int} height The height of the template area
+     */
     constructor(posX, posY, width, height) {
-        this.#posX = posX;
-        this.#posY = posY;
-        this.#width = width;
-        this.#height = height;
-    }
-
-    // Getter methods
-    getPosX() {
-        return this.#posX;
-    }
-
-    getPosY() {
-        return this.#posY;
-    }
-
-    getWidth() {
-        return this.#width;
-    }
-
-    getHeight() {
-        return this.#height;
-    }
-
-    // Setter methods
-    setPosX(value) {
-        this.#posX = value;
-    }
-
-    setPosY(value) {
-        this.#posY = value;
-    }
-
-    setWidth(value) {
-        this.#width = value;
-    }
-
-    setHeight(value) {
-        this.#height = value;
-    }
-
-    // Method to display the properties of the template
-    displayInfo() {
-        console.log(`Template Position: (${this.#posX}, ${this.#posY}), Width: ${this.#width}, Height: ${this.#height}`);
+        this.posX = posX;
+        this.posY = posY;
+        this.width = width;
+        this.height = height;
     }
 }
 
 class Image {
-    #assetId; // Private field for the asset identification number
-    #posX;    // Private field for the X coordinate
-    #posY;    // Private field for the Y coordinate
-    #width;   // Private field for the width of the image
-    #originalAspectRatio; // Private field for the aspect ratio of the original image
 
     constructor(assetId, posX, posY, width, originalAspectRatio) {
-        this.#assetId = assetId;
-        this.#posX = posX;
-        this.#posY = posY;
-        this.#width = width;
-        this.#originalAspectRatio = originalAspectRatio;
+        this.assetId = assetId;
+        this.posX = posX;
+        this.posY = posY;
+        this.width = width;
+        this.originalAspectRatio = originalAspectRatio;
     }
 
-    // Getter methods
-    getAssetId() {
-        return this.#assetId;
-    }
-
-    getPosX() {
-        return this.#posX;
-    }
-
-    getPosY() {
-        return this.#posY;
-    }
-
-    getWidth() {
-        return this.#width;
-    }
-
-    // The height is auto-inferred based on the aspect ratio
-    getHeight() {
-        return this.#width / this.#originalAspectRatio;
-    }
-
-    // Setter methods
-    setAssetId(value) {
-        this.#assetId = value;
-    }
-
-    setPosX(value) {
-        this.#posX = value;
-    }
-
-    setPosY(value) {
-        this.#posY = value;
-    }
-
-    setWidth(value) {
-        this.#width = value;
-    }
-
-    // Method to display the properties of the image
-    displayInfo() {
-        console.log(`Image Asset ID: ${this.#assetId}, Position: (${this.#posX}, ${this.#posY}), Width: ${this.#width}, Height: ${this.getHeight()}`);
-    }
 }
 
 class EventTables {
-    #posX;     // Private field for the X coordinate of the starting point
-    #posY;     // Private field for the Y coordinate of the starting point
-    #width;    // Private field for the width of the table
-    #height;   // Private field for the height of the table
-    #dayStart; // Private field for the starting time of a day
-    #dayEnd;   // Private field for the ending time of a day
 
     constructor(posX, posY, width, height, dayStart, dayEnd) {
-        this.#posX = posX;
-        this.#posY = posY;
-        this.#width = width;
-        this.#height = height;
-        this.#dayStart = dayStart;
-        this.#dayEnd = dayEnd;
-    }
-
-    // Getter methods
-    getPosX() {
-        return this.#posX;
-    }
-
-    getPosY() {
-        return this.#posY;
-    }
-
-    getWidth() {
-        return this.#width;
-    }
-
-    getHeight() {
-        return this.#height;
-    }
-
-    getDayStart() {
-        return this.#dayStart;
-    }
-
-    getDayEnd() {
-        return this.#dayEnd;
-    }
-
-    // Setter methods
-    setPosX(value) {
-        this.#posX = value;
-    }
-
-    setPosY(value) {
-        this.#posY = value;
-    }
-
-    setWidth(value) {
-        this.#width = value;
-    }
-
-    setHeight(value) {
-        this.#height = value;
-    }
-
-    setDayStart(value) {
-        this.#dayStart = value;
-    }
-
-    setDayEnd(value) {
-        this.#dayEnd = value;
-    }
-
-    // Method to display the properties of the event table
-    displayInfo() {
-        console.log(`Event Table Position: (${this.#posX}, ${this.#posY}), Width: ${this.#width}, Height: ${this.#height}, Day Start: ${this.#dayStart}, Day End: ${this.#dayEnd}`);
+        this.posX = posX;
+        this.posY = posY;
+        this.width = width;
+        this.height = height;
+        this.dayStart = dayStart;
+        this.dayEnd = dayEnd;
     }
 }
 
 var root = new TwigNode();
-var template1 = new TwigNode();
-var template2 = new TwigNode();
+root.setWidget(new Template(1,1,11,11));
 
-root.addChild(template1);
-root.addChild(template2);
+var background = new TwigNode();
+background.setWidget(new Image(1,2,3));
+//var template2 = new TwigNode();
 
+root.addChild(background);
+//root.addChild(template2);
+//root.printTree();
 
-
-
-//console.log(JSON.stringify(root));
+console.log(root)
