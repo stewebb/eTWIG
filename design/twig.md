@@ -14,7 +14,7 @@ As the name implies, **TWIG Template** is a template of each TWIG. A template ca
 The details of each TWIG template is stored in the **twig_template** table in the main eTWIG database, including the following fields:
 
 - **id**: The identification number of each template, which is the primary key of this table. [integer, not null]
-- **name**: The name of this template [varchar 63, not null].
+- **name**: The name of this template [character varying 63, not null].
 - **available_from**: The template is invalid before this date. Null means there no restrictions on this date. [date, null allowed]
 - **available_to**: The template is invalid after this date. Null means there no restrictions on this date. [date, null allowed]
 - **creator_role**: The person/role who created this template. It is the foreign key of the id field in **user_role** table. [integer, not null]
@@ -60,8 +60,7 @@ Each node contains two fields: **children** and **widget**. Children is a **list
 class Node {
 
   constructor() {
-    this.children = [node1, node2]; // Array of other node
-    //this.id = uuid;                 // A uuid that specifies this node.
+    this.children = [node1, node2];   // Array of other node
     this.widget = image1;             // Object of a data widget
   }
 }
@@ -105,8 +104,8 @@ Each event table actually is another "template" but it can only includes the eve
 - **posY**: The Y coordinate of the starting point of the table.
 - **width**: The width of the table.
 - **height**: The height of the the table.
-- **dayStart**: The starting time of a day (e.g., 8 AM).
-- **dayEnd**: The ending time of a day.
+- **dayStart**: The start time of a day (e.g., 8 AM).
+- **dayEnd**: The end time of a day.
 
 ## Event Graphics
 
