@@ -15,17 +15,36 @@ class TWIG{
      * @returns The json format of the tree.
      */
 
+    serialize() { 
+        return this.#serializeHelper(this.root);
+    }
+
+    #serializeHelper(node) {
+      
+        var jsonObject = {};
+        jsonObject.widget = node.widget;
+    
+        // Recursively serialize all children
+        if (node.children.length > 0) {
+            jsonObject.children = node.children.map(child => this.#serializeHelper(child));
+        }
+        return jsonObject;
+    }
+
+    
+    /*
     serialize() {   
         var jsonObject = {};
         jsonObject.widget = this.root.widget;
     
         // Recursively serialize all children
         if (this.root.children.length > 0) {
-            jsonObject.children = this.root.children.map(child => serializeTwigNode(child));
+            jsonObject.children = this.root.children.map(child => serialize(child));
         }
     
         return jsonObject;
     }
+    */
 
     /**
      * Deserialize the TWIG Tree, read an json object, and convert to a TWIG tree.
@@ -104,6 +123,15 @@ class TwigNode{
     }
 
     /**
+     * Iterator protocol implementation
+     * @returns 
+     */
+
+    [Symbol.iterator]() {
+        return new TwigNodeIterator(this);
+    }
+
+    /**
      * Whether this node is leaf or not.
      * @returns True if this node is a leaf.
      */
@@ -122,6 +150,46 @@ class TwigNode{
         this.children.forEach(child => child.printTree(indent + 4, depth + 1));
     }
     
+}
+
+/**
+ * Use Iterator design pattern to traverse the tree.
+ */
+
+class TwigNodeIterator {
+
+    constructor(root) {
+        this.stack = [root];
+    }
+
+    /**
+     * Get the next value.
+     * @returns The next value and the status.
+     */
+
+    next() {
+        if (this.stack.length === 0) {
+            return { done: true };
+        }
+
+        const currentNode = this.stack.pop();
+
+        // Push children to stack in reverse order for depth-first traversal
+        for (let i = currentNode.children.length - 1; i >= 0; i--) {
+            this.stack.push(currentNode.children[i]);
+        }
+
+        return { value: currentNode, done: false };
+    }
+
+    /**
+     * Check if there are more nodes to visit
+     * @returns True there has at least 1 node to visit, False otherwise.
+     */
+
+    hasNext() {
+        return this.stack.length > 0;
+    }
 }
 
 /**
@@ -292,7 +360,22 @@ var t = new Template(); t.setValues(0, 0, 1920, 1080);  twig.root.setWidget(t);
     var title = new TwigNode();
     var t = new Template(); t.setValues(0, 0, 1280, 720);  title.setWidget(t);
 
+        // Logo
+        var logo = new TwigNode();
+        var l = new Image();    l.setValues(1,0,0,240);   logo.setWidget(l); 
+
+        title.addChild(logo);
+
+    // The events area
     twig.root.addChild(background);
     twig.root.addChild(title);
 
 twig.root.printTree();
+//console.log(twig.serialize());
+
+const iterator = twig.root[Symbol.iterator]();
+
+while (iterator.hasNext()) {
+    const node = iterator.next().value.widget;
+    console.log(node); // Logs each node in depth-first order
+}
