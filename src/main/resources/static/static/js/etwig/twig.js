@@ -31,21 +31,6 @@ class TWIG{
         return jsonObject;
     }
 
-    
-    /*
-    serialize() {   
-        var jsonObject = {};
-        jsonObject.widget = this.root.widget;
-    
-        // Recursively serialize all children
-        if (this.root.children.length > 0) {
-            jsonObject.children = this.root.children.map(child => serialize(child));
-        }
-    
-        return jsonObject;
-    }
-    */
-
     /**
      * Deserialize the TWIG Tree, read an json object, and convert to a TWIG tree.
      * @param {object} jsonObject 
@@ -86,6 +71,41 @@ class TWIG{
         return node;
     }
 
+    /*
+    findPath(target, path = []) {
+        if (this.root === target) {
+            return [...path, this.root];
+        }
+    
+        for (let child of this.root.children) {
+            let result = findPath(child, target, [...path, this.root]);
+            if (result) {
+                return result;
+            }
+        }
+    
+        return null;
+    }
+    */
+
+    findPath(target){
+        return this.#findPathHelper(this.root, target);
+    }
+
+    #findPathHelper(root, target, path = []) {
+        if (root === target) {
+            return [...path, root];
+        }
+    
+        for (let child of root.children) {
+            let newPath = this.#findPathHelper(child, target, [...path, root]);
+            if (newPath) {
+                return newPath;
+            }
+        }
+    
+        return null;
+    }
 }
 
 /**
@@ -371,11 +391,22 @@ var t = new Template(); t.setValues(0, 0, 1920, 1080);  twig.root.setWidget(t);
     twig.root.addChild(title);
 
 twig.root.printTree();
+
 //console.log(twig.serialize());
+
+let path = [];
+var a = twig.findPath(twig.root.children[1].children[0])
+console.log(a)
+//console.log(a[1].widget)
+//console.log(a[2].widget)
+
 
 const iterator = twig.root[Symbol.iterator]();
 
 while (iterator.hasNext()) {
-    const node = iterator.next().value.widget;
-    console.log(node); // Logs each node in depth-first order
+    var node = iterator.next().value;
+    var widget = node.widget
+    //console.log(node); // Logs each node in depth-first order
+    //console.log(twig.findPath(twig.root, node))
+
 }
