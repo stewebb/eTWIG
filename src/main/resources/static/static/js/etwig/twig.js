@@ -1,8 +1,19 @@
 class TWIG{
 
-    constructor(){
-        this.root = new TwigNode();
+    /**
+     * Initialize the root node by default?
+     * @param {boolean} init True an instance of root TwigNode will be initialized.
+     * False the instance will not be initialized. (Mostly followed by the deserialization)
+     */
+
+    constructor(init){
+        this.root = init ? new TwigNode() : null;
     }
+
+    /**
+     * Serialize the TWIG Tree.  
+     * @returns The json format of the tree.
+     */
 
     serialize() {   
         var jsonObject = {};
@@ -16,6 +27,11 @@ class TWIG{
         return jsonObject;
     }
 
+    /**
+     * Deserialize the TWIG Tree, read an json object, and convert to a TWIG tree.
+     * @param {object} jsonObject 
+     */
+
     deserialize(jsonObject){
         this.root = this.#deserializeHelper(jsonObject);
     }
@@ -24,24 +40,20 @@ class TWIG{
 
         //console.log(jsonObject)
 
-        var widget = undefined;
+        var widget = null;
         var widgetObj = jsonObject.widget;
+        let node = new TwigNode();
 
         switch (widgetObj.type) {
             case 'IMAGE':
-                widget= new Image(widgetObj);
+                widget = new Image(widgetObj);
             case 'EVENT_TABLES':
-                widget= new EventTable(widgetObj);
+                widget = new EventTable(widgetObj);
             case 'TEMPLATE':
-                widget= new Template();
+                widget = new Template();
                 widget.fromJson(widgetObj);
-            //default:
-            //    throw new Error('Unknown widget type');
         }
 
-        //console.log(widget)
-        // createWidgetFromJson(jsonObject.widget);    
-        let node = new TwigNode();
         node.setWidget(widget);
     
         // Recursively deserialize all children
@@ -56,19 +68,19 @@ class TWIG{
 
 }
 
-class TwigNode{
+/**
+ * Each node contains two fields: **children** and **widget**. 
+ * Children is a **list** of the Node objects of other nodes, 
+ * while widget is a object of Widget classes (one of Image, Text, Table and Template). 
+ * 
+ * The **layer** of the widgets are based on the height of the tree, 
+ * the node of top-layer widgets always have a higher height than the node of bottom-layer widgets. 
+ * 
+ * The **position** of the widgets are depends on not the whole canvas, 
+ * but the parent template. (i.e., relative position)
+ */
 
-    /**
-     * Each node contains two fields: **children** and **widget**. 
-     * Children is a **list** of the Node objects of other nodes, 
-     * while widget is a object of Widget classes (one of Image, Text, Table and Template). 
-     * 
-     * The **layer** of the widgets are based on the height of the tree, 
-     * the node of top-layer widgets always have a higher height than the node of bottom-layer widgets. 
-     * 
-     * The **position** of the widgets are depends on not the whole canvas, 
-     * but the parent template. (i.e., relative position)
-     */
+class TwigNode{
 
     constructor() {
         this.children = [];
@@ -212,7 +224,7 @@ class EventTable {
     }
 }
 
-var twig = new TWIG();
+var twig = new TWIG(true);
 
 var template = new Template();
 template.setValues(0, 0, 1920, 1080);
@@ -222,7 +234,7 @@ twig.root.setWidget(template);
 var a = twig.serialize();
 
 console.log(a)
-var twig2 = new TWIG();
+var twig2 = new TWIG(false);
 twig2.deserialize(a);
 
 twig2.root.printTree();
@@ -260,82 +272,5 @@ root.addChild(background);
 root.addChild(titleArea);
 
 root.printTree();
-
-
-function serializeTwigNode(node) {
-    if (!node) return null;
-
-    let jsonObject = {};
-
-    // Assuming the widget has a method to convert itself to JSON
-    // If not, you'll need to implement this part based on your Widget class structure
-    if (node.widget) {
-        jsonObject.widget = node.widget;
-    }
-
-    if (node.children.length > 0) {
-        jsonObject.children = node.children.map(child => serializeTwigNode(child));
-    }
-
-    return jsonObject;
-}
-
-function createWidgetFromJson(widgetJson) {
-    //console.log(widgetJson);
-   
-}
-
-function deserializeTwigNode(jsonObject) {
-
-
-    //console.log(jsonObject)
-
-    //if (!jsonObject) return null;
-
-    let widget = createWidgetFromJson(jsonObject.widget);
-    //let widget = jsonObject.widget ? createWidgetFromJson(jsonObject.widget) : null;
-
-    let node = new TwigNode();
-    node.setWidget(widget)
-
-    if (jsonObject.children && jsonObject.children.length > 0) {
-        jsonObject.children.forEach(childJson => {
-            node.children.push(deserializeTwigNode(childJson));
-        });
-    }
-
-    return node;
-}
-
-let jsonTree = serializeTwigNode(root);
-jsonTree = JSON.stringify(jsonTree, null, 4);
-console.log(jsonTree);
-
-let jsonObject = JSON.parse(jsonTree);
-
-let rootNode = deserializeTwigNode(jsonObject);
-console.log(JSON.stringify(rootNode, null, 4));
-
-
-var json = JSON.stringify(root);
-
-function deserializeTree(serializedNode) {
-    let node = new TwigNode();
-    node.setWidget(serializedNode.widget);
-
-    if (serializedNode.children) {
-        serializedNode.children.forEach(child => {
-            node.addChild(deserializeTree(child));
-        });
-    }
-
-    return node;
-}
-
-let parsedObject = JSON.parse(json);
-
-let rootNode = deserializeTree(parsedObject);
-
-rootNode.printTree();
 
 */
