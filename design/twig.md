@@ -39,7 +39,6 @@ Otherwise, the node is an **internal node**, it can only carry the following typ
 
 ```mermaid
 flowchart LR
-
     template_0
     template_0 --- text_0
     template_0 --- image_1
@@ -51,7 +50,6 @@ flowchart LR
     template_2 --- image_4
     template_0 --- template_3
     template_3 --- event_table_0
-
 ```
 
 #### Node
@@ -68,7 +66,7 @@ class Node {
 }
 ```
 
-The layer of the widgets are based on the height of the tree, the node of top-layer widgets always have a higher height than the node of bottom-layer widgets.
+The **layer** of the widgets are based on the height of the tree, the node of top-layer widgets always have a higher height than the node of bottom-layer widgets. The **position** of the widgets are depends on not the whole canvas, but the parent template. (i.e., relative position)
 
 #### Template
 
@@ -76,7 +74,33 @@ Template is a **group of widgets** which is always occupy a rectangle area, it h
 
 - **posX**: The X coordinate of the starting point of a template.
 - **posY**: The Y coordinate of the starting point of a template.
-- **Width**: The width of the template area.
-- **Height**: The height of the template area.
+- **width**: The width of the template area.
+- **height**: The height of the template area.
 
 #### Image
+
+Image is a **reference** of an asset in the **asset** table in the database. It is usually a **transparent** PNG image (unless the background, which is not transparent). The Image object contains the following properties:
+
+- **assetId**: The identification number of the asset.
+- **posX**: The X coordinate of the starting point of a template.
+- **posY**: The Y coordinate of the starting point of a template.
+- **width**: The width of the image. Please note that the height of the image is depends on the aspect ratio of the original image. (i.e., auto-inferred).
+
+#### Text
+
+The Text object contains the following properties:
+
+- **content**: The content of the text.
+- **color**: The color of the text in hexadecimal form. (e.g., #FF0000 means red).
+- **size**: The font size.
+
+#### Even Table
+
+The event tables are the **collection** of events. They are the core content of each TWIG. Each event table actually is another "template" but it can only contains the event graphics but not other widgets. The Even Table object contains the following properties:
+
+- **posX**: The X coordinate of the starting point of the table.
+- **posY**: The Y coordinate of the starting point of the table.
+- **width**: The width of the table.
+- **height**: The height of the the table.
+- **start**: The starting time of a day.
+- **end**: The ending time of a day. 
