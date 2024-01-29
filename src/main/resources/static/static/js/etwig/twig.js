@@ -367,31 +367,10 @@ class EventTable {
     }
 }
 
-var twig = new TWIG(true);
+    
+//twig.root.printTree();
 
-// Place a 1920x1080 canvas, depth=0
-var t = new Template(); t.setValues(0, 0, 1920, 1080);  twig.root.setWidget(t);
-
-    // A 1920x1080 background, depth=0, child=0
-    var background = new TwigNode();
-    var b = new Image();    b.setValues(1,0,0,1920);   background.setWidget(b);
- 
-    // The title area
-    var title = new TwigNode();
-    var t = new Template(); t.setValues(0, 0, 1280, 720);  title.setWidget(t);
-
-        // Logo
-        var logo = new TwigNode();
-        var l = new Image();    l.setValues(1,0,0,240);   logo.setWidget(l); 
-
-        title.addChild(logo);
-
-    // The events area
-    twig.root.addChild(background);
-    twig.root.addChild(title);
-
-twig.root.printTree();
-
+/*
 //console.log(twig.serialize());
 
 let path = [];
@@ -408,5 +387,36 @@ while (iterator.hasNext()) {
     var widget = node.widget
     //console.log(node); // Logs each node in depth-first order
     //console.log(twig.findPath(twig.root, node))
+
+}
+
+*/
+
+function initializeTwig(){
+
+    var twig = new TWIG(true);
+
+        // Place a 1920x1080 canvas, depth=0
+        var t = new Template(); t.setValues(0, 0, 1920, 1080);  twig.root.setWidget(t);
+
+        // A 1920x1080 background, depth=0, child=0
+        var background = new TwigNode();
+        var b = new Image();    b.setValues(1,0,0,1920);   background.setWidget(b);
+    
+        // The title area
+        var title = new TwigNode();
+        var t = new Template(); t.setValues(0, 0, 1280, 720);  title.setWidget(t);
+
+            // Logo
+            var logo = new TwigNode();
+            var l = new Image();    l.setValues(1,0,0,240);   logo.setWidget(l); 
+
+            title.addChild(logo);
+
+    // The events area
+    twig.root.addChild(background);
+    twig.root.addChild(title);
+
+    return twig;
 
 }
