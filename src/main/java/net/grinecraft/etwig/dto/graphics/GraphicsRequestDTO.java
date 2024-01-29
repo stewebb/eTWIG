@@ -21,7 +21,7 @@ public class GraphicsRequestDTO {
 	private LocalDateTime requestTime;
 	private String requestTimeStr;
 	
-	// Approvel-related fields
+	// Approval-related fields
 	private Boolean approved;
 	private UserDTO approver;
 	private String responseComment;
