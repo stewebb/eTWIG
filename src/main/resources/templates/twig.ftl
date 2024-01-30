@@ -22,8 +22,6 @@
 <body style="height: 100%;">
 	<#include "./_includes/header/body_start.ftl">
 
-	<iframe src="/twig/content" class="fullscreen-iframe" id="twigFrame"></iframe>
-
 	<#-- Options Modal -->
 	<div class="modal fade" tabindex="-1" id="etwigSettingBox">
   		<div class="modal-dialog">
@@ -50,14 +48,6 @@
   						</li>
   						<#-- /Tab: Filter -->
 
-  						<#-- Tab: Settings -->
-  						<li class="nav-item" role="presentation">
-    						<button class="nav-link" id="settings-tab" data-toggle="tab" data-target="#settings" type="button" role="tab" aria-controls="settings" aria-selected="false">
-    							<i class="fa-solid fa-screwdriver-wrench"></i>&nbsp;Settings
-    						</button>
-  						</li>
-  						<#-- /Tab: Settings -->
-
   						<#-- Tab: Share -->
   						<li class="nav-item" role="presentation">
     						<button class="nav-link" id="share-tab" data-toggle="tab" data-target="#share" type="button" role="tab" aria-controls="share" aria-selected="false">
@@ -70,7 +60,7 @@
 		
 					<div class="tab-content">
 
-						<#-- Content: Filter -->
+						<#-- Filter -->
   						<div class="tab-pane fade show active" id="filter" role="tabpanel" aria-labelledby="filter-tab">
 							
 							<#-- Select Portfolio -->
@@ -126,34 +116,9 @@
      							</div>
      						</div>
 							<#-- /Week -->
-
 						</div>
-						
-						<#-- Content: Settings -->
-  						<div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
-  							
-  							<#-- Select Resolution -->
-							<div class="form-group row">
-								<label for="twigResolution" class="col-sm-3 col-form-label">Resolution</label>
-								<div class="col-sm-9 input-group">
-									
-									<div class="input-group-prepend">
-										<span class="input-group-text"><i class="fa-solid fa-display"></i></i></span>
-									</div>
-							
-									<select class="form-control select2" name="twigResolution" id="twigResolution" onchange="enableShare(false);">
-      									<option value="-1p" selected>Your browser's resolution</option>
-      									<option value="720p">1280*720</option>
-      									<option value="1080p">1920*1080</option>
-      									<option value="2k">2560*1440</option>
-      									<option value="4k">3840*2160</option>
-      								</select>
-      							</div>
-     						</div>
-							<#-- /Select Resolution -->
+						<#-- Filter -->
 
-						</div>
-						
 						<#-- Content: Share -->
 						<div class="tab-pane fade" id="share" role="tabpanel" aria-labelledby="share-tab">
 							
