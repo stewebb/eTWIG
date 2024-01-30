@@ -370,17 +370,24 @@ function initializeTwig(){
     
         // The title area
         var title = new TwigNode();
-        var t = new Template(); t.setValues(0, 180, 1920, 900);  title.setWidget(t);
+        var t = new Template(); t.setValues(0, 0, 1920, 180);  title.setWidget(t);
 
             // Logo
             var logo = new TwigNode();
-            var l = new Image();    l.setValues(100, 100, 240, 1);   logo.setWidget(l); 
+            var l = new Image();    l.setValues(100, 50, 150, 1);   logo.setWidget(l); 
 
             title.addChild(logo);
 
+
         // The events area
         var events = new TwigNode();
-        var e = new EventTable(); e.setValues(100, 100, 100, 100, 0, 24);  events.setWidget(e);
+        var e = new Template(); e.setValues(0, 180, 1920, 900); events.setWidget(e);
+
+            // Event table (Monday)
+            var eventTableMonday = new TwigNode();
+            var m = new EventTable(); m.setValues(100, 100, 100, 100, 0, 24);  eventTableMonday.setWidget(m);
+
+        events.addChild(eventTableMonday);
 
     // The events area
     twig.root.addChild(background);
