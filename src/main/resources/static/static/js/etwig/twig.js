@@ -177,36 +177,49 @@ class TwigNode{
  */
 
 class TwigNodeIterator {
-
-    constructor(root) {
-        this.stack = [root];
+    constructor(root, depthChangeCallback) {
+        this.stack = [{ node: root, depth: 0 }];
+        this.depthChangeCallback = depthChangeCallback;
+        this.currentDepth = 0;
     }
 
     /**
      * Get the next value.
-     * @returns The next value and the status.
+     * @returns The next value, the status, and the depth change indicator.
      */
-
     next() {
         if (this.stack.length === 0) {
             return { done: true };
         }
 
-        const currentNode = this.stack.pop();
+        const { node, depth } = this.stack.pop();
+        let depthChange = 0;
 
         // Push children to stack in reverse order for depth-first traversal
-        for (let i = currentNode.children.length - 1; i >= 0; i--) {
-            this.stack.push(currentNode.children[i]);
+        for (let i = node.children.length - 1; i >= 0; i--) {
+            this.stack.push({ node: node.children[i], depth: depth + 1 });
         }
 
-        return { value: currentNode, done: false };
+        // Check if the depth has changed and emit the callback if it did
+        if (depth > this.currentDepth) {
+            depthChange = 1; // Depth increased
+        } else if (depth < this.currentDepth) {
+            depthChange = -1; // Depth decreased
+        }
+
+        this.currentDepth = depth;
+
+        if (typeof this.depthChangeCallback === 'function') {
+            this.depthChangeCallback(depthChange);
+        }
+
+        return { value: node, done: false, depthChange };
     }
 
     /**
      * Check if there are more nodes to visit
      * @returns True there has at least 1 node to visit, False otherwise.
      */
-
     hasNext() {
         return this.stack.length > 0;
     }

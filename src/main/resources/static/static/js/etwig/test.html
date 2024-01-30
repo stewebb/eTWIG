@@ -12,23 +12,48 @@
 
             // Don't use var !!!!!!!
             twig = initializeTwig();
+            twig.root.printTree();
 
-            createCanvas(400, 400);
+            background = twig.root.widget;
+            //console.log(background)
+
+            createCanvas(background.width, background.height);
+
+            
+            const iterator = new TwigNodeIterator(twig.root, (depthChange) => {
+                console.log(`Depth change: ${depthChange}`);
+            });
+
+            
+            while (iterator.hasNext()) {
+                var node = iterator.next().value;
+                var widget = node.widget
+                
+                
+
+                switch (widget.type){
+                    case "TEMPLATE":
+
+                        console.log(widget)
+                        fill(random(255), random(255), random(255));
+
+                        console.log(widget.posX, widget.posY, widget.width, widget.height);
+
+                        //rect(0,0,100,100)
+                        rect(widget.posX, widget.posY, widget.width, widget.height);
+                        break;
+                }
+                    
+
+            }
         }
 
         function draw() {
 
-            const iterator = twig.root[Symbol.iterator]();
+         
 
-            while (iterator.hasNext()) {
-                var node = iterator.next().value;
-                var widget = node.widget
-                //console.log(node); // Logs each node in depth-first order
-
-            }
-
-            background(220);
+            //background(220);
         }
     </script>
   </body>
-</html>
+</html>;;
