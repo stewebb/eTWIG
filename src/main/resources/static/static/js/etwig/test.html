@@ -26,15 +26,18 @@
             
             while (iterator.hasNext()) {
                 const { value, done } = iterator.next();
+
+                // The current depth
                 const { node, depth } = value;
 
+                // Depth change value, 1 means deeper, 0 means same depth, -1 means shallower.
                 var depthChange = depth - lastDepth;
 
                 // Process the node here
-
+                console.log(value.node)
                 var widget = value.node.widget;
 
-                console.log(depth - lastDepth, widget.type)
+                console.log(depth - lastDepth, widget.type, twig.findPath(value.node))
 
                  switch (widget.type){
                     case "TEMPLATE":
