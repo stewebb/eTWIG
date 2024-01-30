@@ -71,22 +71,11 @@ class TWIG{
         return node;
     }
 
-    /*
-    findPath(target, path = []) {
-        if (this.root === target) {
-            return [...path, this.root];
-        }
-    
-        for (let child of this.root.children) {
-            let result = findPath(child, target, [...path, this.root]);
-            if (result) {
-                return result;
-            }
-        }
-    
-        return null;
-    }
-    */
+    /**
+     * Find the path from root node to target node.
+     * @param {*} target The target node
+     * @returns An array of all passed nodes
+     */
 
     findPath(target){
         return this.#findPathHelper(this.root, target);
@@ -185,6 +174,7 @@ class TwigNodeIterator {
      * Get the next value along with the current depth.
      * @returns The next value and the current depth.
      */
+
     next() {
         if (this.stack.length === 0) {
             return { done: true };
@@ -204,6 +194,7 @@ class TwigNodeIterator {
      * Check if there are more nodes to visit.
      * @returns True if there is at least 1 node to visit, False otherwise.
      */
+
     hasNext() {
         return this.stack.length > 0;
     }
@@ -250,10 +241,11 @@ class Template {
  * It is usually a **transparent** PNG image (unless the background, which is not transparent). 
  * The Image object contains the following properties:
  * 
- * - **assetId**: The identification number of the asset.
  * - **posX**: The X coordinate of the starting point of a template.
  * - **posY**: The Y coordinate of the starting point of a template.
  * - **width**: The width of the image. 
+ * - **assetId**: The identification number of the asset.
+ * 
  * Please note that the height of the image is depends on the aspect ratio of the original image. (i.e., auto-inferred).
  */
 
@@ -263,22 +255,22 @@ class Image {
         this.type = "IMAGE";
     }
 
-    setValues(assetId, posX, posY, width) {
-        this.assetId = assetId;
+    setValues(posX, posY, width, assetId) {
         this.posX = posX;
         this.posY = posY;
         this.width = width;
+        this.assetId = assetId;
     }
 
     fromJson(jsonObject){
-        this.assetId = jsonObject.assetId;
         this.posX = jsonObject.posX;
         this.posY = jsonObject.posY;
         this.width = jsonObject.width;  
+        this.assetId = jsonObject.assetId;
     }
 
     toString(){
-        return `Image(${this.assetId}, ${this.posX}, ${this.posY}, ${this.width})`; 
+        return `Image(${this.posX}, ${this.posY}, ${this.width}, ${this.assetId})`; 
     }
 
 }
@@ -364,30 +356,6 @@ class EventTable {
     }
 }
 
-    
-//twig.root.printTree();
-
-/*
-//console.log(twig.serialize());
-
-let path = [];
-var a = twig.findPath(twig.root.children[1].children[0])
-console.log(a)
-//console.log(a[1].widget)
-//console.log(a[2].widget)
-
-
-const iterator = twig.root[Symbol.iterator]();
-
-while (iterator.hasNext()) {
-    var node = iterator.next().value;
-    var widget = node.widget
-    //console.log(node); // Logs each node in depth-first order
-    //console.log(twig.findPath(twig.root, node))
-
-}
-
-*/
 
 function initializeTwig(){
 
@@ -398,15 +366,15 @@ function initializeTwig(){
 
         // A 1920x1080 background, depth=0, child=0
         var background = new TwigNode();
-        var b = new Image();    b.setValues(1,0,0,1920);   background.setWidget(b);
+        var b = new Image();    b.setValues(0, 0, 1920, 1);   background.setWidget(b);
     
         // The title area
         var title = new TwigNode();
-        var t = new Template(); t.setValues(100, 100, 1280, 720);  title.setWidget(t);
+        var t = new Template(); t.setValues(0, 180, 1920, 900);  title.setWidget(t);
 
             // Logo
             var logo = new TwigNode();
-            var l = new Image();    l.setValues(1, 100, 100, 240);   logo.setWidget(l); 
+            var l = new Image();    l.setValues(100, 100, 240, 1);   logo.setWidget(l); 
 
             title.addChild(logo);
 

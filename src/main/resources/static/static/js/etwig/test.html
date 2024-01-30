@@ -53,26 +53,20 @@
                     push();
                 }
 
-                // Process the node here
-                //console.log(value.node)
+                // Current widget
                 var widget = value.node.widget;
 
-                console.log(depth - lastDepth, widget.type, parent.widget)
+               // console.log(depth - lastDepth, widget.type, parent.widget)
 
                 switch (widget.type){
                     case "TEMPLATE":
-
-                        
-                        fill(random(255), random(255), random(255));
-
-                        //console.log(widget.posX, widget.posY, widget.width, widget.height);
-
-                        //rect(0,0,100,100)
+                        noFill();   strokeWeight(5);    stroke(0);
                         rect(widget.posX, widget.posY, widget.width, widget.height);
                         break;
 
                     case "IMAGE":
-                        fill(random(255), random(255), random(255));
+                    case "EVENT_TABLES":
+                        fill(random(255), random(255), random(255));    noStroke();
                         rect(widget.posX, widget.posY, widget.width, widget.width);
                         console.log(widget.posX, widget.posY, widget.width, widget.width);
                         break;
