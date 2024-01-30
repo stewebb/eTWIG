@@ -19,21 +19,27 @@
 
             createCanvas(background.width, background.height);
 
-            
+            // Track the depth of last iteration!
+            var lastDepth = 0;
+
             const iterator = new TwigNodeIterator(twig.root);
             
             while (iterator.hasNext()) {
                 const { value, done } = iterator.next();
                 const { node, depth } = value;
-                console.log(`Depth: ${depth}`);
+
+                var depthChange = depth - lastDepth;
+
                 // Process the node here
 
                 var widget = value.node.widget;
 
+                console.log(depth - lastDepth, widget.type)
+
                  switch (widget.type){
                     case "TEMPLATE":
 
-                        console.log(widget)
+                        
                         fill(random(255), random(255), random(255));
 
                         //console.log(widget.posX, widget.posY, widget.width, widget.height);
@@ -42,6 +48,8 @@
                         rect(widget.posX, widget.posY, widget.width, widget.height);
                         break;
                 }
+
+                lastDepth = depth;
             }
 
             /*

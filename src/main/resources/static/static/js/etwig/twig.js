@@ -402,7 +402,7 @@ function initializeTwig(){
     
         // The title area
         var title = new TwigNode();
-        var t = new Template(); t.setValues(0, 0, 1280, 720);  title.setWidget(t);
+        var t = new Template(); t.setValues(100, 100, 1280, 720);  title.setWidget(t);
 
             // Logo
             var logo = new TwigNode();
@@ -410,9 +410,14 @@ function initializeTwig(){
 
             title.addChild(logo);
 
+        // The events area
+        var events = new TwigNode();
+        var e = new EventTable(); e.setValues(100, 100, 100, 100, 0, 24);  events.setWidget(e);
+
     // The events area
     twig.root.addChild(background);
     twig.root.addChild(title);
+    twig.root.addChild(events);
 
     return twig;
 
