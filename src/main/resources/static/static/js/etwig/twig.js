@@ -406,7 +406,7 @@ function initializeTwig(){
 
             // Logo
             var logo = new TwigNode();
-            var l = new Image();    l.setValues(1,0,0,240);   logo.setWidget(l); 
+            var l = new Image();    l.setValues(1, 100, 100, 240);   logo.setWidget(l); 
 
             title.addChild(logo);
 

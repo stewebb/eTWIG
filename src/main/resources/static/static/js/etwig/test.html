@@ -8,6 +8,7 @@
     </main>
 
     <script>
+        
         function setup() {
 
             // Don't use var !!!!!!!
@@ -30,16 +31,35 @@
                 // The current depth
                 const { node, depth } = value;
 
+                /**
+                 * Get the parent node
+                */
+
+                // The path from root to current node.
+                var path = twig.findPath(value.node);
+
+                // The path contains at least 2 nodes, the penultimate node is parent, or the parent is itself.
+                var parent = (path.length > 1) ? path[path.length-2] : path[0];
+
                 // Depth change value, 1 means deeper, 0 means same depth, -1 means shallower.
                 var depthChange = depth - lastDepth;
 
+                if(depthChange > 0){
+                    console.log(parent.widget.posX, parent.widget.posY)
+                    translate(parent.widget.posX, parent.widget.posY);
+                    push();
+                }else if(depthChange < 0){
+                    pop();
+                    push();
+                }
+
                 // Process the node here
-                console.log(value.node)
+                //console.log(value.node)
                 var widget = value.node.widget;
 
-                console.log(depth - lastDepth, widget.type, twig.findPath(value.node))
+                console.log(depth - lastDepth, widget.type, parent.widget)
 
-                 switch (widget.type){
+                switch (widget.type){
                     case "TEMPLATE":
 
                         
@@ -49,6 +69,12 @@
 
                         //rect(0,0,100,100)
                         rect(widget.posX, widget.posY, widget.width, widget.height);
+                        break;
+
+                    case "IMAGE":
+                        fill(random(255), random(255), random(255));
+                        rect(widget.posX, widget.posY, widget.width, widget.width);
+                        console.log(widget.posX, widget.posY, widget.width, widget.width);
                         break;
                 }
 
