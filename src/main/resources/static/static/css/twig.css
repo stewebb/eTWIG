@@ -60,3 +60,35 @@ body {
 #settingsButton:hover .fa-gear {
 	animation: rotate 1s linear infinite;
 }
+
+#logo-container {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	display: none; /* Hide initially */
+}
+
+@keyframes beat {
+	0%, 100% { 
+		transform: scale(1); 
+		opacity: 1; /* Fully opaque at normal size */
+	}
+	50% { 
+		transform: scale(1.2); 
+		opacity: 0.5; /* 50% transparent at largest size */
+	}
+}
+
+@keyframes shrink {
+	from { transform: scale(1); opacity: 1; }
+	to { transform: scale(0); opacity: 0; }
+}
+
+.beating-logo {
+	animation: beat 1s infinite;
+}
+
+.shrinking-logo {
+	animation: shrink 1s forwards;
+}
