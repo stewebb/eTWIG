@@ -1,3 +1,9 @@
+
+/**
+ * A **TWIG** (abbreviation of *This Week In Griffin*) is a graphic collection and 
+ * summarization of Griffin Hall's weekly events.
+ */
+
 class TWIG{
 
     /**
@@ -95,6 +101,52 @@ class TWIG{
     
         return null;
     }
+}
+
+class TwigSettings{
+
+    /**
+     * The default settings.
+     * Portfolio is any (null, 0, or negative integers);
+     * Current date.
+     */
+
+    constructor(){
+        this.portfolio = -1;
+        this.date = Date.today();
+    }
+
+    /**
+     * Set portfolioId, it should be a positive integer.
+     */
+
+    setPortfolio(portfolio){
+        this.portfolio = (portfolio != null && portfolio % 1 === 0) ? portfolio : -1;
+    }
+
+    setDate(dateStr){
+        this.date = Date.parse(dateStr);
+    }
+
+    toString(){
+        return `TwigSettings(${this.portfolio}, ${this.date.toString("yyyy-MM-dd")})`; 
+    }
+
+    /**
+     * Return an object that can be accepted in jQuery Ajax.
+     */
+
+    toAjaxParam(){
+        return {
+            portfolio: this.portfolio,
+            date: this.date.toString("yyyy-MM-dd")
+        }
+    }
+
+    toUrl(){
+        return `/twig?portfolioId=${this.portfolio}&date=${this.date.toString("yyyy-MM-dd")}`; 
+    }
+
 }
 
 /**
@@ -357,7 +409,8 @@ class EventTable {
 }
 
 
-function initializeTwig(){
+function initialize(){
+
 
     var twig = new TWIG(true);
 
@@ -397,3 +450,4 @@ function initializeTwig(){
     return twig;
 
 }
+

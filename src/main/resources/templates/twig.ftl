@@ -72,12 +72,8 @@
     </div>
 	<#-- /Griffin Hall logo -->
 		
-	<#-- Date.js. -->
-	<!--
+	<#-- Date.js and p5.js -->
 	<script src="/static/js/vendor/date.min.js"></script>
-	-->
-
-	<#-- p5.js -->
 	<script src="/static/js/vendor/p5.min.js"></script>
 
 	<script src="/static/js/etwig/twig.js"></script>

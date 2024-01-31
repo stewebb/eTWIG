@@ -3,7 +3,7 @@
 function setup() {
 
     // Don't use var !!!!!!!
-    twig = initializeTwig();
+    twig = initialize();
     twig.root.printTree();
 
     console.log(JSON.stringify(twig.serialize(), null, 2))
