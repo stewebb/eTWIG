@@ -334,9 +334,10 @@ function getTWIGTemplate(){
 		}, 
     	dataType: 'json',
 		success: getTWIGTemplateWhenSuccess,
-    	error: function(err) {   		
-			errorDescription = "Failed to get TWIG content due to a HTTP " + err.status + " error.\n" + err.responseJSON.exception;
-			isTwigReady = false;
+    	error: function(err) {   
+			dangerPopup("Failed to get TWIG content due to a HTTP " + err.status + " error", err.responseJSON.exception)	
+			//errorDescription = "F.\n" + err.responseJSON.exception;
+			//isTwigReady = false;
 		}
 	});
 }

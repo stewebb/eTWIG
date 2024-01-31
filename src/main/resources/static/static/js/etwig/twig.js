@@ -16,6 +16,22 @@ class TWIG{
         this.root = init ? new TwigNode() : null;
     }
 
+    createTree(setting){
+        $.ajax({ 
+            type: 'GET', 
+            url: '/api/public/getTwigTemplateByPortfolioAndDate', 
+            async: false,
+            data: setting.toAjaxParam(), 
+            dataType: 'json',
+            success: function(json){
+                console.log(json);
+            },
+            error: function(err) {   		
+                dangerPopup("Failed to get TWIG content due to a HTTP " + err.status + " error", err.responseJSON.exception);
+            }
+        });
+    }
+
     /**
      * Serialize the TWIG Tree.  
      * @returns The json format of the tree.

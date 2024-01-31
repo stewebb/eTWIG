@@ -75,6 +75,18 @@ function dangerToast(title, body){
 	});
 }
 
+function dangerPopup(title, body){
+	Swal.fire({
+		icon: "error",
+		title: "Error",
+		html: `
+			<div style="text-align: left;">
+				<strong>${title}:</strong> 
+				<p>${body}</p>
+			</div>`,
+	  });
+}
+
 function formatState(state) {
 	var option = $(state.element);
   	var color = option.data("color");
@@ -123,18 +135,19 @@ function timeAgo(dateStr) {
     return "Just now";
 }
 
-function updateTextColor($element) {
-	var bgColor = $element.css('background-color');
-	var colors = bgColor.substring(bgColor.indexOf('(') + 1, bgColor.lastIndexOf(')')).split(/,\s*/);
-	var brightness = Math.sqrt(0.299 * (colors[0] * colors[0]) + 0.587 * (colors[1] * colors[1]) + 0.114 * (colors[2] * colors[2]));
-	
-	if (brightness < 128) {
-		$element.addClass('text-white');
-	} else {
-            $element.addClass('text-dark');
-    }
-}
- 
+//
+//function updateTextColor($element) {
+//	var bgColor = $element.css('background-color');
+//	var colors = bgColor.substring(bgColor.indexOf('(') + 1, bgColor.lastIndexOf(')')).split(/,\s*/);
+//	var brightness = Math.sqrt(0.299 * (colors[0] * colors[0]) + 0.587 * (colors[1] * colors[1]) + 0.114 * (colors[2] * colors[2]));
+//	
+//	if (brightness < 128) {
+//		$element.addClass('text-white');
+//	} else {
+//            $element.addClass('text-dark');
+//    }
+//}
+
 function formatTime(minutesTotal) {
     const minutesPerHour = 60;
     const minutesPerDay = 1440;

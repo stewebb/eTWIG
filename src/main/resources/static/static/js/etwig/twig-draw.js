@@ -1,9 +1,13 @@
-//const { twig } = require("twig");
-
 function setup() {
 
+    var setting = new TwigSettings();
+
     // Don't use var !!!!!!!
-    twig = initialize();
+    twig = new TWIG();
+    twig.createTree(setting);
+
+
+    return;
     twig.root.printTree();
 
     console.log(JSON.stringify(twig.serialize(), null, 2))
