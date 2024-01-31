@@ -1,6 +1,7 @@
 function setup() {
 
     var setting = new TwigSettings();
+    setting.setPortfolio(1);
 
     // Don't use var !!!!!!!
     twig = new TWIG();

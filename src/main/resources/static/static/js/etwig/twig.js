@@ -16,20 +16,61 @@ class TWIG{
         this.root = init ? new TwigNode() : null;
     }
 
+    /**
+     * Create a TWIG (template) tree from the design from the DB.
+     * @param {TwigSettings} setting The current settings.
+     * @returns true the tree was created successfully, false otherwise.
+     */
+
     createTree(setting){
+        var jsonString = null;
+        var jsonObj = undefined;
+
+        // Get TWIG template from the DB and error check.
         $.ajax({ 
             type: 'GET', 
             url: '/api/public/getTwigTemplateByPortfolioAndDate', 
             async: false,
             data: setting.toAjaxParam(), 
-            dataType: 'json',
             success: function(json){
-                console.log(json);
+
+                // Empty result check
+                if(json == undefined || json == null || json.length == 0){
+                    dangerPopup("The TWIG template cannot be found by the following parameters", setting.toString());
+                    return;
+                }
+
+                // Get the template design in string.
+                jsonString = json.design;
             },
             error: function(err) {   		
-                dangerPopup("Failed to get TWIG content due to a HTTP " + err.status + " error", err.responseJSON.exception);
+                dangerPopup("Failed to get the TWIG template due to a HTTP " + err.status + " error", err.responseJSON.exception);
             }
         });
+
+        if(jsonString == undefined || jsonString == null || jsonString.length == 0){
+            return false;
+        }
+        
+        // Parse and error check
+        try{
+            jsonObj = JSON.parse(jsonString);
+        }catch(error){
+            dangerPopup("Failed to parse the TWIG template design", error);
+        }
+
+        if(jsonObj == undefined || jsonObj == null){
+            return false;
+        }
+
+        // Deserialize and error check
+        try{
+            this.deserialize(jsonObj);
+            return true;
+        }catch(error){
+            dangerPopup("Failed to deserialize the TWIG template design", error);
+            return false;
+        }    
     }
 
     /**
@@ -145,7 +186,7 @@ class TwigSettings{
     }
 
     toString(){
-        return `TwigSettings(${this.portfolio}, ${this.date.toString("yyyy-MM-dd")})`; 
+        return `TwigSettings(portfolio=${this.portfolio}, date=${this.date.toString("yyyy-MM-dd")})`; 
     }
 
     /**
@@ -154,7 +195,7 @@ class TwigSettings{
 
     toAjaxParam(){
         return {
-            portfolio: this.portfolio,
+            portfolioId: this.portfolio,
             date: this.date.toString("yyyy-MM-dd")
         }
     }
@@ -424,7 +465,7 @@ class EventTable {
     }
 }
 
-
+/*
 function initialize(){
 
 
@@ -467,3 +508,4 @@ function initialize(){
 
 }
 
+*/
