@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import net.grinecraft.etwig.dto.AssetBasicInfoDTO;
 import net.grinecraft.etwig.dto.TwigTemplateBasicInfoDTO;
+import net.grinecraft.etwig.dto.TwigTemplateDTO;
 import net.grinecraft.etwig.services.AssetService;
 import net.grinecraft.etwig.services.TwigService;
 import net.grinecraft.etwig.services.WeekService;
@@ -82,10 +83,10 @@ public class TwigAPIController {
 	}
 	
 	@RequestMapping("/api/public/getTwigTemplateByPortfolioAndDate")  
-	public Map<String, Object> getTwigTemplateByPortfolioAndDate(@RequestParam Long portfolioId, @RequestParam String date) throws Exception{
+	public TwigTemplateDTO getTwigTemplateByPortfolioAndDate(@RequestParam(required=false) Long portfolioId, @RequestParam String date) throws Exception{
 
 		//Long portfolioIdNum = NumberUtils.safeCreateLong(portfolioId);
-		LocalDate givenDate = DateUtils.safeParseDate(date, "yyyy-MM-dd");
+		//LocalDate givenDate = DateUtils.safeParseDate(date, "yyyy-MM-dd");
 		
 		//if(portfolioId == null) {
 		//	return WebReturn.errorMsg("portfolioId is invalid. It must be an Integer.", false);
@@ -95,10 +96,10 @@ public class TwigAPIController {
 		//	return WebReturn.errorMsg("date is invalid. It must be yyyy-mm-dd.", false);
 		//}
 		
-		Map<String, Object> myReturn = WebReturn.errorMsg(null, true);
-	    myReturn.put("template", twigService.getTwigTemplateByDateAndPortfolio(givenDate, portfolioId));
+		//Map<String, Object> myReturn = WebReturn.errorMsg(null, true);
+	    //myReturn.put("template", twigService.getTwigTemplateByDateAndPortfolio(givenDate, portfolioId));
 		
-		return myReturn;
+		return twigService.getTwigTemplateByDateAndPortfolio(DateUtils.safeParseDate(date, "yyyy-MM-dd"), portfolioId);
 	}
 	
 	@RequestMapping("/api/private/getTwigTemplateList")  
