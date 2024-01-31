@@ -57,6 +57,8 @@
                 $('#logo-container').hide();
             });
         });
+
+		
     
         
     </script>
@@ -64,19 +66,22 @@
 
 <body>
 
-    <!-- Your SVG logo -->
+    <#-- Griffin Hall logo -->
     <div id="logo-container">
         <img src="/static/images/GHLogo.min.svg" id="logo" width="50%" height="50%"/>
     </div>
-
+	<#-- /Griffin Hall logo -->
 		
 	<#-- Date.js. -->
 	<!--
 	<script src="/static/js/vendor/date.min.js"></script>
 	-->
 
-	<#-- p5.js.-->
+	<#-- p5.js -->
 	<script src="/static/js/vendor/p5.min.js"></script>
+
+	<script src="/static/js/etwig/twig.js"></script>
+	<script src="/static/js/etwig/twig-draw.js"></script>
 
 </body>
 </html>

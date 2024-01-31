@@ -42,13 +42,13 @@ public interface TwigTemplateRepository extends JpaRepository<TwigTemplate, Long
      */
     
 	
-	/*
+	
     @Query("SELECT e FROM TwigTemplate e WHERE e.portfolioId = :portfolioId " +
             "AND (e.availableFrom IS NULL OR :currentDate >= e.availableFrom) " +
             "AND (e.availableTo IS NULL OR :currentDate <= e.availableTo) " +
             "ORDER BY e.id DESC")
     public Optional<TwigTemplate> findByDateAndPortfolio(LocalDate currentDate, Long portfolioId);
-    
+    /*
     
     @Query("SELECT new net.grinecraft.etwig.dto.TwigTemplateBasicInfoDTO(t.id, t.name, p.name, t.availableFrom, t.availableTo) " +
             "FROM TwigTemplate t LEFT JOIN t.portfolio p")

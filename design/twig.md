@@ -18,9 +18,9 @@ The details of each TWIG template is stored in the **twig_template** table in th
 - **available_from**: The template is invalid before this date. Null means there no restrictions on this date. [date, null allowed]
 - **available_to**: The template is invalid after this date. Null means there no restrictions on this date. [date, null allowed]
 - **creator_role**: The person/role who created this template. It is the foreign key of the id field in **user_role** table. [integer, not null]
-- **portfolio**: The portfolio scope of this template. [integer, not null] It can be:
+- **portfolio**: The portfolio scope of this template. [integer, null allowed] It can be:
   - **A portfolio id**, which specifies a designated portfolio. In this case, it can be treated as the foreign key of the id field in the portfolio table.
-  - **A negative number**, which stands for all portfolios.
+  - **Null**, which stands for all portfolios.
 - **design**: The design of the template in PostgreSQL jsonb format.
 
 ### Design JSON structure

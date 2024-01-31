@@ -61,7 +61,7 @@ public class TwigService {
 			return null;
 		}
 		
-		Optional<TwigTemplate> twigTemplateOpt = null;//twigTemplateRepository.findByDateAndPortfolio(date, portfolioId);
+		Optional<TwigTemplate> twigTemplateOpt = twigTemplateRepository.findByDateAndPortfolio(date, portfolioId);
 		return optionalToMap(twigTemplateOpt);
 	
 	}
