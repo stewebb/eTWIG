@@ -1,16 +1,16 @@
 function setup() {
 
     var setting = new TwigSettings();
-    setting.setPortfolio(1);
+    //setting.setPortfolio(1);
 
     // Don't use var !!!!!!!
     twig = new TWIG();
     twig.createTree(setting);
 
 
-    return;
+    
     twig.root.printTree();
-
+    return;
     console.log(JSON.stringify(twig.serialize(), null, 2))
 
     background = twig.root.widget;

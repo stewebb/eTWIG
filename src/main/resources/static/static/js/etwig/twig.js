@@ -56,7 +56,7 @@ class TWIG{
         try{
             jsonObj = JSON.parse(jsonString);
         }catch(error){
-            dangerPopup("Failed to parse the TWIG template design", error);
+            dangerPopup("Failed to parse the TWIG design", error);
         }
 
         if(jsonObj == undefined || jsonObj == null){
@@ -68,7 +68,7 @@ class TWIG{
             this.deserialize(jsonObj);
             return true;
         }catch(error){
-            dangerPopup("Failed to deserialize the TWIG template design", error);
+            dangerPopup("Failed to deserialize the TWIG design", error);
             return false;
         }    
     }
@@ -109,19 +109,22 @@ class TWIG{
         var widgetObj = jsonObject.widget;
         let node = new TwigNode();
 
+        // Different widget types
         switch (widgetObj.type) {
             case 'IMAGE':
-                widget = new Image(widgetObj);
-            
+                widget = new Image();
+                break;
             case 'EVENT_TABLES':
-                widget = new EventTable(widgetObj);
-            case 'TEMPLATE':
-                widget = new Template();
-                widget.fromJson(widgetObj);
+                widget = new EventTable();
+                break;
             case 'TEXT':
                 widget = new Text();
+                break;
+            default:
+                widget = new Template();
+                break;
         }
-
+        widget.fromJson(widgetObj);
         node.setWidget(widget);
     
         // Recursively deserialize all children
