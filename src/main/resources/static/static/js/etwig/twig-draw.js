@@ -1,7 +1,9 @@
 
-let img;
+var img;
+var twig = undefined;
+var assetCollection = new Map();
 
-p5.disableFriendlyErrors = false; // disables FES
+//p5.disableFriendlyErrors = false; // disables FES
 
 function preload(){
     
@@ -13,7 +15,12 @@ function preload(){
 
     // Don't use var !!!!!!!
     twig = new TWIG();
-    twig.createTree(setting);
+    
+    // The tree may failed to be created,.
+    if(!twig.createTree(setting)){
+		twig = undefined;
+		return;
+	}
 
     // Create the canvas first !!!!!
     //
@@ -24,8 +31,6 @@ function preload(){
 
     // Iterate all nodes via DFS, but only get the assets.
     var iterator = new TwigNodeIterator(twig.root);
-    assetCollection = new Map();
-
     
     while(iterator.hasNext()){
         var { value, done } = iterator.next();
@@ -47,14 +52,26 @@ function preload(){
 }
 
 function setup(){
+	
+	if(twig == undefined){
+		return;
+	}
+	
     frameRate(10);
-    createCanvas(400, 400);
+    
+    var mainCanvas = twig.root.widget;
+    createCanvas(mainCanvas.width, mainCanvas.height);
    // image(img, 0, 0);
     //background(255, 0, 0)
+    
+    console.log(assetCollection)
 }
 
 function draw() {
 
+	if(twig == undefined){
+		return;
+	}
     //console.log(1);
   //  console.log(twig)
 
@@ -92,11 +109,11 @@ function draw() {
         }
 
         // Current widget
-        var widget = value.node.widget;
+        var widget = value.node.widget
 
        // console.log(depth - lastDepth, widget.type, parent.widget)
 
-       console.log(0)
+       //console.log(0)
         switch (widget.type){
    //         case "TEMPLATE":
    //             //noFill();   strokeWeight(5);    stroke(0);
@@ -104,9 +121,12 @@ function draw() {
     //            break;
 
             case "IMAGE":
+				var originalImg = assetCollection.get(widget.assetId);
+                var newHeight = originalImg.height * (widget.width / originalImg.width);
+				image(originalImg, widget.posX, widget.posY, widget.width, newHeight)
             //case "EVENT_TABLES":
-                fill(random(255), random(255), random(255));    noStroke();
-                rect(widget.posX, widget.posY, widget.width, widget.width);
+                //fill(random(255), random(255), random(255));    noStroke();
+                //rect(widget.posX, widget.posY, widget.width, widget.width);
                // console.log(widget.posX, widget.posY, widget.width, widget.width);
            //     assetCollection.set(widget.assetId, loadImage("/assets/getPublicAsset?assetId=" + widget.assetId));
                 //p=( loadImage("/assets/getPublicAsset?assetId=" + widget.assetId))
