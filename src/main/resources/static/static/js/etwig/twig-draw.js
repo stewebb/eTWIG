@@ -4,18 +4,8 @@ let img;
 p5.disableFriendlyErrors = false; // disables FES
 
 function preload(){
-    img = loadImage("/assets/getPublicAsset?assetId=1");
-
-}
-
-function setup() {
-    createCanvas(400, 400);
-
-    rect(0);
-    return;
     
-    console.log(0);
-
+    //createCanvas(400, 400);
     
    
     var setting = new TwigSettings();
@@ -26,8 +16,8 @@ function setup() {
     twig.createTree(setting);
 
     // Create the canvas first !!!!!
+    //
     
-
     //return;
 
   
@@ -42,30 +32,31 @@ function setup() {
         var widget = value.node.widget;
 
         if(widget.type == "IMAGE"){
-            img = loadImage("1");
-            image(img, 0, 0);
+           // img = loadImage("1");
+           // image(img, 0, 0);
             assetCollection.set(widget.assetId, loadImage("/assets/getPublicAsset?assetId=" + widget.assetId));
         }
     
 
     
     }
-    console.log(assetCollection)
-    console.log(0);
+  //  console.log(assetCollection)
+  //  console.log(0);
 
     
 }
 
-function draw(){
-    
-    image(img, 0, 0);
+function setup(){
+    frameRate(10);
+    createCanvas(400, 400);
+   // image(img, 0, 0);
     //background(255, 0, 0)
 }
-/*
-//function draw() {
 
-    console.log(1);
-    console.log(twig)
+function draw() {
+
+    //console.log(1);
+  //  console.log(twig)
 
     // Track the depth of last iteration!
     var lastDepth = 0;
@@ -79,7 +70,7 @@ function draw(){
         const { node, depth } = value;
 
        
-         * Get the parent node
+        // * Get the parent node
         
 
         // The path from root to current node.
@@ -116,7 +107,7 @@ function draw(){
             //case "EVENT_TABLES":
                 fill(random(255), random(255), random(255));    noStroke();
                 rect(widget.posX, widget.posY, widget.width, widget.width);
-                console.log(widget.posX, widget.posY, widget.width, widget.width);
+               // console.log(widget.posX, widget.posY, widget.width, widget.width);
            //     assetCollection.set(widget.assetId, loadImage("/assets/getPublicAsset?assetId=" + widget.assetId));
                 //p=( loadImage("/assets/getPublicAsset?assetId=" + widget.assetId))
                 break;
@@ -126,12 +117,3 @@ function draw(){
    }
 
 }
-*/
-
-function success(img) {
-    console.log("success!")
-  }
-  
-  function failure(event) {
-    console.error('Oops!', event);
-  }

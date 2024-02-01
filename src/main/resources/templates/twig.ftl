@@ -43,7 +43,7 @@
         };
 
     	
-        /*
+        
         Pace.on('start', function() {
             $('#logo-container').show().find('#logo').addClass('beating-logo');
         });
@@ -57,7 +57,7 @@
                 $('#logo-container').hide();
             });
         });
-*/
+
 		
     
         
