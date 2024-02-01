@@ -43,7 +43,7 @@
         };
 
     	
-        
+        /*
         Pace.on('start', function() {
             $('#logo-container').show().find('#logo').addClass('beating-logo');
         });
@@ -57,7 +57,7 @@
                 $('#logo-container').hide();
             });
         });
-
+*/
 		
     
         
@@ -73,9 +73,12 @@
 	<#-- /Griffin Hall logo -->
 		
 	<#-- Required js -->
+	
+	
 	<script src="/static/js/vendor/date.min.js"></script>
-	<script src="/static/js/vendor/p5.min.js"></script>
 	<script src="/static/js/vendor/sweetalert2.min.js"></script>
+	<script src="/static/js/vendor/p5.min.js"></script>
+
 
 	<script src="/static/js/etwig/common.js"></script>
 	<script src="/static/js/etwig/twig.js"></script>

@@ -112,16 +112,16 @@ class TWIG{
         // Different widget types
         switch (widgetObj.type) {
             case 'IMAGE':
-                widget = new Image();
+                widget = new ImageWidget();
                 break;
             case 'EVENT_TABLES':
-                widget = new EventTable();
+                widget = new EventTableWidget();
                 break;
             case 'TEXT':
-                widget = new Text();
+                widget = new TextWidget();
                 break;
             default:
-                widget = new Template();
+                widget = new TemplateWidget();
                 break;
         }
         widget.fromJson(widgetObj);
@@ -231,7 +231,7 @@ class TwigNode{
     addChild(childNode){
 
         // Only the node of template widget is allowed to add child.
-        if(this.widget instanceof Template){
+        if(this.widget instanceof TemplateWidget){
             this.children.push(childNode);
         }else{
             console.warn("Only the node of template widget is allowed to add child.");
@@ -323,7 +323,7 @@ class TwigNodeIterator {
  * - **height**: The height of the template area.
  * */
 
-class Template {
+class TemplateWidget {
 
     constructor(){
         this.type = "TEMPLATE";
@@ -361,7 +361,7 @@ class Template {
  * Please note that the height of the image is depends on the aspect ratio of the original image. (i.e., auto-inferred).
  */
 
-class Image {
+class ImageWidget {
 
     constructor(){
         this.type = "IMAGE";
@@ -397,7 +397,7 @@ class Image {
  * - **size**: The font size.
  */
 
-class Text {
+class TextWidget {
 
     constructor(){
         this.type = "TEXT";
@@ -439,7 +439,7 @@ class Text {
  * - **dayEnd**: The end time of a day.
  */
 
-class EventTable {
+class EventTableWidget {
 
     constructor(){
         this.type = "EVENT_TABLES";
@@ -467,48 +467,3 @@ class EventTable {
         return `EventTable(${this.posX}, ${this.posY}, ${this.width}, ${this.height}, ${this.dayStart}, ${this.dayEnd})`; 
     }
 }
-
-/*
-function initialize(){
-
-
-    var twig = new TWIG(true);
-
-        // Place a 1920x1080 canvas, depth=0
-        var t = new Template(); t.setValues(0, 0, 1920, 1080);  twig.root.setWidget(t);
-
-        // A 1920x1080 background, depth=0, child=0
-        var background = new TwigNode();
-        var b = new Image();    b.setValues(0, 0, 1920, 1);   background.setWidget(b);
-    
-        // The title area
-        var title = new TwigNode();
-        var t = new Template(); t.setValues(0, 0, 1920, 180);  title.setWidget(t);
-
-            // Logo
-            var logo = new TwigNode();
-            var l = new Image();    l.setValues(100, 50, 150, 1);   logo.setWidget(l); 
-
-            title.addChild(logo);
-
-
-        // The events area
-        var events = new TwigNode();
-        var e = new Template(); e.setValues(0, 180, 1920, 900); events.setWidget(e);
-
-            // Event table (Monday)
-            var eventTableMonday = new TwigNode();
-            var m = new EventTable(); m.setValues(100, 100, 100, 100, 0, 24);  eventTableMonday.setWidget(m);
-
-        events.addChild(eventTableMonday);
-
-    // The events area
-    twig.root.addChild(background);
-    twig.root.addChild(title);
-    twig.root.addChild(events);
-
-    return twig;
-
-}
-
-*/
