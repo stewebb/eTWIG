@@ -42,8 +42,8 @@ public class TwigService {
 			return null;
 		}
 		
-		Optional<TwigTemplateDesignDTO> twigTemplateopt = null;//twigTemplateRepository.findDesignById(id);
-		return twigTemplateopt.isPresent() ? twigTemplateopt.get() : null;
+		Optional<TwigTemplateDesignDTO> twigTemplateOpt = null;//twigTemplateRepository.findDesignById(id);
+		return twigTemplateOpt.isPresent() ? twigTemplateOpt.get() : null;
 	
 	}
 	

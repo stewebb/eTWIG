@@ -7,35 +7,35 @@ A **TWIG** (abbreviation of *This Week In Griffin*) is a graphic collection and 
 
 ## TWIG Template
 
-As the name implies, **TWIG Template** is a template of each TWIG. A template can be applied on the events in a single week, or multiple weeks, it can be also applied on one or more portfolios.
+As the name implies, the **TWIG Template** is a template of each TWIG. A template can be applied to the events in a single week, or multiple weeks. It can be also applied to one or more portfolios.
 
 ### Database storage structure
 
-The details of each TWIG template is stored in the **twig_template** table in the main eTWIG database, including the following fields:
+The details of each TWIG template are stored in the **twig_template** table in the main eTWIG database, including the following fields:
 
 - **id**: The identification number of each template, which is the primary key of this table. [integer, not null]
-- **name**: The name of this template [character varying 63, not null].
-- **available_from**: The template is invalid before this date. Null means there no restrictions on this date. [date, null allowed]
-- **available_to**: The template is invalid after this date. Null means there no restrictions on this date. [date, null allowed]
-- **creator_role**: The person/role who created this template. It is the foreign key of the id field in **user_role** table. [integer, not null]
+- **name**: The name of this template [varchar 63, not null].
+- **available_from**: The template is invalid before this date. Null means there are no restrictions on this date. [date, null allowed]
+- **available_to**: The template is invalid after this date. Null means there are no restrictions on this date. [date, null allowed]
+- **creator_role**: The person/role who created this template. It is the foreign key of the id field in the **user_role** table. [integer, not null]
 - **portfolio**: The portfolio scope of this template. [integer, null allowed] It can be:
   - **A portfolio id**, which specifies a designated portfolio. In this case, it can be treated as the foreign key of the id field in the portfolio table.
   - **Null**, which stands for all portfolios.
-- **design**: The design of the template in PostgreSQL jsonb format.
+- **design**: The design of the template in PostgreSQL JSONB format.
 
 ### Design JSON structure
 
-Each template is a **non-binary tree**, and each node contains zero or or more children, which can be expressed in an array of other node objects. There are also **data** part on each node.
+Each template is a **non-binary tree**, and each node contains zero or more children, which can be expressed in an array of other node objects. There is also a **data** part on each node.
 
-If a node has no children nodes, it is a **leaf node**, which can carry the following type of widgets:
+If a node has no children nodes, it is a **leaf node**, which can carry the following types of widgets:
 
 - **An image** that is stored on the server filesystem, which is corresponding to the assets subsystem. (Leaf Node)
-- **A styled text** which has the adjustable attributes (e.g., size, color and weight). (Leaf Node)
-- **A event table** that contains multiple event graphics.
+- A **styled text** that has adjustable attributes (e.g., size, color and weight). (Leaf Node)
+- **An event table** that contains multiple event graphics.
 
 Otherwise, the node is an **internal node**, it can only carry the following type of widget:
 
-- **A sub-template** that is a smaller version of TWIG template.
+- **A sub-template** that is a smaller version of the TWIG template.
 
 ```mermaid
 flowchart LR
@@ -54,7 +54,7 @@ flowchart LR
 
 #### Node
 
-Each node contains two fields: **children** and **widget**. Children is a **list** of the Node objects of other nodes, while widget is a object of Widget classes (one of Image, Text, Table and Template). Here is a sample definition in JavaScript.
+Each node contains two fields: **children** and **widget**. Children is a **list** of the Node objects of other nodes, while the widget is an object of Widget classes (one of Image, Text, Table and Template). Here is a sample definition in JavaScript.
 
 ``` js
 class Node {
@@ -66,7 +66,7 @@ class Node {
 }
 ```
 
-The **layer** of the widgets are based on the height of the tree, the node of top-layer widgets always have a higher height than the node of bottom-layer widgets. The **position** of the widgets are depends on not the whole canvas, but the parent template. (i.e., relative position)
+The **layer** of the widgets is based on the height of the tree, the node of top-layer widgets always has a higher height than the node of bottom-layer widgets. The **position** of the widgets depends on not the whole canvas, but the parent template. (i.e., relative position)
 
 #### Template
 
@@ -79,12 +79,12 @@ The **layer** of the widgets are based on the height of the tree, the node of to
 
 #### Image
 
-**The Image object** is a reference of an asset in the **asset** table in the database. It is usually a **transparent** PNG image (unless the background, which is not transparent). The Image object contains the following properties:
+**The Image object** is a reference of an asset in the **asset** table in the database. It is usually a **transparent** PNG image (unless the background is not transparent). The Image object contains the following properties:
 
 - **assetId**: The identification number of the asset.
 - **posX**: The X coordinate of the starting point of a template.
 - **posY**: The Y coordinate of the starting point of a template.
-- **width**: The width of the image. Please note that the height of the image is depends on the aspect ratio of the original image. (i.e., auto-inferred).
+- **width**: The width of the image. Please note that the height of the image depends on the aspect ratio of the original image. (i.e., auto-inferred).
 
 #### Text
 
@@ -98,17 +98,19 @@ The **layer** of the widgets are based on the height of the tree, the node of to
 
 #### Event Table
 
-**The event tables object** is the collection of events. They are the core content of each TWIG, and also another kind of calendar.
+**The event table object** is the collection of events. They are the core content of each TWIG, and also another kind of calendar.
 
-Each event table actually is another "template" but it can only includes the event graphics and not other widgets. The Event Table object contains the following properties:
+The event table is another kind of "template" but it can only include the event graphics and not other widgets. The Event Table object contains the following properties:
 
 - **posX**: The X coordinate of the starting point of the table.
 - **posY**: The Y coordinate of the starting point of the table.
 - **width**: The width of the table.
-- **height**: The height of the the table.
-- **dayStart**: The start time of a day (e.g., 8 AM).
-- **dayEnd**: The end time of a day.
+- **height**: The height of the table.
+
+The event graphics will be properly placed in this table by portfolio, and event time.
 
 ## Event Graphics
 
 **Event Graphics** are also images. They are managed internally in the **event tables object**  and will be fetched based on some conditions (e.g., week and portfolio)
+
+### Graphics Ordering Algorithm (GOA)
