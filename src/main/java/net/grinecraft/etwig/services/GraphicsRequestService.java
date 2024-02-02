@@ -93,15 +93,8 @@ public class GraphicsRequestService {
 		return new PendingRequestsDetailsDTO(request);
 	}
 	
+	@SuppressWarnings("null")
 	public void addRequest(Map<String, Object> requestInfo) {
-		
-		//GraphicsRequest request = new GraphicsRequest();
-		//request.setEventId(Long.parseLong(requestInfo.get("eventId").toString()));
-		//request.setRequesterRoleId(Long.parseLong(requestInfo.get("requesterRole").toString()));
-		//request.setRequestComment(requestInfo.get("requestComment").toString());
-		//request.setExpectDate(DateUtils.safeParseDate(requestInfo.get("returningDate").toString(), "yyyy-MM-dd"));
-		//request.setRequestTime(LocalDateTime.now());
-		
 		NewRequestDTO newRequest = new NewRequestDTO();
 		newRequest.fromMap(requestInfo);
 		graphicsRequestRepository.save(newRequest.toEntity());

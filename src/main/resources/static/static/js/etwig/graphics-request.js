@@ -17,6 +17,7 @@ function requestEvent(embedded){
 	
 	// Requester: Required but provided.
 	var requesterRole = $('#requesterRole').val();
+	// TODO INCORRECT REQUESTER ROLE. IT'S ACTUALLY THE ORGANIZER ROLE.
 	
 	// Returning Date: Required.
 	var eventGraphicsDate = $('#eventGraphicsDate').val();
