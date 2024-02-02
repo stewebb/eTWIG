@@ -435,8 +435,7 @@ class TextWidget {
  * - **posY**: The Y coordinate of the starting point of the table.
  * - **width**: The width of the table.
  * - **height**: The height of the the table.
- * - **dayStart**: The start time of a day (e.g., 8 AM).
- * - **dayEnd**: The end time of a day.
+ * - **timeSlotNum**: The number of time slots.
  */
 
 class EventTableWidget {
@@ -445,13 +444,12 @@ class EventTableWidget {
         this.type = "EVENT_TABLES";
     }
 
-    setValues(posX, posY, width, height, dayStart, dayEnd) {
+    setValues(posX, posY, width, height, timeSlotNum) {
         this.posX = posX;
         this.posY = posY;
         this.width = width;
         this.height = height;
-        this.dayStart = dayStart;
-        this.dayEnd = dayEnd;
+        this.timeSlotNum = timeSlotNum;
     }
 
     fromJson(jsonObject){
@@ -459,12 +457,11 @@ class EventTableWidget {
         this.posY = jsonObject.posY;
         this.width = jsonObject.width;
         this.height = jsonObject.height;
-        this.dayStart = jsonObject.dayStart;
-        this.dayEnd = jsonObject.dayEnd;
+        this.timeSlotNum = jsonObject.timeSlotNum;
     }
 
     toString(){
-        return `EventTable(${this.posX}, ${this.posY}, ${this.width}, ${this.height}, ${this.dayStart}, ${this.dayEnd})`; 
+        return `EventTable(${this.posX}, ${this.posY}, ${this.width}, ${this.height}, ${this.timeSlotNum})`; 
     }
 }
 

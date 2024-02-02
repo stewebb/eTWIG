@@ -91,9 +91,9 @@ function draw() {
         // The current depth
         const { node, depth } = value;
 
-       
-        // * Get the parent node
-        
+        /**
+		 *  Get the parent node
+		 */
 
         // The path from root to current node.
         var path = twig.findPath(value.node);
@@ -105,7 +105,6 @@ function draw() {
         var depthChange = depth - lastDepth;
 
         if(depthChange > 0){
-            //console.log(parent.widget.posX, parent.widget.posY)
             translate(parent.widget.posX, parent.widget.posY);
             push();
         }else if(depthChange < 0){
@@ -127,12 +126,24 @@ function draw() {
 
             case "IMAGE":
 				var originalImg = assetCollection.get(widget.assetId);
+				
+				// Calculate the new height. (Aspect ratio not changes)
                 var newHeight = originalImg.height * (widget.width / originalImg.width);
 				image(originalImg, widget.posX, widget.posY, widget.width, newHeight)
 				break;
             case "EVENT_TABLES":
             	fill(255, 0, 0);    noStroke();
                 rect(widget.posX, widget.posY, widget.width, widget.height);
+                
+                //var dayStart = constrain(widget.dayStart, 0, 11)
+               // var dayEnd = constrain(widget.dayEnd, 12, 23)
+                
+                // Num of (end-start) is end-start+1, there has also a top slot and a bottom slot respectively. 
+                //var timeSlotNum = dayEnd - dayStart + 3;
+                
+                //var 
+                
+                //console.log(widget.dayStart, widget.dayEnd)
                // console.log(widget.posX, widget.posY, widget.width, widget.width);
            //     assetCollection.set(widget.assetId, loadImage("/assets/getPublicAsset?assetId=" + widget.assetId));
                 //p=( loadImage("/assets/getPublicAsset?assetId=" + widget.assetId))
