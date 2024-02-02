@@ -98,7 +98,7 @@ The **layer** of the widgets is based on the height of the tree, the node of top
 
 #### Event Table
 
-**The event table object** is the collection of events. They are the core content of each TWIG, and also another kind of calendar.
+**The event table object** is the collection of **daily events**, so one week should have 7 such objects. They are the core content of each TWIG, and also another kind of calendar.
 
 The event table is another kind of "template" but it can only include the event graphics and not other widgets. The Event Table object contains the following properties:
 
@@ -106,6 +106,7 @@ The event table is another kind of "template" but it can only include the event 
 - **posY**: The Y coordinate of the starting point of the table.
 - **width**: The width of the table.
 - **height**: The height of the table.
+- **isWeekend**: True means the date is a weekend, otherwise means the date is a weekday.
 
 The event graphics will be properly placed in this table by portfolio, and event time.
 
@@ -113,4 +114,45 @@ The event graphics will be properly placed in this table by portfolio, and event
 
 **Event Graphics** are also images. They are managed internally in the **event tables object**  and will be fetched based on some conditions (e.g., week and portfolio)
 
-### Graphics Ordering Algorithm (GOA)
+### TWIG Arranging Algorithm (TAA)
+
+#### Algorithm input
+
+- A **list** of all events on a certain day.
+- The object of the **event table widget**.
+- The **range** of acceptable size.
+
+#### Algorithm output
+
+A list of the positions of all event graphics.
+
+#### Internal data structure
+
+**The event time slot** object. This object stores the information of an event graphic and the layout of it. Each time slot corresponds to such an object, which contains:
+
+- **EventId:** The identification number of the event.
+- **startTime:** The start time (with no date) of the event.
+- **endTime:** The end time of the event.
+- **posX:** The relatively X coordinate of the graphic.
+- **posY:** The relatively Y coordinate of the graphic.
+
+#### Steps
+
+- **Step 1:** Determine the length of the time slot map, which is **N+3**.
+  - **Base length N** will be determined by the event date (case 1).
+    - **Weekday** events, N=13 (9:00 - 21:00), hence the length of the map is 16.
+    - **Weekend** events, N=3 (morning 9:00-12:00, afternoon 13:00-18:00, evening 19:00-21:00), hence the length of the map is 5.
+  - **Additional length 3** are:
+    - **All-day events** (case 2)
+    - The events **before** the display starting time (case 3)
+    - The events **after** the display ending time (case 4)
+
+- **Step 2:** Assign the **key element** of this map, which has the following 4 cases:
+  - **Case 1:** the hour part of the time (in a 24-hour clock)
+  - **Case 2:** -1
+  - **Case 3:** Minimum integer
+  - **Case 4:** Minimum integer
+- 
+-  and the value element is the **event time slot** object.
+
+- Add events into the slots based on the time. Only the hours are considered. (e.g., a 6 PM event will be added to the 6PM slot, while a 2:30 PM event will be added)
