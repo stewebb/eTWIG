@@ -58,6 +58,17 @@ function warningToast(title, body){
 	});
 }
 
+function warningPopup(title, body){
+	Swal.fire({
+		icon: "warning",
+		title: "Warning",
+		html: `
+			<div style="text-align: left;">
+				<strong>${title}:</strong> 
+				<p>${body}</p>
+			</div>`,
+	  });
+}
 /**
  * A toast that used in errors.
  * @param title The title of the toast.

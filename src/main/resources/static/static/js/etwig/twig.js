@@ -467,3 +467,52 @@ class EventTableWidget {
         return `EventTable(${this.posX}, ${this.posY}, ${this.width}, ${this.height}, ${this.dayStart}, ${this.dayEnd})`; 
     }
 }
+
+function defineTwigTreeManually(){
+
+
+    var twig = new TWIG(true);
+
+        // Place a 1920x1080 canvas, depth=0
+        var t = new TemplateWidget(); t.setValues(0, 0, 1920, 1080);  twig.root.setWidget(t);
+
+        // A 1920x1080 background, depth=0, child=0
+        var background = new TwigNode();
+        var b = new ImageWidget();    b.setValues(0, 0, 1920, 1);   background.setWidget(b);
+    
+        // The title area
+        var title = new TwigNode();
+        var t = new TemplateWidget(); t.setValues(0, 0, 1920, 180);  title.setWidget(t);
+
+            // Logo
+            var logo = new TwigNode();
+            var l = new ImageWidget();    l.setValues(100, 50, 150, 3);   logo.setWidget(l); 
+
+            title.addChild(logo);
+
+
+        // The events area
+        var events = new TwigNode();
+        var e = new TemplateWidget(); e.setValues(0, 180, 1920, 900); events.setWidget(e);
+
+            // Event table (Monday) (200x800)
+            var eventTableMonday = new TwigNode();
+            var m = new EventTableWidget(); m.setValues(100, 120, 220, 650, 0, 24);  eventTableMonday.setWidget(m);
+
+ 			var eventTableTuesday = new TwigNode();
+            var t = new EventTableWidget(); t.setValues(350, 120, 220, 650, 0, 24);  eventTableTuesday.setWidget(t);
+
+
+        events.addChild(eventTableMonday);
+        events.addChild(eventTableTuesday);
+
+    // The events area
+    twig.root.addChild(background);
+    twig.root.addChild(title);
+    twig.root.addChild(events);
+
+    return JSON.stringify(twig.serialize(), null, 2);
+
+}
+
+console.log(defineTwigTreeManually());

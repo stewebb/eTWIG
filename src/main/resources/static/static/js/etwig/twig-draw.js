@@ -21,6 +21,8 @@ function preload(){
 		twig = undefined;
 		return;
 	}
+	
+	twig.root.printTree()
 
     // Create the canvas first !!!!!
     //
@@ -32,23 +34,26 @@ function preload(){
     // Iterate all nodes via DFS, but only get the assets.
     var iterator = new TwigNodeIterator(twig.root);
     
-    while(iterator.hasNext()){
-        var { value, done } = iterator.next();
-        var widget = value.node.widget;
+	while(iterator.hasNext()){
+		var { value, done } = iterator.next();
+		var widget = value.node.widget;
 
-        if(widget.type == "IMAGE"){
-           // img = loadImage("1");
-           // image(img, 0, 0);
-            assetCollection.set(widget.assetId, loadImage("/assets/getPublicAsset?assetId=" + widget.assetId));
-        }
-    
-
-    
+		if(widget.type == "IMAGE"){
+			var assetUrl = "/assets/getPublicAsset?assetId=" + widget.assetId;
+			
+			// Key: assetId, Value: content
+			assetCollection.set(
+				widget.assetId, 
+				loadImage(
+					assetUrl,					// The image location
+					function(){},				// Success callback, do nothing here
+					function(){				// Failure callback.
+						 warningPopup("Failed to load the following resource", assetUrl);
+					}
+				)
+			);
+		}
     }
-  //  console.log(assetCollection)
-  //  console.log(0);
-
-    
 }
 
 function setup(){
@@ -124,9 +129,10 @@ function draw() {
 				var originalImg = assetCollection.get(widget.assetId);
                 var newHeight = originalImg.height * (widget.width / originalImg.width);
 				image(originalImg, widget.posX, widget.posY, widget.width, newHeight)
-            //case "EVENT_TABLES":
-                //fill(random(255), random(255), random(255));    noStroke();
-                //rect(widget.posX, widget.posY, widget.width, widget.width);
+				break;
+            case "EVENT_TABLES":
+            	fill(255, 0, 0);    noStroke();
+                rect(widget.posX, widget.posY, widget.width, widget.height);
                // console.log(widget.posX, widget.posY, widget.width, widget.width);
            //     assetCollection.set(widget.assetId, loadImage("/assets/getPublicAsset?assetId=" + widget.assetId));
                 //p=( loadImage("/assets/getPublicAsset?assetId=" + widget.assetId))
@@ -136,4 +142,8 @@ function draw() {
         lastDepth = depth;
    }
 
+}
+
+function mouseClicked(fxn){
+	console.log(mouseX, mouseY);
 }
