@@ -10,7 +10,6 @@
 package net.grinecraft.etwig.services;
 
 import java.time.LocalDate;
-import java.util.LinkedHashMap;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +19,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import net.grinecraft.etwig.dto.TwigTemplateBasicInfoDTO;
+import net.grinecraft.etwig.dto.TwigTemplateDTO;
 import net.grinecraft.etwig.dto.TwigTemplateDesignDTO;
 import net.grinecraft.etwig.model.TwigTemplate;
 import net.grinecraft.etwig.repository.TwigTemplateRepository;
-import net.grinecraft.etwig.util.JSONUtils;
 
 @Service
 public class TwigService {
@@ -43,8 +42,8 @@ public class TwigService {
 			return null;
 		}
 		
-		Optional<TwigTemplateDesignDTO> twigTemplateopt = null;//twigTemplateRepository.findDesignById(id);
-		return twigTemplateopt.isPresent() ? twigTemplateopt.get() : null;
+		Optional<TwigTemplateDesignDTO> twigTemplateOpt = null;//twigTemplateRepository.findDesignById(id);
+		return twigTemplateOpt.isPresent() ? twigTemplateOpt.get() : null;
 	
 	}
 	
@@ -56,39 +55,9 @@ public class TwigService {
 	 * @throws Exception
 	 */
 	
-	public LinkedHashMap<String, Object> getTwigTemplateByDateAndPortfolio(LocalDate date, Long portfolioId) throws Exception {
-		if(twigTemplateRepository == null) {
-			return null;
-		}
-		
-		Optional<TwigTemplate> twigTemplateOpt = null;//twigTemplateRepository.findByDateAndPortfolio(date, portfolioId);
-		return optionalToMap(twigTemplateOpt);
-	
-	}
-	
-	/**
-	 * Convert the optional data to a map (only applies in this class).
-	 * @param twigTemplateOpt The Optional of TwigTemplate class.
-	 * @return
-	 * @throws Exception
-	 */
-	
-	private LinkedHashMap<String, Object> optionalToMap(Optional<TwigTemplate> twigTemplateOpt) throws Exception{
-		if(!twigTemplateOpt.isPresent()) {
-			return null;
-		}
-		
-		JSONUtils jsonUtils = new JSONUtils();
-		TwigTemplate twigTemplate = twigTemplateOpt.get();
-		LinkedHashMap<String, Object> templateMap = new LinkedHashMap<String, Object>();
-		
-		templateMap.put("id", twigTemplate.getId());
-		
-		// Convert the JSON field in the to map, so the field will be validated automatically.
-		//templateMap.put("background", jsonUtils.jsonToMap(twigTemplate.getBackground()));
-		//templateMap.put("logo", jsonUtils.jsonToMap(twigTemplate.getLogo()));
-		
-		return templateMap;
+	public TwigTemplateDTO getTwigTemplateByDateAndPortfolio(LocalDate date, Long portfolioId) throws Exception {
+		TwigTemplate twigTemplate = (portfolioId != null && portfolioId > 0) ? twigTemplateRepository.findByDateAndPortfolio(date, portfolioId).orElse(null) : twigTemplateRepository.findAllPortfoliosByDateOnly(date).orElse(null);
+		return (twigTemplate == null) ? null : new TwigTemplateDTO(twigTemplate);
 	}
 	
 	public Page<TwigTemplateBasicInfoDTO> getTwigTemplateList(int page, int size) {

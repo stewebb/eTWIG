@@ -54,6 +54,8 @@ public class EventOptionService {
      * @param optionIds A HashSet with all option ids.
      * @throws DataException If an event has multiple contradicted options in a property.
      */
+
+     // TODO duplicateOptionCheck
     
     private void duplicateOptionCheck(HashSet<Long> optionIds) throws DataException {
     	

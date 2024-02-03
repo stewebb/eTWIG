@@ -66,7 +66,7 @@ public class AssetController {
         	
         	return ResponseEntity.ok()
         			.contentType(fileType.getMediaType())
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + asset.getOriginalName() + "\"")
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + asset.getOriginalName() + "\"")
         			.body(resource);
         } 
         

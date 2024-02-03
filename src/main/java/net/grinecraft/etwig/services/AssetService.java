@@ -73,9 +73,12 @@ public class AssetService {
 	@SuppressWarnings("null")
 	public Resource getAssetContent(Asset asset) throws Exception {
 		
+		return (asset == null) ? null : new UrlResource(rootLocation.resolve(asset.getStoredName()).toUri());
+		
 		// Retrieve the file from the file system
-		Path file = rootLocation.resolve(asset.getStoredName());
-		return new UrlResource(file.toUri());		
+		//Path file = rootLocation.resolve(asset.getStoredName());
+		//System.out.println(file);
+		//return new UrlResource(file.toUri());		
 	}
 	
 	/**

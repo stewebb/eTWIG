@@ -128,7 +128,7 @@ function getEventInfo(datePickersMap){
     // Get description
     $('#eventDescription').html(eventInfo.description);
     
-    // Get event start and end datetime
+    // Get event start and end date time
     var eventStartDate = Date.parse(eventInfo.startTime);    
     datePickersMap.get('eventStartDate').setDate(eventStartDate);
     $('#eventStartTime').val(eventStartDate.toString('HH:mm'));

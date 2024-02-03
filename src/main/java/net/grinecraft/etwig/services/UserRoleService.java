@@ -9,7 +9,6 @@
 
 package net.grinecraft.etwig.services;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,7 +21,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpSession;
-import net.grinecraft.etwig.dto.PositionDTO;
 import net.grinecraft.etwig.dto.PositionWithoutEmailDTO;
 import net.grinecraft.etwig.dto.user.UserDTO;
 import net.grinecraft.etwig.handler.CustomUserDetails;

@@ -22,7 +22,7 @@
 	<#-- Check whether this page is included in a normal page, by checking whether jQuery is loaded. -->
 	<script>
 	if (typeof jQuery == 'undefined') {
-		alert("Warning: This page is not supposed to be openned directly.");
+		alert("Warning: This page is not supposed to be opened directly.");
 		window.location.href = '/';
 	}
 	</script>
