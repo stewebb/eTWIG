@@ -376,15 +376,9 @@
 	<script src="/static/js/etwig/graphics-request.js"></script>
 	
 	<script>
-	
-		$(document).ready(function() {
-			updateTextColor($('#eventPortfolio'));
-		});
-		
 		<#if editPermission>
 			createDatePicker();
 		</#if>
-	
 	</script>
 
 </body>

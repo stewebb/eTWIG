@@ -81,9 +81,6 @@ function getSingleTimeEventListByRange(date){
 				// Get start and end time
 				var eventStartDateTime = new Date(value.startTime);
 				var eventEndDateTime = new Date(value.startTime).addMinutes(value.duration);
-					
-				// Italic font for recurring events.
-				//var textFont = value.recurring ? "italic" : "weight-normal";
     				
     			// Save data
 				eventList.push({

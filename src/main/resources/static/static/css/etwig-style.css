@@ -138,3 +138,8 @@
     padding: 8px;
     margin-bottom: 8px;
 }
+
+.table-title{
+	color: #004AAD;
+	font-weight: bold;
+}

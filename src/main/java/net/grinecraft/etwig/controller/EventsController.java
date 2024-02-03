@@ -80,7 +80,7 @@ public class EventsController {
 			model.addAttribute("reason", "Event with id=" + eventId + " doesn't exist.");
 			return "_errors/custom_error";
 		}
-		//System.out.println(graphicsRequestService.getRequestsByEvent(eventId));
+
 		model.addAttribute("eventInfo", event);
 		model.addAttribute("requestInfo",graphicsRequestService.getRequestsByEvent(eventId));
 
