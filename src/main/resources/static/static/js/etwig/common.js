@@ -24,6 +24,18 @@ function successToast(title, body){
 	});
 }
 
+function successPopup(title, body){
+	Swal.fire({
+		icon: "success",
+		title: "Success",
+		html: `
+			<div style="text-align: left;">
+				<strong>${title}:</strong> 
+				<p>${body}</p>
+			</div>`,
+	  });
+}
+
 /**
  * A toast that used in informative results.
  * @param title The title of the toast.
@@ -170,7 +182,7 @@ function formatTime(minutesTotal) {
         if (formattedTime.length > 0) formattedTime += ", ";
         formattedTime += hours + (hours === 1 ? " hour" : " hours");
     }
-	
+
     if (minutes > 0) {
         if (formattedTime.length > 0) formattedTime += ", ";
         formattedTime += minutes + (minutes === 1 ? " minute" : " minutes");

@@ -52,7 +52,7 @@
 											<tr><th scope="row">Duration</th><td id="eventDuration"></td></tr>
 
 											<#-- End Time /-->
-											<tr id="eventStartTimeRow"><th scope="row">End Time</th><td id="eventEndTime"></td></tr>
+											<tr id="eventEndTimeRow"><th scope="row">End Time</th><td id="eventEndTime"></td></tr>
 
 										</table>
 										<#-- /Basic Info -->
@@ -84,5 +84,7 @@
 
 										<#-- Hide the start and end time for recurring events. -->
 										<#if eventInfo.recurrent>
+											$("#eventStartTimeRow").hide();
+											$("#eventEndTimeRow").hide();
 										</#if>
 									</script>

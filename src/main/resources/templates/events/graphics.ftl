@@ -124,7 +124,6 @@
 
 										<#-- Hidden inputs -->
 										<input type="hidden" id="eventId" value="${eventInfo.id}" />
-										<input type="hidden" id="requesterRole" value="${eventInfo.userRoleId}" />
 										<#-- /Hidden inputs -->
 									
 										<#-- Permission check. -->
