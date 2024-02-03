@@ -120,7 +120,7 @@ The event graphics will be properly placed in this table by portfolio, and event
 
 - A **list** of all events on a certain day.
 - The object of the **event table widget**.
-- The **range** of acceptable size.
+- The **range** of acceptable sizes.
 
 #### Algorithm output
 
@@ -136,7 +136,7 @@ A list of the positions of all event graphics.
 - **posX:** The relatively X coordinate of the graphic.
 - **posY:** The relatively Y coordinate of the graphic.
 
-#### Steps
+#### Steps: Main algorithm
 
 - **Step 1:** Determine the length of the time slot map, which is **N+3**.
   - **Base length N** will be determined by the event date (case 1).
@@ -150,9 +150,82 @@ A list of the positions of all event graphics.
 - **Step 2:** Assign the **key element** of this map, which has the following 4 cases:
   - **Case 1:** the hour part of the time (in a 24-hour clock)
   - **Case 2:** -1
-  - **Case 3:** Minimum integer
-  - **Case 4:** Minimum integer
-- 
--  and the value element is the **event time slot** object.
+  - **Case 3:** Negative infinity
+  - **Case 4:** Positive infinity
+- **Step 3:** Allocate the events and do the following things until the event list (a.k.a, buffer) is empty.
+  - Try to **put an event** into the corresponding time slot.
+    - If the time slot is free, put this event into the slot directly, and remove the event from the buffer.
+    - Otherwise, find the **nearest free slot**. Treat all events whose time is between the free slot and the time of the current event as an **event block**. Move the event block entirely.
+  - If the time slot map is full, terminate the loop early and discard all remaining events.
+- **Step 4:** Return the time slot map.
 
-- Add events into the slots based on the time. Only the hours are considered. (e.g., a 6 PM event will be added to the 6PM slot, while a 2:30 PM event will be added)
+#### Examples
+
+**Example 1:** Normal condition.
+
+- **Day of Week:** Friday.
+- **Event list:** (Only contains the event ID and time in there)
+  - 1, All day
+  - 2, 8:00
+  - 3, 9:00
+  - 4, 11:00
+  - 5, 14:30
+  - 6, 18:00
+  - 7, 21:30
+
+Here is the **allocation outcome**:
+| **Key**  | Event  | **Key**  | Event  | **Key** | Event  |
+|----------|--------|----------|--------|---------|--------|
+| **-1**   | 1      | **-INF** | 2      | **9**   | 3      |
+| **10**   | (null) | **11**   | 4      | **12**  | (null) |
+| **13**   | (null) | **14**   | 5      | **15**  | (null) |
+| **16**   | (null) | **17**   | (null) | **18**  | 6      |
+| **19**   | (null) | **20**   | (null) | **21**  | 7      |
+| **+INF** | (null) |          |        |         |        |
+
+**Example 2:** With time slot movement.
+
+- **Day of Week:** Friday.
+- **Event list:** (Only contains the event ID and time in there)
+  - 1, 9:00
+  - 2, 9:00
+  - 3, 11:00
+  - 4, 11:30
+  - 5, 12:00
+  - 6, 12:30
+
+Here is the **allocation outcome**:
+
+(First allocation: buffer remaining values: 2, 4, 6)
+| **Key**  | Event  | **Key**  | Event  | **Key** | Event  |
+|----------|--------|----------|--------|---------|--------|
+| **-1**   | (null) | **-INF** | (null) | **9**   | 1      |
+| **10**   | (null) | **11**   | 3      | **12**  | 5      |
+| **13**   | (null) | **14**   | (null) | **15**  | (null) |
+| **16**   | (null) | **17**   | (null) | **18**  | (null) |
+| **19**   | (null) | **20**   | (null) | **21**  | (null) |
+| **+INF** | (null) |          |        |         |        |
+
+For event 2 (9:00), the nearest free slot is -INF. Move event 1 to -INF slot, and place event 2 in the 9 slot.
+
+| **Key**  | Event  | **Key**  | Event  | **Key** | Event  |
+|----------|--------|----------|--------|---------|--------|
+| **-1**   | (null) | **-INF** | 1      | **9**   | 2      |
+| **10**   | (null) | **11**   | 3      | **12**  | 5      |
+| **13**   | (null) | **14**   | (null) | **15**  | (null) |
+| **16**   | (null) | **17**   | (null) | **18**  | (null) |
+| **19**   | (null) | **20**   | (null) | **21**  | (null) |
+| **+INF** | (null) |          |        |         |        |
+
+For event 4 (11:30), the nearest free slot is 10. Move the event 3 to 10 slot, and place the event 4 in the 11 slot.
+
+| **Key**  | Event  | **Key**  | Event  | **Key** | Event  |
+|----------|--------|----------|--------|---------|--------|
+| **-1**   | (null) | **-INF** | 1      | **9**   | 2      |
+| **10**   | 3      | **11**   | 4      | **12**  | 5      |
+| **13**   | (null) | **14**   | (null) | **15**  | (null) |
+| **16**   | (null) | **17**   | (null) | **18**  | (null) |
+| **19**   | (null) | **20**   | (null) | **21**  | (null) |
+| **+INF** | (null) |          |        |         |        |
+
+For event 6 (12:30), the nearest free slot is 13. Place it in the 13 slot.
