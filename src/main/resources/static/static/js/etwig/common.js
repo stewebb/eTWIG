@@ -24,15 +24,11 @@ function successToast(title, body){
 	});
 }
 
-function successPopup(title, body){
+function successPopup(title){
 	Swal.fire({
 		icon: "success",
 		title: "Success",
-		html: `
-			<div style="text-align: left;">
-				<strong>${title}:</strong> 
-				<p>${body}</p>
-			</div>`,
+		html: `<div style="text-align: left;"><strong>${title}</strong></div>`,
 	  });
 }
 
@@ -51,6 +47,18 @@ function infoToast(title, body){
   		icon: 'fa-solid fa-circle-info',
   		class: 'toast bg-info'
 	});
+}
+
+function infoPopup(title, body){
+	Swal.fire({
+		icon: "info",
+		title: "Information",
+		html: `
+			<div style="text-align: left;">
+				<strong>${title}:</strong> 
+				<p>${body}</p>
+			</div>`,
+	  });
 }
 
 /**
@@ -76,8 +84,8 @@ function warningPopup(title, body){
 		title: "Warning",
 		html: `
 			<div style="text-align: left;">
-				<strong>${title}:</strong> 
-				<p>${body}</p>
+				<p><strong>${title}:</strong></p>
+				<p>${(body == undefined) ? "" : body}</p>
 			</div>`,
 	  });
 }

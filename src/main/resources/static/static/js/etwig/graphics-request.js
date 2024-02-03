@@ -17,12 +17,11 @@ function requestEvent(embedded){
 	
 	// Requester: Required but provided.
 	var requesterRole = $('#requesterRole').val();
-	// TODO INCORRECT REQUESTER ROLE. IT'S ACTUALLY THE ORGANIZER ROLE.
 	
 	// Returning Date: Required.
 	var eventGraphicsDate = $('#eventGraphicsDate').val();
 	if(eventGraphicsDate.length == 0){
-		warningToast("Graphics returning date is required");
+		warningPopup("Graphics returning date is required");
 		return;
 	}
 	

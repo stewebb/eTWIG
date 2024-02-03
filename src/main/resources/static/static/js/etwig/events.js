@@ -29,14 +29,14 @@ function getEventInfo(datePickersMap){
 	
     // Null check.
     if(eventId == undefined || eventId == null || eventId.length == 0){
-		warningToast("The eventId provided is empty.", "It must be not empty, and an integer. This page will be switched to Add Event mode.");
+		warningPopup("The eventId provided is empty.", "It must be not empty, and an integer. This page will be switched to Add Event mode.");
 		initAddOption(myPositions);
 		return;
 	}
     
     // Invalid check (not an integer).
     if(eventId % 1 !== 0){
-		warningToast(eventId +" is not a valid eventId", "It must be an integer. This page will be switched to Add Event mode.");
+		warningPopup(eventId +" is not a valid eventId", "It must be an integer. This page will be switched to Add Event mode.");
 		initAddOption(myPositions);
 		return;
 	}
@@ -60,14 +60,14 @@ function getEventInfo(datePickersMap){
 			eventInfo = json;
         },
         
-        // Toast error info when it happens
+        // Popup error info when it happens
     	error: function(err) {   		
-			dangerToast("Failed to get event information due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+			dangerPopup("Failed to get event information due to a HTTP " + err.status + " error.", err.responseJSON.exception);
 		}
 	});
 	
 	if(eventInfo == undefined || eventInfo == null || eventInfo.length == 0){
-		warningToast("The event with id=" + eventId + " does not exist");
+		warningPopup("The event with id=" + eventId + " does not exist");
 		initAddOption(myPositions);
 		return;
 	}
@@ -151,7 +151,7 @@ function getEventInfo(datePickersMap){
 		
 		// Invalid rRule check.
 		if(eventInfo.rrule != undefined && eventInfo.rrule != null && eventInfo.rrule.length > 0){
-			dangerToast("Failed to parse Recurrence Rule.", eventInfo.rrule + " is not a valid iCalendar RFC 5545 Recurrence Rule.");
+			dangerPopup("Failed to parse Recurrence Rule.", eventInfo.rrule + " is not a valid iCalendar RFC 5545 Recurrence Rule.");
 		}
 		
 		// Single time mode
@@ -376,7 +376,7 @@ function addEvent(){
 	// Event name
 	var eventName = $.trim($('#eventName').val());
 	if(eventName.length == 0){
-		warningToast("Event name is required.");
+		warningPopup("Event name is required.");
 		//$('#eventName').addClass('is-invalid');
 		return;
 	}
@@ -412,12 +412,12 @@ function addEvent(){
 		var parsedEndDate = Date.parse($('#eventEndDate').val());
 
 		if(parsedStartDate == null || parsedStartDate.length == 0){
-			warningToast("Event start date is required, and it must be yyyy-MM-dd format.");
+			warningPopup("Event start date is required, and it must be yyyy-MM-dd format.");
 			return;
 		}
 		
 		if(parsedEndDate == null || parsedEndDate.length == 0){
-			warningToast("Event end date is required, and it must be yyyy-MM-dd format.");
+			warningPopup("Event end date is required, and it must be yyyy-MM-dd format.");
 			return;
 		}
 		
@@ -438,12 +438,12 @@ function addEvent(){
 			eventEndTime = $('#eventEndTime').val();
 			
 			if(eventStartTime.length == 0){
-				warningToast("Event start time is required, and it must be HH:mm format.");
+				warningPopup("Event start time is required, and it must be HH:mm format.");
 				return;
 			}
 			
 			if(eventEndTime.length == 0){
-				warningToast("Event end time is required, and it must be HH:mm format.");
+				warningPopup("Event end time is required, and it must be HH:mm format.");
 				return;
 			}
 		}
@@ -456,7 +456,7 @@ function addEvent(){
 		var timestampDiff = singleTime["endDateTime"] - singleTime["startDateTime"];
 		//console.log(timestampDiff);
 		if(timestampDiff <= 0){
-			warningToast("Event end time must after start time.");
+			warningPopup("Event end time must after start time.");
 			return;
 		}
 		
@@ -481,7 +481,7 @@ function addEvent(){
 			eventRecurringTime = $('#eventRecurringTime').val();
 		
 			if(eventRecurringTime.length == 0){
-				warningToast("Event start time is required, and it must be HH:mm format.");
+				warningPopup("Event start time is required, and it must be HH:mm format.");
 				return;
 			}
 		}
@@ -492,7 +492,7 @@ function addEvent(){
 		// Duration
 		var eventDuration = parseInt($('#eventDuration').val());
 		if(isNaN(eventDuration) || eventDuration <= 0){
-			warningToast("Event duration is required, and it must be a positive integer.");
+			warningPopup("Event duration is required, and it must be a positive integer.");
 			return;
 		}
 		newEventObj["duration"] = eventDuration;
@@ -500,7 +500,7 @@ function addEvent(){
 		// RRule
 		var eventRRule = getRRuleByInput();
 		if(eventRRule == undefined || eventRRule == null){
-			warningToast("Invalid Recurrence Rule.", eventRRule + " is not a valid iCalendar RFC 5545 Recurrence Rule.");
+			warningPopup("Invalid Recurrence Rule.", eventRRule + " is not a valid iCalendar RFC 5545 Recurrence Rule.");
 			return;
 		}
 		recurring["rrule"] = eventRRule;
@@ -527,9 +527,8 @@ function addEvent(){
 
 		// Mandatory check
 		if(isMandatory && selectedValue <= 0){
-			warningToast("Selecting a value for property " + propertyName + " is required.");
+			warningPopup("Selecting a value for the following property is required.", propertyName);
 			mandatoryCheckPassed = false;
-			//return;
 		}
 		
 		// Only store the positive optionIds.
@@ -551,7 +550,7 @@ function addEvent(){
 		// Returning Date
 		var eventGraphicsDate = Date.parse($('#eventGraphicsDate').val());
 		if(eventGraphicsDate == null || eventGraphicsDate.length == 0){
-			warningToast("Graphics returning date is required, and it must be yyyy-MM-dd format.");
+			warningPopup("Graphics returning date is required, and it must be yyyy-MM-dd format.");
 			return;
 		}
 		graphics["returningDate"] = eventGraphicsDate.toString("yyyy-MM-dd");
@@ -561,8 +560,6 @@ function addEvent(){
 		newEventObj["graphics"] = graphics;
 	}
 	
-	//console.log(newEventObj);
-	//return;
 	var hasError = true;
 	$.ajax({
    		url: '/api/private/editEvent', 
@@ -573,27 +570,22 @@ function addEvent(){
    		data: JSON.stringify(newEventObj),
    		success: function (result) {
 			if(result.error > 0){
-				dangerToast("Failed to " + mode +" event.", result.msg);
+				dangerPopup("Failed to " + mode +" event.", result.msg);
 				hasError = true;
 			}else{
-				successToast("Event  " + mode +"ed  successfully.");
+				successPopup("Event " + mode +"ed  successfully.");
 				hasError = false;
 			}	
     	},
     	error: function (err) {
-    		dangerToast("Failed to  " + mode +"  event due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+    		dangerPopup("Failed to " + mode +"  event due to a HTTP " + err.status + " error.", err.responseJSON.exception);
     		hasError = true;
     	}
  	});
 
-	// Post-add operations
-	// More timeout if error happens.
-	setTimeout(
-		function() {
-			isEdit ? window.location.reload() : $(location).attr('href','/events/calendar');
-		}, 
-		hasError ? 10000 : 2000
-	);
+	if(!hasError){
+		setTimeout(function() { isEdit ? window.location.reload() : $(location).attr('href','/events/calendar'); }, 2500);
+	}
 }
 
 /**
@@ -747,9 +739,9 @@ function getSelectedOptions(eventId){
 			})
         },
         
-        // Toast error info when it happens
+        // Popup error info when it happens
     	error: function(err) {   		
-			dangerToast("Failed to get selected options due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+			dangerPopup("Failed to get selected options due to a HTTP " + err.status + " error.", err.responseJSON.exception);
 		}
 	});
 }

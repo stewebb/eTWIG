@@ -93,9 +93,9 @@ function getSingleTimeEventListByRange(date){
 			})
         },
         
-        // Toast error info when it happens
+        // Popup error info when it happens
     	error: function(err) {   		
-			dangerToast("Failed to get calendar due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+			dangerPopup("Failed to get single time events due to a HTTP " + err.status + " error.", err.responseJSON.exception);
 		}
 	});
 	return eventList;
@@ -123,15 +123,13 @@ function getRecurringTimeEventListByRange(date){
 			
 			// Iterate all dates.
 			jQuery.each(json, function(id, value) {			
-				
-				//console.log(value.excluded)	;
-				
+								
 				var rRule = new ETwig.RRuleFromStr(value.rrule);
 				var rule = rRule.getRuleObj();
 								
 				// Failed to parse rRule, skip it.
 				if(rule == undefined || rule == null){
-					dangerToast("Failed to parse Recurrence Rule.", value.rrule + " is not a valid iCalendar RFC 5545 Recurrence Rule.");
+					dangerPopup("Failed to parse Recurrence Rule.", value.rrule + " is not a valid iCalendar RFC 5545 Recurrence Rule.");
 					return;
 				}
 				
@@ -143,13 +141,10 @@ function getRecurringTimeEventListByRange(date){
 					var occurrenceDate = new Date(occurrence[i].getTime() + occurrence[i].getTimezoneOffset() * 60000);
 					
 					if(value.excluded != null){
-						//console.log(value.excluded.includes(occurrenceDate.toString('yyyy-MM-dd')))
-						//console.log(occurrenceDate.toString('yyyy-MM-dd'))
 						if(value.excluded.includes(occurrenceDate.toString('yyyy-MM-dd'))){
 							continue;
 						}
 					}
-					
 					
 					var eventStartDateTime = combineDateAndTime(occurrenceDate, value.eventTime);
 					var eventEndDateTime = combineDateAndTime(occurrenceDate, value.eventTime).addMinutes(value.duration);
@@ -166,16 +161,16 @@ function getRecurringTimeEventListByRange(date){
 			})
         },
         
-        // Toast error info when it happens
+        // Popup error info when it happens
     	error: function(err) {   		
-			dangerToast("Failed to get calendar due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+			dangerPopup("Failed to get recurrent events due to a HTTP " + err.status + " error.", err.responseJSON.exception);
 		}
 	});
 	return eventList;
 }
 
 /**
- * Create a ToastUI date picker
+ * Create a PopupUI date picker
  * @param {*} htmlElem The element of datepicker wrapper.
  * @param {*} pickerElem The element of date input.
  * @param {*} buttonElem The element of button that get the date.
@@ -195,7 +190,7 @@ function createDatePicker(htmlElem, pickerElem, buttonElem){
 	// Set date
 	$(buttonElem).click(function(){
 		
-		// Get selected date from ToastUI datepicker and store it.
+		// Get selected date from PopupUI datepicker and store it.
   		currentDate = datepicker.getDate();
   		changeCalendar(currentDate);
 	}); 
