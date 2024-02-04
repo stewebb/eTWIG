@@ -13,11 +13,13 @@ var calendar = undefined;
 // The current date which can be changes by buttons and date picker in "Options".
 var currentDate = Date.today();
 
+// Calendar view: 1 -> Monthly, 0 -> Weekly, -1 -> Daily (not used in here but will be used in the TWIG)
+var calendarView = 0;
+
 /**
  * Create a calendar on webpage
  * @param elem The calendar element.
  * @param currentMonth The current month that displayed on the calendar.
- * @returns No returns but the calendar object will be changed.
  */
 
 function createCalendar(elem, currentMonth){
@@ -25,18 +27,17 @@ function createCalendar(elem, currentMonth){
 	
 	var calendarProperties = {
 		view: 'dayGridMonth',
+
 	    headerToolbar: {
 			start: '',
 			center: 'title',
 			end: ''
 		},
     	events: getEventList(currentMonth),
+
+		// Click the event, go to the edit page.
     	eventClick: function (info) {
-			//console.log(info)
 			$(location).attr('href', '/events/edit?eventId=' + info.event.id);
-		},
-		dateClick: function (info) {
-			$(location).attr('href', '/events/edit?eventId=-1');
 		},
     	dayMaxEvents: true,
     	nowIndicator: true,

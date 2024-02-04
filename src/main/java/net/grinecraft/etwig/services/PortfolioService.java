@@ -35,8 +35,7 @@ public class PortfolioService {
 	 */
 	
 	public List<Portfolio> getAllPortfolioList(){
-		return portfolioRepository.findAll();
-		//return mapUtils.listToLinkedHashMap(portfolioRepository.findAll(), Portfolio::getId);
+		return portfolioRepository.findAllOrderByNameLengthDesc();
 	}
 	
 	/**

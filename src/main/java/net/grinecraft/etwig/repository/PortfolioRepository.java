@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import net.grinecraft.etwig.model.Portfolio;
@@ -25,6 +26,9 @@ public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {
 	 */
 	
     public List<Portfolio> findAll();
+    
+    @Query(value = "SELECT * FROM etwig_portfolio ORDER BY LENGTH(name) DESC", nativeQuery = true)
+    public List<Portfolio> findAllOrderByNameLengthDesc();
     
     /**
      * Find a specific portfolio by its id.

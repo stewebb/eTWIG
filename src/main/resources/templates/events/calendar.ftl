@@ -76,7 +76,7 @@
 											</button>
 										</div>
 										
-										<div class="input-group">
+										<div class="input-group mb-2">
 											<div class="input-group-prepend">
 												<span class="input-group-text" id="basic-addon1"><i class="fa-regular fa-calendar-days"></i></span>
 											</div>
@@ -87,6 +87,19 @@
 										</div>
 										<div id="wrapper" class="datepicker"></div>
 										<#-- /Date Options -->
+
+										<#-- calendarView -->
+										<div class="form-group d-flex justify-content-between">
+											<div class="icheck-primary d-inline mr-2">
+												<input type="radio" id="weeklyView" name="calendarView" value="0">
+												<label for="weeklyView">Weekly view</label>
+											</div>
+											<div class="icheck-primary d-inline">
+												<input type="radio" id="monthlyView" name="calendarView" value="1" checked="">
+												<label for="monthlyView">Monthly view</label>
+											</div>
+										</div>
+										<#-- /calendarView -->
 										
 										<#-- Event Options-->
 										<#if access.eventsAccess>
@@ -280,6 +293,21 @@
     		theme: 'bootstrap4',
     		templateResult: formatState,
   			templateSelection: formatState,
+		});
+
+		$('input[type=radio][name=calendarView]').change(function() {
+			calendarView = parseInt(this.value);
+			changeCalendar();
+			
+			//console.log(calendarView);
+
+			//
+   // if (this.value === 'month') {
+    //    calendar.setOption('view', 'month'); // Adjust this method call based on the actual API
+   // }
+   // else if (this.value === 'week') {
+   //     calendar.setOption('view', 'week'); // Adjust this method call based on the actual API
+    //}
 		});
     </script>
     
