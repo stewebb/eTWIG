@@ -88,7 +88,8 @@ function getSingleTimeEventListByRange(date){
 					  start: eventStartDateTime.toString('yyyy-MM-dd HH:mm'),
 					  end: eventEndDateTime.toString('yyyy-MM-dd HH:mm'),
 					  title: {html: `<span class="font-weight-normal">${value.name}</span>`},
-					  color: "#" + value.portfolioColor
+					  color: "#" + value.portfolioColor,
+					  allDay: value.allDayEvent
 				}); 	
 			})
         },
@@ -155,7 +156,8 @@ function getRecurringTimeEventListByRange(date){
 						start: eventStartDateTime.toString('yyyy-MM-dd HH:mm'),
 						end: eventEndDateTime.toString('yyyy-MM-dd HH:mm'),
 						title: {html: `<span class="font-italic">${value.name}</span>`},
-						color: "#" + value.portfolioColor
+						color: "#" + value.portfolioColor,
+						allDay: value.allDayEvent
 					}); 	
 				}
 			})

@@ -13,6 +13,7 @@ public class RecurringEventBasicInfoDTO {
 	private String name;
 	private LocalTime eventTime;
 	private int duration;
+	private boolean allDayEvent;
 	private String portfolioColor;
 	private String rRule;
 	private String excluded;
@@ -23,6 +24,7 @@ public class RecurringEventBasicInfoDTO {
 		this.name = event.getName();
 		this.eventTime = event.getStartTime().toLocalTime();
 		this.duration = event.getDuration();
+		this.allDayEvent = event.isAllDayEvent();
 		this.portfolioColor = event.getUserRole().getPortfolio().getColor();
 		this.rRule = event.getRRule().trim();
 		this.excluded = event.getExcludedDates();
