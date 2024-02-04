@@ -107,10 +107,22 @@ function getRecurringTimeEventListByRange(date){
 	
 	// Calculate the first and last day of the month for a given date.
 	var dateObj = Date.parse(date);
-	var year = dateObj.getFullYear();
-    var month = dateObj.getMonth();
-    var firstDay = new Date(year, month, 1);
-    var lastDay = new Date(year, month + 1, 0);
+	var firstDay;
+	var lastDay;
+
+	// Monthly view
+	if(calendarView > 0){
+		var year = dateObj.getFullYear();
+		var month = dateObj.getMonth();
+		firstDay = new Date(year, month, 1);
+		lastDay = new Date(year, month + 1, 1);
+	}
+
+	// Weekly view
+	else{
+		firstDay = Date.parse(date).monday().addDays(-7);
+		lastDay = Date.parse(date).monday();
+	}
         				
 	var eventList = []; 
 	$.ajax({ 
