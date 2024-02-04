@@ -26,8 +26,8 @@ function createCalendar(elem, currentMonth){
 	var calendarElem = document.getElementById(elem);
 	
 	var calendarProperties = {
-		view: 'dayGridMonth',
-
+		view: 'timeGridWeek',
+		firstDay: 1,
 	    headerToolbar: {
 			start: '',
 			center: 'title',
@@ -68,12 +68,12 @@ function getSingleTimeEventListByRange(date){
 	var eventList = []; 
 	$.ajax({ 
 		type: 'GET', 
-    	url: '/api/private/getMonthlySingleTimeEventList', 
+    	url: '/api/private/getSingleTimeEventList', 
     	async: false,
     	data: { 
 			date: date,
+			calendarView: calendarView
 		}, 
-    	dataType: 'json',
 		success: function(json) {
 			
 			// Iterate all dates.
@@ -211,4 +211,26 @@ function changeCalendar(){
     // Change calendar value.
     calendar.setOption('date', yearMonthStr);
     calendar.setOption('events', getEventList(yearMonthStr, "month"));
+
+	// Change the calendar view
+	calendar.setOption('view', (calendarView == 0) ? 'timeGridWeek' : 'dayGridMonth');
+}
+
+function changeCurrentDate(mode){
+
+	// Last
+	if(mode < 0){
+		currentDate = (calendarView == 0) ? currentDate.last().week() : currentDate.last().month();
+	}
+
+	// Reset
+	else if(mode == 0){
+		currentDate = Date.today();
+	}
+
+	// Next
+	else{
+		currentDate = (calendarView == 0) ? currentDate.next().week() : currentDate.next().month();
+	}
+	changeCalendar();
 }

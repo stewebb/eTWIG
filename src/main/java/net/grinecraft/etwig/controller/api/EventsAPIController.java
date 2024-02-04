@@ -53,9 +53,9 @@ public class EventsAPIController {
 	 * @throws Exception
 	 */
 	
-	@GetMapping("/getMonthlySingleTimeEventList")  
-	public LinkedHashMap<Long, SingleTimeEventBasicInfoDTO> getMonthlySingleTimeEventList(@RequestParam String date) throws Exception{
-		return eventService.getMonthlySingleTimeEventsByDateRange(DateUtils.safeParseDate(date, "yyyy-MM-dd"));
+	@GetMapping("/getSingleTimeEventList")  
+	public LinkedHashMap<Long, SingleTimeEventBasicInfoDTO> getSingleTimeEventList(@RequestParam String date, @RequestParam int calendarView) throws Exception{
+		return eventService.getSingleTimeEventsByDateRange(DateUtils.safeParseDate(date, "yyyy-MM-dd"), calendarView);
 	}
 	
 	@GetMapping("/getAllRecurringEventList")  

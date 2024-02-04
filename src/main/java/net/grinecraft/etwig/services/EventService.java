@@ -78,11 +78,28 @@ public class EventService {
 		return eventRepository.findById(id).map(EventDetailsDTO::new).orElse(null);
 	}
 	
-	public LinkedHashMap<Long, SingleTimeEventBasicInfoDTO> getMonthlySingleTimeEventsByDateRange(LocalDate givenDate) throws Exception{
+	public LinkedHashMap<Long, SingleTimeEventBasicInfoDTO> getSingleTimeEventsByDateRange(LocalDate givenDate, int calendarView) throws Exception{
+		LocalDate last;
+		LocalDate next;
 		
-		// Get the date boundary
-		LocalDate last = DateUtils.findFirstDayOfThisMonth(givenDate);
-		LocalDate next = DateUtils.findFirstDayOfNextMonth(givenDate);
+		// Date boundary (monthly)
+		if(calendarView > 0) {
+			last = DateUtils.findFirstDayOfThisMonth(givenDate);
+			next = DateUtils.findFirstDayOfNextMonth(givenDate);
+		}
+		
+		// Date boundary (weekly)
+		else if (calendarView == 0) {
+			last = DateUtils.findThisMonday(givenDate);
+			next = DateUtils.findNextMonday(givenDate);
+		}
+		
+		// Date boundary (daily)
+		else {
+			last = givenDate;
+			next = DateUtils.findTomorrow(givenDate);
+		}
+		
         LinkedHashMap<Long, SingleTimeEventBasicInfoDTO> allEvents = new LinkedHashMap<>();
 
 		// Get all single time events in the given date range.
