@@ -21,7 +21,6 @@ function getEventInfo(datePickersMap){
     
     // Get my positions
     var myPositions = getMyPositions();
-    //console.log(position);
     
     /**
 	 * Add mode.
@@ -95,7 +94,6 @@ function getEventInfo(datePickersMap){
 			</div>
 		`)
 	}
-	//console.log(myPortfolioNames);
 	
     // Get eventId
     $('#eventIdBlock').show();
@@ -145,6 +143,11 @@ function getEventInfo(datePickersMap){
     // Get recurrent info.
     var rRule = new ETwig.RRuleFromStr(eventInfo.rrule);
 	var rule = rRule.getRuleObj();
+
+	// All day event?
+	$('#eventAllDayEvent').prop('checked', eventInfo.allDayEvent);
+	$('#eventStartTimeBlock').toggle(!eventInfo.allDayEvent);
+	$('#eventEndTimeBlock').toggle(!eventInfo.allDayEvent);
 	
 	// This is a single time event, or the rRule is invalid.
 	if(rule == undefined || rule == null){
@@ -298,12 +301,8 @@ function getRRuleByInput(){
 
 	// Get recurrent info.
     var rRule = new ETwig.RRuleFromForm(currentRule);
-    rRule.generateRRule();
-    //rRule.multiExDate(excludedDatesObj)
-    
+    rRule.generateRRule();    
 	var allDates = rRule.all();
-	
-	//console.log(rRule.toString());
 	
 	// Set description
     $('#eventRRuleDescription').text(rRule.toText());
@@ -370,7 +369,6 @@ function addEvent(){
 	
 	// Event id: Required in edit mode and provided
 	var eventId = parseInt($('#eventId').text());
-	console.log(eventId)
 	isNaN(eventId) ? newEventObj["id"] = -1 : newEventObj["id"] = eventId;
 	
 	// Event name
@@ -402,7 +400,7 @@ function addEvent(){
 	
 	// All day event
 	var allDayEvent = $("#eventAllDayEvent").is(':checked');
-	newEventObj["allDayEvent"]  = (allDayEvent);
+	newEventObj["allDayEvent"]  = allDayEvent;
 	
 	// Single Time event
 	if(eventRecurrent == 0){
@@ -454,7 +452,6 @@ function addEvent(){
 		
 		// Calculate the duration
 		var timestampDiff = singleTime["endDateTime"] - singleTime["startDateTime"];
-		//console.log(timestampDiff);
 		if(timestampDiff <= 0){
 			warningPopup("Event end time must after start time.");
 			return;
@@ -520,7 +517,6 @@ function addEvent(){
 	var mandatoryCheckPassed = true;
 	
 	$('.property-select-box').each(function() {
-    	//var propertyId = $(this).data('property-id');
     	var propertyName = $(this).data('property-name');
     	var isMandatory = $(this).data('mandatory');
     	var selectedValue = parseInt($(this).val());
