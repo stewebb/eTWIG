@@ -23,11 +23,14 @@ import org.springframework.stereotype.Service;
 import jakarta.servlet.http.HttpSession;
 import net.grinecraft.etwig.dto.events.AddEditEventDTO;
 import net.grinecraft.etwig.dto.events.EventDetailsDTO;
+import net.grinecraft.etwig.dto.events.EventImportDTO;
 import net.grinecraft.etwig.dto.events.GraphicsRequestEventInfoDTO;
 import net.grinecraft.etwig.dto.events.RecurringEventBasicInfoDTO;
 import net.grinecraft.etwig.dto.events.SingleTimeEventBasicInfoDTO;
 import net.grinecraft.etwig.dto.graphics.NewRequestDTO;
 import net.grinecraft.etwig.dto.user.UserAccessDTO;
+import net.grinecraft.etwig.importer.EventImporter;
+import net.grinecraft.etwig.importer.EventImporterFactory;
 import net.grinecraft.etwig.model.Event;
 import net.grinecraft.etwig.model.EventOption;
 import net.grinecraft.etwig.model.EventOptionKey;
@@ -38,6 +41,7 @@ import net.grinecraft.etwig.repository.GraphicsRequestRepository;
 import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.ListUtils;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class EventService {
@@ -212,5 +216,13 @@ public class EventService {
 			return false;
 		}
 	}
-
+	
+	/*
+	public List<EventImportDTO> importEvents(MultipartFile file) throws Exception {
+        String fileType = determineFileType(file); // Implement this based on file extension or content type
+        EventImporter eventImporter = EventImporterFactory.getFileReader(fileType);
+        List<EventImportDTO> data = fileReader.read(file.getInputStream());
+        return data;
+    }
+*/
 }

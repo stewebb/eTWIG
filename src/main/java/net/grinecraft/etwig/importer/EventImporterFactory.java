@@ -2,7 +2,7 @@ package net.grinecraft.etwig.importer;
 
 public class EventImporterFactory {
 
-    public EventImporter getFileReader(String fileType) {
+    public static EventImporter getFileReader(String fileType) {
     	
         switch (fileType) {
             case "CSV":

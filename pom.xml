@@ -99,12 +99,12 @@
    		 	<version>5.2.5</version>
 	    </dependency>
 	    
-	    <!-- Apache ODF Toolkit for ODS files -->
-	    <dependency>
-	        <groupId>org.odftoolkit</groupId>
-	        <artifactId>odfdom-java</artifactId>
-	        <version>1.0.0-BETA1</version>
-	    </dependency>
+       <!-- Simple ODF for ODS Files -->
+        <dependency>
+            <groupId>org.odftoolkit</groupId>
+            <artifactId>simple-odf</artifactId>
+            <version>0.9.0</version>
+        </dependency>
 		
 		<!-- Utils -->
 		<dependency>
