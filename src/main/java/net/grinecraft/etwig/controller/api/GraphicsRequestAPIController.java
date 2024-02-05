@@ -67,8 +67,11 @@ public class GraphicsRequestAPIController {
 		// Send an email to all graphics managers
 		//emailService.graphicsRequestNotification(requestInfo);	
 		//System.out.println(ii);
-		//System.out.println(graphicsRequestService.findById(67L));
-		emailService.graphicsRequestNotification(new NewRequestEmailNotificationDTO(graphicsRequestService.findById(ii)));
+		System.out.println(graphicsRequestService.findById(ii-1));
+		//System.out.println(graphicsRequestService.findById(ii));
+		//System.out.println(graphicsRequestService.findById(ii));
+		//System.out.println(graphicsRequestService.findById(ii));
+		//emailService.graphicsRequestNotification(new NewRequestEmailNotificationDTO(graphicsRequestService.findById(ii)));
 		
 		
         return WebReturn.errorMsg(null, true);

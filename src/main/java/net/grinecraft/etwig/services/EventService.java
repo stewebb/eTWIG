@@ -158,10 +158,10 @@ public class EventService {
 		NewRequestDTO newRequest = new NewRequestDTO();
 		newRequest.fromParam(eventId, addedEvent.getUserRoleId(), graphics.get("comments").toString(), graphics.get("returningDate").toString());
 		GraphicsRequest modifiedRequest = graphicsRequestRepository.save(newRequest.toEntity());
-		Long requestId = modifiedRequest.getId();
+		//Long requestId = modifiedRequest.getId();
 		
 		// Send an email to graphics managers
-		emailService.graphicsRequestNotification(new NewRequestEmailNotificationDTO(graphicsRequestService.findById(requestId)));
+		//emailService.graphicsRequestNotification(new NewRequestEmailNotificationDTO(graphicsRequestService.findById(requestId)));
 	}
 	
 	/**
