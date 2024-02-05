@@ -28,12 +28,14 @@ import net.grinecraft.etwig.dto.events.GraphicsRequestEventInfoDTO;
 import net.grinecraft.etwig.dto.events.RecurringEventBasicInfoDTO;
 import net.grinecraft.etwig.dto.events.SingleTimeEventBasicInfoDTO;
 import net.grinecraft.etwig.dto.graphics.NewRequestDTO;
+import net.grinecraft.etwig.dto.graphics.NewRequestEmailNotificationDTO;
 import net.grinecraft.etwig.dto.user.UserAccessDTO;
 import net.grinecraft.etwig.importer.EventImporter;
 import net.grinecraft.etwig.importer.EventImporterFactory;
 import net.grinecraft.etwig.model.Event;
 import net.grinecraft.etwig.model.EventOption;
 import net.grinecraft.etwig.model.EventOptionKey;
+import net.grinecraft.etwig.model.GraphicsRequest;
 import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.repository.EventOptionRepository;
 import net.grinecraft.etwig.repository.EventRepository;
@@ -57,6 +59,12 @@ public class EventService {
 	
 	@Autowired
 	private GraphicsRequestRepository graphicsRequestRepository;
+	
+	@Autowired
+	private GraphicsRequestService graphicsRequestService;
+	
+	@Autowired
+	private EmailService emailService;
 	
 	@Autowired
 	private HttpSession session;
@@ -124,10 +132,11 @@ public class EventService {
 	/**
 	 * Edit an event to the database
 	 * @param eventInfo The event details.
+	 * @throws Exception 
 	 */
 	
 	@SuppressWarnings("null")
-	public void editEvent(Map<String, Object> eventInfo, EventDetailsDTO currentEvent) {
+	public void editEvent(Map<String, Object> eventInfo, EventDetailsDTO currentEvent) throws Exception {
 		
 		// Add event
 		AddEditEventDTO newEventDTO = new AddEditEventDTO(eventInfo, currentEvent);
@@ -145,9 +154,14 @@ public class EventService {
 			return;
 		}
 		
+		// Make a request
 		NewRequestDTO newRequest = new NewRequestDTO();
 		newRequest.fromParam(eventId, addedEvent.getUserRoleId(), graphics.get("comments").toString(), graphics.get("returningDate").toString());
-		graphicsRequestRepository.save(newRequest.toEntity());
+		GraphicsRequest modifiedRequest = graphicsRequestRepository.save(newRequest.toEntity());
+		Long requestId = modifiedRequest.getId();
+		
+		// Send an email to graphics managers
+		emailService.graphicsRequestNotification(new NewRequestEmailNotificationDTO(graphicsRequestService.findById(requestId)));
 	}
 	
 	/**

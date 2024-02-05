@@ -50,5 +50,10 @@ public class ConfigFile implements WebMvcConfigurer{
     @Value("${etwig.mail.display-name}")
     private String displayName;
 
-
+    /**
+     * The URL of this application
+     */
+    
+    @Value("${etwig.app.url}")
+    private String appURL;
 }

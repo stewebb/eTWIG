@@ -28,14 +28,14 @@ public class GraphicsRequest {
     @Column(name = "id")
 	private Long id;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "event", referencedColumnName = "id", insertable = false, updatable = false)
     private Event event;
 	
 	@Column(name = "event")
 	private Long eventId;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "requester_role", referencedColumnName = "id", insertable = false, updatable = false)
     private UserRole requesterRole;
 	

@@ -500,6 +500,7 @@ function addEvent(){
 			warningPopup("The duration string is not well-formed", "The format must be _d __h __m");
 			return;
 		}
+		console.log(eventDurationStr)
 		
 		var eventDuration = parseInt(eventDurationStr);
 		if(isNaN(eventDuration) || eventDuration <= 0){

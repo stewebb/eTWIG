@@ -33,78 +33,34 @@
     	
 	<table>
 			<tr class="table-background">
-				<th scope="col" colspan="2">Event details</th>
+				<th scope="col" colspan="2">Graphics Request Details</th>
 			</tr>
 	
 			<tr>
-				<th scope="row">EventId</th>
-				<td>${eventInfo.id}</td>
-			</tr>
-														
-			<tr>
-				<th scope="row">Name</th>
-				<td>${eventInfo.name}</td>
-			</tr>
-														
-			<tr>
-				<th scope="row">Location</th>
-				<td><#if eventInfo.location?has_content>${eventInfo.location}</#if></td>
-			</tr>
-														
-			<tr>
-				<th scope="row">Type</th>
-				<td>${(eventInfo.recurrent)?string("Recurring","Single Time")} Event</td>
-			</tr>
-														
-			<tr>
-				<th scope="row">Start Time</th>
-				<td>${eventInfo.startTime}</td>
-			</tr>
-														
-			<tr>
-				<th scope="row">Organizer</th>
-				<td>${eventInfo.organizer.fullName}</td>
+				<th scope="row">Event Name</th>
+				<td><#--${requestInfo.eventName}--></td>
 			</tr>
 	
 			<tr>
-				<th scope="row">Position and Portfolio</th>
-				<td id="eventPortfolio" style="background-color:#${eventInfo.portfolio.color}">
-					${eventInfo.organizerPosition}, ${eventInfo.portfolio.name}
-				</td>
+				<th scope="row">Expect Date</th>
+				<td>${requestInfo.expectDate}</td>
 			</tr>
-			
+				
 			<tr>
-				<td class="no-horizontal-border">&nbsp;</td>
-				<td class="no-horizontal-border">&nbsp;</td>
-			</tr>
-			
-			<tr class="table-background">
-				<th scope="col" colspan="2">Graphics request details</th>
-			</tr>
-	
-			<tr>
-				<th scope="row">RequestId</th>
-				<td></td>
-			</tr>
-	
-			<tr>
-				<th scope="row">Returning date</th>
-				<td>${requestInfo.returningDate}</td>
+				<th scope="row">Additional Comments</th>
+				<td>${requestInfo.comments}</td>
 			</tr>
 	
 			<tr>
 				<th scope="row">Requester</th>
-				<td></td>
+				<td>${requestInfo.requesterName}</td>
 			</tr>
 	
 			<tr>
 				<th scope="row">Position and Portfolio</th>
-				<td id="eventPortfolio"></td>
-			</tr>
-	
-			<tr>
-				<th scope="row">Additional Comments</th>
-				<td>${requestInfo.requestComment}</td>
+				<td style="background-color:#${requestInfo.requesterPortfolioColor}">
+					${requestInfo.requesterPosition}, ${requestInfo.requesterPortfolioName}
+				</td>
 			</tr>
 			
 	</table>

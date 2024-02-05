@@ -16,6 +16,7 @@ import net.grinecraft.etwig.services.GraphicsRequestService;
 import net.grinecraft.etwig.services.PortfolioService;
 import net.grinecraft.etwig.dto.events.EventDetailsDTO;
 import net.grinecraft.etwig.dto.graphics.FinalizedRequestsBasicInfoDTO;
+import net.grinecraft.etwig.dto.graphics.NewRequestEmailNotificationDTO;
 import net.grinecraft.etwig.dto.graphics.PendingRequestsBasicInfoDTO;
 import net.grinecraft.etwig.model.GraphicsRequest;
 import net.grinecraft.etwig.model.Portfolio;
@@ -36,10 +37,10 @@ public class GraphicsRequestAPIController {
 	private EventService eventService;
 	
 	@Autowired
-	private EmailService emailService;
+	private PortfolioService portfolioService;
 	
 	@Autowired
-	private PortfolioService portfolioService;
+	private EmailService emailService;
 
 	@GetMapping("/countRequestsByEventId")
     public Map<String, Object> countRequestsByEventId(@RequestParam Long eventId) throws Exception {
@@ -61,10 +62,15 @@ public class GraphicsRequestAPIController {
 		} 
 		
 		// Add request info to the DB.
-		graphicsRequestService.addRequest(requestInfo);
+		Long ii = graphicsRequestService.addRequest(requestInfo);
 
 		// Send an email to all graphics managers
-		emailService.graphicsRequestNotification(requestInfo);		
+		//emailService.graphicsRequestNotification(requestInfo);	
+		//System.out.println(ii);
+		//System.out.println(graphicsRequestService.findById(67L));
+		emailService.graphicsRequestNotification(new NewRequestEmailNotificationDTO(graphicsRequestService.findById(ii)));
+		
+		
         return WebReturn.errorMsg(null, true);
     }
 	
