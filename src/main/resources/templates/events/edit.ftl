@@ -214,7 +214,10 @@
 
 			// Date and time inputs.
     		var datePickersMap = createDatePickers();
+
+			// Input masks
 			$('.event-time').inputmask('99:99');
+			$('#eventDuration').inputmask('9d 99h 99m');
 
 			// Get event info and display it.
 			getEventInfo(datePickersMap);

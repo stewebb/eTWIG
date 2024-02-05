@@ -197,10 +197,7 @@
 															<i class="fa-solid fa-hourglass-half"></i>
 														</span>
 													</div>
-													<input type="number" min="0" class="form-control" id="eventDuration">
-													<div class="input-group-append">
-														<span class="input-group-text" id="unitText">Minutes(s)</span>
-													</div>
+													<input type="text" class="form-control" id="eventDuration">
 												</div>
 											</div>
 										</div>

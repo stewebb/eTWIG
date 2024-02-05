@@ -8,10 +8,17 @@
  	*/
 
 /**
- * A hard limit of the recurrent event counts to avoid infinite loops when trying to get all occurrences. It's usually a big number.
+ * A hard limit of the recurrent event counts to avoid infinite loops when trying to get all occurrences. 
+ * It's usually a big number.
  */
 
 COUNT_HARD_LIMIT = 1000;
+
+/**
+ * Get the event information, and display them on the frontend.
+ * @param {*} datePickersMap 
+ * @returns 
+ */
 
 function getEventInfo(datePickersMap){
 	
@@ -137,7 +144,7 @@ function getEventInfo(datePickersMap){
     $('#eventEndTime').val(eventEndDate.toString('HH:mm'));
     
     // Get the duration
-    $('#eventDuration').val(eventInfo.duration);
+    $('#eventDuration').val(convertDuration(eventInfo.duration));
     $('#eventDurationCalculated').text(formatTime(eventInfo.duration));
     
     // Get recurrent info.
@@ -229,6 +236,7 @@ function getEventInfo(datePickersMap){
 		}
 	}
 	
+	// Event options
 	getSelectedOptions(eventId);
 	
 }
@@ -487,7 +495,13 @@ function addEvent(){
 		recurring["recurringTime"] = combineDateAndTime(Date.today(), eventRecurringTime + ':00');
 		
 		// Duration
-		var eventDuration = parseInt($('#eventDuration').val());
+		var eventDurationStr = convertToMinutes($('#eventDuration').val());
+		if(eventDurationStr == null || eventDurationStr == undefined){
+			warningPopup("The duration string is not well-formed", "The format must be _d __h __m");
+			return;
+		}
+		
+		var eventDuration = parseInt(eventDurationStr);
 		if(isNaN(eventDuration) || eventDuration <= 0){
 			warningPopup("Event duration is required, and it must be a positive integer.");
 			return;
@@ -740,4 +754,46 @@ function getSelectedOptions(eventId){
 			dangerPopup("Failed to get selected options due to a HTTP " + err.status + " error.", err.responseJSON.exception);
 		}
 	});
+}
+
+/**
+ * Convert the duration in minutes to _d __h __m format.
+ * @param {*} minutes 
+ * @returns The converted string.
+ */
+
+function convertDuration(minutes) {
+    const perDay = 1440;
+    const perHour = 60;
+
+    var days = Math.floor(minutes / perDay);
+    var hours = Math.floor((minutes % perDay) / perHour);
+    var mins = minutes % 60;
+
+	// The days field has only one digit.
+	if(days > 9){
+		days = 9;
+	}
+
+    return days + "d " + pad(hours, 2) + "h " + pad(mins, 2) + "m";
+}
+
+function convertToMinutes(durationStr) {
+    var regex = /(\d+)d\s+(\d+)h\s+(\d+)m/;
+    var matches = durationStr.match(regex);
+
+	// The duration string is well-formed
+    if (matches && matches.length === 4) {
+        var days = parseInt(matches[1], 10);
+        var hours = parseInt(matches[2], 10);
+        var minutes = parseInt(matches[3], 10);
+
+        // Calculate total minutes
+        return (days * 24 * 60) + (hours * 60) + minutes;
+    } 
+	
+	// Not well-formed
+	else {
+        return null;
+    }
 }
