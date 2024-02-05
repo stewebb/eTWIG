@@ -90,9 +90,9 @@
 <script>
 	var searchParams = new URLSearchParams(window.location.search);
 	
-	// A warning toast when login failed.
+	// A warning popup when login failed.
 	if (searchParams.get('success') == 'false'){
-		warningToast("Login failed.", "Check the email address and password and try again.");
+		warningPopup("Login failed.", "Check the email address and password and try again.");
 	}
 </script>
 

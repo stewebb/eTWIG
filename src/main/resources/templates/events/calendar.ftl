@@ -104,9 +104,15 @@
 										<#-- Event Options-->
 										<#if access.eventsAccess>
 											<hr class="mt-3 mb-3"/>
-											<a class="btn btn-block btn-outline-primary" href="/events/edit?eventId=-1">
-												<i class="fa-solid fa-calendar-plus"></i>&nbsp;New Event
-											</a>	
+											<div class="btn-group w-100">
+												<button type="button" class="btn btn-outline-primary" onclick="location.href='/events/edit?eventId=-1';">
+													<i class="fa-solid fa-calendar-plus"></i>&nbsp;New Event
+												</button>
+												<button type="button" class="btn btn-outline-primary" onclick="location.href='/events/import';">
+													<i class="fa-solid fa-file-import"></i>&nbsp;Import
+												</button>
+											</div>
+												
 										</#if>
 										<#-- /Event Options-->
 										

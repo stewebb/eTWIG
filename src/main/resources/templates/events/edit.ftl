@@ -13,7 +13,7 @@
 <html>
 <head>
 	<#include "../_includes/header/head.ftl">
-	<title>Add Event - ${app.appName}</title>
+	<title>Event Management - ${app.appName}</title>
 </head>
 
 <body class="hold-transition layout-top-nav">
