@@ -92,4 +92,10 @@ public class EventsController {
 		model.addAttribute("myPortfolios", userRoleService.getMyPortfolios());
 		return "events/graphics";
 	}
+	
+	@GetMapping("/import")  
+	public String importEvent(Model model){
+		//model.addAttribute("portfolios", portfolioService.getAllPortfolioList());
+		return "events/import";
+	}
 }

@@ -38,8 +38,8 @@
 	          			</div>
 	          			<div class="col-sm-6">
 	            			<ol class="breadcrumb float-sm-right">
-	              				<li class="breadcrumb-item active"><a href="/events/calendar">Events</a></li>
-	              				<li class="breadcrumb-item active"><a href="#" id="eventPageLink">Event</a></li>
+	              				<li class="breadcrumb-item"><a href="/events/calendar">Events</a></li>
+	              				<li class="breadcrumb-item active"><a href="/events/import">Import</a></li>
 	            			</ol>
 	          			</div>
 	        		</div>
