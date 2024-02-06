@@ -75,19 +75,6 @@
 												<i class="fa-solid fa-forward"></i>&nbsp;Next
 											</button>
 										</div>
-										
-										<div class="input-group mb-2">
-											<div class="input-group-prepend">
-												<span class="input-group-text" id="basic-addon1"><i class="fa-regular fa-calendar-days"></i></span>
-											</div>
-											<input type="text" id="datepicker-input" aria-label="Date-Time" class="form-control">
-											<span class="input-group-append">
-												<button type="button" class="btn btn-primary btn-flat" id="select-month">Go!</button>
-											</span>
-										</div>
-										<div id="wrapper" class="datepicker"></div>
-										<#-- /Date Options -->
-
 										<#-- calendar view -->
 										<div class="form-group d-flex justify-content-between">
 											<div class="icheck-primary d-inline mr-2">
@@ -100,6 +87,19 @@
 											</div>
 										</div>
 										<#-- /calendar view -->
+										<div class="input-group mb-2">
+											<div class="input-group-prepend">
+												<span class="input-group-text" id="basic-addon1"><i class="fa-regular fa-calendar-days"></i></span>
+											</div>
+											<input type="text" id="datepicker-input" aria-label="Date-Time" class="form-control">
+											<span class="input-group-append">
+												<button type="button" class="btn btn-primary btn-flat" id="select-month">Go!</button>
+											</span>
+										</div>
+										<div id="wrapper" class="datepicker"></div>
+										<#-- /Date Options -->
+
+										
 										
 										<#-- Event Options-->
 										<#if access.eventsAccess>

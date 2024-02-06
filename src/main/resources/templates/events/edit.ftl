@@ -222,6 +222,13 @@
 			// Get event info and display it.
 			getEventInfo(datePickersMap);
 
+			// Calculate duration
+			$(".event-date-time").blur(function () {
+				calculateDuration();
+			});
+
+
+
 			$('input[type=radio][name=event-recurrent]').change(function() {
 				setRecurrentMode(this.value);
 			});

@@ -144,7 +144,7 @@ function getEventInfo(datePickersMap){
     $('#eventEndTime').val(eventEndDate.toString('HH:mm'));
     
     // Get the duration
-    $('#eventDuration').val(convertDuration(eventInfo.duration));
+    $('#eventDuration').val(minutesToString(eventInfo.duration));
     $('#eventDurationCalculated').text(formatTime(eventInfo.duration));
     
     // Get recurrent info.
@@ -213,9 +213,7 @@ function getEventInfo(datePickersMap){
 		$('#eventByMonthDay').val(rule.options.bymonthday);
 		
 		// Display the rule.
-		//$('#eventRFCRRule').text(rule.toString());
 		$('#eventRRuleDiscription').text(rule.toText());
-		//rule.options.until == null ? $('#eventValidToDate').val('') : datePickersMap.get('eventValidToDate').setDate(rule.options.until);
 
 		// Recursion mode.
 		setRecurrentMode(true);
@@ -328,8 +326,8 @@ function getRRuleByInput(){
 
     // Process and append new data
     $.each(allDates, function(i, date) {
+
         // Extracting date components
-        
         date = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
         var dateStr = date.toString('yyyy-MM-dd');
         
@@ -358,9 +356,7 @@ function getRRuleByInput(){
 }
 
 function addExcludeDate(dateStr){
-	//$(btn).closest('tr').remove();
 	$('#eventExcludedDates').append(`<option value="${dateStr}" selected>${dateStr}</option>`);
-	//getRRuleByInput();
 }
 
 function addEvent(){
@@ -495,7 +491,7 @@ function addEvent(){
 		recurring["recurringTime"] = combineDateAndTime(Date.today(), eventRecurringTime + ':00');
 		
 		// Duration
-		var eventDurationStr = convertToMinutes($('#eventDuration').val());
+		var eventDurationStr = stringToMinutes($('#eventDuration').val());
 		if(eventDurationStr == null || eventDurationStr == undefined){
 			warningPopup("The duration string is not well-formed", "The format must be _d __h __m");
 			return;
@@ -759,11 +755,11 @@ function getSelectedOptions(eventId){
 
 /**
  * Convert the duration in minutes to _d __h __m format.
- * @param {*} minutes 
+ * @param {int} minutes 
  * @returns The converted string.
  */
 
-function convertDuration(minutes) {
+function minutesToString(minutes) {
     const perDay = 1440;
     const perHour = 60;
 
@@ -779,7 +775,13 @@ function convertDuration(minutes) {
     return days + "d " + pad(hours, 2) + "h " + pad(mins, 2) + "m";
 }
 
-function convertToMinutes(durationStr) {
+/**
+ * Convert duration string (_d __h __m format) back to minutes
+ * @param {string} durationStr 
+ * @returns The duration in minutes, or null if the input is not well-formed.
+ */
+
+function stringToMinutes(durationStr) {
     var regex = /(\d+)d\s+(\d+)h\s+(\d+)m/;
     var matches = durationStr.match(regex);
 
@@ -797,4 +799,22 @@ function convertToMinutes(durationStr) {
 	else {
         return null;
     }
+}
+
+/**
+ * Calculate the real-time duration when clicking the event date/time inputs.
+ */
+
+function calculateDuration(){
+
+	// Get event date time
+	var allDayEvent = $("#eventAllDayEvent").is(':checked');
+	var eventStartTime = allDayEvent ? '00:00' : $('#eventStartTime').val();
+	var eventEndTime = allDayEvent ? '00:00' : $('#eventEndTime').val();
+
+	var startDateTime = combineDateAndTime(Date.parse($('#eventStartDate').val()), eventStartTime + ':00');
+	var endDateTime = combineDateAndTime(Date.parse($('#eventEndDate').val()), eventEndTime + ':00');
+	
+	// Re-format the duration string.
+	$('#eventDurationCalculated').text(formatTime((endDateTime - startDateTime) / 60000));
 }

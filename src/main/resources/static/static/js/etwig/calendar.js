@@ -88,7 +88,7 @@ function getSingleTimeEventListByRange(date){
 					  id: id,
 					  start: eventStartDateTime.toString('yyyy-MM-dd HH:mm'),
 					  end: eventEndDateTime.toString('yyyy-MM-dd HH:mm'),
-					  title: {html: `<span class="font-weight-normal">${value.name}</span>`},
+					  title: {html: `<span class="font-weight-bold">${value.name}</span>`},
 					  color: "#" + value.portfolioColor,
 					  allDay: value.allDayEvent
 				}); 	
@@ -168,7 +168,7 @@ function getRecurringTimeEventListByRange(date){
 						id: value.id,
 						start: eventStartDateTime.toString('yyyy-MM-dd HH:mm'),
 						end: eventEndDateTime.toString('yyyy-MM-dd HH:mm'),
-						title: {html: `<span class="font-italic">${value.name}</span>`},
+						title: {html: `<span class="font-italic bold-text">${value.name}</span>`},
 						color: "#" + value.portfolioColor,
 						allDay: value.allDayEvent
 					}); 	
