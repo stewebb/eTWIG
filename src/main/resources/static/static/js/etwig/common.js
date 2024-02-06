@@ -4,25 +4,13 @@
  	* @license: MIT
  	* @author: Steven Webb [xiaoancloud@outlook.com]
  	* @website: https://etwig.grinecraft.net
- 	* @function: High-level Toasts modules that based on AdminLTE Toasts.
+ 	* @function: High-level popups modules that based on AdminLTE popups.
  	*/
 
 /**
- * A toast that used in successful results.
- * @param title The title of the toast.
- * @param body The content of the toast (optional).
+ * A popup that used in successful results.
+ * @param title The title of the popup.
  */
-
-function successToast(title, body){
-	$(document).Toasts('create', {
-  		title: title,
-  		body: body,
-  		autohide: true,
-  		delay: 5000,
-  		icon: 'fa-solid fa-circle-check',
-  		class: 'toast bg-success'
-	});
-}
 
 function successPopup(title){
 	Swal.fire({
@@ -33,21 +21,10 @@ function successPopup(title){
 }
 
 /**
- * A toast that used in informative results.
- * @param title The title of the toast.
- * @param body The content of the toast (optional).
+ * A popup that used in informative results.
+ * @param title The title of the popup.
+ * @param body The content of the popup (optional).
  */
-
-function infoToast(title, body){
-	$(document).Toasts('create', {
-  		title: title,
-  		body: body,
-  		autohide: true,
-  		delay: 5000,
-  		icon: 'fa-solid fa-circle-info',
-  		class: 'toast bg-info'
-	});
-}
 
 function infoPopup(title, body){
 	Swal.fire({
@@ -62,21 +39,10 @@ function infoPopup(title, body){
 }
 
 /**
- * A toast that used in failure results that not caused by an system error.
- * @param title The title of the toast.
- * @param body The content of the toast (optional).
+ * A popup that used in failure results that not caused by an system error.
+ * @param title The title of the popup.
+ * @param body The content of the popup (optional).
  */
-
-function warningToast(title, body){
-	$(document).Toasts('create', {
-  		title: title,
-  		body: body,
-  		autohide: true,
-  		delay: 5000,
-  		icon: 'fa-solid fa-circle-exclamation',
-  		class: 'toast bg-warning'
-	});
-}
 
 function warningPopup(title, body){
 	Swal.fire({
@@ -90,21 +56,10 @@ function warningPopup(title, body){
 	  });
 }
 /**
- * A toast that used in errors.
- * @param title The title of the toast.
- * @param body The content of the toast (optional).
+ * A popup that used in errors.
+ * @param title The title of the popup.
+ * @param body The content of the popup (optional).
  */
-
-function dangerToast(title, body){
-	$(document).Toasts('create', {
-  		title: title,
-  		body: body,
-  		autohide: true,
-  		delay: 10000,
-  		icon: 'fa-solid fa-circle-xmark',
-  		class: 'toast bg-danger'
-	});
-}
 
 function dangerPopup(title, body){
 	Swal.fire({
@@ -237,15 +192,11 @@ function getMyPositions(){
     	async: false,
 		success: function(json) {
 			position = json;
-			// Iterate all roles.
-			//jQuery.each(json, function(id, value) {
-			//	$(selectElem).append(`<option value="${value.userRoleId}">${value.position}, ${value.portfolio.name}</option>`);
-			//})
         },
         
-        // Toast error info when it happens
+        // popup error info when it happens
     	error: function(err) {   		
-			dangerToast("Failed to get user positions due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+			dangerPopup("Failed to get user positions due to a HTTP " + err.status + " error.", err.responseJSON.exception);
 		}
 	});
 	

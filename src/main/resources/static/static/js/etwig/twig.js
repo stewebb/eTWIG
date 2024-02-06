@@ -465,6 +465,72 @@ class EventTableWidget {
     }
 }
 
+/**
+ * **TWIG Arranging Algorithm (TAA)** is an algorithm to arrange events on the TWIG.
+ * Input:
+ * - A **map** of all events on a certain day. (key: eventId, value: map)
+ * - The object of the **event table widget**.
+ * - The **range** of acceptable sizes.
+ * - 
+ * 
+ * Output:
+ * - A list of the positions of all event graphics.
+ */
+
+class TAA{
+
+    constructor(eventMap, eventTable, sizeRange, isWeekday){
+        this.eventMap = eventMap;
+        this.eventTable = eventTable;
+        this.sizeRange = sizeRange;
+        this.isWeekday = isWeekday;
+    }
+
+    /**
+     * Step 1: Initialize and assign the key of the time slot.
+     */
+
+    #initTimeSlot(){
+
+        // Determine the length of the time slot map, which is **N+3**.
+        var timeSlot = new Map();
+
+        // **All-day events**
+        timeSlot.set(NaN, null);
+
+        // The events **before** and **after** the display starting time
+        timeSlot.set(Number.NEGATIVE_INFINITY, null);
+        timeSlot.set(Number.POSITIVE_INFINITY, null);
+
+        // **Weekday** events, N=13 (9:00 - 21:00)
+        if(this.isWeekday){
+            for(var i=9; i<22; i++){
+                timeSlot.set(i, null);
+            }
+        }
+
+        // **Weekend** events, N=3 (morning 9:00-12:00, afternoon 13:00-18:00, evening 19:00-21:00),
+        else{
+            timeSlot.set(9, null);
+            timeSlot.set(13, null);
+            timeSlot.set(18, null);
+        }
+
+        this.timeSlot = timeSlot;
+    }
+
+    arrange(){
+
+        // Step 1
+        this.#initTimeSlot();
+
+        return this.timeSlot;
+    }
+}
+
+var taa = new TAA(null, null, null, true);
+console.log(taa.arrange());
+
 function defineTwigTreeManually(){
 
 
@@ -512,4 +578,4 @@ function defineTwigTreeManually(){
 
 }
 
-console.log(defineTwigTreeManually());
+//console.log(defineTwigTreeManually());
