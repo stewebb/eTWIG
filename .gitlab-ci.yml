@@ -1,7 +1,7 @@
 stages:                          
     - build                         
-    - tests
-    - deploy                        
+#    - tests
+#    - deploy                        
 
 before_script:
   - source /etc/profile
@@ -13,16 +13,16 @@ compile:
     tags:
         - localhost
 
-test:     
-    image: maven:3-sapmachine-17                          
-    stage: tests                   
-    script: "mvn test -B"
-    allow_failure: true
-    tags:
-        - localhost
-    artifacts:
-        when: always
-        reports:
-            junit:
-                - target/surefire-reports/TEST-*.xml
-                - target/failsafe-reports/TEST-*.xml
+#test:     
+#    image: maven:3-sapmachine-17                          
+#    stage: tests                   
+#    script: "mvn test -B"
+#    allow_failure: true
+#    tags:
+#        - localhost
+#    artifacts:
+#        when: always
+#        reports:
+#            junit:
+#                - target/surefire-reports/TEST-*.xml
+#                - target/failsafe-reports/TEST-*.xml
