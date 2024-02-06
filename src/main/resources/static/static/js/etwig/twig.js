@@ -519,16 +519,37 @@ class TAA{
         this.timeSlot = timeSlot;
     }
 
+    /**
+     * Step 2: **Sort** and **regularize** events, and make them:
+     * - Restrain the duration between [0, 1440-currentTimeInSeconds]
+     * - Order by duration ASC
+     */
+
+    #regularizeEvents(){
+        this.eventMap.sort((a, b) => a.duration - b.duration);
+        console.log(this.eventMap);
+    }
+
+    #allocate(){
+
+    }
+
     arrange(){
 
-        // Step 1
         this.#initTimeSlot();
+        this.#regularizeEvents();
+
+        //this.#allocate();
 
         return this.timeSlot;
     }
 }
-
-var taa = new TAA(null, null, null, true);
+var ev = [
+    {eventId:1, time:'08:00', duration:120},
+    {eventId:2, time:'10:00', duration:60},
+    {eventId:3, time:'12:00', duration:90},
+]
+var taa = new TAA(ev, null, null, true);
 console.log(taa.arrange());
 
 function defineTwigTreeManually(){
