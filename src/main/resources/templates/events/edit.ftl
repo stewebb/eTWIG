@@ -13,7 +13,7 @@
 <html>
 <head>
 	<#include "../_includes/header/head.ftl">
-	<title>Add Event - ${app.appName}</title>
+	<title>Event Management - ${app.appName}</title>
 </head>
 
 <body class="hold-transition layout-top-nav">
@@ -38,8 +38,8 @@
 	          			</div>
 	          			<div class="col-sm-6">
 	            			<ol class="breadcrumb float-sm-right">
-	              				<li class="breadcrumb-item active"><a href="/events/calendar">Events</a></li>
-	              				<li class="breadcrumb-item active"><a href="#" id="eventPageLink">Event</a></li>
+	              				<li class="breadcrumb-item"><a href="/events/calendar">Events</a></li>
+	              				<li class="breadcrumb-item active"><a href="/events/import">Import</a></li>
 	            			</ol>
 	          			</div>
 	        		</div>
@@ -67,19 +67,27 @@
 
 								<#-- View/Edit -->	
 								<li class="nav-item">
-									<a class="nav-link active" href="#">
+									<a class="nav-link active" href="#" id="eventEditLink">
 										<i class="fa-solid fa-pen-to-square"></i>&nbsp;Edit
 									</a>
 								</li>
 								<#-- /View/Edit -->	
 
 								<#-- Graphics Request -->	
-								<li class="nav-item" id="eventGraphicsTab">
+								<li class="nav-item event-hidden-tabs">
 									<a class="nav-link" href="#" id="eventGraphicsLink">
 										<i class="fa-solid fa-image"></i>&nbsp;Graphics
 									</a>
 								</li>
 								<#-- /Graphics Request -->	
+
+								<#-- Copy -->	
+								<li class="nav-item event-hidden-tabs">
+									<a class="nav-link" href="#" id="eventCopyLink">
+										<i class="fa-solid fa-copy"></i>&nbsp;Copy
+									</a>
+								</li>
+								<#-- /Copy -->	
 
 							</ul>
 							<#-- /Tabs -->
@@ -214,10 +222,18 @@
 
 			// Date and time inputs.
     		var datePickersMap = createDatePickers();
+
+			// Input masks
 			$('.event-time').inputmask('99:99');
+			$('#eventDuration').inputmask('9d 99h 99m');
 
 			// Get event info and display it.
 			getEventInfo(datePickersMap);
+
+			// Calculate duration
+			$(".event-date-time").blur(function () {
+				calculateDuration();
+			});
 
 			$('input[type=radio][name=event-recurrent]').change(function() {
 				setRecurrentMode(this.value);

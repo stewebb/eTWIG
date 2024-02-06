@@ -13,30 +13,31 @@ var calendar = undefined;
 // The current date which can be changes by buttons and date picker in "Options".
 var currentDate = Date.today();
 
+// Calendar view: 1 -> Monthly, 0 -> Weekly, -1 -> Daily (not used in here but will be used in the TWIG)
+var calendarView = 0;
+
 /**
  * Create a calendar on webpage
  * @param elem The calendar element.
  * @param currentMonth The current month that displayed on the calendar.
- * @returns No returns but the calendar object will be changed.
  */
 
 function createCalendar(elem, currentMonth){
 	var calendarElem = document.getElementById(elem);
 	
 	var calendarProperties = {
-		view: 'dayGridMonth',
+		view: 'timeGridWeek',
+		firstDay: 1,
 	    headerToolbar: {
 			start: '',
 			center: 'title',
 			end: ''
 		},
     	events: getEventList(currentMonth),
+
+		// Click the event, go to the edit page.
     	eventClick: function (info) {
-			//console.log(info)
 			$(location).attr('href', '/events/edit?eventId=' + info.event.id);
-		},
-		dateClick: function (info) {
-			$(location).attr('href', '/events/edit?eventId=-1');
 		},
     	dayMaxEvents: true,
     	nowIndicator: true,
@@ -67,12 +68,12 @@ function getSingleTimeEventListByRange(date){
 	var eventList = []; 
 	$.ajax({ 
 		type: 'GET', 
-    	url: '/api/private/getMonthlySingleTimeEventList', 
+    	url: '/api/private/getSingleTimeEventList', 
     	async: false,
     	data: { 
 			date: date,
+			calendarView: calendarView
 		}, 
-    	dataType: 'json',
 		success: function(json) {
 			
 			// Iterate all dates.
@@ -81,24 +82,22 @@ function getSingleTimeEventListByRange(date){
 				// Get start and end time
 				var eventStartDateTime = new Date(value.startTime);
 				var eventEndDateTime = new Date(value.startTime).addMinutes(value.duration);
-					
-				// Italic font for recurring events.
-				//var textFont = value.recurring ? "italic" : "weight-normal";
     				
     			// Save data
 				eventList.push({
 					  id: id,
 					  start: eventStartDateTime.toString('yyyy-MM-dd HH:mm'),
 					  end: eventEndDateTime.toString('yyyy-MM-dd HH:mm'),
-					  title: {html: `<span class="font-weight-normal">${value.name}</span>`},
-					  color: "#" + value.portfolioColor
+					  title: {html: `<span class="font-weight-bold">${value.name}</span>`},
+					  color: "#" + value.portfolioColor,
+					  allDay: value.allDayEvent
 				}); 	
 			})
         },
         
-        // Toast error info when it happens
+        // Popup error info when it happens
     	error: function(err) {   		
-			dangerToast("Failed to get calendar due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+			dangerPopup("Failed to get single time events due to a HTTP " + err.status + " error.", err.responseJSON.exception);
 		}
 	});
 	return eventList;
@@ -108,10 +107,22 @@ function getRecurringTimeEventListByRange(date){
 	
 	// Calculate the first and last day of the month for a given date.
 	var dateObj = Date.parse(date);
-	var year = dateObj.getFullYear();
-    var month = dateObj.getMonth();
-    var firstDay = new Date(year, month, 1);
-    var lastDay = new Date(year, month + 1, 0);
+	var firstDay;
+	var lastDay;
+
+	// Monthly view
+	if(calendarView > 0){
+		var year = dateObj.getFullYear();
+		var month = dateObj.getMonth();
+		firstDay = new Date(year, month, 1);
+		lastDay = new Date(year, month + 1, 1);
+	}
+
+	// Weekly view
+	else{
+		firstDay = Date.parse(date).monday().addDays(-7);
+		lastDay = Date.parse(date).monday();
+	}
         				
 	var eventList = []; 
 	$.ajax({ 
@@ -126,15 +137,13 @@ function getRecurringTimeEventListByRange(date){
 			
 			// Iterate all dates.
 			jQuery.each(json, function(id, value) {			
-				
-				//console.log(value.excluded)	;
-				
+								
 				var rRule = new ETwig.RRuleFromStr(value.rrule);
 				var rule = rRule.getRuleObj();
 								
 				// Failed to parse rRule, skip it.
 				if(rule == undefined || rule == null){
-					dangerToast("Failed to parse Recurrence Rule.", value.rrule + " is not a valid iCalendar RFC 5545 Recurrence Rule.");
+					dangerPopup("Failed to parse Recurrence Rule.", value.rrule + " is not a valid iCalendar RFC 5545 Recurrence Rule.");
 					return;
 				}
 				
@@ -146,13 +155,10 @@ function getRecurringTimeEventListByRange(date){
 					var occurrenceDate = new Date(occurrence[i].getTime() + occurrence[i].getTimezoneOffset() * 60000);
 					
 					if(value.excluded != null){
-						//console.log(value.excluded.includes(occurrenceDate.toString('yyyy-MM-dd')))
-						//console.log(occurrenceDate.toString('yyyy-MM-dd'))
 						if(value.excluded.includes(occurrenceDate.toString('yyyy-MM-dd'))){
 							continue;
 						}
 					}
-					
 					
 					var eventStartDateTime = combineDateAndTime(occurrenceDate, value.eventTime);
 					var eventEndDateTime = combineDateAndTime(occurrenceDate, value.eventTime).addMinutes(value.duration);
@@ -162,23 +168,24 @@ function getRecurringTimeEventListByRange(date){
 						id: value.id,
 						start: eventStartDateTime.toString('yyyy-MM-dd HH:mm'),
 						end: eventEndDateTime.toString('yyyy-MM-dd HH:mm'),
-						title: {html: `<span class="font-italic">${value.name}</span>`},
-						color: "#" + value.portfolioColor
+						title: {html: `<span class="font-italic bold-text">${value.name}</span>`},
+						color: "#" + value.portfolioColor,
+						allDay: value.allDayEvent
 					}); 	
 				}
 			})
         },
         
-        // Toast error info when it happens
+        // Popup error info when it happens
     	error: function(err) {   		
-			dangerToast("Failed to get calendar due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+			dangerPopup("Failed to get recurrent events due to a HTTP " + err.status + " error.", err.responseJSON.exception);
 		}
 	});
 	return eventList;
 }
 
 /**
- * Create a ToastUI date picker
+ * Create a PopupUI date picker
  * @param {*} htmlElem The element of datepicker wrapper.
  * @param {*} pickerElem The element of date input.
  * @param {*} buttonElem The element of button that get the date.
@@ -198,7 +205,7 @@ function createDatePicker(htmlElem, pickerElem, buttonElem){
 	// Set date
 	$(buttonElem).click(function(){
 		
-		// Get selected date from ToastUI datepicker and store it.
+		// Get selected date from PopupUI datepicker and store it.
   		currentDate = datepicker.getDate();
   		changeCalendar(currentDate);
 	}); 
@@ -216,4 +223,26 @@ function changeCalendar(){
     // Change calendar value.
     calendar.setOption('date', yearMonthStr);
     calendar.setOption('events', getEventList(yearMonthStr, "month"));
+
+	// Change the calendar view
+	calendar.setOption('view', (calendarView == 0) ? 'timeGridWeek' : 'dayGridMonth');
+}
+
+function changeCurrentDate(mode){
+
+	// Last
+	if(mode < 0){
+		currentDate = (calendarView == 0) ? currentDate.last().week() : currentDate.last().month();
+	}
+
+	// Reset
+	else if(mode == 0){
+		currentDate = Date.today();
+	}
+
+	// Next
+	else{
+		currentDate = (calendarView == 0) ? currentDate.next().week() : currentDate.next().month();
+	}
+	changeCalendar();
 }

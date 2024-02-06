@@ -24,6 +24,14 @@ function successToast(title, body){
 	});
 }
 
+function successPopup(title){
+	Swal.fire({
+		icon: "success",
+		title: "Success",
+		html: `<div style="text-align: left;"><strong>${title}</strong></div>`,
+	  });
+}
+
 /**
  * A toast that used in informative results.
  * @param title The title of the toast.
@@ -39,6 +47,18 @@ function infoToast(title, body){
   		icon: 'fa-solid fa-circle-info',
   		class: 'toast bg-info'
 	});
+}
+
+function infoPopup(title, body){
+	Swal.fire({
+		icon: "info",
+		title: "Information",
+		html: `
+			<div style="text-align: left;">
+				<strong>${title}:</strong> 
+				<p>${body}</p>
+			</div>`,
+	  });
 }
 
 /**
@@ -64,8 +84,8 @@ function warningPopup(title, body){
 		title: "Warning",
 		html: `
 			<div style="text-align: left;">
-				<strong>${title}:</strong> 
-				<p>${body}</p>
+				<p><strong>${title}:</strong></p>
+				<p>${(body == undefined) ? "" : body}</p>
 			</div>`,
 	  });
 }
@@ -146,18 +166,12 @@ function timeAgo(dateStr) {
     return "Just now";
 }
 
-//
-//function updateTextColor($element) {
-//	var bgColor = $element.css('background-color');
-//	var colors = bgColor.substring(bgColor.indexOf('(') + 1, bgColor.lastIndexOf(')')).split(/,\s*/);
-//	var brightness = Math.sqrt(0.299 * (colors[0] * colors[0]) + 0.587 * (colors[1] * colors[1]) + 0.114 * (colors[2] * colors[2]));
-//	
-//	if (brightness < 128) {
-//		$element.addClass('text-white');
-//	} else {
-//            $element.addClass('text-dark');
-//    }
-//}
+/**
+ * Format the duration from minutes to day, hour and minutes.
+ * e.g., input 70, output 1 hour, 10 minutes.
+ * @param {int} minutesTotal The total minutes
+ * @returns The duration string that combines with days, hours and minutes
+ */
 
 function formatTime(minutesTotal) {
     const minutesPerHour = 60;
@@ -166,15 +180,17 @@ function formatTime(minutesTotal) {
     const days = Math.floor(minutesTotal / minutesPerDay);
     const hours = Math.floor((minutesTotal % minutesPerDay) / minutesPerHour);
     const minutes = minutesTotal % minutesPerHour;
+    var formattedTime = "";
 
-    let formattedTime = "";
     if (days > 0) {
         formattedTime += days + (days === 1 ? " day" : " days");
     }
+
     if (hours > 0) {
         if (formattedTime.length > 0) formattedTime += ", ";
         formattedTime += hours + (hours === 1 ? " hour" : " hours");
     }
+
     if (minutes > 0) {
         if (formattedTime.length > 0) formattedTime += ", ";
         formattedTime += minutes + (minutes === 1 ? " minute" : " minutes");

@@ -19,6 +19,7 @@ import net.grinecraft.etwig.config.ConfigFile;
 import net.grinecraft.etwig.dto.PositionDTO;
 import net.grinecraft.etwig.dto.events.GraphicsRequestEventInfoDTO;
 import net.grinecraft.etwig.dto.graphics.FinalizedRequestsDetailsDTO;
+import net.grinecraft.etwig.dto.graphics.NewRequestEmailNotificationDTO;
 import net.grinecraft.etwig.dto.user.UserDTO;
 import net.grinecraft.etwig.model.Asset;
 import net.grinecraft.etwig.model.User;
@@ -38,12 +39,6 @@ public class EmailService {
     
     @Autowired
     private UserRoleRepository userRoleRepository;
-    
-    @Autowired
-    private UserRoleService userRoleService;
-    
-    @Autowired
-    private EventService eventService;
     
     @Autowired
     private AssetService assetService;
@@ -74,34 +69,36 @@ public class EmailService {
             emailSender.send(message);
     }
     
-    public boolean graphicsRequestNotification(Map<String, Object> requestInfo) throws Exception {
-
+    public boolean graphicsRequestNotification(NewRequestEmailNotificationDTO requestInfo) throws Exception {
+    	
     	// Get all graphics managers
     	Set<PositionDTO> graphicsManagers = userRoleRepository.getGraphicsManagers();
     	if(graphicsManagers.isEmpty()) {
     		return false;    	
     	}
     	
-   		// Get requester and event info.
-    	Long eventId = Long.parseLong(requestInfo.get("eventId").toString());
-    	GraphicsRequestEventInfoDTO event = eventService.findEventsForGraphicsRequestById(eventId);
-		UserRole requesterRole = userRoleService.findById(Long.parseLong(requestInfo.get("requesterRole").toString()));
-		User requester = requesterRole.getUser();
+   		// Get event info.
+    	
+    	
+    	//Long eventId = Long.parseLong(requestInfo.get("eventId").toString());
+    	//GraphicsRequestEventInfoDTO event = eventService.findEventsForGraphicsRequestById(eventId);
+		//UserRole requesterRole = userRoleService.findById(Long.parseLong(requestInfo.get("requesterRole").toString()));
+		//User requester = requesterRole.getUser();
 		//System.out.print(event);
 		
 		// Generate email subject.
 		StringBuilder subject = new StringBuilder();
-		subject.append(requesterRole.getPosition() + " ");
-		subject.append(requester.getFullName());
-		subject.append(" made a graphics request on ");
-		subject.append(event.getName());
+		subject.append(requestInfo.getRequesterPosition() + " ");
+		subject.append(requestInfo.getRequesterName());
+		subject.append(" made a graphics request for the event ");
+		//subject.append(requestInfo.getEventName());
 		
 		// Generate email content
 		Template t = freemarkerConfig.getTemplate("_emails/graphic_request.ftl");
 		HashMap<String, Object> model = new HashMap<String, Object>();
-		model.put("eventInfo", event);
+		//model.put("eventInfo", event);
 		model.put("requestInfo", requestInfo);
-		model.put("organizer", new UserDTO(requester));
+		//model.put("organizer", new UserDTO(requester));
 	    String content = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
 		
 		// Iterate all graphics managers

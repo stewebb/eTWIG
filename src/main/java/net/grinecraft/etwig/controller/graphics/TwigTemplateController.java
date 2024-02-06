@@ -10,7 +10,7 @@ import net.grinecraft.etwig.services.PortfolioService;
 import net.grinecraft.etwig.services.TwigService;
 
 @Controller
-@Secured({"ROLE_GRAPHICS"})
+@Secured({"hasAuthority(ROLE_GRAPHICS)"})
 @RequestMapping("/graphics/twigTemplate/")  
 public class TwigTemplateController {
 	

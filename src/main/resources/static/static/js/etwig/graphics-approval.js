@@ -149,7 +149,7 @@ function decide(){
 	// Approval option, 1 -> Approved, 0 -> Declined, NaN -> Not Selected
 	var graphicsApprovalOption = parseInt($('input[type=radio][name=graphicsApprovalOption]:checked').val());
 	if(isNaN(graphicsApprovalOption)){
-		warningToast("Make a decision is required");
+		warningPopup("Make a decision is required");
 		return;
 	}
 	approvalDecisionObj["approved"] = graphicsApprovalOption > 0;
@@ -161,7 +161,7 @@ function decide(){
 	if(approvalDecisionObj["approved"]){
 		var assetId = parseInt($('#uploadCallback').val());
 		if(isNaN(assetId)){
-			warningToast("Selecting an asset is the requisite for approving a graphic request.");
+			warningPopup("Selecting an asset is the requisite for approving a graphic request.");
 			return;
 		}
 		approvalDecisionObj["asset"] = assetId;
@@ -179,25 +179,22 @@ function decide(){
    		data: JSON.stringify(approvalDecisionObj),
    		success: function (result) {
 			if(result.error > 0){
-				dangerToast("Failed to submit a decision.", result.msg);
+				dangerPopup("Failed to submit a decision.", result.msg);
 				hasError = true;
 			}else{
-				successToast("Deciside made successfully.");
+				successPopup("Decision made successfully.");
 				hasError = false;
 			}	
     	},
     	error: function (err) {
-    		dangerToast("Failed to submit a decision due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+    		dangerPopup("Failed to submit a decision due to a HTTP " + err.status + " error.", err.responseJSON.exception);
     		hasError = true;
     	}
  	});
 
-	// Post-add operations
-	// More timeout if error happens.
-	setTimeout(
-		function() {
-			$(location).attr('href','/graphics/approval/list');
-		}, 
-		hasError ? 10000 : 2000
-	);
+	// Redirect back
+	if(!hasError){
+		setTimeout(function() {	$(location).attr('href','/graphics/approval/list'); }, 2500);
+	}
+	
 }

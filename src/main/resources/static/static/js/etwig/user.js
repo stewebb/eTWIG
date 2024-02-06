@@ -3,27 +3,27 @@ function changePassword(){
 	// Current password
 	var currentPassword = $.trim($('#currentPassword').val());
 	if(currentPassword.length == 0){
-		warningToast("Current password is required.");
+		warningPopup("Current password is required.");
 		return;
 	}
 	
 	// New password
 	var newPassword = $.trim($('#newPassword').val());
 	if(newPassword.length == 0){
-		warningToast("New password is required.");
+		warningPopup("New password is required.");
 		return;
 	}
 	
 	// Confirm password
 	var confirmNewPassword = $.trim($('#confirmNewPassword').val());
 	if(newPassword != confirmNewPassword){
-		warningToast("The new password must equals to the confirm new password.");
+		warningPopup("The new password must equals to the confirm new password.");
 		return;
 	}
 	
 	// Password complexity
 	if(!isPasswordComplex(newPassword)){
-		warningToast("The new password must be at least 8 characters long and include uppercase, lowercase and numbers.");
+		warningPopup("The new password must be at least 8 characters long and include uppercase, lowercase and numbers.");
 		return;	
 	}
 	
@@ -42,15 +42,15 @@ function changePassword(){
    		data: JSON.stringify(passwordObj),
    		success: function (result) {
 			if(result.error > 0){
-				dangerToast("Failed to change password", result.msg);
+				dangerPopup("Failed to change password", result.msg);
 				hasError = true;
 			}else{
-				successToast("Password changed successfully.");
+				successPopup("Password changed successfully.");
 				hasError = false;
 			}	
     	},
     	error: function (err) {
-    		dangerToast("Failed to  change password due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+    		dangerPopup("Failed to  change password due to a HTTP " + err.status + " error.", err.responseJSON.exception);
     		hasError = true;
     	}
  	});

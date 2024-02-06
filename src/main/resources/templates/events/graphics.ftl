@@ -88,6 +88,14 @@
 								</li>
 								<#-- /Graphics Request -->	
 
+								<#-- Copy -->	
+								<li class="nav-item event-hidden-tabs">
+									<a class="nav-link" href="/events/edit?eventId=-${eventInfo.id}">
+										<i class="fa-solid fa-copy"></i>&nbsp;Copy
+									</a>
+								</li>
+								<#-- /Copy -->	
+
 							</ul>
 						</div>
 						<#-- /Tabs -->
@@ -124,7 +132,6 @@
 
 										<#-- Hidden inputs -->
 										<input type="hidden" id="eventId" value="${eventInfo.id}" />
-										<input type="hidden" id="requesterRole" value="${eventInfo.userRoleId}" />
 										<#-- /Hidden inputs -->
 									
 										<#-- Permission check. -->
@@ -376,15 +383,9 @@
 	<script src="/static/js/etwig/graphics-request.js"></script>
 	
 	<script>
-	
-		$(document).ready(function() {
-			updateTextColor($('#eventPortfolio'));
-		});
-		
 		<#if editPermission>
 			createDatePicker();
 		</#if>
-	
 	</script>
 
 </body>

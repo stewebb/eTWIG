@@ -17,12 +17,11 @@ function requestEvent(embedded){
 	
 	// Requester: Required but provided.
 	var requesterRole = $('#requesterRole').val();
-	// TODO INCORRECT REQUESTER ROLE. IT'S ACTUALLY THE ORGANIZER ROLE.
 	
 	// Returning Date: Required.
 	var eventGraphicsDate = $('#eventGraphicsDate').val();
 	if(eventGraphicsDate.length == 0){
-		warningToast("Graphics returning date is required");
+		warningPopup("Graphics returning date is required");
 		return;
 	}
 	
@@ -49,24 +48,21 @@ function requestEvent(embedded){
    		data: JSON.stringify(newRequestObj),
    		success: function (result) {
 			if(result.error > 0){
-				dangerToast("Failed to request graphics.", result.msg);
+				dangerPopup("Failed to request graphics.", result.msg);
 				hasError = true;
 			}else{
-				successToast("Graphics requested  successfully.");
+				successPopup("Graphics requested successfully.");
 				hasError = false;
 			}	
     	},
     	error: function (err) {
-    		dangerToast("Failed to request graphics due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+    		dangerPopup("Failed to request graphics due to a HTTP " + err.status + " error.", err.responseJSON.exception);
     		hasError = true;
     	}
  	});
 	
-	setTimeout(
-		function() {
-			embedded ? parent.location.reload() : window.location.reload();
-		}, 
-		hasError ? 10000 : 2000
-	);
-	
+	// Refresh page only when graphics were requested successfully.
+	if(!hasError){
+		setTimeout(function() { window.location.reload(); }, 2500);
+	}
 }

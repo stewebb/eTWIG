@@ -51,7 +51,7 @@
 					<div class="row col-12">
 
 						<#-- Options -->
-						<div class="col-md-3">
+						<div class="col-md-3" id="left-column">
 							<div class="mb-3">
 
 								<#-- Options -->
@@ -65,18 +65,29 @@
 										
 										<#-- Date Options -->
 										<div class="mb-3 btn-group w-100">
-											<button type="button" class="btn btn-outline-secondary" onclick="currentDate=currentDate.last().month();changeCalendar();">
-												<i class="fa-solid fa-backward"></i>&nbsp;Last Month
+											<button type="button" class="btn btn-outline-secondary" onclick="changeCurrentDate(-1);">
+												<i class="fa-solid fa-backward"></i>&nbsp;Last
 											</button>
-											<button type="button" class="btn btn-outline-secondary" onclick="currentDate=Date.today();changeCalendar();">
+											<button type="button" class="btn btn-outline-secondary" onclick="changeCurrentDate(0);">
 												<i class="fa-solid fa-rotate"></i>&nbsp;Reset
 											</button>
-											<button type="button" class="btn btn-outline-secondary" onclick="currentDate=currentDate.next().month();changeCalendar();">
-												<i class="fa-solid fa-forward"></i>&nbsp;Next Month
+											<button type="button" class="btn btn-outline-secondary" onclick="changeCurrentDate(1);">
+												<i class="fa-solid fa-forward"></i>&nbsp;Next
 											</button>
 										</div>
-										
-										<div class="input-group">
+										<#-- calendar view -->
+										<div class="form-group d-flex justify-content-between">
+											<div class="icheck-primary d-inline mr-2">
+												<input type="radio" id="weeklyView" name="calendarView" value="0" checked="">
+												<label for="weeklyView">Weekly view</label>
+											</div>
+											<div class="icheck-primary d-inline">
+												<input type="radio" id="monthlyView" name="calendarView" value="1">
+												<label for="monthlyView">Monthly view</label>
+											</div>
+										</div>
+										<#-- /calendar view -->
+										<div class="input-group mb-2">
 											<div class="input-group-prepend">
 												<span class="input-group-text" id="basic-addon1"><i class="fa-regular fa-calendar-days"></i></span>
 											</div>
@@ -87,13 +98,21 @@
 										</div>
 										<div id="wrapper" class="datepicker"></div>
 										<#-- /Date Options -->
+
+										
 										
 										<#-- Event Options-->
 										<#if access.eventsAccess>
 											<hr class="mt-3 mb-3"/>
-											<a class="btn btn-block btn-outline-primary" href="/events/edit?eventId=-1">
-												<i class="fa-solid fa-calendar-plus"></i>&nbsp;New Event
-											</a>	
+											<div class="btn-group w-100">
+												<button type="button" class="btn btn-outline-primary" onclick="location.href='/events/edit?eventId=0';">
+													<i class="fa-solid fa-calendar-plus"></i>&nbsp;New Event
+												</button>
+												<button type="button" class="btn btn-outline-primary" onclick="location.href='/events/import';">
+													<i class="fa-solid fa-file-import"></i>&nbsp;Import
+												</button>
+											</div>
+												
 										</#if>
 										<#-- /Event Options-->
 										
@@ -280,6 +299,11 @@
     		theme: 'bootstrap4',
     		templateResult: formatState,
   			templateSelection: formatState,
+		});
+
+		$('input[type=radio][name=calendarView]').change(function() {
+			calendarView = parseInt(this.value);
+			changeCalendar();
 		});
     </script>
     

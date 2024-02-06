@@ -92,6 +92,20 @@
 			<scope>runtime</scope>
 		</dependency>
 		
+		<!-- Apache POI for Excel files -->
+	    <dependency>
+	        <groupId>org.apache.poi</groupId>
+	        <artifactId>poi-ooxml</artifactId>
+   		 	<version>5.2.5</version>
+	    </dependency>
+	    
+       <!-- Simple ODF for ODS Files -->
+        <dependency>
+            <groupId>org.odftoolkit</groupId>
+            <artifactId>simple-odf</artifactId>
+            <version>0.9.0</version>
+        </dependency>
+		
 		<!-- Utils -->
 		<dependency>
     		<groupId>org.apache.commons</groupId>

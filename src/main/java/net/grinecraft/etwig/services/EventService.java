@@ -23,14 +23,19 @@ import org.springframework.stereotype.Service;
 import jakarta.servlet.http.HttpSession;
 import net.grinecraft.etwig.dto.events.AddEditEventDTO;
 import net.grinecraft.etwig.dto.events.EventDetailsDTO;
+import net.grinecraft.etwig.dto.events.EventImportDTO;
 import net.grinecraft.etwig.dto.events.GraphicsRequestEventInfoDTO;
 import net.grinecraft.etwig.dto.events.RecurringEventBasicInfoDTO;
 import net.grinecraft.etwig.dto.events.SingleTimeEventBasicInfoDTO;
 import net.grinecraft.etwig.dto.graphics.NewRequestDTO;
+import net.grinecraft.etwig.dto.graphics.NewRequestEmailNotificationDTO;
 import net.grinecraft.etwig.dto.user.UserAccessDTO;
+import net.grinecraft.etwig.importer.EventImporter;
+import net.grinecraft.etwig.importer.EventImporterFactory;
 import net.grinecraft.etwig.model.Event;
 import net.grinecraft.etwig.model.EventOption;
 import net.grinecraft.etwig.model.EventOptionKey;
+import net.grinecraft.etwig.model.GraphicsRequest;
 import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.repository.EventOptionRepository;
 import net.grinecraft.etwig.repository.EventRepository;
@@ -38,6 +43,7 @@ import net.grinecraft.etwig.repository.GraphicsRequestRepository;
 import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.ListUtils;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class EventService {
@@ -53,6 +59,12 @@ public class EventService {
 	
 	@Autowired
 	private GraphicsRequestRepository graphicsRequestRepository;
+	
+	@Autowired
+	private GraphicsRequestService graphicsRequestService;
+	
+	@Autowired
+	private EmailService emailService;
 	
 	@Autowired
 	private HttpSession session;
@@ -78,11 +90,28 @@ public class EventService {
 		return eventRepository.findById(id).map(EventDetailsDTO::new).orElse(null);
 	}
 	
-	public LinkedHashMap<Long, SingleTimeEventBasicInfoDTO> getMonthlySingleTimeEventsByDateRange(LocalDate givenDate) throws Exception{
+	public LinkedHashMap<Long, SingleTimeEventBasicInfoDTO> getSingleTimeEventsByDateRange(LocalDate givenDate, int calendarView) throws Exception{
+		LocalDate last;
+		LocalDate next;
 		
-		// Get the date boundary
-		LocalDate last = DateUtils.findFirstDayOfThisMonth(givenDate);
-		LocalDate next = DateUtils.findFirstDayOfNextMonth(givenDate);
+		// Date boundary (monthly)
+		if(calendarView > 0) {
+			last = DateUtils.findFirstDayOfThisMonth(givenDate);
+			next = DateUtils.findFirstDayOfNextMonth(givenDate);
+		}
+		
+		// Date boundary (weekly)
+		else if (calendarView == 0) {
+			last = DateUtils.findThisMonday(givenDate);
+			next = DateUtils.findNextMonday(givenDate);
+		}
+		
+		// Date boundary (daily)
+		else {
+			last = givenDate;
+			next = DateUtils.findTomorrow(givenDate);
+		}
+		
         LinkedHashMap<Long, SingleTimeEventBasicInfoDTO> allEvents = new LinkedHashMap<>();
 
 		// Get all single time events in the given date range.
@@ -103,10 +132,11 @@ public class EventService {
 	/**
 	 * Edit an event to the database
 	 * @param eventInfo The event details.
+	 * @throws Exception 
 	 */
 	
 	@SuppressWarnings("null")
-	public void editEvent(Map<String, Object> eventInfo, EventDetailsDTO currentEvent) {
+	public void editEvent(Map<String, Object> eventInfo, EventDetailsDTO currentEvent) throws Exception {
 		
 		// Add event
 		AddEditEventDTO newEventDTO = new AddEditEventDTO(eventInfo, currentEvent);
@@ -124,9 +154,14 @@ public class EventService {
 			return;
 		}
 		
+		// Make a request
 		NewRequestDTO newRequest = new NewRequestDTO();
 		newRequest.fromParam(eventId, addedEvent.getUserRoleId(), graphics.get("comments").toString(), graphics.get("returningDate").toString());
-		graphicsRequestRepository.save(newRequest.toEntity());
+		GraphicsRequest modifiedRequest = graphicsRequestRepository.save(newRequest.toEntity());
+		//Long requestId = modifiedRequest.getId();
+		
+		// Send an email to graphics managers
+		//emailService.graphicsRequestNotification(new NewRequestEmailNotificationDTO(graphicsRequestService.findById(requestId)));
 	}
 	
 	/**
@@ -195,5 +230,13 @@ public class EventService {
 			return false;
 		}
 	}
-
+	
+	/*
+	public List<EventImportDTO> importEvents(MultipartFile file) throws Exception {
+        String fileType = determineFileType(file); // Implement this based on file extension or content type
+        EventImporter eventImporter = EventImporterFactory.getFileReader(fileType);
+        List<EventImportDTO> data = fileReader.read(file.getInputStream());
+        return data;
+    }
+*/
 }

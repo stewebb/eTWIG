@@ -12,6 +12,7 @@ public class SingleTimeEventBasicInfoDTO {
 	private String name;
 	private LocalDateTime startTime;
 	private int duration;
+	private boolean allDayEvent;
 	private String portfolioColor;
 	
 
@@ -21,6 +22,7 @@ public class SingleTimeEventBasicInfoDTO {
 		this.name = event.getName();
 		this.startTime = event.getStartTime();
 		this.duration = event.getDuration();
+		this.allDayEvent = event.isAllDayEvent();
 		this.portfolioColor = event.getUserRole().getPortfolio().getColor();
 	}
 

@@ -9,7 +9,6 @@ function assetSelectorDataTable(){
             data: function (d) {
                 d.page = d.start / d.length;
                 d.size = d.length;
-                //console.log(d.page)
             },
             type: "GET",
             dataSrc: function (json) {
@@ -54,7 +53,6 @@ function assetSelectorDataTable(){
 
 function lastModifiedRender(data, type, row){
 	
-	//console.log(data.split(".")[0]);
 	// Only precise to seconds.
 	return timeAgo(data); 
 }
@@ -81,9 +79,6 @@ function previewAsset(asset){
 		$("#selectBtn").attr("disabled", true);
 		return;
 	}
-	
-    //var callback = $("#uploadCallback").val();
-   // var image = $("#uploadImage").val();
 	
 	var fileURL = "/assets/getPublicAsset?assetId=" + asset.id;
 	var category = asset.fileCategory;
@@ -131,7 +126,7 @@ function uploadFile(){
     
     // Null check
     if(file == undefined || file == null){
-		warningToast("Please select a file.");
+		warningPopup("Please select a file.");
 		return;
 	}
     
@@ -145,15 +140,15 @@ function uploadFile(){
         processData: false,
         success: function(result) {
         	if(result.error > 0){
-				dangerToast("Failed to upload file.", result.msg);
+				dangerPopup("Failed to upload file.", result.msg);
 			}else{
-				successToast("File upload successfully.");
+				successPopup("File upload successfully.");
 				resetFile();
 				$('#assetSelector').DataTable().ajax.reload();
 			}	
         },
         error: function (err) {
-			dangerToast("Failed to upload file due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+			dangerPopup("Failed to upload file due to a HTTP " + err.status + " error.", err.responseJSON.exception);
     		hasError = true;
     	}
     });

@@ -76,7 +76,7 @@
 															<i class="fa-regular fa-calendar"></i>
 														</span>
 													</div>
-													<input type="text" class="form-control" id="eventStartDate">
+													<input type="text" class="form-control event-date-time" id="eventStartDate">
 												</div>
 												<div id="eventStartDateWrapper" class="datepicker"></div>
 												<small class="form-text text-muted">yyyy-MM-dd format</small>
@@ -96,7 +96,7 @@
 															<i class="fa-solid fa-hourglass-start"></i>
 														</span>
 													</div>
-													<input type="text" class="form-control event-time" id="eventStartTime" placeholder="__:__">
+													<input type="text" class="form-control event-time event-date-time" id="eventStartTime" placeholder="__:__">
 												</div>
 												<small class="form-text text-muted">In a 24-hour clock</small>
 											</div>
@@ -115,7 +115,7 @@
 															<i class="fa-solid fa-hourglass-end"></i>
 														</span>
 													</div>
-													<input type="text" class="form-control" id="eventEndDate">
+													<input type="text" class="form-control event-date-time" id="eventEndDate">
 												</div>
 												<div id="eventEndDateWrapper" class="datepicker"></div>
 												<small class="form-text text-muted">yyyy-MM-dd format</small>
@@ -135,7 +135,7 @@
 															<i class="fa-solid fa-hourglass-end"></i>
 														</span>
 													</div>
-													<input type="text" class="form-control event-time" id="eventEndTime" placeholder="__:__">
+													<input type="text" class="form-control event-time event-date-time" id="eventEndTime" placeholder="__:__">
 												</div>
 												<small class="form-text text-muted">In a 24-hour clock</small>
 											</div>
@@ -197,10 +197,7 @@
 															<i class="fa-solid fa-hourglass-half"></i>
 														</span>
 													</div>
-													<input type="number" min="0" class="form-control" id="eventDuration">
-													<div class="input-group-append">
-														<span class="input-group-text" id="unitText">Minutes(s)</span>
-													</div>
+													<input type="text" class="form-control" id="eventDuration">
 												</div>
 											</div>
 										</div>

@@ -20,6 +20,7 @@ import net.grinecraft.etwig.dto.graphics.FinalizedRequestsBasicInfoDTO;
 import net.grinecraft.etwig.dto.graphics.FinalizedRequestsDetailsDTO;
 import net.grinecraft.etwig.dto.graphics.GraphicsRequestDTO;
 import net.grinecraft.etwig.dto.graphics.NewRequestDTO;
+import net.grinecraft.etwig.dto.graphics.NewRequestEmailNotificationDTO;
 import net.grinecraft.etwig.model.GraphicsRequest;
 import net.grinecraft.etwig.repository.GraphicsRequestRepository;
 import net.grinecraft.etwig.util.MapUtils;
@@ -32,6 +33,9 @@ public class GraphicsRequestService {
 	
 	@Autowired
 	private EmailService emailService;
+	
+	//@Autowired
+	//private EventService eventService;
 	
 	@Autowired
 	private UserRoleService userRoleService;
@@ -93,11 +97,28 @@ public class GraphicsRequestService {
 		return new PendingRequestsDetailsDTO(request);
 	}
 	
+	/**
+	 * Make a new graphics request.
+	 * @param requestInfo
+	 * @throws Exception 
+	 */
+	
 	@SuppressWarnings("null")
-	public void addRequest(Map<String, Object> requestInfo) {
+	public Long addRequest(Map<String, Object> requestInfo) throws Exception {
+		
+		// New request
 		NewRequestDTO newRequest = new NewRequestDTO();
 		newRequest.fromMap(requestInfo);
-		graphicsRequestRepository.save(newRequest.toEntity());
+		
+		// Get the information back
+		GraphicsRequest modifiedRequest = graphicsRequestRepository.save(newRequest.toEntity());
+		return modifiedRequest.getId();
+		
+		
+		//System.out.println(this.findById(requestId));
+		
+		// Send an email to graphics managers
+		//emailService.graphicsRequestNotification(new NewRequestEmailNotificationDTO(this.findById(requestId)));
 	}
 	
 	//public void addRequest 

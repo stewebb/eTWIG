@@ -8,10 +8,17 @@
  	*/
 
 /**
- * A hard limit of the recurrent event counts to avoid infinite loops when trying to get all occurrences. It's usually a big number.
+ * A hard limit of the recurrent event counts to avoid infinite loops when trying to get all occurrences. 
+ * It's usually a big number.
  */
 
 COUNT_HARD_LIMIT = 1000;
+
+/**
+ * Get the event information, and display them on the frontend.
+ * @param {*} datePickersMap 
+ * @returns 
+ */
 
 function getEventInfo(datePickersMap){
 	
@@ -21,7 +28,6 @@ function getEventInfo(datePickersMap){
     
     // Get my positions
     var myPositions = getMyPositions();
-    //console.log(position);
     
     /**
 	 * Add mode.
@@ -29,102 +35,136 @@ function getEventInfo(datePickersMap){
 	
     // Null check.
     if(eventId == undefined || eventId == null || eventId.length == 0){
-		warningToast("The eventId provided is empty.", "It must be not empty, and an integer. This page will be switched to Add Event mode.");
+		warningPopup("The eventId provided is empty.", "It must be not empty, and an integer. This page will be switched to Add Event mode.");
 		initAddOption(myPositions);
 		return;
 	}
     
     // Invalid check (not an integer).
     if(eventId % 1 !== 0){
-		warningToast(eventId +" is not a valid eventId", "It must be an integer. This page will be switched to Add Event mode.");
+		warningPopup(eventId +" is not a valid eventId", "It must be an integer. This page will be switched to Add Event mode.");
 		initAddOption(myPositions);
 		return;
 	}
     
-    // Zero or Negative eventId, add event mode.
-    if(eventId <= 0){
+    // Zero eventId, add event mode.
+    if(eventId == 0){
 		initAddOption(myPositions);
 		return;
 	}
 	
+	// Negative eventId, copy mode. Otherwise, edit mode.
+	var isEdit = eventId > 0;
+    $('#isEdit').val(isEdit ? 1 : -1);
+
 	// Positive eventId, search it in the DB.
 	var eventInfo;
 	$.ajax({ 
 		type: 'GET', 
     	url: '/api/private/getEventById', 
     	data: { 
-			eventId: eventId,
+			eventId: Math.abs(eventId),
 		}, 
     	async: false,
 		success: function(json) {
 			eventInfo = json;
         },
         
-        // Toast error info when it happens
+        // Popup error info when it happens
     	error: function(err) {   		
-			dangerToast("Failed to get event information due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+			dangerPopup("Failed to get event information due to a HTTP " + err.status + " error.", err.responseJSON.exception);
 		}
 	});
 	
 	if(eventInfo == undefined || eventInfo == null || eventInfo.length == 0){
-		warningToast("The event with id=" + eventId + " does not exist");
+		warningPopup("The event with id=" + eventId + " does not exist");
 		initAddOption(myPositions);
 		return;
 	}
     
     /**
-	 * Edit mode.
+	 * Copy or edit mode.
 	 */
 	
-	// Permission Check
-	var myPortfolioIds = [];
-	var myPortfolioNames = [];
-	for (let key in myPositions) {
-  		myPortfolioIds.push(myPositions[key].portfolioId)
-  		myPortfolioNames.push(myPositions[key].portfolioName)
+	// Actions only in edit mode.
+	if(isEdit){
+
+		// Permission Check
+		var myPortfolioIds = [];
+		var myPortfolioNames = [];
+		for (let key in myPositions) {
+			  myPortfolioIds.push(myPositions[key].portfolioId)
+			  myPortfolioNames.push(myPositions[key].portfolioName)
+		}
+		
+		// My portfolios should includes the event portfolio.
+		if (!myPortfolioIds.includes(eventInfo.portfolioId)){
+			$('#noPermissionCallout').html(`
+				<div class="callout callout-primary">
+					<h5 class="bold-text mb-3">No edit permission</h5>
+						This event was created by the user with <span class="bold-text" style="color:#000000">${eventInfo.portfolioName}</span> portfolio. <br />
+						However, your portfolios are [
+						<span class="bold-text" style="color:#000000}">${myPortfolioNames}</span>, ].
+				</div>
+			`)
+		}
+
+		// Get eventId
+		$('#eventIdBlock').show();
+		$('#eventId').text(eventInfo.id);
+
+		// Set the title.
+		$('#eventPageTitle').text('Edit Event: ' + eventInfo.name);
+		$('#eventPageLink').text('Edit Event');
+
+		// Copy and graphics, only available in edit mode.
+		$('.event-hidden-tabs').show();
+		$('#eventCopyLink').attr('href', '/events/edit?eventId=-' + eventInfo.id);
+		$('#eventGraphicsLink').attr('href', '/events/graphics?eventId=' + eventInfo.id);
 	}
-	
-	// My portfolios should includes the event portfolio.
-	if (!myPortfolioIds.includes(eventInfo.portfolioId)){
-		$('#noPermissionCallout').html(`
-			<div class="callout callout-primary">
-				<h5 class="bold-text mb-3">No edit permission</h5>
-					This event was created by the user with <span class="bold-text" style="color:#000000">${eventInfo.portfolioName}</span> portfolio. <br />
-					However, your portfolios are [
-					<span class="bold-text" style="color:#000000}">${myPortfolioNames}</span>, ].
-			</div>
-		`)
+
+	// Actions only in copy mode.
+	else{
+
+		// Set the title.
+		$('#eventPageTitle').text('Copy Event: ' + eventInfo.name);
+		$('#eventPageLink').text('Copy Event');
+
+		$('.event-hidden-tabs').hide();
 	}
-	//console.log(myPortfolioNames);
-	
-    // Get eventId
-    $('#eventIdBlock').show();
-    $('#eventId').text(eventInfo.id);
-    $('#isEdit').val('1');
-    
-    // Set the title.
-	$('#eventPageTitle').text('Edit Event: ' + eventInfo.name);
-	$('#eventPageLink').text('Edit Event');
+
 	$('#eventPageLink').attr('href', '/events/edit?eventId=' + eventInfo.id);
-	$('#eventGraphicsTab').show();
-	$('#eventGraphicsLink').attr('href', '/events/graphics?eventId=' + eventInfo.id);
+	$('#eventEditLink').attr('href', '/events/edit?eventId=' + eventInfo.id);
 	$('#eventRequestNowBlock').hide();
     
     // Get name and location
     $('#eventName').val(eventInfo.name);
     $('#eventLocation').val(eventInfo.location);
     
-    // Get organizer info and set it to read-only.
-    $('#eventOrganizer').text(eventInfo.organizerName);
-    $("#eventRole").append(`<option value="${eventInfo.userRoleId}">${eventInfo.positionName}, ${eventInfo.portfolioName}</option>`);
-    $("#eventRole").prop('disabled', true);
-    
-    // Get created and updated time.
-    $('#eventCreatedTimeBlock').show();
-    $('#eventUpdatedTimeBlock').show();
-    $('#eventCreatedTime').text((new Date(eventInfo.createdTime)).toString('yyyy-MM-dd HH:mm:ss'));
-    $('#eventUpdatedTime').text((new Date(eventInfo.updatedTime)).toString('yyyy-MM-dd HH:mm:ss'));
-    
+    // In edit mode
+	if(isEdit){
+
+		// Get organizer info and set it to read-only.
+		$('#eventOrganizer').text(eventInfo.organizerName);
+		$("#eventRole").append(`<option value="${eventInfo.userRoleId}">${eventInfo.positionName}, ${eventInfo.portfolioName}</option>`);
+		$("#eventRole").prop('disabled', true);
+
+		// Get created and updated time.
+		$('#eventCreatedTimeBlock').show();
+		$('#eventUpdatedTimeBlock').show();
+		$('#eventCreatedTime').text((new Date(eventInfo.createdTime)).toString('yyyy-MM-dd HH:mm:ss'));
+		$('#eventUpdatedTime').text((new Date(eventInfo.updatedTime)).toString('yyyy-MM-dd HH:mm:ss'));
+	}
+
+	// Otherwise, get the current user role.
+	else{
+		$('#eventOrganizer').text($('#userName').text());
+		for (let key in myPositions) {
+			$("#eventRole").append(`<option value="${myPositions[key].userRoleId}">${myPositions[key].position}, ${myPositions[key].portfolioName}</option>`);
+		}
+		$("#eventRole").prop('disabled', false);
+	}
+
     // Get description
     $('#eventDescription').html(eventInfo.description);
     
@@ -139,19 +179,24 @@ function getEventInfo(datePickersMap){
     $('#eventEndTime').val(eventEndDate.toString('HH:mm'));
     
     // Get the duration
-    $('#eventDuration').val(eventInfo.duration);
+    $('#eventDuration').val(minutesToString(eventInfo.duration));
     $('#eventDurationCalculated').text(formatTime(eventInfo.duration));
     
     // Get recurrent info.
     var rRule = new ETwig.RRuleFromStr(eventInfo.rrule);
 	var rule = rRule.getRuleObj();
+
+	// All day event?
+	$('#eventAllDayEvent').prop('checked', eventInfo.allDayEvent);
+	$('#eventStartTimeBlock').toggle(!eventInfo.allDayEvent);
+	$('#eventEndTimeBlock').toggle(!eventInfo.allDayEvent);
 	
 	// This is a single time event, or the rRule is invalid.
 	if(rule == undefined || rule == null){
 		
 		// Invalid rRule check.
 		if(eventInfo.rrule != undefined && eventInfo.rrule != null && eventInfo.rrule.length > 0){
-			dangerToast("Failed to parse Recurrence Rule.", eventInfo.rrule + " is not a valid iCalendar RFC 5545 Recurrence Rule.");
+			dangerPopup("Failed to parse Recurrence Rule.", eventInfo.rrule + " is not a valid iCalendar RFC 5545 Recurrence Rule.");
 		}
 		
 		// Single time mode
@@ -203,9 +248,7 @@ function getEventInfo(datePickersMap){
 		$('#eventByMonthDay').val(rule.options.bymonthday);
 		
 		// Display the rule.
-		//$('#eventRFCRRule').text(rule.toString());
 		$('#eventRRuleDiscription').text(rule.toText());
-		//rule.options.until == null ? $('#eventValidToDate').val('') : datePickersMap.get('eventValidToDate').setDate(rule.options.until);
 
 		// Recursion mode.
 		setRecurrentMode(true);
@@ -226,13 +269,18 @@ function getEventInfo(datePickersMap){
 		}
 	}
 	
+	// Event options
 	getSelectedOptions(eventId);
 	
+	// Optional graphics request for copying an event.
+	if(!isEdit){
+		$('#eventGraphicsTab').hide();
+    	$('#eventRequestNowBlock').show();
+	}
 }
 
 function getRRuleByInput(){
 	var currentRule = {};
-	//currentRule["tzid"] = 'Australia/Brisbane';
 	
 	// Frequency: 1 -> Monthly, 2 -> Weekly, 3 -> Daily
 	var eventFrequency = parseInt($('input[type=radio][name=eventFrequency]:checked').val());
@@ -298,12 +346,8 @@ function getRRuleByInput(){
 
 	// Get recurrent info.
     var rRule = new ETwig.RRuleFromForm(currentRule);
-    rRule.generateRRule();
-    //rRule.multiExDate(excludedDatesObj)
-    
+    rRule.generateRRule();    
 	var allDates = rRule.all();
-	
-	//console.log(rRule.toString());
 	
 	// Set description
     $('#eventRRuleDescription').text(rRule.toText());
@@ -321,8 +365,8 @@ function getRRuleByInput(){
 
     // Process and append new data
     $.each(allDates, function(i, date) {
+
         // Extracting date components
-        
         date = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
         var dateStr = date.toString('yyyy-MM-dd');
         
@@ -350,10 +394,17 @@ function getRRuleByInput(){
 	return rRule.toString();
 }
 
+/**
+ * Add an excluded date to the list.
+ * @param {string} dateStr Date string in yyyy-mm-dd format.
+ */
+
 function addExcludeDate(dateStr){
-	//$(btn).closest('tr').remove();
-	$('#eventExcludedDates').append(`<option value="${dateStr}" selected>${dateStr}</option>`);
-	//getRRuleByInput();
+
+	// Ignore the empty strings.
+	if(dateStr.length > 0){
+		$('#eventExcludedDates').append(`<option value="${dateStr}" selected>${dateStr}</option>`);
+	}
 }
 
 function addEvent(){
@@ -363,20 +414,33 @@ function addEvent(){
 	 * Basic Info.
 	 */
 	
-	// Current mode, 0 -> Add, 1-> Edit
-	var isEdit = parseInt($('#isEdit').val());
-	var mode =  isEdit ? "edit" : "add";
-	newEventObj["isEdit"] = (isEdit > 0);
+	// Current mode, -1 -> Copy 0 -> Add, 1-> Edit
+	var mode = parseInt($('#isEdit').val());
+	console.log(mode)
+
+	// Mode in string
+	var modeStr;
+	if(mode < 0){
+		modeStr = "copy";
+	} else if(mode == 0){
+		modeStr = "add";
+	} else{
+		modeStr = "edit";
+	}
+
+	var isEdit = mode > 0;
+	//console.log(parseInt($('#isEdit').val()))
+	//var modeStr =  isEdit ? "edit" : "add";
+	newEventObj["isEdit"] = isEdit;
 	
 	// Event id: Required in edit mode and provided
 	var eventId = parseInt($('#eventId').text());
-	console.log(eventId)
 	isNaN(eventId) ? newEventObj["id"] = -1 : newEventObj["id"] = eventId;
 	
 	// Event name
 	var eventName = $.trim($('#eventName').val());
 	if(eventName.length == 0){
-		warningToast("Event name is required.");
+		warningPopup("Event name is required.");
 		//$('#eventName').addClass('is-invalid');
 		return;
 	}
@@ -402,7 +466,7 @@ function addEvent(){
 	
 	// All day event
 	var allDayEvent = $("#eventAllDayEvent").is(':checked');
-	newEventObj["allDayEvent"]  = (allDayEvent);
+	newEventObj["allDayEvent"]  = allDayEvent;
 	
 	// Single Time event
 	if(eventRecurrent == 0){
@@ -412,12 +476,12 @@ function addEvent(){
 		var parsedEndDate = Date.parse($('#eventEndDate').val());
 
 		if(parsedStartDate == null || parsedStartDate.length == 0){
-			warningToast("Event start date is required, and it must be yyyy-MM-dd format.");
+			warningPopup("Event start date is required, and it must be yyyy-MM-dd format.");
 			return;
 		}
 		
 		if(parsedEndDate == null || parsedEndDate.length == 0){
-			warningToast("Event end date is required, and it must be yyyy-MM-dd format.");
+			warningPopup("Event end date is required, and it must be yyyy-MM-dd format.");
 			return;
 		}
 		
@@ -438,12 +502,12 @@ function addEvent(){
 			eventEndTime = $('#eventEndTime').val();
 			
 			if(eventStartTime.length == 0){
-				warningToast("Event start time is required, and it must be HH:mm format.");
+				warningPopup("Event start time is required, and it must be HH:mm format.");
 				return;
 			}
 			
 			if(eventEndTime.length == 0){
-				warningToast("Event end time is required, and it must be HH:mm format.");
+				warningPopup("Event end time is required, and it must be HH:mm format.");
 				return;
 			}
 		}
@@ -454,9 +518,8 @@ function addEvent(){
 		
 		// Calculate the duration
 		var timestampDiff = singleTime["endDateTime"] - singleTime["startDateTime"];
-		//console.log(timestampDiff);
 		if(timestampDiff <= 0){
-			warningToast("Event end time must after start time.");
+			warningPopup("Event end time must after start time.");
 			return;
 		}
 		
@@ -481,7 +544,7 @@ function addEvent(){
 			eventRecurringTime = $('#eventRecurringTime').val();
 		
 			if(eventRecurringTime.length == 0){
-				warningToast("Event start time is required, and it must be HH:mm format.");
+				warningPopup("Event start time is required, and it must be HH:mm format.");
 				return;
 			}
 		}
@@ -490,9 +553,16 @@ function addEvent(){
 		recurring["recurringTime"] = combineDateAndTime(Date.today(), eventRecurringTime + ':00');
 		
 		// Duration
-		var eventDuration = parseInt($('#eventDuration').val());
+		var eventDurationStr = stringToMinutes($('#eventDuration').val());
+		if(eventDurationStr == null || eventDurationStr == undefined){
+			warningPopup("The duration string is not well-formed", "The format must be _d __h __m");
+			return;
+		}
+		console.log(eventDurationStr)
+		
+		var eventDuration = parseInt(eventDurationStr);
 		if(isNaN(eventDuration) || eventDuration <= 0){
-			warningToast("Event duration is required, and it must be a positive integer.");
+			warningPopup("Event duration is required, and it must be a positive integer.");
 			return;
 		}
 		newEventObj["duration"] = eventDuration;
@@ -500,7 +570,7 @@ function addEvent(){
 		// RRule
 		var eventRRule = getRRuleByInput();
 		if(eventRRule == undefined || eventRRule == null){
-			warningToast("Invalid Recurrence Rule.", eventRRule + " is not a valid iCalendar RFC 5545 Recurrence Rule.");
+			warningPopup("Invalid Recurrence Rule.", eventRRule + " is not a valid iCalendar RFC 5545 Recurrence Rule.");
 			return;
 		}
 		recurring["rrule"] = eventRRule;
@@ -520,16 +590,14 @@ function addEvent(){
 	var mandatoryCheckPassed = true;
 	
 	$('.property-select-box').each(function() {
-    	//var propertyId = $(this).data('property-id');
     	var propertyName = $(this).data('property-name');
     	var isMandatory = $(this).data('mandatory');
     	var selectedValue = parseInt($(this).val());
 
 		// Mandatory check
 		if(isMandatory && selectedValue <= 0){
-			warningToast("Selecting a value for property " + propertyName + " is required.");
+			warningPopup("Selecting a value for the following property is required.", propertyName);
 			mandatoryCheckPassed = false;
-			//return;
 		}
 		
 		// Only store the positive optionIds.
@@ -551,7 +619,7 @@ function addEvent(){
 		// Returning Date
 		var eventGraphicsDate = Date.parse($('#eventGraphicsDate').val());
 		if(eventGraphicsDate == null || eventGraphicsDate.length == 0){
-			warningToast("Graphics returning date is required, and it must be yyyy-MM-dd format.");
+			warningPopup("Graphics returning date is required, and it must be yyyy-MM-dd format.");
 			return;
 		}
 		graphics["returningDate"] = eventGraphicsDate.toString("yyyy-MM-dd");
@@ -561,8 +629,6 @@ function addEvent(){
 		newEventObj["graphics"] = graphics;
 	}
 	
-	//console.log(newEventObj);
-	//return;
 	var hasError = true;
 	$.ajax({
    		url: '/api/private/editEvent', 
@@ -573,27 +639,23 @@ function addEvent(){
    		data: JSON.stringify(newEventObj),
    		success: function (result) {
 			if(result.error > 0){
-				dangerToast("Failed to " + mode +" event.", result.msg);
+				dangerPopup("Failed to " + modeStr +" event.", result.msg);
 				hasError = true;
 			}else{
-				successToast("Event  " + mode +"ed  successfully.");
+				var modeStrPP = (modeStr == "copy") ? "copied" : (modeStr + "ed");
+				successPopup("Event " + modeStrPP + " successfully.");
 				hasError = false;
 			}	
     	},
     	error: function (err) {
-    		dangerToast("Failed to  " + mode +"  event due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+    		dangerPopup("Failed to " + modeStr +"  event due to a HTTP " + err.status + " error.", err.responseJSON.exception);
     		hasError = true;
     	}
  	});
 
-	// Post-add operations
-	// More timeout if error happens.
-	setTimeout(
-		function() {
-			isEdit ? window.location.reload() : $(location).attr('href','/events/calendar');
-		}, 
-		hasError ? 10000 : 2000
-	);
+	if(!hasError){
+		setTimeout(function() { isEdit ? window.location.reload() : $(location).attr('href','/events/calendar'); }, 2500);
+	}
 }
 
 /**
@@ -692,7 +754,7 @@ function initAddOption(myPositions){
 	$('#eventIdBlock').hide();
 	$('#eventCreatedTimeBlock').hide();
     $('#eventUpdatedTimeBlock').hide();
-    $('#eventGraphicsTab').hide();
+    $('.event-hidden-tabs').hide();
     $('#eventRequestNowBlock').show();
    
 	// Set the title.
@@ -702,8 +764,8 @@ function initAddOption(myPositions){
 	$('#isEdit').val('0');
 	
 	// Set the role(s).
+	$('#eventOrganizer').text($('#userName').text());
 	for (let key in myPositions) {
-  		//myPortfolioIds.push(myPositions[key].portfolioId);
   		$("#eventRole").append(`<option value="${myPositions[key].userRoleId}">${myPositions[key].position}, ${myPositions[key].portfolioName}</option>`);
 	}
 	
@@ -747,9 +809,75 @@ function getSelectedOptions(eventId){
 			})
         },
         
-        // Toast error info when it happens
+        // Popup error info when it happens
     	error: function(err) {   		
-			dangerToast("Failed to get selected options due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+			dangerPopup("Failed to get selected options due to a HTTP " + err.status + " error.", err.responseJSON.exception);
 		}
 	});
+}
+
+/**
+ * Convert the duration in minutes to _d __h __m format.
+ * @param {int} minutes 
+ * @returns The converted string.
+ */
+
+function minutesToString(minutes) {
+    const perDay = 1440;
+    const perHour = 60;
+
+    var days = Math.floor(minutes / perDay);
+    var hours = Math.floor((minutes % perDay) / perHour);
+    var mins = minutes % 60;
+
+	// The days field has only one digit.
+	if(days > 9){
+		days = 9;
+	}
+
+    return days + "d " + pad(hours, 2) + "h " + pad(mins, 2) + "m";
+}
+
+/**
+ * Convert duration string (_d __h __m format) back to minutes
+ * @param {string} durationStr 
+ * @returns The duration in minutes, or null if the input is not well-formed.
+ */
+
+function stringToMinutes(durationStr) {
+    var regex = /(\d+)d\s+(\d+)h\s+(\d+)m/;
+    var matches = durationStr.match(regex);
+
+	// The duration string is well-formed
+    if (matches && matches.length === 4) {
+        var days = parseInt(matches[1], 10);
+        var hours = parseInt(matches[2], 10);
+        var minutes = parseInt(matches[3], 10);
+
+        // Calculate total minutes
+        return (days * 24 * 60) + (hours * 60) + minutes;
+    } 
+	
+	// Not well-formed
+	else {
+        return null;
+    }
+}
+
+/**
+ * Calculate the real-time duration when clicking the event date/time inputs.
+ */
+
+function calculateDuration(){
+
+	// Get event date time
+	var allDayEvent = $("#eventAllDayEvent").is(':checked');
+	var eventStartTime = allDayEvent ? '00:00' : $('#eventStartTime').val();
+	var eventEndTime = allDayEvent ? '00:00' : $('#eventEndTime').val();
+
+	var startDateTime = combineDateAndTime(Date.parse($('#eventStartDate').val()), eventStartTime + ':00');
+	var endDateTime = combineDateAndTime(Date.parse($('#eventEndDate').val()), eventEndTime + ':00');
+	
+	// Re-format the duration string.
+	$('#eventDurationCalculated').text(formatTime((endDateTime - startDateTime) / 60000));
 }

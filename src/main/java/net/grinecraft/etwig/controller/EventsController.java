@@ -80,7 +80,7 @@ public class EventsController {
 			model.addAttribute("reason", "Event with id=" + eventId + " doesn't exist.");
 			return "_errors/custom_error";
 		}
-		//System.out.println(graphicsRequestService.getRequestsByEvent(eventId));
+
 		model.addAttribute("eventInfo", event);
 		model.addAttribute("requestInfo",graphicsRequestService.getRequestsByEvent(eventId));
 
@@ -91,5 +91,11 @@ public class EventsController {
 		model.addAttribute("editPermission", eventService.eventEditPermissionCheck(event.getPortfolio()));
 		model.addAttribute("myPortfolios", userRoleService.getMyPortfolios());
 		return "events/graphics";
+	}
+	
+	@GetMapping("/import")  
+	public String importEvent(Model model){
+		//model.addAttribute("portfolios", portfolioService.getAllPortfolioList());
+		return "events/import";
 	}
 }

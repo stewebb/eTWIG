@@ -138,3 +138,12 @@
     padding: 8px;
     margin-bottom: 8px;
 }
+
+.table-title{
+	color: #004AAD;
+	font-weight: bold;
+}
+
+.ec-today {
+    background-color: #004AAD1F !important;
+}
