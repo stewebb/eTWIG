@@ -88,6 +88,14 @@
 								</li>
 								<#-- /Graphics Request -->	
 
+								<#-- Copy -->	
+								<li class="nav-item event-hidden-tabs">
+									<a class="nav-link" href="/events/edit?eventId=-${eventInfo.id}">
+										<i class="fa-solid fa-copy"></i>&nbsp;Copy
+									</a>
+								</li>
+								<#-- /Copy -->	
+
 							</ul>
 						</div>
 						<#-- /Tabs -->

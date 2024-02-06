@@ -145,7 +145,7 @@
 								<img src="" class="img-circle elevation-3">
 								</div>
 								<div class="info">
-								<a href="#" class="d-block">${user.fullName}</a>
+								<a href="#" class="d-block" id="userName">${user.fullName}</a>
 							</div>
 						</div>
 

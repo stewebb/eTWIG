@@ -47,19 +47,23 @@ function getEventInfo(datePickersMap){
 		return;
 	}
     
-    // Zero or Negative eventId, add event mode.
-    if(eventId <= 0){
+    // Zero eventId, add event mode.
+    if(eventId == 0){
 		initAddOption(myPositions);
 		return;
 	}
 	
+	// Negative eventId, copy mode. Otherwise, edit mode.
+	var isEdit = eventId > 0;
+    $('#isEdit').val(isEdit ? 1 : -1);
+
 	// Positive eventId, search it in the DB.
 	var eventInfo;
 	$.ajax({ 
 		type: 'GET', 
     	url: '/api/private/getEventById', 
     	data: { 
-			eventId: eventId,
+			eventId: Math.abs(eventId),
 		}, 
     	async: false,
 		success: function(json) {
@@ -79,57 +83,88 @@ function getEventInfo(datePickersMap){
 	}
     
     /**
-	 * Edit mode.
+	 * Copy or edit mode.
 	 */
 	
-	// Permission Check
-	var myPortfolioIds = [];
-	var myPortfolioNames = [];
-	for (let key in myPositions) {
-  		myPortfolioIds.push(myPositions[key].portfolioId)
-  		myPortfolioNames.push(myPositions[key].portfolioName)
+	// Actions only in edit mode.
+	if(isEdit){
+
+		// Permission Check
+		var myPortfolioIds = [];
+		var myPortfolioNames = [];
+		for (let key in myPositions) {
+			  myPortfolioIds.push(myPositions[key].portfolioId)
+			  myPortfolioNames.push(myPositions[key].portfolioName)
+		}
+		
+		// My portfolios should includes the event portfolio.
+		if (!myPortfolioIds.includes(eventInfo.portfolioId)){
+			$('#noPermissionCallout').html(`
+				<div class="callout callout-primary">
+					<h5 class="bold-text mb-3">No edit permission</h5>
+						This event was created by the user with <span class="bold-text" style="color:#000000">${eventInfo.portfolioName}</span> portfolio. <br />
+						However, your portfolios are [
+						<span class="bold-text" style="color:#000000}">${myPortfolioNames}</span>, ].
+				</div>
+			`)
+		}
+
+		// Get eventId
+		$('#eventIdBlock').show();
+		$('#eventId').text(eventInfo.id);
+
+		// Set the title.
+		$('#eventPageTitle').text('Edit Event: ' + eventInfo.name);
+		$('#eventPageLink').text('Edit Event');
+
+		// Copy and graphics, only available in edit mode.
+		$('.event-hidden-tabs').show();
+		$('#eventCopyLink').attr('href', '/events/edit?eventId=-' + eventInfo.id);
+		$('#eventGraphicsLink').attr('href', '/events/graphics?eventId=' + eventInfo.id);
 	}
-	
-	// My portfolios should includes the event portfolio.
-	if (!myPortfolioIds.includes(eventInfo.portfolioId)){
-		$('#noPermissionCallout').html(`
-			<div class="callout callout-primary">
-				<h5 class="bold-text mb-3">No edit permission</h5>
-					This event was created by the user with <span class="bold-text" style="color:#000000">${eventInfo.portfolioName}</span> portfolio. <br />
-					However, your portfolios are [
-					<span class="bold-text" style="color:#000000}">${myPortfolioNames}</span>, ].
-			</div>
-		`)
+
+	// Actions only in copy mode.
+	else{
+
+		// Set the title.
+		$('#eventPageTitle').text('Copy Event: ' + eventInfo.name);
+		$('#eventPageLink').text('Copy Event');
+
+		$('.event-hidden-tabs').hide();
 	}
-	
-    // Get eventId
-    $('#eventIdBlock').show();
-    $('#eventId').text(eventInfo.id);
-    $('#isEdit').val('1');
-    
-    // Set the title.
-	$('#eventPageTitle').text('Edit Event: ' + eventInfo.name);
-	$('#eventPageLink').text('Edit Event');
+
 	$('#eventPageLink').attr('href', '/events/edit?eventId=' + eventInfo.id);
-	$('#eventGraphicsTab').show();
-	$('#eventGraphicsLink').attr('href', '/events/graphics?eventId=' + eventInfo.id);
+	$('#eventEditLink').attr('href', '/events/edit?eventId=' + eventInfo.id);
 	$('#eventRequestNowBlock').hide();
     
     // Get name and location
     $('#eventName').val(eventInfo.name);
     $('#eventLocation').val(eventInfo.location);
     
-    // Get organizer info and set it to read-only.
-    $('#eventOrganizer').text(eventInfo.organizerName);
-    $("#eventRole").append(`<option value="${eventInfo.userRoleId}">${eventInfo.positionName}, ${eventInfo.portfolioName}</option>`);
-    $("#eventRole").prop('disabled', true);
-    
-    // Get created and updated time.
-    $('#eventCreatedTimeBlock').show();
-    $('#eventUpdatedTimeBlock').show();
-    $('#eventCreatedTime').text((new Date(eventInfo.createdTime)).toString('yyyy-MM-dd HH:mm:ss'));
-    $('#eventUpdatedTime').text((new Date(eventInfo.updatedTime)).toString('yyyy-MM-dd HH:mm:ss'));
-    
+    // In edit mode
+	if(isEdit){
+
+		// Get organizer info and set it to read-only.
+		$('#eventOrganizer').text(eventInfo.organizerName);
+		$("#eventRole").append(`<option value="${eventInfo.userRoleId}">${eventInfo.positionName}, ${eventInfo.portfolioName}</option>`);
+		$("#eventRole").prop('disabled', true);
+
+		// Get created and updated time.
+		$('#eventCreatedTimeBlock').show();
+		$('#eventUpdatedTimeBlock').show();
+		$('#eventCreatedTime').text((new Date(eventInfo.createdTime)).toString('yyyy-MM-dd HH:mm:ss'));
+		$('#eventUpdatedTime').text((new Date(eventInfo.updatedTime)).toString('yyyy-MM-dd HH:mm:ss'));
+	}
+
+	// Otherwise, get the current user role.
+	else{
+		$('#eventOrganizer').text($('#userName').text());
+		for (let key in myPositions) {
+			$("#eventRole").append(`<option value="${myPositions[key].userRoleId}">${myPositions[key].position}, ${myPositions[key].portfolioName}</option>`);
+		}
+		$("#eventRole").prop('disabled', false);
+	}
+
     // Get description
     $('#eventDescription').html(eventInfo.description);
     
@@ -237,11 +272,15 @@ function getEventInfo(datePickersMap){
 	// Event options
 	getSelectedOptions(eventId);
 	
+	// Optional graphics request for copying an event.
+	if(!isEdit){
+		$('#eventGraphicsTab').hide();
+    	$('#eventRequestNowBlock').show();
+	}
 }
 
 function getRRuleByInput(){
 	var currentRule = {};
-	//currentRule["tzid"] = 'Australia/Brisbane';
 	
 	// Frequency: 1 -> Monthly, 2 -> Weekly, 3 -> Daily
 	var eventFrequency = parseInt($('input[type=radio][name=eventFrequency]:checked').val());
@@ -355,8 +394,17 @@ function getRRuleByInput(){
 	return rRule.toString();
 }
 
+/**
+ * Add an excluded date to the list.
+ * @param {string} dateStr Date string in yyyy-mm-dd format.
+ */
+
 function addExcludeDate(dateStr){
-	$('#eventExcludedDates').append(`<option value="${dateStr}" selected>${dateStr}</option>`);
+
+	// Ignore the empty strings.
+	if(dateStr.length > 0){
+		$('#eventExcludedDates').append(`<option value="${dateStr}" selected>${dateStr}</option>`);
+	}
 }
 
 function addEvent(){
@@ -366,10 +414,24 @@ function addEvent(){
 	 * Basic Info.
 	 */
 	
-	// Current mode, 0 -> Add, 1-> Edit
-	var isEdit = parseInt($('#isEdit').val());
-	var mode =  isEdit ? "edit" : "add";
-	newEventObj["isEdit"] = (isEdit > 0);
+	// Current mode, -1 -> Copy 0 -> Add, 1-> Edit
+	var mode = parseInt($('#isEdit').val());
+	console.log(mode)
+
+	// Mode in string
+	var modeStr;
+	if(mode < 0){
+		modeStr = "copy";
+	} else if(mode == 0){
+		modeStr = "add";
+	} else{
+		modeStr = "edit";
+	}
+
+	var isEdit = mode > 0;
+	//console.log(parseInt($('#isEdit').val()))
+	//var modeStr =  isEdit ? "edit" : "add";
+	newEventObj["isEdit"] = isEdit;
 	
 	// Event id: Required in edit mode and provided
 	var eventId = parseInt($('#eventId').text());
@@ -577,15 +639,16 @@ function addEvent(){
    		data: JSON.stringify(newEventObj),
    		success: function (result) {
 			if(result.error > 0){
-				dangerPopup("Failed to " + mode +" event.", result.msg);
+				dangerPopup("Failed to " + modeStr +" event.", result.msg);
 				hasError = true;
 			}else{
-				successPopup("Event " + mode +"ed  successfully.");
+				var modeStrPP = (modeStr == "copy") ? "copied" : (modeStr + "ed");
+				successPopup("Event " + modeStrPP + " successfully.");
 				hasError = false;
 			}	
     	},
     	error: function (err) {
-    		dangerPopup("Failed to " + mode +"  event due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+    		dangerPopup("Failed to " + modeStr +"  event due to a HTTP " + err.status + " error.", err.responseJSON.exception);
     		hasError = true;
     	}
  	});
@@ -691,7 +754,7 @@ function initAddOption(myPositions){
 	$('#eventIdBlock').hide();
 	$('#eventCreatedTimeBlock').hide();
     $('#eventUpdatedTimeBlock').hide();
-    $('#eventGraphicsTab').hide();
+    $('.event-hidden-tabs').hide();
     $('#eventRequestNowBlock').show();
    
 	// Set the title.
@@ -701,8 +764,8 @@ function initAddOption(myPositions){
 	$('#isEdit').val('0');
 	
 	// Set the role(s).
+	$('#eventOrganizer').text($('#userName').text());
 	for (let key in myPositions) {
-  		//myPortfolioIds.push(myPositions[key].portfolioId);
   		$("#eventRole").append(`<option value="${myPositions[key].userRoleId}">${myPositions[key].position}, ${myPositions[key].portfolioName}</option>`);
 	}
 	

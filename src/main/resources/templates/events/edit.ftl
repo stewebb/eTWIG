@@ -67,19 +67,27 @@
 
 								<#-- View/Edit -->	
 								<li class="nav-item">
-									<a class="nav-link active" href="#">
+									<a class="nav-link active" href="#" id="eventEditLink">
 										<i class="fa-solid fa-pen-to-square"></i>&nbsp;Edit
 									</a>
 								</li>
 								<#-- /View/Edit -->	
 
 								<#-- Graphics Request -->	
-								<li class="nav-item" id="eventGraphicsTab">
+								<li class="nav-item event-hidden-tabs">
 									<a class="nav-link" href="#" id="eventGraphicsLink">
 										<i class="fa-solid fa-image"></i>&nbsp;Graphics
 									</a>
 								</li>
 								<#-- /Graphics Request -->	
+
+								<#-- Copy -->	
+								<li class="nav-item event-hidden-tabs">
+									<a class="nav-link" href="#" id="eventCopyLink">
+										<i class="fa-solid fa-copy"></i>&nbsp;Copy
+									</a>
+								</li>
+								<#-- /Copy -->	
 
 							</ul>
 							<#-- /Tabs -->
@@ -226,8 +234,6 @@
 			$(".event-date-time").blur(function () {
 				calculateDuration();
 			});
-
-
 
 			$('input[type=radio][name=event-recurrent]').change(function() {
 				setRecurrentMode(this.value);

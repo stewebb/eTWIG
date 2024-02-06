@@ -105,7 +105,7 @@
 										<#if access.eventsAccess>
 											<hr class="mt-3 mb-3"/>
 											<div class="btn-group w-100">
-												<button type="button" class="btn btn-outline-primary" onclick="location.href='/events/edit?eventId=-1';">
+												<button type="button" class="btn btn-outline-primary" onclick="location.href='/events/edit?eventId=0';">
 													<i class="fa-solid fa-calendar-plus"></i>&nbsp;New Event
 												</button>
 												<button type="button" class="btn btn-outline-primary" onclick="location.href='/events/import';">
