@@ -114,7 +114,7 @@ The event graphics will be properly placed in this table by portfolio, and event
 
 **Event Graphics** are also images. They are managed internally in the **event tables object**  and will be fetched based on some conditions (e.g., week and portfolio)
 
-### TWIG Arranging Algorithm (TAA)
+### TWIG Arrangement Algorithm (TAA)
 
 #### Algorithm input
 

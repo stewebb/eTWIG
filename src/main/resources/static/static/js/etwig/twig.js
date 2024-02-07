@@ -493,6 +493,12 @@ class TAA{
      */
 
     #longestDuration(startTime){
+
+        // Null check
+        if(startTime == undefined || startTime == null){
+            return 0;
+        }
+
         var splitted = startTime.split(':');
 
         // "+" can convert the string-based int to an int!
@@ -539,7 +545,7 @@ class TAA{
         // Step 1: Restrain the duration
         let cappedArr = this.eventMap.map(obj => ({
             ...obj,
-            duration: (obj.time == null || obj.duration == null) ? null : Math.min(obj.duration, this.#longestDuration(obj.time))
+            duration: Math.min(obj.duration, this.#longestDuration(obj.time))
         }));
 
         // Step 2: Sort
@@ -573,17 +579,48 @@ class TAA{
 
             // Attempt to allocate normally (put the event into the slot)
             var currentEvent = this.eventMap[i];
-            var time = currentEvent.time;
 
-            if(time < minHour){
-                time = Number.NEGATIVE_INFINITY;
+            // Step 1: All day event check
+            if(currentEvent.allDayEvent){
+                this.timeSlot.set(NaN, currentEvent);
+                continue;
             }
 
-            if(time > maxHour){
-                time = Number.POSITIVE_INFINITY;
+            
+
+            // Step 2: Find all occupied slots for an event.
+            var startTime = currentEvent.time;
+            var duration = currentEvent.duration;
+
+            // The all occupied slots for an event, as an event may lasting for several hours.
+            var occupiedSlots = []
+            for(var j=startTime; j<startTime+duration; j++){
+                occupiedSlots.push(j);
             }
 
+            console.log(occupiedSlots);
+
+            for(var j=0; j<occupiedSlots.length; j++){
+
+                var ct = occupiedSlots[j];
+
+                // Time boundary check
+                if(ct < minHour){ ct = Number.NEGATIVE_INFINITY; }
+
+                if(ct > maxHour){ 
+                    ct = Number.POSITIVE_INFINITY; }
+
+                // For an event 
+                this.timeSlot.set(ct, (j == 0) ? currentEvent : undefined) 
+    
+            }
+
+
+
+            /*
+           
             this.timeSlot.set(time, currentEvent)
+            */
         }
     }
 
@@ -598,9 +635,9 @@ class TAA{
     }
 }
 var ev = [
-    {eventId:1, time:'08:00', duration:60, allDayEvent:false},
+    {eventId:1, time:'09:00', duration:60, allDayEvent:false},
     {eventId:2, time:'10:00', duration:70, allDayEvent:false},
-    {eventId:3, time:'23:00', duration:90, allDayEvent:false},
+    {eventId:3, time:'22:00', duration:120, allDayEvent:false},
     {eventId:4, time:null, duration:null, allDayEvent:true},
 ]
 
