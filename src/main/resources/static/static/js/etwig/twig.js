@@ -619,7 +619,7 @@ class TAA{
     }
 
     /**
-     * Handle events and add them to the time slot.
+     * A helper method to dandle events and add them to the time slot.
      * Only the first instance will be considered.
      * @param {*} hour 
      * @param {boolean} condition 
@@ -640,6 +640,36 @@ class TAA{
         }
     
         return false;
+    }
+
+    /**
+     * Find the nearest free slot to the current hour.
+     * @param {int} hour 
+     * @returns 
+     */
+
+    #nearestFreeSlot(hour){
+
+        var currentKey = null;
+        var minDist = Number.POSITIVE_INFINITY;
+
+        // Get and iterate all free slots (i.e., null value)
+        var availableSlots = new Map([...this.timeSlot].filter(([key, value]) => value == null));
+        console.log(availableSlots)
+
+        for (const [key, value] of availableSlots) {
+            var dist = Math.abs(hour - key);
+
+            // Find a minimum one!
+            if(dist < minDist){
+                minDist = dist;
+                currentKey = key;
+            } 
+
+        }
+
+        console.log(hour, currentKey)
+        return currentKey;
     }
 
 
@@ -713,50 +743,17 @@ class TAA{
 
             // Get the first event every time.
             var currentEvent = eventList.get(0);
-            console.log(currentEvent == undefined)
-
-            // Step 1: All day event check
-            if(this.#handleEvent(NaN, currentEvent.allDayEvent, eventList, currentEvent.eventId)){
-                continue;
-            }
-
-            /*
-            
-            if(currentEvent.allDayEvent){
-
-                // Only store the first instance.
-                if(this.timeSlot.get(NaN) == null){
-                    this.timeSlot.set(NaN, currentEvent);
-                }
-               
-                eventList.removeAt(0);
-                continue;
-            }
-
-            // Step 3: Before-hour event check
             var startTime = currentEvent.time;
-            if(startTime < minHour){
-
-                if(this.timeSlot.get(Number.NEGATIVE_INFINITY) == null){
-                    this.timeSlot.set(Number.NEGATIVE_INFINITY, currentEvent);
-                }
-
-                eventList.removeAt(0);
-                continue;
-            }
-
-            // Step 3: After-hour event check
-            if(startTime > maxHour){
-
-                if(this.timeSlot.get(Number.POSITIVE_INFINITY) == null){
-                    this.timeSlot.set(Number.POSITIVE_INFINITY, currentEvent);
-                }
-
-                eventList.removeAt(0);
-                continue;
-            }*/
 
 
+            // Step 1: All day, before hour and after hour events check
+            if(this.#handleEvent(NaN, currentEvent.allDayEvent, eventList, currentEvent.eventId)){ continue; }
+            if(this.#handleEvent(Number.NEGATIVE_INFINITY, startTime < minHour, eventList, currentEvent.eventId)){ continue; }
+            if(this.#handleEvent(Number.POSITIVE_INFINITY, startTime > maxHour, eventList, currentEvent.eventId)){ continue; }
+
+            // Step 2: Normal events check
+            var n = this.#nearestFreeSlot(startTime);
+            this.#handleEvent(n, true, eventList, currentEvent.eventId)
 
             console.log(currentEvent)
         }
@@ -803,18 +800,21 @@ class TAA{
 }
 var ev = [
     //{eventId:1, time:'09:00', duration:60, allDayEvent:false},
-    //{eventId:2, time:'10:00', duration:70, allDayEvent:false},
-    //{eventId:3, time:'22:00', duration:120, allDayEvent:false},
+    {eventId:2, time:'10:00', duration:70, allDayEvent:false},
+    {eventId:3, time:'15:00', duration:120, allDayEvent:false},
     {eventId:4, time:null, duration:null, allDayEvent:true},
     {eventId:5, time:null, duration:null, allDayEvent:true},
-    //{eventId:6, time:'22:30', duration:60, allDayEvent:false},
+    {eventId:6, time:'22:30', duration:60, allDayEvent:false},
+    {eventId:7, time:'13:00', duration:60, allDayEvent:false},
+    {eventId:8, time:'17:20', duration:60, allDayEvent:false},
+
 ]
 
 // **Weekday** events, N=13 (9:00 - 21:00)
 const WEEKDAY_HOURS = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
 
 // **Weekend** events, N=3 (morning 9:00-12:00, afternoon 13:00-18:00, evening 19:00-21:00),
-const WEEKEND_HOURS = [9, 13, 18];
+const WEEKEND_HOURS = [9, 15, 21];
 
 var taa = new TAA(ev, null, null, WEEKDAY_HOURS);
 console.log(taa.arrange());
