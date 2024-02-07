@@ -466,6 +466,111 @@ class EventTableWidget {
 }
 
 /**
+ * This is a regular ArrayList that is implemented in JavaScript.
+ * It has similar behaviors to the Java ArrayList.
+ */
+
+class ArrayList {
+
+    /**
+     * Initialize
+     */
+    
+    constructor() {
+      this.array = [];
+    }
+  
+    /**
+     * Adds an element to the end of the list
+     * @param {*} element 
+     */
+    
+    add(element) {
+      this.array.push(element);
+    }
+  
+    /**
+     * Removes the first occurrence of the specified element from the list, if it is present
+     * @param {*} element 
+     * @returns true The element was removed successfully. False otherwise.
+     */
+
+    remove(element) {
+      const index = this.array.indexOf(element);
+      if (index > -1) {
+        this.array.splice(index, 1);
+        return true;
+      }
+      return false;
+    }
+  
+    /**
+     * Returns true if this list contains the specified element.
+     * @param {*} element 
+     * @returns 
+     */
+
+    contains(element) {
+      return this.array.includes(element);
+    }
+  
+    /**
+     * Empty check.
+     * @returns true if this list contains no elements
+     */
+
+    isEmpty() {
+      return this.array.length === 0;
+    }
+  
+    /**
+     * Get the size of this ArrayList.
+     * @returns the number of elements in this list
+     */
+
+    size() {
+      return this.array.length;
+    }
+  
+    /**
+     * Removes all of the elements from this list
+     */
+
+    clear() {
+      this.array = [];
+    }
+  
+    // Returns the element at the specified position in this list
+    get(index) {
+      if (index >= 0 && index < this.array.length) {
+        return this.array[index];
+      }
+      throw new Error("Index out of bounds");
+    }
+  
+    // Removes the element at the specified position in this list
+    removeAt(index) {
+      if (index >= 0 && index < this.array.length) {
+        return this.array.splice(index, 1)[0];
+      }
+      throw new Error("Index out of bounds");
+    }
+  
+    // Prints the elements of the list
+    print() {
+      console.log(this.array);
+    }
+
+    fromArray(elements) {
+        this.array = [...elements];
+      }
+    
+      toString() {
+        return this.array.join(", ");
+      }
+  }
+
+/**
  * **TWIG Arranging Algorithm (TAA)** is an algorithm to arrange events on the TWIG.
  * Input:
  * - A **map** of all events on a certain day. (key: eventId, value: map)
@@ -561,19 +666,13 @@ class TAA{
 
     #allocate(){
 
-        //console.log(this.timeSlot);
         const sortedTimeSlotKeys = Array.from(this.timeSlot.keys())
             .filter(key => Number.isFinite(key))    // Remove NaN, ± Inf
             .sort((a, b) => a - b);                 // Sort bt ASC
-        //console.log(sortedTimeSlotKeys);
 
         const minHour = sortedTimeSlotKeys[0];
         const maxHour = sortedTimeSlotKeys[sortedTimeSlotKeys.length-1];
-        //console.log(minHour, maxHour);
 
-        // Deep copy the event map
-        //var copiedEventMap = JSON.parse(JSON.stringify(this.eventMap));
-        //console.log(this.eventMap)
         
         for(var i=0; i<this.eventMap.length; i++){
 
@@ -586,13 +685,15 @@ class TAA{
                 continue;
             }
 
-            
-
-            // Step 2: Find all occupied slots for an event.
+            // Step 2: After-hour event check
             var startTime = currentEvent.time;
-            var duration = currentEvent.duration;
+            if(startTime > maxHour){
+                this.timeSlot.set(Number.POSITIVE_INFINITY, currentEvent);
+                continue;
+            }
 
-            // The all occupied slots for an event, as an event may lasting for several hours.
+            // Step 3: Find all occupied slots for an event, as an event may lasting for several hours.
+            var duration = currentEvent.duration;
             var occupiedSlots = []
             for(var j=startTime; j<startTime+duration; j++){
                 occupiedSlots.push(j);
@@ -617,10 +718,7 @@ class TAA{
 
 
 
-            /*
-           
-            this.timeSlot.set(time, currentEvent)
-            */
+            //console.log(this.eventMap);
         }
     }
 
