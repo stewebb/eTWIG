@@ -691,18 +691,19 @@ class TAA{
         // Determine the length of the time slot map, which is **N+3**.
         var timeSlot = new Map();
 
-        // **All-day events**
+        // Starts with **All-day events** (NaN)
         timeSlot.set(NaN, null);
 
-        // The events **before** and **after** the display starting time
+        // Followed by the events **before** display starting time. (-Inf)
         timeSlot.set(Number.NEGATIVE_INFINITY, null);
-        timeSlot.set(Number.POSITIVE_INFINITY, null);
 
-        // Set all "hours" as key.
+        // Followed by normal hours
         for(var i=0; i<this.hours.length; i++){
             timeSlot.set(this.hours[i], null);
         }
 
+        // Followed by the events **after** display starting time. (+Inf)
+        timeSlot.set(Number.POSITIVE_INFINITY, null); 
         this.timeSlot = timeSlot;
     }
 
@@ -778,31 +779,31 @@ class TAA{
      */
 
     #arrange(){
-        console.log(this.eventTable)
 
-        var occupiedSlots = new Map([...this.timeSlot].filter(([key, value]) => value !== null));
-        if(occupiedSlots.size == 0){
-            return;
-        }
+        // Get all occupied slots, and null check.
+        //var occupiedSlots = new Map([...this.timeSlot].filter(([key, value]) => value !== null));
+        //if(occupiedSlots.size == 0){
+        //    return;
+        //}
 
-        console.log(occupiedSlots);
+        // The height of each slot
+        var slotHeight = Math.ceil(this.eventTable.height / this.timeSlot.size);
 
-        var slotHeight = Math.ceil(this.eventTable.height / occupiedSlots.size);
-
+        // Calculate the position of all occupied slots.
         var count = 1;
-        for (const [key, value] of occupiedSlots) {
-            var slot = new EventTimeSlot(value, this.eventTable.posX, this.eventTable.posY+slotHeight*count, -1);
-            console.log(slot.toString());
+        for (const [key, value] of this.timeSlot) {
+            if(value != null){
+                this.timeSlot.set(key, new EventTimeSlot(value, this.eventTable.posX, slotHeight*count, key, -1));
+
+            }
             count++;
         }
-        console.log(slotHeight);
     }
 
     exec(){
 
         this.#initTimeSlot();
         this.#regularizeEvents();
-
         this.#allocate();
         this.#arrange();
 
@@ -818,23 +819,25 @@ class TAA{
  * - **EventId:** The identification number of the event.
  * - **posX:** The relatively X coordinate of the graphic.
  * - **posY:** The relatively Y coordinate of the graphic.
+ * - **hour:** The hour (in integer) of this event, which is corresponding to the pre-defined slots.
  * - **assetId:** The graphic asset of this event.
  */
 
 class EventTimeSlot{
 
-    constructor(eventId, posX, posY, assetId){
+    constructor(eventId, posX, posY, hour, assetId){
         this.eventId = eventId;
         this.posX = posX;
         this.posY = posY;
+        this.hour = hour;
         this.assetId = assetId;
     }
 
     toString(){
-        return `EventTimeSlot(${this.eventId}, ${this.posX}, ${this.posY}, ${this.assetId})`; 
+        return `EventTimeSlot(${this.eventId}, ${this.posX}, ${this.posY}, ${this.hour}, ${this.assetId})`; 
     }
 }
-
+/*
 var ev = [
     //{eventId:1, time:'09:00', duration:60, allDayEvent:false},
     {eventId:2, time:'10:00', duration:70, allDayEvent:false},
@@ -859,8 +862,9 @@ var m = new EventTableWidget(); m.setValues(100, 120, 220, 650, true);
 
 
 var taa = new TAA(ev, m, null, WEEKDAY_HOURS);
-taa.exec()
-//console.log();
+
+console.log(taa.exec());
+*/
 
 function defineTwigTreeManually(){
 

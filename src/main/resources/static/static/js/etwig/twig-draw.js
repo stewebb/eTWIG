@@ -45,9 +45,9 @@ function preload(){
 			assetCollection.set(
 				widget.assetId, 
 				loadImage(
-					assetUrl,					// The image location
-					function(){},				// Success callback, do nothing here
-					function(){				// Failure callback.
+					assetUrl,       // The image location
+					function(){},   // Success callback, do nothing here
+					function(){     // Failure callback.
 						 warningPopup("Failed to load the following resource", assetUrl);
 					}
 				)
@@ -131,9 +131,48 @@ function draw() {
                 var newHeight = originalImg.height * (widget.width / originalImg.width);
 				image(originalImg, widget.posX, widget.posY, widget.width, newHeight)
 				break;
+
             case "EVENT_TABLES":
             	fill(255, 0, 0);    noStroke();
-                rect(widget.posX, widget.posY, widget.width, widget.height);
+                //rect(widget.posX, widget.posY, widget.width, widget.height);
+
+                var ev = [
+                    {eventId:1, time:'09:00', duration:60, allDayEvent:false},
+                    {eventId:2, time:'10:00', duration:70, allDayEvent:false},
+                    {eventId:3, time:'11:00', duration:120, allDayEvent:false},
+                    {eventId:5, time:null, duration:null, allDayEvent:true},
+                    {eventId:6, time:'22:30', duration:60, allDayEvent:false},
+                    {eventId:7, time:'13:00', duration:60, allDayEvent:false},
+                    {eventId:8, time:'17:20', duration:60, allDayEvent:false},
+                    {eventId:9, time:'19:20', duration:60, allDayEvent:false},
+                
+                ]
+                
+                // **Weekday** events, N=13 (9:00 - 21:00)
+                const WEEKDAY_HOURS = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
+                
+                // **Weekend** events, N=3 (morning 9:00-12:00, afternoon 13:00-18:00, evening 19:00-21:00),
+                const WEEKEND_HOURS = [9, 15, 21];
+                
+                //var eventTableMonday = new TwigNode();
+                //var m = new EventTableWidget(); m.setValues(100, 120, 220, 650, true);
+                
+                
+                var taa = new TAA(ev, widget, null, WEEKDAY_HOURS);
+                var b = taa.exec();
+                //console.log(b)
+
+                for (const [key, value] of b) {
+                    //console.log();
+
+                    if(value != null){
+                        rect(value.posX, value.posY, 100, 20);
+
+                    }
+
+                }
+
+                
                 
                 //var dayStart = constrain(widget.dayStart, 0, 11)
                // var dayEnd = constrain(widget.dayEnd, 12, 23)
