@@ -497,7 +497,6 @@ class TAA{
 
         // "+" can convert the string-based int to an int!
         var minutes = (+splitted[0]) * 60 + (+splitted[1]);
-        console.log(1440-minutes);
 
         // Ensure this number is NOT a negative number.
         return Math.max(0, 1440-minutes);
@@ -531,24 +530,61 @@ class TAA{
      * Step 2: **Sort** and **regularize** events, and make them:
      * - Restrain the duration between [0, 1440-currentTimeInSeconds]
      * - Order by duration ASC
+     * - Convert duration to hours (min. 1)
      */
 
     #regularizeEvents(){
+        const hourOfMinutes = 60;
 
-        // Sort by duration ASC
-       // this.eventMap.sort((a, b) => a.duration - b.duration);
-        //console.log(this.eventMap);
-
-        let modifiedAndSortedArr = this.eventMap.map(obj => ({
+        // Step 1: Restrain the duration
+        let cappedArr = this.eventMap.map(obj => ({
             ...obj,
-            duration: Math.min(obj.duration, this.#longestDuration(obj.time))
-          })).sort((a, b) => a.duration - b.duration);
+            duration: (obj.time == null || obj.duration == null) ? null : Math.min(obj.duration, this.#longestDuration(obj.time))
+        }));
 
-          console.log(modifiedAndSortedArr)
+        // Step 2: Sort
+        let sortedArr = cappedArr.sort((a, b) => a.duration - b.duration);
+
+        // Step 3: Convert time and durations to hours.
+        this.eventMap = sortedArr.map(obj => ({
+            ...obj,
+            time: (obj.time == null) ? NaN : parseInt(obj.time.split(':')[0]),
+            duration: Math.ceil(obj.duration / hourOfMinutes)
+        }));
     }
 
     #allocate(){
 
+        //console.log(this.timeSlot);
+        const sortedTimeSlotKeys = Array.from(this.timeSlot.keys())
+            .filter(key => Number.isFinite(key))    // Remove NaN, ± Inf
+            .sort((a, b) => a - b);                 // Sort bt ASC
+        //console.log(sortedTimeSlotKeys);
+
+        const minHour = sortedTimeSlotKeys[0];
+        const maxHour = sortedTimeSlotKeys[sortedTimeSlotKeys.length-1];
+        //console.log(minHour, maxHour);
+
+        // Deep copy the event map
+        //var copiedEventMap = JSON.parse(JSON.stringify(this.eventMap));
+        //console.log(this.eventMap)
+        
+        for(var i=0; i<this.eventMap.length; i++){
+
+            // Attempt to allocate normally (put the event into the slot)
+            var currentEvent = this.eventMap[i];
+            var time = currentEvent.time;
+
+            if(time < minHour){
+                time = Number.NEGATIVE_INFINITY;
+            }
+
+            if(time > maxHour){
+                time = Number.POSITIVE_INFINITY;
+            }
+
+            this.timeSlot.set(time, currentEvent)
+        }
     }
 
     arrange(){
@@ -556,15 +592,16 @@ class TAA{
         this.#initTimeSlot();
         this.#regularizeEvents();
 
-        //this.#allocate();
+        this.#allocate();
 
         return this.timeSlot;
     }
 }
 var ev = [
-    {eventId:1, time:'08:00', duration:120},
-    {eventId:2, time:'10:00', duration:60},
-    {eventId:3, time:'23:00', duration:90},
+    {eventId:1, time:'08:00', duration:60, allDayEvent:false},
+    {eventId:2, time:'10:00', duration:70, allDayEvent:false},
+    {eventId:3, time:'23:00', duration:90, allDayEvent:false},
+    {eventId:4, time:null, duration:null, allDayEvent:true},
 ]
 
 // **Weekday** events, N=13 (9:00 - 21:00)
