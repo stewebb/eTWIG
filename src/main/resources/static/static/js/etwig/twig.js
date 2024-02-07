@@ -555,23 +555,28 @@ class ArrayList {
       }
       throw new Error("Index out of bounds");
     }
-  
-    // Prints the elements of the list
-    print() {
-      console.log(this.array);
-    }
+
+    /**
+     * Convert a normal array to an ArrayList.
+     * @param {*} elements 
+     */
 
     fromArray(elements) {
         this.array = [...elements];
-      }
+    }
     
-      toString() {
+    /**
+     * As the name implies, to string...
+     * @returns The string format of this ArrayList
+     */
+
+    toString() {
         return this.array.join(", ");
-      }
+    }
   }
 
 /**
- * **TWIG Arranging Algorithm (TAA)** is an algorithm to arrange events on the TWIG.
+ * **TWIG Arrangement Algorithm (TAA)** is an algorithm to arrange events on the TWIG.
  * Input:
  * - A **map** of all events on a certain day. (key: eventId, value: map)
  * - The object of the **event table widget**.
@@ -612,6 +617,31 @@ class TAA{
         // Ensure this number is NOT a negative number.
         return Math.max(0, 1440-minutes);
     }
+
+    /**
+     * Handle events and add them to the time slot.
+     * Only the first instance will be considered.
+     * @param {*} hour 
+     * @param {boolean} condition 
+     * @param {*} eventList 
+     * @returns true indicates the event was handled.
+     */
+
+    #handleEvent(hour, condition, eventList, eventId) {
+        if (condition) {
+
+            // Only store the first instance.
+            if (this.timeSlot.get(hour) == null) {
+                this.timeSlot.set(hour, eventId);
+            }
+
+            eventList.removeAt(0);
+            return true;
+        }
+    
+        return false;
+    }
+
 
     /**
      * Step 1: Initialize and assign the key of the time slot.
@@ -673,31 +703,70 @@ class TAA{
         const minHour = sortedTimeSlotKeys[0];
         const maxHour = sortedTimeSlotKeys[sortedTimeSlotKeys.length-1];
 
-        
-        for(var i=0; i<this.eventMap.length; i++){
+        // Use an ArrayList to store the events
+        var eventList = new ArrayList();
+        eventList.fromArray(this.eventMap);
+        console.log(eventList);
 
-            // Attempt to allocate normally (put the event into the slot)
-            var currentEvent = this.eventMap[i];
+        // Attempting to add events repeatedly until the list is empty.
+        while(!eventList.isEmpty()){
+
+            // Get the first event every time.
+            var currentEvent = eventList.get(0);
+            console.log(currentEvent == undefined)
 
             // Step 1: All day event check
+            if(this.#handleEvent(NaN, currentEvent.allDayEvent, eventList, currentEvent.eventId)){
+                continue;
+            }
+
+            /*
+            
             if(currentEvent.allDayEvent){
-                this.timeSlot.set(NaN, currentEvent);
+
+                // Only store the first instance.
+                if(this.timeSlot.get(NaN) == null){
+                    this.timeSlot.set(NaN, currentEvent);
+                }
+               
+                eventList.removeAt(0);
                 continue;
             }
 
-            // Step 2: After-hour event check
+            // Step 3: Before-hour event check
             var startTime = currentEvent.time;
-            if(startTime > maxHour){
-                this.timeSlot.set(Number.POSITIVE_INFINITY, currentEvent);
+            if(startTime < minHour){
+
+                if(this.timeSlot.get(Number.NEGATIVE_INFINITY) == null){
+                    this.timeSlot.set(Number.NEGATIVE_INFINITY, currentEvent);
+                }
+
+                eventList.removeAt(0);
                 continue;
             }
 
-            // Step 3: Find all occupied slots for an event, as an event may lasting for several hours.
-            var duration = currentEvent.duration;
-            var occupiedSlots = []
-            for(var j=startTime; j<startTime+duration; j++){
-                occupiedSlots.push(j);
-            }
+            // Step 3: After-hour event check
+            if(startTime > maxHour){
+
+                if(this.timeSlot.get(Number.POSITIVE_INFINITY) == null){
+                    this.timeSlot.set(Number.POSITIVE_INFINITY, currentEvent);
+                }
+
+                eventList.removeAt(0);
+                continue;
+            }*/
+
+
+
+            console.log(currentEvent)
+        }
+
+
+        return;
+        for(var i=0; i<this.eventMap.length; i++){
+
+
+            
 
             console.log(occupiedSlots);
 
@@ -733,10 +802,12 @@ class TAA{
     }
 }
 var ev = [
-    {eventId:1, time:'09:00', duration:60, allDayEvent:false},
-    {eventId:2, time:'10:00', duration:70, allDayEvent:false},
-    {eventId:3, time:'22:00', duration:120, allDayEvent:false},
+    //{eventId:1, time:'09:00', duration:60, allDayEvent:false},
+    //{eventId:2, time:'10:00', duration:70, allDayEvent:false},
+    //{eventId:3, time:'22:00', duration:120, allDayEvent:false},
     {eventId:4, time:null, duration:null, allDayEvent:true},
+    {eventId:5, time:null, duration:null, allDayEvent:true},
+    //{eventId:6, time:'22:30', duration:60, allDayEvent:false},
 ]
 
 // **Weekday** events, N=13 (9:00 - 21:00)
