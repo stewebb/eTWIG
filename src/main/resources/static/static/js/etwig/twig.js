@@ -444,12 +444,12 @@ class EventTableWidget {
         this.type = "EVENT_TABLES";
     }
 
-    setValues(posX, posY, width, height, timeSlotNum) {
+    setValues(posX, posY, width, height, isWeekday) {
         this.posX = posX;
         this.posY = posY;
         this.width = width;
         this.height = height;
-        this.timeSlotNum = timeSlotNum;
+        this.isWeekday = isWeekday;
     }
 
     fromJson(jsonObject){
@@ -457,11 +457,11 @@ class EventTableWidget {
         this.posY = jsonObject.posY;
         this.width = jsonObject.width;
         this.height = jsonObject.height;
-        this.timeSlotNum = jsonObject.timeSlotNum;
+        this.isWeekday = jsonObject.isWeekday;
     }
 
     toString(){
-        return `EventTable(${this.posX}, ${this.posY}, ${this.width}, ${this.height}, ${this.timeSlotNum})`; 
+        return `EventTable(${this.posX}, ${this.posY}, ${this.width}, ${this.height}, ${this.isWeekday})`; 
     }
 }
 
@@ -540,7 +540,12 @@ class ArrayList {
       this.array = [];
     }
   
-    // Returns the element at the specified position in this list
+    /**
+     * Get an element.
+     * @param {*} index 
+     * @returns the element at the specified position in this list
+     */
+
     get(index) {
       if (index >= 0 && index < this.array.length) {
         return this.array[index];
@@ -548,7 +553,12 @@ class ArrayList {
       throw new Error("Index out of bounds");
     }
   
-    // Removes the element at the specified position in this list
+    /**
+     * Removes the element at the specified position in this list
+     * @param {*} index 
+     * @returns The removed element
+     */
+
     removeAt(index) {
       if (index >= 0 && index < this.array.length) {
         return this.array.splice(index, 1)[0];
@@ -605,8 +615,8 @@ class TAA{
     #longestDuration(startTime){
 
         // Null check
-        if(startTime == undefined || startTime == null){
-            return 0;
+        if(startTime == undefined || startTime == null){ 
+            return 0; 
         }
 
         var splitted = startTime.split(':');
@@ -655,7 +665,7 @@ class TAA{
 
         // Get and iterate all free slots (i.e., null value)
         var availableSlots = new Map([...this.timeSlot].filter(([key, value]) => value == null));
-        console.log(availableSlots)
+        //console.log(availableSlots.size)
 
         for (const [key, value] of availableSlots) {
             var dist = Math.abs(hour - key);
@@ -665,10 +675,9 @@ class TAA{
                 minDist = dist;
                 currentKey = key;
             } 
-
         }
 
-        console.log(hour, currentKey)
+        //console.log(hour, currentKey)
         return currentKey;
     }
 
@@ -724,6 +733,10 @@ class TAA{
         }));
     }
 
+    /**
+     * **Step 3:** Allocate the events repeatedly until the event list (a.k.a, buffer) is empty.
+     */
+
     #allocate(){
 
         const sortedTimeSlotKeys = Array.from(this.timeSlot.keys())
@@ -736,68 +749,92 @@ class TAA{
         // Use an ArrayList to store the events
         var eventList = new ArrayList();
         eventList.fromArray(this.eventMap);
-        console.log(eventList);
 
-        // Attempting to add events repeatedly until the list is empty.
+        // Attempting to add events repeatedly.
         while(!eventList.isEmpty()){
 
             // Get the first event every time.
             var currentEvent = eventList.get(0);
             var startTime = currentEvent.time;
 
-
-            // Step 1: All day, before hour and after hour events check
+            // Edge cases: All day, before hour and after hour events
             if(this.#handleEvent(NaN, currentEvent.allDayEvent, eventList, currentEvent.eventId)){ continue; }
             if(this.#handleEvent(Number.NEGATIVE_INFINITY, startTime < minHour, eventList, currentEvent.eventId)){ continue; }
             if(this.#handleEvent(Number.POSITIVE_INFINITY, startTime > maxHour, eventList, currentEvent.eventId)){ continue; }
 
-            // Step 2: Normal events check
-            var n = this.#nearestFreeSlot(startTime);
-            this.#handleEvent(n, true, eventList, currentEvent.eventId)
-
-            console.log(currentEvent)
-        }
-
-
-        return;
-        for(var i=0; i<this.eventMap.length; i++){
-
-
-            
-
-            console.log(occupiedSlots);
-
-            for(var j=0; j<occupiedSlots.length; j++){
-
-                var ct = occupiedSlots[j];
-
-                // Time boundary check
-                if(ct < minHour){ ct = Number.NEGATIVE_INFINITY; }
-
-                if(ct > maxHour){ 
-                    ct = Number.POSITIVE_INFINITY; }
-
-                // For an event 
-                this.timeSlot.set(ct, (j == 0) ? currentEvent : undefined) 
-    
+            // Normal cases
+            var freeSlot = this.#nearestFreeSlot(startTime);
+            if(freeSlot == null){
+                console.warn("Time slot overflow");
             }
+            this.#handleEvent(freeSlot, true, eventList, currentEvent.eventId);
 
-
-
-            //console.log(this.eventMap);
         }
+
     }
 
-    arrange(){
+    /**
+     * **Step 4:** Arrange the specific position for each event.
+     */
+
+    #arrange(){
+        console.log(this.eventTable)
+
+        var occupiedSlots = new Map([...this.timeSlot].filter(([key, value]) => value !== null));
+        if(occupiedSlots.size == 0){
+            return;
+        }
+
+        console.log(occupiedSlots);
+
+        var slotHeight = Math.ceil(this.eventTable.height / occupiedSlots.size);
+
+        var count = 1;
+        for (const [key, value] of occupiedSlots) {
+            var slot = new EventTimeSlot(value, this.eventTable.posX, this.eventTable.posY+slotHeight*count, -1);
+            console.log(slot.toString());
+            count++;
+        }
+        console.log(slotHeight);
+    }
+
+    exec(){
 
         this.#initTimeSlot();
         this.#regularizeEvents();
 
         this.#allocate();
+        this.#arrange();
 
         return this.timeSlot;
     }
 }
+
+/**
+ * **The event time slot** object. 
+ * This object stores the information of an event graphic and the layout of it. 
+ * Each time slot corresponds to such an object, which contains:
+ * 
+ * - **EventId:** The identification number of the event.
+ * - **posX:** The relatively X coordinate of the graphic.
+ * - **posY:** The relatively Y coordinate of the graphic.
+ * - **assetId:** The graphic asset of this event.
+ */
+
+class EventTimeSlot{
+
+    constructor(eventId, posX, posY, assetId){
+        this.eventId = eventId;
+        this.posX = posX;
+        this.posY = posY;
+        this.assetId = assetId;
+    }
+
+    toString(){
+        return `EventTimeSlot(${this.eventId}, ${this.posX}, ${this.posY}, ${this.assetId})`; 
+    }
+}
+
 var ev = [
     //{eventId:1, time:'09:00', duration:60, allDayEvent:false},
     {eventId:2, time:'10:00', duration:70, allDayEvent:false},
@@ -807,6 +844,7 @@ var ev = [
     {eventId:6, time:'22:30', duration:60, allDayEvent:false},
     {eventId:7, time:'13:00', duration:60, allDayEvent:false},
     {eventId:8, time:'17:20', duration:60, allDayEvent:false},
+    {eventId:9, time:'19:20', duration:60, allDayEvent:false},
 
 ]
 
@@ -816,8 +854,13 @@ const WEEKDAY_HOURS = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
 // **Weekend** events, N=3 (morning 9:00-12:00, afternoon 13:00-18:00, evening 19:00-21:00),
 const WEEKEND_HOURS = [9, 15, 21];
 
-var taa = new TAA(ev, null, null, WEEKDAY_HOURS);
-console.log(taa.arrange());
+//var eventTableMonday = new TwigNode();
+var m = new EventTableWidget(); m.setValues(100, 120, 220, 650, true);
+
+
+var taa = new TAA(ev, m, null, WEEKDAY_HOURS);
+taa.exec()
+//console.log();
 
 function defineTwigTreeManually(){
 

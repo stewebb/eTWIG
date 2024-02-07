@@ -131,10 +131,9 @@ A list of the positions of all event graphics.
 **The event time slot** object. This object stores the information of an event graphic and the layout of it. Each time slot corresponds to such an object, which contains:
 
 - **EventId:** The identification number of the event.
-- **startTime:** The start time (with no date) of the event.
-- **endTime:** The end time of the event.
 - **posX:** The relatively X coordinate of the graphic.
 - **posY:** The relatively Y coordinate of the graphic.
+- **assetId:** The graphic asset of this event.
 
 #### Steps: Main algorithm
 
