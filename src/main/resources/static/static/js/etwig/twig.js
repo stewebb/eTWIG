@@ -479,11 +479,28 @@ class EventTableWidget {
 
 class TAA{
 
-    constructor(eventMap, eventTable, sizeRange, isWeekday){
+    constructor(eventMap, eventTable, sizeRange, hours){
         this.eventMap = eventMap;
         this.eventTable = eventTable;
         this.sizeRange = sizeRange;
-        this.isWeekday = isWeekday;
+        this.hours = hours;
+    }
+
+    /**
+     * A simple helper method to calculate the longest possible duration of an event.
+     * @param {String} startTime Event start time in hh:MM
+     * @returns The longest duration time.
+     */
+
+    #longestDuration(startTime){
+        var splitted = startTime.split(':');
+
+        // "+" can convert the string-based int to an int!
+        var minutes = (+splitted[0]) * 60 + (+splitted[1]);
+        console.log(1440-minutes);
+
+        // Ensure this number is NOT a negative number.
+        return Math.max(0, 1440-minutes);
     }
 
     /**
@@ -502,18 +519,9 @@ class TAA{
         timeSlot.set(Number.NEGATIVE_INFINITY, null);
         timeSlot.set(Number.POSITIVE_INFINITY, null);
 
-        // **Weekday** events, N=13 (9:00 - 21:00)
-        if(this.isWeekday){
-            for(var i=9; i<22; i++){
-                timeSlot.set(i, null);
-            }
-        }
-
-        // **Weekend** events, N=3 (morning 9:00-12:00, afternoon 13:00-18:00, evening 19:00-21:00),
-        else{
-            timeSlot.set(9, null);
-            timeSlot.set(13, null);
-            timeSlot.set(18, null);
+        // Set all "hours" as key.
+        for(var i=0; i<this.hours.length; i++){
+            timeSlot.set(this.hours[i], null);
         }
 
         this.timeSlot = timeSlot;
@@ -526,8 +534,17 @@ class TAA{
      */
 
     #regularizeEvents(){
-        this.eventMap.sort((a, b) => a.duration - b.duration);
-        console.log(this.eventMap);
+
+        // Sort by duration ASC
+       // this.eventMap.sort((a, b) => a.duration - b.duration);
+        //console.log(this.eventMap);
+
+        let modifiedAndSortedArr = this.eventMap.map(obj => ({
+            ...obj,
+            duration: Math.min(obj.duration, this.#longestDuration(obj.time))
+          })).sort((a, b) => a.duration - b.duration);
+
+          console.log(modifiedAndSortedArr)
     }
 
     #allocate(){
@@ -547,9 +564,16 @@ class TAA{
 var ev = [
     {eventId:1, time:'08:00', duration:120},
     {eventId:2, time:'10:00', duration:60},
-    {eventId:3, time:'12:00', duration:90},
+    {eventId:3, time:'23:00', duration:90},
 ]
-var taa = new TAA(ev, null, null, true);
+
+// **Weekday** events, N=13 (9:00 - 21:00)
+const WEEKDAY_HOURS = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
+
+// **Weekend** events, N=3 (morning 9:00-12:00, afternoon 13:00-18:00, evening 19:00-21:00),
+const WEEKEND_HOURS = [9, 13, 18];
+
+var taa = new TAA(ev, null, null, WEEKDAY_HOURS);
 console.log(taa.arrange());
 
 function defineTwigTreeManually(){
