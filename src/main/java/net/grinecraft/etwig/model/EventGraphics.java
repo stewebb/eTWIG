@@ -35,18 +35,18 @@ public class EventGraphics {
 	private Long eventId;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "operator", referencedColumnName = "id", insertable = false, updatable = false)
-    private User operator;
+	@JoinColumn(name = "operator_role", referencedColumnName = "id", insertable = false, updatable = false)
+    private UserRole operatorRole;
 	
-	@Column(name = "operator")
-	private Long operatorId;
+	@Column(name = "operator_role")
+	private Long operatorRoleId;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "asset", referencedColumnName = "id", insertable = false, updatable = false)
-    private Asset assetObj;
+    private Asset asset;
 	
 	@Column(name = "asset")
-	private Long asset;
+	private Long assetId;
 	
 	@Column(name = "upload_time")
 	private LocalDateTime uploadTime;

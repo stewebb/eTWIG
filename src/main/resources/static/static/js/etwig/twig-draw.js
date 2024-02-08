@@ -3,9 +3,12 @@ var img;
 var twig = undefined;
 var assetCollection = new Map();
 
-//p5.disableFriendlyErrors = false; // disables FES
-
 function preload(){
+
+    // Browser check.
+    if(typeof window.chrome !== "object"){
+        infoPopup("Chromium-based browsers are recommended", "However, your web browser is " + navigator.userAgent);
+    }
     
     //createCanvas(400, 400);
     
