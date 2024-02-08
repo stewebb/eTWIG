@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import net.grinecraft.etwig.dto.TwigTemplateBasicInfoDTO;
 import net.grinecraft.etwig.dto.TwigTemplateDTO;
-import net.grinecraft.etwig.services.AssetService;
 import net.grinecraft.etwig.services.EventGraphicsService;
 import net.grinecraft.etwig.services.TwigService;
 import net.grinecraft.etwig.services.WeekService;
@@ -92,7 +91,7 @@ public class TwigAPIController {
         return twigService.getTwigTemplateList(page, size);
     }
 	
-	@RequestMapping("/api/private/getEventsByDate")  
+	@RequestMapping("/api/public/getEventsByDate")  
 	public void getEventsByDate(@RequestParam String date) {
 		eventGraphicsService.getGraphicsByDate(DateUtils.safeParseDate(date, "yyyy-MM-dd"));
 	}
