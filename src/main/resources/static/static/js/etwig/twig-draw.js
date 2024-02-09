@@ -23,7 +23,7 @@ function preload(){
     // Don't use var !!!!!!!
     twig = new TWIG();
     
-    // The tree may failed to be created,.
+    // The tree may failed to be created.
     if(!twig.createTree(setting)){
 		twig = undefined;
 		return;
@@ -84,8 +84,10 @@ function draw() {
 	if(twig == undefined){
 		return;
 	}
-    //console.log(1);
-  //  console.log(twig)
+   
+    var pushNum = 0;
+    var popNum = 0;
+
 
     // Track the depth of last iteration!
     var lastDepth = 0;
@@ -114,9 +116,12 @@ function draw() {
         if(depthChange > 0){
             translate(parent.widget.posX, parent.widget.posY);
             push();
+            pushNum++;
         }else if(depthChange < 0){
             pop();
             push();
+            popNum++;
+            pushNum++;
         }
 
         // Current widget
@@ -197,10 +202,22 @@ function draw() {
         }
 
         lastDepth = depth;
-   }
+    }
+
+    console.log(pushNum, popNum);
+
+    for(var i=0; i<pushNum-popNum; i++){
+        pop();
+    }
+    settingMenu();
 
 }
 
 function mouseClicked(fxn){
 	console.log(mouseX, mouseY);
+}
+
+function settingMenu(){
+    fill(0, 0, 255);
+    rect(0, 0, 1920, 180);
 }

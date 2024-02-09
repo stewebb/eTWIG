@@ -44,7 +44,13 @@ body {
     height: 50px;
     display: flex;
     justify-content: center;
-    align-items: center;	
+    align-items: center;
+	background-color: #004AAD;	
+	border: #FFF;
+}
+
+#settingsButton path{
+	color: #FFF;
 }
 
 /* Rotating button when hover*/
@@ -53,13 +59,15 @@ body {
 	to {transform: rotate(360deg); }
 }
 
-#settingsButton .fa-gear {
+#settingsButton {
 	transition: transform 0.2s ease-in-out;
 }
 
-#settingsButton:hover .fa-gear {
+#settingsButton:hover {
 	animation: rotate 1s linear infinite;
 }
+
+/* Beating and shrinking logo loading animation */
 
 #logo-container {
 	position: fixed;
