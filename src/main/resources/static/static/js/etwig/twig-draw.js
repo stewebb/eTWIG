@@ -6,6 +6,9 @@ var assetCollection = new Map();
 // Page orientation: true landscape, false portrait.
 var pageOrientation = true;
 
+// Is the setting panel opened
+var settingOpened = false;
+
 function preload(){
 
     // Browser check.
@@ -18,7 +21,7 @@ function preload(){
     
    
     var setting = new TwigSettings();
-    //setting.setPortfolio(1);
+    setting.setPortfolio(1);
 
     // Don't use var !!!!!!!
     twig = new TWIG();
@@ -85,6 +88,7 @@ function draw() {
 		return;
 	}
    
+    // Track the number of push and pop
     var pushNum = 0;
     var popNum = 0;
 
@@ -113,6 +117,26 @@ function draw() {
         // Depth change value, 1 means deeper, 0 means same depth, -1 means shallower.
         var depthChange = depth - lastDepth;
 
+        // Depth changes
+        if(depthChange != 0){
+
+            // Go deeper
+            if(depthChange > 0){
+                translate(parent.widget.posX, parent.widget.posY);
+            }
+
+            // Go shallower, canvas depth -- first.
+            else{
+                pop();
+                popNum++;
+            }
+
+            // Canvas depth always ++
+            push();
+            pushNum++;
+        }
+
+        /*
         if(depthChange > 0){
             translate(parent.widget.posX, parent.widget.posY);
             push();
@@ -123,6 +147,7 @@ function draw() {
             popNum++;
             pushNum++;
         }
+        */
 
         // Current widget
         var widget = value.node.widget
@@ -204,12 +229,17 @@ function draw() {
         lastDepth = depth;
     }
 
-    console.log(pushNum, popNum);
+    //console.log(pushNum, popNum);
 
+    // Pop all remaining transformations 
     for(var i=0; i<pushNum-popNum; i++){
         pop();
     }
-    settingMenu();
+
+    if(settingOpened){
+        settingMenu();
+    }
+    
 
 }
 
@@ -218,6 +248,26 @@ function mouseClicked(fxn){
 }
 
 function settingMenu(){
-    fill(0, 0, 255);
-    rect(0, 0, 1920, 180);
+
+    var mainCanvas = twig.root.widget;
+
+    push();
+
+    // The bottom area (one-third of the canvas height) is the setting panel.
+    translate(0, mainCanvas.height * 0.667);
+    fill(255);  noStroke();
+    rect(0, 0, mainCanvas.width, mainCanvas.height * 0.333);
+
+    textSize(16);
+    text('🌈', 0, 100);
+
+
+    pop();
 }
+
+
+$(document).ready(function() {
+    $('#settingsButton').click(function() {
+        settingOpened = !settingOpened;
+    });
+});

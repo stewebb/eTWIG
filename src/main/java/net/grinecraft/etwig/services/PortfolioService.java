@@ -9,7 +9,6 @@
 
 package net.grinecraft.etwig.services;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,7 @@ public class PortfolioService {
 	private PortfolioRepository portfolioRepository;
 	
 	public PortfolioService(){
-		new MapUtils();
+		//new MapUtils();
 	}
 	
 	/**
@@ -40,33 +39,28 @@ public class PortfolioService {
 	
 	/**
 	 * Get the list of portfolios by the status of separated calendar.
-	 * @param isSeparatedCalendar 
-	 * True get the portfolios WITH separated calendar.
-	 * False get the portfolios WITHOUT separated calendar.
-	 * Null get all portfolios REGARDLESS OF the separated calendar option.
+	 *
+	 * @param isSeparateCalendar True get the portfolios WITH separated calendar.
+	 *                            False get the portfolios WITHOUT separated calendar.
+	 *                            Null get all portfolios REGARDLESS OF the separated calendar option.
 	 * @return A LinkedHashMap of the portfolios that meet the above requirements.
 	 */
 	
-	public LinkedHashMap<Long, Portfolio> getPortfolioListBySeparatedCalendar(Boolean isSeparatedCalendar){
-		
-		/*
-		if(isSeparatedCalendar == null) {
-			return mapUtils.listToLinkedHashMap(portfolioRepository.findAll(), Portfolio::getId);
+	public List<Portfolio> getPortfolioListBySeparateCalendar(Boolean isSeparateCalendar){
+
+		if(isSeparateCalendar == null) {
+			return portfolioRepository.findAll();
+		}
+
+		// isSeparateCalendar == true
+		else if(isSeparateCalendar) {
+			return portfolioRepository.findBySeparatedCalendarTrue();
 		}
 		
-		else if(isSeparatedCalendar == true) {
-			return mapUtils.listToLinkedHashMap(portfolioRepository.findBySeparatedCalendarTrue(), Portfolio::getId);
-		}
-		
-		// isSeparatedCalendar == false
+		// isSeparateCalendar == false
 		else {
-			return mapUtils.listToLinkedHashMap(portfolioRepository.findBySeparatedCalendarFalse(), Portfolio::getId);
-			
+			return portfolioRepository.findBySeparatedCalendarFalse();
 		}
-		
-		*/
-		
-		return null;
 	}
 	
 	/**
