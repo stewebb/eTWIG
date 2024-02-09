@@ -71,9 +71,26 @@
         <img src="/static/images/GHLogo.min.svg" id="logo" width="50%" height="50%"/>
     </div>
 	<#-- /Griffin Hall logo -->
-		
+	
+	<#-- Settings button -->
+	<div class="setting-button">
+    	<button id="settingsButton" class="btn btn-primary">
+        	<i class="fa fa-gear fa-xl fa-beat-fade" id="cogIcon"></i>
+    	</button>
+	</div>
+	<#-- /Settings button -->
+
 	<#-- Required js -->
 	
+	<#-- Bootstrap 4 -->
+	<!--
+	<link rel="stylesheet" href="/static/css/vendor/bootstrap.min.css">
+	<script src="/static/js/vendor/bootstrap.min.js"></script>
+
+	<#-- Font Awesome 6 -->
+	<link rel="stylesheet" href="/static/css/vendor/fontawesome.min.css">
+	<link rel="stylesheet" href="/static/css/vendor/solid.min.css">
+	-->
 	
 	<script src="/static/js/vendor/date.min.js"></script>
 	<script src="/static/js/vendor/sweetalert2.min.js"></script>

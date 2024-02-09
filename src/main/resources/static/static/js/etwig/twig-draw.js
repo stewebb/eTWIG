@@ -3,14 +3,18 @@ var img;
 var twig = undefined;
 var assetCollection = new Map();
 
+// Page orientation: true landscape, false portrait.
+var pageOrientation = true;
+
 function preload(){
 
     // Browser check.
     if(typeof window.chrome !== "object"){
-        infoPopup("Chromium-based browsers are recommended", "However, your web browser is " + navigator.userAgent);
+        infoPopup("For the best user experience, Chromium-based browsers are recommended", "However, your web browser is " + navigator.userAgent);
     }
     
-    //createCanvas(400, 400);
+    pageOrientation = windowWidth > windowHeight;
+   
     
    
     var setting = new TwigSettings();
