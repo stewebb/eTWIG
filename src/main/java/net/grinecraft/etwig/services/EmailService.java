@@ -78,7 +78,7 @@ public class EmailService {
     	}
     	
    		// Get event info.
-    	
+    	//
     	
     	//Long eventId = Long.parseLong(requestInfo.get("eventId").toString());
     	//GraphicsRequestEventInfoDTO event = eventService.findEventsForGraphicsRequestById(eventId);
