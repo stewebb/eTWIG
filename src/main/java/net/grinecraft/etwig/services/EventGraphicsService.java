@@ -1,6 +1,7 @@
 package net.grinecraft.etwig.services;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,12 @@ public class EventGraphicsService {
 	
 	public void getGraphicsByDate(LocalDate givenDate) {
 		
-		LocalDate tomorrow = DateUtils.findTomorrow(givenDate);
+		//LocalDate tomorrow = DateUtils.findTomorrow(givenDate);
 		
-		List<EventGraphics> graphicsList = eventGraphicsRepository.getGraphicsListByDateRange(givenDate, tomorrow);
+		 LocalDateTime today = givenDate.atStartOfDay();
+		 LocalDateTime tomorrow = givenDate.plusDays(1).atStartOfDay();
+		
+		List<EventGraphics> graphicsList = eventGraphicsRepository.getGraphicsListByDateRange(today, tomorrow);
 		
 		System.out.println(graphicsList);
 	}
