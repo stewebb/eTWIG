@@ -114,9 +114,9 @@
 					<#-- Apply and reset -->
 					<div class="d-flex flex-row-reverse">
 						<div class="btn-group">			
-							<button class="btn btn-outline-secondary">
+							<a href="/twig" class="btn btn-outline-secondary">
 								<i class="fa-solid fa-rotate"></i>&nbsp;Reset
-							</button>
+							</a>
 							<button class="btn btn-outline-primary" onclick="applyChanges();" id="applyBtn">
 								<i class="fa-solid fa-check"></i>&nbsp;Apply
 							</button>
@@ -216,7 +216,7 @@
 				theme: 'bootstrap4',
 			});
 
-			var datepicker = createDatePicker();
+			
 			
 			//new QRCode(document.getElementById("qrcode"), "https://etwig.grinecraft.net");
 
