@@ -793,12 +793,7 @@ class TAA{
 
     #arrange(){
 
-        // Get all occupied slots, and null check.
-        //var occupiedSlots = new Map([...this.timeSlot].filter(([key, value]) => value !== null));
-        //if(occupiedSlots.size == 0){
-        //    return;
-        //}
-
+       
         // The height of each slot
         var slotHeight = Math.ceil(this.eventTable.height / this.timeSlot.size);
 
@@ -806,8 +801,12 @@ class TAA{
         var count = 1;
         for (const [key, value] of this.timeSlot) {
             if(value != null){
-                this.timeSlot.set(key, new EventTimeSlot(value, this.eventTable.posX, slotHeight*count, key, -1));
 
+                // The index of the eventMap by a given eventId.
+                var idx = this.eventMap.findIndex(object => object.eventId == value);
+
+                // Reset the time slot.
+                this.timeSlot.set(key, new EventTimeSlot(value, this.eventTable.posX, slotHeight*count, key, this.eventMap[idx].assetId));
             }
             count++;
         }

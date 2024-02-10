@@ -1,3 +1,14 @@
+
+/**
+ * Constants
+ */
+
+// **Weekday** events (DoW=[1,2,3,4,5]), N=13 (9:00 - 21:00)
+const WEEKDAY_HOURS = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
+                
+// **Weekend** events(DoW=[0,6]), N=3 (morning 9:00-12:00, afternoon 13:00-18:00, evening 19:00-21:00),
+const WEEKEND_HOURS = [9, 15, 21];
+
 var img;
 var twig = undefined;
 var eventList = undefined;
@@ -170,56 +181,26 @@ function draw() {
 
             case "EVENT_TABLES":
             	fill(255, 0, 0);    noStroke();
-                //rect(widget.posX, widget.posY, widget.width, widget.height);
-
-                //console.log(widget)
 
                 // Match event table (template) and list (content)
-                var ev = eventList[widget.dayOfWeek];
+                var ev = eventList[widget.dayOfWeek];  
+                var hours = (widget.dayOfWeek == 0 || widget.dayOfWeek == 6) ? WEEKEND_HOURS : WEEKDAY_HOURS;
+                
+                // Execute TWIG Arrangement Algorithm.
+                var taa = new TAA(ev, widget, null, hours);
+                var arrangements = taa.exec();
+                //console.log(ev)
 
-                // Iterate event list again.
-                //$.each(eventList, function(dayOfWeek, events) {
-                    
-                //    console.log(dayOfWeek)
-                    // For each day, get asset of all events
-                    //for (var i=0; i<events.length; i++){
-                    //    readImage(assetCollection, events[i].assetId);
-                    //}
-                //});
-                //var ev = [
-
-                    /*
-                    {eventId:1, time:'09:00', duration:60, allDayEvent:false},
-                    {eventId:2, time:'10:00', duration:70, allDayEvent:false},
-                    {eventId:3, time:'11:00', duration:120, allDayEvent:false},
-                    {eventId:5, time:null, duration:null, allDayEvent:true},
-                    {eventId:6, time:'22:30', duration:60, allDayEvent:false},
-                    {eventId:7, time:'13:00', duration:60, allDayEvent:false},
-                    {eventId:8, time:'17:20', duration:60, allDayEvent:false},
-                    {eventId:9, time:'19:20', duration:60, allDayEvent:false},
-                    */
-                //]
-                
-                // **Weekday** events, N=13 (9:00 - 21:00)
-                const WEEKDAY_HOURS = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
-                
-                // **Weekend** events, N=3 (morning 9:00-12:00, afternoon 13:00-18:00, evening 19:00-21:00),
-                const WEEKEND_HOURS = [9, 15, 21];
-                
-                //var eventTableMonday = new TwigNode();
-                //var m = new EventTableWidget(); m.setValues(100, 120, 220, 650, true);
-                
-                
-                var taa = new TAA(ev, widget, null, WEEKDAY_HOURS);
-                var b = taa.exec();
-                //console.log(b)
-
-                for (const [key, value] of b) {
+                for (const [key, value] of arrangements) {
                     //console.log();
 
                     if(value != null){
-                        rect(value.posX, value.posY, 100, 20);
+                        //console.log(value)
+                        //rect(value.posX, value.posY, 100, 20);
 
+                        var originalImg = assetCollection.get(value.assetId);
+                        console.log(originalImg)
+                        image(originalImg, value.posX, value.posY, 100, 20)
                     }
 
                 }
