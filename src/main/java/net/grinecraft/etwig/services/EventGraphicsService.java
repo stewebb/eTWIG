@@ -16,15 +16,14 @@ public class EventGraphicsService {
 	@Autowired
 	private EventGraphicsRepository eventGraphicsRepository;
 	
-	public List<EventGraphicsPublicInfoDTO> getGraphicsByDate(LocalDate givenDate) {
-		
-		// Convert to LocalDateTime 
-		 LocalDateTime today = givenDate.atStartOfDay();
-		 LocalDateTime tomorrow = givenDate.plusDays(1).atStartOfDay();
-		
-		List<EventGraphicsPublicInfoDTO> graphicsList = eventGraphicsRepository.getGraphicsListByDateRange(today, tomorrow);
-		
-		//System.out.println(graphicsList);
-		return graphicsList;
+	public List<EventGraphicsPublicInfoDTO> getTwigGraphics(Long portfolioId, LocalDate givenDate) {
+
+		// Convert to LocalDateTime
+		LocalDateTime today = givenDate.atStartOfDay();
+		LocalDateTime tomorrow = givenDate.plusDays(1).atStartOfDay();
+
+		//System.out.println(portfolioId);
+
+		return eventGraphicsRepository.getGraphicsList(today, tomorrow, portfolioId);
 	}
 }

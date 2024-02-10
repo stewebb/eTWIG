@@ -82,10 +82,17 @@ public class TwigAPIController {
     public Page<TwigTemplateBasicInfoDTO> getTwigTemplateList(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return twigService.getTwigTemplateList(page, size);
     }
-	
-	@RequestMapping("/api/public/getEventsByDate")  
-	public List<EventGraphicsPublicInfoDTO> getEventsByDate(@RequestParam String date) {
-		return eventGraphicsService.getGraphicsByDate(DateUtils.safeParseDate(date, "yyyy-MM-dd"));
+
+	/**
+	 * Get the event graphics for a TWIG, by a given portfolio and date.
+	 * @param portfolioId The given portfolio, -1 stands for "all portfolios"
+	 * @param date The given date.
+	 * @return The list of event info.
+	 */
+
+	@RequestMapping("/api/public/getTwigEvents")
+	public List<EventGraphicsPublicInfoDTO> getTwigEvents(@RequestParam Long portfolioId, @RequestParam String date) {
+		return eventGraphicsService.getTwigGraphics(portfolioId, DateUtils.safeParseDate(date, "yyyy-MM-dd"));
 	}
 	
 

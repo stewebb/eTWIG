@@ -14,6 +14,13 @@ import net.grinecraft.etwig.model.EventGraphics;
 @Repository
 public interface EventGraphicsRepository extends JpaRepository<EventGraphics, Long>{
 
-	@Query("SELECT new net.grinecraft.etwig.dto.events.EventGraphicsPublicInfoDTO(e) FROM EventGraphics e JOIN e.event evt WHERE evt.startTime > :dts AND evt.startTime < :dte AND evt.recurring = false")
-	public List<EventGraphicsPublicInfoDTO> getGraphicsListByDateRange(@Param("dts") LocalDateTime start,  @Param("dte")LocalDateTime tomorrow);
+	@Query("SELECT new net.grinecraft.etwig.dto.events.EventGraphicsPublicInfoDTO(e) " +
+			"FROM EventGraphics e JOIN e.event evt " +
+			"WHERE evt.startTime > :dts AND evt.startTime < :dte AND evt.recurring = false " +
+			"AND (:portfolio < 0 OR evt.userRole.portfolioId = :portfolio)")
+	public List<EventGraphicsPublicInfoDTO> getGraphicsList(
+			@Param("dts") LocalDateTime start,
+			@Param("dte") LocalDateTime tomorrow,
+			@Param("portfolio") Long portfolioId
+	);
 }
