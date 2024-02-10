@@ -36,7 +36,7 @@ class TWIG{
 
                 // Empty result check
                 if(json == undefined || json == null || json.length == 0){
-                    dangerPopup("The TWIG template cannot be found by the following parameters", setting.toString());
+                    dangerPopup("The TWIG template cannot be found by the following parameters", setting.toString() + "<p>You may open the setting panel and select new parameters.</p>");
                     return;
                 }
 

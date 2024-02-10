@@ -138,13 +138,13 @@
 									</span>
 								</div>
 
-								<select class="form-control select2bs4" id="eventByWeekDay">
-									<option value="PNG">PNG image</option>
-									<option value="JPG">JPG image</option>
+								<select class="form-control select2bs4" id="imgFormat">
+									<option value="png">PNG image</option>
+									<option value="jpg">JPG image</option>
 								</select>	
 
 								<span class="input-group-append">
-									<button type="button" class="btn btn-primary btn-flat">
+									<button type="button" class="btn btn-primary btn-flat" onclick="downloadImg();">
 										<i class="fa-solid fa-download"></i>
 									</button>
 								</span>
@@ -161,9 +161,11 @@
     							<span class="input-group-text"><i class="fa-solid fa-link"></i></span>
   							</div>
 
-  							<input type="text" id="twig-link" class="form-control" value="/twig/content">
+  							<input type="text" id="twigLink" class="form-control">
   							<span class="input-group-append">
-								<button type="button" class="btn btn-primary btn-flat"><i class="fa-solid fa-copy"></i></button>
+								<button type="button" class="btn btn-primary btn-flat" onclick="copyLink(window.location.href)">
+									<i class="fa-solid fa-copy"></i>
+								</button>
 							</span>
 						</div>
 					</div>
@@ -173,7 +175,7 @@
 							
 					<#-- QR Code -->
 					<div class="form-group row">
-						<label for="twigLink" class="col-sm-3">QR Code</label>
+						<label for="twigQRCode" class="col-sm-3">QR Code</label>
 						<div class="col-sm-9 input-group">
   							<div id="qrcode"></div>
 						</div>
@@ -204,7 +206,8 @@
 			// Initialize the week
 			getWeekByDate(Date.today().toString("yyyy-MM-dd"));
 
-			//applyChanges();
+
+			$('#twigLink').val(window.location.href);
 			//enableShare(true);
 			
 			// Initialize the setting button.
@@ -218,10 +221,9 @@
 
 			
 			
-			//new QRCode(document.getElementById("qrcode"), "https://etwig.grinecraft.net");
-
+			// Create a QR code that points to the current page.
 			var qrcode = new QRCode($("#qrcode")[0], {
-				text: "https://etwig.grinecraft.net",
+				text: window.location.href,
 				width: 191,
 				height: 191,
 				colorDark : "#000000",
@@ -229,16 +231,9 @@
 				correctLevel : QRCode.CorrectLevel.H
 			});
 
-		});
+		});		
 		
-		//var twigUrl = "/twig/content";
-		
-		
-		
-		
-		//
-		
-		//createQRCode("qrcode",  "https://etwig.grinecraft.net", ["#000000", "#FFFFFF"]);
+		console.log()
 	</script>
 
 </body>

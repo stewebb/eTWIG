@@ -11,39 +11,37 @@ var settingOpened = false;
 
 function preload(){
 
-    // Initialize elements
+    // Initialize variable and elements
     var datepicker = createDatePicker();
+    var setting = new TwigSettings();
 
+    var portfolioId = -1;
+    var date = '';
+    
     // Browser check.
     if(typeof window.chrome !== "object"){
         infoPopup("For the best experience, Chromium-based browsers are recommended", "However, your web browser is " + getBrowserName(navigator.userAgent));
     }
 
-    // URL parameter
+    // Get portfolio from URL parameter
     var searchParams = new URLSearchParams(window.location.search)
-    var portfolioId = -1;
-    var date = '';
-
-    // Get portfolio
     if(searchParams.has('portfolioId')){
         portfolioId = searchParams.get('portfolioId');
+        setting.setPortfolio(portfolioId);
         $('#twigPortfolio').val(portfolioId);
     }
     
     // Get date
     if(searchParams.has('date')){
         date = searchParams.get('date');
+        setting.setDate(date);
         datepicker.setDate(Date.parse(date))
     }
 
     
     pageOrientation = windowWidth > windowHeight;
    
-    
-   
-    var setting = new TwigSettings();
-    setting.setPortfolio(portfolioId);
-    setting.setDate(date);
+
 
     // Don't use var !!!!!!!
     twig = new TWIG();
@@ -335,4 +333,21 @@ function getWeekByDate(date){
 			dangerPopup("Failed to get week due to a HTTP " + err.status + " error.", err.responseJSON.exception);
 		}
 	});
+}
+
+function applyChanges(){
+    window.location.href = '/twig?portfolioId=' + $('#twigPortfolio').val() + '&date=' + $('#twigWeek').val();
+}
+
+function copyLink(url){
+    navigator.clipboard.writeText(url).then(function() {
+        successPopup('URL copied.');
+    }).catch(function(error) {
+        dangerPopup('Error copying text: ', error);
+    });
+}
+
+function downloadImg(){
+    console.log($('#imgFormat').val())
+    saveCanvas('TWIG', $('#imgFormat').val());
 }

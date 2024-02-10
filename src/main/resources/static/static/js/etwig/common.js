@@ -16,7 +16,22 @@ function successPopup(title){
 	Swal.fire({
 		icon: "success",
 		title: "Success",
-		html: `<div style="text-align: left;"><strong>${title}</strong></div>`,
+        timer: 2000,
+		html: `
+            <div style="text-align: left;">
+                <strong>${title}</strong>
+                <p>This popup will be closed in <b></b> seconds.</p>
+            </div>`,
+        didOpen: () => {
+            //Swal.showLoading();
+            const timer = Swal.getPopup().querySelector("b");
+            timerInterval = setInterval(() => {
+              timer.textContent = (Swal.getTimerLeft()*0.001).toFixed(1);
+            }, 100);
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          }
 	  });
 }
 
