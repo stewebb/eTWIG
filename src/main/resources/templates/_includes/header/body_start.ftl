@@ -44,7 +44,7 @@
 	<#-- SweetAlert 2-->
 	<script src="/static/js/vendor/sweetalert2.min.js"></script>
 
-	<#-- CSS and JS for AdminLTE (CSS and JS). -->
+	<#-- AdminLTE -->
   	<link rel="stylesheet" href="/static/css/vendor/adminlte.min.css">
 	<script src="/static/js/vendor/adminlte.min.js"></script>
 	

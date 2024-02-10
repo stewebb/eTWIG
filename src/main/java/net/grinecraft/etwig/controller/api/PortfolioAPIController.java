@@ -45,6 +45,6 @@ public class PortfolioAPIController {
 
 	@RequestMapping("/api/public/getPortfolioWithSeparateCalendar")
 	public List<Portfolio> getPortfolioWithSeparateCalendar(){
-		return portfolioService.getPortfolioListBySeparateCalendar(true);
+		return portfolioService.getPortfolioListBySeparatedCalendar(true);
 	}
 }

@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import net.grinecraft.etwig.model.Portfolio;
 import net.grinecraft.etwig.repository.PortfolioRepository;
-import net.grinecraft.etwig.util.MapUtils;
 
 @Service
 public class PortfolioService {
@@ -40,24 +39,24 @@ public class PortfolioService {
 	/**
 	 * Get the list of portfolios by the status of separated calendar.
 	 *
-	 * @param isSeparateCalendar True get the portfolios WITH separated calendar.
+	 * @param isSeparatedCalendar True get the portfolios WITH separated calendar.
 	 *                            False get the portfolios WITHOUT separated calendar.
 	 *                            Null get all portfolios REGARDLESS OF the separated calendar option.
 	 * @return A LinkedHashMap of the portfolios that meet the above requirements.
 	 */
 	
-	public List<Portfolio> getPortfolioListBySeparateCalendar(Boolean isSeparateCalendar){
+	public List<Portfolio> getPortfolioListBySeparatedCalendar(Boolean isSeparatedCalendar){
 
-		if(isSeparateCalendar == null) {
+		if(isSeparatedCalendar == null) {
 			return portfolioRepository.findAll();
 		}
 
-		// isSeparateCalendar == true
-		else if(isSeparateCalendar) {
+		// isSeparatedCalendar == true
+		else if(isSeparatedCalendar) {
 			return portfolioRepository.findBySeparatedCalendarTrue();
 		}
 		
-		// isSeparateCalendar == false
+		// isSeparatedCalendar == false
 		else {
 			return portfolioRepository.findBySeparatedCalendarFalse();
 		}
