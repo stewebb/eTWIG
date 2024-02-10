@@ -270,14 +270,6 @@ function settingMenu(){
     pop();
 }
 
-/*
-$(document).ready(function() {
-    $('#settingsButton').click(function() {
-        settingOpened = !settingOpened;
-    });
-});
-*/
-
 /**
  * Create a datepicker for selecting date.
  * @returns The datepicker object.
@@ -309,32 +301,16 @@ function getWeekByDate(date){
 	$.ajax({ 
 		type: 'GET', 
     	url: '/api/public/getWeekByDate', 
-    	data: { date: date }, 
+    	data: { 
+            date: date 
+        }, 
+
 		success: function(json) {
-			
-			// HTTP response normally, but has other kinds of error (e.g, invalid input)
-			//if(json.error > 0){
-    		//	dangerPopup("Failed to get week.", json.msg);
-    		//	return;
-			//}
-			
-			// Week cannot be found in DB.
-			//if(json == null){
-			//	$("#calculatedWeek").html(`<span class="text-danger">The week cannot be found in the database.</span> Try to select another date.`);
-			//	return;
-			//}
-			
-            
             $('#calculatedWeek').text((json == null || json.length == 0) ? 'N/A' : json.name);
-            
-			
         },
-        
+
     	error: function(err) {   		
 			dangerPopup("Failed to get week due to a HTTP " + err.status + " error.", err.responseJSON.exception);
 		}
 	});
-	
-	// Finally disable the share button.
-	//enableShare(false);
 }

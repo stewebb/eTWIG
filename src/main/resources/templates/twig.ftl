@@ -42,6 +42,8 @@
 	<script src="/static/js/etwig/twig.js"></script>
 	<script src="/static/js/etwig/twig-draw.js"></script>
 
+	<script src="/static/js/vendor/qrcode.min.js"></script>
+
 	<#-- Settings/Share Modal -->
 	<div class="modal fade" tabindex="-1" id="etwigSettingBox">
   		<div class="modal-dialog">
@@ -60,14 +62,14 @@
      				
 					<#-- Portfolio -->
 					<div class="form-group row">
-						<label for="eventPortfolio" class="col-sm-2 col-form-label">Portfolio</label>
-						<div class="col-sm-10 input-group">
+						<label for="eventPortfolio" class="col-sm-3 col-form-label">Portfolio</label>
+						<div class="col-sm-9 input-group">
 									
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fa-solid fa-briefcase"></i></span>
 							</div>
 							
-							<select class="form-control select2" name="twigPortfolio" id="twigPortfolio">
+							<select class="form-control select2 select2bs4" name="twigPortfolio" id="twigPortfolio">
       							<optgroup label="All portfolios">
       								<option value="-1" selected>All portfolios</option>
       							</optgroup>
@@ -87,8 +89,8 @@
 
      				<#-- Date -->
 					<div class="form-group row">
-						<label for="twigWeek" class="col-sm-2 col-form-label">Date</label>
-						<div class="col-sm-10">
+						<label for="twigWeek" class="col-sm-3 col-form-label">Date</label>
+						<div class="col-sm-9">
 							<div class="input-group">
 								<div class="input-group-prepend">
 									<span class="input-group-text">
@@ -104,109 +106,84 @@
 							
 					<#-- Week -->
      				<div class="form-group row">
-     					<div class="col-sm-2 bold-text">Week</div>
-     					<div class="col-sm-10" id="calculatedWeek"></div>
+     					<div class="col-sm-3 bold-text">Week</div>
+     					<div class="col-sm-9" id="calculatedWeek"></div>
      				</div>
-							<#-- /Week -->
+					<#-- /Week -->
+
+					<#-- Apply and reset -->
+					<div class="d-flex flex-row-reverse">
+						<div class="btn-group">			
+							<button class="btn btn-outline-secondary">
+								<i class="fa-solid fa-rotate"></i>&nbsp;Reset
+							</button>
+							<button class="btn btn-outline-primary" onclick="applyChanges();" id="applyBtn">
+								<i class="fa-solid fa-check"></i>&nbsp;Apply
+							</button>
+						</div>
+					</div>
+					<#-- /Apply and reset -->
 						
-							<hr class="mb-3"/>
+					<hr class="mb-3"/>
 							
-							<#-- Export -->
-							<div class="row">
-								<label for="twigLink" class="col-sm-3 col-form-label">Export</label>
-								<div class="col-sm-9">
-									<div class="form-group clearfix">
-									
-										<#-- PNG -->
-										<div class="icheck-primary">
-											<input type="radio" id="downloadPNG" name="downloadOption" checked>
-											<label for="downloadPNG">PNG</label>
-										</div>
-										
-										<#-- JPG -->
-										<div class="icheck-primary">
-											<input type="radio" id="downloadJPG" name="downloadOption">
-											<label for="downloadJPG">JPG</label>
-										</div>
-										
-										<#-- Download button -->
-										
-										<div class="btn-group">
-      										<button class="btn btn-outline-primary disabled-by-default">
-      											<i class="fa-solid fa-download"></i>&nbsp;Download
-      										</button>
-      				
-      										<button class="btn btn-outline-primary disabled-by-default">
-      											<i class="fa-solid fa-print"></i>&nbsp;Print
-      										</button>
-     									</div>
-     								
-									</div>
-								</div>
-							</div>
-							
-							<#-- Copy link -->
-							<div class="form-group row">
-								<label for="twigLink" class="col-sm-3 col-form-label">Copy link</label>
-								<div class="col-sm-9 input-group">
-  									<div class="input-group-prepend">
-    									<span class="input-group-text"><i class="fa-solid fa-link"></i></span>
-  									</div>
-  									<input type="text" id="twig-link" class="form-control" value="/twig/content" readonly>
-  									<span class="input-group-append">
-										<button type="button" class="btn btn-primary btn-flat disabled-by-default"><i class="fa-solid fa-copy"></i></button>
+					<#-- Export -->
+					<div class="form-group row">
+						<label for="export" class="col-sm-3 col-form-label">Export</label>
+						<div class="col-sm-9">
+
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text">
+										<i class="fa-solid fa-file-export"></i>
 									</span>
 								</div>
+
+								<select class="form-control select2bs4" id="eventByWeekDay">
+									<option value="PNG">PNG image</option>
+									<option value="JPG">JPG image</option>
+								</select>	
+
+								<span class="input-group-append">
+									<button type="button" class="btn btn-primary btn-flat">
+										<i class="fa-solid fa-download"></i>
+									</button>
+								</span>
 							</div>
-							
-							<#-- Share to email -->
-							<div class="form-group row">
-								<label for="twigLink" class="col-sm-3 col-form-label">Email</label>
-								<div class="col-sm-9 input-group">
-  									<div class="input-group-prepend">
-    									<span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
-  									</div>
-  									<input type="text" id="twig-link" class="form-control disabled-by-default" placeholder="Email address...">
-  									<span class="input-group-append">
-										<button type="button" class="btn btn-primary btn-flat disabled-by-default"><i class="fa-solid fa-paper-plane"></i></button>
-									</span>
-								</div>
-							</div>
-							
-							<#-- Share to mobile -->
-							<#-- 
-							<div class="form-group row">
-								<label for="twigLink" class="col-sm-3 col-form-label">Mobile devices</label>
-								<div class="col-sm-9 input-group">
-  									<div id="qrcode"></div>
-								</div>
-							</div>
-							
-							<div class="row">
-								<div class="col-sm-3"></div>
-								<div class="col-sm-9">
-									Scan	 the <span class="bold-text text-primary">QR code</span> on your mobile devices. <br />
-								</div>
-							</div>
-							-->
-							
+						</div>
+					</div>
+					<#-- /Export -->
+
+					<#-- Copy link -->
+					<div class="form-group row">
+						<label for="twigLink" class="col-sm-3 col-form-label">Copy link</label>
+						<div class="col-sm-9 input-group">
+  							<div class="input-group-prepend">
+    							<span class="input-group-text"><i class="fa-solid fa-link"></i></span>
+  							</div>
+
+  							<input type="text" id="twig-link" class="form-control" value="/twig/content">
+  							<span class="input-group-append">
+								<button type="button" class="btn btn-primary btn-flat"><i class="fa-solid fa-copy"></i></button>
+							</span>
+						</div>
+					</div>
+					<#-- /Copy link -->
+
 						
+							
+					<#-- QR Code -->
+					<div class="form-group row">
+						<label for="twigLink" class="col-sm-3">QR Code</label>
+						<div class="col-sm-9 input-group">
+  							<div id="qrcode"></div>
+						</div>
+					</div>
+					<#-- /QR Code -->	
+	
 					
      			</div>
      			
-     			<#-- Apply and reset -->
-      			<div class="modal-footer">
-     				<div class="btn-group">
-      					<button class="btn btn-outline-primary" onclick="applyChanges();" id="applyBtn">
-      						<i class="fa-solid fa-check"></i>&nbsp;Apply
-      					</button>
-      				
-      					<button class="btn btn-outline-secondary">
-      						<i class="fa-solid fa-rotate"></i>&nbsp;Reset
-      					</button>
-     				</div>
-     			</div>
-				<#-- Apply and reset -->
+     			
      			
     		</div>
   		</div>
@@ -235,16 +212,23 @@
 			//	$('#etwigSettingBox').modal('show');
 			//});
 			
-			$('#twigPortfolio').select2({
+			$('.select2bs4').select2({
 				theme: 'bootstrap4',
 			});
 
 			var datepicker = createDatePicker();
 			
-			//$('#twigResolution').select2({
-			//	theme: 'bootstrap4',
-			//});
-			
+			//new QRCode(document.getElementById("qrcode"), "https://etwig.grinecraft.net");
+
+			var qrcode = new QRCode($("#qrcode")[0], {
+				text: "https://etwig.grinecraft.net",
+				width: 191,
+				height: 191,
+				colorDark : "#000000",
+				colorLight : "#ffffff",
+				correctLevel : QRCode.CorrectLevel.H
+			});
+
 		});
 		
 		//var twigUrl = "/twig/content";
@@ -252,7 +236,7 @@
 		
 		
 		
-		//new QRCode(document.getElementById("qrcode"), "https://etwig.grinecraft.net");
+		//
 		
 		//createQRCode("qrcode",  "https://etwig.grinecraft.net", ["#000000", "#FFFFFF"]);
 	</script>
