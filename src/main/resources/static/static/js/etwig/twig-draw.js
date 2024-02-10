@@ -300,34 +300,36 @@ function createDatePicker(){
     return datepicker;
 }
 
+/**
+ * Get the week name by a given date.
+ * @param {string} date 
+ */
+
 function getWeekByDate(date){
-	var url = '/api/public/getWeekByDate';
 	$.ajax({ 
 		type: 'GET', 
-    	url: url, 
-    	data: { 
-			date: date,
-		}, 
+    	url: '/api/public/getWeekByDate', 
+    	data: { date: date }, 
 		success: function(json) {
 			
 			// HTTP response normally, but has other kinds of error (e.g, invalid input)
-			if(json.error > 0){
-    			dangerPopup("Failed to get week.", json.msg);
-    			return;
-			}
+			//if(json.error > 0){
+    		//	dangerPopup("Failed to get week.", json.msg);
+    		//	return;
+			//}
 			
 			// Week cannot be found in DB.
-			if(json.week == null){
-				$("#calculatedWeek").html(`<span class="text-danger">The week cannot be found in the database.</span> Try to select another date.`);
-				return;
-			}
+			//if(json == null){
+			//	$("#calculatedWeek").html(`<span class="text-danger">The week cannot be found in the database.</span> Try to select another date.`);
+			//	return;
+			//}
 			
-			// Week can be found in DB.
-			$("#calculatedWeek").html(`<span class="text-primary">${json.week.name} of ${json.week.semester}</span>`);
+            
+            $('#calculatedWeek').text((json == null || json.length == 0) ? 'N/A' : json.name);
+            
 			
         },
         
-        // Toast error info when it happens
     	error: function(err) {   		
 			dangerPopup("Failed to get week due to a HTTP " + err.status + " error.", err.responseJSON.exception);
 		}

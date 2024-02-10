@@ -102,12 +102,11 @@
 					</div>		
      				<#-- /Date -->
 							
-							<#-- Week -->
-     						<div class="form-group row">
-     							<div class="col-sm-2"></div>
-     							<div class="col-sm-10" id="calculatedWeek">
-     							</div>
-     						</div>
+					<#-- Week -->
+     				<div class="form-group row">
+     					<div class="col-sm-2 bold-text">Week</div>
+     					<div class="col-sm-10" id="calculatedWeek"></div>
+     				</div>
 							<#-- /Week -->
 						
 							<hr class="mb-3"/>
@@ -226,7 +225,8 @@
 		$(document).ready(function() {
 		
 			// Initialize the week
-			//getWeekByDate(Date.today().toString("yyyy-MM-dd"));
+			getWeekByDate(Date.today().toString("yyyy-MM-dd"));
+
 			//applyChanges();
 			//enableShare(true);
 			

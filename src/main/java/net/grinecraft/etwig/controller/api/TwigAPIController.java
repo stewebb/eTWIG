@@ -9,10 +9,10 @@
 
 package net.grinecraft.etwig.controller.api;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+import net.grinecraft.etwig.model.Week;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,21 +66,11 @@ public class TwigAPIController {
 	/**
 	 * Get the "week" information by a given date.
 	 * @param date The given date in yyyy-mm-dd format.
-	 * @return
-	 * @throws Exception
-	 */
+     */
 	
 	@RequestMapping("/api/public/getWeekByDate")  
-	public Map<String, Object> getWeekByDate(@RequestParam String date) throws Exception{
-		
-		LocalDate givenDate = DateUtils.safeParseDate(date, "yyyy-MM-dd");
-		if(givenDate == null) {
-			return WebReturn.errorMsg("date is invalid. It must be yyyy-mm-dd.", false);
-		}
-		
-		Map<String, Object> myReturn = WebReturn.errorMsg(null, true);
-	    myReturn.put("week", weekService.getWeekByDate(givenDate));
-		return myReturn;
+	public Week getWeekByDate(@RequestParam String date){
+		return weekService.getWeekByDate(DateUtils.safeParseDate(date, "yyyy-MM-dd"));
 	}
 	
 	@RequestMapping("/api/public/getTwigTemplateByPortfolioAndDate")  

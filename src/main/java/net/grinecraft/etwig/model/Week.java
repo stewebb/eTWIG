@@ -29,9 +29,6 @@ public class Week {
 	@Column(name = "name")
 	private String name;
 	
-	@Column(name = "semester")
-	private String semester;
-	
 	@Column(name = "monday")
 	private LocalDate monday;
 }
