@@ -59,26 +59,38 @@ function preload(){
 		var widget = value.node.widget;
 
 		if(widget.type == "IMAGE"){
-			var assetUrl = "/assets/getPublicAsset?assetId=" + widget.assetId;
+
+            readImage(assetCollection, widget.assetId);
+			//var assetUrl = "/assets/getPublicAsset?assetId=" + widget.assetId;
 			
 			// Key: assetId, Value: content
-			assetCollection.set(
-				widget.assetId, 
-				loadImage(
-					assetUrl,       // The image location
-					function(){},   // Success callback, do nothing here
-					function(){     // Failure callback.
-						 warningPopup("Failed to load the following resource", assetUrl);
-					}
-				)
-			);
+			//assetCollection.set(
+			//	widget.assetId, 
+			//	loadImage(
+			//		assetUrl,       // The image location
+			//		function(){},   // Success callback, do nothing here
+			//		function(){     // Failure callback.
+			//			 warningPopup("Failed to load the following resource", assetUrl);
+			//		}
+			//	)
+			//);
 		}
     }
 
-    // Iterate all events, and get all assets.
-    console.log(eventList)
+    // Iterate all days over a week.
+    $.each(eventList, function(date, events) {
+
+        // For each day, get asset of all events
+        for (var i=0; i<events.length; i++){
+            readImage(assetCollection, events[i].assetId);
+        }
+        //
+        //console.log(event.assetId);
+    });
     
 }
+
+
 
 function setup(){
 	
@@ -259,6 +271,23 @@ function draw() {
 function mouseClicked(fxn){
 	console.log(mouseX, mouseY);
 }
+
+function readImage(assets, assetId){
+    var assetUrl = "/assets/getPublicAsset?assetId=" + assetId;
+			
+    // Key: assetId, Value: content
+    assets.set(
+        assetId, 
+        loadImage(
+            assetUrl,       // The image location
+            function(){},   // Success callback, do nothing here
+            function(){     // Failure callback.
+                 warningPopup("Failed to load the following resource", assetUrl);
+            }
+        )
+    );
+}
+
 
 /**
  * Get the event list based on the portfolio and date (stored in TwigSettings object).
