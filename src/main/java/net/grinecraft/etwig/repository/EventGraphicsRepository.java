@@ -16,7 +16,7 @@ public interface EventGraphicsRepository extends JpaRepository<EventGraphics, Lo
 
 	@Query("SELECT new net.grinecraft.etwig.dto.events.EventGraphicsPublicInfoDTO(e) " +
 			"FROM EventGraphics e JOIN e.event evt " +
-			"WHERE evt.startTime > :dts AND evt.startTime < :dte AND evt.recurring = false " +
+			"WHERE evt.startTime >= :dts AND evt.startTime < :dte AND evt.recurring = false " +
 			"AND (:portfolio < 0 OR evt.userRole.portfolioId = :portfolio)")
 	public List<EventGraphicsPublicInfoDTO> getGraphicsList(
 			@Param("dts") LocalDateTime start,

@@ -1,4 +1,3 @@
-
 var img;
 var twig = undefined;
 var assetCollection = new Map();
@@ -10,8 +9,9 @@ var pageOrientation = true;
 var settingOpened = false;
 
 function preload(){
+    //pageOrientation = windowWidth > windowHeight;
 
-    // Initialize variable and elements
+    // Initialize variable and elements.
     var datepicker = createDatePicker();
     var setting = new TwigSettings();
 
@@ -23,7 +23,7 @@ function preload(){
         infoPopup("For the best experience, Chromium-based browsers are recommended", "However, your web browser is " + getBrowserName(navigator.userAgent));
     }
 
-    // Get portfolio from URL parameter
+    // Get portfolio from URL parameter.
     var searchParams = new URLSearchParams(window.location.search)
     if(searchParams.has('portfolioId')){
         portfolioId = searchParams.get('portfolioId');
@@ -31,36 +31,26 @@ function preload(){
         $('#twigPortfolio').val(portfolioId);
     }
     
-    // Get date
+    // Get date from URL parameter.
     if(searchParams.has('date')){
         date = searchParams.get('date');
         setting.setDate(date);
         datepicker.setDate(Date.parse(date))
     }
-
     
-    pageOrientation = windowWidth > windowHeight;
-   
-
-
-    // Don't use var !!!!!!!
+    // TWIG tree may failed to be created.
     twig = new TWIG();
-    
-    // The tree may failed to be created.
     if(!twig.createTree(setting)){
 		twig = undefined;
 		return;
 	}
-	
-	twig.root.printTree()
 
-    // Create the canvas first !!!!!
-    //
-    
-    //return;
-
+    // Get event list
+    var eventList = getEventList(setting);
+    if(eventList == undefined){
+        return;
+    }
   
-
     // Iterate all nodes via DFS, but only get the assets.
     var iterator = new TwigNodeIterator(twig.root);
     
@@ -85,6 +75,8 @@ function preload(){
 		}
     }
 
+    // Iterate all events, and get all assets.
+    console.log(eventList)
     
 }
 
@@ -261,10 +253,6 @@ function draw() {
         pop();
     }
 
-    if(settingOpened){
-        settingMenu();
-    }
-    
 
 }
 
@@ -272,23 +260,36 @@ function mouseClicked(fxn){
 	console.log(mouseX, mouseY);
 }
 
-function settingMenu(){
+/**
+ * Get the event list based on the portfolio and date (stored in TwigSettings object).
+ * @param {TwigSettings} setting 
+ * @returns The event list object.
+ */
 
-    var mainCanvas = twig.root.widget;
+function getEventList(setting){
+    var eventList = undefined;
 
-    push();
+    $.ajax({ 
+		type: 'GET', 
+    	url: '/api/public/getTwigEvents', 
+    	data: { 
+			portfolioId: setting.getPortfolio(),
+            date: setting.getDate()
+		}, 
+    	async: false,
 
-    // The bottom area (one-third of the canvas height) is the setting panel.
-    translate(0, mainCanvas.height * 0.667);
-    fill(255);  noStroke();
-    rect(0, 0, mainCanvas.width, mainCanvas.height * 0.333);
+		success: function(json) {
+			eventList = json;
+        },
+        
+    	error: function(err) {   		
+			dangerPopup("Failed to get event information due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+		}
+	});
 
-    textSize(16);
-    text('🌈', 0, 100);
-
-
-    pop();
+    return eventList;
 }
+
 
 /**
  * Create a datepicker for selecting date.

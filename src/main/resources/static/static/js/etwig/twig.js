@@ -188,8 +188,21 @@ class TwigSettings{
         this.date = Date.parse(dateStr);
     }
 
+    getPortfolio(){
+        return this.portfolio;
+    }
+
+    /**
+     * Output the date
+     * @returns date in yyyy-MM-dd format.
+     */
+
+    getDate(){
+        return this.date.toString("yyyy-MM-dd");
+    }
+
     toString(){
-        return `TwigSettings(portfolio=${this.portfolio}, date=${this.date.toString("yyyy-MM-dd")})`; 
+        return `TwigSettings(portfolio=${this.getPortfolio()}, date=${this.getDate()})`; 
     }
 
     /**

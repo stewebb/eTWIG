@@ -771,6 +771,13 @@ function initAddOption(myPositions){
 	
 }
 
+/**
+ * Get the ordinal indicator for a number.
+ * e.g., 1st, 2nd, 3rd, 4th...
+ * @param {int} n A number
+ * @returns Number with the ordinal indicator.
+ */
+
 function getOrdinalIndicator(n) {
     var s = ["th", "st", "nd", "rd"];
     var v = n % 100;
@@ -786,6 +793,11 @@ function deleteEventCheckboxOnChange(){
 		$('#deleteEventBtn').prop('disabled', !this.checked);
     });
 }
+
+/**
+ * Get all selected options for a event
+ * @param {int} eventId 
+ */
 
 function getSelectedOptions(eventId){
 

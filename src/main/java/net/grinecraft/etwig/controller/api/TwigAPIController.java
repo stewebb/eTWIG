@@ -9,7 +9,8 @@
 
 package net.grinecraft.etwig.controller.api;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import net.grinecraft.etwig.model.Week;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import net.grinecraft.etwig.dto.TwigTemplateBasicInfoDTO;
 import net.grinecraft.etwig.dto.TwigTemplateDTO;
-import net.grinecraft.etwig.dto.events.EventGraphicsPublicInfoDTO;
 import net.grinecraft.etwig.services.EventGraphicsService;
 import net.grinecraft.etwig.services.TwigService;
 import net.grinecraft.etwig.services.WeekService;
@@ -85,13 +85,14 @@ public class TwigAPIController {
 
 	/**
 	 * Get the event graphics for a TWIG, by a given portfolio and date.
+	 *
 	 * @param portfolioId The given portfolio, -1 stands for "all portfolios"
-	 * @param date The given date.
-	 * @return The list of event info.
+	 * @param date        The given date.
+	 * @return The event info of an entire week.
 	 */
 
 	@RequestMapping("/api/public/getTwigEvents")
-	public List<EventGraphicsPublicInfoDTO> getTwigEvents(@RequestParam Long portfolioId, @RequestParam String date) {
+	public LinkedHashMap<LocalDate, Object> getTwigEvents(@RequestParam Long portfolioId, @RequestParam String date) {
 		return eventGraphicsService.getTwigGraphics(portfolioId, DateUtils.safeParseDate(date, "yyyy-MM-dd"));
 	}
 	

@@ -203,23 +203,15 @@
 	<script>
 		$(document).ready(function() {
 		
-			// Initialize the week
+			// Initialize week
 			getWeekByDate(Date.today().toString("yyyy-MM-dd"));
 
-
+			// Initialize twig link
 			$('#twigLink').val(window.location.href);
-			//enableShare(true);
-			
-			// Initialize the setting button.
-			//$('#settingsButton').click(function() {
-			//	$('#etwigSettingBox').modal('show');
-			//});
-			
+
 			$('.select2bs4').select2({
 				theme: 'bootstrap4',
 			});
-
-			
 			
 			// Create a QR code that points to the current page.
 			var qrcode = new QRCode($("#qrcode")[0], {
@@ -233,7 +225,6 @@
 
 		});		
 		
-		console.log()
 	</script>
 
 </body>

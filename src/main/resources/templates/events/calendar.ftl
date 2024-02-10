@@ -297,8 +297,8 @@
 
 		$('#eventPortfolio').select2({
     		theme: 'bootstrap4',
-    		templateResult: formatState,
-  			templateSelection: formatState,
+    		//templateResult: formatState,
+  			//templateSelection: formatState,
 		});
 
 		$('input[type=radio][name=calendarView]').change(function() {
