@@ -26,12 +26,6 @@
 	
 	<#-- icheck-bootstrap -->
 	<link rel="stylesheet" href="/static/css/vendor/icheck-bootstrap.min.css">
-	
-	<#-- ToastUI time picker. -->
-	<!--
-	<link rel="stylesheet" href="/static/css/vendor/tui-time-picker.min.css">
-	<script src="/static/js/vendor/tui-time-picker.min.js"></script>
-	-->
 
 	<#-- ToastUI date picker -->
 	<link rel="stylesheet" href="/static/css/vendor/tui-date-picker.min.css">
@@ -50,13 +44,10 @@
 	<#-- SweetAlert 2-->
 	<script src="/static/js/vendor/sweetalert2.min.js"></script>
 
-
 	<#-- CSS and JS for AdminLTE (CSS and JS). -->
   	<link rel="stylesheet" href="/static/css/vendor/adminlte.min.css">
 	<script src="/static/js/vendor/adminlte.min.js"></script>
 	
-	<#-- eTWIG platform (CSS). -->
+	<#-- eTWIG platform -->
 	<link rel="stylesheet" href="/static/css/etwig-style.css">
-	
-	<#-- eTWIG platform (JS). -->
 	<script src="/static/js/etwig/common.js"></script>	

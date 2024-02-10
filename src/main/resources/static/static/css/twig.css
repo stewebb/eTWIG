@@ -13,23 +13,15 @@ body {
 	background-color: #FFF;
 }
 
-/* The frame in the main TWIG page, which contains the TWIG content. */
-.fullscreen-iframe{
- 	position: fixed;
-    border: none;
-    top: 0; 
-    right: 0;
-    bottom: 0; 
-    left: 0;
-    width: 100%;
-    height: 100%;
+button {
+	background-color: #004AAD!important;	
 }
 
 /**
 	The styles of setting button.
 */
 
-/*Basic position (right-down corner)*/
+/* Position (right-down corner) */
 .setting-button {
 	position: fixed;
 	bottom: 20px;
@@ -45,8 +37,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-	background-color: #004AAD;	
-	border: #FFF;
+	
 }
 
 #settingsButton path{

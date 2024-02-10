@@ -73,22 +73,6 @@ function dangerPopup(title, body){
 	  });
 }
 
-function formatState(state) {
-	var option = $(state.element);
-  	var color = option.data("color");
-  	var icon = option.data("icon");
-  	
-  	if (!color) {
-    	 return state.text;
-  	}
-  	
-  	if(!icon){
-		icon = 'square';
-	}
-  		
-  	return $(`<span style="color: ${color};background-color: #FFF">&nbsp;<i class="fa-solid fa-${icon}"></i>${state.text}&nbsp;</span>`);
-};
-
 function timeAgo(dateStr) {
 	
 	// Remove the milliseconds, if needed.
@@ -202,6 +186,46 @@ function getMyPositions(){
 	
 	return position;
 }
+
+/**
+ * Get the browser name by a given user agent.
+ * @param {string} userAgent 
+ * @returns The browser name
+ */
+
+function getBrowserName(userAgent) {
+    userAgent = userAgent || navigator.userAgent;
+    let browserName = "Unknown Browser";
+
+    if (userAgent.match(/chrome|chromium|crios/i)) {
+        browserName = "Chrome";
+    } else if (userAgent.match(/firefox|fxios/i)) {
+        browserName = "Firefox";
+    } else if (userAgent.match(/safari/i)) {
+        browserName = "Safari";
+    } else if (userAgent.match(/opr\//i)) {
+        browserName = "Opera";
+    } else if (userAgent.match(/edg/i)) {
+        browserName = "Edge";
+    } else if (userAgent.match(/msie|trident/i)) {
+        browserName = "Internet Explorer";
+    }
+
+    // Special case for Safari and Chrome on iOS
+    if (userAgent.match(/iphone|ipad|ipod/i)) {
+        if (userAgent.match(/crios/i)) {
+            browserName = "Chrome";
+        } else if (userAgent.match(/fxios/i)) {
+            browserName = "Firefox";
+        } else {
+            // This is a simplification, as identifying Safari on iOS just from the user agent can be tricky due to the web view component
+            browserName = "Safari";
+        }
+    }
+
+    return browserName;
+}
+
 
 /**
  * Hide the navbar if the page is in a frame.

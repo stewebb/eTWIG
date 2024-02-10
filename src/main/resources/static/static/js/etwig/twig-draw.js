@@ -13,7 +13,7 @@ function preload(){
 
     // Browser check.
     if(typeof window.chrome !== "object"){
-        infoPopup("For the best user experience, Chromium-based browsers are recommended", "However, your web browser is " + navigator.userAgent);
+        infoPopup("For the best experience, Chromium-based browsers are recommended", "However, your web browser is " + getBrowserName(navigator.userAgent));
     }
     
     pageOrientation = windowWidth > windowHeight;
@@ -265,9 +265,10 @@ function settingMenu(){
     pop();
 }
 
-
+/*
 $(document).ready(function() {
     $('#settingsButton').click(function() {
         settingOpened = !settingOpened;
     });
 });
+*/
