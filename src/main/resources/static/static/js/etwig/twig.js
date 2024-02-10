@@ -433,7 +433,7 @@ class TextWidget {
     }
 
     toString(){
-        return `Template(${this.posX}, ${this.posY}, ${this.content}, ${this.color}, ${this.size})`; 
+        return `Text(${this.posX}, ${this.posY}, ${this.content}, ${this.color}, ${this.size})`; 
     }
 }
 
@@ -448,7 +448,7 @@ class TextWidget {
  * - **posY**: The Y coordinate of the starting point of the table.
  * - **width**: The width of the table.
  * - **height**: The height of the the table.
- * - **timeSlotNum**: The number of time slots.
+ * - **dayOfWeek**: Sunday=0, Monday=1, ..., Saturday=6.
  */
 
 class EventTableWidget {
@@ -457,12 +457,12 @@ class EventTableWidget {
         this.type = "EVENT_TABLES";
     }
 
-    setValues(posX, posY, width, height, isWeekday) {
+    setValues(posX, posY, width, height, dayOfWeek) {
         this.posX = posX;
         this.posY = posY;
         this.width = width;
         this.height = height;
-        this.isWeekday = isWeekday;
+        this.dayOfWeek = dayOfWeek;
     }
 
     fromJson(jsonObject){
@@ -470,11 +470,11 @@ class EventTableWidget {
         this.posY = jsonObject.posY;
         this.width = jsonObject.width;
         this.height = jsonObject.height;
-        this.isWeekday = jsonObject.isWeekday;
+        this.dayOfWeek = jsonObject.dayOfWeek;
     }
 
     toString(){
-        return `EventTable(${this.posX}, ${this.posY}, ${this.width}, ${this.height}, ${this.isWeekday})`; 
+        return `EventTable(${this.posX}, ${this.posY}, ${this.width}, ${this.height}, ${this.dayOfWeek})`; 
     }
 }
 

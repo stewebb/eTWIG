@@ -92,7 +92,7 @@ public class TwigAPIController {
 	 */
 
 	@RequestMapping("/api/public/getTwigEvents")
-	public LinkedHashMap<LocalDate, Object> getTwigEvents(@RequestParam Long portfolioId, @RequestParam String date) {
+	public LinkedHashMap<Integer, Object> getTwigEvents(@RequestParam Long portfolioId, @RequestParam String date) {
 		return eventGraphicsService.getTwigGraphics(portfolioId, DateUtils.safeParseDate(date, "yyyy-MM-dd"));
 	}
 	

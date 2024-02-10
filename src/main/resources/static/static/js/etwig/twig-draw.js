@@ -45,6 +45,8 @@ function preload(){
 		return;
 	}
 
+    twig.root.printTree();
+
     // Get event list
     var eventList = getEventList(setting);
     if(eventList == undefined){
@@ -59,22 +61,12 @@ function preload(){
 		var widget = value.node.widget;
 
 		if(widget.type == "IMAGE"){
-
             readImage(assetCollection, widget.assetId);
-			//var assetUrl = "/assets/getPublicAsset?assetId=" + widget.assetId;
-			
-			// Key: assetId, Value: content
-			//assetCollection.set(
-			//	widget.assetId, 
-			//	loadImage(
-			//		assetUrl,       // The image location
-			//		function(){},   // Success callback, do nothing here
-			//		function(){     // Failure callback.
-			//			 warningPopup("Failed to load the following resource", assetUrl);
-			//		}
-			//	)
-			//);
 		}
+
+        //if(widget.type == "EVENT_TABLES"){
+        //    console.log(widget)
+        //}
     }
 
     // Iterate all days over a week.
@@ -84,12 +76,9 @@ function preload(){
         for (var i=0; i<events.length; i++){
             readImage(assetCollection, events[i].assetId);
         }
-        //
-        //console.log(event.assetId);
     });
     
 }
-
 
 
 function setup(){
@@ -100,15 +89,13 @@ function setup(){
 	
     frameRate(10);
     
+    // The main canvas.
     var mainCanvas = twig.root.widget;
     createCanvas(mainCanvas.width, mainCanvas.height);
-   // image(img, 0, 0);
-    //background(255, 0, 0)
-    
-    console.log(assetCollection)
+   
 
+    // Stop the loading animation.
     $('#logo').removeClass('beating-logo').addClass('shrinking-logo');
-    //$('#logo-container').hide();
 }
 
 function draw() {
@@ -165,23 +152,9 @@ function draw() {
             pushNum++;
         }
 
-        /*
-        if(depthChange > 0){
-            translate(parent.widget.posX, parent.widget.posY);
-            push();
-            pushNum++;
-        }else if(depthChange < 0){
-            pop();
-            push();
-            popNum++;
-            pushNum++;
-        }
-        */
-
         // Current widget
         var widget = value.node.widget
 
-       // console.log(depth - lastDepth, widget.type, parent.widget)
 
        //console.log(0)
         switch (widget.type){
@@ -202,6 +175,7 @@ function draw() {
             	fill(255, 0, 0);    noStroke();
                 //rect(widget.posX, widget.posY, widget.width, widget.height);
 
+                console.log(widget)
                 var ev = [
                     {eventId:1, time:'09:00', duration:60, allDayEvent:false},
                     {eventId:2, time:'10:00', duration:70, allDayEvent:false},

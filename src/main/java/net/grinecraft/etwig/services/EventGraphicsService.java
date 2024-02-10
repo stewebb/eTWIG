@@ -16,34 +16,27 @@ public class EventGraphicsService {
 	@Autowired
 	private EventGraphicsRepository eventGraphicsRepository;
 	
-	public LinkedHashMap<LocalDate, Object> getTwigGraphics(Long portfolioId, LocalDate givenDate) {
-
-		//System.out.println(portfolioId);
-		//System.out.println(givenDate);
-
-		LinkedHashMap<LocalDate, Object> eventsThisWeek = new LinkedHashMap<>();
+	public LinkedHashMap<Integer, Object> getTwigGraphics(Long portfolioId, LocalDate givenDate) {
+		LinkedHashMap<Integer, Object> eventsThisWeek = new LinkedHashMap<>();
 
 		// Find this monday
 		LocalDate thisMonday = DateUtils.findThisMonday(givenDate);
 
+		// Get the event list of the whole week.
 		for(int i=0; i<7; i++){
 
+			// Current day
 			LocalDate today = thisMonday.plusDays(i);
+			int dayOfWeek = today.getDayOfWeek().getValue();
+
+			// Adjust to have Sunday as 0, Monday as 1, ..., Saturday as 6.
+			dayOfWeek = (dayOfWeek % 7);
+
+			// Next day
 			LocalDateTime tomorrow = thisMonday.plusDays(i+1).atStartOfDay();
-
-			//System.out.println(today + " " + tomorrow);
-			//System.out.println(eventGraphicsRepository.getGraphicsList(today.atStartOfDay(), tomorrow, portfolioId));
-
-			eventsThisWeek.put(today, eventGraphicsRepository.getGraphicsList(today.atStartOfDay(), tomorrow, portfolioId));
+			eventsThisWeek.put(dayOfWeek, eventGraphicsRepository.getGraphicsList(today.atStartOfDay(), tomorrow, portfolioId));
 		}
 
 		return eventsThisWeek;
-		// Convert to LocalDateTime
-		//LocalDateTime today = givenDate.atStartOfDay();
-		//LocalDateTime tomorrow = givenDate.plusDays(1).atStartOfDay();
-
-		//System.out.println(portfolioId);
-
-		//return eventGraphicsRepository.getGraphicsList(today, tomorrow, portfolioId);
 	}
 }
