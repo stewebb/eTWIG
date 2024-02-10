@@ -1,5 +1,6 @@
 var img;
 var twig = undefined;
+var eventList = undefined;
 var assetCollection = new Map();
 
 // Page orientation: true landscape, false portrait.
@@ -48,7 +49,7 @@ function preload(){
     twig.root.printTree();
 
     // Get event list
-    var eventList = getEventList(setting);
+    eventList = getEventList(setting);
     if(eventList == undefined){
         return;
     }
@@ -63,10 +64,6 @@ function preload(){
 		if(widget.type == "IMAGE"){
             readImage(assetCollection, widget.assetId);
 		}
-
-        //if(widget.type == "EVENT_TABLES"){
-        //    console.log(widget)
-        //}
     }
 
     // Iterate all days over a week.
@@ -83,7 +80,7 @@ function preload(){
 
 function setup(){
 	
-	if(twig == undefined){
+	if(twig == undefined && eventList == undefined){
 		return;
 	}
 	
@@ -100,7 +97,7 @@ function setup(){
 
 function draw() {
 
-	if(twig == undefined){
+	if(twig == undefined && eventList == undefined){
 		return;
 	}
    
@@ -175,8 +172,23 @@ function draw() {
             	fill(255, 0, 0);    noStroke();
                 //rect(widget.posX, widget.posY, widget.width, widget.height);
 
-                console.log(widget)
-                var ev = [
+                //console.log(widget)
+
+                // Match event table (template) and list (content)
+                var ev = eventList[widget.dayOfWeek];
+
+                // Iterate event list again.
+                //$.each(eventList, function(dayOfWeek, events) {
+                    
+                //    console.log(dayOfWeek)
+                    // For each day, get asset of all events
+                    //for (var i=0; i<events.length; i++){
+                    //    readImage(assetCollection, events[i].assetId);
+                    //}
+                //});
+                //var ev = [
+
+                    /*
                     {eventId:1, time:'09:00', duration:60, allDayEvent:false},
                     {eventId:2, time:'10:00', duration:70, allDayEvent:false},
                     {eventId:3, time:'11:00', duration:120, allDayEvent:false},
@@ -185,8 +197,8 @@ function draw() {
                     {eventId:7, time:'13:00', duration:60, allDayEvent:false},
                     {eventId:8, time:'17:20', duration:60, allDayEvent:false},
                     {eventId:9, time:'19:20', duration:60, allDayEvent:false},
-                
-                ]
+                    */
+                //]
                 
                 // **Weekday** events, N=13 (9:00 - 21:00)
                 const WEEKDAY_HOURS = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];

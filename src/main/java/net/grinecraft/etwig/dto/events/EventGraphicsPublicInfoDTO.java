@@ -15,12 +15,15 @@ public class EventGraphicsPublicInfoDTO {
 	// Graphics info
 	private Long id;
 	private Long assetId;
-	
+
 	// Event info
 	private Long eventId;
-	private String time;
 	private int duration;
 	private boolean allDayEvent;
+
+	// Timing
+	private String date;
+	private String time;
 	
 	public EventGraphicsPublicInfoDTO(EventGraphics eventGraphics) {
 		
@@ -31,9 +34,13 @@ public class EventGraphicsPublicInfoDTO {
 		// Event info
 		Event event = eventGraphics.getEvent();
 		this.eventId = event.getId();
-		this.time = event.getStartTime().format(DateTimeFormatter.ofPattern("HH:mm"));
 		this.duration = event.getDuration();
 		this.allDayEvent = event.isAllDayEvent();
+
+		// Timing
+		LocalDateTime eventDateTime = event.getStartTime();
+		this.date = eventDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		this.time = eventDateTime.format(DateTimeFormatter.ofPattern("HH:mm"));
 
 	}
 }
