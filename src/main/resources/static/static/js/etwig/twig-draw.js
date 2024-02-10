@@ -64,6 +64,8 @@ function preload(){
 			);
 		}
     }
+
+    
 }
 
 function setup(){
@@ -80,6 +82,9 @@ function setup(){
     //background(255, 0, 0)
     
     console.log(assetCollection)
+
+    $('#logo').removeClass('beating-logo').addClass('shrinking-logo');
+    //$('#logo-container').hide();
 }
 
 function draw() {
