@@ -277,3 +277,62 @@ $(document).ready(function() {
     });
 });
 */
+
+/**
+ * Create a datepicker for selecting date.
+ * @returns The datepicker object.
+ */
+
+function createDatePicker(){
+    var datepicker = new tui.DatePicker("#weekWrapper", {
+        date: Date.today(),
+        type: 'date',
+        input: {
+            element: "#twigWeek",
+            usageStatistics: false
+        }
+    });
+        
+    datepicker.on('change', () => {
+        getWeekByDate(datepicker.getDate().toString("yyyy-MM-dd"));
+    });
+    
+    return datepicker;
+}
+
+function getWeekByDate(date){
+	var url = '/api/public/getWeekByDate';
+	$.ajax({ 
+		type: 'GET', 
+    	url: url, 
+    	data: { 
+			date: date,
+		}, 
+		success: function(json) {
+			
+			// HTTP response normally, but has other kinds of error (e.g, invalid input)
+			if(json.error > 0){
+    			dangerPopup("Failed to get week.", json.msg);
+    			return;
+			}
+			
+			// Week cannot be found in DB.
+			if(json.week == null){
+				$("#calculatedWeek").html(`<span class="text-danger">The week cannot be found in the database.</span> Try to select another date.`);
+				return;
+			}
+			
+			// Week can be found in DB.
+			$("#calculatedWeek").html(`<span class="text-primary">${json.week.name} of ${json.week.semester}</span>`);
+			
+        },
+        
+        // Toast error info when it happens
+    	error: function(err) {   		
+			dangerPopup("Failed to get week due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+		}
+	});
+	
+	// Finally disable the share button.
+	//enableShare(false);
+}

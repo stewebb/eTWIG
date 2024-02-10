@@ -42,90 +42,65 @@
 	<script src="/static/js/etwig/twig.js"></script>
 	<script src="/static/js/etwig/twig-draw.js"></script>
 
-	<#-- Settings Modal -->
+	<#-- Settings/Share Modal -->
 	<div class="modal fade" tabindex="-1" id="etwigSettingBox">
   		<div class="modal-dialog">
     		<div class="modal-content">
-    		
+
       			<div class="modal-header">
         			<h5 class="modal-title bold-text text-primary">
-        				<i class="fa-solid fa-gear"></i>&nbsp;Options
+        				<i class="fa-solid fa-share"></i>&nbsp;Settings and Share
         			</h5>
         			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
           				<span aria-hidden="true">&times;</span>
        				</button>
-
       			</div>
       			
      			<div class="modal-body">
-     				<ul class="nav nav-tabs mb-3" role="tablist">
      				
-     					<#-- Tab: Filter -->
-  						<li class="nav-item" role="presentation">
-    						<button class="nav-link active" id="filter-tab" data-toggle="tab" data-target="#filter" type="button" role="tab" aria-controls="filter" aria-selected="true">
-    							<i class="fa-solid fa-filter"></i>&nbsp;Filter
-    						</button>
-  						</li>
-  						<#-- /Tab: Filter -->
-
-  						<#-- Tab: Share -->
-  						<li class="nav-item" role="presentation">
-    						<button class="nav-link" id="share-tab" data-toggle="tab" data-target="#share" type="button" role="tab" aria-controls="share" aria-selected="false">
-    							<i class="fa-solid fa-share"></i>&nbsp;Share and Export
-    						</button>
-  						</li>
-						<#-- /Tab: Share -->
-
-					</ul>
-		
-					<div class="tab-content">
-
-						<#-- Filter -->
-  						<div class="tab-pane fade show active" id="filter" role="tabpanel" aria-labelledby="filter-tab">
-							
-							<#-- Select Portfolio -->
-							<div class="form-group row">
-								<label for="eventPortfolio" class="col-sm-2 col-form-label">Portfolio</label>
-								<div class="col-sm-10 input-group">
+					<#-- Portfolio -->
+					<div class="form-group row">
+						<label for="eventPortfolio" class="col-sm-2 col-form-label">Portfolio</label>
+						<div class="col-sm-10 input-group">
 									
-									<div class="input-group-prepend">
-										<span class="input-group-text"><i class="fa-solid fa-briefcase"></i></span>
-									</div>
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fa-solid fa-briefcase"></i></span>
+							</div>
 							
-									<select class="form-control select2" name="twigPortfolio" id="twigPortfolio" onchange="enableShare(false);">
-      									<optgroup label="All portfolios">
-      										<option value="-1" selected>All portfolios</option>
-      									</optgroup>
-      									<optgroup label="Portfolio(s) with separate calendar">
-	        								<#if portfolioSeparatedCalendar?has_content>
-        										<#list portfolioSeparatedCalendar as portfolio>
-        											<option value="${portfolio.id}">${portfolio.name}</option>
-												</#list>
-											<#else>
-												<option value="-2" disabled>(No portfolio)</option>
-        									</#if>
-        						 		</optgroup>
-      								</select>
-      							</div>
-     						</div>
-     						<#-- /Select Portfolio -->
+							<select class="form-control select2" name="twigPortfolio" id="twigPortfolio">
+      							<optgroup label="All portfolios">
+      								<option value="-1" selected>All portfolios</option>
+      							</optgroup>
+      							<optgroup label="Portfolio(s) with separate calendar">
+	        						<#if portfolioSeparatedCalendar?has_content>
+        								<#list portfolioSeparatedCalendar as portfolio>
+        									<option value="${portfolio.id}">${portfolio.name}</option>
+										</#list>
+									<#else>
+										<option value="-2" disabled>(No portfolio)</option>
+        							</#if>
+        						</optgroup>
+      						</select>
+      					</div>
+     				</div>
+     				<#-- /Portfolio -->
 
-     						<#-- Date -->
-							<div class="form-group row">
-								<label for="twigWeek" class="col-sm-2 col-form-label">Date</label>
-								<div class="col-sm-10">
-									<div class="input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text">
-												<i class="fa-solid fa-calendar-week"></i>
-											</span>
-										</div>
-										<input type="text" class="form-control" id="twigWeek" onChange="getWeekByDate(datepicker.getDate());">
-									</div>
-									<div id="weekWrapper" class="datepicker"></div>
+     				<#-- Date -->
+					<div class="form-group row">
+						<label for="twigWeek" class="col-sm-2 col-form-label">Date</label>
+						<div class="col-sm-10">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text">
+										<i class="fa-solid fa-calendar-week"></i>
+									</span>
 								</div>
-							</div>		
-     						<#-- /Date -->
+								<input type="text" class="form-control" id="twigWeek" onChange="getWeekByDate(datepicker.getDate());">
+							</div>
+							<div id="weekWrapper" class="datepicker"></div>
+						</div>
+					</div>		
+     				<#-- /Date -->
 							
 							<#-- Week -->
      						<div class="form-group row">
@@ -134,22 +109,8 @@
      							</div>
      						</div>
 							<#-- /Week -->
-						</div>
-						<#-- Filter -->
-
-						<#-- Content: Share -->
-						<div class="tab-pane fade" id="share" role="tabpanel" aria-labelledby="share-tab">
-							
-							<#-- Suggestion box -->
-							<div class="row" id="holdOn">
-								<div class="callout callout-primary">
-									<h5 class="bold-text mb-3">Hold on!</h5>
-									Before you share and export, please make sure you have already applied 
-									<span class="bold-text text-primary">Filer</span> and
-									<span class="bold-text text-primary">Settings</span> on this TWIG.
-								</div>
-							</div>
-							<#-- /Suggestion box -->
+						
+							<hr class="mb-3"/>
 							
 							<#-- Export -->
 							<div class="row">
@@ -230,8 +191,7 @@
 							</div>
 							-->
 							
-						</div>
-					</div>
+						
 					
      			</div>
      			
@@ -262,7 +222,40 @@
 	</div>
 	<#-- /Settings button -->
 	
+	<script>
+		$(document).ready(function() {
+		
+			// Initialize the week
+			//getWeekByDate(Date.today().toString("yyyy-MM-dd"));
+			//applyChanges();
+			//enableShare(true);
+			
+			// Initialize the setting button.
+			//$('#settingsButton').click(function() {
+			//	$('#etwigSettingBox').modal('show');
+			//});
+			
+			$('#twigPortfolio').select2({
+				theme: 'bootstrap4',
+			});
 
+			var datepicker = createDatePicker();
+			
+			//$('#twigResolution').select2({
+			//	theme: 'bootstrap4',
+			//});
+			
+		});
+		
+		//var twigUrl = "/twig/content";
+		
+		
+		
+		
+		//new QRCode(document.getElementById("qrcode"), "https://etwig.grinecraft.net");
+		
+		//createQRCode("qrcode",  "https://etwig.grinecraft.net", ["#000000", "#FFFFFF"]);
+	</script>
 
 </body>
 </html>
