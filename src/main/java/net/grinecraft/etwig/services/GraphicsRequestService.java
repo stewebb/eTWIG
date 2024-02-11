@@ -120,7 +120,13 @@ public class GraphicsRequestService {
 	}
 	
 	//public void addRequest 
-	
+
+	/**
+	 * Make a decision for a graphics request, and store the information in the DB.
+	 * @param currentRequest
+	 * @param decisionInfo
+	 * @throws Exception
+	 */
 	public void approveRequest(GraphicsRequest currentRequest, Map<String, Object> decisionInfo) throws Exception {
 		ApproveRequestsDTO request = new ApproveRequestsDTO(currentRequest, decisionInfo);
 		
@@ -130,15 +136,12 @@ public class GraphicsRequestService {
 		
 		// Re-query the request data (to avoid some null values)
 		updatedRequest = this.findById(updatedRequest.getId());
-		//System.out.println(updatedRequest);
-		
+
 		// Need to set the approver info manually
 		FinalizedRequestsDetailsDTO detail = new FinalizedRequestsDetailsDTO(updatedRequest);
 		detail.setApprover(userRoleService.findById(updatedRequest.getApproverRoleId()));
-		
-		//System.out.println(updatedRequest.getApproverRoleId());
-		//System.out.println(userRoleService.findById(updatedRequest.getApproverRoleId()));
 
+		// "Copy" the graphics to the "event_graphics" table.
 		NewGraphicsDTO newGraphicsDTO = new NewGraphicsDTO();
 		newGraphicsDTO.fromApproval(updatedRequest);
 		EventGraphics eventGraphics = newGraphicsDTO.toEntity();

@@ -50,4 +50,7 @@ public class EventGraphics {
 	
 	@Column(name = "upload_time")
 	private LocalDateTime uploadTime;
+
+	@Column(name = "banner")
+	private boolean banner;
 }

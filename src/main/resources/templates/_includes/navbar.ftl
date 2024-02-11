@@ -69,6 +69,14 @@
 										</a>
 									</li>
 									<#-- TWIG Template -->
+
+									<#-- Event -->
+									<li>
+										<a href="/graphics/events/list" class="dropdown-item <#if navbar=="GRAPHICS_EVENTS">active</#if>">
+											<i class="fa-solid fa-list-ul"></i>&nbsp;Events
+										</a>
+									</li>
+									<#-- /Event -->
 								
 								</ul>
 							</li>

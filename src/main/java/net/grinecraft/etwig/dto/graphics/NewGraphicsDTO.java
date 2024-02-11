@@ -35,6 +35,7 @@ public class NewGraphicsDTO {
         eventGraphics.setOperatorRoleId(this.operatorRoleId);
         eventGraphics.setAssetId(this.assetId);
         eventGraphics.setUploadTime(LocalDateTime.now());
+        eventGraphics.setBanner(true);
 
         return eventGraphics;
     }
