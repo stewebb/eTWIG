@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import net.grinecraft.etwig.dto.graphics.*;
+import net.grinecraft.etwig.model.EventGraphics;
+import net.grinecraft.etwig.repository.EventGraphicsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,14 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
-import net.grinecraft.etwig.dto.graphics.PendingRequestsBasicInfoDTO;
-import net.grinecraft.etwig.dto.graphics.PendingRequestsDetailsDTO;
-import net.grinecraft.etwig.dto.graphics.ApproveRequestsDTO;
-import net.grinecraft.etwig.dto.graphics.FinalizedRequestsBasicInfoDTO;
-import net.grinecraft.etwig.dto.graphics.FinalizedRequestsDetailsDTO;
-import net.grinecraft.etwig.dto.graphics.GraphicsRequestDTO;
-import net.grinecraft.etwig.dto.graphics.NewRequestDTO;
-import net.grinecraft.etwig.dto.graphics.NewRequestEmailNotificationDTO;
 import net.grinecraft.etwig.model.GraphicsRequest;
 import net.grinecraft.etwig.repository.GraphicsRequestRepository;
 import net.grinecraft.etwig.util.MapUtils;
@@ -30,6 +25,9 @@ public class GraphicsRequestService {
 
 	@Autowired
 	private GraphicsRequestRepository graphicsRequestRepository;
+
+	@Autowired
+	private EventGraphicsRepository eventGraphicsRepository;
 	
 	@Autowired
 	private EmailService emailService;
@@ -123,7 +121,6 @@ public class GraphicsRequestService {
 	
 	//public void addRequest 
 	
-	@SuppressWarnings("null")
 	public void approveRequest(GraphicsRequest currentRequest, Map<String, Object> decisionInfo) throws Exception {
 		ApproveRequestsDTO request = new ApproveRequestsDTO(currentRequest, decisionInfo);
 		
@@ -141,6 +138,11 @@ public class GraphicsRequestService {
 		
 		//System.out.println(updatedRequest.getApproverRoleId());
 		//System.out.println(userRoleService.findById(updatedRequest.getApproverRoleId()));
+
+		NewGraphicsDTO newGraphicsDTO = new NewGraphicsDTO();
+		newGraphicsDTO.fromApproval(updatedRequest);
+		EventGraphics eventGraphics = newGraphicsDTO.toEntity();
+		eventGraphicsRepository.save(eventGraphics);
 		
 		// Send email
 		emailService.graphicsApprovalNotification(detail);

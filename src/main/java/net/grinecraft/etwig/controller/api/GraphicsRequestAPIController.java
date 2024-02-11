@@ -88,7 +88,13 @@ public class GraphicsRequestAPIController {
 	public Page<FinalizedRequestsBasicInfoDTO> getFinalizedRequests(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) throws Exception {
 		return graphicsRequestService.getFinalizedRequests(page, size);
 	}
-	
+
+	/**
+	 * Approve a pending graphics request.
+	 * @param decisionInfo
+	 * @return
+	 * @throws Exception
+	 */
 	@PostAuthorize("hasAuthority('ROLE_GRAPHICS')")
 	@PostMapping(value = "/approveRequests")
 	public Map<String, Object> approveRequests(@RequestBody Map<String, Object> decisionInfo) throws Exception {

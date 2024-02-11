@@ -36,7 +36,7 @@ public class EventGraphicsService {
 			LocalDateTime tomorrow = thisMonday.plusDays(i+1).atStartOfDay();
 			eventsThisWeek.put(dayOfWeek, eventGraphicsRepository.getGraphicsList(today.atStartOfDay(), tomorrow, portfolioId));
 
-			System.out.println(today.atStartOfDay() + " " + tomorrow);
+			//System.out.println(today.atStartOfDay() + " " + tomorrow);
 			//System.out.println(eventGraphicsRepository.getGraphicsList(today.atStartOfDay(), tomorrow, portfolioId));
 
 		}
