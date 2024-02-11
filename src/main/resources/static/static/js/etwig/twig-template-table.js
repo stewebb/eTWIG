@@ -31,10 +31,6 @@ function portfolioRender(data, type, row){
 	return data ? data : 'All portfolios'; 
 }
 
-function dateRender(data, type, row){
-	return data ? data : 'N/A'; 
-}
-
 function actionRender(data, type, full){
 	return `
 	<div class="btn-group">

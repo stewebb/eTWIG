@@ -10,18 +10,19 @@
 package net.grinecraft.etwig.controller.api;
 
 import java.time.LocalDate;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
+import net.grinecraft.etwig.model.Week;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import net.grinecraft.etwig.dto.AssetBasicInfoDTO;
 import net.grinecraft.etwig.dto.TwigTemplateBasicInfoDTO;
 import net.grinecraft.etwig.dto.TwigTemplateDTO;
-import net.grinecraft.etwig.services.AssetService;
+import net.grinecraft.etwig.services.EventGraphicsService;
 import net.grinecraft.etwig.services.TwigService;
 import net.grinecraft.etwig.services.WeekService;
 import net.grinecraft.etwig.util.DateUtils;
@@ -32,13 +33,13 @@ import net.grinecraft.etwig.util.WebReturn;
 public class TwigAPIController {
 
 	@Autowired
-	TwigService twigService;
+	private TwigService twigService;
 	
 	@Autowired
-	WeekService weekService;
+	private WeekService weekService;
 	
 	@Autowired
-	AssetService assetService;
+	private EventGraphicsService eventGraphicsService;
 
 	/**
 	 * Get the TWIG template by a specific given id.
@@ -65,21 +66,11 @@ public class TwigAPIController {
 	/**
 	 * Get the "week" information by a given date.
 	 * @param date The given date in yyyy-mm-dd format.
-	 * @return
-	 * @throws Exception
-	 */
+     */
 	
 	@RequestMapping("/api/public/getWeekByDate")  
-	public Map<String, Object> getWeekByDate(@RequestParam String date) throws Exception{
-		
-		LocalDate givenDate = DateUtils.safeParseDate(date, "yyyy-MM-dd");
-		if(givenDate == null) {
-			return WebReturn.errorMsg("date is invalid. It must be yyyy-mm-dd.", false);
-		}
-		
-		Map<String, Object> myReturn = WebReturn.errorMsg(null, true);
-	    myReturn.put("week", weekService.getWeekByDate(givenDate));
-		return myReturn;
+	public Week getWeekByDate(@RequestParam String date){
+		return weekService.getWeekByDate(DateUtils.safeParseDate(date, "yyyy-MM-dd"));
 	}
 	
 	@RequestMapping("/api/public/getTwigTemplateByPortfolioAndDate")  
@@ -91,6 +82,19 @@ public class TwigAPIController {
     public Page<TwigTemplateBasicInfoDTO> getTwigTemplateList(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return twigService.getTwigTemplateList(page, size);
     }
+
+	/**
+	 * Get the event graphics for a TWIG, by a given portfolio and date.
+	 *
+	 * @param portfolioId The given portfolio, -1 stands for "all portfolios"
+	 * @param date        The given date.
+	 * @return The event info of an entire week.
+	 */
+
+	@RequestMapping("/api/public/getTwigEvents")
+	public LinkedHashMap<Integer, Object> getTwigEvents(@RequestParam Long portfolioId, @RequestParam String date) {
+		return eventGraphicsService.getTwigGraphics(portfolioId, DateUtils.safeParseDate(date, "yyyy-MM-dd"));
+	}
 	
 
 }

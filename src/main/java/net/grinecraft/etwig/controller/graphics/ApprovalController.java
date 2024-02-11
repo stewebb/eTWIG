@@ -22,7 +22,7 @@ public class ApprovalController {
 	private GraphicsRequestService graphicsRequestService;
 	
 	@GetMapping("/list")  
-	public String list(Model model) throws Exception{
+	public String list() throws Exception{
 		return "graphics/approval_list";
 	}
 	

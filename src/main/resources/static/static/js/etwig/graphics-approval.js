@@ -127,12 +127,6 @@ function finalizedActionRender(data, type, full){
 	`;
 }
 
-function selectUpload(){
-	$('#etwigModalTitle').text('Select/Upload');
-	$("#etwigModalBody").load("/assets/_selector");
-	$('#etwigModal').modal('show');
-}
-
 function setAssetsUpload(approvedMode){
 	$('#graphicsApprovalAssets').toggle(approvedMode == 1);
 }
@@ -166,9 +160,7 @@ function decide(){
 		}
 		approvalDecisionObj["asset"] = assetId;
 	}
-	
-	//console.log(approvalDecisionObj);
-	
+		
 	var hasError = true;
 	$.ajax({
    		url: '/api/private/approveRequests', 

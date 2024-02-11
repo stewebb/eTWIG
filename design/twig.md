@@ -114,11 +114,11 @@ The event graphics will be properly placed in this table by portfolio, and event
 
 **Event Graphics** are also images. They are managed internally in the **event tables object**  and will be fetched based on some conditions (e.g., week and portfolio)
 
-### TWIG Arranging Algorithm (TAA)
+### TWIG Arrangement Algorithm (TAA)
 
 #### Algorithm input
 
-- A **list** of all events on a certain day.
+- A **map** of all events on a certain day.
 - The object of the **event table widget**.
 - The **range** of acceptable sizes.
 
@@ -131,10 +131,9 @@ A list of the positions of all event graphics.
 **The event time slot** object. This object stores the information of an event graphic and the layout of it. Each time slot corresponds to such an object, which contains:
 
 - **EventId:** The identification number of the event.
-- **startTime:** The start time (with no date) of the event.
-- **endTime:** The end time of the event.
 - **posX:** The relatively X coordinate of the graphic.
 - **posY:** The relatively Y coordinate of the graphic.
+- **assetId:** The graphic asset of this event.
 
 #### Steps: Main algorithm
 
@@ -149,7 +148,7 @@ A list of the positions of all event graphics.
 
 - **Step 2:** Assign the **key element** of this map, which has the following 4 cases:
   - **Case 1:** the hour part of the time (in a 24-hour clock)
-  - **Case 2:** -1
+  - **Case 2:** NaN
   - **Case 3:** Negative infinity
   - **Case 4:** Positive infinity
 - **Step 3:** Allocate the events and do the following things until the event list (a.k.a, buffer) is empty.

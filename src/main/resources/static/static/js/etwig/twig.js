@@ -36,7 +36,7 @@ class TWIG{
 
                 // Empty result check
                 if(json == undefined || json == null || json.length == 0){
-                    dangerPopup("The TWIG template cannot be found by the following parameters", setting.toString());
+                    dangerPopup("The TWIG template cannot be found by the following parameters", setting.toString() + "<p>You may open the setting panel and select new parameters.</p>");
                     return;
                 }
 
@@ -188,8 +188,21 @@ class TwigSettings{
         this.date = Date.parse(dateStr);
     }
 
+    getPortfolio(){
+        return this.portfolio;
+    }
+
+    /**
+     * Output the date
+     * @returns date in yyyy-MM-dd format.
+     */
+
+    getDate(){
+        return this.date.toString("yyyy-MM-dd");
+    }
+
     toString(){
-        return `TwigSettings(portfolio=${this.portfolio}, date=${this.date.toString("yyyy-MM-dd")})`; 
+        return `TwigSettings(portfolio=${this.getPortfolio()}, date=${this.getDate()})`; 
     }
 
     /**
@@ -420,7 +433,7 @@ class TextWidget {
     }
 
     toString(){
-        return `Template(${this.posX}, ${this.posY}, ${this.content}, ${this.color}, ${this.size})`; 
+        return `Text(${this.posX}, ${this.posY}, ${this.content}, ${this.color}, ${this.size})`; 
     }
 }
 
@@ -435,7 +448,7 @@ class TextWidget {
  * - **posY**: The Y coordinate of the starting point of the table.
  * - **width**: The width of the table.
  * - **height**: The height of the the table.
- * - **timeSlotNum**: The number of time slots.
+ * - **dayOfWeek**: Sunday=0, Monday=1, ..., Saturday=6.
  */
 
 class EventTableWidget {
@@ -444,12 +457,12 @@ class EventTableWidget {
         this.type = "EVENT_TABLES";
     }
 
-    setValues(posX, posY, width, height, timeSlotNum) {
+    setValues(posX, posY, width, height, dayOfWeek) {
         this.posX = posX;
         this.posY = posY;
         this.width = width;
         this.height = height;
-        this.timeSlotNum = timeSlotNum;
+        this.dayOfWeek = dayOfWeek;
     }
 
     fromJson(jsonObject){
@@ -457,13 +470,414 @@ class EventTableWidget {
         this.posY = jsonObject.posY;
         this.width = jsonObject.width;
         this.height = jsonObject.height;
-        this.timeSlotNum = jsonObject.timeSlotNum;
+        this.dayOfWeek = jsonObject.dayOfWeek;
     }
 
     toString(){
-        return `EventTable(${this.posX}, ${this.posY}, ${this.width}, ${this.height}, ${this.timeSlotNum})`; 
+        return `EventTable(${this.posX}, ${this.posY}, ${this.width}, ${this.height}, ${this.dayOfWeek})`; 
     }
 }
+
+/**
+ * This is a regular ArrayList that is implemented in JavaScript.
+ * It has similar behaviors to the Java ArrayList.
+ */
+
+class ArrayList {
+
+    /**
+     * Initialize
+     */
+    
+    constructor() {
+      this.array = [];
+    }
+  
+    /**
+     * Adds an element to the end of the list
+     * @param {*} element 
+     */
+    
+    add(element) {
+      this.array.push(element);
+    }
+  
+    /**
+     * Removes the first occurrence of the specified element from the list, if it is present
+     * @param {*} element 
+     * @returns true The element was removed successfully. False otherwise.
+     */
+
+    remove(element) {
+      const index = this.array.indexOf(element);
+      if (index > -1) {
+        this.array.splice(index, 1);
+        return true;
+      }
+      return false;
+    }
+  
+    /**
+     * Returns true if this list contains the specified element.
+     * @param {*} element 
+     * @returns 
+     */
+
+    contains(element) {
+      return this.array.includes(element);
+    }
+  
+    /**
+     * Empty check.
+     * @returns true if this list contains no elements
+     */
+
+    isEmpty() {
+      return this.array.length === 0;
+    }
+  
+    /**
+     * Get the size of this ArrayList.
+     * @returns the number of elements in this list
+     */
+
+    size() {
+      return this.array.length;
+    }
+  
+    /**
+     * Removes all of the elements from this list
+     */
+
+    clear() {
+      this.array = [];
+    }
+  
+    /**
+     * Get an element.
+     * @param {*} index 
+     * @returns the element at the specified position in this list
+     */
+
+    get(index) {
+      if (index >= 0 && index < this.array.length) {
+        return this.array[index];
+      }
+      throw new Error("Index out of bounds");
+    }
+  
+    /**
+     * Removes the element at the specified position in this list
+     * @param {*} index 
+     * @returns The removed element
+     */
+
+    removeAt(index) {
+      if (index >= 0 && index < this.array.length) {
+        return this.array.splice(index, 1)[0];
+      }
+      throw new Error("Index out of bounds");
+    }
+
+    /**
+     * Convert a normal array to an ArrayList.
+     * @param {*} elements 
+     */
+
+    fromArray(elements) {
+        this.array = [...elements];
+    }
+    
+    /**
+     * As the name implies, to string...
+     * @returns The string format of this ArrayList
+     */
+
+    toString() {
+        return this.array.join(", ");
+    }
+  }
+
+/**
+ * **TWIG Arrangement Algorithm (TAA)** is an algorithm to arrange events on the TWIG.
+ * Input:
+ * - A **map** of all events on a certain day. (key: eventId, value: map)
+ * - The object of the **event table widget**.
+ * 
+ * Output:
+ * - A list of the positions of all event graphics.
+ */
+
+class TAA{
+
+    constructor(eventMap, eventTable, hours){
+        this.eventMap = eventMap;
+        this.eventTable = eventTable;
+        this.hours = hours;
+    }
+
+    /**
+     * A simple helper method to calculate the longest possible duration of an event.
+     * @param {String} startTime Event start time in hh:MM
+     * @returns The longest duration time.
+     */
+
+    #longestDuration(startTime){
+
+        // Null check
+        if(startTime == undefined || startTime == null){ 
+            return 0; 
+        }
+
+        var splitted = startTime.split(':');
+
+        // "+" can convert the string-based int to an int!
+        var minutes = (+splitted[0]) * 60 + (+splitted[1]);
+
+        // Ensure this number is NOT a negative number.
+        return Math.max(0, 1440-minutes);
+    }
+
+    /**
+     * A helper method to dandle events and add them to the time slot.
+     * Only the first instance will be considered.
+     * @param {*} hour 
+     * @param {boolean} condition 
+     * @param {*} eventList 
+     * @returns true indicates the event was handled.
+     */
+
+    #handleEvent(hour, condition, eventList, eventId) {
+        if (condition) {
+
+            // Only store the first instance.
+            if (this.timeSlot.get(hour) == null) {
+                this.timeSlot.set(hour, eventId);
+            }
+
+            eventList.removeAt(0);
+            return true;
+        }
+    
+        return false;
+    }
+
+    /**
+     * Find the nearest free slot to the current hour.
+     * @param {int} hour 
+     * @returns 
+     */
+
+    #nearestFreeSlot(hour){
+
+        var currentKey = null;
+        var minDist = Number.POSITIVE_INFINITY;
+
+        // Get and iterate all free slots (i.e., null value)
+        var availableSlots = new Map([...this.timeSlot].filter(([key, value]) => value == null));
+        //console.log(availableSlots.size)
+
+        for (const [key, value] of availableSlots) {
+            var dist = Math.abs(hour - key);
+
+            // Find a minimum one!
+            if(dist < minDist){
+                minDist = dist;
+                currentKey = key;
+            } 
+        }
+
+        //console.log(hour, currentKey)
+        return currentKey;
+    }
+
+
+    /**
+     * Step 1: Initialize and assign the key of the time slot.
+     */
+
+    #initTimeSlot(){
+
+        // Determine the length of the time slot map, which is **N+3**.
+        var timeSlot = new Map();
+
+        // Starts with **All-day events** (NaN)
+        timeSlot.set(NaN, null);
+
+        // Followed by the events **before** display starting time. (-Inf)
+        timeSlot.set(Number.NEGATIVE_INFINITY, null);
+
+        // Followed by normal hours
+        for(var i=0; i<this.hours.length; i++){
+            timeSlot.set(this.hours[i], null);
+        }
+
+        // Followed by the events **after** display starting time. (+Inf)
+        timeSlot.set(Number.POSITIVE_INFINITY, null); 
+        this.timeSlot = timeSlot;
+    }
+
+    /**
+     * Step 2: **Sort** and **regularize** events, and make them:
+     * - Restrain the duration between [0, 1440-currentTimeInSeconds]
+     * - Order by duration ASC
+     * - Convert duration to hours (min. 1)
+     */
+
+    #regularizeEvents(){
+        const hourOfMinutes = 60;
+
+        // Step 1: Restrain the duration
+        let cappedArr = this.eventMap.map(obj => ({
+            ...obj,
+            duration: Math.min(obj.duration, this.#longestDuration(obj.time))
+        }));
+
+        // Step 2: Sort
+        let sortedArr = cappedArr.sort((a, b) => a.duration - b.duration);
+
+        // Step 3: Convert time and durations to hours.
+        this.eventMap = sortedArr.map(obj => ({
+            ...obj,
+            time: (obj.time == null) ? NaN : parseInt(obj.time.split(':')[0]),
+            duration: Math.ceil(obj.duration / hourOfMinutes)
+        }));
+    }
+
+    /**
+     * **Step 3:** Allocate the events repeatedly until the event list (a.k.a, buffer) is empty.
+     */
+
+    #allocate(){
+
+        const sortedTimeSlotKeys = Array.from(this.timeSlot.keys())
+            .filter(key => Number.isFinite(key))    // Remove NaN, ± Inf
+            .sort((a, b) => a - b);                 // Sort bt ASC
+
+        const minHour = sortedTimeSlotKeys[0];
+        const maxHour = sortedTimeSlotKeys[sortedTimeSlotKeys.length-1];
+
+        // Use an ArrayList to store the events
+        var eventList = new ArrayList();
+        eventList.fromArray(this.eventMap);
+
+        // Attempting to add events repeatedly.
+        while(!eventList.isEmpty()){
+
+            // Get the first event every time.
+            var currentEvent = eventList.get(0);
+            var startTime = currentEvent.time;
+
+            // Edge cases: All day, before hour and after hour events
+            if(this.#handleEvent(NaN, currentEvent.allDayEvent, eventList, currentEvent.eventId)){ continue; }
+            if(this.#handleEvent(Number.NEGATIVE_INFINITY, startTime < minHour, eventList, currentEvent.eventId)){ continue; }
+            if(this.#handleEvent(Number.POSITIVE_INFINITY, startTime > maxHour, eventList, currentEvent.eventId)){ continue; }
+
+            // Normal cases
+            var freeSlot = this.#nearestFreeSlot(startTime);
+            if(freeSlot == null){
+                console.warn("Time slot overflow");
+            }
+            this.#handleEvent(freeSlot, true, eventList, currentEvent.eventId);
+
+        }
+
+    }
+
+    /**
+     * **Step 4:** Arrange the specific position for each event.
+     */
+
+    #arrange(){
+
+       
+        // The height of each slot
+        //var slotHeight = Math.ceil(this.eventTable.height / this.timeSlot.size);
+
+        // Calculate the position of all occupied slots.
+        var count = 1;
+        for (const [key, value] of this.timeSlot) {
+            if(value != null){
+
+                // The index of the eventMap by a given eventId.
+                //var idx = this.eventMap.findIndex(object => object.eventId == value);
+
+                // Reset the time slot.
+                this.timeSlot.set(key, new EventTimeSlot(value, this.eventTable.posX, this.getSlotHeight()*count, key));
+            }
+            count++;
+        }
+    }
+
+    exec(){
+
+        this.#initTimeSlot();
+        this.#regularizeEvents();
+        this.#allocate();
+        this.#arrange();
+
+        return this.timeSlot;
+    }
+
+    getSlotHeight(){
+        return Math.ceil(this.eventTable.height / this.timeSlot.size);
+    }
+}
+
+/**
+ * **The event time slot** object. 
+ * This object stores the information of an event graphic and the layout of it. 
+ * Each time slot corresponds to such an object, which contains:
+ * 
+ * - **EventId:** The identification number of the event.
+ * - **posX:** The relatively X coordinate of the graphic.
+ * - **posY:** The relatively Y coordinate of the graphic.
+ * - **hour:** The hour (in integer) of this event, which is corresponding to the pre-defined slots.
+ * - **assetId:** The graphic asset of this event.
+ */
+
+class EventTimeSlot{
+
+    constructor(eventId, posX, posY, hour){
+        this.eventId = eventId;
+        this.posX = posX;
+        this.posY = posY;
+        this.hour = hour;
+        //this.assetId = assetId;
+    }
+
+    toString(){
+        return `EventTimeSlot(${this.eventId}, ${this.posX}, ${this.posY}, ${this.hour})`; 
+    }
+}
+/*
+var ev = [
+    //{eventId:1, time:'09:00', duration:60, allDayEvent:false},
+    {eventId:2, time:'10:00', duration:70, allDayEvent:false},
+    {eventId:3, time:'15:00', duration:120, allDayEvent:false},
+    {eventId:4, time:null, duration:null, allDayEvent:true},
+    {eventId:5, time:null, duration:null, allDayEvent:true},
+    {eventId:6, time:'22:30', duration:60, allDayEvent:false},
+    {eventId:7, time:'13:00', duration:60, allDayEvent:false},
+    {eventId:8, time:'17:20', duration:60, allDayEvent:false},
+    {eventId:9, time:'19:20', duration:60, allDayEvent:false},
+
+]
+
+// **Weekday** events, N=13 (9:00 - 21:00)
+const WEEKDAY_HOURS = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
+
+// **Weekend** events, N=3 (morning 9:00-12:00, afternoon 13:00-18:00, evening 19:00-21:00),
+const WEEKEND_HOURS = [9, 15, 21];
+
+//var eventTableMonday = new TwigNode();
+var m = new EventTableWidget(); m.setValues(100, 120, 220, 650, true);
+
+
+var taa = new TAA(ev, m, null, WEEKDAY_HOURS);
+
+console.log(taa.exec());
+*/
 
 function defineTwigTreeManually(){
 
@@ -512,4 +926,4 @@ function defineTwigTreeManually(){
 
 }
 
-console.log(defineTwigTreeManually());
+//console.log(defineTwigTreeManually());

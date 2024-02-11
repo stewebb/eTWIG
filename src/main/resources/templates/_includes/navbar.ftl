@@ -27,13 +27,11 @@
 						<#-- /Dashboard -->
 						
 						<#-- TWIG -->
-						<!--
 						<li class="nav-item">
-							<a href="/twig" class="nav-link navbar-border">
+							<a href="/twig" class="nav-link navbar-border" target="_blank">
 								<i class="fa-solid fa-tree"></i>&nbsp;TWIG
 							</a>
 						</li>
-						-->
 						<#-- /TWIG -->
 						
 						<#-- Events -->
@@ -71,6 +69,14 @@
 										</a>
 									</li>
 									<#-- TWIG Template -->
+
+									<#-- Event -->
+									<li>
+										<a href="/graphics/events/list" class="dropdown-item <#if navbar=="GRAPHICS_EVENTS">active</#if>">
+											<i class="fa-solid fa-list-ul"></i>&nbsp;Events
+										</a>
+									</li>
+									<#-- /Event -->
 								
 								</ul>
 							</li>

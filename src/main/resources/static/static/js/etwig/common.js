@@ -4,50 +4,42 @@
  	* @license: MIT
  	* @author: Steven Webb [xiaoancloud@outlook.com]
  	* @website: https://etwig.grinecraft.net
- 	* @function: High-level Toasts modules that based on AdminLTE Toasts.
+ 	* @function: High-level popups modules that based on AdminLTE popups.
  	*/
 
 /**
- * A toast that used in successful results.
- * @param title The title of the toast.
- * @param body The content of the toast (optional).
+ * A popup that used in successful results.
+ * @param title The title of the popup.
  */
-
-function successToast(title, body){
-	$(document).Toasts('create', {
-  		title: title,
-  		body: body,
-  		autohide: true,
-  		delay: 5000,
-  		icon: 'fa-solid fa-circle-check',
-  		class: 'toast bg-success'
-	});
-}
 
 function successPopup(title){
 	Swal.fire({
 		icon: "success",
 		title: "Success",
-		html: `<div style="text-align: left;"><strong>${title}</strong></div>`,
+        timer: 2000,
+		html: `
+            <div style="text-align: left;">
+                <strong>${title}</strong>
+                <p>This popup will be closed in <b></b> seconds.</p>
+            </div>`,
+        didOpen: () => {
+            //Swal.showLoading();
+            const timer = Swal.getPopup().querySelector("b");
+            timerInterval = setInterval(() => {
+              timer.textContent = (Swal.getTimerLeft()*0.001).toFixed(1);
+            }, 100);
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          }
 	  });
 }
 
 /**
- * A toast that used in informative results.
- * @param title The title of the toast.
- * @param body The content of the toast (optional).
+ * A popup that used in informative results.
+ * @param title The title of the popup.
+ * @param body The content of the popup (optional).
  */
-
-function infoToast(title, body){
-	$(document).Toasts('create', {
-  		title: title,
-  		body: body,
-  		autohide: true,
-  		delay: 5000,
-  		icon: 'fa-solid fa-circle-info',
-  		class: 'toast bg-info'
-	});
-}
 
 function infoPopup(title, body){
 	Swal.fire({
@@ -62,21 +54,10 @@ function infoPopup(title, body){
 }
 
 /**
- * A toast that used in failure results that not caused by an system error.
- * @param title The title of the toast.
- * @param body The content of the toast (optional).
+ * A popup that used in failure results that not caused by an system error.
+ * @param title The title of the popup.
+ * @param body The content of the popup (optional).
  */
-
-function warningToast(title, body){
-	$(document).Toasts('create', {
-  		title: title,
-  		body: body,
-  		autohide: true,
-  		delay: 5000,
-  		icon: 'fa-solid fa-circle-exclamation',
-  		class: 'toast bg-warning'
-	});
-}
 
 function warningPopup(title, body){
 	Swal.fire({
@@ -90,21 +71,10 @@ function warningPopup(title, body){
 	  });
 }
 /**
- * A toast that used in errors.
- * @param title The title of the toast.
- * @param body The content of the toast (optional).
+ * A popup that used in errors.
+ * @param title The title of the popup.
+ * @param body The content of the popup (optional).
  */
-
-function dangerToast(title, body){
-	$(document).Toasts('create', {
-  		title: title,
-  		body: body,
-  		autohide: true,
-  		delay: 10000,
-  		icon: 'fa-solid fa-circle-xmark',
-  		class: 'toast bg-danger'
-	});
-}
 
 function dangerPopup(title, body){
 	Swal.fire({
@@ -117,22 +87,6 @@ function dangerPopup(title, body){
 			</div>`,
 	  });
 }
-
-function formatState(state) {
-	var option = $(state.element);
-  	var color = option.data("color");
-  	var icon = option.data("icon");
-  	
-  	if (!color) {
-    	 return state.text;
-  	}
-  	
-  	if(!icon){
-		icon = 'square';
-	}
-  		
-  	return $(`<span style="color: ${color};background-color: #FFF">&nbsp;<i class="fa-solid fa-${icon}"></i>${state.text}&nbsp;</span>`);
-};
 
 function timeAgo(dateStr) {
 	
@@ -237,19 +191,64 @@ function getMyPositions(){
     	async: false,
 		success: function(json) {
 			position = json;
-			// Iterate all roles.
-			//jQuery.each(json, function(id, value) {
-			//	$(selectElem).append(`<option value="${value.userRoleId}">${value.position}, ${value.portfolio.name}</option>`);
-			//})
         },
         
-        // Toast error info when it happens
+        // popup error info when it happens
     	error: function(err) {   		
-			dangerToast("Failed to get user positions due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+			dangerPopup("Failed to get user positions due to a HTTP " + err.status + " error.", err.responseJSON.exception);
 		}
 	});
 	
 	return position;
+}
+
+/**
+ * Get the browser name by a given user agent.
+ * @param {string} userAgent 
+ * @returns The browser name
+ */
+
+function getBrowserName(userAgent) {
+    userAgent = userAgent || navigator.userAgent;
+    let browserName = "Unknown Browser";
+
+    if (userAgent.match(/chrome|chromium|crios/i)) {
+        browserName = "Chrome";
+    } else if (userAgent.match(/firefox|fxios/i)) {
+        browserName = "Firefox";
+    } else if (userAgent.match(/safari/i)) {
+        browserName = "Safari";
+    } else if (userAgent.match(/opr\//i)) {
+        browserName = "Opera";
+    } else if (userAgent.match(/edg/i)) {
+        browserName = "Edge";
+    } else if (userAgent.match(/msie|trident/i)) {
+        browserName = "Internet Explorer";
+    }
+
+    // Special case for Safari and Chrome on iOS
+    if (userAgent.match(/iphone|ipad|ipod/i)) {
+        if (userAgent.match(/crios/i)) {
+            browserName = "Chrome";
+        } else if (userAgent.match(/fxios/i)) {
+            browserName = "Firefox";
+        } else {
+            // This is a simplification, as identifying Safari on iOS just from the user agent can be tricky due to the web view component
+            browserName = "Safari";
+        }
+    }
+
+    return browserName;
+}
+
+function dateRender(data, type, row){
+	return data ? Date.parse(data).toString('yyyy-MM-dd HH:mm:ss') : 'N/A'; 
+}
+
+function selectUpload(){
+	$('#etwigModalTitle').text('Select/Upload');
+	$("#etwigModalBody").load("/assets/_selector");
+	$('#etwigModal').modal('show');
 }
 
 /**

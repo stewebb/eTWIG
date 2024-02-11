@@ -32,17 +32,13 @@ public class WeekService {
 	 */
 	
     public Week getWeekByDate(LocalDate givenDate) {
-    	
     	if(weekRepository == null) {
 			return null;
 		}
     	
-    	// Get Monday first
+    	// Get Monday first and find the week info.
     	LocalDate monday = DateUtils.findThisMonday(givenDate);
-    	
-    	// Then find the week info
-    	Optional<Week> weekOpt = weekRepository.findByMonday(monday);
-    	return weekOpt.isPresent() ? weekOpt.get() : null;
+    	return weekRepository.findByMonday(monday).orElse(null);
     }
 
 }

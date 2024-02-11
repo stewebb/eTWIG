@@ -1,9 +1,14 @@
 package net.grinecraft.etwig.services;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import jakarta.mail.internet.MimeMessage;
+import net.grinecraft.etwig.config.ConfigFile;
+import net.grinecraft.etwig.dto.PositionDTO;
+import net.grinecraft.etwig.dto.graphics.FinalizedRequestsDetailsDTO;
+import net.grinecraft.etwig.dto.graphics.NewRequestEmailNotificationDTO;
+import net.grinecraft.etwig.model.Asset;
+import net.grinecraft.etwig.repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -12,19 +17,9 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import jakarta.mail.internet.MimeMessage;
-import net.grinecraft.etwig.config.ConfigFile;
-import net.grinecraft.etwig.dto.PositionDTO;
-import net.grinecraft.etwig.dto.events.GraphicsRequestEventInfoDTO;
-import net.grinecraft.etwig.dto.graphics.FinalizedRequestsDetailsDTO;
-import net.grinecraft.etwig.dto.graphics.NewRequestEmailNotificationDTO;
-import net.grinecraft.etwig.dto.user.UserDTO;
-import net.grinecraft.etwig.model.Asset;
-import net.grinecraft.etwig.model.User;
-import net.grinecraft.etwig.model.UserRole;
-import net.grinecraft.etwig.repository.UserRoleRepository;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 @Service
 public class EmailService {
 	
@@ -78,7 +73,7 @@ public class EmailService {
     	}
     	
    		// Get event info.
-    	
+    	//
     	
     	//Long eventId = Long.parseLong(requestInfo.get("eventId").toString());
     	//GraphicsRequestEventInfoDTO event = eventService.findEventsForGraphicsRequestById(eventId);
