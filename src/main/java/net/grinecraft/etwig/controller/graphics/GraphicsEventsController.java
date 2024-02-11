@@ -14,7 +14,7 @@ public class GraphicsEventsController {
 	
 	@GetMapping("/list")  
 	public String view(Model model) throws Exception{
-		return "graphics/events_list";
+		return "graphics/event_list";
 	}
 
 }

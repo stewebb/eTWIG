@@ -33,12 +33,12 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1 class="bold-text">TWIG Template</h1>
+							<h1 class="bold-text">Event Graphics</h1>
 						</div>
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item"><a href="/graphics">Graphics</a></li>
-								<li class="breadcrumb-item active"><a href="/graphics/twigTemplate/list">TWIG Template</a></li>
+								<li class="breadcrumb-item active"><a href="/graphics/events/list">Event Graphics</a></li>
 							</ol>
 						</div>
 					</div>
@@ -55,33 +55,21 @@
 							
 								<div class="card-header">
 									<h3 class="card-title">
-										<i class="fa-solid fa-list-check"></i>&nbsp;View
+										<i class="fa-solid fa-list-check"></i>&nbsp;List
 									</h3>
 								</div>
 
 								<div class="card-body table-responsive">
-									
-									<#-- Button Options -->
-									<div class="btn-group mb-3">
-										<a href="/graphics/twigTemplate/add" class="btn btn-outline-primary">
-											<i class="fa-solid fa-add"></i>&nbsp;Add
-										</a>
-										
-										<button type="button" class="btn btn-outline-secondary" onclick = "dt.ajax.reload();">
-											<i class="fa-solid fa-rotate"></i>&nbsp;Reload
-										</button>
-									</div>
-									<#-- /Button Options -->
 
 									<#-- Table Content -->
-									<table id="twigTemplate" class="table table-hover table-striped">
+									<table id="eventGraphics" class="table table-hover table-striped">
 										<thead>
 											<tr>
-												<th>TemplateId</th>
+												<th>Id</th>
 												<th>Name</th>
-												<th>Portfolio(s)</th>
-												<th>Available From</th>
-												<th>Available To</th>
+												<th>Graphics Num</th>
+												<th>Banner Num</th>
+												<th>Last Modified</th>
 												<th>Action</th>
 											</tr>
 										</thead>
