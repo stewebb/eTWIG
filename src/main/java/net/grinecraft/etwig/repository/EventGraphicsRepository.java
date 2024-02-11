@@ -3,7 +3,6 @@ package net.grinecraft.etwig.repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import net.grinecraft.etwig.dto.graphics.EventGraphicsDetailsDTO;
 import net.grinecraft.etwig.dto.graphics.EventGraphicsListDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,5 +36,5 @@ public interface EventGraphicsRepository extends JpaRepository<EventGraphics, Lo
 			"GROUP BY e.id ORDER BY e.id DESC")
 	Page<EventGraphicsListDTO> eventGraphicsList(Pageable pageable);
 
-	List<EventGraphics> findByEventIdAndBanner(Long eventId, boolean banner);
+	List<EventGraphics> findByEventIdAndBannerOrderByIdDesc(Long eventId, boolean banner);
 }

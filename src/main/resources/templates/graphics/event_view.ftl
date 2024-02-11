@@ -76,10 +76,10 @@
 						<div class="col-md-6">	
 
 							<#-- Graphics -->
-							<div class="card card-primary card-outline">
+							<div class="card card-primary card-outline mb-3">
 								<div class="card-header">
 									<h3 class="card-title">
-										<i class="fa-solid fa-image"></i>&nbsp;Graphics
+										<i class="fa-solid fa-image"></i>&nbsp;Graphics Preview
 									</h3>
 								</div>
 
@@ -137,9 +137,72 @@
 									</table>
 									<#-- /Table Content -->
 
+								</div>		
+							</div>
+							<#-- /Graphics -->
+
+							<#-- Add -->
+							<div class="card card-primary card-outline">
+								<div class="card-header">
+									<h3 class="card-title">
+										<i class="fa-solid fa-plus"></i>&nbsp;Add Graphics
+									</h3>
 								</div>
-									
-									
+
+								<div class="card-body">
+
+
+
+								</div>		
+							</div>
+							<#-- /Add -->
+
+						</div>
+						<#-- /Col 2 -->
+
+					</div>
+				</div>
+				<#-- /Graphics -->
+
+			</section>
+			<#-- /Main area -->
+
+		</div>
+		<#-- /Content Wrapper. -->
+		
+	</div>
+	<#-- Main Wrapper -->
+	
+	<#include "../_includes/footer.ftl">
+	<#include "../_includes/header/body_end.ftl">
+
+	<#-- JS for Graphics Approval 
+	<script type="text/javascript" src="/static/js/etwig/graphics-approval.js"></script>-->
+	
+	<script>
+	
+		/*
+		$(document).ready(function() {
+			$('input[type=radio][name=graphicsApprovalOption]').change(function() {
+				setAssetsUpload(this.value);
+			});
+
+			$('.select2bs4').select2({
+      			theme: 'bootstrap4'
+    		})
+
+			var myPositions = getMyPositions();
+			for (var key in myPositions) {
+  				$("#approverRole").append('<option value="' + myPositions[key].userRoleId + '">' + myPositions[key].position + ', ' + myPositions[key].portfolioName + '</option>');
+			}
+		});
+		*/
+	
+	</script>
+
+</body>
+</html>
+
 
 									<#-- Approver Role --
 									<div class="form-group row">
@@ -225,53 +288,3 @@
 										</button>
 									</div>
 									<#-- /Submit -->
-
-								
-							</div>
-						<#-- /Graphics -->
-
-						</div>
-						<#-- /Col 2 -->
-
-					</div>
-				</div>
-				<#-- /Graphics -->
-
-			</section>
-			<#-- /Main area -->
-
-		</div>
-		<#-- /Content Wrapper. -->
-		
-	</div>
-	<#-- Main Wrapper -->
-	
-	<#include "../_includes/footer.ftl">
-	<#include "../_includes/header/body_end.ftl">
-
-	<#-- JS for Graphics Approval 
-	<script type="text/javascript" src="/static/js/etwig/graphics-approval.js"></script>-->
-	
-	<script>
-	
-		/*
-		$(document).ready(function() {
-			$('input[type=radio][name=graphicsApprovalOption]').change(function() {
-				setAssetsUpload(this.value);
-			});
-
-			$('.select2bs4').select2({
-      			theme: 'bootstrap4'
-    		})
-
-			var myPositions = getMyPositions();
-			for (var key in myPositions) {
-  				$("#approverRole").append('<option value="' + myPositions[key].userRoleId + '">' + myPositions[key].position + ', ' + myPositions[key].portfolioName + '</option>');
-			}
-		});
-		*/
-	
-	</script>
-
-</body>
-</html>

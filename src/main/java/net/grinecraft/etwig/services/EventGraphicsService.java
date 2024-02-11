@@ -2,7 +2,6 @@ package net.grinecraft.etwig.services;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,7 +58,7 @@ public class EventGraphicsService {
 	}
 
 	public List<EventGraphicsDetailsDTO> getGraphicsDetailsByEventId(Long eventId, Boolean banner){
-		List<EventGraphics> eventGraphicsList = eventGraphicsRepository.findByEventIdAndBanner(eventId, banner);
+		List<EventGraphics> eventGraphicsList = eventGraphicsRepository.findByEventIdAndBannerOrderByIdDesc(eventId, banner);
 		return eventGraphicsList.stream()
 				.map(EventGraphicsDetailsDTO::new)
 				.collect(Collectors.toList());
