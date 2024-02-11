@@ -1,7 +1,6 @@
-                                                <#assign graphicsCount = 1>
                                                 <tr>
 													<td>${graphics.id}</td>
-													<td><img src="/assets/getPublicAsset?assetId=${graphics.assetId}" width="200"></img></td>
+													<td><img src="/assets/getPublicAsset?assetId=${graphics.assetId}" class="table-img"></td>
 													<td>${graphics.operatorName}</td>
 													<td>${graphics.operatorPosition}</td>
 
@@ -22,9 +21,9 @@
                                                         <a href="/assets/getPublicAsset?assetId=${graphics.assetId}&download=true" class="btn btn-outline-secondary btn-sm mb-1">
                                                             <i class="fa-solid fa-download"></i>&nbsp;Download
                                                         </a>
-                                                        <a href="/assets/getPublicAsset?assetId=${graphics.assetId}&download=false" class="btn btn-outline-primary btn-sm" target="_blank">
-                                                             <i class="fa-solid fa-magnifying-glass-plus"></i>&nbsp;View
-                                                         </a>   
+                                                        <a href="/assets/getPublicAsset?assetId=${graphics.assetId}&download=false" class="btn btn-outline-primary btn-sm mb-1" target="_blank">
+                                                            <i class="fa-solid fa-magnifying-glass-plus"></i>&nbsp;View
+                                                        </a>   
                                                     </td>
                                                     <#-- /Action buttons -->
 

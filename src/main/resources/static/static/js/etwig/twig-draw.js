@@ -9,7 +9,7 @@ const WEEKDAY_HOURS = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
 // **Weekend** events(DoW=[0,6]), N=3 (morning 9:00-12:00, afternoon 13:00-18:00, evening 19:00-21:00),
 const WEEKEND_HOURS = [9, 15, 21];
 
-const DEBUG_MODE = true;
+const DEBUG_MODE = false;
 
 var img;
 var twig = undefined;

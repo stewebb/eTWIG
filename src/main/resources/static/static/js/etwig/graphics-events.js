@@ -81,7 +81,7 @@ function addGraphics(){
 				dangerPopup("Failed to add graphics.", result.msg);
 				hasError = true;
 			}else{
-				successPopup("Decision made successfully.");
+				successPopup("Graphics added successfully.");
 				hasError = false;
 			}	
     	},

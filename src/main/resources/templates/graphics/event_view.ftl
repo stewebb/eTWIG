@@ -75,72 +75,6 @@
 						<#-- Col 2 -->
 						<div class="col-md-6">	
 
-							<#-- Graphics -->
-							<div class="card card-primary card-outline mb-3">
-								<div class="card-header">
-									<h3 class="card-title">
-										<i class="fa-solid fa-image"></i>&nbsp;Graphics Preview
-									</h3>
-								</div>
-
-								<div class="card-body table-responsive">
-
-
-									<#-- Table Content -->
-									<table class="table">
-										<thead>
-											<tr>
-												<th>Id</th>
-												<th>Thumbnail</th>
-												<th>Operator</th>
-												<th>Position</th>
-												<th>Uploaded</th>
-												<th>Action</th>
-											</tr>
-										</thead>
-
-										<tbody>
-
-											<#-- Graphics -->
-											<tr>
-												<th colspan="6">
-													<span class="text-primary">
-														<center>
-															<i class="fa-solid fa-down-left-and-up-right-to-center"></i>
-															&nbsp;TWIG Component(s) (Count: ${eventGraphics?size})
-														</center>
-													</span>
-												</th>
-											</tr>
-											<#list eventGraphics as graphics>
-												<#include "../_includes/graphics/event_graphics_table.ftl">
-											</#list>
-											<#-- /Graphics -->			
-
-											<#-- Banners -->
-											<tr>
-												<th colspan="6">
-													<span class="text-primary">
-														<center>
-															<i class="fa-solid fa-up-right-and-down-left-from-center"></i>
-															&nbsp;Banner(s) (Count: ${eventBanners?size})
-														</center>
-													</span>
-												</th>
-											</tr>
-											<#list eventBanners as graphics>
-												<#include "../_includes/graphics/event_graphics_table.ftl">
-											</#list>
-											<#-- /Banners -->			
-
-										</tbody>
-									</table>
-									<#-- /Table Content -->
-
-								</div>		
-							</div>
-							<#-- /Graphics -->
-
 							<#-- Add -->
 							<div class="card card-primary card-outline">
 								<div class="card-header">
@@ -235,6 +169,79 @@
 						<#-- /Col 2 -->
 
 					</div>
+
+					<#-- Graphics -->
+					<div class="row">
+						<div class="col-12">
+							<div class="card card-primary card-outline mb-3">
+								<div class="card-header">
+									<h3 class="card-title">
+										<i class="fa-solid fa-image"></i>&nbsp;Graphics Preview
+									</h3>
+								</div>
+
+								<div class="card-body table-responsive">
+
+
+									<#-- Table Content -->
+									<table class="table">
+										<thead>
+											<tr>
+												<th>Id</th>
+												<th>Thumbnail</th>
+												<th>Operator</th>
+												<th>Position</th>
+												<th>Uploaded</th>
+												<th>Action</th>
+												</tr>
+										</thead>
+
+										<tbody>
+
+											<#-- Graphics -->
+											<tr>
+												<th colspan="6">
+													<span class="text-primary">
+														<center>
+															<i class="fa-solid fa-down-left-and-up-right-to-center"></i>
+															&nbsp;TWIG Component(s) (Count: ${eventGraphics?size})
+														</center>
+													</span>
+												</th>
+											</tr>
+											<#assign graphicsCount = 1>
+											<#list eventGraphics as graphics>
+												<#include "../_includes/graphics/event_graphics_table.ftl">
+											</#list>
+											<#-- /Graphics -->			
+
+											<#-- Banners -->
+											<tr>
+												<th colspan="6">
+													<span class="text-primary">
+														<center>
+															<i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+															&nbsp;Banner(s) (Count: ${eventBanners?size})
+														</center>
+													</span>
+												</th>
+											</tr>
+											<#assign graphicsCount = 1>
+											<#list eventBanners as graphics>
+												<#include "../_includes/graphics/event_graphics_table.ftl">
+											</#list>
+											<#-- /Banners -->		
+
+										</tbody>
+									</table>
+									<#-- /Table Content -->
+
+								</div>		
+							</div>
+						</div>
+						<#-- /Graphics -->
+			
+					</div>
 				</div>
 				<#-- /Graphics -->
 
@@ -282,16 +289,4 @@
 
 									
 
-									<#-- Feedback --
-									<div class="form-group row">
-										<label for="graphicsApprovalComments" class="col-sm-2">Comments</label>
-										<div class="col-sm-10">
-											<textarea id="graphicsApprovalComments" class="form-control fixed-textarea" maxlength="255" rows="5"></textarea>
-											<small class="form-text text-muted">Feedback to requester, up to 255 characters.</small>
-										</div>
-									</div>
-									<#-- /Feedback -->
-
-									
-
-									
+								
