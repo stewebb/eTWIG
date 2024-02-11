@@ -107,7 +107,7 @@
 													<span class="text-primary">
 														<center>
 															<i class="fa-solid fa-down-left-and-up-right-to-center"></i>
-															&nbsp;TWIG Component(s)
+															&nbsp;TWIG Component(s) (Count: ${eventGraphics?size})
 														</center>
 													</span>
 												</th>
@@ -123,7 +123,7 @@
 													<span class="text-primary">
 														<center>
 															<i class="fa-solid fa-up-right-and-down-left-from-center"></i>
-															&nbsp;Banner(s)
+															&nbsp;Banner(s) (Count: ${eventBanners?size})
 														</center>
 													</span>
 												</th>
@@ -151,64 +151,11 @@
 
 								<div class="card-body">
 
-
-
-								</div>		
-							</div>
-							<#-- /Add -->
-
-						</div>
-						<#-- /Col 2 -->
-
-					</div>
-				</div>
-				<#-- /Graphics -->
-
-			</section>
-			<#-- /Main area -->
-
-		</div>
-		<#-- /Content Wrapper. -->
-		
-	</div>
-	<#-- Main Wrapper -->
-	
-	<#include "../_includes/footer.ftl">
-	<#include "../_includes/header/body_end.ftl">
-
-	<#-- JS for Graphics Approval 
-	<script type="text/javascript" src="/static/js/etwig/graphics-approval.js"></script>-->
-	
-	<script>
-	
-		/*
-		$(document).ready(function() {
-			$('input[type=radio][name=graphicsApprovalOption]').change(function() {
-				setAssetsUpload(this.value);
-			});
-
-			$('.select2bs4').select2({
-      			theme: 'bootstrap4'
-    		})
-
-			var myPositions = getMyPositions();
-			for (var key in myPositions) {
-  				$("#approverRole").append('<option value="' + myPositions[key].userRoleId + '">' + myPositions[key].position + ', ' + myPositions[key].portfolioName + '</option>');
-			}
-		});
-		*/
-	
-	</script>
-
-</body>
-</html>
-
-
-									<#-- Approver Role --
+									<#-- Role -->
 									<div class="form-group row">
-										<label for="approverRole" class="col-sm-2 col-form-label">
+										<label for="operatorRole" class="col-sm-2 col-form-label">
 											Role&nbsp;<span class="required-symbol">*</span>
-											</label>
+										</label>
 										<div class="col-sm-10">
 											<div class="input-group">
 												<div class="input-group-prepend">
@@ -217,45 +164,35 @@
 													</span>
 												</div>
 												
-												<select class="form-control select2bs4" name="approverRole" id="approverRole"></select>
+												<select class="form-control select2bs4" name="operatorRole" id="operatorRole"></select>
 											</div>
 											<small class="form-text text-muted">The position and associated portfolio, divided by comma.</small>
 										</div>
 									</div>
-									<#-- Approver Role -->
+									<#-- /Role -->
 
-									<#-- Decision --
+									<#-- Type -->
 									<div class="form-group row">
-										<label for="graphicsApprovalOption" class="col-sm-2">
-											Decision&nbsp;<span class="required-symbol">*</span>
+										<label for="graphicsType" class="col-sm-2">
+											Type&nbsp;<span class="required-symbol">*</span>
 										</label>
 										<div class="col-sm-10">
 											<div class="form-group clearfix">
-												<div class="icheck-success d-inline mr-2">
-													<input type="radio" id="graphicsApprovalApproved" name="graphicsApprovalOption" value="1">
-													<label for="graphicsApprovalApproved">Approved</label>
+												<div class="icheck-primary d-inline mr-2">
+													<input type="radio" id="graphicsTypeComponent" name="graphicsType" value="1">
+													<label for="graphicsTypeComponent">TWIG Component</label>
 												</div>
-												<div class="icheck-danger d-inline mr-2">
-													<input type="radio" id="graphicsApprovalDeclined" name="graphicsApprovalOption" value="0">
-													<label for="graphicsApprovalDeclined">Declined</label>
+												<div class="icheck-primary d-inline mr-2">
+													<input type="radio" id="graphicsTypeBanner" name="graphicsType" value="0">
+													<label for="graphicsTypeBanner">Banner</label>
 												</div>
 											</div>				
 										</div>
 									</div>
-									<#-- /Decision -->
+									<#-- /Type -->
 
-									<#-- Feedback --
-									<div class="form-group row">
-										<label for="graphicsApprovalComments" class="col-sm-2">Comments</label>
-										<div class="col-sm-10">
-											<textarea id="graphicsApprovalComments" class="form-control fixed-textarea" maxlength="255" rows="5"></textarea>
-											<small class="form-text text-muted">Feedback to requester, up to 255 characters.</small>
-										</div>
-									</div>
-									<#-- /Feedback -->
-
-									<#-- Assets --
-									<div class="form-group row" id="graphicsApprovalAssets" style="display:none;">
+									<#-- Assets -->
+									<div class="form-group row" id="graphicsApprovalAssets">
 										<label for="graphicsApprovalAssets" class="col-sm-2 col-form-label">
 											Assets&nbsp;<span class="required-symbol">*</span>
 										</label>
@@ -281,10 +218,79 @@
 									</div>
 									<#-- /Assets -->	
 
-									<#-- Submit --
+									<#-- Submit -->
 									<div class="right-div" role="group">
-										<button type="button" class="btn btn-outline-primary" onclick="decide();">
+										<button type="button" class="btn btn-outline-primary" onclick="addGraphics();">
 											<i class="fa-regular fa-check"></i>&nbsp;Submit
 										</button>
 									</div>
 									<#-- /Submit -->
+
+								</div>		
+							</div>
+							<#-- /Add -->
+
+						</div>
+						<#-- /Col 2 -->
+
+					</div>
+				</div>
+				<#-- /Graphics -->
+
+			</section>
+			<#-- /Main area -->
+
+		</div>
+		<#-- /Content Wrapper. -->
+		
+	</div>
+	<#-- Main Wrapper -->
+	
+	<#include "../_includes/footer.ftl">
+	<#include "../_includes/header/body_end.ftl">
+
+	<#-- JS for Graphics Approval -->
+	<script type="text/javascript" src="/static/js/etwig/graphics-events.js"></script>
+	
+	<script>
+	
+		
+		$(document).ready(function() {
+			//$('input[type=radio][name=graphicsApprovalOption]').change(function() {
+			//	setAssetsUpload(this.value);
+			//});
+
+			$('.select2bs4').select2({
+      			theme: 'bootstrap4'
+    		})
+
+			var myPositions = getMyPositions();
+			for (var key in myPositions) {
+  				$("#operatorRole").append('<option value="' + myPositions[key].userRoleId + '">' + myPositions[key].position + ', ' + myPositions[key].portfolioName + '</option>');
+			}
+		});
+		
+	
+	</script>
+
+</body>
+</html>
+
+
+									
+
+									
+
+									<#-- Feedback --
+									<div class="form-group row">
+										<label for="graphicsApprovalComments" class="col-sm-2">Comments</label>
+										<div class="col-sm-10">
+											<textarea id="graphicsApprovalComments" class="form-control fixed-textarea" maxlength="255" rows="5"></textarea>
+											<small class="form-text text-muted">Feedback to requester, up to 255 characters.</small>
+										</div>
+									</div>
+									<#-- /Feedback -->
+
+									
+
+									

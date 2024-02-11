@@ -24,6 +24,9 @@ public class EventGraphicsController {
 	@Autowired
 	private EventGraphicsService eventGraphicsService;
 
+	//@Autowired
+	//private Us
+
 	/**
 	 * The page of event graphics list
 	 * @return The event_list template.
@@ -49,6 +52,8 @@ public class EventGraphicsController {
 		// Separated query.
 		model.addAttribute("eventBanners", eventGraphicsService.getGraphicsDetailsByEventId(eventId, true));
 		model.addAttribute("eventGraphics", eventGraphicsService.getGraphicsDetailsByEventId(eventId, false));
+
+
 		return "graphics/event_view";
 	}
 

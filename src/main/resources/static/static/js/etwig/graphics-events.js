@@ -39,3 +39,61 @@ function actionRender(data, type, full){
 		</div>
 	`;
 }
+
+function addGraphics(){
+	var newGraphicsObj = {}
+	
+	// requestId
+	// newGraphicsObj["eventId"] = null//parseInt($('#requestId').text());
+	
+	// Role
+	newGraphicsObj["role"] = parseInt($('#operatorRole').find(":selected").val());
+	
+	// Graphics type option, 1 -> Approved, 0 -> Declined, NaN -> Not Selected
+	var graphicsMode = parseInt($('input[type=radio][name=graphicsType]:checked').val());
+	if(isNaN(graphicsMode)){
+		warningPopup("Selecting an option is required");
+		return;
+	}
+	newGraphicsObj["isBanner"] = (graphicsMode == 0);
+		
+	// Assets
+	var assetId = parseInt($('#uploadCallback').val());
+	if(isNaN(assetId)){
+		warningPopup("Selecting an asset is required.");
+		return;
+	}
+	newGraphicsObj["asset"] = assetId;
+
+    console.log(newGraphicsObj);
+    //return;
+		
+	var hasError = true;
+	$.ajax({
+   		url: '/api/private/addGraphicsForEvent', 
+   		type: "POST",
+   		async: false,
+   		dataType: "json",
+   		contentType: "application/json; charset=utf-8",
+   		data: JSON.stringify(newGraphicsObj),
+   		success: function (result) {
+			if(result.error > 0){
+				dangerPopup("Failed to add graphics.", result.msg);
+				hasError = true;
+			}else{
+				successPopup("Decision made successfully.");
+				hasError = false;
+			}	
+    	},
+    	error: function (err) {
+    		dangerPopup("Failed to add graphics due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+    		hasError = true;
+    	}
+ 	});
+
+	// Redirect back
+	if(!hasError){
+		setTimeout(function() {	$(location).attr('href','/graphics/approval/list'); }, 2500);
+	}
+	
+}

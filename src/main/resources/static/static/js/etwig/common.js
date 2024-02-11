@@ -245,6 +245,12 @@ function dateRender(data, type, row){
 	return data ? Date.parse(data).toString('yyyy-MM-dd HH:mm:ss') : 'N/A'; 
 }
 
+function selectUpload(){
+	$('#etwigModalTitle').text('Select/Upload');
+	$("#etwigModalBody").load("/assets/_selector");
+	$('#etwigModal').modal('show');
+}
+
 /**
  * Hide the navbar if the page is in a frame.
  */
