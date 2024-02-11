@@ -800,10 +800,10 @@ class TAA{
             if(value != null){
 
                 // The index of the eventMap by a given eventId.
-                var idx = this.eventMap.findIndex(object => object.eventId == value);
+                //var idx = this.eventMap.findIndex(object => object.eventId == value);
 
                 // Reset the time slot.
-                this.timeSlot.set(key, new EventTimeSlot(value, this.eventTable.posX, this.getSlotHeight()*count, key, this.eventMap[idx].assetId));
+                this.timeSlot.set(key, new EventTimeSlot(value, this.eventTable.posX, this.getSlotHeight()*count, key));
             }
             count++;
         }
@@ -838,16 +838,16 @@ class TAA{
 
 class EventTimeSlot{
 
-    constructor(eventId, posX, posY, hour, assetId){
+    constructor(eventId, posX, posY, hour){
         this.eventId = eventId;
         this.posX = posX;
         this.posY = posY;
         this.hour = hour;
-        this.assetId = assetId;
+        //this.assetId = assetId;
     }
 
     toString(){
-        return `EventTimeSlot(${this.eventId}, ${this.posX}, ${this.posY}, ${this.hour}, ${this.assetId})`; 
+        return `EventTimeSlot(${this.eventId}, ${this.posX}, ${this.posY}, ${this.hour})`; 
     }
 }
 /*

@@ -59,7 +59,11 @@ function preload(){
 		return;
 	}
 
-    twig.root.printTree();
+    if(DEBUG_MODE){
+        console.log('TWIG Layout Tree');
+        twig.root.printTree();
+    }
+    
 
     // Get event list
     eventList = getEventList(setting);
@@ -99,6 +103,7 @@ function setup(){
 	    
     // The main canvas.
     var mainCanvas = twig.root.widget;
+    var shortSide = Math.min(mainCanvas.width, mainCanvas.height);
     createCanvas(mainCanvas.width, mainCanvas.height);
    
     // Track the number of push and pop
@@ -181,6 +186,11 @@ function setup(){
                 var ev = eventList[widget.dayOfWeek];  
                 var hours = (widget.dayOfWeek == 0 || widget.dayOfWeek == 6) ? WEEKEND_HOURS : WEEKDAY_HOURS;
                 
+                if(DEBUG_MODE){
+                    console.log(ev);
+                }
+                
+
                 // Execute TWIG Arrangement Algorithm.
                 var taa = new TAA(ev, widget, hours);
                 var arrangements = taa.exec();
@@ -189,17 +199,19 @@ function setup(){
                 // Place graphics to the allocated area.
                 for (const [key, value] of arrangements) {
 
-                    ///if(value == null){
-                    //    if(DEBUG_MODE){
-                    //        fill("#FFC400");    noStroke();
-                    //        rect(value.posX, value.posY, widget.width, slotHeight);
-                    ////    }
-                    //}
-
                     if(value != null){
 
-                        //console.log(value)
-                        console.log(key)
+                        // Find current event
+                        var idx = ev.findIndex(object => object.eventId == value.eventId);
+                        if(idx < 0){
+                            continue;
+                        }
+                        var current = ev[idx];
+
+                        // Display event time
+                        var endTime = Date.parse(current.date + ' ' + current.time).addMinutes(current.duration).toString('HH:mm');
+                        textSize(shortSide * 0.016); fill(0);    noStroke();    textStyle(BOLD);
+                        text(current.time + '-' + endTime, value.posX, value.posY);
 
                         if(DEBUG_MODE){
                             fill("#004AAD");    noStroke();
@@ -207,7 +219,7 @@ function setup(){
                         }
 
                         else{
-                            var originalImg = assetCollection.get(value.assetId);
+                            var originalImg = assetCollection.get(current.assetId);
                             var newHeight = originalImg.height * (value.width / originalImg.width);
                             image(originalImg, value.posX, value.posY, value.width, newHeight)
                         }
@@ -218,20 +230,6 @@ function setup(){
 
                 }
 
-                
-                
-                //var dayStart = constrain(widget.dayStart, 0, 11)
-               // var dayEnd = constrain(widget.dayEnd, 12, 23)
-                
-                // Num of (end-start) is end-start+1, there has also a top slot and a bottom slot respectively. 
-                //var timeSlotNum = dayEnd - dayStart + 3;
-                
-                //var 
-                
-                //console.log(widget.dayStart, widget.dayEnd)
-               // console.log(widget.posX, widget.posY, widget.width, widget.width);
-           //     assetCollection.set(widget.assetId, loadImage("/assets/getPublicAsset?assetId=" + widget.assetId));
-                //p=( loadImage("/assets/getPublicAsset?assetId=" + widget.assetId))
                 break;
         }
 
