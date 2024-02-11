@@ -45,8 +45,10 @@ public class EventGraphicsController {
 		}
 
 		model.addAttribute("eventInfo", event);
-		model.addAttribute("eventGraphics", eventGraphicsService.getGraphicsDetailsByEventId(eventId));
-		//System.out.println(eventGraphicsService.getGraphicsDetailsByEventId(eventId));
+
+		// Separated query.
+		model.addAttribute("eventBanners", eventGraphicsService.getGraphicsDetailsByEventId(eventId, true));
+		model.addAttribute("eventGraphics", eventGraphicsService.getGraphicsDetailsByEventId(eventId, false));
 		return "graphics/event_view";
 	}
 

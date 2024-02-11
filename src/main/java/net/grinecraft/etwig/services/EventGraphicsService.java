@@ -58,8 +58,8 @@ public class EventGraphicsService {
 		return eventGraphicsRepository.eventGraphicsList(pageable);
 	}
 
-	public List<EventGraphicsDetailsDTO> getGraphicsDetailsByEventId(Long eventId){
-		List<EventGraphics> eventGraphicsList = eventGraphicsRepository.findByEventId(eventId);
+	public List<EventGraphicsDetailsDTO> getGraphicsDetailsByEventId(Long eventId, Boolean banner){
+		List<EventGraphics> eventGraphicsList = eventGraphicsRepository.findByEventIdAndBanner(eventId, banner);
 		return eventGraphicsList.stream()
 				.map(EventGraphicsDetailsDTO::new)
 				.collect(Collectors.toList());

@@ -242,7 +242,7 @@ function getBrowserName(userAgent) {
 }
 
 function dateRender(data, type, row){
-	return data ? data : 'N/A'; 
+	return data ? Date.parse(data).toString('yyyy-MM-dd HH:mm:ss') : 'N/A'; 
 }
 
 /**

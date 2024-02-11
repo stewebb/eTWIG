@@ -37,5 +37,5 @@ public interface EventGraphicsRepository extends JpaRepository<EventGraphics, Lo
 			"GROUP BY e.id ORDER BY e.id DESC")
 	Page<EventGraphicsListDTO> eventGraphicsList(Pageable pageable);
 
-	List<EventGraphics> findByEventId(Long eventId);
+	List<EventGraphics> findByEventIdAndBanner(Long eventId, boolean banner);
 }

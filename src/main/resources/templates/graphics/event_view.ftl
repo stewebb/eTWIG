@@ -79,28 +79,60 @@
 							<div class="card card-primary card-outline">
 								<div class="card-header">
 									<h3 class="card-title">
-										<i class="fa-solid fa-magnifying-glass-plus"></i>&nbsp;Graphics
+										<i class="fa-solid fa-image"></i>&nbsp;Graphics
 									</h3>
 								</div>
 
 								<div class="card-body table-responsive">
 
+
 									<#-- Table Content -->
-									<table class="table table-hover table-striped">
+									<table class="table">
 										<thead>
 											<tr>
 												<th>Id</th>
 												<th>Thumbnail</th>
 												<th>Operator</th>
 												<th>Position</th>
-												<th>Type</th>
+												<th>Uploaded</th>
 												<th>Action</th>
 											</tr>
 										</thead>
+
 										<tbody>
+
+											<#-- Graphics -->
+											<tr>
+												<th colspan="6">
+													<span class="text-primary">
+														<center>
+															<i class="fa-solid fa-down-left-and-up-right-to-center"></i>
+															&nbsp;TWIG Component(s)
+														</center>
+													</span>
+												</th>
+											</tr>
 											<#list eventGraphics as graphics>
+												<#include "../_includes/graphics/event_graphics_table.ftl">
 											</#list>
-										
+											<#-- /Graphics -->			
+
+											<#-- Banners -->
+											<tr>
+												<th colspan="6">
+													<span class="text-primary">
+														<center>
+															<i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+															&nbsp;Banner(s)
+														</center>
+													</span>
+												</th>
+											</tr>
+											<#list eventBanners as graphics>
+												<#include "../_includes/graphics/event_graphics_table.ftl">
+											</#list>
+											<#-- /Banners -->			
+
 										</tbody>
 									</table>
 									<#-- /Table Content -->
