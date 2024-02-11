@@ -241,6 +241,9 @@ function getBrowserName(userAgent) {
     return browserName;
 }
 
+function dateRender(data, type, row){
+	return data ? data : 'N/A'; 
+}
 
 /**
  * Hide the navbar if the page is in a frame.

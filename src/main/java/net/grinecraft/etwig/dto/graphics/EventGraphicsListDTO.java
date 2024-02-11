@@ -1,20 +1,18 @@
 package net.grinecraft.etwig.dto.graphics;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.ToString;
-
+import lombok.*;
 import java.time.LocalDateTime;
 
-@Getter
-@ToString
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class EventGraphicsListDTO {
 
     private Long id;
     private String eventName;
-    private int graphicsNum;
-    private int bannerNum;
+    private long graphicsNum;
+    private long bannerNum;
     private LocalDateTime lastModified;
 
     //public  EventGraphicsListDTO()

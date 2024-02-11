@@ -67,8 +67,8 @@
 											<tr>
 												<th>Id</th>
 												<th>Name</th>
-												<th>Graphics Num</th>
-												<th>Banner Num</th>
+												<th>Graphics Count</th>
+												<th>Banner Count</th>
 												<th>Last Modified</th>
 												<th>Action</th>
 											</tr>
@@ -93,29 +93,13 @@
 	
 	<#include "../_includes/footer.ftl">
 	<#include "../_includes/header/body_end.ftl">
-</body>
 
-
-
-<!--
-<body class="hold-transition sidebar-mini layout-fixed">
-
-	<#-- Content Wrapper. -->
-	<div class="content-wrapper">
-		
-		
-
-		
-	</div>
-	
-
-	<#-- JS for TWIG template options. -->
-	<script type="text/javascript" src="/static/js/etwig/twig-template-table.js"></script>
+	<script type="text/javascript" src="/static/js/etwig/graphics-events.js"></script>
 	
 	<script>
-    	var dt = twigTemplateDataTable();
+    	var dt = eventGraphicsDataTable();
+		console.log(dt)
 	</script>
 </body>
 
--->
 </html>
