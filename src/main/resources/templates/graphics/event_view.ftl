@@ -7,14 +7,14 @@
 	function: The dashboard (site main) page.
    -->
    
-<#assign navbar = "GRAPHICS_APPROVAL">
+<#assign navbar = "GRAPHICS_EVENTS">
 
 <!DOCTYPE html>
 <html>
 <head>
 
 	<#include "../_includes/header/head.ftl">
-	<title>Graphics Requests Approval - ${app.appName}</title>
+	<title>Event Graphics View - ${app.appName}</title>
 </head>
 
 <body class="hold-transition layout-top-nav">
@@ -35,14 +35,14 @@
 	        		<div class="row mb-2">
 	          			<div class="col-sm-6">
 	            			<h1 class="bold-text" id="eventPageTitle">
-	            				Graphics Request Approval
+	            				Event Graphics View: ${eventInfo.name}
 	            			</h1>
 	          			</div>
 	          			<div class="col-sm-6">
 	            			<ol class="breadcrumb float-sm-right">
 	              				<li class="breadcrumb-item"><a href="/graphics">Graphics</a></li>
-								<li class="breadcrumb-item"><a href="/graphics/approval/list">Request Approval</a></li>
-								<li class="breadcrumb-item active"><a href="/graphics/approval/decision?requestId=">Decision</a></li>
+								<li class="breadcrumb-item"><a href="/graphics/events/list">Event Graphics</a></li>
+								<li class="breadcrumb-item active"><a href="/graphics/events/view?eventId=${eventInfo.id}">View</a></li>
 	            			</ol>
 	          			</div>
 	        		</div>
@@ -55,10 +55,8 @@
 				<div class="container-fluid">
 					<div class="row col-12">
 
-						<#-- Information area -->
+						<#-- Event Info -->
 						<div class="col-md-6">
-
-							<#-- Event Info -->
 							<div class="card card-primary card-outline mb-3">
 								<div class="card-header">
 									<h3 class="card-title">
@@ -70,87 +68,46 @@
 									
 									<#include "../_includes/events/graphics_info.ftl">
 								</div>
-							</div>
-							<#-- /Event Info -->
-
-							<#-- Request Info --
-							<div class="card card-primary card-outline">
-								<div class="card-header">
-									<h3 class="card-title">
-										<i class="fa-solid fa-hand"></i>&nbsp;Request Information
-									</h3>
-								</div>
-								<div class="card-body">
-
-										<#-- Basic Info --
-										<table class="table table-bordered">
-													
-											<#-- Request Id --
-											<tr>
-												<th scope="row">Request Id</th>
-												<td id="requestId">${requestInfo.id}</td>
-											</tr>
-											<#-- /Request Id -->
-
-
-											<#-- Request Time --
-											<tr>
-												<th scope="row">Request Time</th>
-												<td></td>
-											</tr>
-											<#-- /Request Time -->
-													
-											<#-- Expect Date --
-											<tr>
-												<th scope="row">Expect Date</th>
-												<td>${requestInfo.expectDate}</td>
-											</tr>
-											<#-- /Expect Date -->
-													
-											<#-- Comment --
-											<tr>
-												<th scope="row">Comment</th>
-												<td><#if requestInfo.requestComments?has_content>${requestInfo.requestComments}</#if></td>
-											</tr>
-											<#-- /Comment -->
-														
-											<#-- Requester --
-											<tr>
-												<th scope="row">Requester</th>
-												<td>${requestInfo.requester.fullName}</td>
-											</tr>
-											<#-- /Requester -->
-
-											<#-- Position and Portfolio --
-											<tr>
-												<th scope="row">Position and Portfolio</th>
-												<td id="eventPortfolio" style="background-color:#${requestInfo.requesterPortfolio.color}">
-													${requestInfo.requesterPosition}, ${requestInfo.requesterPortfolio.name}
-												</td>
-											</tr>
-											<#-- /Position and Portfolio --
-													
-										</table>
-										<#-- /Basic Info --
-
-								</div>
-							</div>
-							<#-- /Request Info -->
-							
+							</div>						
 						</div>
-						<#-- /Information area -->
+						<#-- /Event Info -->
 											
 						<#-- Col 2 -->
 						<div class="col-md-6">	
 
-						<#-- Response --
+							<#-- Graphics -->
 							<div class="card card-primary card-outline">
 								<div class="card-header">
 									<h3 class="card-title">
-										<i class="fa-solid fa-reply"></i>&nbsp;Make a decision
+										<i class="fa-solid fa-magnifying-glass-plus"></i>&nbsp;Graphics
 									</h3>
 								</div>
-								<div class="card-body">
+
+								<div class="card-body table-responsive">
+
+									<#-- Table Content -->
+									<table class="table table-hover table-striped">
+										<thead>
+											<tr>
+												<th>Id</th>
+												<th>Thumbnail</th>
+												<th>Operator</th>
+												<th>Position</th>
+												<th>Type</th>
+												<th>Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<#list eventGraphics as graphics>
+											</#list>
+										
+										</tbody>
+									</table>
+									<#-- /Table Content -->
+
+								</div>
+									
+									
 
 									<#-- Approver Role --
 									<div class="form-group row">
@@ -237,9 +194,9 @@
 									</div>
 									<#-- /Submit -->
 
-								</div>
+								
 							</div>
-						<#-- Response -->
+						<#-- /Graphics -->
 
 						</div>
 						<#-- /Col 2 -->

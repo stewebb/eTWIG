@@ -2,6 +2,7 @@ package net.grinecraft.etwig.controller.graphics;
 
 import net.grinecraft.etwig.dto.events.GraphicsRequestEventInfoDTO;
 import net.grinecraft.etwig.dto.graphics.PendingRequestsDetailsDTO;
+import net.grinecraft.etwig.services.EventGraphicsService;
 import net.grinecraft.etwig.services.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
@@ -19,6 +20,9 @@ public class EventGraphicsController {
 
 	@Autowired
 	private EventService eventService;
+
+	@Autowired
+	private EventGraphicsService eventGraphicsService;
 
 	/**
 	 * The page of event graphics list
@@ -41,6 +45,8 @@ public class EventGraphicsController {
 		}
 
 		model.addAttribute("eventInfo", event);
+		model.addAttribute("eventGraphics", eventGraphicsService.getGraphicsDetailsByEventId(eventId));
+		//System.out.println(eventGraphicsService.getGraphicsDetailsByEventId(eventId));
 		return "graphics/event_view";
 	}
 

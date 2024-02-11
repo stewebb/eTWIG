@@ -2,9 +2,14 @@ package net.grinecraft.etwig.services;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import net.grinecraft.etwig.dto.graphics.EventGraphicsDetailsDTO;
 import net.grinecraft.etwig.dto.graphics.EventGraphicsListDTO;
+import net.grinecraft.etwig.model.EventGraphics;
 import net.grinecraft.etwig.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -51,5 +56,18 @@ public class EventGraphicsService {
 	public Page<EventGraphicsListDTO> eventGraphicsList(int page, int size){
 		Pageable pageable = PageRequest.of(page, size);
 		return eventGraphicsRepository.eventGraphicsList(pageable);
+	}
+
+	public List<EventGraphicsDetailsDTO> getGraphicsDetailsByEventId(Long eventId){
+		List<EventGraphics> eventGraphicsList = eventGraphicsRepository.findByEventId(eventId);
+		return eventGraphicsList.stream()
+				.map(EventGraphicsDetailsDTO::new)
+				.collect(Collectors.toList());
+
+		//List<EventGraphicsDetailsDTO> eventGraphicsDetailsDTOList = new ArrayList<>();
+		//for(EventGraphics eventGraphics : eventGraphicsList){
+		//	eventGraphicsDetailsDTOList.add(new EventGraphicsDetailsDTO(eventGraphics));
+		//}
+		//return eventGraphicsDetailsDTOList;
 	}
 }
