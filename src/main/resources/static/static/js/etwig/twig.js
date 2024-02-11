@@ -795,7 +795,7 @@ class TAA{
 
        
         // The height of each slot
-        var slotHeight = Math.ceil(this.eventTable.height / this.timeSlot.size);
+        //var slotHeight = Math.ceil(this.eventTable.height / this.timeSlot.size);
 
         // Calculate the position of all occupied slots.
         var count = 1;
@@ -806,7 +806,7 @@ class TAA{
                 var idx = this.eventMap.findIndex(object => object.eventId == value);
 
                 // Reset the time slot.
-                this.timeSlot.set(key, new EventTimeSlot(value, this.eventTable.posX, slotHeight*count, key, this.eventMap[idx].assetId));
+                this.timeSlot.set(key, new EventTimeSlot(value, this.eventTable.posX, this.getSlotHeight()*count, key, this.eventMap[idx].assetId));
             }
             count++;
         }
@@ -820,6 +820,10 @@ class TAA{
         this.#arrange();
 
         return this.timeSlot;
+    }
+
+    getSlotHeight(){
+        return Math.ceil(this.eventTable.height / this.timeSlot.size);
     }
 }
 

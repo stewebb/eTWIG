@@ -9,6 +9,8 @@ const WEEKDAY_HOURS = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
 // **Weekend** events(DoW=[0,6]), N=3 (morning 9:00-12:00, afternoon 13:00-18:00, evening 19:00-21:00),
 const WEEKEND_HOURS = [9, 15, 21];
 
+const DEBUG_MODE = true;
+
 var img;
 var twig = undefined;
 var eventList = undefined;
@@ -94,23 +96,13 @@ function setup(){
 	if(twig == undefined && eventList == undefined){
 		return;
 	}
-	
-    frameRate(10);
-    
+	    
     // The main canvas.
     var mainCanvas = twig.root.widget;
     createCanvas(mainCanvas.width, mainCanvas.height);
    
 
-    // Stop the loading animation.
-    $('#logo').removeClass('beating-logo').addClass('shrinking-logo');
-}
 
-function draw() {
-
-	if(twig == undefined && eventList == undefined){
-		return;
-	}
    
     // Track the number of push and pop
     var pushNum = 0;
@@ -180,7 +172,6 @@ function draw() {
 				break;
 
             case "EVENT_TABLES":
-            	fill(255, 0, 0);    noStroke();
 
                 // Match event table (template) and list (content)
                 var ev = eventList[widget.dayOfWeek];  
@@ -189,18 +180,33 @@ function draw() {
                 // Execute TWIG Arrangement Algorithm.
                 var taa = new TAA(ev, widget, null, hours);
                 var arrangements = taa.exec();
-                //console.log(ev)
+                var slotHeight = taa.getSlotHeight();
 
+                // Place graphics to the allocated area.
                 for (const [key, value] of arrangements) {
-                    //console.log();
+
+                    ///if(value == null){
+                    //    if(DEBUG_MODE){
+                    //        fill("#FFC400");    noStroke();
+                    //        rect(value.posX, value.posY, widget.width, slotHeight);
+                    ////    }
+                    //}
 
                     if(value != null){
-                        //console.log(value)
-                        //rect(value.posX, value.posY, 100, 20);
 
-                        var originalImg = assetCollection.get(value.assetId);
-                        console.log(originalImg)
-                        image(originalImg, value.posX, value.posY, 100, 20)
+                        if(DEBUG_MODE){
+                            fill("#004AAD");    noStroke();
+                            rect(value.posX, value.posY, widget.width, slotHeight);
+                        }
+
+                        else{
+                            var originalImg = assetCollection.get(value.assetId);
+                            var newHeight = originalImg.height * (value.width / originalImg.width);
+                            image(originalImg, value.posX, value.posY, value.width, newHeight)
+                        }
+
+
+                      
                     }
 
                 }
@@ -232,12 +238,19 @@ function draw() {
         pop();
     }
 
+        // Stop the loading animation.
+        $('#logo').removeClass('beating-logo').addClass('shrinking-logo');
 
 }
 
-function mouseClicked(fxn){
-	console.log(mouseX, mouseY);
+
+function draw(){
+
 }
+
+//function mouseClicked(fxn){
+//	console.log(mouseX, mouseY);
+//}
 
 function readImage(assets, assetId){
     var assetUrl = "/assets/getPublicAsset?assetId=" + assetId;
