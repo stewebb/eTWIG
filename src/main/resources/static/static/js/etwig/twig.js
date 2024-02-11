@@ -603,8 +603,6 @@ class ArrayList {
  * Input:
  * - A **map** of all events on a certain day. (key: eventId, value: map)
  * - The object of the **event table widget**.
- * - The **range** of acceptable sizes.
- * - 
  * 
  * Output:
  * - A list of the positions of all event graphics.
@@ -612,10 +610,9 @@ class ArrayList {
 
 class TAA{
 
-    constructor(eventMap, eventTable, sizeRange, hours){
+    constructor(eventMap, eventTable, hours){
         this.eventMap = eventMap;
         this.eventTable = eventTable;
-        this.sizeRange = sizeRange;
         this.hours = hours;
     }
 

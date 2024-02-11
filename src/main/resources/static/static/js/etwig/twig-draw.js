@@ -33,7 +33,7 @@ function preload(){
     var date = '';
     
     // Browser check.
-    if(typeof window.chrome !== "object"){
+    if(!DEBUG_MODE && typeof window.chrome !== "object"){
         infoPopup("For the best experience, Chromium-based browsers are recommended", "However, your web browser is " + getBrowserName(navigator.userAgent));
     }
 
@@ -101,13 +101,9 @@ function setup(){
     var mainCanvas = twig.root.widget;
     createCanvas(mainCanvas.width, mainCanvas.height);
    
-
-
-   
     // Track the number of push and pop
     var pushNum = 0;
     var popNum = 0;
-
 
     // Track the depth of last iteration!
     var lastDepth = 0;
@@ -155,13 +151,14 @@ function setup(){
         // Current widget
         var widget = value.node.widget
 
-
-       //console.log(0)
         switch (widget.type){
-   //         case "TEMPLATE":
-   //             //noFill();   strokeWeight(5);    stroke(0);
-    //            //rect(widget.posX, widget.posY, widget.width, widget.height);
-    //            break;
+            case "TEMPLATE":
+
+                if(DEBUG_MODE){
+                    noFill();   strokeWeight(5);    stroke(255, 0, 0);
+                    rect(widget.posX, widget.posY, widget.width, widget.height);
+                }                
+                break;
 
             case "IMAGE":
 				var originalImg = assetCollection.get(widget.assetId);
@@ -173,12 +170,19 @@ function setup(){
 
             case "EVENT_TABLES":
 
+                // Show the border in debug mode.
+                if(DEBUG_MODE){
+                    noFill();   strokeWeight(5);    stroke(0, 0, 255);
+                    rect(widget.posX, widget.posY, widget.width, widget.height);
+                }                
+                
+
                 // Match event table (template) and list (content)
                 var ev = eventList[widget.dayOfWeek];  
                 var hours = (widget.dayOfWeek == 0 || widget.dayOfWeek == 6) ? WEEKEND_HOURS : WEEKDAY_HOURS;
                 
                 // Execute TWIG Arrangement Algorithm.
-                var taa = new TAA(ev, widget, null, hours);
+                var taa = new TAA(ev, widget, hours);
                 var arrangements = taa.exec();
                 var slotHeight = taa.getSlotHeight();
 
@@ -193,6 +197,9 @@ function setup(){
                     //}
 
                     if(value != null){
+
+                        //console.log(value)
+                        console.log(key)
 
                         if(DEBUG_MODE){
                             fill("#004AAD");    noStroke();
