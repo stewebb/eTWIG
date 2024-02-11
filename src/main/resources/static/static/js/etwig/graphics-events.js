@@ -43,11 +43,11 @@ function actionRender(data, type, full){
 function addGraphics(){
 	var newGraphicsObj = {}
 	
-	// requestId
-	// newGraphicsObj["eventId"] = null//parseInt($('#requestId').text());
+	// eventId
+	newGraphicsObj["eventId"] = parseInt($('#eventId').val());
 	
 	// Role
-	newGraphicsObj["role"] = parseInt($('#operatorRole').find(":selected").val());
+	newGraphicsObj["operatorRole"] = parseInt($('#operatorRole').find(":selected").val());
 	
 	// Graphics type option, 1 -> Approved, 0 -> Declined, NaN -> Not Selected
 	var graphicsMode = parseInt($('input[type=radio][name=graphicsType]:checked').val());
@@ -93,7 +93,7 @@ function addGraphics(){
 
 	// Redirect back
 	if(!hasError){
-		setTimeout(function() {	$(location).attr('href','/graphics/approval/list'); }, 2500);
+		setTimeout(function() {	location.reload(); }, 2500);
 	}
 	
 }

@@ -4,10 +4,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import net.grinecraft.etwig.dto.graphics.EventGraphicsDetailsDTO;
 import net.grinecraft.etwig.dto.graphics.EventGraphicsListDTO;
+import net.grinecraft.etwig.dto.graphics.NewGraphicsDTO;
 import net.grinecraft.etwig.model.EventGraphics;
 import net.grinecraft.etwig.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,11 +64,11 @@ public class EventGraphicsService {
 		return eventGraphicsList.stream()
 				.map(EventGraphicsDetailsDTO::new)
 				.collect(Collectors.toList());
+	}
 
-		//List<EventGraphicsDetailsDTO> eventGraphicsDetailsDTOList = new ArrayList<>();
-		//for(EventGraphics eventGraphics : eventGraphicsList){
-		//	eventGraphicsDetailsDTOList.add(new EventGraphicsDetailsDTO(eventGraphics));
-		//}
-		//return eventGraphicsDetailsDTOList;
+	public void addGraphics(Map<String, Object> newGraphicsInfo){
+		NewGraphicsDTO newGraphicsDTO = new NewGraphicsDTO();
+		newGraphicsDTO.addDirectly(newGraphicsInfo);
+		eventGraphicsRepository.save(newGraphicsDTO.toEntity());
 	}
 }

@@ -150,6 +150,7 @@
 								</div>
 
 								<div class="card-body">
+									<input type="hidden" value="${eventInfo.id}" id="eventId" />
 
 									<#-- Role -->
 									<div class="form-group row">
