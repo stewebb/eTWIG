@@ -14,6 +14,4 @@ public class EventGraphicsListDTO {
     private long graphicsNum;
     private long bannerNum;
     private LocalDateTime lastModified;
-
-    //public  EventGraphicsListDTO()
 }
