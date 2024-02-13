@@ -1,16 +1,16 @@
 package net.grinecraft.etwig.dto.events;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import lombok.Getter;
 import lombok.ToString;
 import net.grinecraft.etwig.model.Event;
 import net.grinecraft.etwig.model.EventGraphics;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Getter
 @ToString
-public class EventGraphicsPublicInfoDTO {
+public class RecurringEventGraphicsPublicInfoDTO {
 
 	// Graphics info
 	private Long id;
@@ -22,10 +22,11 @@ public class EventGraphicsPublicInfoDTO {
 	private boolean allDayEvent;
 
 	// Timing
-	private String date;
 	private String time;
-	
-	public EventGraphicsPublicInfoDTO(EventGraphics eventGraphics) {
+	private String rrule;
+	private String excludedDates;
+
+	public RecurringEventGraphicsPublicInfoDTO(EventGraphics eventGraphics) {
 
 		if(eventGraphics == null){
 			return;
@@ -43,8 +44,9 @@ public class EventGraphicsPublicInfoDTO {
 
 		// Timing
 		LocalDateTime eventDateTime = event.getStartTime();
-		this.date = eventDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		this.time = eventDateTime.format(DateTimeFormatter.ofPattern("HH:mm"));
+		this.rrule = event.getRRule();
+		this.excludedDates = event.getExcludedDates();
 
 	}
 }
