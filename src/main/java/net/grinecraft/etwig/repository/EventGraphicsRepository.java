@@ -45,7 +45,7 @@ public interface EventGraphicsRepository extends JpaRepository<EventGraphics, Lo
 	//		"ORDER BY e.startDateTime ASC")
 
 	@Query("SELECT new net.grinecraft.etwig.dto.events.EventGraphicsPublicInfoDTO(g) " +
-			"FROM Event e LEFT JOIN EventGraphics g WITH g.id = (SELECT MAX(g2.id) FROM EventGraphics g2 WHERE g2.eventId = e.id) " +
+			"FROM Event e LEFT JOIN EventGraphics g WITH g.id = (SELECT MAX(g2.id) FROM EventGraphics g2 WHERE g2.eventId = e.id AND g2.banner = false) " +
 			"WHERE FUNCTION('DATE', e.startTime) = :date " +
 			"ORDER BY e.startTime ASC")
 	List<EventGraphicsPublicInfoDTO> findEventsAndLatestGraphicByDate(@Param("date") LocalDate date);

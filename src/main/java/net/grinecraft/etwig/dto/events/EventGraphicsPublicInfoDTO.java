@@ -26,7 +26,11 @@ public class EventGraphicsPublicInfoDTO {
 	private String time;
 	
 	public EventGraphicsPublicInfoDTO(EventGraphics eventGraphics) {
-		
+
+		if(eventGraphics == null){
+			return;
+		}
+
 		// Graphics info
 		this.id = eventGraphics.getId();
 		this.assetId = eventGraphics.getAssetId();
