@@ -43,8 +43,9 @@ public class EventGraphicsService {
 			dayOfWeek = (dayOfWeek % 7);
 
 			// Next day
-			LocalDateTime tomorrow = thisMonday.plusDays(i+1).atStartOfDay();
-			eventsThisWeek.put(dayOfWeek, eventGraphicsRepository.getGraphicsList(today.atStartOfDay(), tomorrow, portfolioId));
+			//LocalDateTime tomorrow = thisMonday.plusDays(i+1).atStartOfDay();
+			//eventsThisWeek.put(dayOfWeek, eventGraphicsRepository.getGraphicsList(today.atStartOfDay(), tomorrow, portfolioId));
+			eventsThisWeek.put(dayOfWeek, eventGraphicsRepository.findEventsAndLatestGraphicByDate(today));
 
 			//System.out.println(today.atStartOfDay() + " " + tomorrow);
 			//System.out.println(eventGraphicsRepository.getGraphicsList(today.atStartOfDay(), tomorrow, portfolioId));
