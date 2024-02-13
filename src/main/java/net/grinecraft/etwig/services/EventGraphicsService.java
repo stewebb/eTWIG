@@ -1,7 +1,6 @@
 package net.grinecraft.etwig.services;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +44,7 @@ public class EventGraphicsService {
 			// Next day
 			//LocalDateTime tomorrow = thisMonday.plusDays(i+1).atStartOfDay();
 			//eventsThisWeek.put(dayOfWeek, eventGraphicsRepository.getGraphicsList(today.atStartOfDay(), tomorrow, portfolioId));
-			eventsThisWeek.put(dayOfWeek, eventGraphicsRepository.findEventsAndLatestGraphicByDate(today));
+			eventsThisWeek.put(dayOfWeek, eventGraphicsRepository.findSingleTimeEventsAndLatestGraphicByDate(today));
 
 			//System.out.println(today.atStartOfDay() + " " + tomorrow);
 			//System.out.println(eventGraphicsRepository.getGraphicsList(today.atStartOfDay(), tomorrow, portfolioId));

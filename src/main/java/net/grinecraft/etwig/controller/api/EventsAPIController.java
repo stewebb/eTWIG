@@ -81,7 +81,6 @@ public class EventsAPIController {
 	
 	/**
 	 * Edit an existing event.
-	 * @param session
 	 * @param eventInfo
 	 * @return
 	 * @throws Exception

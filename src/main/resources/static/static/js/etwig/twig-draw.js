@@ -212,7 +212,7 @@ function setup(){
                         var endTime = Date.parse(current.date + ' ' + current.time).addMinutes(current.duration).toString('HH:mm');
                         textSize(shortSide * 0.016); fill(0);    noStroke();    textStyle(BOLD);
                         text(current.time + '-' + endTime, value.posX, value.posY);
-
+                        
                         if(DEBUG_MODE){
                             fill("#004AAD");    noStroke();
                             rect(value.posX, value.posY, widget.width, slotHeight);
@@ -220,8 +220,8 @@ function setup(){
 
                         else{
                             var originalImg = assetCollection.get(current.assetId);
-                            var newHeight = originalImg.height * (value.width / originalImg.width);
-                            image(originalImg, value.posX, value.posY, value.width, newHeight)
+                            var newHeight = originalImg.height * (widget.width / originalImg.width);
+                            image(originalImg, value.posX, value.posY, widget.width, newHeight)
                         }
 
 
