@@ -17,7 +17,7 @@ var assetCollection = new Map();
 
 var singleTimeEventList = undefined;
 var recurringEventList = undefined;
-var eventList = undefined;
+var eventMap = {};
 
 // Page orientation: true landscape, false portrait.
 var pageOrientation = true;
@@ -36,9 +36,9 @@ function preload(){
     var date = '';
     
     // Browser check.
-    if(!DEBUG_MODE && typeof window.chrome !== "object"){
-        infoPopup("For the best experience, Chromium-based browsers are recommended", "However, your web browser is " + getBrowserName(navigator.userAgent));
-    }
+    //if(!DEBUG_MODE && typeof window.chrome !== "object"){
+    //    infoPopup("For the best experience, Chromium-based browsers are recommended", "However, your web browser is " + getBrowserName(navigator.userAgent));
+    //}
 
     // Get portfolio from URL parameter.
     var searchParams = new URLSearchParams(window.location.search)
@@ -90,22 +90,50 @@ function preload(){
     }
 
     // Iterate all days over a week.
-    var eventList = {...singleTimeEventList, ...recurringEventList};
-    console.log(eventList)
-    $.each(singleTimeEventList, function(date, events) {
+    
+    //eventList = {... singleTimeEventList, ... recurringEventList};
 
-        // For each day, get asset of all events which has a TWIG component
+    //var eventMap = {};
+    for(var i=0; i<7; i++){
+       eventMap[i] = [];
+    }
+    
+    //console.log(eventList)
+    
+    
+    $.each(singleTimeEventList, function(dayOfWeek, events) {
         for (var i=0; i<events.length; i++){
-            if(events[i].assetId != null){
+            eventMap[dayOfWeek].push(events[i])
+        }
+    });
+
+    $.each(recurringEventList, function(dayOfWeek, events) {
+        for (var i=0; i<events.length; i++){
+            eventMap[dayOfWeek].push(events[i])
+        }
+    });
+
+    
+    //processEvents(singleTimeEventList);
+    //processEvents(recurringEventList);
+
+    console.log(eventMap)
+    //console.log(recurringEventList)
+    
+    
+}
+
+function processEvents(eventList) {
+    $.each(eventList, function(index, events) {
+        
+        // For each day, get asset of all events which has a TWIG component.
+        for (var i = 0; i < events.length; i++) {
+            if (events[i].assetId != null) {
                 readImage(assetCollection, events[i].assetId);
             }
         }
     });
-
-    console.log(assetCollection)
-    
 }
-
 
 function setup(){
 	
@@ -195,7 +223,7 @@ function setup(){
                 
 
                 // Match event table (template) and list (content)
-                var ev = singleTimeEventList[widget.dayOfWeek];  
+                var ev = eventMap[widget.dayOfWeek];  
                 var hours = (widget.dayOfWeek == 0 || widget.dayOfWeek == 6) ? WEEKEND_HOURS : WEEKDAY_HOURS;
                 
                 if(DEBUG_MODE){
@@ -207,6 +235,8 @@ function setup(){
                 var taa = new TAA(ev, widget, hours);
                 var arrangements = taa.exec();
                 var slotHeight = taa.getSlotHeight();
+
+                console.log(arrangements)
 
                 // Place graphics to the allocated area.
                 for (const [key, value] of arrangements) {
@@ -322,7 +352,12 @@ function getSingleTimeEventList(setting){
 }
 
 function getRecurringEventList(setting){
-    var eventList = []; 
+
+    // Initialize the event map: Key is day of week and value is an empty array.
+    var eventMap = {};
+    for(var i=0; i<7; i++){
+       eventMap[i] = [];
+    }
 
     // The boundary of this week.
     var firstDay = Date.parse(setting.getDate()).monday().addDays(-7);
@@ -368,8 +403,9 @@ function getRecurringEventList(setting){
 					var eventStartDateTime = combineDateAndTime(occurrenceDate, value.time + ':00');
 					//var eventEndDateTime = combineDateAndTime(occurrenceDate, value.eventTime).addMinutes(value.duration);
 					
-					// Save data
-					eventList.push({
+					// The event object
+					var eventObj = {
+                        eventId: value.eventId,
 						graphicsId: value.graphicsId,
                         assetId: value.assetId,
 						date: eventStartDateTime.toString('yyyy-MM-dd'),
@@ -380,7 +416,10 @@ function getRecurringEventList(setting){
 						//title: {html: `<span class="font-italic bold-text">${value.name}</span>`},
 						//color: "#" + value.portfolioColor,
 						
-					}); 	
+					}; 	
+
+                    // Save event based on date of week.
+                    eventMap[eventStartDateTime.getDay()].push(eventObj);
 				}
 			})
         },
@@ -390,7 +429,12 @@ function getRecurringEventList(setting){
 			dangerPopup("Failed to get recurrent events due to a HTTP " + err.status + " error.", err.responseJSON.exception);
 		}
 	});
-	return eventList;
+
+
+
+
+    console.log(eventMap)
+	return eventMap;
 }
 
 /**
