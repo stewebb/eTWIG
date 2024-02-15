@@ -27,13 +27,21 @@ public interface EventGraphicsRepository extends JpaRepository<EventGraphics, Lo
 			"GROUP BY e.id ORDER BY e.id DESC")
 	Page<EventGraphicsListDTO> eventGraphicsList(Pageable pageable);
 
-	@Query("SELECT new net.grinecraft.etwig.dto.events.SingleTimeEventGraphicsPublicInfoDTO(g) " +
-			"FROM Event e " +
-			"LEFT JOIN EventGraphics g " +
-			"WITH g.id = (SELECT MAX(g2.id) FROM EventGraphics g2 WHERE g2.eventId = e.id AND g2.banner = false) " +
-			"WHERE FUNCTION('DATE', e.startTime) = :date " +
-			"AND e.recurring = false" +
-			"ORDER BY e.startTime ASC")
+	//@Query("SELECT new net.grinecraft.etwig.dto.events.SingleTimeEventGraphicsPublicInfoDTO(g) " +
+	//		"FROM Event e " +
+	//		"LEFT JOIN EventGraphics g " +
+	//		"WITH g.id = (SELECT MAX(g2.id) FROM EventGraphics g2 WHERE g2.eventId = e.id AND g2.banner = false) " +
+	//		"WHERE FUNCTION('DATE', e.startTime) = :date " +
+	//		"AND e.recurring = false" +
+	//		"ORDER BY e.startTime ASC")
+	@Query("SELECT new net.grinecraft.etwig.dto.events.SingleTimeEventGraphicsPublicInfoDTO(g) FROM Event e \n" +
+			"LEFT JOIN EventGraphics g WITH g.id = (\n" +
+			"    SELECT MAX(g2.id) \n" +
+			"    FROM EventGraphics g2 \n" +
+			"    WHERE g2.eventId = e.id AND g2.banner = false\n" +
+			") \n" +
+			"WHERE FUNCTION('DATE', e.startTime) = :date AND e.recurring = false \n" +
+			"ORDER BY e.startTime ASC\n")
 	List<SingleTimeEventGraphicsPublicInfoDTO> findSingleTimeEventsAndLatestGraphicByDate(@Param("date") LocalDate date);
 
 	@Query("SELECT new net.grinecraft.etwig.dto.events.RecurringEventGraphicsPublicInfoDTO(g) " +
