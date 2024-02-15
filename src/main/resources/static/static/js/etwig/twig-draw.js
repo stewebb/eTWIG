@@ -15,8 +15,8 @@ var img;
 var twig = undefined;
 var assetCollection = new Map();
 
-var singleTimeEventList = undefined;
-var recurringEventList = undefined;
+//var singleTimeEventList = undefined;
+//var recurringEventList = undefined;
 var eventMap = {};
 
 // Page orientation: true landscape, false portrait.
@@ -69,9 +69,8 @@ function preload(){
     
 
     // Get event list
-    singleTimeEventList = getSingleTimeEventList(setting);
-    recurringEventList = getRecurringEventList(setting);
-    //console.log(recurringEventList)
+    var singleTimeEventList = getSingleTimeEventList(setting);
+    var recurringEventList = getRecurringEventList(setting);
 
     if(singleTimeEventList == undefined){
         return;
@@ -113,18 +112,7 @@ function preload(){
         }
     });
 
-    
-    //processEvents(singleTimeEventList);
-    //processEvents(recurringEventList);
-
-    console.log(eventMap)
-    //console.log(recurringEventList)
-    
-    
-}
-
-function processEvents(eventList) {
-    $.each(eventList, function(index, events) {
+    $.each(eventMap, function(index, events) {
         
         // For each day, get asset of all events which has a TWIG component.
         for (var i = 0; i < events.length; i++) {
@@ -133,6 +121,13 @@ function processEvents(eventList) {
             }
         }
     });
+    //processEvents(singleTimeEventList);
+    //processEvents(recurringEventList);
+
+    //console.log(eventMap)
+    //console.log(recurringEventList)
+    
+    
 }
 
 function setup(){
@@ -252,7 +247,7 @@ function setup(){
 
                         // Display event time
                         var endTime = Date.parse(current.date + ' ' + current.time).addMinutes(current.duration).toString('HH:mm');
-                        textSize(shortSide * 0.016); fill(0);    noStroke();    textStyle(BOLD);
+                        textSize(shortSide * 0.012); fill(0);    noStroke();    textStyle(BOLD);
                         text(current.time + '-' + endTime, value.posX, value.posY);
                         
                         if(DEBUG_MODE){
@@ -429,11 +424,6 @@ function getRecurringEventList(setting){
 			dangerPopup("Failed to get recurrent events due to a HTTP " + err.status + " error.", err.responseJSON.exception);
 		}
 	});
-
-
-
-
-    console.log(eventMap)
 	return eventMap;
 }
 
