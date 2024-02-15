@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>net.grinecraft</groupId>
 	<artifactId>etwig</artifactId>
-	<version>1.2</version>
+	<version>1.4</version>
 	<packaging>jar</packaging>
 	<name>etwig</name>
 	<description>
@@ -28,19 +28,10 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		<!--
-		<dependency>
-			<groupId>jakarta.servlet</groupId>
-			<artifactId>jakarta.servlet-api</artifactId>
-			<version>6.1.0-M1</version>
-			<scope>compile</scope>
-		</dependency>
-		-->
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<!--<scope>provided</scope>-->
+			<!--<scope>provided</scope>--><!-- Comment me in Intellij. -->
 		</dependency>
 		
 		<dependency>

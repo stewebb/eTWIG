@@ -12,12 +12,15 @@ package net.grinecraft.etwig.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.http.CacheControl;
 import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import net.grinecraft.etwig.EtwigInterceptor;
+
+import java.util.concurrent.TimeUnit;
 
 @Configuration
 @EnableAspectJAutoProxy(proxyTargetClass = true)
@@ -39,9 +42,9 @@ public class WebConfig implements WebMvcConfigurer{
     
     @Override
     public void addResourceHandlers(@NonNull ResourceHandlerRegistry registry) {
-        //registry.addResourceHandler("/static/**")
-        //	.addResourceLocations("classpath:/static/static/")
-        //    .setCacheControl(CacheControl.maxAge(90, TimeUnit.DAYS));
+        registry.addResourceHandler("/static/**")
+        	.addResourceLocations("classpath:/static/static/")
+            .setCacheControl(CacheControl.maxAge(90, TimeUnit.DAYS));
     }
 
 }
