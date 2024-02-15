@@ -86,9 +86,11 @@ function preload(){
     // Iterate all days over a week.
     $.each(eventList, function(date, events) {
 
-        // For each day, get asset of all events
+        // For each day, get asset of all events which has a TWIG component
         for (var i=0; i<events.length; i++){
-            readImage(assetCollection, events[i].assetId);
+            if(events[i].assetId != null){
+                readImage(assetCollection, events[i].assetId);
+            }
         }
     });
     
@@ -220,8 +222,13 @@ function setup(){
 
                         else{
                             var originalImg = assetCollection.get(current.assetId);
-                            var newHeight = originalImg.height * (widget.width / originalImg.width);
-                            image(originalImg, value.posX, value.posY, widget.width, newHeight)
+
+                            // Remove null situations
+                            if(originalImg != undefined && originalImg != null){
+                                var newHeight = originalImg.height * (widget.width / originalImg.width);
+                                image(originalImg, value.posX, value.posY, widget.width, newHeight)
+                            }
+
                         }
 
 

@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 public class RecurringEventGraphicsPublicInfoDTO {
 
 	// Graphics info
-	private Long id;
+	private Long graphicsId;
 	private Long assetId;
 
 	// Event info
@@ -26,18 +26,15 @@ public class RecurringEventGraphicsPublicInfoDTO {
 	private String rrule;
 	private String excludedDates;
 
-	public RecurringEventGraphicsPublicInfoDTO(EventGraphics eventGraphics) {
-
-		if(eventGraphics == null){
-			return;
-		}
+	public RecurringEventGraphicsPublicInfoDTO(Event event, EventGraphics eventGraphics) {
 
 		// Graphics info
-		this.id = eventGraphics.getId();
-		this.assetId = eventGraphics.getAssetId();
+		if(eventGraphics != null){
+			this.graphicsId = eventGraphics.getId();
+			this.assetId = eventGraphics.getAssetId();
+		}
 		
 		// Event info
-		Event event = eventGraphics.getEvent();
 		this.eventId = event.getId();
 		this.duration = event.getDuration();
 		this.allDayEvent = event.isAllDayEvent();

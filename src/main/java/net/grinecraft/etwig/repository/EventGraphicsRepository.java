@@ -27,14 +27,7 @@ public interface EventGraphicsRepository extends JpaRepository<EventGraphics, Lo
 			"GROUP BY e.id ORDER BY e.id DESC")
 	Page<EventGraphicsListDTO> eventGraphicsList(Pageable pageable);
 
-	//@Query("SELECT new net.grinecraft.etwig.dto.events.SingleTimeEventGraphicsPublicInfoDTO(g) " +
-	//		"FROM Event e " +
-	//		"LEFT JOIN EventGraphics g " +
-	//		"WITH g.id = (SELECT MAX(g2.id) FROM EventGraphics g2 WHERE g2.eventId = e.id AND g2.banner = false) " +
-	//		"WHERE FUNCTION('DATE', e.startTime) = :date " +
-	//		"AND e.recurring = false" +
-	//		"ORDER BY e.startTime ASC")
-	@Query("SELECT new net.grinecraft.etwig.dto.events.SingleTimeEventGraphicsPublicInfoDTO(g) FROM Event e " +
+	@Query("SELECT new net.grinecraft.etwig.dto.events.SingleTimeEventGraphicsPublicInfoDTO(e, g) FROM Event e " +
 			"LEFT JOIN EventGraphics g WITH g.id = (" +
 			"    SELECT MAX(g2.id) " +
 			"    FROM EventGraphics g2 " +
@@ -48,7 +41,7 @@ public interface EventGraphicsRepository extends JpaRepository<EventGraphics, Lo
 			@Param("portfolio") Long portfolio
 	);
 
-	@Query("SELECT new net.grinecraft.etwig.dto.events.RecurringEventGraphicsPublicInfoDTO(g) " +
+	@Query("SELECT new net.grinecraft.etwig.dto.events.RecurringEventGraphicsPublicInfoDTO(e, g) " +
 			"FROM Event e " +
 			"LEFT JOIN EventGraphics g " +
 			"WITH g.id = (SELECT MAX(g2.id) FROM EventGraphics g2 WHERE g2.eventId = e.id AND g2.banner = false) " +

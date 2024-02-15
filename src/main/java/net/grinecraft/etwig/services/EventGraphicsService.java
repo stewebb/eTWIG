@@ -43,7 +43,7 @@ public class EventGraphicsService {
 
 			// Get results and remove elements with null id.
 			List<SingleTimeEventGraphicsPublicInfoDTO> result = eventGraphicsRepository.findSingleTimeEventsAndLatestGraphicByDateAndPortfolio(today, portfolioId);
-			result.removeIf(obj -> Objects.isNull(obj.getId()));
+			result.removeIf(obj -> Objects.isNull(obj.getEventId()));
 
 			// Adjust to have Sunday as 0, Monday as 1, ..., Saturday as 6.
 			eventsThisWeek.put((dayOfWeek % 7), result);
