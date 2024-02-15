@@ -34,23 +34,28 @@ public interface EventGraphicsRepository extends JpaRepository<EventGraphics, Lo
 	//		"WHERE FUNCTION('DATE', e.startTime) = :date " +
 	//		"AND e.recurring = false" +
 	//		"ORDER BY e.startTime ASC")
-	@Query("SELECT new net.grinecraft.etwig.dto.events.SingleTimeEventGraphicsPublicInfoDTO(g) FROM Event e \n" +
-			"LEFT JOIN EventGraphics g WITH g.id = (\n" +
-			"    SELECT MAX(g2.id) \n" +
-			"    FROM EventGraphics g2 \n" +
-			"    WHERE g2.eventId = e.id AND g2.banner = false\n" +
-			") \n" +
-			"WHERE FUNCTION('DATE', e.startTime) = :date AND e.recurring = false \n" +
-			"ORDER BY e.startTime ASC\n")
-	List<SingleTimeEventGraphicsPublicInfoDTO> findSingleTimeEventsAndLatestGraphicByDate(@Param("date") LocalDate date);
+	@Query("SELECT new net.grinecraft.etwig.dto.events.SingleTimeEventGraphicsPublicInfoDTO(g) FROM Event e " +
+			"LEFT JOIN EventGraphics g WITH g.id = (" +
+			"    SELECT MAX(g2.id) " +
+			"    FROM EventGraphics g2 " +
+			"    WHERE g2.eventId = e.id AND g2.banner = false" +
+			") " +
+			"WHERE FUNCTION('DATE', e.startTime) = :date AND e.recurring = false " +
+			"AND (:portfolio < 0 OR e.userRole.portfolioId = :portfolio)" +
+			"ORDER BY e.startTime ASC")
+	List<SingleTimeEventGraphicsPublicInfoDTO> findSingleTimeEventsAndLatestGraphicByDateAndPortfolio(
+			@Param("date") LocalDate date,
+			@Param("portfolio") Long portfolio
+	);
 
 	@Query("SELECT new net.grinecraft.etwig.dto.events.RecurringEventGraphicsPublicInfoDTO(g) " +
 			"FROM Event e " +
 			"LEFT JOIN EventGraphics g " +
 			"WITH g.id = (SELECT MAX(g2.id) FROM EventGraphics g2 WHERE g2.eventId = e.id AND g2.banner = false) " +
 			"WHERE e.recurring = true " +
+			"AND (:portfolio < 0 OR e.userRole.portfolioId = :portfolio)" +
 			"ORDER BY e.startTime ASC")
-	List<RecurringEventGraphicsPublicInfoDTO> findRecurringEventsAndLatestGraphicByDate();
+	List<RecurringEventGraphicsPublicInfoDTO> findRecurringEventsAndLatestGraphicByPortfolio(@Param("portfolio") Long portfolio);
 
 	List<EventGraphics> findByEventIdAndBannerOrderByIdDesc(Long eventId, boolean banner);
 }

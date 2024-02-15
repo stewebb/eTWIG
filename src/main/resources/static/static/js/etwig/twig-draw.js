@@ -285,7 +285,7 @@ function getEventList(setting){
 
     $.ajax({ 
 		type: 'GET', 
-    	url: '/api/public/getTwigEvents', 
+    	url: '/api/public/getTwigEventsForSingleTimeEvents', 
     	data: { 
 			portfolioId: setting.getPortfolio(),
             date: setting.getDate()

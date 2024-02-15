@@ -4,8 +4,11 @@ import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
+import net.grinecraft.etwig.dto.events.RecurringEventGraphicsPublicInfoDTO;
+import net.grinecraft.etwig.dto.events.SingleTimeEventGraphicsPublicInfoDTO;
 import net.grinecraft.etwig.dto.graphics.EventGraphicsDetailsDTO;
 import net.grinecraft.etwig.dto.graphics.EventGraphicsListDTO;
 import net.grinecraft.etwig.dto.graphics.NewGraphicsDTO;
@@ -25,7 +28,7 @@ public class EventGraphicsService {
 	@Autowired
 	private EventGraphicsRepository eventGraphicsRepository;
 	
-	public LinkedHashMap<Integer, Object> getTwigGraphics(Long portfolioId, LocalDate givenDate) {
+	public LinkedHashMap<Integer, Object> getTwigGraphicsSingleTimeEvents(Long portfolioId, LocalDate givenDate) {
 		LinkedHashMap<Integer, Object> eventsThisWeek = new LinkedHashMap<>();
 
 		// Find this monday
@@ -38,20 +41,19 @@ public class EventGraphicsService {
 			LocalDate today = thisMonday.plusDays(i);
 			int dayOfWeek = today.getDayOfWeek().getValue();
 
+			// Get results and remove elements with null id.
+			List<SingleTimeEventGraphicsPublicInfoDTO> result = eventGraphicsRepository.findSingleTimeEventsAndLatestGraphicByDateAndPortfolio(today, portfolioId);
+			result.removeIf(obj -> Objects.isNull(obj.getId()));
+
 			// Adjust to have Sunday as 0, Monday as 1, ..., Saturday as 6.
-			dayOfWeek = (dayOfWeek % 7);
-
-			// Next day
-			//LocalDateTime tomorrow = thisMonday.plusDays(i+1).atStartOfDay();
-			//eventsThisWeek.put(dayOfWeek, eventGraphicsRepository.getGraphicsList(today.atStartOfDay(), tomorrow, portfolioId));
-			eventsThisWeek.put(dayOfWeek, eventGraphicsRepository.findSingleTimeEventsAndLatestGraphicByDate(today));
-
-			//System.out.println(today.atStartOfDay() + " " + tomorrow);
-			//System.out.println(eventGraphicsRepository.getGraphicsList(today.atStartOfDay(), tomorrow, portfolioId));
-
+			eventsThisWeek.put((dayOfWeek % 7), result);
 		}
 
 		return eventsThisWeek;
+	}
+
+	public List<RecurringEventGraphicsPublicInfoDTO> getTwigGraphicsRecurringEvents(Long portfolioId) {
+		return eventGraphicsRepository.findRecurringEventsAndLatestGraphicByPortfolio(portfolioId);
 	}
 
 	public Page<EventGraphicsListDTO> eventGraphicsList(int page, int size){
