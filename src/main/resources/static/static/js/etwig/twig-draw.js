@@ -13,8 +13,11 @@ const DEBUG_MODE = false;
 
 var img;
 var twig = undefined;
-var eventList = undefined;
 var assetCollection = new Map();
+
+var singleTimeEventList = undefined;
+var recurringEventList = undefined;
+var eventList = undefined;
 
 // Page orientation: true landscape, false portrait.
 var pageOrientation = true;
@@ -66,8 +69,11 @@ function preload(){
     
 
     // Get event list
-    eventList = getEventList(setting);
-    if(eventList == undefined){
+    singleTimeEventList = getSingleTimeEventList(setting);
+    recurringEventList = getRecurringEventList(setting);
+    //console.log(recurringEventList)
+
+    if(singleTimeEventList == undefined){
         return;
     }
   
@@ -84,7 +90,9 @@ function preload(){
     }
 
     // Iterate all days over a week.
-    $.each(eventList, function(date, events) {
+    var eventList = {...singleTimeEventList, ...recurringEventList};
+    console.log(eventList)
+    $.each(singleTimeEventList, function(date, events) {
 
         // For each day, get asset of all events which has a TWIG component
         for (var i=0; i<events.length; i++){
@@ -93,13 +101,15 @@ function preload(){
             }
         }
     });
+
+    console.log(assetCollection)
     
 }
 
 
 function setup(){
 	
-	if(twig == undefined && eventList == undefined){
+	if(twig == undefined && singleTimeEventList == undefined){
 		return;
 	}
 	    
@@ -185,7 +195,7 @@ function setup(){
                 
 
                 // Match event table (template) and list (content)
-                var ev = eventList[widget.dayOfWeek];  
+                var ev = singleTimeEventList[widget.dayOfWeek];  
                 var hours = (widget.dayOfWeek == 0 || widget.dayOfWeek == 6) ? WEEKEND_HOURS : WEEKDAY_HOURS;
                 
                 if(DEBUG_MODE){
@@ -287,7 +297,7 @@ function readImage(assets, assetId){
  * @returns The event list object.
  */
 
-function getEventList(setting){
+function getSingleTimeEventList(setting){
     var eventList = undefined;
 
     $.ajax({ 
@@ -311,6 +321,77 @@ function getEventList(setting){
     return eventList;
 }
 
+function getRecurringEventList(setting){
+    var eventList = []; 
+
+    // The boundary of this week.
+    var firstDay = Date.parse(setting.getDate()).monday().addDays(-7);
+	var lastDay = Date.parse(setting.getDate()).monday();
+
+	$.ajax({ 
+		type: 'GET', 
+    	url: '/api/public/getTwigEventsForRecurringEvents',
+    	async: false,
+    	data: { 
+			portfolioId: setting.getPortfolio()
+		}, 
+    	dataType: 'json',
+		success: function(json) {
+			
+			// Iterate all dates.
+			jQuery.each(json, function(id, value) {			
+								
+				var rRule = new ETwig.RRuleFromStr(value.rrule);
+				var rule = rRule.getRuleObj();
+								
+				// Failed to parse rRule, skip it.
+				if(rule == undefined || rule == null){
+					dangerPopup("Failed to parse Recurrence Rule.", value.rrule + " is not a valid iCalendar RFC 5545 Recurrence Rule.");
+					return;
+				}
+				
+				// Get and iterate all occurrences in this week.
+    			var occurrence = rRule.getOccurrenceBetween(firstDay, lastDay);
+    			for(var i=0; i< occurrence.length; i++){
+					
+					// Get start and end time for each event.
+					var occurrenceDate = new Date(occurrence[i].getTime() + occurrence[i].getTimezoneOffset() * 60000);
+					
+					if(value.excluded != null){
+						if(value.excluded.includes(occurrenceDate.toString('yyyy-MM-dd'))){
+							continue;
+						}
+					}
+					
+                    //console.log(value.time)
+
+					var eventStartDateTime = combineDateAndTime(occurrenceDate, value.time + ':00');
+					//var eventEndDateTime = combineDateAndTime(occurrenceDate, value.eventTime).addMinutes(value.duration);
+					
+					// Save data
+					eventList.push({
+						graphicsId: value.graphicsId,
+                        assetId: value.assetId,
+						date: eventStartDateTime.toString('yyyy-MM-dd'),
+                        time: eventStartDateTime.toString('HH:mm'),
+                        duration: value.duration,
+                        allDayEvent: value.allDayEvent
+						//end: eventEndDateTime.toString('yyyy-MM-dd HH:mm'),
+						//title: {html: `<span class="font-italic bold-text">${value.name}</span>`},
+						//color: "#" + value.portfolioColor,
+						
+					}); 	
+				}
+			})
+        },
+        
+        // Popup error info when it happens
+    	error: function(err) {   		
+			dangerPopup("Failed to get recurrent events due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+		}
+	});
+	return eventList;
+}
 
 /**
  * Create a datepicker for selecting date.

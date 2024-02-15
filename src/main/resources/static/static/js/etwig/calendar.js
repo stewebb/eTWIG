@@ -33,7 +33,7 @@ function createCalendar(elem, currentMonth){
 			center: 'title',
 			end: ''
 		},
-    	events: getEventList(currentMonth),
+    	events: getSingleTimeEventList(currentMonth),
 
 		// Click the event, go to the edit page.
     	eventClick: function (info) {
@@ -51,7 +51,7 @@ function createCalendar(elem, currentMonth){
 	calendar = new EventCalendar(calendarElem, calendarProperties);
 }
 
-function getEventList(date){
+function getSingleTimeEventList(date){
 	var singleTimeEventList = getSingleTimeEventListByRange(date); 
 	var recurringEventList = getRecurringTimeEventListByRange(date);
 	return singleTimeEventList.concat(recurringEventList);
@@ -222,7 +222,7 @@ function changeCalendar(){
     
     // Change calendar value.
     calendar.setOption('date', yearMonthStr);
-    calendar.setOption('events', getEventList(yearMonthStr, "month"));
+    calendar.setOption('events', getSingleTimeEventList(yearMonthStr, "month"));
 
 	// Change the calendar view
 	calendar.setOption('view', (calendarView == 0) ? 'timeGridWeek' : 'dayGridMonth');

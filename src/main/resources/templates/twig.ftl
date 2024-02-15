@@ -38,7 +38,10 @@
 
 	<#-- p5.js -->
 	<script src="/static/js/vendor/p5.min.js"></script>
-	
+
+	<#-- rrule.js -->
+   	<script src="/static/js/etwig/recurrent.min.js"></script>
+
 	<script src="/static/js/etwig/twig.js"></script>
 	<script src="/static/js/etwig/twig-draw.js"></script>
 

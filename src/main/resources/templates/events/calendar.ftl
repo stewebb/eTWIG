@@ -296,9 +296,7 @@
 		createCalendar("etwig-public-calendar", currentDate.toString('yyyy-MM-dd'));
 
 		$('#eventPortfolio').select2({
-    		theme: 'bootstrap4',
-    		//templateResult: formatState,
-  			//templateSelection: formatState,
+    		theme: 'bootstrap4'
 		});
 
 		$('input[type=radio][name=calendarView]').change(function() {
