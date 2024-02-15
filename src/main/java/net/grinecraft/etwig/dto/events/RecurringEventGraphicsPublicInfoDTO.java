@@ -1,19 +1,19 @@
 package net.grinecraft.etwig.dto.events;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import lombok.Getter;
 import lombok.ToString;
 import net.grinecraft.etwig.model.Event;
 import net.grinecraft.etwig.model.EventGraphics;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Getter
 @ToString
-public class EventGraphicsPublicInfoDTO {
+public class RecurringEventGraphicsPublicInfoDTO {
 
 	// Graphics info
-	private Long id;
+	private Long graphicsId;
 	private Long assetId;
 
 	// Event info
@@ -22,25 +22,28 @@ public class EventGraphicsPublicInfoDTO {
 	private boolean allDayEvent;
 
 	// Timing
-	private String date;
 	private String time;
-	
-	public EventGraphicsPublicInfoDTO(EventGraphics eventGraphics) {
-		
+	private String rrule;
+	private String excludedDates;
+
+	public RecurringEventGraphicsPublicInfoDTO(Event event, EventGraphics eventGraphics) {
+
 		// Graphics info
-		this.id = eventGraphics.getId();
-		this.assetId = eventGraphics.getAssetId();
+		if(eventGraphics != null){
+			this.graphicsId = eventGraphics.getId();
+			this.assetId = eventGraphics.getAssetId();
+		}
 		
 		// Event info
-		Event event = eventGraphics.getEvent();
 		this.eventId = event.getId();
 		this.duration = event.getDuration();
 		this.allDayEvent = event.isAllDayEvent();
 
 		// Timing
 		LocalDateTime eventDateTime = event.getStartTime();
-		this.date = eventDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		this.time = eventDateTime.format(DateTimeFormatter.ofPattern("HH:mm"));
+		this.rrule = event.getRRule();
+		this.excludedDates = event.getExcludedDates();
 
 	}
 }

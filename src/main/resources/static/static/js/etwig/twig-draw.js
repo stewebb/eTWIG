@@ -13,8 +13,11 @@ const DEBUG_MODE = false;
 
 var img;
 var twig = undefined;
-var eventList = undefined;
 var assetCollection = new Map();
+
+//var singleTimeEventList = undefined;
+//var recurringEventList = undefined;
+var eventMap = {};
 
 // Page orientation: true landscape, false portrait.
 var pageOrientation = true;
@@ -33,9 +36,9 @@ function preload(){
     var date = '';
     
     // Browser check.
-    if(!DEBUG_MODE && typeof window.chrome !== "object"){
-        infoPopup("For the best experience, Chromium-based browsers are recommended", "However, your web browser is " + getBrowserName(navigator.userAgent));
-    }
+    //if(!DEBUG_MODE && typeof window.chrome !== "object"){
+    //    infoPopup("For the best experience, Chromium-based browsers are recommended", "However, your web browser is " + getBrowserName(navigator.userAgent));
+    //}
 
     // Get portfolio from URL parameter.
     var searchParams = new URLSearchParams(window.location.search)
@@ -66,8 +69,10 @@ function preload(){
     
 
     // Get event list
-    eventList = getEventList(setting);
-    if(eventList == undefined){
+    var singleTimeEventList = getSingleTimeEventList(setting);
+    var recurringEventList = getRecurringEventList(setting);
+
+    if(singleTimeEventList == undefined){
         return;
     }
   
@@ -84,20 +89,50 @@ function preload(){
     }
 
     // Iterate all days over a week.
-    $.each(eventList, function(date, events) {
+    
+    //eventList = {... singleTimeEventList, ... recurringEventList};
 
-        // For each day, get asset of all events
+    //var eventMap = {};
+    for(var i=0; i<7; i++){
+       eventMap[i] = [];
+    }
+    
+    //console.log(eventList)
+    
+    
+    $.each(singleTimeEventList, function(dayOfWeek, events) {
         for (var i=0; i<events.length; i++){
-            readImage(assetCollection, events[i].assetId);
+            eventMap[dayOfWeek].push(events[i])
         }
     });
+
+    $.each(recurringEventList, function(dayOfWeek, events) {
+        for (var i=0; i<events.length; i++){
+            eventMap[dayOfWeek].push(events[i])
+        }
+    });
+
+    $.each(eventMap, function(index, events) {
+        
+        // For each day, get asset of all events which has a TWIG component.
+        for (var i = 0; i < events.length; i++) {
+            if (events[i].assetId != null) {
+                readImage(assetCollection, events[i].assetId);
+            }
+        }
+    });
+    //processEvents(singleTimeEventList);
+    //processEvents(recurringEventList);
+
+    //console.log(eventMap)
+    //console.log(recurringEventList)
+    
     
 }
 
-
 function setup(){
 	
-	if(twig == undefined && eventList == undefined){
+	if(twig == undefined && singleTimeEventList == undefined){
 		return;
 	}
 	    
@@ -183,7 +218,7 @@ function setup(){
                 
 
                 // Match event table (template) and list (content)
-                var ev = eventList[widget.dayOfWeek];  
+                var ev = eventMap[widget.dayOfWeek];  
                 var hours = (widget.dayOfWeek == 0 || widget.dayOfWeek == 6) ? WEEKEND_HOURS : WEEKDAY_HOURS;
                 
                 if(DEBUG_MODE){
@@ -195,6 +230,8 @@ function setup(){
                 var taa = new TAA(ev, widget, hours);
                 var arrangements = taa.exec();
                 var slotHeight = taa.getSlotHeight();
+
+                console.log(arrangements)
 
                 // Place graphics to the allocated area.
                 for (const [key, value] of arrangements) {
@@ -210,9 +247,9 @@ function setup(){
 
                         // Display event time
                         var endTime = Date.parse(current.date + ' ' + current.time).addMinutes(current.duration).toString('HH:mm');
-                        textSize(shortSide * 0.016); fill(0);    noStroke();    textStyle(BOLD);
+                        textSize(shortSide * 0.012); fill(0);    noStroke();    textStyle(BOLD);
                         text(current.time + '-' + endTime, value.posX, value.posY);
-
+                        
                         if(DEBUG_MODE){
                             fill("#004AAD");    noStroke();
                             rect(value.posX, value.posY, widget.width, slotHeight);
@@ -220,8 +257,13 @@ function setup(){
 
                         else{
                             var originalImg = assetCollection.get(current.assetId);
-                            var newHeight = originalImg.height * (value.width / originalImg.width);
-                            image(originalImg, value.posX, value.posY, value.width, newHeight)
+
+                            // Remove null situations
+                            if(originalImg != undefined && originalImg != null){
+                                var newHeight = originalImg.height * (widget.width / originalImg.width);
+                                image(originalImg, value.posX, value.posY, widget.width, newHeight)
+                            }
+
                         }
 
 
@@ -280,12 +322,12 @@ function readImage(assets, assetId){
  * @returns The event list object.
  */
 
-function getEventList(setting){
+function getSingleTimeEventList(setting){
     var eventList = undefined;
 
     $.ajax({ 
 		type: 'GET', 
-    	url: '/api/public/getTwigEvents', 
+    	url: '/api/public/getTwigEventsForSingleTimeEvents', 
     	data: { 
 			portfolioId: setting.getPortfolio(),
             date: setting.getDate()
@@ -304,6 +346,86 @@ function getEventList(setting){
     return eventList;
 }
 
+function getRecurringEventList(setting){
+
+    // Initialize the event map: Key is day of week and value is an empty array.
+    var eventMap = {};
+    for(var i=0; i<7; i++){
+       eventMap[i] = [];
+    }
+
+    // The boundary of this week.
+    var firstDay = Date.parse(setting.getDate()).monday().addDays(-7);
+	var lastDay = Date.parse(setting.getDate()).monday();
+
+	$.ajax({ 
+		type: 'GET', 
+    	url: '/api/public/getTwigEventsForRecurringEvents',
+    	async: false,
+    	data: { 
+			portfolioId: setting.getPortfolio()
+		}, 
+    	dataType: 'json',
+		success: function(json) {
+			
+			// Iterate all dates.
+			jQuery.each(json, function(id, value) {			
+								
+				var rRule = new ETwig.RRuleFromStr(value.rrule);
+				var rule = rRule.getRuleObj();
+								
+				// Failed to parse rRule, skip it.
+				if(rule == undefined || rule == null){
+					dangerPopup("Failed to parse Recurrence Rule.", value.rrule + " is not a valid iCalendar RFC 5545 Recurrence Rule.");
+					return;
+				}
+				
+				// Get and iterate all occurrences in this week.
+    			var occurrence = rRule.getOccurrenceBetween(firstDay, lastDay);
+    			for(var i=0; i< occurrence.length; i++){
+					
+					// Get start and end time for each event.
+					var occurrenceDate = new Date(occurrence[i].getTime() + occurrence[i].getTimezoneOffset() * 60000);
+					
+					if(value.excluded != null){
+						if(value.excluded.includes(occurrenceDate.toString('yyyy-MM-dd'))){
+							continue;
+						}
+					}
+					
+                    //console.log(value.time)
+
+					var eventStartDateTime = combineDateAndTime(occurrenceDate, value.time + ':00');
+					//var eventEndDateTime = combineDateAndTime(occurrenceDate, value.eventTime).addMinutes(value.duration);
+					
+					// The event object
+					var eventObj = {
+                        eventId: value.eventId,
+						graphicsId: value.graphicsId,
+                        assetId: value.assetId,
+						date: eventStartDateTime.toString('yyyy-MM-dd'),
+                        time: eventStartDateTime.toString('HH:mm'),
+                        duration: value.duration,
+                        allDayEvent: value.allDayEvent
+						//end: eventEndDateTime.toString('yyyy-MM-dd HH:mm'),
+						//title: {html: `<span class="font-italic bold-text">${value.name}</span>`},
+						//color: "#" + value.portfolioColor,
+						
+					}; 	
+
+                    // Save event based on date of week.
+                    eventMap[eventStartDateTime.getDay()].push(eventObj);
+				}
+			})
+        },
+        
+        // Popup error info when it happens
+    	error: function(err) {   		
+			dangerPopup("Failed to get recurrent events due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+		}
+	});
+	return eventMap;
+}
 
 /**
  * Create a datepicker for selecting date.
