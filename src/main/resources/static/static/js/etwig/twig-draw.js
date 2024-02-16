@@ -135,11 +135,40 @@ function setup(){
 	if(twig == undefined && singleTimeEventList == undefined){
 		return;
 	}
+
+    frameRate(10);
 	    
     // The main canvas.
     var mainCanvas = twig.root.widget;
-    var shortSide = Math.min(mainCanvas.width, mainCanvas.height);
+    //var shortSide = Math.min(mainCanvas.width, mainCanvas.height);
     createCanvas(mainCanvas.width, mainCanvas.height);
+
+    $('main').css('transform', 'scale(' + (windowWidth / mainCanvas.width) + ')');
+    $('#logo').removeClass('beating-logo').addClass('shrinking-logo');
+
+    //$(window).resize(function() {
+    //    //console.log($(window).width())
+    //    $('main').css('transform', 'scale(' + (windowWidth / mainCanvas.width) + ')');
+    //});
+}
+
+//function windowResized() {
+//    var mainCanvas = twig.root.widget;
+//    $('main').css('transform', 'scale(' + (windowWidth / mainCanvas.width) + ')');
+//}
+
+function draw(){
+
+    var mainCanvas = twig.root.widget;
+    var shortSide = Math.min(mainCanvas.width, mainCanvas.height);
+
+
+    //scale(windowWidth / mainCanvas.width);
+    var zoomLevel = windowWidth / mainCanvas.width;
+    //console.log(zoomLevel)
+
+    //translate(-windowWidth*(1-zoomLevel), 0);
+    //$('main').css('transform', 'scale(' + (windowWidth / mainCanvas.width) + ')');
    
     // Track the number of push and pop
     var pushNum = 0;
@@ -231,7 +260,7 @@ function setup(){
                 var arrangements = taa.exec();
                 var slotHeight = taa.getSlotHeight();
 
-                console.log(arrangements)
+                //console.log(arrangements)
 
                 // Place graphics to the allocated area.
                 for (const [key, value] of arrangements) {
@@ -286,14 +315,14 @@ function setup(){
     }
 
         // Stop the loading animation.
-        $('#logo').removeClass('beating-logo').addClass('shrinking-logo');
+        //$('#logo').removeClass('beating-logo').addClass('shrinking-logo');
 
 }
 
 
-function draw(){
+//function draw(){
 
-}
+//}
 
 //function mouseClicked(fxn){
 //	console.log(mouseX, mouseY);
@@ -485,6 +514,6 @@ function copyLink(url){
 }
 
 function downloadImg(){
-    console.log($('#imgFormat').val())
+    //console.log($('#imgFormat').val())
     saveCanvas('TWIG', $('#imgFormat').val());
 }
