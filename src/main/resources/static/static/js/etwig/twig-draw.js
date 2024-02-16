@@ -136,35 +136,34 @@ function setup(){
 		return;
 	}
 
-    frameRate(10);
+    //$('#etwigSettingBox').modal('show');
+    //frameRate(10);
 	    
     // The main canvas.
     var mainCanvas = twig.root.widget;
     //var shortSide = Math.min(mainCanvas.width, mainCanvas.height);
     createCanvas(mainCanvas.width, mainCanvas.height);
 
-    $('main').css('transform', 'scale(' + (windowWidth / mainCanvas.width) + ')');
-    $('#logo').removeClass('beating-logo').addClass('shrinking-logo');
+    //alert($(window).width())
+    //alert($(window).height())
+    //alert(windowWidth / mainCanvas.width)
 
-    //$(window).resize(function() {
-    //    //console.log($(window).width())
-    //    $('main').css('transform', 'scale(' + (windowWidth / mainCanvas.width) + ')');
+    $('main').css('transform', 'scale(' + ($(window).width() / mainCanvas.width) + ')');
+    $(window).resize(function() {
+        $('main').css('transform', 'scale(' + ($(window).width() / mainCanvas.width) + ')');
+    });
+
+    //$(window).on('resize orientationchange', function() {
+    //    $('main').css('transform', 'scale(' + ($(window).width() / mainCanvas.width) + ')');
     //});
-}
 
-//function windowResized() {
-//    var mainCanvas = twig.root.widget;
-//    $('main').css('transform', 'scale(' + (windowWidth / mainCanvas.width) + ')');
-//}
-
-function draw(){
-
+    
     var mainCanvas = twig.root.widget;
     var shortSide = Math.min(mainCanvas.width, mainCanvas.height);
 
 
     //scale(windowWidth / mainCanvas.width);
-    var zoomLevel = windowWidth / mainCanvas.width;
+    //var zoomLevel = windowWidth / mainCanvas.width;
     //console.log(zoomLevel)
 
     //translate(-windowWidth*(1-zoomLevel), 0);
@@ -314,15 +313,21 @@ function draw(){
         pop();
     }
 
-        // Stop the loading animation.
-        //$('#logo').removeClass('beating-logo').addClass('shrinking-logo');
+    
+    //$('#etwigSettingBox').modal('hide');
+    //$('.modal').hide();
+    //$('#etwigSettingBox').hide();
+    //$('.modal').hide();
+
+    // Stop the loading animation.
+    $('#logo').removeClass('beating-logo').addClass('shrinking-logo');
 
 }
 
 
-//function draw(){
+function draw(){
 
-//}
+}
 
 //function mouseClicked(fxn){
 //	console.log(mouseX, mouseY);
