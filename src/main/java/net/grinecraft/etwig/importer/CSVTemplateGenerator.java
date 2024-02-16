@@ -5,7 +5,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.List;
 
-public class CSVTemplateGenerator implements EventTemplateGenerator{
+public class CSVTemplateGenerator implements TemplateGenerator {
 
 	@Override
 	public void generateTemplate(List<String> titles, OutputStream outputStream) throws Exception {

@@ -6,7 +6,7 @@ import org.odftoolkit.simple.table.Table;
 import java.io.OutputStream;
 import java.util.List;
 
-public class ODSTemplateGenerator implements EventTemplateGenerator {
+public class ODSTemplateGenerator implements TemplateGenerator {
 
 	@Override
 	public void generateTemplate(List<String> titles, OutputStream outputStream) throws Exception {

@@ -6,7 +6,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.OutputStream;
 import java.util.List;
 
-public class ExcelTemplateGenerator implements EventTemplateGenerator {
+public class ExcelTemplateGenerator implements TemplateGenerator {
 
     @Override
     public void generateTemplate(List<String> titles, OutputStream outputStream) throws Exception {
