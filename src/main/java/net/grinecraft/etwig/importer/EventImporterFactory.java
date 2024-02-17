@@ -2,17 +2,12 @@ package net.grinecraft.etwig.importer;
 
 public class EventImporterFactory {
 
-    public static EventImporter getFileReader(String fileType) {
-    	
-        switch (fileType) {
-            case "CSV":
-                return new CSVEventImporter();
-            case "EXCEL":
-                return new ExcelEventImporter();
-            case "ODS":
-                return new ODSEventImporter();
-            default:
-                throw new IllegalArgumentException("Unsupported file type: " + fileType);
-        }
+    public static EventImporter getEventImporter(String fileType) {
+
+        return switch (fileType) {
+            case "EXCEL" -> new ExcelEventImporter();
+            case "ODS" -> new ODSEventImporter();
+            default -> throw new IllegalArgumentException("Unsupported file type: " + fileType);
+        };
     }
 }
