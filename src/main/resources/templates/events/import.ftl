@@ -127,15 +127,66 @@
 								<#-- Content -->
 								<div class="bs-stepper-content">
 
-									<#-- Content 1: Basic Info -->
+									<#-- Content 1: Copy Template -->
 									<#assign prev = false>
 									<#assign next = true>
 											
 									<div id="importCopyTemplate" role="tabpanel" class="bs-stepper-pane" aria-labelledby="eventSteppertrigger1">
 										
+										<div class="container-fluid">
+											<div class="row col-12">
+
+												<#-- Description -->
+												<ul>
+													<li><b>Step 1:</b> Create a new workbook by using a <b>spreadsheet editor</b>.</li>
+													<li><b>Step 2:</b> Copy the following table header into the <b>first row</b>.</li>
+													<li><b>Step 3:</b> Save as <b><i class="fa-solid fa-file-csv"></i>&nbsp;*.csv</b> format.</li>
+													<li><b>Step 4:</b> Add event informatio, and save the file.</li>
+												</ul>
+												<#-- /Description -->
+
+												<div class="table-responsive">
+													<table class="table table-head-fixed table-striped table-hover">
+														
+														<thead class="table-primary">
+															<tr>
+																<th>Name</th>
+																<th>Location</th>
+																<th>Description</th>
+																<th>AllDayEvent</th>
+																<th>startDateTime</th>
+																<th>endDateTime</th>
+															</tr>
+														</thead>
+
+														<tbody>
+
+															<tr>
+																<td>The name of the events, up to 63 characters.</td>
+																<td>The location of the events, up to 65,535 characters.</td>
+																<td>Optional</td>
+																<td>Required</td>
+																<td>Required</td>
+																<td>Required</td>
+															</tr>
+
+															<tr>
+																<td>Required</td>
+																<td>Optional</td>
+																<td>Optional</td>
+																<td>Required</td>
+																<td>Required</td>
+																<td>Required</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+
+											</div>
+										</div>
 										<#include "../_includes/events/stepper_btn.ftl">
 									</div>
-									<#-- /Content 1: Basic Info -->
+									<#-- /Content 1: Copy Template -->
 
 									<#-- Content 2: Timing -->
 									<#assign prev = true>
