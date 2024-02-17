@@ -234,13 +234,12 @@
 									</div>
 									<#-- Content 1: Create Template -->
 
-									<#-- Content 2: Timing -->
+									<#-- Content 2: Upload -->
 									<#assign prev = true>
 									<#assign next = true>
 									<div id="importUpload" role="tabpanel" class="bs-stepper-pane" aria-labelledby="eventSteppertrigger2">
 										
 										<#-- Upload File -->
-	
 										<div class="input-group mb-3">
 											<div class="input-group-prepend">
 												<span class="input-group-text">
@@ -259,20 +258,14 @@
 											<div class="input-group-append">
 											
 												<#-- Upload file button -->
-												<button type="button" class="btn btn-outline-primary" onclick="uploadFile();" id="uploadFileBtn" disabled>
-													<i class="fa-solid fa-upload"></i>&nbsp;Upload
+												<button type="button" class="btn btn-outline-primary" onclick="importEvents();" id="uploadFileBtn" disabled>
+													<i class="fa-solid fa-upload"></i>
 												</button>
 												
-												<#-- Reset file button --
+												<#-- Reset file button -->
 												<button type="button" class="btn btn-outline-secondary" onclick = "resetFile();">
 													<i class="fa-solid fa-xmark"></i>
 												</button>
-												
-												<#--Reload table button --
-												<button type="button" class="btn btn-outline-secondary" onclick = "dt.ajax.reload();">
-													<i class="fa-solid fa-rotate"></i>
-												</button>
-												-->
 											</div>
 
 										</div>
@@ -323,6 +316,8 @@
 	<#-- bs stepper -->
 	<link rel="stylesheet" href="/static/css/vendor/bs-stepper.min.css">
 	<script src="/static/js/vendor/bs-stepper.min.js"></script>
+
+	<script src="/static/js/etwig/import-events.js"></script>
 
 	<#-- Post Scripts -->
 	<script>
