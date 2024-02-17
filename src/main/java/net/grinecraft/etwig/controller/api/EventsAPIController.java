@@ -135,9 +135,8 @@ public class EventsAPIController {
 			return WebReturn.errorMsg("Only Microsoft Excel Spreadsheet (*.xlsx) and OpenDocument Spreadsheet (*.ods) format are accepted. However, the extension of the uploaded file is " + extension, false);
 		}
 
-		eventService.importEvents(file, extension);
 		// Copy file and add related info
 		//assetService.uploadFile(file);
-		return WebReturn.errorMsg("", true);
+		return WebReturn.errorMsg(eventService.importEvents(file, extension), true);
 	}
 }

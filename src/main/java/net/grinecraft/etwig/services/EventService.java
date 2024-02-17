@@ -229,12 +229,13 @@ public class EventService {
 	}
 	
 
-	public void importEvents(MultipartFile file, String fileType) throws Exception {
+	public String importEvents(MultipartFile file, String fileType) throws Exception {
 		InputStream inputStream = file.getInputStream();
 		EventImporter eventImporter = "xlsx".equalsIgnoreCase(fileType) ? new ExcelEventImporter() : new ODSEventImporter();
 
 		List<EventImportDTO> importedEvents = eventImporter.read(inputStream);
 		System.out.println(importedEvents);
+		return "Success: " + eventImporter.getSuccessfulImports() + "; Failure: " + eventImporter.getFailedImports();
     }
 
 }
