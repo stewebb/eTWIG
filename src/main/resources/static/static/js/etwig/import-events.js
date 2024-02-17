@@ -17,7 +17,7 @@ function importEvents(){
         contentType: false,
         processData: false,
         success: function(result) {
-        	(result.error > 0) ? dangerPopup("Failed to import events", result.msg) : infoPopup("Event added successfully.");
+        	(result.error > 0) ? dangerPopup("Failed to import events", result.msg) : infoPopup("Event import results", result.msg);
         },
         error: function (err) {
 			dangerPopup("Failed to import events due to a HTTP " + err.status + " error.", err.responseJSON.exception);

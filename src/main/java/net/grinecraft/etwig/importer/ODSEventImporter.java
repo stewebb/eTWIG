@@ -13,4 +13,14 @@ public class ODSEventImporter implements EventImporter {
 		return null;
 	}
 
+	@Override
+	public int getSuccessfulImports() {
+		return 0;
+	}
+
+	@Override
+	public int getFailedImports() {
+		return 0;
+	}
+
 }

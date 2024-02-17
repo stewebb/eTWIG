@@ -1,6 +1,7 @@
 package net.grinecraft.etwig.importer;
 
 import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -14,6 +15,9 @@ import org.apache.commons.io.*;
 
 public class ExcelEventImporter implements EventImporter {
 
+	private int successfulImports = 0;
+	private int failedImports = 0;
+
 	@Override
 	public List<EventImportDTO> read(InputStream inputStream) throws Exception {
 
@@ -21,20 +25,55 @@ public class ExcelEventImporter implements EventImporter {
 		Workbook workbook = new XSSFWorkbook(inputStream);
 		Sheet sheet = workbook.getSheetAt(0);
 		for (Row row : sheet) {
-			if (row.getRowNum() == 0) continue; // Skip header row
 
-			EventImportDTO event = new EventImportDTO();
-			event.setName(row.getCell(0).getStringCellValue());
-			event.setLocation(row.getCell(1).getStringCellValue());
-			event.setDescription(row.getCell(2).getStringCellValue());
-			event.setAllDayEvent(row.getCell(3).getStringCellValue());
-			event.setStartDateTime(row.getCell(4).getStringCellValue());
-			event.setEndDateTime(row.getCell(5).getStringCellValue());
+			// Skip header row
+			if (row.getRowNum() == 0) {
+				continue;
+			}
 
-			events.add(event);
+			// Add events line by line.
+			try{
+				EventImportDTO event = new EventImportDTO();
+
+				// Name
+				event.setName(row.getCell(0).getStringCellValue());
+
+				// Location
+				event.setLocation(row.getCell(1).getStringCellValue());
+
+				// Description
+				event.setDescription(row.getCell(2).getStringCellValue());
+
+				// AllDayEvent
+				event.setAllDayEvent(row.getCell(3).getBooleanCellValue());
+
+				// StartDateTime
+				Date startDateTime = row.getCell(4).getDateCellValue();
+				event.setStartDateTime(startDateTime);
+
+				event.setDuration(startDateTime, row.getCell(5).getDateCellValue());
+				//event.setStartDateTime(row.getCell(4).getDateCellValue());
+				//event.setEndDateTime(row.getCell(5).getDateCellValue());
+				events.add(event);
+				this.successfulImports++;
+			} catch (Exception e){
+				e.printStackTrace();
+				this.failedImports++;
+			}
+
 		}
 		workbook.close();
 		return events;
+	}
+
+	@Override
+	public int getSuccessfulImports() {
+		return this.successfulImports;
+	}
+
+	@Override
+	public int getFailedImports() {
+		return this.failedImports;
 	}
 
 }
