@@ -78,6 +78,7 @@
 								</button>
 							</div>
 						</div>
+						<#-- /Upload Options -->
 							
 						<#-- Table Content -->
 						<table id="assetSelector" class="table table-hover table-striped">

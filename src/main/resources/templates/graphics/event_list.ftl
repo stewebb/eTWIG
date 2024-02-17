@@ -67,9 +67,10 @@
 											<tr>
 												<th>Id</th>
 												<th>Name</th>
-												<th>Graphics Count</th>
+												<th>TWIG Component Count</th>
 												<th>Banner Count</th>
-												<th>Last Modified</th>
+												<th>Last Modified (Event)</th>
+												<th>Last Modified (Graphics)</th>
 												<th>Action</th>
 											</tr>
 										</thead>
