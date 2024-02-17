@@ -90,7 +90,7 @@
 							</ul>
 							<#-- /Steps -->
 
-							<div class="table-responsive">
+							<div class="table-responsive mb-3">
 								<table class="table table-head-fixed table-striped table-hover">
 														
 									<thead class="table-primary">
@@ -163,8 +163,6 @@
 								</table>
 							</div>
 
-									
-									
 							<div id="importUpload" role="tabpanel" class="bs-stepper-pane" aria-labelledby="eventSteppertrigger2">
 										
 								<#-- Upload File -->
@@ -186,8 +184,8 @@
 									<div class="input-group-append">
 							
 									<#-- Upload file button -->
-									<button type="button" class="btn btn-outline-primary" onclick="importEvents();" id="uploadFileBtn" disabled>
-										<i class="fa-solid fa-upload"></i>
+									<button type="button" class="btn btn-outline-primary" onclick="importEvents();" id="uploadFileBtn">
+										<i class="fa-solid fa-upload"></i>&nbsp;Upload
 									</button>
 									<#-- /Upload file button -->
 								
@@ -196,7 +194,7 @@
 								</div>
 								<#-- /Upload File -->
 
-								<small class="form-text text-muted mb-3">Only the
+								<small class="form-text text-muted mb-3">Only
 									<b>Microsoft Excel Spreadsheet (*.xlsx)</b> and 
 									<b>OpenDocument Spreadsheet (*.ods)</b> 
 									format are accepted.

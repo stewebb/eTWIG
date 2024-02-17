@@ -15,6 +15,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -120,13 +121,21 @@ public class EventsAPIController {
     }
 
 	@PostMapping(value = "importEvents")
-	public Map<String, Object> importEvents(@RequestParam("file") MultipartFile file){
+	public Map<String, Object> importEvents(@RequestParam("file") MultipartFile file) throws Exception {
 
-		// Null check...
-		if(file == null) {
+		// Null check
+		if(file == null || file.isEmpty()) {
 			return WebReturn.errorMsg("The file is null.", false);
 		}
 
+		// Check and read file
+		String fileName = file.getOriginalFilename();
+		String extension = FilenameUtils.getExtension(fileName);
+		if(!"xlsx".equalsIgnoreCase(extension) && ! "ods".equalsIgnoreCase(extension)) {
+			return WebReturn.errorMsg("Only Microsoft Excel Spreadsheet (*.xlsx) and OpenDocument Spreadsheet (*.ods) format are accepted. However, the extension of the uploaded file is " + extension, false);
+		}
+
+		eventService.importEvents(file, extension);
 		// Copy file and add related info
 		//assetService.uploadFile(file);
 		return WebReturn.errorMsg("", true);

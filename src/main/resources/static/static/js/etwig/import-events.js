@@ -17,17 +17,10 @@ function importEvents(){
         contentType: false,
         processData: false,
         success: function(result) {
-        	if(result.error > 0){
-				dangerPopup("Failed to upload file.", result.msg);
-			}else{
-				successPopup("File upload successfully.");
-				resetFile();
-				//$('#assetSelector').DataTable().ajax.reload();
-			}	
+        	(result.error > 0) ? dangerPopup("Failed to import events", result.msg) : infoPopup("Event added successfully.");
         },
         error: function (err) {
-			dangerPopup("Failed to upload file due to a HTTP " + err.status + " error.", err.responseJSON.exception);
-    		hasError = true;
+			dangerPopup("Failed to import events due to a HTTP " + err.status + " error.", err.responseJSON.exception);
     	}
     });
 }

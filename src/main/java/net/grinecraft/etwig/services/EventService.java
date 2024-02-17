@@ -9,6 +9,8 @@
 
 package net.grinecraft.etwig.services;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -17,21 +19,16 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import net.grinecraft.etwig.dto.events.*;
+import net.grinecraft.etwig.importer.EventImporter;
+import net.grinecraft.etwig.importer.ExcelEventImporter;
+import net.grinecraft.etwig.importer.ODSEventImporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpSession;
-import net.grinecraft.etwig.dto.events.AddEditEventDTO;
-import net.grinecraft.etwig.dto.events.EventDetailsDTO;
-import net.grinecraft.etwig.dto.events.EventImportDTO;
-import net.grinecraft.etwig.dto.events.GraphicsRequestEventInfoDTO;
-import net.grinecraft.etwig.dto.events.RecurringEventBasicInfoDTO;
-import net.grinecraft.etwig.dto.events.SingleTimeEventBasicInfoDTO;
 import net.grinecraft.etwig.dto.graphics.NewRequestDTO;
-import net.grinecraft.etwig.dto.graphics.NewRequestEmailNotificationDTO;
 import net.grinecraft.etwig.dto.user.UserAccessDTO;
-import net.grinecraft.etwig.importer.EventImporter;
-import net.grinecraft.etwig.importer.EventImporterFactory;
 import net.grinecraft.etwig.model.Event;
 import net.grinecraft.etwig.model.EventOption;
 import net.grinecraft.etwig.model.EventOptionKey;
@@ -231,12 +228,13 @@ public class EventService {
 		}
 	}
 	
-	/*
-	public List<EventImportDTO> importEvents(MultipartFile file) throws Exception {
-        String fileType = determineFileType(file); // Implement this based on file extension or content type
-        EventImporter eventImporter = EventImporterFactory.getFileReader(fileType);
-        List<EventImportDTO> data = fileReader.read(file.getInputStream());
-        return data;
+
+	public void importEvents(MultipartFile file, String fileType) throws Exception {
+		InputStream inputStream = file.getInputStream();
+		EventImporter eventImporter = "xlsx".equalsIgnoreCase(fileType) ? new ExcelEventImporter() : new ODSEventImporter();
+
+		List<EventImportDTO> importedEvents = eventImporter.read(inputStream);
+		System.out.println(importedEvents);
     }
-*/
+
 }
