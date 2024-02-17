@@ -261,7 +261,7 @@
       			theme: 'bootstrap4'
     		})
 
-			// Initialize the template stepper
+			// Initialize the stepper
      		eventStepper = new Stepper(document.querySelector('#eventStepper'), {
     			linear: false
   			});

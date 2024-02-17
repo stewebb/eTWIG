@@ -30,8 +30,8 @@ public class WebConfig implements WebMvcConfigurer{
     private EtwigInterceptor userInterceptor;
     
 	/**
-	 * Register the Interceptor
-	 * @param registry
+	 * Register the Interceptor.
+	 * @param registry InterceptorRegistry
 	 */
 	
     @SuppressWarnings("null")
@@ -39,12 +39,17 @@ public class WebConfig implements WebMvcConfigurer{
     public void addInterceptors(@NonNull InterceptorRegistry registry) {
         registry.addInterceptor(userInterceptor);
     }
-    
-    @Override
+
+	/**
+	 * Allow static contents (e.g., CSS and JS) are cached.
+	 * @param registry ResourceHandlerRegistry
+	 */
+
+	@Override
     public void addResourceHandlers(@NonNull ResourceHandlerRegistry registry) {
-        //registry.addResourceHandler("/static/**")
-        //	.addResourceLocations("classpath:/static/static/")
-        //    .setCacheControl(CacheControl.maxAge(90, TimeUnit.DAYS));
+        registry.addResourceHandler("/static/**")
+        	.addResourceLocations("classpath:/static/static/")
+            .setCacheControl(CacheControl.maxAge(90, TimeUnit.DAYS));
     }
 
 }

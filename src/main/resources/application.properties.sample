@@ -33,6 +33,10 @@
 #spring.freemarker.suffix=.ftl
 #spring.freemarker.settings.template_exception_handler=rethrow
 
+# File Upload
+spring.servlet.multipart.max-file-size=100MB
+spring.servlet.multipart.max-request-size=100MB
+
 # Email
 #spring.mail.host=
 #spring.mail.port=
@@ -45,6 +49,7 @@
 # eTWIG.
 #etwig.app.name=eTWIG
 #etwig.app.owner=
+etwig.app.url=
 #etwig.media.root-location=
 #etwig.security.cookie-key=
 
