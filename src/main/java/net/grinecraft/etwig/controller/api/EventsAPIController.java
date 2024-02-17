@@ -9,6 +9,7 @@
 
 package net.grinecraft.etwig.controller.api;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -32,6 +33,7 @@ import net.grinecraft.etwig.services.PortfolioService;
 import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.NumberUtils;
 import net.grinecraft.etwig.util.WebReturn;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/private/")  
@@ -116,4 +118,17 @@ public class EventsAPIController {
 		eventService.editEvent(eventInfo, event);
         return WebReturn.errorMsg(null, true);
     }
+
+	@PostMapping(value = "importEvents")
+	public Map<String, Object> importEvents(@RequestParam("file") MultipartFile file){
+
+		// Null check...
+		if(file == null) {
+			return WebReturn.errorMsg("The file is null.", false);
+		}
+
+		// Copy file and add related info
+		//assetService.uploadFile(file);
+		return WebReturn.errorMsg("", true);
+	}
 }
