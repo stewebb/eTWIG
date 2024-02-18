@@ -2,6 +2,7 @@ package net.grinecraft.etwig.dto.events;
 
 import lombok.Data;
 import lombok.ToString;
+import net.grinecraft.etwig.model.Event;
 
 import java.util.Date;
 
@@ -30,6 +31,15 @@ public class EventImportDTO {
 		if(this.duration <= 0){
 			throw new IllegalArgumentException("The end time must after start time.");
 		}
+	}
+
+	public Event toEntity(){
+		Event event = new Event();
+		event.setName(this.name);
+		event.setLocation(this.location);
+		event.setDuration(this.duration);
+		//event.se
+		return event;
 	}
 
 }

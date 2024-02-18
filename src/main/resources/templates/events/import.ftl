@@ -77,8 +77,9 @@
 
 						</div>
 
-						<#-- Edit area -->
+						<#-- Import area -->
 						<div class="card-body">
+							<h5 class="bold-text">Directions:</h5>
 
 							<#-- Steps -->
 							<ul>
@@ -205,6 +206,83 @@
 						</div>		
 
 					</div>
+
+					<div class="row">
+<div class="col-md-3">
+<div class="card card-outline card-primary">
+<div class="card-header">
+<h3 class="card-title">Primary Outline</h3>
+<div class="card-tools">
+<button type="button" class="btn btn-tool" data-card-widget="collapse">
+<i class="fas fa-minus"></i>
+</button>
+</div>
+
+</div>
+
+<div class="card-body">
+The body of the card
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+<div class="card card-outline card-success">
+<div class="card-header">
+<h3 class="card-title">Success Outline</h3>
+<div class="card-tools">
+<button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+</button>
+</div>
+
+</div>
+
+<div class="card-body">
+The body of the card
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+<div class="card card-outline card-warning">
+<div class="card-header">
+<h3 class="card-title">Warning Outline</h3>
+<div class="card-tools">
+<button type="button" class="btn btn-tool" data-card-widget="collapse">
+<i class="fas fa-minus"></i>
+</button>
+</div>
+
+</div>
+
+<div class="card-body">
+The body of the card
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+<div class="card card-outline card-danger">
+<div class="card-header">
+<h3 class="card-title">Danger Outline</h3>
+</div>
+<div class="card-body">
+The body of the card
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
 				</div>
 			</section>
 			<#-- /Main area -->

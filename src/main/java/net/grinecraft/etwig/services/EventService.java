@@ -235,7 +235,7 @@ public class EventService {
 
 		List<EventImportDTO> importedEvents = eventImporter.read(inputStream);
 		System.out.println(importedEvents);
-		return "Success: " + eventImporter.getSuccessfulImports() + "; Failure: " + eventImporter.getFailedImports();
+		return eventImporter.status().toString();
     }
 
 }

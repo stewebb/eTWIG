@@ -1,9 +1,7 @@
 package net.grinecraft.etwig.importer;
 
 import java.io.InputStream;
-import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 
 import net.grinecraft.etwig.dto.events.EventImportDTO;
 import org.apache.poi.ss.usermodel.Row;
@@ -15,8 +13,7 @@ import org.apache.commons.io.*;
 
 public class ExcelEventImporter implements EventImporter {
 
-	private int successfulImports = 0;
-	private int failedImports = 0;
+	private Map<Integer, String> status = new HashMap<>();
 
 	@Override
 	public List<EventImportDTO> read(InputStream inputStream) throws Exception {
@@ -55,10 +52,11 @@ public class ExcelEventImporter implements EventImporter {
 				//event.setStartDateTime(row.getCell(4).getDateCellValue());
 				//event.setEndDateTime(row.getCell(5).getDateCellValue());
 				events.add(event);
-				this.successfulImports++;
+
+				status.put(row.getRowNum(), null);
 			} catch (Exception e){
-				e.printStackTrace();
-				this.failedImports++;
+				//e.printStackTrace();
+				status.put(row.getRowNum(), e.toString());
 			}
 
 		}
@@ -67,13 +65,9 @@ public class ExcelEventImporter implements EventImporter {
 	}
 
 	@Override
-	public int getSuccessfulImports() {
-		return this.successfulImports;
+	public Map<Integer, String> status() {
+		return this.status;
 	}
 
-	@Override
-	public int getFailedImports() {
-		return this.failedImports;
-	}
 
 }
