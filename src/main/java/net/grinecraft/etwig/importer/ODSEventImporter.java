@@ -18,5 +18,4 @@ public class ODSEventImporter implements EventImporter {
 	public Map<Integer, String> status() {
 		return null;
 	}
-
 }
