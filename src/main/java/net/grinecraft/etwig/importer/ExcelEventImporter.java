@@ -47,17 +47,11 @@ public class ExcelEventImporter implements EventImporter {
 				Date startDateTime = row.getCell(4).getDateCellValue();
 				event.setStartDateTime(startDateTime);
 
+				// Duration
 				event.setDuration(startDateTime, row.getCell(5).getDateCellValue());
-				//event.setStartDateTime(row.getCell(4).getDateCellValue());
-				//event.setEndDateTime(row.getCell(5).getDateCellValue());
 				events.add(event);
-
 				status.put(row.getRowNum(), null);
 			} catch (Exception e){
-
-				//CellReference cellRef = new CellReference(row.getRowNum(), e instanceof NullPointerException ? -1 : 0); // Default to first cell or -1 if NPE
-				//String cellRefString = cellRef.formatAsString().replaceAll("\\$", ""); // Remove $ signs for a cleaner reference
-
 				status.put(row.getRowNum(), e.getMessage());
 			}
 
