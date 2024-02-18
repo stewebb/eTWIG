@@ -227,7 +227,6 @@ public class EventService {
 			return false;
 		}
 	}
-	
 
 	public String importEvents(MultipartFile file, String fileType) throws Exception {
 		InputStream inputStream = file.getInputStream();
