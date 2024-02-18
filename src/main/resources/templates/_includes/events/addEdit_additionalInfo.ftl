@@ -113,7 +113,7 @@
 										<#-- Request a grphic now -->										
 										<div class="mb-3">
 											<div class="icheck-primary">
-												<input type="checkbox" id="eventRequestNow" name="eventRequestNow">
+												<input type="checkbox" id="eventRequestNow" name="eventRequestNow" checked="">
 												<label for="eventRequestNow">Request a graphics now (Optional)</label>
 											</div>
 											<small class="form-text text-muted">

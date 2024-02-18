@@ -175,28 +175,29 @@
 												<input type="file" class="custom-file-input" id="fileUpload" accept=".xlsx, .ods">
 												<label class="custom-file-label" for="exampleInputFile">Choose file</label>
 											</div>
-											<#-- /Upload box -->		
-											
-											<div class="input-group-append">
-									
+											<#-- /Upload box -->	
+
 											<#-- Upload button -->
-											<button type="button" class="btn btn-outline-primary" onclick="importEvents();" id="uploadFileBtn">
-												<i class="fa-solid fa-upload"></i>&nbsp;Upload
-											</button>
-											<#-- /Upload button -->
-										
-										</div>		
-										<#-- /Upload File -->						
+											<div class="input-group-append">
+												<button type="button" class="btn btn-outline-primary" onclick="importEvents();" id="uploadFileBtn">
+													<i class="fa-solid fa-upload"></i>&nbsp;Upload
+												</button>
+											</div>		
+											<#-- /Upload button -->					
 
 										</div>
-										<#-- /Upload File -->
-
+										
 										<small class="form-text text-muted mb-3">Only
 											<b>Microsoft Excel Spreadsheet (*.xlsx)</b> and 
 											<b>OpenDocument Spreadsheet (*.ods)</b> 
 											format are accepted.
 										</small>
+										<#-- /Upload File -->
 
+										<div class="callout callout-primary">
+											<h5 class="bold-text">Using online editors?</h5>
+											<p>You may need to download a copy first.</p>
+										</div>
 									</div>
 								</div>
 
