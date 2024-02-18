@@ -50,36 +50,15 @@
     		<section class="content">
 				<div class="container-fluid">
 
+					<#-- Directions -->
 					<div class="card card-primary card-outline">
-						<div class="card-header d-flex p-0">
-
-							<#-- Tabs -->
-							<ul class="nav nav-pills p-2">
-
-								<#-- Back -->							
-								<li class="nav-item">
-									<a class="nav-link" href="/events/calendar">
-										<i class="fa-solid fa-arrow-left"></i>&nbsp;Back
-									</a>
-								</li>
-								<#-- /Back -->	
-
-								<#-- Import -->	
-								<li class="nav-item">
-									<a class="nav-link active" href="/events/import"">
-										<i class="fa-solid fa-file-import"></i>&nbsp;Import
-									</a>
-								</li>
-								<#-- /Import -->	
-
-							</ul>
-							<#-- /Tabs -->
-
+						<div class="card-header">
+							<h3 class="card-title">
+								<i class="fa-solid fa-compass"></i>&nbsp;Directions and Examples
+							</h3>
 						</div>
 
-						<#-- Import area -->
 						<div class="card-body">
-							<h5 class="bold-text">Directions:</h5>
 
 							<#-- Steps -->
 							<ul>
@@ -164,125 +143,88 @@
 								</table>
 							</div>
 
-							<div id="importUpload" role="tabpanel" class="bs-stepper-pane" aria-labelledby="eventSteppertrigger2">
-										
-								<#-- Upload File -->
-								<div class="input-group mb-3">
-									<div class="input-group-prepend">
-										<span class="input-group-text">
-											<i class="fa-solid fa-file-arrow-up"></i>
-										</span>
-									</div>	
-
-										
-									<#-- File upload box -->
-									<div class="custom-file">
-										<input type="file" class="custom-file-input" id="fileUpload" accept=".xlsx, .ods">
-										<label class="custom-file-label" for="exampleInputFile">Choose file</label>
-									</div>
-									<#-- /File upload box -->		
-									
-									<div class="input-group-append">
 							
-									<#-- Upload file button -->
-									<button type="button" class="btn btn-outline-primary" onclick="importEvents();" id="uploadFileBtn">
-										<i class="fa-solid fa-upload"></i>&nbsp;Upload
-									</button>
-									<#-- /Upload file button -->
-								
-								</div>								
-
-								</div>
-								<#-- /Upload File -->
-
-								<small class="form-text text-muted mb-3">Only
-									<b>Microsoft Excel Spreadsheet (*.xlsx)</b> and 
-									<b>OpenDocument Spreadsheet (*.ods)</b> 
-									format are accepted.
-								</small>
-
-							</div>
 
 						</div>		
 
 					</div>
+					<#-- /Directions -->
 
 					<div class="row">
-<div class="col-md-3">
-<div class="card card-outline card-primary">
-<div class="card-header">
-<h3 class="card-title">Primary Outline</h3>
-<div class="card-tools">
-<button type="button" class="btn btn-tool" data-card-widget="collapse">
-<i class="fas fa-minus"></i>
-</button>
-</div>
 
-</div>
+						<#-- Upload -->
+						<div class="col-md-6">
+							<div class="card card-outline card-primary">
+								<div class="card-header">
+									<h3 class="card-title">
+										<i class="fa-solid fa-file-import"></i>&nbsp;Import
+									</h3>
+								</div>
 
-<div class="card-body">
-The body of the card
-</div>
+								<div class="card-body">
+									<div id="importUpload" role="tabpanel" class="bs-stepper-pane" aria-labelledby="eventSteppertrigger2">
+												
+										<#-- Upload File -->
+										<div class="input-group mb-3">
+											<div class="input-group-prepend">
+												<span class="input-group-text">
+													<i class="fa-solid fa-file-arrow-up"></i>
+												</span>
+											</div>	
 
-</div>
+												
+											<#-- Upload box -->
+											<div class="custom-file">
+												<input type="file" class="custom-file-input" id="fileUpload" accept=".xlsx, .ods">
+												<label class="custom-file-label" for="exampleInputFile">Choose file</label>
+											</div>
+											<#-- /Upload box -->		
+											
+											<div class="input-group-append">
+									
+											<#-- Upload button -->
+											<button type="button" class="btn btn-outline-primary" onclick="importEvents();" id="uploadFileBtn">
+												<i class="fa-solid fa-upload"></i>&nbsp;Upload
+											</button>
+											<#-- /Upload button -->
+										
+										</div>		
+										<#-- /Upload File -->						
 
-</div>
+										</div>
+										<#-- /Upload File -->
 
-<div class="col-md-3">
-<div class="card card-outline card-success">
-<div class="card-header">
-<h3 class="card-title">Success Outline</h3>
-<div class="card-tools">
-<button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
-</button>
-</div>
+										<small class="form-text text-muted mb-3">Only
+											<b>Microsoft Excel Spreadsheet (*.xlsx)</b> and 
+											<b>OpenDocument Spreadsheet (*.ods)</b> 
+											format are accepted.
+										</small>
 
-</div>
+									</div>
+								</div>
 
-<div class="card-body">
-The body of the card
-</div>
+							</div>
+						</div>
+						<#-- /Upload -->
 
-</div>
+						<#-- Result -->
+						<div class="col-md-6">
+							<div class="card card-outline card-primary">
+								<div class="card-header">
+									<h3 class="card-title">
+										<i class="fa-solid fa-circle-check"></i>&nbsp;Result
+									</h3>
+								</div>
 
-</div>
+								<div class="card-body">
+									The body of the card
+								</div>
 
-<div class="col-md-3">
-<div class="card card-outline card-warning">
-<div class="card-header">
-<h3 class="card-title">Warning Outline</h3>
-<div class="card-tools">
-<button type="button" class="btn btn-tool" data-card-widget="collapse">
-<i class="fas fa-minus"></i>
-</button>
-</div>
+							</div>
+						</div>
+						<#-- /Result -->
 
-</div>
-
-<div class="card-body">
-The body of the card
-</div>
-
-</div>
-
-</div>
-
-<div class="col-md-3">
-<div class="card card-outline card-danger">
-<div class="card-header">
-<h3 class="card-title">Danger Outline</h3>
-</div>
-<div class="card-body">
-The body of the card
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
+					</div>
 				</div>
 			</section>
 			<#-- /Main area -->
