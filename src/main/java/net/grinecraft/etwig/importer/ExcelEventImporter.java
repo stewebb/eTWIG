@@ -68,6 +68,4 @@ public class ExcelEventImporter implements EventImporter {
 	public Map<Integer, String> status() {
 		return this.status;
 	}
-
-
 }
