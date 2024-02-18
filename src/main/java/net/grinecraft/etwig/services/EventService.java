@@ -228,10 +228,15 @@ public class EventService {
 	}
 
 	public Map<Integer, String> importEvents(MultipartFile file, String fileType) throws Exception {
+
+		// Decide the reader type (Factory pattern)
 		InputStream inputStream = file.getInputStream();
 		EventImporter eventImporter = "xlsx".equalsIgnoreCase(fileType) ? new ExcelEventImporter() : new ODSEventImporter();
 
+		// Read file
 		List<EventImportDTO> importedEvents = eventImporter.read(inputStream);
+		//importedEvents.forEach(obj -> obj.setOrganizerRole(userRoleService.));
+
 		System.out.println(importedEvents);
 		return eventImporter.status();
     }

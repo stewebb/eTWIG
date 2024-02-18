@@ -7,7 +7,6 @@ function importEvents(){
 		warningPopup("Please select a file.");
 		return;
 	}
-    
   	data.append('file', file);
     
   	$.ajax({
@@ -33,6 +32,8 @@ function importEvents(){
 					`);
 				});
 			}
+
+			$('#uploadFileBtn').attr('disabled', true);
 		},
     	error: function (err) {
 			dangerPopup("Failed to import events due to a HTTP " + err.status + " error.", err.responseJSON.exception);

@@ -213,10 +213,10 @@
 									</h3>
 								</div>
 
-								<div class="card-body table-responsive mb-3">
-									<table id="importResult" class="table table-head-fixed table-striped table-hover">
+								<div class="card-body table-responsive">
+									<table id="importResult" class="table table-striped table-hover">
 
-										<thead class="table-primary">
+										<thead>
 										<tr>
 											<th>Row Number</th>
 											<th>Status</th>
@@ -225,7 +225,7 @@
 
 										<tbody>
 										</tbody>
-										</table>
+									</table>
 								</div>
 
 							</div>

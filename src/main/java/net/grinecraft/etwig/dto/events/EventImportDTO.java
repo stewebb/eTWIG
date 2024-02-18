@@ -10,12 +10,16 @@ import java.util.Date;
 @ToString
 public class EventImportDTO {
 
+	// Event info
 	private String name;
 	private String location;
 	private String description;
 	private boolean allDayEvent;
 	private Date startDateTime;
 	private int duration;
+
+	// Organizer
+	private Long organizerRole;
 
 	public void setName(String name){
 		if(name == null || name.isEmpty()){
