@@ -7,9 +7,8 @@ import net.grinecraft.etwig.dto.events.EventImportDTO;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import org.apache.commons.io.*;
 
 public class ExcelEventImporter implements EventImporter {
 
@@ -55,8 +54,11 @@ public class ExcelEventImporter implements EventImporter {
 
 				status.put(row.getRowNum(), null);
 			} catch (Exception e){
-				//e.printStackTrace();
-				status.put(row.getRowNum(), e.toString());
+
+				//CellReference cellRef = new CellReference(row.getRowNum(), e instanceof NullPointerException ? -1 : 0); // Default to first cell or -1 if NPE
+				//String cellRefString = cellRef.formatAsString().replaceAll("\\$", ""); // Remove $ signs for a cleaner reference
+
+				status.put(row.getRowNum(), e.getMessage());
 			}
 
 		}

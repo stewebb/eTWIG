@@ -9,7 +9,6 @@
 
 package net.grinecraft.etwig.services;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -228,13 +227,13 @@ public class EventService {
 		}
 	}
 
-	public String importEvents(MultipartFile file, String fileType) throws Exception {
+	public Map<Integer, String> importEvents(MultipartFile file, String fileType) throws Exception {
 		InputStream inputStream = file.getInputStream();
 		EventImporter eventImporter = "xlsx".equalsIgnoreCase(fileType) ? new ExcelEventImporter() : new ODSEventImporter();
 
 		List<EventImportDTO> importedEvents = eventImporter.read(inputStream);
 		System.out.println(importedEvents);
-		return eventImporter.status().toString();
+		return eventImporter.status();
     }
 
 }

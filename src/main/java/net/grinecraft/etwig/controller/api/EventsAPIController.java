@@ -137,6 +137,8 @@ public class EventsAPIController {
 
 		// Copy file and add related info
 		//assetService.uploadFile(file);
-		return WebReturn.errorMsg(eventService.importEvents(file, extension), true);
+		Map<String, Object> webReturn = WebReturn.errorMsg("", true);
+		webReturn.put("result", eventService.importEvents(file, extension));
+		return webReturn;
 	}
 }

@@ -112,10 +112,7 @@
 											<td>N/A</td>
 											<td>N/A</td>
 											<td>N/A</td>
-											<td>
-												<b>True:</b> 'true', 'on', 'y', 't' or 'yes' (case insensitive).<br />
-												<b>False:</b> Any other contents.
-											</td>
+											<td><b>True</b> or <b>False</b> (case insensitive).</td>
 											<td>If AllDayEvent is true, only the <b>date part</b> is required.</td>
 											<td>If AllDayEvent is true, only the <b>date part</b> is required. It must after the StartDateTime.</td>
 										</tr>
@@ -216,8 +213,19 @@
 									</h3>
 								</div>
 
-								<div class="card-body">
-									The body of the card
+								<div class="card-body table-responsive mb-3">
+									<table id="importResult" class="table table-head-fixed table-striped table-hover">
+
+										<thead class="table-primary">
+										<tr>
+											<th>Row Number</th>
+											<th>Status</th>
+										</tr>
+										</thead>
+
+										<tbody>
+										</tbody>
+										</table>
 								</div>
 
 							</div>
