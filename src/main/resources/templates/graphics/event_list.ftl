@@ -65,12 +65,11 @@
 									<table id="eventGraphics" class="table table-hover table-striped">
 										<thead>
 											<tr>
-												<th>Id</th>
+												<th>id</th>
 												<th>Name</th>
-												<th>TWIG Component Count</th>
-												<th>Banner Count</th>
-												<th>Last Modified (Event)</th>
-												<th>Last Modified (Graphics)</th>
+												<th>Time</th>
+												<th>Status</th>
+												<th>Last Modified</th>
 												<th>Action</th>
 											</tr>
 										</thead>

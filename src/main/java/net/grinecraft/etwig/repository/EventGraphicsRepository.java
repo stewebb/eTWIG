@@ -19,7 +19,7 @@ import net.grinecraft.etwig.model.EventGraphics;
 public interface EventGraphicsRepository extends JpaRepository<EventGraphics, Long>{
 
 	@Query("SELECT new net.grinecraft.etwig.dto.graphics.EventGraphicsListDTO(" +
-			"e.id, e.name, " +													// Events
+			"e.id, e.name, e.startTime, " +										// Events
 			"SUM(CASE WHEN g.banner = FALSE THEN 1 ELSE 0 END), " + 			// Count of graphics
 			"SUM(CASE WHEN g.banner = TRUE THEN 1 ELSE 0 END), " + 				// Count of banners
 			"MAX(g.uploadTime)) " + 											// Most recent modification date

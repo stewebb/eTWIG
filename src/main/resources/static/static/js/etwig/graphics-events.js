@@ -18,13 +18,42 @@ function eventGraphicsDataTable(){
         columns: [
             { data: "id" },
             { data: "eventName" },
-            { data: "graphicsNum"},
-            { data: "bannerNum"},
+            { data: "startTime", render: dateRender},
+            { data: null, render: statusRender},
             { data: "lastModified", render: dateRender},
             { mRender: actionRender}
         ]
     });
     return dt;
+}
+
+function statusRender(data, type, row){
+
+	// Both TWIG component and banner have been made.
+	if(row.twigComponentNum > 0 && row.bannerNum > 0) {
+	  return '<span class="badge badge-primary">All done</span> ';
+	}
+
+	// Only TWIG component has been made
+	else if(row.twigComponentNum > 0 && row.bannerNum == 0) {
+		return '<span class="badge badge-warning">No banners</span> ';
+	}
+
+	// Only banner has been made
+	else if(row.twigComponentNum == 0 && row.bannerNum > 0) {
+		return '<span class="badge badge-warning">No TWIG component</span> ';
+	}
+
+	// Nothing has been made.
+	else {
+		return '<span class="badge badge-danger">No graphics</span>';
+	}
+  
+}
+
+
+function dateRender(data, type, row){
+	return data ? Date.parse(data).toString('yyyy-MM-dd HH:mm:ss') : 'N/A'; 
 }
 
 function actionRender(data, type, full){
