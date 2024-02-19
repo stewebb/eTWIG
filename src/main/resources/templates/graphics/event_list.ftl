@@ -58,7 +58,7 @@
 										<i class="fa-solid fa-list-check"></i>&nbsp;List
 									</h3>
 								</div>
-
+								
 								<div class="card-body table-responsive">
 
 									<#-- Table Content -->

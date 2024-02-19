@@ -53,48 +53,53 @@ function statusRender(data, type, row){
 
 
 function dateWeekRender(data, type, row){
+
+	// Get dates
 	var targetDate = Date.parse(data);
-	var dateWeek = targetDate.toString('yyyy-MM-dd HH:mm');
+	var dateWeek = targetDate.toString('yyyy-MM-dd HH:mm') + '&nbsp;';
+	var today = Date.today();
 
-	/*
-	$.ajax({ 
-		type: 'GET', 
-		url: '/api/public/getWeekByDate', 
-		data: { 
-			date: givenDate.toString('yyyy-MM-dd') 
-		}, 
-		async: false,
-	
-		success: function(json) {
-			dateWeek += ` (${json.name})`;
-		},
-	
-		error: function(err) {   		
-			//dangerPopup("Failed to get week due to a HTTP " + err.status + " error.", err.responseJSON.exception);
-			console.error(err.responseJSON.exception);
+	// Check if today is Sunday, then consider tomorrow as the start of next week
+	//if (today.getDay() === 0) {
+	//	today = Date.today().add(1).day();
+	//}
+
+	// Find Monday of this week. If today is Sunday (0), Datejs considers it the start of a new week,
+	// so we need to adjust for that by going back to the previous week's Monday if today is Sunday.
+	//var monday = (today.getDay() === 0) ? today.last().monday() : today.monday()
+	var monday = Date.monday();
+	//console.log(monday)
+
+	// Calculate week differences
+	var daysDifference = Math.abs(monday - targetDate) / (1000 * 60 * 60 * 24);
+	var weeksDifference = Math.ceil(daysDifference / 7);
+
+	//console.log(weeksDifference)
+
+
+	// Weeks left
+	if (monday < targetDate) {
+
+		// Current Week
+		if(weeksDifference <= 1){
+			return dateWeek + `<span class="badge badge-danger">In this week</span>`
+		}	
+
+		// Next week
+		if(weeksDifference == 2){
+			return dateWeek + `<span class="badge badge-warning">In next week</span>`
 		}
-	});
-	*/
 
-	 // Get today's date
-	 var today = Date.today();
-
-	 // Check if today is Sunday, then consider tomorrow as the start of next week
-	 if (today.getDay() === 0) {
-		 today = Date.today().add(1).day();
-	 }
-
-	 var daysDifference = Math.abs(today - targetDate) / (1000 * 60 * 60 * 24);
-	 // Convert days to weeks
-	 var weeksDifference = Math.ceil(daysDifference / 7);
-
-	 if (today < targetDate) {
-		 // If the target date is in the future
-		 dateWeek += (`<span class="badge badge-success">${weeksDifference} weeks left</span>`);
-	 } else {
-		 // If the target date is in the past
-		 dateWeek += (`<span class="badge badge-warning">${weeksDifference} weeks passed</span>`);
-	 }
+		// More than 1 week left
+		else{
+			return dateWeek + `<span class="badge badge-primary">${weeksDifference+1} weeks left</span>`
+		}
+	} 
+	
+	// Weeks passed
+	else {
+		dateWeek += (`<span class="badge badge-secondary">Past event</span>`);
+	}
 
 	return dateWeek;
 }

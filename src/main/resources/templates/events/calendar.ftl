@@ -108,9 +108,11 @@
 												<button type="button" class="btn btn-outline-primary" onclick="location.href='/events/edit?eventId=0';">
 													<i class="fa-solid fa-calendar-plus"></i>&nbsp;New Event
 												</button>
+												<!--
 												<button type="button" class="btn btn-outline-primary" onclick="location.href='/events/import';">
 													<i class="fa-solid fa-file-import"></i>&nbsp;Import
 												</button>
+												-->
 											</div>
 												
 										</#if>
@@ -155,6 +157,7 @@
 								</div>
 								<#-- /Legend -->
 
+								<!--
 								<#-- Filter -->
 								<div class="card card-primary card-outline">
 									<div class="card-header">
@@ -246,6 +249,7 @@
 									</div>
 								</div>
 								<#-- /Filter -->
+								-->
 								
 							</div>
 						</div>
