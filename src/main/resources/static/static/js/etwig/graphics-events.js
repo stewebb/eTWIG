@@ -18,7 +18,7 @@ function eventGraphicsDataTable(){
         columns: [
             { data: "id" },
             { data: "eventName" },
-            { data: "startTime", render: dateRender},
+            { data: "startTime", render: dateWeekRender},
             { data: null, render: statusRender},
             { data: "lastModified", render: dateRender},
             { mRender: actionRender}
@@ -41,7 +41,7 @@ function statusRender(data, type, row){
 
 	// Only banner has been made
 	else if(row.twigComponentNum == 0 && row.bannerNum > 0) {
-		return '<span class="badge badge-warning">No TWIG component</span> ';
+		return '<span class="badge badge-danger">No TWIG component</span> ';
 	}
 
 	// Nothing has been made.
@@ -52,8 +52,51 @@ function statusRender(data, type, row){
 }
 
 
-function dateRender(data, type, row){
-	return data ? Date.parse(data).toString('yyyy-MM-dd HH:mm:ss') : 'N/A'; 
+function dateWeekRender(data, type, row){
+	var targetDate = Date.parse(data);
+	var dateWeek = targetDate.toString('yyyy-MM-dd HH:mm');
+
+	/*
+	$.ajax({ 
+		type: 'GET', 
+		url: '/api/public/getWeekByDate', 
+		data: { 
+			date: givenDate.toString('yyyy-MM-dd') 
+		}, 
+		async: false,
+	
+		success: function(json) {
+			dateWeek += ` (${json.name})`;
+		},
+	
+		error: function(err) {   		
+			//dangerPopup("Failed to get week due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+			console.error(err.responseJSON.exception);
+		}
+	});
+	*/
+
+	 // Get today's date
+	 var today = Date.today();
+
+	 // Check if today is Sunday, then consider tomorrow as the start of next week
+	 if (today.getDay() === 0) {
+		 today = Date.today().add(1).day();
+	 }
+
+	 var daysDifference = Math.abs(today - targetDate) / (1000 * 60 * 60 * 24);
+	 // Convert days to weeks
+	 var weeksDifference = Math.ceil(daysDifference / 7);
+
+	 if (today < targetDate) {
+		 // If the target date is in the future
+		 dateWeek += (`<span class="badge badge-success">${weeksDifference} weeks left</span>`);
+	 } else {
+		 // If the target date is in the past
+		 dateWeek += (`<span class="badge badge-warning">${weeksDifference} weeks passed</span>`);
+	 }
+
+	return dateWeek;
 }
 
 function actionRender(data, type, full){
