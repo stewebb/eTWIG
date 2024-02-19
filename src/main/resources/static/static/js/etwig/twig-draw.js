@@ -292,10 +292,12 @@ function setup(){
                                 image(originalImg, value.posX, value.posY, widget.width, newHeight)
                             }
 
+                            // Otherwise, just show event name with portfolo color.
                             else{
-                                textSize(shortSide * 0.024); fill('#' + current.portfolioColor);    noStroke();    textStyle(BOLD);
-                                console.log(ev);
-                                text(current.name, value.posX, value.posY + shortSide * 0.024)
+                                textSize(shortSide * 0.024);    fill('#' + current.portfolioColor);
+                                noStroke(); textStyle(NORMAL);
+                                //console.log(ev);
+                                text(current.name, value.posX, value.posY + shortSide * 0.024, widget.width);
                             }
 
                         }
