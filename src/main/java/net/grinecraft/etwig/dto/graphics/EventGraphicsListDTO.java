@@ -11,7 +11,8 @@ public class EventGraphicsListDTO {
 
     private Long id;
     private String eventName;
-    private long graphicsNum;
+    private LocalDateTime startTime;
+    private long twigComponentNum;
     private long bannerNum;
     private LocalDateTime lastModified;
 }

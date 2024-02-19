@@ -12,4 +12,5 @@
 				<b>Version</b> ${app.appVersion}
 			</div>
 			<strong>${app.appName}</strong>
+			&nbsp;Star me on <a href="https://github.com/steven-webb/eTWIG" target="_blank">Github</a>.
 		</footer>

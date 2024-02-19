@@ -748,7 +748,7 @@ function initAddOption(myPositions){
 	setRecurrentMode(0);
 	setAllDayEvent(false);
 	setValidTo(true);
-	setGraphicsRequest(false);
+	setGraphicsRequest(true);
 	
 	// Set the hidden fields.
 	$('#eventIdBlock').hide();

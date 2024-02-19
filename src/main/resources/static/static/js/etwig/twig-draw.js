@@ -135,11 +135,39 @@ function setup(){
 	if(twig == undefined && singleTimeEventList == undefined){
 		return;
 	}
+
+    //$('#etwigSettingBox').modal('show');
+    //frameRate(10);
 	    
     // The main canvas.
     var mainCanvas = twig.root.widget;
-    var shortSide = Math.min(mainCanvas.width, mainCanvas.height);
+    //var shortSide = Math.min(mainCanvas.width, mainCanvas.height);
     createCanvas(mainCanvas.width, mainCanvas.height);
+
+    //alert($(window).width())
+    //alert($(window).height())
+    //alert(windowWidth / mainCanvas.width)
+
+    $('main').css('transform', 'scale(' + ($(window).width() / mainCanvas.width) + ')');
+    $(window).resize(function() {
+        $('main').css('transform', 'scale(' + ($(window).width() / mainCanvas.width) + ')');
+    });
+
+    //$(window).on('resize orientationchange', function() {
+    //    $('main').css('transform', 'scale(' + ($(window).width() / mainCanvas.width) + ')');
+    //});
+
+    
+    var mainCanvas = twig.root.widget;
+    var shortSide = Math.min(mainCanvas.width, mainCanvas.height);
+
+
+    //scale(windowWidth / mainCanvas.width);
+    //var zoomLevel = windowWidth / mainCanvas.width;
+    //console.log(zoomLevel)
+
+    //translate(-windowWidth*(1-zoomLevel), 0);
+    //$('main').css('transform', 'scale(' + (windowWidth / mainCanvas.width) + ')');
    
     // Track the number of push and pop
     var pushNum = 0;
@@ -231,7 +259,7 @@ function setup(){
                 var arrangements = taa.exec();
                 var slotHeight = taa.getSlotHeight();
 
-                console.log(arrangements)
+                //console.log(arrangements)
 
                 // Place graphics to the allocated area.
                 for (const [key, value] of arrangements) {
@@ -258,16 +286,22 @@ function setup(){
                         else{
                             var originalImg = assetCollection.get(current.assetId);
 
-                            // Remove null situations
+                            // The event has a TWIG component.
                             if(originalImg != undefined && originalImg != null){
                                 var newHeight = originalImg.height * (widget.width / originalImg.width);
                                 image(originalImg, value.posX, value.posY, widget.width, newHeight)
                             }
 
+                            // Otherwise, just show event name with portfolo color.
+                            else{
+                                textSize(shortSide * 0.024);    fill('#' + current.portfolioColor);
+                                noStroke(); textStyle(NORMAL);
+                                //console.log(ev);
+                                text(current.name, value.posX, value.posY + shortSide * 0.024, widget.width);
+                            }
+
                         }
 
-
-                      
                     }
 
                 }
@@ -285,8 +319,14 @@ function setup(){
         pop();
     }
 
-        // Stop the loading animation.
-        $('#logo').removeClass('beating-logo').addClass('shrinking-logo');
+    
+    //$('#etwigSettingBox').modal('hide');
+    //$('.modal').hide();
+    //$('#etwigSettingBox').hide();
+    //$('.modal').hide();
+
+    // Stop the loading animation.
+    $('#logo').removeClass('beating-logo').addClass('shrinking-logo');
 
 }
 
@@ -485,6 +525,6 @@ function copyLink(url){
 }
 
 function downloadImg(){
-    console.log($('#imgFormat').val())
+    //console.log($('#imgFormat').val())
     saveCanvas('TWIG', $('#imgFormat').val());
 }

@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>net.grinecraft</groupId>
 	<artifactId>etwig</artifactId>
-	<version>1.4</version>
+	<version>2.0</version>
 	<packaging>jar</packaging>
 	<name>etwig</name>
 	<description>
@@ -31,7 +31,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<!--<scope>provided</scope>--><!-- Comment me in Intellij. -->
+			<!--<scope>provided</scope>--><!-- Comment me in IntelliJ. -->
 		</dependency>
 		
 		<dependency>
@@ -91,14 +91,20 @@
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		
+
 		<!-- Document editing -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>5.2.2</version>
+		</dependency>
+
 	    <dependency>
 	        <groupId>org.apache.poi</groupId>
 	        <artifactId>poi-ooxml</artifactId>
-   		 	<version>5.2.5</version>
+   		 	<version>5.2.2</version>
 	    </dependency>
-	    
+
         <dependency>
             <groupId>org.odftoolkit</groupId>
             <artifactId>simple-odf</artifactId>
@@ -120,7 +126,7 @@
 		<dependency>
     		<groupId>commons-io</groupId>
     		<artifactId>commons-io</artifactId>
-    		<version>2.6</version>
+    		<version>2.14.0</version>
 		</dependency>
 		
 		<dependency>

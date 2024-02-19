@@ -65,10 +65,10 @@
 									<table id="eventGraphics" class="table table-hover table-striped">
 										<thead>
 											<tr>
-												<th>Id</th>
+												<th>id</th>
 												<th>Name</th>
-												<th>Graphics Count</th>
-												<th>Banner Count</th>
+												<th>Time</th>
+												<th>Status</th>
 												<th>Last Modified</th>
 												<th>Action</th>
 											</tr>

@@ -20,6 +20,8 @@ public class SingleTimeEventGraphicsPublicInfoDTO {
 	private Long eventId;
 	private int duration;
 	private boolean allDayEvent;
+	private String name;
+	private String portfolioColor;
 
 	// Timing
 	private String date;
@@ -37,6 +39,8 @@ public class SingleTimeEventGraphicsPublicInfoDTO {
 		this.eventId = event.getId();
 		this.duration = event.getDuration();
 		this.allDayEvent = event.isAllDayEvent();
+		this.name = event.getName();
+		this.portfolioColor = event.getUserRole().getPortfolio().getColor();
 
 		// Timing
 		LocalDateTime eventDateTime = event.getStartTime();

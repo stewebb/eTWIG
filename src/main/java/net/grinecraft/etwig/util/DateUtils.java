@@ -38,6 +38,11 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 	        throw new InvalidDateFormatException("Invalid date format: " + dateStr + ", which is not fit in the pattern:" + patternStr);
 		}
 	}
+
+	//public static LocalDate parseDate(String dateStr, String patternStr) {
+	//	Date date = DateUtils.parseDate(dateStr, patternStr);
+	//	return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+	//}
 	
 	/**
 	 * Parse date and time without throw an exception.

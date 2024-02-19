@@ -9,11 +9,13 @@
 
 package net.grinecraft.etwig.controller.api;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,6 +34,7 @@ import net.grinecraft.etwig.services.PortfolioService;
 import net.grinecraft.etwig.util.DateUtils;
 import net.grinecraft.etwig.util.NumberUtils;
 import net.grinecraft.etwig.util.WebReturn;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/private/")  
@@ -116,4 +119,26 @@ public class EventsAPIController {
 		eventService.editEvent(eventInfo, event);
         return WebReturn.errorMsg(null, true);
     }
+
+	@PostMapping(value = "importEvents")
+	public Map<String, Object> importEvents(@RequestParam("file") MultipartFile file) throws Exception {
+
+		// Null check
+		if(file == null || file.isEmpty()) {
+			return WebReturn.errorMsg("The file is null.", false);
+		}
+
+		// Check and read file
+		String fileName = file.getOriginalFilename();
+		String extension = FilenameUtils.getExtension(fileName);
+		if(!"xlsx".equalsIgnoreCase(extension) && ! "ods".equalsIgnoreCase(extension)) {
+			return WebReturn.errorMsg("Only Microsoft Excel Spreadsheet (*.xlsx) and OpenDocument Spreadsheet (*.ods) format are accepted. However, the extension of the uploaded file is " + extension, false);
+		}
+
+		// Copy file and add related info
+		//assetService.uploadFile(file);
+		Map<String, Object> webReturn = WebReturn.errorMsg("", true);
+		webReturn.put("result", eventService.importEvents(file, extension));
+		return webReturn;
+	}
 }

@@ -87,3 +87,8 @@ body {
 .shrinking-logo {
 	animation: shrink 1s forwards;
 }
+
+main {
+    transition: transform 0.5s ease; /* Smooth transition for zoom effect */
+    transform-origin: top left; /* Set scaling origin to top left */
+}
