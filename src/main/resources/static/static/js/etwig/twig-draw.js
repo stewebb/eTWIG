@@ -286,16 +286,20 @@ function setup(){
                         else{
                             var originalImg = assetCollection.get(current.assetId);
 
-                            // Remove null situations
+                            // The event has a TWIG component.
                             if(originalImg != undefined && originalImg != null){
                                 var newHeight = originalImg.height * (widget.width / originalImg.width);
                                 image(originalImg, value.posX, value.posY, widget.width, newHeight)
                             }
 
+                            else{
+                                textSize(shortSide * 0.024); fill('#' + current.portfolioColor);    noStroke();    textStyle(BOLD);
+                                console.log(ev);
+                                text(current.name, value.posX, value.posY + shortSide * 0.024)
+                            }
+
                         }
 
-
-                      
                     }
 
                 }
