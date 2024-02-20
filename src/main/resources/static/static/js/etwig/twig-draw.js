@@ -252,7 +252,6 @@ function setup(){
                 if(DEBUG_MODE){
                     console.log(ev);
                 }
-                
 
                 // Execute TWIG Arrangement Algorithm.
                 var taa = new TAA(ev, widget, hours);
@@ -274,9 +273,18 @@ function setup(){
                         var current = ev[idx];
 
                         // Display event time
-                        var endTime = Date.parse(current.date + ' ' + current.time).addMinutes(current.duration).toString('HH:mm');
                         textSize(shortSide * 0.012); fill(0);    noStroke();    textStyle(BOLD);
-                        text(current.time + '-' + endTime, value.posX, value.posY);
+                        if(current.allDayEvent){
+                            text('All day', value.posX, value.posY);
+                            console.log(value.posY)
+                        }
+                        
+                        // Start and end time
+                        else{
+                            var endTime = Date.parse(current.date + ' ' + current.time).addMinutes(current.duration).toString('HH:mm');
+                            text(current.time + '-' + endTime, value.posX, value.posY);
+                        }
+                        
                         
                         if(DEBUG_MODE){
                             fill("#004AAD");    noStroke();
@@ -292,12 +300,11 @@ function setup(){
                                 image(originalImg, value.posX, value.posY, widget.width, newHeight)
                             }
 
-                            // Otherwise, just show event name with portfolo color.
+                            // Otherwise, just show event name with portfolio color.
                             else{
-                                textSize(shortSide * 0.024);    fill('#' + current.portfolioColor);
+                                textSize(shortSide * 0.016);    fill('#' + current.portfolioColor);
                                 noStroke(); textStyle(NORMAL);
-                                //console.log(ev);
-                                text(current.name, value.posX, value.posY + shortSide * 0.024, widget.width);
+                                text(current.name, value.posX, value.posY + shortSide * 0.008, widget.width);
                             }
 
                         }

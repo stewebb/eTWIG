@@ -795,7 +795,7 @@ class TAA{
         //var slotHeight = Math.ceil(this.eventTable.height / this.timeSlot.size);
 
         // Calculate the position of all occupied slots.
-        var count = 1;
+        var count = 0;
         for (const [key, value] of this.timeSlot) {
             if(value != null){
 
