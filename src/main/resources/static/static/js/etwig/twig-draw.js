@@ -252,8 +252,15 @@ function setup(){
                 }
 
                 // Special consideration 2: Dates
-                //textContent = textContent.replace('[DAY_MONDAY]', currentWeek);
-                console.log(new Date(setting.date).monday().addDays(-7).toString('d MMM'))
+                textContent = textContent.replace('[DAY_MON]', new Date(setting.date).monday().addDays(-7).toString('d MMM'));
+                textContent = textContent.replace('[DAY_TUE]', new Date(setting.date).monday().addDays(-6).toString('d MMM'));
+                textContent = textContent.replace('[DAY_WED]', new Date(setting.date).monday().addDays(-5).toString('d MMM'));
+                textContent = textContent.replace('[DAY_THU]', new Date(setting.date).monday().addDays(-4).toString('d MMM'));
+                textContent = textContent.replace('[DAY_FRI]', new Date(setting.date).monday().addDays(-3).toString('d MMM'));
+                textContent = textContent.replace('[DAY_SAT]', new Date(setting.date).monday().addDays(-2).toString('d MMM'));
+                textContent = textContent.replace('[DAY_SUN]', new Date(setting.date).monday().addDays(-1).toString('d MMM'));
+                
+                //console.log()
                 //console.log(new Date(setting.date).tuesday().toString('d MMM'))
                 //console.log(new Date(setting.date).wednesday().toString('d MMM'))
 
@@ -300,10 +307,10 @@ function setup(){
                         var current = ev[idx];
 
                         // Display event time
-                        textSize(shortSide * 0.012); fill(0);    noStroke();    textStyle(BOLD);
+                        textSize(shortSide * 0.012); fill(0);    noStroke();    textStyle(NORMAL);
                         if(current.allDayEvent){
                             text('All day', value.posX, value.posY);
-                            console.log(value.posY)
+                            //console.log(value.posY)
                         }
                         
                         // Start and end time
@@ -561,34 +568,4 @@ function copyLink(url){
 function downloadImg(){
     //console.log($('#imgFormat').val())
     saveCanvas('TWIG', $('#imgFormat').val());
-}
-
-function getWeekStartsMonday(date) {
-    // Ensure the input is a Date object
-    const inputDate = new Date(date);
-  
-    // Get the day of the week (0 is Sunday, 1 is Monday, ...)
-    const dayOfWeek = inputDate.getDay() % 7;
-    //const dayOfWeek = (inputDate.getDay() - 1 ) % 7;
-  
-    // Calculate the difference to Monday (1)
-    // Note: In JavaScript, Sunday is 0, so we adjust the formula accordingly.
-    const differenceToMonday = dayOfWeek //=== 0 ? -6 : 1 - dayOfWeek;
-  
-    // Get the Monday of the week
-    const monday = new Date(inputDate);
-    monday.setDate(inputDate.getDate() + differenceToMonday);
-  
-    // Generate the rest of the week by adding days to Monday
-    const week = [new Date(monday)];
-    for (let i = 1; i <= 6; i++) {
-        const nextDay = new Date(monday);
-        nextDay.setDate(monday.getDate() + i);
-        week.push(nextDay);
-    }
-  
-    // Format the week for readability
-    const formattedWeek = week.map(day => day.toISOString().split('T')[0]);
-  
-    return formattedWeek;
 }
