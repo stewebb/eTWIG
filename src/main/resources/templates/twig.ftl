@@ -207,8 +207,9 @@
 		$(document).ready(function() {
 		
 			// Initialize week
-			getWeekByDate(Date.today().toString("yyyy-MM-dd"));
-
+			var searchParams = new URLSearchParams(window.location.search)
+			getWeekByDate(searchParams.has('date') ? searchParams.get('date') : Date.today().toString("yyyy-MM-dd"));
+			
 			// Initialize twig link
 			$('#twigLink').val(window.location.href);
 

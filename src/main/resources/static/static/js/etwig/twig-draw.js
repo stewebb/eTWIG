@@ -236,6 +236,24 @@ function setup(){
 				image(originalImg, widget.posX, widget.posY, widget.width, newHeight)
 				break;
 
+            case "TEXT":
+                console.log(widget)
+                textSize(shortSide * widget.size * 0.001);    fill(widget.color);
+                noStroke(); textStyle(NORMAL);
+
+                // Display the current week (if applicable)
+                var textContent = widget.content;
+                var currentWeek = $('#calculatedWeek').text();
+                //console.log(currentWeek.length)
+
+                if(currentWeek != null && currentWeek.length > 0){
+                    textContent = textContent.replace('[WEEK]', currentWeek);
+                }
+                
+                text(textContent, widget.posX, widget.posY)
+                
+                break;
+
             case "EVENT_TABLES":
 
                 // Show the border in debug mode.
