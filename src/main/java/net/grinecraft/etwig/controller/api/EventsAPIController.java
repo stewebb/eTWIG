@@ -121,7 +121,7 @@ public class EventsAPIController {
     }
 
 	@PostMapping(value = "importEvents")
-	public Map<String, Object> importEvents(@RequestParam("file") MultipartFile file) throws Exception {
+	public Map<String, Object> importEvents(@RequestParam("file") MultipartFile file, @RequestParam("role") int role) throws Exception {
 
 		// Null check
 		if(file == null || file.isEmpty()) {
@@ -135,10 +135,8 @@ public class EventsAPIController {
 			return WebReturn.errorMsg("Only Microsoft Excel Spreadsheet (*.xlsx) and OpenDocument Spreadsheet (*.ods) format are accepted. However, the extension of the uploaded file is " + extension, false);
 		}
 
-		// Copy file and add related info
-		//assetService.uploadFile(file);
 		Map<String, Object> webReturn = WebReturn.errorMsg("", true);
-		webReturn.put("result", eventService.importEvents(file, extension));
+		webReturn.put("result", eventService.importEvents(file, extension, role));
 		return webReturn;
 	}
 }

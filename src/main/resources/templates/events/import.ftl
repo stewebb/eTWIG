@@ -159,48 +159,78 @@
 								</div>
 
 								<div class="card-body">
-									<div id="importUpload" role="tabpanel" class="bs-stepper-pane" aria-labelledby="eventSteppertrigger2">
-												
-										<#-- Upload File -->
-										<div class="input-group mb-3">
-											<div class="input-group-prepend">
-												<span class="input-group-text">
-													<i class="fa-solid fa-file-arrow-up"></i>
-												</span>
-											</div>	
 
+									<#-- Role -->
+									<div class="form-group row">
+										<label for="uploaderRole" class="col-sm-2 col-form-label">
+											Role&nbsp;<span class="required-symbol">*</span>
+										</label>
+										<div class="col-sm-10">
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text">
+														<i class="fa-solid fa-user-tie"></i>
+													</span>
+												</div>
 												
-											<#-- Upload box -->
-											<div class="custom-file">
-												<input type="file" class="custom-file-input" id="fileUpload" accept=".xlsx, .ods">
-												<label class="custom-file-label" for="exampleInputFile">Choose file</label>
+												<select class="form-control select2bs4" name="uploaderRole" id="uploaderRole"></select>
 											</div>
-											<#-- /Upload box -->	
-
-											<#-- Upload button -->
-											<div class="input-group-append">
-												<button type="button" class="btn btn-outline-primary" onclick="importEvents();" id="uploadFileBtn">
-													<i class="fa-solid fa-upload"></i>&nbsp;Upload
-												</button>
-											</div>		
-											<#-- /Upload button -->					
-
-										</div>
-										
-										<small class="form-text text-muted mb-3">Only
-											<b>Microsoft Excel Spreadsheet (*.xlsx)</b> and 
-											<b>OpenDocument Spreadsheet (*.ods)</b> 
-											format are accepted.
-										</small>
-										<#-- /Upload File -->
-
-										<div class="callout callout-primary">
-											<h5 class="bold-text">Using online editors?</h5>
-											<p>You may need to download a copy first.</p>
+											<small class="form-text text-muted">The position and associated portfolio, divided by comma.</small>
 										</div>
 									</div>
-								</div>
+									<#-- Role -->
 
+									<#-- File -->
+									<div class="form-group row">
+
+										<label for="uploaderRole" class="col-sm-2 col-form-label">
+											File&nbsp;<span class="required-symbol">*</span>
+										</label>
+												
+										<#-- Upload File -->
+										<div class="col-sm-10">
+											<div class="input-group mb-3">
+												<div class="input-group-prepend">
+													<span class="input-group-text">
+														<i class="fa-solid fa-file-arrow-up"></i>
+													</span>
+												</div>	
+
+													
+												<#-- Upload box -->
+												<div class="custom-file">
+													<input type="file" class="custom-file-input" id="fileUpload" accept=".xlsx, .ods">
+													<label class="custom-file-label" for="exampleInputFile">Choose file</label>
+												</div>
+												<#-- /Upload box -->	
+
+												<#-- Upload button -->
+												<div class="input-group-append">
+													<button type="button" class="btn btn-outline-primary" onclick="importEvents();" id="uploadFileBtn">
+														<i class="fa-solid fa-upload"></i>&nbsp;Upload
+													</button>
+												</div>		
+												<#-- /Upload button -->					
+
+											</div>
+											
+											
+											<small class="form-text text-muted mb-3">Only
+												<b>Microsoft Excel Spreadsheet (*.xlsx)</b> and 
+												<b>OpenDocument Spreadsheet (*.ods)</b> 
+												format are accepted.
+											</small>
+											<#-- /Upload File -->
+
+											<div class="callout callout-primary">
+												<h5 class="bold-text">Using online editors?</h5>
+												<p>You may need to download a copy first.</p>
+											</div>
+										</div>
+									</div>
+									<#-- /File -->
+
+								</div>
 							</div>
 						</div>
 						<#-- /Upload -->
@@ -248,5 +278,16 @@
 	<#include "../_includes/header/body_end.ftl">
 
 	<script src="/static/js/etwig/import-events.js?ver=${app.appVersion}"></script>
+
+	<script>
+		$('.select2bs4').select2({
+      		theme: 'bootstrap4'
+    	})
+
+		var myPositions = getMyPositions();
+		for (var key in myPositions) {
+  			$("#uploaderRole").append('<option value="' + myPositions[key].userRoleId + '">' + myPositions[key].position + ', ' + myPositions[key].portfolioName + '</option>');
+		}
+	</script>
 </body>
 </html>

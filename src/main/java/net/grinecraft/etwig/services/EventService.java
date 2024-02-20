@@ -227,7 +227,7 @@ public class EventService {
 		}
 	}
 
-	public Map<Integer, String> importEvents(MultipartFile file, String fileType) throws Exception {
+	public Map<Integer, String> importEvents(MultipartFile file, String fileType, int role) throws Exception {
 
 		// Decide the reader type (Factory pattern)
 		InputStream inputStream = file.getInputStream();
@@ -236,6 +236,8 @@ public class EventService {
 		// Read file
 		List<EventImportDTO> importedEvents = eventImporter.read(inputStream);
 		//importedEvents.forEach(obj -> obj.setOrganizerRole(userRoleService.));
+
+		System.out.println(role);
 
 		System.out.println(importedEvents);
 		return eventImporter.status();

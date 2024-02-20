@@ -44,7 +44,8 @@ function createCalendar(elem, currentMonth){
     	selectable: false,
     	eventStartEditable: false,
     	height: '1080px',
-    	date: currentMonth
+    	date: currentMonth,
+		scrollTime: '12:00:00'
 	};
   
   	// Register the created calendar.
