@@ -22,6 +22,9 @@ var eventMap = {};
 // Page orientation: true landscape, false portrait.
 var pageOrientation = true;
 
+var setting = new TwigSettings();
+
+
 // Is the setting panel opened
 var settingOpened = false;
 
@@ -30,7 +33,7 @@ function preload(){
 
     // Initialize variable and elements.
     var datepicker = createDatePicker();
-    var setting = new TwigSettings();
+    
 
     var portfolioId = -1;
     var date = '';
@@ -241,17 +244,22 @@ function setup(){
                 textSize(shortSide * widget.size * 0.001);    fill(widget.color);
                 noStroke(); textStyle(NORMAL);
 
-                // Display the current week (if applicable)
+                // Special consideration 1: Current week (if applicable)
                 var textContent = widget.content;
                 var currentWeek = $('#calculatedWeek').text();
-                //console.log(currentWeek.length)
-
                 if(currentWeek != null && currentWeek.length > 0){
                     textContent = textContent.replace('[WEEK]', currentWeek);
                 }
-                
+
+                // Special consideration 2: Dates
+                //textContent = textContent.replace('[DAY_MONDAY]', currentWeek);
+                console.log(new Date(setting.date).monday().addDays(-7).toString('d MMM'))
+                //console.log(new Date(setting.date).tuesday().toString('d MMM'))
+                //console.log(new Date(setting.date).wednesday().toString('d MMM'))
+
+                //console.log(getWeekStartsMonday(setting.date))
+
                 text(textContent, widget.posX, widget.posY)
-                
                 break;
 
             case "EVENT_TABLES":
@@ -553,4 +561,34 @@ function copyLink(url){
 function downloadImg(){
     //console.log($('#imgFormat').val())
     saveCanvas('TWIG', $('#imgFormat').val());
+}
+
+function getWeekStartsMonday(date) {
+    // Ensure the input is a Date object
+    const inputDate = new Date(date);
+  
+    // Get the day of the week (0 is Sunday, 1 is Monday, ...)
+    const dayOfWeek = inputDate.getDay() % 7;
+    //const dayOfWeek = (inputDate.getDay() - 1 ) % 7;
+  
+    // Calculate the difference to Monday (1)
+    // Note: In JavaScript, Sunday is 0, so we adjust the formula accordingly.
+    const differenceToMonday = dayOfWeek //=== 0 ? -6 : 1 - dayOfWeek;
+  
+    // Get the Monday of the week
+    const monday = new Date(inputDate);
+    monday.setDate(inputDate.getDate() + differenceToMonday);
+  
+    // Generate the rest of the week by adding days to Monday
+    const week = [new Date(monday)];
+    for (let i = 1; i <= 6; i++) {
+        const nextDay = new Date(monday);
+        nextDay.setDate(monday.getDate() + i);
+        week.push(nextDay);
+    }
+  
+    // Format the week for readability
+    const formattedWeek = week.map(day => day.toISOString().split('T')[0]);
+  
+    return formattedWeek;
 }
