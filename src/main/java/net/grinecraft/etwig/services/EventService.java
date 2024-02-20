@@ -227,19 +227,25 @@ public class EventService {
 		}
 	}
 
-	public Map<Integer, String> importEvents(MultipartFile file, String fileType, int role) throws Exception {
+	public Map<Integer, String> importEvents(MultipartFile file, String fileType, Long role) throws Exception {
 
 		// Decide the reader type (Factory pattern)
 		InputStream inputStream = file.getInputStream();
 		EventImporter eventImporter = "xlsx".equalsIgnoreCase(fileType) ? new ExcelEventImporter() : new ODSEventImporter();
 
-		// Read file
+		// Read file and add role
 		List<EventImportDTO> importedEvents = eventImporter.read(inputStream);
-		//importedEvents.forEach(obj -> obj.setOrganizerRole(userRoleService.));
+		//importedEvents.forEach(obj -> obj.setOrganizerRole(role));
 
-		System.out.println(role);
+		for(EventImportDTO eventImportDTO : importedEvents){
+			eventImportDTO.setOrganizerRole(role);
 
-		System.out.println(importedEvents);
+			Event event = eventImportDTO.toEntity();
+			eventRepository.save(event);
+		}
+		//Event
+
+		//System.out.println(importedEvents);
 		return eventImporter.status();
     }
 

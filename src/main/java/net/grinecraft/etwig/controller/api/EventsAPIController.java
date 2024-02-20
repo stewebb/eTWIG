@@ -121,7 +121,7 @@ public class EventsAPIController {
     }
 
 	@PostMapping(value = "importEvents")
-	public Map<String, Object> importEvents(@RequestParam("file") MultipartFile file, @RequestParam("role") int role) throws Exception {
+	public Map<String, Object> importEvents(@RequestParam("file") MultipartFile file, @RequestParam("role") Long role) throws Exception {
 
 		// Null check
 		if(file == null || file.isEmpty()) {
