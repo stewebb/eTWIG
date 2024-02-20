@@ -380,7 +380,7 @@
 	<#include "../_includes/header/body_end.ftl">
 
 	<#-- Custom JS for graphics request-->
-	<script src="/static/js/etwig/graphics-request.js"></script>
+	<script src="/static/js/etwig/graphics-request.js?ver=${app.appVersion}"></script>
 	
 	<script>
 		<#if editPermission>

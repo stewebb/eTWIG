@@ -147,7 +147,7 @@
 	</div>
 		
 	<#--  JS for Asset Selector options. -->
-	<script type="text/javascript" src="/static/js/etwig/asset.js"></script>
+	<script type="text/javascript" src="/static/js/etwig/asset.js?ver=${app.appVersion}"></script>
 	
 	<script>
     	assetSelectorDataTable();

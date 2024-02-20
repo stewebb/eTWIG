@@ -40,10 +40,10 @@
 	<script src="/static/js/vendor/p5.min.js"></script>
 
 	<#-- rrule.js -->
-   	<script src="/static/js/etwig/recurrent.min.js"></script>
+   	<script src="/static/js/etwig/recurrent.min.js?ver=${app.appVersion}"></script>
 
-	<script src="/static/js/etwig/twig.js"></script>
-	<script src="/static/js/etwig/twig-draw.js"></script>
+	<script src="/static/js/etwig/twig.js?ver=${app.appVersion}"></script>
+	<script src="/static/js/etwig/twig-draw.js?ver=${app.appVersion}"></script>
 
 	<script src="/static/js/vendor/qrcode.min.js"></script>
 

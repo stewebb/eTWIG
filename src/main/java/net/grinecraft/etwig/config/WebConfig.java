@@ -41,7 +41,7 @@ public class WebConfig implements WebMvcConfigurer{
     }
 
 	/**
-	 * Allow static contents (e.g., CSS and JS) are cached.
+	 * Allow static contents (e.g., CSS and JS) are cached for at most 14 days (i.e., 2 weeks).
 	 * @param registry ResourceHandlerRegistry
 	 */
 
@@ -49,7 +49,7 @@ public class WebConfig implements WebMvcConfigurer{
     public void addResourceHandlers(@NonNull ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**")
         	.addResourceLocations("classpath:/static/static/")
-            .setCacheControl(CacheControl.maxAge(90, TimeUnit.DAYS));
+            .setCacheControl(CacheControl.maxAge(14, TimeUnit.DAYS));
     }
 
 }

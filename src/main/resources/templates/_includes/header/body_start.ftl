@@ -49,5 +49,5 @@
 	<script src="/static/js/vendor/adminlte.min.js"></script>
 	
 	<#-- eTWIG platform -->
-	<link rel="stylesheet" href="/static/css/etwig-style.css">
-	<script src="/static/js/etwig/common.js"></script>	
+	<link rel="stylesheet" href="/static/css/etwig-style.css?ver=${app.appVersion}">
+	<script src="/static/js/etwig/common.js?ver=${app.appVersion}"></script>	

@@ -193,6 +193,6 @@
 	<#include "../_includes/header/body_end.ftl">
 
 	<#-- Custom JS for profile management-->
-	<script src="/static/js/etwig/user.js"></script>
+	<script src="/static/js/etwig/user.js?ver=${app.appVersion}"></script>
 </body>
 </html>

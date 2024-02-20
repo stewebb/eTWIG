@@ -212,10 +212,10 @@
    	<script src="/static/js/vendor/jquery.inputmask.min.js"></script>
 
 	<#-- rrule.js -->
-   	<script type="module" src="/static/js/etwig/recurrent.min.js"></script>
+   	<script type="module" src="/static/js/etwig/recurrent.min.js?ver=${app.appVersion}"></script>
 
 	<#-- Custom JS for adding/editing events-->
-	<script src="/static/js/etwig/events.js"></script>
+	<script src="/static/js/etwig/events.js?ver=${app.appVersion}"></script>
 	
    	<#-- Post Scripts -->
 	<script>

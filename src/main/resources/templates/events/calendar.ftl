@@ -287,10 +287,10 @@
 	<script src="/static/js/vendor/event-calendar.min.js"></script>
 
 	<#-- rrule.js -->
-   	<script src="/static/js/etwig/recurrent.min.js"></script>
+   	<script src="/static/js/etwig/recurrent.min.js?ver=${app.appVersion}"></script>
 		
 	<#-- Custom JS for eTWIG calendar and datepicker. -->
-	<script src="/static/js/etwig/calendar.js"></script>
+	<script src="/static/js/etwig/calendar.js?ver=${app.appVersion}"></script>
 	
   	<script>
 		createDatePicker("#wrapper", "#datepicker-input", "#select-month");

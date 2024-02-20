@@ -247,6 +247,6 @@
 	<#include "../_includes/footer.ftl">
 	<#include "../_includes/header/body_end.ftl">
 
-	<script src="/static/js/etwig/import-events.js"></script>
+	<script src="/static/js/etwig/import-events.js?ver=${app.appVersion}"></script>
 </body>
 </html>

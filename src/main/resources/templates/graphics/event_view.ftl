@@ -258,7 +258,7 @@
 	<#include "../_includes/header/body_end.ftl">
 
 	<#-- JS for Graphics Approval -->
-	<script type="text/javascript" src="/static/js/etwig/graphics-events.js"></script>
+	<script type="text/javascript" src="/static/js/etwig/graphics-events.js?ver=${app.appVersion}"></script>
 	
 	<script>
 	

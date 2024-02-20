@@ -94,7 +94,7 @@
 	<#include "../_includes/footer.ftl">
 	<#include "../_includes/header/body_end.ftl">
 
-	<script type="text/javascript" src="/static/js/etwig/graphics-events.js"></script>
+	<script type="text/javascript" src="/static/js/etwig/graphics-events.js?ver=${app.appVersion}"></script>
 	
 	<script>
     	var dt = eventGraphicsDataTable();
