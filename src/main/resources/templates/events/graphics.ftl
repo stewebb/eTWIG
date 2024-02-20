@@ -269,6 +269,7 @@
 																	<#-- /Additional Comments -->
 																	
 																	<#-- Action for pending requests. -->
+																	<!--
 																	<#if !request_info.approved?has_content>
 																		<div class="row col-12 mb-2">
 																			<div class="col-md-3 text-left bold-text">Action</div>
@@ -280,6 +281,7 @@
 																		</div>
 																	</#if>
 																	<#-- /Action for pending requests. -->
+																	-->
 																	
 																</div>						
 																<#-- /Request-->

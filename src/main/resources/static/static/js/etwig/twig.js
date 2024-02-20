@@ -803,7 +803,7 @@ class TAA{
                 //var idx = this.eventMap.findIndex(object => object.eventId == value);
 
                 // Reset the time slot.
-                this.timeSlot.set(key, new EventTimeSlot(value, this.eventTable.posX, this.getSlotHeight()*count, key));
+                this.timeSlot.set(key, new EventTimeSlot(value, this.eventTable.posX, this.eventTable.posY+this.getSlotHeight()*count, key));
             }
             count++;
         }

@@ -273,6 +273,7 @@ function setup(){
 
                 // Execute TWIG Arrangement Algorithm.
                 var taa = new TAA(ev, widget, hours);
+                console.log(widget)
                 var arrangements = taa.exec();
                 var slotHeight = taa.getSlotHeight();
 
