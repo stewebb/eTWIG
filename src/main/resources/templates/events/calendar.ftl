@@ -97,9 +97,7 @@
 											</span>
 										</div>
 										<div id="wrapper" class="datepicker"></div>
-										<#-- /Date Options -->
-
-										
+										<#-- /Date Options -->										
 										
 										<#-- Event Options-->
 										<#if access.eventsAccess>
@@ -108,11 +106,10 @@
 												<button type="button" class="btn btn-outline-primary" onclick="location.href='/events/edit?eventId=0';">
 													<i class="fa-solid fa-calendar-plus"></i>&nbsp;New Event
 												</button>
-												<!--
+												
 												<button type="button" class="btn btn-outline-primary" onclick="location.href='/events/import';">
 													<i class="fa-solid fa-file-import"></i>&nbsp;Import
 												</button>
-												-->
 											</div>
 												
 										</#if>

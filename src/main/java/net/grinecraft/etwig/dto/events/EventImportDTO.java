@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.ToString;
 import net.grinecraft.etwig.model.Event;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 @Data
@@ -39,10 +41,21 @@ public class EventImportDTO {
 
 	public Event toEntity(){
 		Event event = new Event();
+
+		// Basic info
 		event.setName(this.name);
 		event.setLocation(this.location);
+		event.setDescription(this.description);
+		event.setUserRoleId(this.organizerRole);
+		event.setCreatedTime(LocalDateTime.now());
+		event.setUpdatedTime(LocalDateTime.now());
+
+		// Timing
+		event.setAllDayEvent(this.allDayEvent);
+		event.setStartTime(startDateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
 		event.setDuration(this.duration);
-		//event.se
+		event.setRecurring(false);
+
 		return event;
 	}
 

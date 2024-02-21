@@ -7,8 +7,11 @@ function importEvents(){
 		warningPopup("Please select a file.");
 		return;
 	}
+
+	// Add file and role
   	data.append('file', file);
-    
+	data.append('role', parseInt($('#uploaderRole').find(":selected").val()));
+
   	$.ajax({
 		type: 'POST',
     	url: '/api/private/importEvents',
