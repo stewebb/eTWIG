@@ -35,10 +35,10 @@ public class ExcelEventImporter implements EventImporter {
 				event.setName(row.getCell(0).getStringCellValue());
 
 				// Location
-				event.setLocation(row.getCell(1).getStringCellValue());
+				event.setLocation(row.getCell(1) == null ? null : row.getCell(1).getStringCellValue());
 
 				// Description
-				event.setDescription(row.getCell(2).getStringCellValue());
+				event.setDescription(row.getCell(2) == null ? null : row.getCell(2).getStringCellValue());
 
 				// AllDayEvent
 				event.setAllDayEvent(row.getCell(3).getBooleanCellValue());
@@ -53,6 +53,7 @@ public class ExcelEventImporter implements EventImporter {
 				status.put(row.getRowNum(), null);
 			} catch (Exception e){
 				status.put(row.getRowNum(), e.getMessage());
+				e.printStackTrace();
 			}
 
 		}
