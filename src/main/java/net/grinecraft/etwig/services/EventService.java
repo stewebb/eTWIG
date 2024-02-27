@@ -141,6 +141,9 @@ public class EventService {
 		
 		// Add options
 		Long eventId = addedEvent.getId();
+
+		//String selectedOprions = eventInfo.get("properties").toString();
+		//System.out.println(selectedOprions.length());
 		ArrayList<Long> optionList = ListUtils.stringArrayToLongArray(ListUtils.stringToArrayList(eventInfo.get("properties").toString()));
 		updateEventOptionBulky(eventId, optionList);
 		

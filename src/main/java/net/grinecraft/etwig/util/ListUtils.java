@@ -48,7 +48,12 @@ public class ListUtils {
 		for(String str : stringArray) {
 			
 			// Trim the String before convert!
-			longArray.add(Long.parseLong(str.trim()));
+			String trimmed = str.trim();
+
+			// Only convert it to number if it's not empty.
+			if(!trimmed.isEmpty()){
+				longArray.add(Long.parseLong(trimmed));
+			}
 		}
 		return longArray;
 	}
