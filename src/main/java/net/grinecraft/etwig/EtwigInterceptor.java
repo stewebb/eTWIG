@@ -31,13 +31,8 @@ public class EtwigInterceptor implements HandlerInterceptor{
 	
 	/**
 	 * Add data that shared across the application.
-	 * @param request
-	 * @param response
-	 * @param handler
-	 * @param modelAndView
-	 */
+     */
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public void postHandle(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler, ModelAndView modelAndView) throws Exception {
 		
@@ -45,10 +40,7 @@ public class EtwigInterceptor implements HandlerInterceptor{
 			return;
 		}
 
-		/**
-		 * User-related data.
-		 */
-		
+		// User-related data.
 		// Check session first!
 		HttpSession session = request.getSession(false);
 		if(session != null) {
@@ -64,15 +56,12 @@ public class EtwigInterceptor implements HandlerInterceptor{
 			if(userAccess != null) {
 				modelAndView.addObject("access", userAccess);
 			}
-		}	
-		
-		/**
-		 * Application information.
-		 */
-		
+		}
+
+		// Application information.
 		LinkedHashMap<String, Object> appInfo = new LinkedHashMap<String, Object>();
 		appInfo.put("appName", config.getAppName());
-		appInfo.put("appVersion", "2.0");
+		appInfo.put("appVersion", "3.0");
 		appInfo.put("appOwner", config.getAppOwner());
 		modelAndView.addObject("app", appInfo);				
 	}

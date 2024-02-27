@@ -14,9 +14,4 @@
 	
 	<#-- The eTWIG icon. -->
 	<link rel="icon" href="/static/images/favicon.ico">
-
-	<#-- CSS and JS for Pace -->
-	
-	<link rel="stylesheet" href="/static/css/pace-theme-bounce.css">
-	<script src="/static/js/vendor/pace.min.js"></script>
 		
