@@ -165,7 +165,7 @@ function setup(){
     var shortSide = Math.min(mainCanvas.width, mainCanvas.height);
 
 
-    //scale(windowWidth / mainCanvas.width);
+    //scale(windowWid:th / mainCanvas.width);
     //var zoomLevel = windowWidth / mainCanvas.width;
     //console.log(zoomLevel)
 
@@ -460,6 +460,8 @@ function getRecurringEventList(setting){
 					dangerPopup("Failed to parse Recurrence Rule.", value.rrule + " is not a valid iCalendar RFC 5545 Recurrence Rule.");
 					return;
 				}
+
+                //console.log(value);
 				
 				// Get and iterate all occurrences in this week.
     			var occurrence = rRule.getOccurrenceBetween(firstDay, lastDay);
@@ -467,11 +469,11 @@ function getRecurringEventList(setting){
 					
 					// Get start and end time for each event.
 					var occurrenceDate = new Date(occurrence[i].getTime() + occurrence[i].getTimezoneOffset() * 60000);
-					
-					if(value.excluded != null){
-						if(value.excluded.includes(occurrenceDate.toString('yyyy-MM-dd'))){
-							continue;
-						}
+
+					if(value.excludedDates != null && value.excludedDates.includes(occurrenceDate.toString('yyyy-MM-dd'))){
+						//console.log("1111111");
+                        continue;
+						
 					}
 					
                     //console.log(value.time)
@@ -493,6 +495,8 @@ function getRecurringEventList(setting){
 						//color: "#" + value.portfolioColor,
 						
 					}; 	
+
+                    console.log(eventObj);
 
                     // Save event based on date of week.
                     eventMap[eventStartDateTime.getDay()].push(eventObj);
