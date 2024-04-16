@@ -15,7 +15,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import net.grinecraft.etwig.model.Week;
+import net.etwig.webapp.model.Week;
 
 @Repository
 public interface WeekRepository extends JpaRepository<Week, Long> {

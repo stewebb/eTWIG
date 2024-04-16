@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 
 import lombok.Getter;
 import lombok.ToString;
-import net.grinecraft.etwig.model.GraphicsRequest;
-import net.grinecraft.etwig.model.UserRole;
+import net.etwig.webapp.model.GraphicsRequest;
+import net.etwig.webapp.model.UserRole;
 
 @Getter
 @ToString

@@ -11,7 +11,7 @@ package net.etwig.webapp.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import net.grinecraft.etwig.model.User;
+import net.etwig.webapp.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long>{
 

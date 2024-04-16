@@ -2,8 +2,8 @@ package net.etwig.webapp.dto.graphics;
 
 import lombok.Getter;
 import lombok.ToString;
-import net.grinecraft.etwig.model.EventGraphics;
-import net.grinecraft.etwig.model.UserRole;
+import net.etwig.webapp.model.EventGraphics;
+import net.etwig.webapp.model.UserRole;
 
 import java.time.format.DateTimeFormatter;
 

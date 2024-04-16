@@ -14,11 +14,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import net.grinecraft.etwig.model.EventOption;
-import net.grinecraft.etwig.model.Option;
-import net.grinecraft.etwig.repository.EventOptionRepository;
-import net.grinecraft.etwig.repository.OptionRepository;
-import net.grinecraft.etwig.util.exception.DataException;
+import net.etwig.webapp.model.EventOption;
+import net.etwig.webapp.model.Option;
+import net.etwig.webapp.repository.EventOptionRepository;
+import net.etwig.webapp.repository.OptionRepository;
+import net.etwig.webapp.util.exception.DataException;
 
 @Service
 public class EventOptionService {

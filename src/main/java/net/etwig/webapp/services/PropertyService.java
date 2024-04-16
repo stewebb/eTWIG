@@ -13,9 +13,9 @@ import java.util.LinkedHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import net.grinecraft.etwig.model.Property;
-import net.grinecraft.etwig.repository.PropertyRepository;
-import net.grinecraft.etwig.util.MapUtils;
+import net.etwig.webapp.model.Property;
+import net.etwig.webapp.repository.PropertyRepository;
+import net.etwig.webapp.util.MapUtils;
 
 @Service
 public class PropertyService {

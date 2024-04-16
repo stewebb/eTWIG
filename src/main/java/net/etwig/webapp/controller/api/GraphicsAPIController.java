@@ -1,14 +1,14 @@
 package net.etwig.webapp.controller.api;
 
-import net.grinecraft.etwig.dto.events.EventDetailsDTO;
-import net.grinecraft.etwig.dto.graphics.EventGraphicsListDTO;
-import net.grinecraft.etwig.dto.graphics.PendingRequestsBasicInfoDTO;
-import net.grinecraft.etwig.model.Event;
-import net.grinecraft.etwig.model.GraphicsRequest;
-import net.grinecraft.etwig.services.EventGraphicsService;
-import net.grinecraft.etwig.services.EventService;
-import net.grinecraft.etwig.util.NumberUtils;
-import net.grinecraft.etwig.util.WebReturn;
+import net.etwig.webapp.dto.events.EventDetailsDTO;
+import net.etwig.webapp.dto.graphics.EventGraphicsListDTO;
+import net.etwig.webapp.dto.graphics.PendingRequestsBasicInfoDTO;
+import net.etwig.webapp.model.Event;
+import net.etwig.webapp.model.GraphicsRequest;
+import net.etwig.webapp.services.EventGraphicsService;
+import net.etwig.webapp.services.EventService;
+import net.etwig.webapp.util.NumberUtils;
+import net.etwig.webapp.util.WebReturn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PostAuthorize;

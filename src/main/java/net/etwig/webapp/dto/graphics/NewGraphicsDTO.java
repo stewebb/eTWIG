@@ -2,9 +2,9 @@ package net.etwig.webapp.dto.graphics;
 
 import lombok.Getter;
 import lombok.ToString;
-import net.grinecraft.etwig.model.EventGraphics;
-import net.grinecraft.etwig.model.GraphicsRequest;
-import net.grinecraft.etwig.util.BooleanUtils;
+import net.etwig.webapp.model.EventGraphics;
+import net.etwig.webapp.model.GraphicsRequest;
+import net.etwig.webapp.util.BooleanUtils;
 
 import java.time.LocalDateTime;
 import java.util.Map;

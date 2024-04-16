@@ -13,22 +13,22 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.grinecraft.etwig.dto.events.RecurringEventGraphicsPublicInfoDTO;
-import net.grinecraft.etwig.model.Week;
+import net.etwig.webapp.dto.events.RecurringEventGraphicsPublicInfoDTO;
+import net.etwig.webapp.model.Week;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import net.grinecraft.etwig.dto.TwigTemplateBasicInfoDTO;
-import net.grinecraft.etwig.dto.TwigTemplateDTO;
-import net.grinecraft.etwig.services.EventGraphicsService;
-import net.grinecraft.etwig.services.TwigService;
-import net.grinecraft.etwig.services.WeekService;
-import net.grinecraft.etwig.util.DateUtils;
-import net.grinecraft.etwig.util.NumberUtils;
-import net.grinecraft.etwig.util.WebReturn;
+import net.etwig.webapp.dto.TwigTemplateBasicInfoDTO;
+import net.etwig.webapp.dto.TwigTemplateDTO;
+import net.etwig.webapp.services.EventGraphicsService;
+import net.etwig.webapp.services.TwigService;
+import net.etwig.webapp.services.WeekService;
+import net.etwig.webapp.util.DateUtils;
+import net.etwig.webapp.util.NumberUtils;
+import net.etwig.webapp.util.WebReturn;
 
 @RestController
 public class TwigAPIController {

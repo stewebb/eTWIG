@@ -9,7 +9,7 @@ import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import net.grinecraft.etwig.util.exception.InvalidDateFormatException;
+import net.etwig.webapp.util.exception.InvalidDateFormatException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {

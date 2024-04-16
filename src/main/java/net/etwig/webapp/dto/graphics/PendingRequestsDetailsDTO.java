@@ -5,11 +5,11 @@ import java.time.LocalDateTime;
 
 import lombok.Getter;
 import lombok.ToString;
-import net.grinecraft.etwig.dto.events.GraphicsRequestEventInfoDTO;
-import net.grinecraft.etwig.dto.user.UserDTO;
-import net.grinecraft.etwig.model.GraphicsRequest;
-import net.grinecraft.etwig.model.Portfolio;
-import net.grinecraft.etwig.model.UserRole;
+import net.etwig.webapp.dto.events.GraphicsRequestEventInfoDTO;
+import net.etwig.webapp.dto.user.UserDTO;
+import net.etwig.webapp.model.GraphicsRequest;
+import net.etwig.webapp.model.Portfolio;
+import net.etwig.webapp.model.UserRole;
 
 @Getter
 @ToString

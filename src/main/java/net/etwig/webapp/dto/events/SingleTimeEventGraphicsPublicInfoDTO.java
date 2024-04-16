@@ -5,8 +5,8 @@ import java.time.format.DateTimeFormatter;
 
 import lombok.Getter;
 import lombok.ToString;
-import net.grinecraft.etwig.model.Event;
-import net.grinecraft.etwig.model.EventGraphics;
+import net.etwig.webapp.model.Event;
+import net.etwig.webapp.model.EventGraphics;
 
 @Getter
 @ToString

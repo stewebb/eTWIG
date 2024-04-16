@@ -5,9 +5,9 @@ import java.util.Map;
 
 import lombok.Getter;
 import lombok.ToString;
-import net.grinecraft.etwig.model.Event;
-import net.grinecraft.etwig.util.BooleanUtils;
-import net.grinecraft.etwig.util.DateUtils;
+import net.etwig.webapp.model.Event;
+import net.etwig.webapp.util.BooleanUtils;
+import net.etwig.webapp.util.DateUtils;
 
 @Getter
 @ToString

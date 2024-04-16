@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import net.grinecraft.etwig.dto.AssetBasicInfoDTO;
-import net.grinecraft.etwig.model.Asset;
-import net.grinecraft.etwig.services.AssetService;
-import net.grinecraft.etwig.util.WebReturn;
-import net.grinecraft.etwig.util.type.FileCategory;
-import net.grinecraft.etwig.util.type.FileType;
+import net.etwig.webapp.dto.AssetBasicInfoDTO;
+import net.etwig.webapp.model.Asset;
+import net.etwig.webapp.services.AssetService;
+import net.etwig.webapp.util.WebReturn;
+import net.etwig.webapp.util.type.FileCategory;
+import net.etwig.webapp.util.type.FileType;
 
 @RestController
 @RequestMapping(value = "/api/private/")

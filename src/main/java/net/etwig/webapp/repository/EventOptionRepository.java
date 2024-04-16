@@ -14,8 +14,8 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import net.grinecraft.etwig.model.EventOption;
-import net.grinecraft.etwig.model.EventOptionKey;
+import net.etwig.webapp.model.EventOption;
+import net.etwig.webapp.model.EventOptionKey;
 
 @Repository
 public interface EventOptionRepository extends JpaRepository<EventOption, EventOptionKey> {

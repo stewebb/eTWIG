@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.util;
+package net.etwig.webapp.util;
 
 import java.time.LocalDate;
 import org.junit.jupiter.api.Assertions;

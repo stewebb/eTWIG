@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import jakarta.servlet.http.HttpSession;
-import net.grinecraft.etwig.dto.user.UserAccessDTO;
-import net.grinecraft.etwig.dto.user.UserDTO;
-import net.grinecraft.etwig.model.User;
-import net.grinecraft.etwig.model.UserRole;
+import net.etwig.webapp.dto.user.UserAccessDTO;
+import net.etwig.webapp.dto.user.UserDTO;
+import net.etwig.webapp.model.User;
+import net.etwig.webapp.model.UserRole;
 
-import net.grinecraft.etwig.repository.UserRepository;
-import net.grinecraft.etwig.repository.UserRoleRepository;
+import net.etwig.webapp.repository.UserRepository;
+import net.etwig.webapp.repository.UserRoleRepository;
 
 @Component
 public class UserSession {

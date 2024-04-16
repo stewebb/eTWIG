@@ -4,8 +4,8 @@ import java.util.Map;
 
 import lombok.Getter;
 import lombok.ToString;
-import net.grinecraft.etwig.model.TwigTemplate;
-import net.grinecraft.etwig.util.JSONUtils;
+import net.etwig.webapp.model.TwigTemplate;
+import net.etwig.webapp.util.JSONUtils;
 
 @Getter
 @ToString

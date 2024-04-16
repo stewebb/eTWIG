@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 import org.apache.commons.io.FilenameUtils;
 
 import lombok.*;
-import net.grinecraft.etwig.model.Asset;
-import net.grinecraft.etwig.util.type.FileType;
+import net.etwig.webapp.model.Asset;
+import net.etwig.webapp.util.type.FileType;
 
 @Getter
 @ToString

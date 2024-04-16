@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import net.grinecraft.etwig.dto.graphics.PendingRequestsDetailsDTO;
-import net.grinecraft.etwig.services.GraphicsRequestService;
+import net.etwig.webapp.dto.graphics.PendingRequestsDetailsDTO;
+import net.etwig.webapp.services.GraphicsRequestService;
 
 @Controller
 @PostAuthorize("hasAuthority('ROLE_GRAPHICS')")

@@ -11,13 +11,13 @@ package net.etwig.webapp.controller.api;
 
 import java.util.List;
 
-import net.grinecraft.etwig.model.Portfolio;
+import net.etwig.webapp.model.Portfolio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import net.grinecraft.etwig.services.PortfolioService;
+import net.etwig.webapp.services.PortfolioService;
 
 @RestController
 public class PortfolioAPIController {

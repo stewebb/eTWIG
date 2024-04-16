@@ -3,7 +3,7 @@ package net.etwig.webapp.importer;
 import java.io.InputStream;
 import java.util.*;
 
-import net.grinecraft.etwig.dto.events.EventImportDTO;
+import net.etwig.webapp.dto.events.EventImportDTO;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;

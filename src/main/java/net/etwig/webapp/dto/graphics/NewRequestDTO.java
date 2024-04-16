@@ -5,8 +5,8 @@ import java.util.Map;
 
 import lombok.Getter;
 import lombok.ToString;
-import net.grinecraft.etwig.model.GraphicsRequest;
-import net.grinecraft.etwig.util.DateUtils;
+import net.etwig.webapp.model.GraphicsRequest;
+import net.etwig.webapp.util.DateUtils;
 
 @Getter
 @ToString

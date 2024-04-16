@@ -18,11 +18,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import net.grinecraft.etwig.dto.TwigTemplateBasicInfoDTO;
-import net.grinecraft.etwig.dto.TwigTemplateDTO;
-import net.grinecraft.etwig.dto.TwigTemplateDesignDTO;
-import net.grinecraft.etwig.model.TwigTemplate;
-import net.grinecraft.etwig.repository.TwigTemplateRepository;
+import net.etwig.webapp.dto.TwigTemplateBasicInfoDTO;
+import net.etwig.webapp.dto.TwigTemplateDTO;
+import net.etwig.webapp.dto.TwigTemplateDesignDTO;
+import net.etwig.webapp.model.TwigTemplate;
+import net.etwig.webapp.repository.TwigTemplateRepository;
 
 @Service
 public class TwigService {

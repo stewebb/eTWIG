@@ -15,9 +15,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import net.grinecraft.etwig.model.Week;
-import net.grinecraft.etwig.repository.WeekRepository;
-import net.grinecraft.etwig.util.DateUtils;
+import net.etwig.webapp.model.Week;
+import net.etwig.webapp.repository.WeekRepository;
+import net.etwig.webapp.util.DateUtils;
 
 @Service
 public class WeekService {

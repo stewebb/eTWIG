@@ -18,8 +18,8 @@ import org.springframework.stereotype.Component;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import net.grinecraft.etwig.config.ConfigFile;
-import net.grinecraft.etwig.util.UserSession;
+import net.etwig.webapp.config.ConfigFile;
+import net.etwig.webapp.util.UserSession;
 
 @Component
 public class RememberMeService extends TokenBasedRememberMeServices {

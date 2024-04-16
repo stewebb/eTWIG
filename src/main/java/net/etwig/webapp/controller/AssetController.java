@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import net.grinecraft.etwig.model.Asset;
-import net.grinecraft.etwig.services.AssetService;
-import net.grinecraft.etwig.util.type.FileType;
+import net.etwig.webapp.model.Asset;
+import net.etwig.webapp.services.AssetService;
+import net.etwig.webapp.util.type.FileType;
 
 @Controller
 @RequestMapping(value = "/assets")

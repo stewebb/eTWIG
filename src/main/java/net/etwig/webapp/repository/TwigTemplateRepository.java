@@ -16,7 +16,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import net.grinecraft.etwig.model.TwigTemplate;
+import net.etwig.webapp.model.TwigTemplate;
 
 
 @Repository
@@ -49,16 +49,16 @@ public interface TwigTemplateRepository extends JpaRepository<TwigTemplate, Long
     
     /*
     
-    @Query("SELECT new net.grinecraft.etwig.dto.TwigTemplateBasicInfoDTO(t.id, t.name, p.name, t.availableFrom, t.availableTo) " +
+    @Query("SELECT new net.etwig.webapp.dto.TwigTemplateBasicInfoDTO(t.id, t.name, p.name, t.availableFrom, t.availableTo) " +
             "FROM TwigTemplate t LEFT JOIN t.portfolio p")
     public Page<TwigTemplateBasicInfoDTO> findAllTwigTemplates(Pageable pageable);
     
-    @Query("SELECT new net.grinecraft.etwig.dto.TwigTemplateBasicInfoDTO(t.id, t.name, p.name, t.availableFrom, t.availableTo) " +
+    @Query("SELECT new net.etwig.webapp.dto.TwigTemplateBasicInfoDTO(t.id, t.name, p.name, t.availableFrom, t.availableTo) " +
             "FROM TwigTemplate t LEFT JOIN t.portfolio p " +
             "WHERE t.id = :id")
     public Optional<TwigTemplateBasicInfoDTO> findBasicInfoById(long id);
     
-    @Query("SELECT new net.grinecraft.etwig.dto.TwigTemplateDesignDTO(t) " +
+    @Query("SELECT new net.etwig.webapp.dto.TwigTemplateDesignDTO(t) " +
             "FROM TwigTemplate t WHERE t.id = :id")
     public Optional<TwigTemplateDesignDTO> findDesignById(long id);
     */

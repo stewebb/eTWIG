@@ -14,8 +14,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import net.grinecraft.etwig.model.Portfolio;
-import net.grinecraft.etwig.repository.PortfolioRepository;
+import net.etwig.webapp.model.Portfolio;
+import net.etwig.webapp.repository.PortfolioRepository;
 
 @Service
 public class PortfolioService {

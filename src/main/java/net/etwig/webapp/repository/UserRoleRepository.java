@@ -17,8 +17,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
-import net.grinecraft.etwig.dto.PositionDTO;
-import net.grinecraft.etwig.model.UserRole;
+import net.etwig.webapp.dto.PositionDTO;
+import net.etwig.webapp.model.UserRole;
 
 @Repository
 public interface UserRoleRepository extends JpaRepository<UserRole, Long> {
@@ -42,9 +42,9 @@ public interface UserRoleRepository extends JpaRepository<UserRole, Long> {
     
 	Set<UserRole> findByPortfolioId(Long portfolioId);
 	
-	@Query("SELECT new net.grinecraft.etwig.dto.PositionDTO(u) FROM UserRole u WHERE u.userId = :userId")
+	@Query("SELECT new net.etwig.webapp.dto.PositionDTO(u) FROM UserRole u WHERE u.userId = :userId")
 	Set<PositionDTO> getPositionsByUserId(Long userId);
 	
-	@Query("SELECT new net.grinecraft.etwig.dto.PositionDTO(u) FROM UserRole u JOIN u.role r WHERE r.graphicsAccess = true OR r.adminAccess = true")
+	@Query("SELECT new net.etwig.webapp.dto.PositionDTO(u) FROM UserRole u JOIN u.role r WHERE r.graphicsAccess = true OR r.adminAccess = true")
 	Set<PositionDTO> getGraphicsManagers();
 }

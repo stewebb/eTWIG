@@ -2,8 +2,8 @@ package net.etwig.webapp.dto.events;
 
 import lombok.Getter;
 import lombok.ToString;
-import net.grinecraft.etwig.model.Event;
-import net.grinecraft.etwig.model.EventGraphics;
+import net.etwig.webapp.model.Event;
+import net.etwig.webapp.model.EventGraphics;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

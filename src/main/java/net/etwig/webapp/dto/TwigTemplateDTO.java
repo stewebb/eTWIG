@@ -2,7 +2,7 @@ package net.etwig.webapp.dto;
 
 import lombok.Getter;
 import lombok.ToString;
-import net.grinecraft.etwig.model.TwigTemplate;
+import net.etwig.webapp.model.TwigTemplate;
 
 @Getter
 @ToString

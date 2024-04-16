@@ -2,8 +2,8 @@ package net.etwig.webapp.dto;
 
 import lombok.Getter;
 import lombok.ToString;
-import net.grinecraft.etwig.model.Portfolio;
-import net.grinecraft.etwig.model.UserRole;
+import net.etwig.webapp.model.Portfolio;
+import net.etwig.webapp.model.UserRole;
 
 @Getter
 @ToString

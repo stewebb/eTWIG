@@ -14,7 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import net.grinecraft.etwig.services.PortfolioService;
+import net.etwig.webapp.services.PortfolioService;
 
 @Controller
 public class TwigController {

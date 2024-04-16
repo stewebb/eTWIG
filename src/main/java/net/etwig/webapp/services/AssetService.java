@@ -29,12 +29,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import net.grinecraft.etwig.config.ConfigFile;
-import net.grinecraft.etwig.dto.AssetBasicInfoDTO;
-import net.grinecraft.etwig.dto.user.UserDTO;
-import net.grinecraft.etwig.model.Asset;
-import net.grinecraft.etwig.repository.AssetRepository;
-import net.grinecraft.etwig.util.FileUtils;
+import net.etwig.webapp.config.ConfigFile;
+import net.etwig.webapp.dto.AssetBasicInfoDTO;
+import net.etwig.webapp.dto.user.UserDTO;
+import net.etwig.webapp.model.Asset;
+import net.etwig.webapp.repository.AssetRepository;
+import net.etwig.webapp.util.FileUtils;
 
 @Service
 public class AssetService {

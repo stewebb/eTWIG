@@ -6,9 +6,9 @@ import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import net.grinecraft.etwig.model.Role;
-import net.grinecraft.etwig.model.User;
-import net.grinecraft.etwig.model.UserRole;
+import net.etwig.webapp.model.Role;
+import net.etwig.webapp.model.User;
+import net.etwig.webapp.model.UserRole;
 
 public class CustomUserDetails extends org.springframework.security.core.userdetails.User {
 

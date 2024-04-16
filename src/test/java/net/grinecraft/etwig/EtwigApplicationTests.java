@@ -1,4 +1,4 @@
-package net.grinecraft.etwig;
+package net.etwig.webapp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

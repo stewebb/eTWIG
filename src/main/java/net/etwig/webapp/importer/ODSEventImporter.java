@@ -7,7 +7,7 @@ import org.odftoolkit.simple.table.Row;
 import java.util.*;
 import java.io.InputStream;
 
-import net.grinecraft.etwig.dto.events.EventImportDTO;
+import net.etwig.webapp.dto.events.EventImportDTO;
 
 public class ODSEventImporter implements EventImporter {
 

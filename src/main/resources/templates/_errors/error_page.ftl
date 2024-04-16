@@ -78,7 +78,7 @@
 					<#if show_exception_codes?seq_contains(error.status) && error.trace?has_content>
 					
 						<#-- Set the color of eTWIG-related classes to the primary color. -->
-						<#assign trace = error.trace?replace("net.grinecraft.etwig", "<span class='bold-text text-primary'>net.grinecraft.etwig</span>")>
+						<#assign trace = error.trace?replace("net.etwig.webapp", "<span class='bold-text text-primary'>net.etwig.webapp</span>")>
 						<#assign trace = trace?replace("Caused by:", "\n<span class='bold-text text-danger'>Caused by:</span>")>
 						
 						<div clsss="mb-2">

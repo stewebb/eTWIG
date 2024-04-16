@@ -24,16 +24,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import net.grinecraft.etwig.dto.events.EventDetailsDTO;
-import net.grinecraft.etwig.dto.events.RecurringEventBasicInfoDTO;
-import net.grinecraft.etwig.dto.events.SingleTimeEventBasicInfoDTO;
-import net.grinecraft.etwig.model.Portfolio;
-import net.grinecraft.etwig.services.EventOptionService;
-import net.grinecraft.etwig.services.EventService;
-import net.grinecraft.etwig.services.PortfolioService;
-import net.grinecraft.etwig.util.DateUtils;
-import net.grinecraft.etwig.util.NumberUtils;
-import net.grinecraft.etwig.util.WebReturn;
+import net.etwig.webapp.dto.events.EventDetailsDTO;
+import net.etwig.webapp.dto.events.RecurringEventBasicInfoDTO;
+import net.etwig.webapp.dto.events.SingleTimeEventBasicInfoDTO;
+import net.etwig.webapp.model.Portfolio;
+import net.etwig.webapp.services.EventOptionService;
+import net.etwig.webapp.services.EventService;
+import net.etwig.webapp.services.PortfolioService;
+import net.etwig.webapp.util.DateUtils;
+import net.etwig.webapp.util.NumberUtils;
+import net.etwig.webapp.util.WebReturn;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController

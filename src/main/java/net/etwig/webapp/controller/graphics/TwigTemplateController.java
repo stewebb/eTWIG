@@ -6,8 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import net.grinecraft.etwig.services.PortfolioService;
-import net.grinecraft.etwig.services.TwigService;
+import net.etwig.webapp.services.PortfolioService;
+import net.etwig.webapp.services.TwigService;
 
 @Controller
 @Secured({"hasAuthority(ROLE_GRAPHICS)"})

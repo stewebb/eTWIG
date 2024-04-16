@@ -19,9 +19,9 @@ import org.springframework.web.servlet.ModelAndView;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import net.grinecraft.etwig.config.ConfigFile;
-import net.grinecraft.etwig.dto.user.UserAccessDTO;
-import net.grinecraft.etwig.dto.user.UserDTO;
+import net.etwig.webapp.config.ConfigFile;
+import net.etwig.webapp.dto.user.UserAccessDTO;
+import net.etwig.webapp.dto.user.UserDTO;
 
 @Component
 public class EtwigInterceptor implements HandlerInterceptor{

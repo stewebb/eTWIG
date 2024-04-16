@@ -4,7 +4,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
-import net.grinecraft.etwig.dto.events.EventImportDTO;
+import net.etwig.webapp.dto.events.EventImportDTO;
 
 public interface EventImporter {
 	

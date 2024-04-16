@@ -7,20 +7,20 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import net.grinecraft.etwig.dto.events.RecurringEventGraphicsPublicInfoDTO;
-import net.grinecraft.etwig.dto.events.SingleTimeEventGraphicsPublicInfoDTO;
-import net.grinecraft.etwig.dto.graphics.EventGraphicsDetailsDTO;
-import net.grinecraft.etwig.dto.graphics.EventGraphicsListDTO;
-import net.grinecraft.etwig.dto.graphics.NewGraphicsDTO;
-import net.grinecraft.etwig.model.EventGraphics;
-import net.grinecraft.etwig.util.DateUtils;
+import net.etwig.webapp.dto.events.RecurringEventGraphicsPublicInfoDTO;
+import net.etwig.webapp.dto.events.SingleTimeEventGraphicsPublicInfoDTO;
+import net.etwig.webapp.dto.graphics.EventGraphicsDetailsDTO;
+import net.etwig.webapp.dto.graphics.EventGraphicsListDTO;
+import net.etwig.webapp.dto.graphics.NewGraphicsDTO;
+import net.etwig.webapp.model.EventGraphics;
+import net.etwig.webapp.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import net.grinecraft.etwig.repository.EventGraphicsRepository;
+import net.etwig.webapp.repository.EventGraphicsRepository;
 
 @Service
 public class EventGraphicsService {

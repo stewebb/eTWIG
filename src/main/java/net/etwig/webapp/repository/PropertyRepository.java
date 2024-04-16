@@ -13,7 +13,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import net.grinecraft.etwig.model.Property;
+import net.etwig.webapp.model.Property;
 
 @Repository
 public interface PropertyRepository extends JpaRepository<Property, Long> {

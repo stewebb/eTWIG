@@ -21,14 +21,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpSession;
-import net.grinecraft.etwig.dto.PositionWithoutEmailDTO;
-import net.grinecraft.etwig.dto.user.UserDTO;
-import net.grinecraft.etwig.handler.CustomUserDetails;
-import net.grinecraft.etwig.model.Portfolio;
-import net.grinecraft.etwig.model.User;
-import net.grinecraft.etwig.model.UserRole;
-import net.grinecraft.etwig.repository.UserRepository;
-import net.grinecraft.etwig.repository.UserRoleRepository;
+import net.etwig.webapp.dto.PositionWithoutEmailDTO;
+import net.etwig.webapp.dto.user.UserDTO;
+import net.etwig.webapp.handler.CustomUserDetails;
+import net.etwig.webapp.model.Portfolio;
+import net.etwig.webapp.model.User;
+import net.etwig.webapp.model.UserRole;
+import net.etwig.webapp.repository.UserRepository;
+import net.etwig.webapp.repository.UserRoleRepository;
 
 @Service
 public class UserRoleService implements UserDetailsService{

@@ -17,7 +17,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
-import net.grinecraft.etwig.model.Portfolio;
+import net.etwig.webapp.model.Portfolio;
 
 @Repository
 public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {

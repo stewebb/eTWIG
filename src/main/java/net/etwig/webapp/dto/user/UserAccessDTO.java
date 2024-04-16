@@ -4,8 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import lombok.*;
-import net.grinecraft.etwig.model.Role;
-import net.grinecraft.etwig.model.UserRole;
+import net.etwig.webapp.model.Role;
+import net.etwig.webapp.model.UserRole;
 
 @Getter
 @ToString

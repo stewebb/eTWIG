@@ -5,9 +5,9 @@ import java.util.Map;
 
 import lombok.Getter;
 import lombok.ToString;
-import net.grinecraft.etwig.model.GraphicsRequest;
-import net.grinecraft.etwig.util.BooleanUtils;
-import net.grinecraft.etwig.util.NumberUtils;
+import net.etwig.webapp.model.GraphicsRequest;
+import net.etwig.webapp.util.BooleanUtils;
+import net.etwig.webapp.util.NumberUtils;
 
 @Getter
 @ToString

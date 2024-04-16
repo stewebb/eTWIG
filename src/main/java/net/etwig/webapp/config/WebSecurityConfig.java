@@ -21,10 +21,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 
-import net.grinecraft.etwig.handler.CustomAuthenticationEntryPoint;
-import net.grinecraft.etwig.handler.LoginSuccessHandler;
-import net.grinecraft.etwig.services.RememberMeService;
-import net.grinecraft.etwig.services.UserRoleService;
+import net.etwig.webapp.handler.CustomAuthenticationEntryPoint;
+import net.etwig.webapp.handler.LoginSuccessHandler;
+import net.etwig.webapp.services.RememberMeService;
+import net.etwig.webapp.services.UserRoleService;
 
 @SuppressWarnings("deprecation")
 @Configuration

@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import net.grinecraft.etwig.dto.PositionDTO;
-import net.grinecraft.etwig.dto.PositionWithoutEmailDTO;
-import net.grinecraft.etwig.model.User;
-import net.grinecraft.etwig.services.UserRoleService;
-import net.grinecraft.etwig.util.WebReturn;
+import net.etwig.webapp.dto.PositionDTO;
+import net.etwig.webapp.dto.PositionWithoutEmailDTO;
+import net.etwig.webapp.model.User;
+import net.etwig.webapp.services.UserRoleService;
+import net.etwig.webapp.util.WebReturn;
 
 @RestController
 @RequestMapping(value = "/api/private/")

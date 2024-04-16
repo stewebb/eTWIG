@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import net.grinecraft.etwig.model.GraphicsRequest;
+import net.etwig.webapp.model.GraphicsRequest;
 
 public interface GraphicsRequestRepository extends JpaRepository <GraphicsRequest, Long>  {
 

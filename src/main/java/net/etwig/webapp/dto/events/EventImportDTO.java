@@ -2,7 +2,7 @@ package net.etwig.webapp.dto.events;
 
 import lombok.Data;
 import lombok.ToString;
-import net.grinecraft.etwig.model.Event;
+import net.etwig.webapp.model.Event;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;

@@ -2,7 +2,7 @@ package net.etwig.webapp.dto.user;
 
 import lombok.Getter;
 import lombok.ToString;
-import net.grinecraft.etwig.model.User;
+import net.etwig.webapp.model.User;
 
 @Getter
 @ToString

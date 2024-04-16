@@ -17,7 +17,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import net.grinecraft.etwig.model.Event;
+import net.etwig.webapp.model.Event;
 
 public interface EventRepository extends JpaRepository<Event, Long>{
 	

@@ -1,9 +1,9 @@
 package net.etwig.webapp.controller.graphics;
 
-import net.grinecraft.etwig.dto.events.GraphicsRequestEventInfoDTO;
-import net.grinecraft.etwig.dto.graphics.PendingRequestsDetailsDTO;
-import net.grinecraft.etwig.services.EventGraphicsService;
-import net.grinecraft.etwig.services.EventService;
+import net.etwig.webapp.dto.events.GraphicsRequestEventInfoDTO;
+import net.etwig.webapp.dto.graphics.PendingRequestsDetailsDTO;
+import net.etwig.webapp.services.EventGraphicsService;
+import net.etwig.webapp.services.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.access.annotation.Secured;

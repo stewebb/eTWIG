@@ -12,18 +12,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import net.grinecraft.etwig.services.GraphicsRequestService;
-import net.grinecraft.etwig.services.PortfolioService;
-import net.grinecraft.etwig.dto.events.EventDetailsDTO;
-import net.grinecraft.etwig.dto.graphics.FinalizedRequestsBasicInfoDTO;
-import net.grinecraft.etwig.dto.graphics.NewRequestEmailNotificationDTO;
-import net.grinecraft.etwig.dto.graphics.PendingRequestsBasicInfoDTO;
-import net.grinecraft.etwig.model.GraphicsRequest;
-import net.grinecraft.etwig.model.Portfolio;
-import net.grinecraft.etwig.services.EmailService;
-import net.grinecraft.etwig.services.EventService;
-import net.grinecraft.etwig.util.NumberUtils;
-import net.grinecraft.etwig.util.WebReturn;
+import net.etwig.webapp.services.GraphicsRequestService;
+import net.etwig.webapp.services.PortfolioService;
+import net.etwig.webapp.dto.events.EventDetailsDTO;
+import net.etwig.webapp.dto.graphics.FinalizedRequestsBasicInfoDTO;
+import net.etwig.webapp.dto.graphics.NewRequestEmailNotificationDTO;
+import net.etwig.webapp.dto.graphics.PendingRequestsBasicInfoDTO;
+import net.etwig.webapp.model.GraphicsRequest;
+import net.etwig.webapp.model.Portfolio;
+import net.etwig.webapp.services.EmailService;
+import net.etwig.webapp.services.EventService;
+import net.etwig.webapp.util.NumberUtils;
+import net.etwig.webapp.util.WebReturn;
 
 @RestController
 @RequestMapping(value = "/api/private/")

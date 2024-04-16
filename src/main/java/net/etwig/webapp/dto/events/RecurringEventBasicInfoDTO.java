@@ -3,7 +3,7 @@ package net.etwig.webapp.dto.events;
 import java.time.LocalTime;
 
 import lombok.*;
-import net.grinecraft.etwig.model.Event;
+import net.etwig.webapp.model.Event;
 
 @Getter
 @ToString

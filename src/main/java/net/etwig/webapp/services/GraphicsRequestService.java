@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import net.grinecraft.etwig.dto.graphics.*;
-import net.grinecraft.etwig.model.EventGraphics;
-import net.grinecraft.etwig.repository.EventGraphicsRepository;
+import net.etwig.webapp.dto.graphics.*;
+import net.etwig.webapp.model.EventGraphics;
+import net.etwig.webapp.repository.EventGraphicsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,9 +16,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
-import net.grinecraft.etwig.model.GraphicsRequest;
-import net.grinecraft.etwig.repository.GraphicsRequestRepository;
-import net.grinecraft.etwig.util.MapUtils;
+import net.etwig.webapp.model.GraphicsRequest;
+import net.etwig.webapp.repository.GraphicsRequestRepository;
+import net.etwig.webapp.util.MapUtils;
 
 @Service
 public class GraphicsRequestService {
