@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.dto.events;
+package net.etwig.webapp.dto.events;
 
 import java.time.LocalDateTime;
 import java.util.Map;

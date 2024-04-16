@@ -7,7 +7,7 @@
 	* @function: The class that mapping to "twig_template" table in the database.
 	*/
 
-package net.grinecraft.etwig.model;
+package net.etwig.webapp.model;
 
 import java.time.LocalDate;
 

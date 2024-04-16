@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.importer;
+package net.etwig.webapp.importer;
 
 import org.odftoolkit.simple.SpreadsheetDocument;
 import org.odftoolkit.simple.table.Table;

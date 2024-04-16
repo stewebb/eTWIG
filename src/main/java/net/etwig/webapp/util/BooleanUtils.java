@@ -7,7 +7,7 @@
 	* @function: All utilities for Boolean, based on Apache Commons. 
 	*/
 
-package net.grinecraft.etwig.util;
+package net.etwig.webapp.util;
 
 public class BooleanUtils extends org.apache.commons.lang3.BooleanUtils{
 

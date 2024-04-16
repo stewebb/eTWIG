@@ -7,7 +7,7 @@
 	* @function: Utilities for returns in the controllers.
 	*/
 
-package net.grinecraft.etwig.util;
+package net.etwig.webapp.util;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

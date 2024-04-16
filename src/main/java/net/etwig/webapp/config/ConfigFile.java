@@ -7,7 +7,7 @@
  	* @function: Get the values from the configuration file.
  	*/
 
-package net.grinecraft.etwig.config;
+package net.etwig.webapp.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

@@ -7,7 +7,7 @@
 	* @function: The services for all event-related options.
 	*/
 
-package net.grinecraft.etwig.services;
+package net.etwig.webapp.services;
 
 import java.io.InputStream;
 import java.time.LocalDate;

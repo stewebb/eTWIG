@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.importer;
+package net.etwig.webapp.importer;
 
 import java.io.InputStream;
 import java.util.List;

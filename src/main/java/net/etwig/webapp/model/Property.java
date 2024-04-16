@@ -7,7 +7,7 @@
 	* @function: The class that mapping to "property" table in the database.
 	*/
 
-package net.grinecraft.etwig.model;
+package net.etwig.webapp.model;
 
 import jakarta.persistence.*;
 import lombok.*;

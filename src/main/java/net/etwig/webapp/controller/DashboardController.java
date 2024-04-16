@@ -7,7 +7,7 @@
  	* @function: The controller for the dashboard (main) page.
  	*/
 
-package net.grinecraft.etwig.controller;
+package net.etwig.webapp.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;  
 import org.springframework.stereotype.Controller;

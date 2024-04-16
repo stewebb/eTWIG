@@ -7,7 +7,7 @@
 	* @function: The repository for Property model.
 	*/
 
-package net.grinecraft.etwig.repository;
+package net.etwig.webapp.repository;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;

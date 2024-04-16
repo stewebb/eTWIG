@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.handler;
+package net.etwig.webapp.handler;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.controller.graphics;
+package net.etwig.webapp.controller.graphics;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;

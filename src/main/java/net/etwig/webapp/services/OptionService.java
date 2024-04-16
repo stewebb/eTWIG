@@ -7,7 +7,7 @@
 	* @function: The services for all option-related options.
 	*/
 
-package net.grinecraft.etwig.services;
+package net.etwig.webapp.services;
 
 import java.util.LinkedHashMap;
 import java.util.List;

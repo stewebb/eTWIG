@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.services;
+package net.etwig.webapp.services;
 
 import java.time.LocalDate;
 import java.util.LinkedHashMap;

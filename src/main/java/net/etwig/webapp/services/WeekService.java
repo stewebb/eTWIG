@@ -7,7 +7,7 @@
 	* @function: The services for all week related options.
 	*/
 
-package net.grinecraft.etwig.services;
+package net.etwig.webapp.services;
 
 import java.time.LocalDate;
 import java.util.Optional;

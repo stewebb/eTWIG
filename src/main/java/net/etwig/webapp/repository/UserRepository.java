@@ -7,7 +7,7 @@
 	* @function: The repository for User model.
 	*/
 
-package net.grinecraft.etwig.repository;
+package net.etwig.webapp.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

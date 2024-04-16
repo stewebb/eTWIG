@@ -7,7 +7,7 @@
  	* @function: The security configuration for eTWIG platform.
  	*/
 
-package net.grinecraft.etwig.config;
+package net.etwig.webapp.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

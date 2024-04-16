@@ -7,7 +7,7 @@
  	* @function: Configure the cookies.
  */
 
-package net.grinecraft.etwig.config;
+package net.etwig.webapp.config;
 
 import org.springframework.boot.web.servlet.server.CookieSameSiteSupplier;
 import org.springframework.context.annotation.Bean;

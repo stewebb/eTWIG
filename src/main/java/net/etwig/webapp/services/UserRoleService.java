@@ -7,7 +7,7 @@
 	* @function: The services for all user-role options.
 	*/
 
-package net.grinecraft.etwig.services;
+package net.etwig.webapp.services;
 
 import java.util.Set;
 import java.util.stream.Collectors;

@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.services;
+package net.etwig.webapp.services;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;

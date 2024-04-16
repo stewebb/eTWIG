@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.handler;
+package net.etwig.webapp.handler;
 
 import java.io.IOException;
 

@@ -7,7 +7,7 @@
 	* @function: The repository for UserRole model.
 	*/
 
-package net.grinecraft.etwig.repository;
+package net.etwig.webapp.repository;
 
 import java.util.List;
 

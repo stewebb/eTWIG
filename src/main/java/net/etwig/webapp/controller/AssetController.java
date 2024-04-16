@@ -7,7 +7,7 @@
  	* @function: The controller for public assets.
  	*/
 
-package net.grinecraft.etwig.controller;
+package net.etwig.webapp.controller;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.BooleanUtils;

@@ -7,7 +7,7 @@
 	* @function: The controller for all events related APIs.
  */
 
-package net.grinecraft.etwig.controller.api;
+package net.etwig.webapp.controller.api;
 
 import java.io.IOException;
 import java.util.HashSet;

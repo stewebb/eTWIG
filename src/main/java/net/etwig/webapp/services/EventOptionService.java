@@ -7,7 +7,7 @@
 	* @function: The services for all event-options related options..
 	*/
 
-package net.grinecraft.etwig.services;
+package net.etwig.webapp.services;
 
 import java.util.HashSet;
 import java.util.List;

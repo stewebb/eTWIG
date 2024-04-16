@@ -7,7 +7,7 @@
 	* @function: The services for all assets-related options.
 	*/
 
-package net.grinecraft.etwig.services;
+package net.etwig.webapp.services;
 
 import java.io.File;
 import java.io.IOException;

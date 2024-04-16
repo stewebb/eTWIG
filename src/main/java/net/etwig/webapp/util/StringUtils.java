@@ -7,7 +7,7 @@
 	* @function: All utilities for String, based on Apache Commons. 
 	*/
 
-package net.grinecraft.etwig.util;
+package net.etwig.webapp.util;
 
 public class StringUtils extends org.apache.commons.lang3.StringUtils {
 

@@ -7,7 +7,7 @@
 	* @function: The class that mapping to "user" table in the database.
 	*/
 
-package net.grinecraft.etwig.model;
+package net.etwig.webapp.model;
 
 import java.time.LocalDateTime;
 

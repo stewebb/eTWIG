@@ -7,7 +7,7 @@
 	* @function: All utilities for Maps.
 	*/
 
-package net.grinecraft.etwig.util;
+package net.etwig.webapp.util;
 
 import java.util.LinkedHashMap;
 import java.util.List;

@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.controller.api;
+package net.etwig.webapp.controller.api;
 
 import net.grinecraft.etwig.dto.events.EventDetailsDTO;
 import net.grinecraft.etwig.dto.graphics.EventGraphicsListDTO;

@@ -7,7 +7,7 @@
 	 * @function: File extension and the MINE type/Category mappings.
 	 */
 
-package net.grinecraft.etwig.util.type;
+package net.etwig.webapp.util.type;
 
 import org.springframework.http.MediaType;
 

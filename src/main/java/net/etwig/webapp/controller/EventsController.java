@@ -7,7 +7,7 @@
  	* @function: The controller for add/edit/delete event.
  */
 
-package net.grinecraft.etwig.controller;
+package net.etwig.webapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;

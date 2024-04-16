@@ -7,7 +7,7 @@
 	* @function: File categories.
 	*/
 
-package net.grinecraft.etwig.util.type;
+package net.etwig.webapp.util.type;
 
 public enum FileCategory {
 	APPLICATION,

@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.util;
+package net.etwig.webapp.util;
 
 import java.util.Set;
 

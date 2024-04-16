@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.handler;
+package net.etwig.webapp.handler;
 
 import java.util.Collection;
 import java.util.HashSet;

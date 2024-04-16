@@ -7,7 +7,7 @@
  	* @function: The handler after authentication success.
  	*/
 
-package net.grinecraft.etwig.handler;
+package net.etwig.webapp.handler;
 
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;

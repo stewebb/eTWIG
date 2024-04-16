@@ -7,7 +7,7 @@
 	* @function: All utilities for numbers, based on Apache Commons. 
 	*/
 
-package net.grinecraft.etwig.util;
+package net.etwig.webapp.util;
 
 public class NumberUtils extends org.apache.commons.lang3.math.NumberUtils{
 	

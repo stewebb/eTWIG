@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.dto;
+package net.etwig.webapp.dto;
 
 import java.time.LocalDateTime;
 

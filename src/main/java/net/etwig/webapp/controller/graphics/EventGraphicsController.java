@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.controller.graphics;
+package net.etwig.webapp.controller.graphics;
 
 import net.grinecraft.etwig.dto.events.GraphicsRequestEventInfoDTO;
 import net.grinecraft.etwig.dto.graphics.PendingRequestsDetailsDTO;

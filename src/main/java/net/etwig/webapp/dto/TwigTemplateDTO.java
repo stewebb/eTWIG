@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.dto;
+package net.etwig.webapp.dto;
 
 import lombok.Getter;
 import lombok.ToString;

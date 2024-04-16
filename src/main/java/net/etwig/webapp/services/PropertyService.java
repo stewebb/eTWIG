@@ -7,7 +7,7 @@
 	* @function: The services for all portfolio-related options..
 	*/
 
-package net.grinecraft.etwig.services;
+package net.etwig.webapp.services;
 
 import java.util.LinkedHashMap;
 import org.springframework.beans.factory.annotation.Autowired;

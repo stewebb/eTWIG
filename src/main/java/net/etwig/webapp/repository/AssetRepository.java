@@ -7,7 +7,7 @@
 	* @function: The repository for Asset model.
 	*/
 
-package net.grinecraft.etwig.repository;
+package net.etwig.webapp.repository;
 
 import java.util.Optional;
 

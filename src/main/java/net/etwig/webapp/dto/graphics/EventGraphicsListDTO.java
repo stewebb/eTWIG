@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.dto.graphics;
+package net.etwig.webapp.dto.graphics;
 
 import lombok.*;
 import java.time.LocalDateTime;

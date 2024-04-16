@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.services;
+package net.etwig.webapp.services;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

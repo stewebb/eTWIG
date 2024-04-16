@@ -7,7 +7,7 @@
 	* @function: All utilities for date and time, based on Apache Commons. 
 	*/
 
-package net.grinecraft.etwig.util;
+package net.etwig.webapp.util;
 
 import java.time.*;
 import java.time.Duration;

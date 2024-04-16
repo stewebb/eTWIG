@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.util.exception;
+package net.etwig.webapp.util.exception;
 
 public class InvalidDateFormatException extends RuntimeException {
     private static final long serialVersionUID = 1L;

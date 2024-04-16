@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.dto.user;
+package net.etwig.webapp.dto.user;
 
 import java.util.HashSet;
 import java.util.Set;

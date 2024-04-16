@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.controller.api;
+package net.etwig.webapp.controller.api;
 
 import java.util.Map;
 

@@ -7,7 +7,7 @@
 	* @function: The repository for Event model.
 	*/
 
-package net.grinecraft.etwig.repository;
+package net.etwig.webapp.repository;
 
 import java.time.LocalDate;
 import java.util.List;

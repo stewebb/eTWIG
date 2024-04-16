@@ -1,4 +1,4 @@
-package net.grinecraft.etwig.dto.events;
+package net.etwig.webapp.dto.events;
 
 import lombok.Getter;
 import lombok.ToString;

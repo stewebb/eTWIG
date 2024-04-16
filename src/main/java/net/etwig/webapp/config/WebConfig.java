@@ -7,7 +7,7 @@
  	* @function: The general configuration for eTWIG platform.
  	*/
 
-package net.grinecraft.etwig.config;
+package net.etwig.webapp.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +18,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import net.grinecraft.etwig.EtwigInterceptor;
+import net.etwig.webapp.EtwigInterceptor;
 
 import java.util.concurrent.TimeUnit;
 
