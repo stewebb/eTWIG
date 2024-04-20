@@ -1,8 +1,8 @@
 package net.etwig.webapp.controller.api;
 
-import net.etwig.webapp.util.InvalidActionException;
+import net.etwig.webapp.services.EventService;
 import net.etwig.webapp.util.ResourceAPI;
-import net.etwig.webapp.util.type.APIMode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,9 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/nsRest/private/")
-public class EventAPIController implements ResourceAPI {
+public class EventAPIController {
+
+    @Autowired
+    private EventService eventService;
 
     // NS = Not Standard
+
+    /*
     @Override
     public Object add() {
         return null;
@@ -42,5 +47,43 @@ public class EventAPIController implements ResourceAPI {
             case REMOVE -> remove();
             default -> throw new InvalidActionException(action);
         };
+    }
+
+     */
+
+    /**
+     * Add
+     * @param eventId
+     * @return
+     */
+    @GetMapping("/event/add")
+    public Object add(@RequestParam Long eventId) {
+        return null;
+    }
+
+    @GetMapping("/event/edit")
+    public Object edit(@RequestParam Long eventId) {
+        return null;
+    }
+
+    /**
+     * View the detail of an event.
+     * @param eventId The ID of the event.
+     * @return The event details according to the ID, if not found, return null;
+     */
+
+    @GetMapping("/event/view")
+    public Object view(@RequestParam Long eventId) {
+        return eventService.findById(eventId);
+    }
+
+    @GetMapping("/event/remove")
+    public Object remove(@RequestParam Long eventId) {
+        return null;
+    }
+
+    @GetMapping("/event/search")
+    public Object search(@RequestParam Long search) {
+        return null;
     }
 }
