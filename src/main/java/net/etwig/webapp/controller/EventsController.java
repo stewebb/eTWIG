@@ -51,7 +51,7 @@ public class EventsController {
 	 * Event calendar page.
 	 */
 	
-	@GetMapping("/calendar")  
+	@GetMapping("/calendar.do")
 	public String calendar(Model model){
 		model.addAttribute("portfolios", portfolioService.getAllPortfolioList());
 		return "events/calendar";
@@ -62,7 +62,7 @@ public class EventsController {
 	 */
 	
 	//@PostAuthorize("hasAuthority('ROLE_EVENTS')")
-	@RequestMapping("/edit")  
+	@RequestMapping("/edit.do")
 	public String edit(Model model){
 		System.out.println(optionService.findAllGroupByProperties());
 		model.addAttribute("allProperties", propertyService.findAll());		
@@ -71,7 +71,7 @@ public class EventsController {
 	}
 	
 	@PostAuthorize("hasAuthority('ROLE_EVENTS')")
-	@GetMapping("/graphics")  
+	@GetMapping("/graphics.do")
 	public String graphics(Model model, @RequestParam Long eventId) throws Exception{
 		
 		// Get event info and existence check.
@@ -93,7 +93,7 @@ public class EventsController {
 		return "events/graphics";
 	}
 	
-	@GetMapping("/import")  
+	@GetMapping("/import.do")
 	public String importEvent(Model model){
 		//model.addAttribute("portfolios", portfolioService.getAllPortfolioList());
 		return "events/import";

@@ -1,12 +1,17 @@
 package net.etwig.webapp.controller.api;
 
+import net.etwig.webapp.dto.events.EventDetailsDTO;
+import net.etwig.webapp.model.Portfolio;
 import net.etwig.webapp.services.EventService;
+import net.etwig.webapp.services.PortfolioService;
+import net.etwig.webapp.util.NumberUtils;
+import net.etwig.webapp.util.PortfolioMismatchException;
 import net.etwig.webapp.util.ResourceAPI;
+import net.etwig.webapp.util.WebReturn;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/nsRest/private/")
@@ -15,55 +20,48 @@ public class EventAPIController {
     @Autowired
     private EventService eventService;
 
+    @Autowired
+    private PortfolioService portfolioService;
+
     // NS = Not Standard
 
-    /*
-    @Override
-    public Object add() {
-        return null;
-    }
-
-    @Override
-    public Object edit() {
-        return null;
-    }
-
-    @Override
-    public Object view() {
-        return null;
-    }
-
-    @Override
-    public Object remove() {
-        return null;
-    }
-
-    @GetMapping("/event")
-    public Object event(@RequestParam String action, @RequestParam Long eventId){
-        return switch (APIMode.fromString(action)) {
-            case ADD -> add();
-            case EDIT -> edit();
-            case VIEW -> view();
-            case REMOVE -> remove();
-            default -> throw new InvalidActionException(action);
-        };
-    }
-
-     */
-
     /**
-     * Add
-     * @param eventId
-     * @return
+     * Add an event into database
+     * @param eventInfo The new event payload, from front-end
+     * @return Success message if event added.
      */
+
     @GetMapping("/event/add")
-    public Object add(@RequestParam Long eventId) {
-        return null;
+    public Map<String, Object> add(@RequestBody Map<String, Object> eventInfo) {
+        eventService.editEvent(eventInfo, null);
+        return WebReturn.errorMsg("Event added successfully.", true);
     }
 
     @GetMapping("/event/edit")
-    public Object edit(@RequestParam Long eventId) {
-        return null;
+    public Map<String, Object> edit(@RequestBody Map<String, Object> eventInfo) throws Exception {
+
+        // eventId check, stop proceeding when it is invalid or negative.
+        Long eventId = NumberUtils.safeCreateLong(eventInfo.get("id").toString());
+        if(eventId == null || eventId <= 0) {
+            return WebReturn.errorMsg("EventId is invalid.", false);
+        }
+
+        // Event search, stop proceeding when it doesn't exist.
+        EventDetailsDTO event = eventService.findById(eventId);
+        if(event == null) {
+            return WebReturn.errorMsg("The event with id=" + eventId + " does not exist.", false);
+        }
+
+        // Event exist, edit mode. But check permission in the backend again.
+        Portfolio eventPortfolio = portfolioService.getPortfolioById(event.getPortfolioId());
+        if(!eventService.eventEditPermissionCheck(eventPortfolio)) {
+            //return WebReturn.errorMsg("You don't have permission to edit event.", false);
+            throw new PortfolioMismatchException(eventPortfolio.getName());
+        }
+
+        // Edit event in the DB.
+        eventService.editEvent(eventInfo, event);
+        return WebReturn.errorMsg(null, true);
     }
 
     /**
@@ -79,11 +77,8 @@ public class EventAPIController {
 
     @GetMapping("/event/remove")
     public Object remove(@RequestParam Long eventId) {
-        return null;
-    }
-
-    @GetMapping("/event/search")
-    public Object search(@RequestParam Long search) {
+        // TODO Soft remove: Hide the event but can be restored.
+        // TODO Hard remove: Remove event from DB permanently.
         return null;
     }
 }

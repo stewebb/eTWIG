@@ -132,7 +132,7 @@ public class EventService {
 	 */
 	
 	@SuppressWarnings("null")
-	public void editEvent(Map<String, Object> eventInfo, EventDetailsDTO currentEvent) throws Exception {
+	public void editEvent(Map<String, Object> eventInfo, EventDetailsDTO currentEvent){
 		
 		// Add event
 		AddEditEventDTO newEventDTO = new AddEditEventDTO(eventInfo, currentEvent);
