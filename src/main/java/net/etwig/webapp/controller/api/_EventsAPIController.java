@@ -9,7 +9,6 @@
 
 package net.etwig.webapp.controller.api;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -38,7 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/private/")  
-public class EventsAPIController {
+public class _EventsAPIController {
 
 	@Autowired
 	private EventService eventService;
