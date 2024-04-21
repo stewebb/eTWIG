@@ -1,8 +1,7 @@
-package net.etwig.webapp.controller.graphics;
+package net.etwig.webapp.controller.pages;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

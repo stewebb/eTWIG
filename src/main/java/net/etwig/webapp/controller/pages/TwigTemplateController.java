@@ -1,4 +1,4 @@
-package net.etwig.webapp.controller.graphics;
+package net.etwig.webapp.controller.pages;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;

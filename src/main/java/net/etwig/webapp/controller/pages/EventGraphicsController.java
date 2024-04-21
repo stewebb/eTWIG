@@ -1,7 +1,6 @@
-package net.etwig.webapp.controller.graphics;
+package net.etwig.webapp.controller.pages;
 
 import net.etwig.webapp.dto.events.GraphicsRequestEventInfoDTO;
-import net.etwig.webapp.dto.graphics.PendingRequestsDetailsDTO;
 import net.etwig.webapp.services.EventGraphicsService;
 import net.etwig.webapp.services.EventService;
 import org.springframework.beans.factory.annotation.Autowired;

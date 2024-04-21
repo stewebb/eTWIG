@@ -7,7 +7,7 @@
  	* @function: The controller for public TWIG.
  	*/
 
-package net.etwig.webapp.controller;
+package net.etwig.webapp.controller.pages;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
