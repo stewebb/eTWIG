@@ -9,23 +9,28 @@
 
 package net.etwig.webapp.controller.pages;
 
-import org.springframework.web.bind.annotation.RequestMapping;  
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 @Controller
-public class DashboardController {
-	
+@RequestMapping("/graphics")
+public class HomePageController {
+
 	/**
-	 * The dashboard page
-	 * @param model
-	 * @return
-	 * @throws Exception
-	 * @Permissions ALL FULL
+	 * The root location, redirect to index page.
+	 * @location /
+	 * @permission All users, including visitors
 	 */
+
+	@GetMapping("/")
+	public String root(){
+		return "redirect:/index.do";
+	}
 	
 	@RequestMapping("/")  
-	public String home(Model model) throws Exception{
+	public String index(Model model) throws Exception{
 		return "dashboard";
 	}
 }

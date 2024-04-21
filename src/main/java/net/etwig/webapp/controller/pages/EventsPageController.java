@@ -103,7 +103,7 @@ public class EventsPageController {
 	/**
 	 * Graphics request page
 	 * @location /events/graphics.do
-	 * @permission Event managers only
+	 * @permission Those who has event management permission.
 	 */
 
 	@PostAuthorize("hasAuthority('ROLE_EVENTS')")
@@ -134,8 +134,11 @@ public class EventsPageController {
 	/**
 	 * Event (bulky) import page, which allows users to import multiple events simultaneously (via an EXCEL/ODS file).
 	 * @location /events/import.do
+	 * @permission Those who has event management permission.
 	 */
+
 	@GetMapping("/import.do")
+	@PostAuthorize("hasAuthority('ROLE_EVENTS')")
 	public String importEvent(Model model){
 		//model.addAttribute("portfolios", portfolioService.getAllPortfolioList());
 		return "events/import";
