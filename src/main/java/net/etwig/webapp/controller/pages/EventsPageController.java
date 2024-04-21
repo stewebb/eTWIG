@@ -27,7 +27,7 @@ import net.etwig.webapp.services.UserRoleService;
 
 @Controller
 @RequestMapping("/events")
-public class EventsController {
+public class EventsPageController {
 
 	@Autowired
 	private PropertyService propertyService;
@@ -46,9 +46,35 @@ public class EventsController {
 	
 	@Autowired
 	private PortfolioService portfolioService;
+
+	/**
+	 * The root location, redirect to index page.
+	 * @location /events/
+	 * @permission All logged in users
+	 */
+
+	@GetMapping("/")
+	public String root(){
+		return "redirect:/index.do";
+	}
+
+	/**
+	 * Event index page.
+	 * @location /events/index.do
+	 * @permission All logged in users
+	 */
+
+	@GetMapping("index.do")
+	public String index(Model model){
+
+		// TODO Make an index page for events
+		return null;
+	}
 	
 	/**
 	 * Event calendar page.
+	 * @location /events/calendar.do
+	 * @permission All logged in users
 	 */
 	
 	@GetMapping("/calendar.do")
@@ -58,21 +84,33 @@ public class EventsController {
 	}
 	
 	/**
-	 * Add/Edit event page.
+	 * Add/View/Edit event page.
+	 * @location /events/edit.do
+	 * @permission All logged in users
 	 */
 	
-	//@PostAuthorize("hasAuthority('ROLE_EVENTS')")
 	@RequestMapping("/edit.do")
 	public String edit(Model model){
-		System.out.println(optionService.findAllGroupByProperties());
+
+		// TODO Add, edit share a template, but different url
+		// TODO Add a "view only" page, then set the permission of old pages to "event manager only"
+		//System.out.println(optionService.findAllGroupByProperties());
 		model.addAttribute("allProperties", propertyService.findAll());		
         model.addAttribute("allOptions", optionService.findAllGroupByProperties());	
 		return "events/edit";
 	}
-	
+
+	/**
+	 * Graphics request page
+	 * @location /events/graphics.do
+	 * @permission Event managers only
+	 */
+
 	@PostAuthorize("hasAuthority('ROLE_EVENTS')")
 	@GetMapping("/graphics.do")
 	public String graphics(Model model, @RequestParam Long eventId) throws Exception{
+
+		// TODO Incorporate the banner request page into event page.
 		
 		// Get event info and existence check.
 		GraphicsRequestEventInfoDTO event = eventService.findEventsForGraphicsRequestById(eventId);
@@ -92,7 +130,11 @@ public class EventsController {
 		model.addAttribute("myPortfolios", userRoleService.getMyPortfolios());
 		return "events/graphics";
 	}
-	
+
+	/**
+	 * Event (bulky) import page, which allows users to import multiple events simultaneously (via an EXCEL/ODS file).
+	 * @location /events/import.do
+	 */
 	@GetMapping("/import.do")
 	public String importEvent(Model model){
 		//model.addAttribute("portfolios", portfolioService.getAllPortfolioList());
