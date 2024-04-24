@@ -7,7 +7,7 @@
 	* @function: The controller for user authentication - mainly login and logout.
 	*/
 
-package net.etwig.webapp;
+package net.etwig.webapp.controller.pages;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,23 +16,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/user")
-public class UserController {
-	
+public class UserPageController {
+
 	/**
-	 * The login page.
-	 * @param model
-	 * @return
-	 * @throws Exception
-	 * @Permissions PUBLIC ACCESS
+	 * The login page
+	 * @location /user/login.do
+	 * @permission All users, including visitors
 	 */
 	
-    @GetMapping("/login")
+    @GetMapping("/login.do")
     public String login(Model model) {
 		return "user/login";
     }
-    
-    @GetMapping("/profile")
+
+	/**
+	 * The user profile page.
+	 * @location /user/index.do
+	 * @permission All logged in users
+	 */
+	@GetMapping("/index.do")
     public String profile(Model model) {
-		return "user/profile";  	
+		return "user/profile";
     }
 }

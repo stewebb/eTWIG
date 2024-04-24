@@ -37,7 +37,7 @@ function createCalendar(elem, currentMonth){
 
 		// Click the event, go to the edit page.
     	eventClick: function (info) {
-			$(location).attr('href', '/events/edit?eventId=' + info.event.id);
+			$(location).attr('href', '/events/edit.do?eventId=' + info.event.id);
 		},
     	dayMaxEvents: true,
     	nowIndicator: true,

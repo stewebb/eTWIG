@@ -37,7 +37,7 @@ function getEventInfo(datePickersMap){
 	var isEdit = pageName.includes("edit");
 	$('#isEdit').val(isEdit ? 1 : -1);
     
-	// Parameter check in edit mode.
+	// Set edit options
 	if(isEdit){
 
 		var eventInfo;
@@ -113,6 +113,7 @@ function getEventInfo(datePickersMap){
 		// Set title.
 		$('#eventPageTitle').text('Edit Event: ' + eventInfo.name);
 		$('#eventPageLink').text('Edit Event');
+		$('#eventPageLink').attr('href', '/events/edit.do?eventId=-' + eventInfo.id);
 
 		// Copy and graphics, only available in edit mode.
 		$('.event-hidden-tabs').show();
@@ -198,10 +199,10 @@ function getEventInfo(datePickersMap){
 			// Set by weekday
 			if(rule.options.byweekday != null){
 				$('#eventByWeekDay option').each(function() {
-						if (rule.options.byweekday.includes(parseInt($(this).val()))) {
-						   $(this).prop('selected', true);
-					   }    
-				   });
+					if (rule.options.byweekday.includes(parseInt($(this).val()))) {
+					   $(this).prop('selected', true);
+					}    
+				});
 			}
 				
 			// Set by month
@@ -245,8 +246,6 @@ function getEventInfo(datePickersMap){
 	// Set add options
 	else{
 
-		//initAddOption(myPositions);
-
 		// Set default options.
 		setRecurrentMode(0);
 		setAllDayEvent(false);
@@ -263,7 +262,7 @@ function getEventInfo(datePickersMap){
 		// Set title.
 		$('#eventPageTitle').text('Add Event');
 		$('#eventPageLink').text('Add Event');
-		$('#eventPageLink').attr('href', '/events/edit?eventId=-1');
+		$('#eventPageLink').attr('href', '/events/add.do');
 		$('#isEdit').val('0');
 		
 		// Set role(s).
@@ -275,54 +274,8 @@ function getEventInfo(datePickersMap){
 		$('#eventGraphicsTab').hide();
     	$('#eventRequestNowBlock').show();
 
-		return;
+		//return;
 	}
-    
-	// Actions only in edit mode.
-	//if(isEdit){
-
-		
-	//}
-
-	/*
-	// Actions only in copy mode.
-	else{
-
-		// Set the title.
-		$('#eventPageTitle').text('Copy Event: ' + eventInfo.name);
-		$('#eventPageLink').text('Copy Event');
-
-		$('.event-hidden-tabs').hide();
-	}
-
-	$('#eventPageLink').attr('href', '/events/edit?eventId=' + eventInfo.id);
-	$('#eventEditLink').attr('href', '/events/edit?eventId=' + eventInfo.id);
-	$('#eventRequestNowBlock').hide();
-	*/
-    
-
-    
-    // In edit mode
-	//if(isEdit){
-
-	//	}
-
-	// Otherwise, get the current user role.
-	//else{
-	//	$('#eventOrganizer').text($('#userName').text());
-	//	for (let key in myPositions) {
-	//		$("#eventRole").append(`<option value="${myPositions[key].userRoleId}">${myPositions[key].position}, ${myPositions[key].portfolioName}</option>`);
-	//	}
-	//	$("#eventRole").prop('disabled', false);
-	//}
-
-
-	
-	// Optional graphics request for copying an event.
-	//if(!isEdit){
-	//	$('#eventGraphicsTab').hide();
-    //	$('#eventRequestNowBlock').show();
-	//}
 }
 
 function getRRuleByInput(){

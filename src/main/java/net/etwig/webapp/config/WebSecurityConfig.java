@@ -42,9 +42,11 @@ public class WebSecurityConfig{
 	@Autowired
 	private RememberMeService rememberMeService;
 	
-	private String[] publicUrls = {
+	private final String[] publicPages = {
+		"/",
 		"/static/**", 
 		"/api/public/**",
+		"/nsRest/public/**",
 		"/twig/**", 
 		"/error", 
 		"/assets/getPublicAsset"
@@ -56,16 +58,16 @@ public class WebSecurityConfig{
           
 		// Public access resources.
 		http.authorizeHttpRequests((requests) -> requests
-				.requestMatchers(this.publicUrls).permitAll()
+				.requestMatchers(this.publicPages).permitAll()
 				.anyRequest().authenticated()
 			);
 		
 		// Login page.
 		http.formLogin((form) -> form
-				.loginPage("/user/login")
+				.loginPage("/user/login.do")
 	            .loginProcessingUrl("/user/login")
 				.permitAll()
-				.failureUrl("/user/login?success=false")
+				.failureUrl("/user/login.do?success=false")
 				.successHandler(loginSuccessHandler)
 			);
 		
@@ -91,10 +93,6 @@ public class WebSecurityConfig{
         http.exceptionHandling((exception)-> exception.
         		authenticationEntryPoint(authenticationEntryPoint())
         );
-        
-        //http
-        //	.exceptionHandling()
-        //	.authenticationEntryPoint(authenticationEntryPoint())
         
 		return http.build();
 	}

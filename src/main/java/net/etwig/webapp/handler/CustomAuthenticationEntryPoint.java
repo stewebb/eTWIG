@@ -27,7 +27,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     	
     	// Not logged in.
         if (session == null || session.getAttribute("user") == null) {
-            response.sendRedirect("/user/login");
+            response.sendRedirect("/user/login.do");
         	//super.commence(request, response, authException);
         } 
         
