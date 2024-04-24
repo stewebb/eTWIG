@@ -75,6 +75,7 @@
 												<i class="fa-solid fa-forward"></i>&nbsp;Next
 											</button>
 										</div>
+
 										<#-- calendar view -->
 										<div class="form-group d-flex justify-content-between">
 											<div class="icheck-primary d-inline mr-2">
@@ -103,11 +104,11 @@
 										<#if access.eventsAccess>
 											<hr class="mt-3 mb-3"/>
 											<div class="btn-group w-100">
-												<button type="button" class="btn btn-outline-primary" onclick="location.href='/events/edit?eventId=0';">
+												<button type="button" class="btn btn-outline-primary" onclick="location.href='/events/add.do';">
 													<i class="fa-solid fa-calendar-plus"></i>&nbsp;New Event
 												</button>
 												
-												<button type="button" class="btn btn-outline-primary" onclick="location.href='/events/import';">
+												<button type="button" class="btn btn-outline-primary" onclick="location.href='/events/import.do';">
 													<i class="fa-solid fa-file-import"></i>&nbsp;Import
 												</button>
 											</div>

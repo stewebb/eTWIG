@@ -6,7 +6,7 @@
 	website: https://etwig.grinecraft.net
 	function: The dashboard (site main) page.
    -->
-<#assign navbar = "DASHBOARD">
+<#assign navbar = "HOME">
 
 <!DOCTYPE html>
 <html>

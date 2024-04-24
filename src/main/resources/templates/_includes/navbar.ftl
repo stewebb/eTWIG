@@ -4,10 +4,12 @@
             <div class="container-fluid">
             
             	<#-- Logo -->
+				<#--
 				<a href="/" class="navbar-brand navbar-border">
 					<img src="/static/images/eTWIG.png" alt="eTWIG Logo" class="brand-image">
 					<span class="brand-text font-weight-light">&nbsp;</span>
 				</a>
+				-->
 				<#-- /Logo -->
 				
 				<button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,17 +20,17 @@
 				<div class="collapse navbar-collapse no-padding" id="navbarCollapse">
 					<ul class="navbar-nav">
 					
-						<#-- Dashboard -->
-						<li class="nav-item <#if navbar=="DASHBOARD">active</#if>">
-							<a href="/" class="nav-link navbar-border">
-								<i class="fa-solid fa-gauge-high"></i>&nbsp;Dashboard
+						<#-- Home -->
+						<li class="nav-item <#if navbar=="HOME">active</#if>">
+							<a href="/home.do" class="nav-link navbar-border">
+								<i class="fa-solid fa-home"></i>&nbsp;Home
 							</a>
 						</li>
-						<#-- /Dashboard -->
+						<#-- /Home -->
 						
 						<#-- TWIG -->
 						<li class="nav-item">
-							<a href="/twig" class="nav-link navbar-border" target="_blank">
+							<a href="/twig/index.do" class="nav-link navbar-border" target="_blank">
 								<i class="fa-solid fa-tree"></i>&nbsp;TWIG
 							</a>
 						</li>
@@ -36,7 +38,7 @@
 						
 						<#-- Events -->
 						<li class="nav-item <#if navbar=="CALENDAR">active</#if>">
-							<a href="/events/calendar" class="nav-link navbar-border">
+							<a href="/events/calendar.do" class="nav-link navbar-border">
 								<i class="fa-solid fa-calendar-check"></i>&nbsp;Events
 							</a>
 						</li>

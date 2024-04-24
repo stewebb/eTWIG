@@ -15,22 +15,22 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 @Controller
-@RequestMapping("/graphics")
+@RequestMapping("/")
 public class HomePageController {
 
 	/**
-	 * The root location, redirect to index page.
+	 * The root location, redirect to the public TWIG page.
 	 * @location /
 	 * @permission All users, including visitors
 	 */
 
 	@GetMapping("/")
 	public String root(){
-		return "redirect:/index.do";
+		return "redirect:/twig/index.do";
 	}
 	
-	@RequestMapping("/index.do")
-	public String index(Model model) throws Exception{
-		return "dashboard";
+	@RequestMapping("/home.do")
+	public String home(Model model) throws Exception{
+		return "home";
 	}
 }

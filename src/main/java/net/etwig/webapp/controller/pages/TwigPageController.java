@@ -30,7 +30,7 @@ public class TwigPageController {
 
 	@GetMapping("/")
 	public String root(){
-		return "redirect:/index.do";
+		return "redirect:/twig/index.do";
 	}
 	
 	@Autowired

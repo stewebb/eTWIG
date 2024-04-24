@@ -89,10 +89,9 @@ public class EventsPageController {
 	 * @permission All logged in users
 	 */
 	
-	@RequestMapping("/edit.do")
+	@RequestMapping({"/add.do", "/edit.do"})
 	public String edit(Model model){
 
-		// TODO Add, edit share a template, but different url
 		// TODO Add a "view only" page, then set the permission of old pages to "event manager only"
 		//System.out.println(optionService.findAllGroupByProperties());
 		model.addAttribute("allProperties", propertyService.findAll());		
