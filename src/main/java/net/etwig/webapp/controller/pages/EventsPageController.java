@@ -93,8 +93,8 @@ public class EventsPageController {
 	public String edit(Model model){
 
 		// TODO Add a "view only" page, then set the permission of old pages to "event manager only"
-		//System.out.println(optionService.findAllGroupByProperties());
-		model.addAttribute("allProperties", propertyService.findAll());		
+		// TODO Remove copy event function
+		model.addAttribute("allProperties", propertyService.findAll());
         model.addAttribute("allOptions", optionService.findAllGroupByProperties());	
 		return "events/edit";
 	}
