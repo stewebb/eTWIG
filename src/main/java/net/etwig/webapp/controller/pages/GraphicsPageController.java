@@ -65,8 +65,8 @@ public class GraphicsPageController {
 		return "graphics/approval_list";
 	}
 
-	@GetMapping("/approvalDecide.do")
-	public String approvalDecide(Model model, @RequestParam @NonNull Long requestId) throws Exception{
+	@GetMapping("/approvalDetails.do")
+	public String approvalDetails(Model model, @RequestParam @NonNull Long requestId) throws Exception{
 
 		// Get request info
 		PendingRequestsDetailsDTO request = graphicsRequestService.getPendingRequestsById(requestId);
@@ -77,6 +77,9 @@ public class GraphicsPageController {
 
 		model.addAttribute("requestInfo", request);
 		return "graphics/approval_decide";
+
+		// TODO Decide and history in the same page.
+		// TODO Use data tables to display data.
 	}
 
 }

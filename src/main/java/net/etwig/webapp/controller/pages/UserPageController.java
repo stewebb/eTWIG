@@ -19,6 +19,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserPageController {
 
 	/**
+	 * The root location, redirect to index page.
+	 * @location /user/
+	 * @permission All logged in users
+	 */
+
+	@GetMapping("/")
+	public String root(){
+		return "redirect:/user/index.do";
+	}
+
+	/**
 	 * The login page
 	 * @location /user/login.do
 	 * @permission All users, including visitors
@@ -34,8 +45,22 @@ public class UserPageController {
 	 * @location /user/index.do
 	 * @permission All logged in users
 	 */
+
 	@GetMapping("/index.do")
     public String profile(Model model) {
 		return "user/profile";
     }
+
+	/**
+	 * The logout page.
+	 * @location /user/logout.do
+	 * @permission All logged in users
+	 */
+
+	@GetMapping("/logout.do")
+	public String logout(Model model) {
+		//return "user/profile";
+		// TODO Logout page
+		return null;
+	}
 }

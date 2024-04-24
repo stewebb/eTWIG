@@ -28,14 +28,6 @@
 						</li>
 						<#-- /Home -->
 						
-						<#-- TWIG -->
-						<li class="nav-item">
-							<a href="/twig/index.do" class="nav-link navbar-border" target="_blank">
-								<i class="fa-solid fa-tree"></i>&nbsp;TWIG
-							</a>
-						</li>
-						<#-- /TWIG -->
-						
 						<#-- Events -->
 						<li class="nav-item <#if navbar=="CALENDAR">active</#if>">
 							<a href="/events/calendar.do" class="nav-link navbar-border">
@@ -58,23 +50,25 @@
 								
 									<#-- Graphics Approval -->
 									<li>
-										<a href="/graphics/approval/list" class="dropdown-item <#if navbar=="GRAPHICS_APPROVAL">active</#if>">
+										<a href="/graphics/approvalList.do" class="dropdown-item <#if navbar=="GRAPHICS_APPROVAL">active</#if>">
 											<i class="fa-solid fa-circle-check"></i>&nbsp;Approval
 										</a>
 									</li>
 									<#-- /Graphics Approval -->
 									
 									<#-- TWIG Template -->
+									<!--
 									<li>
 										<a href="/graphics/twigTemplate/list" class="dropdown-item <#if navbar=="GRAPHICS_TWIG_TEMPLATE">active</#if>">
 											<i class="fa-solid fa-lines-leaning"></i>&nbsp;TWIG Template
 										</a>
 									</li>
+									-->
 									<#-- TWIG Template -->
 
 									<#-- Event -->
 									<li>
-										<a href="/graphics/events/list" class="dropdown-item <#if navbar=="GRAPHICS_EVENTS">active</#if>">
+										<a href="/graphics/eventList.do" class="dropdown-item <#if navbar=="GRAPHICS_EVENTS">active</#if>">
 											<i class="fa-solid fa-list-ul"></i>&nbsp;Events
 										</a>
 									</li>
@@ -110,18 +104,28 @@
             <#-- Navbar right-->
 			<ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
 
-				<!--
+				<#-- TWIG -->
+				<li class="nav-item">
+					<a href="/twig/index.do" class="nav-link navbar-border" target="_blank">TWIG</a>
+				</li>
+				<#-- /TWIG -->
+
+				
                 <#-- Notifications -->
                 <li class="nav-item dropdown">
                 	
                 	<#-- Bell icon -->
                 	<a class="nav-link navbar-border" data-toggle="dropdown" href="#">
                    		<i class="far fa-bell"></i>
+						<!--
                     	<span class="badge badge-warning navbar-badge">15</span>
+						-->
                 	</a>
                 	<#-- /Bell icon -->
                 	
 					<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+						<span class="dropdown-header">No Notifications</span>
+						<!--
 						<span class="dropdown-header">15 Notifications</span>
 						<div class="dropdown-divider"></div>
 						
@@ -131,11 +135,12 @@
 							<span class="float-right text-muted text-sm">3 mins</span>
 						</a>
 						<#-- /Notification item -->
+						-->
 
                     </div>
 				</li>
                 <#-- /Notifications -->
-				-->
+				
 
                 <#-- Account -->
                 <li class="nav-item dropdown <#if navbar=="USER">active</#if>">
@@ -161,13 +166,13 @@
 						<div class="dropdown-divider"></div>
 						
 						<#-- Profile -->						
-						<a href="/user/profile" class="dropdown-item">
+						<a href="/user/index.do" class="dropdown-item">
 							<i class="fa-regular fa-id-badge"></i>&nbsp;Profile
 						</a>	
 						<#-- /Profile -->
 						
 						<#-- Logout -->						
-						<a href="/user/logout" class="dropdown-item">
+						<a href="/user/logout.do" class="dropdown-item">
 							<i class="fa-solid fa-right-from-bracket"></i>&nbsp;Logout
 						</a>	
 						<#-- /Logout -->
