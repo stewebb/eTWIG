@@ -8,7 +8,7 @@
  	*/
 
 /**
- * A hard limit of the recurrent event counts to avoid infinite loops when trying to get all occurrences. 
+ * A hard limit of recurrent event count to avoid infinite loops when trying to get all occurrences. 
  * It's usually a big number.
  */
 
@@ -21,6 +21,10 @@ COUNT_HARD_LIMIT = 1000;
  */
 
 function getEventInfo(datePickersMap){
+
+	// Get page name, e.g., for http://localhost:8080/events/add.do, the page name is add.do
+	var pathname = window.location.pathname;
+	var pageName = pathname.substring(pathname.lastIndexOf('/') + 1);
 	
 	// Get eventId
 	var urlParams = new URLSearchParams(window.location.search);
@@ -28,63 +32,102 @@ function getEventInfo(datePickersMap){
     
     // Get my positions
     var myPositions = getMyPositions();
-    
-    /**
-	 * Add mode.
-	 */
-	
-    // Null check.
-    if(eventId == undefined || eventId == null || eventId.length == 0){
-		warningPopup("The eventId provided is empty.", "It must be not empty, and an integer. This page will be switched to Add Event mode.");
-		initAddOption(myPositions);
-		return;
-	}
-    
-    // Invalid check (not an integer).
-    if(eventId % 1 !== 0){
-		warningPopup(eventId +" is not a valid eventId", "It must be an integer. This page will be switched to Add Event mode.");
-		initAddOption(myPositions);
-		return;
-	}
-    
-    // Zero eventId, add event mode.
-    if(eventId == 0){
-		initAddOption(myPositions);
-		return;
-	}
-	
-	// Negative eventId, copy mode. Otherwise, edit mode.
-	var isEdit = eventId > 0;
-    $('#isEdit').val(isEdit ? 1 : -1);
 
-	// Positive eventId, search it in the DB.
-	var eventInfo;
-	$.ajax({ 
-		type: 'GET', 
-    	url: '/api/private/getEventById', 
-    	data: { 
-			eventId: Math.abs(eventId),
-		}, 
-    	async: false,
-		success: function(json) {
-			eventInfo = json;
-        },
-        
-        // Popup error info when it happens
-    	error: function(err) {   		
-			dangerPopup("Failed to get event information due to a HTTP " + err.status + " error.", err.responseJSON.exception);
-		}
-	});
-	
-	if(eventInfo == undefined || eventInfo == null || eventInfo.length == 0){
-		warningPopup("The event with id=" + eventId + " does not exist");
-		initAddOption(myPositions);
-		return;
-	}
+	// Set mode (add or edit)
+	var isEdit = pageName.includes("edit");
+	$('#isEdit').val(isEdit ? 1 : -1);
     
-    /**
+	// Parameter check in edit mode.
+	if(isEdit){
+		var commonInfo = " This page will be redirected to Add Event mode.";
+
+		// Null check
+		if(eventId == undefined || eventId == null || eventId.length == 0){
+			warningPopup("eventId is empty.", "It must be not empty, and an integer." + commonInfo);
+			toAddPage();
+			return;
+		}
+
+		// Integer check
+		if(eventId % 1 !== 0){
+			warningPopup(eventId + " is not a valid eventId", "It must be an integer." + commonInfo);
+			toAddPage();
+			return;
+		}
+
+		// Zero check
+		if(eventId == 0){
+			warningPopup("eventId is empty.", "It must be an integer which is either positive or negative." + commonInfo);
+			toAddPage();
+			return;
+		}
+
+		// Existence check
+		var eventInfo;
+		$.ajax({ 
+			type: 'GET', 
+    		url: '/nsRest/private/event/view', 
+    		data: { 
+				eventId: Math.abs(eventId),
+			}, 
+    		async: false,
+			success: function(json) {
+				eventInfo = json;
+        	},
+			error: function(err) {   		
+				dangerPopup("Failed to get event information due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+			}
+		});
+	
+		if(eventInfo == undefined || eventInfo == null || eventInfo.length == 0){
+			warningPopup("The event with id=" + eventId + " does not exist" + commonInfo);
+			toAddPage();
+			return;
+		}
+	}
+
+	// Set add options
+	else{
+		initAddOption(myPositions);
+	}
+
+
+	
+    // Set to add mode if eventId is null or empty.
+    //if(eventId == undefined || eventId == null || eventId.length == 0){
+
+		
+		//return;
+	//}
+
+	/**
 	 * Copy or edit mode.
 	 */
+    
+    // Invalid check (not an integer).
+    //if(eventId % 1 !== 0){
+	//	warningPopup(eventId +" is not a valid eventId", "It must be an integer. This page will be switched to Add Event mode.");
+		//initAddOption(myPositions);
+		//$("#eventMainComponent").hide();
+		//window.location.href = "/events/add.do";
+	//	toAddPage();
+	//	return;
+	//}
+    
+    // Zero eventId, add event mode.
+    //if(eventId == 0){
+	//	initAddOption(myPositions);
+	//	return;
+	//}
+	
+	// Negative eventId, copy mode. Otherwise, edit mode.
+	//var isEdit = eventId > 0;
+    //$('#isEdit').val(isEdit ? 1 : -1);
+
+	// Positive eventId, search it in the DB.
+	
+    
+    
 	
 	// Actions only in edit mode.
 	if(isEdit){
@@ -892,4 +935,10 @@ function calculateDuration(){
 	
 	// Re-format the duration string.
 	$('#eventDurationCalculated').text(formatTime((endDateTime - startDateTime) / 60000));
+}
+
+function toAddPage(){
+	setTimeout(function() {
+        window.location.href = "/events/add.do";
+    }, 2000);
 }

@@ -47,7 +47,7 @@
 			
 			<#-- Functions -->
 			<section class="content">
-				<div class="container-fluid">
+				<div class="container-fluid" id="eventMainComponent">
 					<div class="row col-12">
 
 						<#-- Options -->
