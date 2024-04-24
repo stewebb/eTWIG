@@ -27,22 +27,46 @@ import net.etwig.webapp.util.type.FileType;
 
 @Controller
 @RequestMapping(value = "/assets")
-public class AssetController {
+public class AssetPageController {
 	
 	@Autowired
 	private AssetService assetService;
 
 	/**
+	 * The root location, redirect to index page.
+	 * @location /asset/
+	 * @permission All users, including visitors
+	 */
+
+	@GetMapping("/")
+	public String root(){
+		return "redirect:/index.do";
+	}
+
+	/**
+	 * Asset index page.
+	 * @location /asset/index.do
+	 * @permission All logged in users
+	 */
+
+	@GetMapping("index.do")
+	public String index(Model model){
+
+		// TODO Make an index page for events
+		return null;
+	}
+
+	/**
 	 * Get the content of an asset.
 	 * @param assetId The id of this asset.
 	 * @return The file content.
-	 * @throws Exception
-	 * @Permissions PUBLIC ACCESS
+	 * @location /asset/content.do
+	 * @permission All users, including visitors
 	 */
 	
 	@SuppressWarnings("null")
-	@GetMapping(value = "/getPublicAsset")
-	public ResponseEntity<Resource> getPublicAsset(@RequestParam Long assetId, @RequestParam (required=false) String download) throws Exception {
+	@GetMapping(value = "/content.do")
+	public ResponseEntity<Resource> content(@RequestParam Long assetId, @RequestParam (required=false) String download) throws Exception {
 		
 		// Get asset info, content and null check.
 		Asset asset = assetService.getAssetDetailsById(assetId);
@@ -76,10 +100,17 @@ public class AssetController {
         	return ResponseEntity.notFound().build();
         } 
     }
-	
-	
-	@RequestMapping("_selector")  
+
+	/**
+	 * The embedded asset selector page
+	 * @location /asset/_selector.do
+	 * @permission All logged in users
+	 */
+
+	@RequestMapping("_selector.do")
 	public String selector(Model model) throws Exception{
 		return "assets/selector";
 	}
+
+	// TODO asset admin page
 }

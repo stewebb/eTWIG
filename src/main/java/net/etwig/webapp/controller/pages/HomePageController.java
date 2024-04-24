@@ -29,7 +29,7 @@ public class HomePageController {
 		return "redirect:/index.do";
 	}
 	
-	@RequestMapping("/")  
+	@RequestMapping("/index.do")
 	public String index(Model model) throws Exception{
 		return "dashboard";
 	}

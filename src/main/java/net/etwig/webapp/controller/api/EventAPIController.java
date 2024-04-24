@@ -6,7 +6,6 @@ import net.etwig.webapp.services.EventService;
 import net.etwig.webapp.services.PortfolioService;
 import net.etwig.webapp.util.NumberUtils;
 import net.etwig.webapp.util.PortfolioMismatchException;
-import net.etwig.webapp.util.ResourceAPI;
 import net.etwig.webapp.util.WebReturn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

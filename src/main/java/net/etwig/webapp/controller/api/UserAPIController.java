@@ -19,7 +19,7 @@ import net.etwig.webapp.services.UserRoleService;
 import net.etwig.webapp.util.WebReturn;
 
 @RestController
-@RequestMapping(value = "/api/private/")
+@RequestMapping(value = "/nsRest/private/")
 public class UserAPIController {
 	
 	@Autowired
@@ -27,7 +27,57 @@ public class UserAPIController {
 	
 	//@Autowired
     //private PasswordEncoder passwordEncoder;
-	
+
+	/**
+	 * Add a user
+	 * @location /nsRest/private/user/add
+	 * @permission TODO
+	 */
+
+	@GetMapping("/user/add")
+	public Object add(){
+		// TODO add user
+		return null;
+	}
+
+	/**
+	 * Edit a user
+	 * @location /nsRest/private/user/edit
+	 * @permission TODO
+	 */
+
+	@GetMapping("/user/edit")
+	public Object edit(){
+		// TODO edit user
+		return null;
+	}
+
+	/**
+	 * View a user
+	 * @location /nsRest/private/user/view
+	 * @permission TODO
+	 */
+
+	@GetMapping("/user/view")
+	public Object view(){
+		// TODO view user
+		return null;
+	}
+
+	/**
+	 * Remove a user
+	 * @location /nsRest/private/user/remove
+	 * @permission TODO
+	 */
+
+	@GetMapping("/user/remove")
+	public Object remove(){
+		// TODO remove user
+		return null;
+	}
+
+
+	/*
 	@GetMapping("/getMyPositions")
     public Set<PositionWithoutEmailDTO> getMyPositions() throws Exception {
 		return userRoleService.getMyPositions();
@@ -49,4 +99,6 @@ public class UserAPIController {
         userRoleService.changePassword(currentUser, newPassword);
         return WebReturn.errorMsg(null, true);
     }
+
+	 */
 }
