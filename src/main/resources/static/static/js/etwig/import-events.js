@@ -14,7 +14,7 @@ function importEvents(){
 
   	$.ajax({
 		type: 'POST',
-    	url: '/api/private/importEvents',
+    	url: '/api/event/import',
     	data: data,
     	contentType: false,
     	processData: false,
@@ -23,10 +23,9 @@ function importEvents(){
 				dangerPopup("Failed to import events", result.msg);
 			}
 
-			// Normal conditions
 			else{ 
 				jQuery.each(result.result, function(rowNum, result) {
-					//console.log(rowNum, result);
+
 					var textColor = (result == null) ? 'success' : 'danger';
 					var result = (result == null) ? 'Import successfully' : ('Import failed: ' + result);
 

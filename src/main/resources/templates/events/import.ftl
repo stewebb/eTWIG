@@ -54,7 +54,7 @@
 					<div class="card card-primary card-outline">
 						<div class="card-header">
 							<h3 class="card-title">
-								<i class="fa-solid fa-compass"></i>&nbsp;Directions and Examples
+								<i class="fa-solid fa-compass"></i>&nbsp;Introduction
 							</h3>
 						</div>
 

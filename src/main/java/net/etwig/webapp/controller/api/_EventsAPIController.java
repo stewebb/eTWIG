@@ -122,6 +122,7 @@ public class _EventsAPIController {
 
 	 */
 
+	/*
 	@PostMapping(value = "importEvents")
 	public Map<String, Object> importEvents(@RequestParam("file") MultipartFile file, @RequestParam("role") Long role) throws Exception {
 
@@ -141,4 +142,6 @@ public class _EventsAPIController {
 		webReturn.put("result", eventService.importEvents(file, extension, role));
 		return webReturn;
 	}
+
+	 */
 }

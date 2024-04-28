@@ -7,13 +7,15 @@ import net.etwig.webapp.services.PortfolioService;
 import net.etwig.webapp.util.NumberUtils;
 import net.etwig.webapp.util.PortfolioMismatchException;
 import net.etwig.webapp.util.WebReturn;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api/event/")
 public class EventAPIController {
 
     @Autowired
@@ -26,15 +28,25 @@ public class EventAPIController {
      * Add an event into database
      * @param eventInfo The new event payload, from front-end
      * @return Success message if event added.
+     * @location /api/event/add
+     * @permission Those who has event management permission.
      */
 
-    @PostMapping("/event/add")
+    @PostMapping("/add")
     public Map<String, Object> add(@RequestBody Map<String, Object> eventInfo) {
         eventService.editEvent(eventInfo, null);
         return WebReturn.errorMsg("Event added successfully.", true);
     }
 
-    @PostMapping("/event/edit")
+    /**
+     * Edit a current event
+     * @param eventInfo The new event payload, from front-end
+     * @return Success message if event modified.
+     * @location /api/event/edit
+     * @permission Those who has event management permission.
+     */
+
+    @PostMapping("/edit")
     public Map<String, Object> edit(@RequestBody Map<String, Object> eventInfo) throws Exception {
 
         // eventId check, stop proceeding when it is invalid or negative.
@@ -65,17 +77,50 @@ public class EventAPIController {
      * View the detail of an event.
      * @param eventId The ID of the event.
      * @return The event details according to the ID, if not found, return null;
+     * @location /api/event/view
+     * @permission All logged in users.
      */
 
-    @GetMapping("/event/view")
+    @GetMapping("/view")
     public Object view(@RequestParam Long eventId) {
         return eventService.findById(eventId);
     }
 
-    @GetMapping("/event/remove")
+    // TODO Javadoc for event removal
+    @GetMapping("/remove")
     public Object remove(@RequestParam Long eventId) {
         // TODO Soft remove: Hide the event but can be restored.
         // TODO Hard remove: Remove event from DB permanently.
         return null;
+    }
+
+    /**
+     * Create one or multiple events bulky by importing from a file.<br>
+     * The file must be in the Microsoft Excel Spreadsheet (*.xlsx) and OpenDocument Spreadsheet (*.ods) format.
+     * @param file The imported file data
+     * @param role The current role of the user
+     * @return Success message if event imported.
+     * @location /api/event/import
+     * @permission Those who has event management permission.
+     */
+
+    @PostMapping(value = "/import")
+    public Map<String, Object> importEvents(@RequestParam("file") MultipartFile file, @RequestParam("role") Long role) throws Exception {
+
+        // Null check
+        if(file == null || file.isEmpty()) {
+            return WebReturn.errorMsg("The file is null.", false);
+        }
+
+        // Check and read file
+        String fileName = file.getOriginalFilename();
+        String extension = FilenameUtils.getExtension(fileName);
+        if(!"xlsx".equalsIgnoreCase(extension) && ! "ods".equalsIgnoreCase(extension)) {
+            return WebReturn.errorMsg("Only Microsoft Excel Spreadsheet (*.xlsx) and OpenDocument Spreadsheet (*.ods) format are accepted. However, the extension of the uploaded file is " + extension, false);
+        }
+
+        Map<String, Object> webReturn = WebReturn.errorMsg("", true);
+        webReturn.put("result", eventService.importEvents(file, extension, role));
+        return webReturn;
     }
 }
