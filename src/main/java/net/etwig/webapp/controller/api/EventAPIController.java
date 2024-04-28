@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/nsRest/private/")
+@RequestMapping("/api/")
 public class EventAPIController {
 
     @Autowired
@@ -22,21 +22,19 @@ public class EventAPIController {
     @Autowired
     private PortfolioService portfolioService;
 
-    // NS = Not Standard
-
     /**
      * Add an event into database
      * @param eventInfo The new event payload, from front-end
      * @return Success message if event added.
      */
 
-    @GetMapping("/event/add")
+    @PostMapping("/event/add")
     public Map<String, Object> add(@RequestBody Map<String, Object> eventInfo) {
         eventService.editEvent(eventInfo, null);
         return WebReturn.errorMsg("Event added successfully.", true);
     }
 
-    @GetMapping("/event/edit")
+    @PostMapping("/event/edit")
     public Map<String, Object> edit(@RequestBody Map<String, Object> eventInfo) throws Exception {
 
         // eventId check, stop proceeding when it is invalid or negative.

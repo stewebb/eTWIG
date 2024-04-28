@@ -67,7 +67,7 @@ function getEventInfo(datePickersMap){
 		// Existence check
 		$.ajax({ 
 			type: 'GET', 
-    		url: '/nsRest/private/event/view', 
+    		url: '/api/event/view', 
     		data: { 
 				eventId: Math.abs(eventId),
 			}, 
@@ -630,7 +630,7 @@ function addEvent(){
 	
 	var hasError = true;
 	$.ajax({
-   		url: '/api/private/editEvent', 
+   		url: isEdit ? '/api/event/edit' : '/api/event/add', 
    		type: "POST",
    		async: false,
    		dataType: "json",
@@ -653,7 +653,7 @@ function addEvent(){
  	});
 
 	if(!hasError){
-		setTimeout(function() { isEdit ? window.location.reload() : $(location).attr('href','/events/calendar'); }, 2500);
+		setTimeout(function() { isEdit ? window.location.reload() : $(location).attr('href','/events/calendar.do'); }, 2500);
 	}
 }
 
@@ -740,37 +740,6 @@ function createDatePickers() {
     
     return datePickersMap;
 }
-
-/*
-function initAddOption(myPositions){
-	
-	// Set the default options.
-	setRecurrentMode(0);
-	setAllDayEvent(false);
-	setValidTo(true);
-	setGraphicsRequest(true);
-	
-	// Set the hidden fields.
-	$('#eventIdBlock').hide();
-	$('#eventCreatedTimeBlock').hide();
-    $('#eventUpdatedTimeBlock').hide();
-    $('.event-hidden-tabs').hide();
-    $('#eventRequestNowBlock').show();
-   
-	// Set the title.
-	$('#eventPageTitle').text('Add Event');
-	$('#eventPageLink').text('Add Event');
-	$('#eventPageLink').attr('href', '/events/edit?eventId=-1');
-	$('#isEdit').val('0');
-	
-	// Set the role(s).
-	$('#eventOrganizer').text($('#userName').text());
-	for (let key in myPositions) {
-  		$("#eventRole").append(`<option value="${myPositions[key].userRoleId}">${myPositions[key].position}, ${myPositions[key].portfolioName}</option>`);
-	}
-	
-}
-*/
 
 /**
  * Get the ordinal indicator for a number.

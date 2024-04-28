@@ -71,10 +71,10 @@ public class _EventsAPIController {
 	 * @return
 	 */
 	
-	@GetMapping("/getEventById")  
-	public EventDetailsDTO getEventById(@RequestParam Long eventId){
-		return eventService.findById(eventId);
-	}
+	//@GetMapping("/getEventById")
+	//public EventDetailsDTO getEventById(@RequestParam Long eventId){
+	//	return eventService.findById(eventId);
+	//}
 	
 	@GetMapping("/getSelectedOptionsByEventId")  
 	public HashSet<Long> getSelectedOptionsByEventId(@RequestParam Long eventId) throws Exception {
@@ -88,7 +88,8 @@ public class _EventsAPIController {
 	 * @throws Exception
 	 * @authentication True
 	 */
-	
+
+	/*
 	@PostMapping(value = "/editEvent")
     public Map<String, Object> editEvent(@RequestBody Map<String, Object> eventInfo) throws Exception {
 				
@@ -118,6 +119,8 @@ public class _EventsAPIController {
 		eventService.editEvent(eventInfo, event);
         return WebReturn.errorMsg(null, true);
     }
+
+	 */
 
 	@PostMapping(value = "importEvents")
 	public Map<String, Object> importEvents(@RequestParam("file") MultipartFile file, @RequestParam("role") Long role) throws Exception {

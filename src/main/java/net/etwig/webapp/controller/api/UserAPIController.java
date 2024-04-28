@@ -19,7 +19,7 @@ import net.etwig.webapp.services.UserRoleService;
 import net.etwig.webapp.util.WebReturn;
 
 @RestController
-@RequestMapping(value = "/nsRest/private/")
+@RequestMapping(value = "/api/")
 public class UserAPIController {
 	
 	@Autowired
