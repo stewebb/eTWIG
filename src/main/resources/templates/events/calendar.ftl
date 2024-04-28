@@ -37,7 +37,7 @@
 						</div>
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
-								<li class="breadcrumb-item active"><a href="/events/calendar">Events</a></li>
+								<li class="breadcrumb-item active"><a href="/events/calendar.do">Events</a></li>
 							</ol>
 						</div>
 					</div>

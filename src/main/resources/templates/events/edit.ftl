@@ -51,137 +51,56 @@
     		<section class="content">
 				<div class="container-fluid">
 
-					<div class="card card-primary card-outline">
-						<div class="card-header d-flex p-0">
-
-							<#-- Tabs -->
-							<ul class="nav nav-pills p-2">
-
-								<#-- Back -->							
-								<li class="nav-item">
-									<a class="nav-link" href="/events/calendar">
-										<i class="fa-solid fa-arrow-left"></i>&nbsp;Back
-									</a>
-								</li>
-								<#-- /Back -->	
-
-								<#-- View/Edit -->	
-								<li class="nav-item">
-									<a class="nav-link active" href="#" id="eventEditLink">
-										<i class="fa-solid fa-pen-to-square"></i>&nbsp;Edit
-									</a>
-								</li>
-								<#-- /View/Edit -->	
-
-								<#-- Graphics Request -->	
-								<li class="nav-item event-hidden-tabs">
-									<a class="nav-link" href="#" id="eventGraphicsLink">
-										<i class="fa-solid fa-image"></i>&nbsp;Graphics
-									</a>
-								</li>
-								<#-- /Graphics Request -->	
-
-								<#-- Copy -->	
-								<li class="nav-item event-hidden-tabs">
-									<a class="nav-link" href="#" id="eventCopyLink">
-										<i class="fa-solid fa-copy"></i>&nbsp;Copy
-									</a>
-								</li>
-								<#-- /Copy -->	
-
-							</ul>
-							<#-- /Tabs -->
-
+					<#-- Basic Information -->
+					<div class="card card-primary card-outline mb-3">
+						<div class="card-header">
+							<h3 class="card-title">
+								<i class="fas fa-circle-info"></i>&nbsp;Basic Information
+							</h3>
 						</div>
 
-						<#-- Edit area -->
 						<div class="card-body">
-
-							<#-- Stepper -->
-							<div id="eventStepper" class="bs-stepper bg-white">
-
-								<#-- Header -->
-								<div class="bs-stepper-header" role="tablist">
-
-									<#-- Header 1: Basic Info -->
-									<div class="step" data-target="#eventBasicInfo">
-										<button type="button" class="step-trigger" role="tab" id="eventSteppertrigger1" aria-controls="eventBasicInfo">
-											<span class="bs-stepper-circle">
-												<span class="fas fa-circle-info" aria-hidden="true"></span>
-											</span>
-											<span class="bs-stepper-label">Basic Info</span>
-										</button>
-									</div>
-									<#-- /Header 1: Basic Info -->
-
-									<#-- Header 2: Timing -->
-									<div class="bs-stepper-line"></div>
-									<div class="step" data-target="#eventTiming">
-										<button type="button" class="step-trigger" role="tab" id="eventSteppertrigger2" aria-controls="eventTiming">
-											<span class="bs-stepper-circle">
-												<span class="fas fa-clock" aria-hidden="true"></span>
-											</span>
-											<span class="bs-stepper-label">Timing</span>
-										</button>
-									</div>
-									<#-- /Header 2: Timing -->
-
-									<#-- Header 3: Additional Info -->
-									<div class="bs-stepper-line"></div>
-									<div class="step" data-target="#eventAdditionalInfo">
-										<button type="button" class="step-trigger" role="tab" id="eventSteppertrigger1" aria-controls="eventAdditionalInfo">
-											<span class="bs-stepper-circle">
-												<span class="fas fa-map-pin" aria-hidden="true"></span>
-											</span>
-											<span class="bs-stepper-label">Additional Info</span>
-										</button>
-									</div>
-									<#-- /Header 3: Additional Info -->
-
-								</div>
-								<#-- /Header -->
-
-								<#-- Content -->
-								<div class="bs-stepper-content">
-
-									<#-- Content 1: Basic Info -->
-									<#assign prev = false>
-									<#assign next = true>
-											
-									<div id="eventBasicInfo" role="tabpanel" class="bs-stepper-pane" aria-labelledby="eventSteppertrigger1">
-										<#include "../_includes/events/addEdit_basicInfo.ftl">	
-										<#include "../_includes/events/stepper_btn.ftl">
-									</div>
-									<#-- /Content 1: Basic Info -->
-
-									<#-- Content 2: Timing -->
-									<#assign prev = true>
-									<#assign next = true>
-									<div id="eventTiming" role="tabpanel" class="bs-stepper-pane" aria-labelledby="eventSteppertrigger2">
-										<#include "../_includes/events/addEdit_timing.ftl">	
-										<#include "../_includes/events/stepper_btn.ftl">
-									</div>
-									<#-- /Content 2: Timing -->
-
-									<#-- Content 3: Additional Info -->
-									<#assign prev = true>
-									<#assign next = false>
-									<div id="eventAdditionalInfo" role="tabpanel" class="bs-stepper-pane text-center" aria-labelledby="eventSteppertrigger3">
-										<#include "../_includes/events/addEdit_additionalInfo.ftl">	
-										<#include "../_includes/events/stepper_btn.ftl">
-									</div>
-									<#-- /Content 3: Additional Info -->
-
-								</div>
-								<#-- /Content -->
-
-							</div>
-							<#-- /Stepper -->
-
+							<#include "../_includes/events/addEdit_basicInfo.ftl">	
 						</div>
-						<#-- /Edit area -->
 
 					</div>
+					<#-- /Basic Information -->
+
+					<#-- Timing -->
+					<div class="card card-primary card-outline mb-3">
+						<div class="card-header">
+							<h3 class="card-title">
+								<i class="fas fa-clock"></i>&nbsp;Timing
+							</h3>
+						</div>
+
+						<div class="card-body">
+							<#include "../_includes/events/addEdit_timing.ftl">	
+						</div>
+
+					</div>
+					<#-- /Timing -->
+
+					<#-- Additional Information -->
+					<div class="card card-primary card-outline mb-3">
+						<div class="card-header">
+							<h3 class="card-title">
+								<i class="fas fa-map-pin"></i>&nbsp;Additional Information
+							</h3>
+						</div>
+
+						<div class="card-body">
+							<#include "../_includes/events/addEdit_additionalInfo.ftl">	
+
+							<button type="button" class="btn btn-outline-primary right-div" onclick="addEvent();">
+                				<i class="fa-solid fa-check"></i>&nbsp;Submit
+                			</button>
+						</div>
+
+					</div>
+					<#-- /Additional Information -->
+
+					
 				</div>
 			</section>
 			<#-- /Main area -->
@@ -203,8 +122,10 @@
 	<script src="/static/js/vendor/summernote-bs4.min.js"></script>
 	
 	<#-- bs stepper -->
+	<#-- PENDING REMOVAL
 	<link rel="stylesheet" href="/static/css/vendor/bs-stepper.min.css">
 	<script src="/static/js/vendor/bs-stepper.min.js"></script>
+	-->
 
 	<#-- jQuery inputmask -->
    	<script src="/static/js/vendor/jquery.inputmask.min.js"></script>
@@ -260,9 +181,9 @@
     		})
 
 			// Initialize the stepper
-     		eventStepper = new Stepper(document.querySelector('#eventStepper'), {
-    			linear: false
-  			});
+     		//eventStepper = new Stepper(document.querySelector('#eventStepper'), {
+    		//	linear: false
+  			//});
 
 			// Initialize the description box
 			initDescriptionBox('#eventDescription');
