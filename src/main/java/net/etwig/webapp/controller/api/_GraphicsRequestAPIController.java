@@ -16,7 +16,6 @@ import net.etwig.webapp.services.GraphicsRequestService;
 import net.etwig.webapp.services.PortfolioService;
 import net.etwig.webapp.dto.events.EventDetailsDTO;
 import net.etwig.webapp.dto.graphics.FinalizedRequestsBasicInfoDTO;
-import net.etwig.webapp.dto.graphics.NewRequestEmailNotificationDTO;
 import net.etwig.webapp.dto.graphics.PendingRequestsBasicInfoDTO;
 import net.etwig.webapp.model.GraphicsRequest;
 import net.etwig.webapp.model.Portfolio;
@@ -28,7 +27,7 @@ import net.etwig.webapp.util.WebReturn;
 @RestController
 @RequestMapping(value = "/api/private/")
 //@Secured({"ROLE_ADMINISTRATOR", "ROLE_EVENT_MANAGER"})
-public class GraphicsRequestAPIController {
+public class _GraphicsRequestAPIController {
 	
 	@Autowired
 	private GraphicsRequestService graphicsRequestService;

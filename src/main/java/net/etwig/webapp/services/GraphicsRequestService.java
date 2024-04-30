@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import net.etwig.webapp.dto.BannerRequestForEventPageDTO;
 import net.etwig.webapp.dto.graphics.*;
 import net.etwig.webapp.model.EventGraphics;
 import net.etwig.webapp.repository.EventGraphicsRepository;
@@ -61,7 +62,18 @@ public class GraphicsRequestService {
 		Page<GraphicsRequest> requests =  graphicsRequestRepository.findByApprovedIsNotNullOrderByResponseTimeDesc(pageable);
 		return requests.map(FinalizedRequestsBasicInfoDTO::new);
 	}
-	
+
+	public Page<BannerRequestForEventPageDTO> findRequestsByEvent(Long eventId, Pageable pageable) {
+		//Page<GraphicsRequest> graphicsRequestPage = graphicsRequestRepository.findByRequestsByEvent(eventId, pageable);
+        //GraphicsRequestDTO dto = new GraphicsRequestDTO();
+        //dto.setId(request.getId());
+        //dto.setName(request.getName());
+        //dto.setDescription(request.getDescription());
+        //return graphicsRequestPage.map(GraphicsRequestDTO::new);
+
+		return graphicsRequestRepository.findByRequestsByEvent(eventId, pageable).map(BannerRequestForEventPageDTO::new);
+	}
+
 	public LinkedHashMap<Long, GraphicsRequestDTO> getRequestsByEvent(Long eventId) { 
 		
 		// Get the original data.

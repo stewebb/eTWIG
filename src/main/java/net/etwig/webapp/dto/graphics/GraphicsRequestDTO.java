@@ -28,7 +28,8 @@ public class GraphicsRequestDTO {
 	private LocalDateTime responseTime;
 	private String responseTimeStr;
 	private Long assetId;
-	
+
+	// TODO REMOVE ME
 	public GraphicsRequestDTO(GraphicsRequest graphicsRequest) {
 		
 		

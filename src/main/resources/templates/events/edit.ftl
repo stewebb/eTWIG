@@ -163,38 +163,45 @@
 								<#-- Col 2: Additional -->
 								<div class="col-md-6" style="text-align:left;">
 
-
 									<#-- Additional Properties -->
-									<#--<div style="text-align:left;">-->
-										<h5 class="mb-3 bold-text text-primary">
-											<i class="fa-solid fa-ellipsis"></i>&nbsp;Additional
-										</h5>
+									<h5 class="mb-3 bold-text text-primary">
+										<i class="fa-solid fa-ellipsis"></i>&nbsp;Additional
+									</h5>
+									<#-- /Additional Properties -->
 
-										<#-- Iterate all properties -->
-										<#if allProperties?has_content>
-											<#list allProperties as property_id, property_info>
-										
-												<#-- Set the default value of the icon if it's empty in the DB. -->
-												<#if property_info.icon?has_content>
-													<#assign property_icon = property_info.icon>
-												<#else>
+									<#-- Description -->		
+									<div class="form-group">
+										<label for="eventDescription">Description</label>
+										<div id="eventDescription"></div>
+										<small class="form-text text-muted">Up to 65,535 characters.</small>
+									</div>
+									<#-- /Description -->
+
+									<#-- Iterate all properties -->
+									<#if allProperties?has_content>
+										<#list allProperties as property_id, property_info>
+									
+											<#-- Set default value of the icon if it's empty in the DB. -->
+											<#if property_info.icon?has_content>
+												<#assign property_icon = property_info.icon>
+											<#else>
 													<#assign property_icon = "list-check">
-												</#if>
-												<#-- /Set. -->
+											</#if>
+											<#-- /Set. -->
 											
-												<#-- Convert the propertyId to String, as Freemarker doesn't accept numeric key when accessing to a map. -->
-												<#assign string_id = property_id?string>
-												<#-- /Convert. -->
+											<#-- Convert the propertyId to String, as Freemarker doesn't accept numeric key when accessing to a map. -->
+											<#assign string_id = property_id?string>
+											<#-- /Convert. -->
 
-												<#-- Mandatory field check. -->
-												<#if property_info.mandatory>
-													<#assign mandatoryStr = "true">
-													<#assign mandatorySymbol = "<span class='required-symbol'>*</span>">
-												<#else>
-													<#assign mandatoryStr = "false">
-													<#assign mandatorySymbol = "">
-												</#if>
-												<#-- /Mandatory field check. -->
+											<#-- Mandatory field check. -->
+											<#if property_info.mandatory>
+												<#assign mandatoryStr = "true">
+												<#assign mandatorySymbol = "<span class='required-symbol'>*</span>">
+											<#else>
+												<#assign mandatoryStr = "false">
+												<#assign mandatorySymbol = "">
+											</#if>
+											<#-- /Mandatory field check. -->
 
 												<div class="form-group row">
 
@@ -227,40 +234,28 @@
 														</select>
 														<#-- /Each property has a select box. -->
 														
-													</div>
 												</div>
-											</#list>
+											</div>
+										</#list>
 										
 
-										<#-- Or just tell user there has no properties. -->
-										<#else>
-											<div class="d-flex justify-content-center">
-												<i class="fa-regular fa-face-dizzy big-icons"></i>
-											</div>
+									<#-- Or just tell user there has no properties. -->
+									<#else>
+										<div class="d-flex justify-content-center">
+											<i class="fa-regular fa-face-dizzy big-icons"></i>
+										</div>
 											
-											<div class="d-flex justify-content-center bold-text text-secondary">
-												No properties.
-											</div>
-										</#if>
-										<#-- /Or. -->
-
-																			<#-- Description -->
-									
-									<div class="form-group">
-										<label for="eventDescription">Description</label>
-										<div id="eventDescription"></div>
-										<small class="form-text text-muted">Up to 65,535 characters.</small>
-									</div>
-									<#-- /Description -->
-
-									<#--</div>-->
-									<#-- /Additional Properties -->
-									
+										<div class="d-flex justify-content-center bold-text text-secondary">
+											No properties.
+										</div>
+									</#if>
+									<#-- /Or. -->
+								<#-- /Additional Properties -->
 
 								</div>
-								<#-- /Col 2: Additional -->
 							</div>
-						<#--</div>-->
+							<#-- /Col 2: Additional -->
+
 						</div>
 
 					</div>
@@ -290,7 +285,22 @@
 						</div>
 
 						<div class="card-body">
+
+							<#--
 							<#include "../_includes/events/addEdit_additionalInfo.ftl">	
+							-->
+
+							<table id="requestsTable" class="display" width="100%">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Event Name</th>
+                <th>Request Type</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+    </table>
+
 
 							<button type="button" class="btn btn-outline-primary right-div" onclick="addEvent();">
                 				<i class="fa-solid fa-check"></i>&nbsp;Submit
@@ -389,6 +399,30 @@
 			initDescriptionBox('#eventDescription');
 		});
 		
+
+		$(document).ready(function() {
+        $('#requestsTable').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "url": "/api/request/view?eventId=1",
+                "type": "GET",
+                "data": function(d) {
+                    return $.extend({}, d, {
+                        "sortColumn": d.columns[d.order[0].column].data,
+                        "sortDirection": d.order[0].dir
+                    });
+                }
+            },
+            "columns": [
+                { "data": "id" },
+                { "data": "eventName" },
+                { "data": "requestType" },
+                { "data": "status" }
+            ]
+        });
+    });
+
     </script>
 </body>
 </html>

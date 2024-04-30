@@ -17,6 +17,11 @@ public interface GraphicsRequestRepository extends JpaRepository <GraphicsReques
 	
     @Query(value = "SELECT * FROM etwig_graphics_request WHERE event = ?1 ORDER BY id DESC LIMIT ?2", nativeQuery = true)
     List<GraphicsRequest> findByRequestsByEventDescending(Long eventId, int limit);
+
+    @Query(value = "SELECT * FROM etwig_graphics_request WHERE event = ?1",
+            countQuery = "SELECT count(*) FROM etwig_graphics_request WHERE event = ?1",
+            nativeQuery = true)
+    Page<GraphicsRequest> findByRequestsByEvent(Long eventId, Pageable pageable);
     
     // All pending requests, order by excepted date DESC.
     Page<GraphicsRequest> findByApprovedIsNullOrderByExpectDateDesc(Pageable pageable);
