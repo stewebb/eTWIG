@@ -289,18 +289,18 @@
 							<#--
 							<#include "../_includes/events/addEdit_additionalInfo.ftl">	
 							-->
-
-							<table id="requestsTable" class="display" width="100%">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Event Name</th>
-                <th>Request Type</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-    </table>
-
+							<div class="table-responsive">
+								<table id="requestsTable" class="display table table-hover table-striped" width="100%">
+									<thead>
+										<tr>
+											<th>Request ID</th>
+											<th>Expect Date</th>
+											<th>Requester</th>
+											<th>Request Time</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
 
 							<button type="button" class="btn btn-outline-primary right-div" onclick="addEvent();">
                 				<i class="fa-solid fa-check"></i>&nbsp;Submit
@@ -401,11 +401,17 @@
 		
 
 		$(document).ready(function() {
+			var urlParams = new URLSearchParams(window.location.search);
+    var eventId = urlParams.get('eventId');
+
         $('#requestsTable').DataTable({
             "processing": true,
             "serverSide": true,
+			"lengthMenu": [[3, 5, 10], [3, 5, 10]],
+			"pageLength": 3,
+			"searching": false, 
             "ajax": {
-                "url": "/api/request/view?eventId=1",
+                "url": "/api/request/view?eventId=" + eventId,
                 "type": "GET",
                 "data": function(d) {
                     return $.extend({}, d, {
@@ -415,10 +421,16 @@
                 }
             },
             "columns": [
-                { "data": "id" },
-                { "data": "eventName" },
-                { "data": "requestType" },
-                { "data": "status" }
+                { "data": "id", "orderable": true},
+                { "data": "expectDate", "orderable": false},
+                { "data": "requesterName", "orderable": false},
+				{ "data": "requestTime", "orderable": false},
+				//{ "data": "requestComment", "orderable": false},
+				//{ "data": "approved", "orderable": false},
+				//{ "data": "approverName", "orderable": false},
+				//{ "data": "responseTime", "orderable": false},
+				//{ "data": "responseComment", "orderable": false},
+				//{ "data": "assetId", "orderable": false},
             ]
         });
     });

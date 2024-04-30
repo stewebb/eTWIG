@@ -1,5 +1,6 @@
 package net.etwig.webapp.controller.api;
 
+import net.etwig.webapp.dto.BannerRequestForEventPageDTO;
 import net.etwig.webapp.dto.graphics.GraphicsRequestDTO;
 import net.etwig.webapp.services.GraphicsRequestService;
 import net.etwig.webapp.util.WebReturn;
@@ -43,7 +44,7 @@ public class RequestAPIController {
         Sort.Direction dir = "asc".equalsIgnoreCase(sortDirection) ? Sort.Direction.ASC : Sort.Direction.DESC;
         PageRequest pageable = PageRequest.of(start / length, length, Sort.by(dir, sortColumn));
 
-        Page<GraphicsRequestDTO> page = graphicsRequestService.findRequestsByEvent(eventId, pageable);
+        Page<BannerRequestForEventPageDTO> page = graphicsRequestService.findRequestsByEvent(eventId, pageable);
 
         Map<String, Object> json = new HashMap<>();
         json.put("draw", draw);
