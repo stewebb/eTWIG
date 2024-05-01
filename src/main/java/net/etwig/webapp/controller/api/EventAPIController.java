@@ -25,9 +25,13 @@ public class EventAPIController {
     private PortfolioService portfolioService;
 
     /**
-     * Add an event into database
-     * @param eventInfo The new event payload, from front-end
-     * @return Success message if event added.
+     * Handles the HTTP POST request at the "/add" endpoint.
+     * This method is responsible for adding a new event with the provided event information.
+     *
+     * @param eventInfo a {@link Map} containing the event details as key-value pairs. <br>
+     *                  This map is parsed from the JSON body of the request.
+     * @return a {@link Map} representing the response to the client. <br>
+     * It includes a message indicating successful addition of the event and a status flag.
      * @location /api/event/add
      * @permission Those who has event management permission.
      */

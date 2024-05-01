@@ -294,9 +294,9 @@
 									<thead>
 										<tr>
 											<th>Request ID</th>
-											<th>Expect Date</th>
-											<th>Requester</th>
-											<th>Request Time</th>
+											<th>Banner</th>
+											<th>Request Date</th>
+											<th>Status</th>
 										</tr>
 									</thead>
 								</table>
@@ -421,16 +421,19 @@
                 }
             },
             "columns": [
-                { "data": "id", "orderable": true},
-                { "data": "expectDate", "orderable": false},
-                { "data": "requesterName", "orderable": false},
-				{ "data": "requestTime", "orderable": false},
+				{ "data": "id", "orderable": false},
+				{ "data": "assetId", "orderable": false},
+                { "data": "requestTime", "orderable": false},
+				{ "data": "approved", "orderable": false},
+                //{ "data": "expectDate", "orderable": false},
+                //{ "data": "requesterName", "orderable": false},
+				//{ "data": "requestTime", "orderable": false},
 				//{ "data": "requestComment", "orderable": false},
-				//{ "data": "approved", "orderable": false},
+				//
 				//{ "data": "approverName", "orderable": false},
 				//{ "data": "responseTime", "orderable": false},
 				//{ "data": "responseComment", "orderable": false},
-				//{ "data": "assetId", "orderable": false},
+				//
             ]
         });
     });
