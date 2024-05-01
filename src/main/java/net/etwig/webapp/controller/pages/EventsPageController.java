@@ -119,7 +119,7 @@ public class EventsPageController {
 		}
 
 		model.addAttribute("eventInfo", event);
-		model.addAttribute("requestInfo",graphicsRequestService.getRequestsByEvent(eventId));
+		//model.addAttribute("requestInfo",graphicsRequestService.getRequestsByEvent(eventId));
 
 		// Get the number of requests of this event.
 		model.addAttribute("count", graphicsRequestService.countByEventId(eventId));

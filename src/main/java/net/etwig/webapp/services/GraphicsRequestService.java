@@ -6,14 +6,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import jakarta.persistence.criteria.Predicate;
 import net.etwig.webapp.dto.BannerRequestForEventPageDTO;
 import net.etwig.webapp.dto.graphics.*;
 import net.etwig.webapp.model.EventGraphics;
 import net.etwig.webapp.repository.EventGraphicsRepository;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
@@ -63,32 +66,55 @@ public class GraphicsRequestService {
 		return requests.map(FinalizedRequestsBasicInfoDTO::new);
 	}
 
-	public Page<BannerRequestForEventPageDTO> findRequestsByEvent(Long eventId, Pageable pageable) {
-		//Page<GraphicsRequest> graphicsRequestPage = graphicsRequestRepository.findByRequestsByEvent(eventId, pageable);
-        //GraphicsRequestDTO dto = new GraphicsRequestDTO();
-        //dto.setId(request.getId());
-        //dto.setName(request.getName());
-        //dto.setDescription(request.getDescription());
-        //return graphicsRequestPage.map(GraphicsRequestDTO::new);
 
-		return graphicsRequestRepository.findByRequestsByEvent(eventId, pageable).map(BannerRequestForEventPageDTO::new);
+
+	//public Page<BannerRequestForEventPageDTO> findRequestsByEvent(Long eventId, Pageable pageable) {
+	//	return graphicsRequestRepository.findByRequestsByEvent(eventId, pageable).map(BannerRequestForEventPageDTO::new);
+	//}
+
+	public Page<BannerRequestForEventPageDTO> findRequestsByEvent(Long eventId, String isApproved, Pageable pageable) {
+		Specification<GraphicsRequest> spec = byEventAndApprovalStatus(eventId, isApproved);
+		return graphicsRequestRepository.findAll(spec, pageable).map(BannerRequestForEventPageDTO::new);
 	}
 
-	public LinkedHashMap<Long, GraphicsRequestDTO> getRequestsByEvent(Long eventId) { 
+	public Specification<GraphicsRequest> byEventAndApprovalStatus(Long eventId, String isApproved) {
+		return (root, query, criteriaBuilder) -> {
+			Predicate finalPredicate = criteriaBuilder.conjunction(); // Start with a conjunction (true).
+
+			// Add condition for eventId if it is not null
+			if (eventId != null) {
+				finalPredicate = criteriaBuilder.and(finalPredicate, criteriaBuilder.equal(root.get("event").get("id"), eventId));
+			}
+
+			// If isApproved="na", return all results regardless of the approval status.
+			//isApproved.equalsIgnoreCase("na");
+			if(!"na".equalsIgnoreCase(isApproved)){
+				finalPredicate = criteriaBuilder.and(finalPredicate, criteriaBuilder.equal(root.get("approved"), BooleanUtils.toBooleanObject(isApproved)));
+			}
+
+			// Add condition for isApproved if it is not null
+			//if (isApproved) {
+			//}
+
+			return finalPredicate;
+		};
+	}
+
+	//public LinkedHashMap<Long, GraphicsRequestDTO> getRequestsByEvent(Long eventId) {
 		
 		// Get the original data.
-		List<GraphicsRequest> requestList = graphicsRequestRepository.findByRequestsByEventDescending(eventId, 10);
+	//	List<GraphicsRequest> requestList = graphicsRequestRepository.findByRequestsByEventDescending(eventId, 10);
 		
 		// Apply the DTO.
-		List<GraphicsRequestDTO> requestDTOList = new ArrayList<GraphicsRequestDTO>();
-		for (GraphicsRequest request : requestList) {
-			requestDTOList.add(new GraphicsRequestDTO(request));
-		}	 
+	//	List<GraphicsRequestDTO> requestDTOList = new ArrayList<GraphicsRequestDTO>();
+	//	for (GraphicsRequest request : requestList) {
+	//		requestDTOList.add(new GraphicsRequestDTO(request));
+	//	}
 		
 		// Convert to LinkedHashMap
-		MapUtils mapUtils = new MapUtils();
-		return mapUtils.listToLinkedHashMap(requestDTOList, GraphicsRequestDTO::getId);
-	}
+	//	MapUtils mapUtils = new MapUtils();
+	//	return mapUtils.listToLinkedHashMap(requestDTOList, GraphicsRequestDTO::getId);
+	//}
 	
 	public PendingRequestsDetailsDTO getPendingRequestsById(@NonNull Long requestId) {
 		

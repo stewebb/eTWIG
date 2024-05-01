@@ -411,7 +411,7 @@
 			"pageLength": 3,
 			"searching": false, 
             "ajax": {
-                "url": "/api/request/view?eventId=" + eventId,
+                "url": "/api/request/list?eventId=" + eventId + "&isApproved=na",
                 "type": "GET",
                 "data": function(d) {
                     return $.extend({}, d, {
