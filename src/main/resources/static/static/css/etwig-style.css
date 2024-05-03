@@ -7,6 +7,16 @@
  	* @function: Main stylesheets and themes that across all webpages.
  	*/
 
+body { 
+    padding-top: 40px; /* Adjust this value if the navbar is taller */
+}
+@media (max-width: 768px) {
+    body {
+        padding-top: 80px; /* Increased padding for smaller screens if navbar height increases */
+    }
+}
+
+
 /*	Themes: Apply the theme color on some elements.*/
 .callout.callout-primary {
   border-left-color: #004aad;

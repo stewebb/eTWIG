@@ -247,7 +247,7 @@ function dateRender(data, type, row){
 
 function selectUpload(){
 	$('#etwigModalTitle').text('Select/Upload');
-	$("#etwigModalBody").load("/assets/_selector");
+	$("#etwigModalBody").load("/assets/_selectFile.do");
 	$('#etwigModal').modal('show');
 }
 

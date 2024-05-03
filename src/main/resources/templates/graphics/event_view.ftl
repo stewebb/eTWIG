@@ -41,8 +41,8 @@
 	          			<div class="col-sm-6">
 	            			<ol class="breadcrumb float-sm-right">
 	              				<li class="breadcrumb-item"><a href="/graphics">Graphics</a></li>
-								<li class="breadcrumb-item"><a href="/graphics/events/list">Event Graphics</a></li>
-								<li class="breadcrumb-item active"><a href="/graphics/events/view?eventId=${eventInfo.id}">View</a></li>
+								<li class="breadcrumb-item"><a href="/graphics/eventList.do">Event Graphics</a></li>
+								<li class="breadcrumb-item active"><a href="/graphics/eventGraphics.do?eventId=${eventInfo.id}">View</a></li>
 	            			</ol>
 	          			</div>
 	        		</div>

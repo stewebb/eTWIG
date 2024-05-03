@@ -103,11 +103,11 @@ public class AssetPageController {
 
 	/**
 	 * The embedded asset selector page
-	 * @location /asset/_selector.do
+	 * @location /asset/_selectFile.do
 	 * @permission All logged in users
 	 */
 
-	@RequestMapping("_selector.do")
+	@RequestMapping("_selectFile.do")
 	public String selector(Model model) throws Exception{
 		return "assets/selector";
 	}

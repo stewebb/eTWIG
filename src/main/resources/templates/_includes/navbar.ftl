@@ -1,6 +1,6 @@
         
         <#-- Nav -->
-        <nav class="main-header navbar navbar-expand-md navbar-light navbar-white no-padding">
+        <nav class="main-header navbar navbar-expand-md navbar-light navbar-white no-padding fixed-top">
             <div class="container-fluid">
             
             	<#-- Logo -->

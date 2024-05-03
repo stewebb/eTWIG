@@ -113,7 +113,7 @@ function approvedRender(data, type, row){
 
 function pendingActionRender(data, type, full){
 	return `
-		<a href="/graphics/approval/decide?requestId=${full.id}" class="btn btn-outline-primary btn-sm">
+		<a href="/graphics/approvalDetails.do?requestId=${full.id}" class="btn btn-outline-primary btn-sm">
 			<i class="fa-solid fa-check"></i>&nbsp;Decide
 		</a>
 	`;
@@ -121,7 +121,7 @@ function pendingActionRender(data, type, full){
 
 function finalizedActionRender(data, type, full){
 	return `
-		<a href="/graphics/approval/view?eventId=${full.id}" class="btn btn-outline-primary btn-sm">
+		<a href="/graphics/approvalDetails.do?eventId=${full.id}" class="btn btn-outline-primary btn-sm">
 			<i class="fa-solid fa-eye"></i>&nbsp;Details
 		</a>
 	`;
@@ -186,7 +186,7 @@ function decide(){
 
 	// Redirect back
 	if(!hasError){
-		setTimeout(function() {	$(location).attr('href','/graphics/approval/list'); }, 2500);
+		setTimeout(function() {	$(location).attr('href','/graphics/approvalList.do'); }, 2500);
 	}
 	
 }
