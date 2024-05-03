@@ -281,6 +281,10 @@
 								<#-- Col 1 -->
 								<div class="col-md-6">
 
+									<h5 class="mb-3 bold-text text-primary">
+										<i class="fa-solid fa-toggle-on"></i>&nbsp;Mode
+									</h5>
+
 									<#-- Recurrent -->
 									<div class="form-group row">
 										<label for="event-recurrent" class="col-sm-2">
@@ -327,6 +331,10 @@
 
 								<#-- Col 2 -->
 								<div class="col-md-6">
+
+									<h5 class="mb-3 bold-text text-primary">
+										<i class="fa-solid fa-list"></i>&nbsp;Details
+									</h5>
 
 									<div id="singleTimeEventOptions">
 									
@@ -728,26 +736,28 @@
 
 								<#-- Col 1: Basic -->
 								<div class="col-md-6">
-								123
+									<h5 class="mb-3 bold-text text-primary">
+										<i class="fa-solid fa-images"></i>&nbsp;Current Graphics
+									</h5>
 								</div>
 
-								<#-- Col 2: Request a new banner -->
+								<#-- Col 2: Banner Request -->
 								<div class="col-md-6">
 
 									<h5 class="mb-3 bold-text text-primary">
-										<i class="fa-solid fa-hand"></i>&nbsp;Request a new banner
+										<i class="fa-solid fa-hand"></i>&nbsp;Banner Request
 									</h5>
 
 									<#-- Request a grphic now -->										
 									<div class="mb-3">
 										<div class="icheck-primary">
 											<input type="checkbox" id="eventRequestNow" name="eventRequestNow">
-											<label for="eventRequestNow">Request a graphics now</label>
+											<label for="eventRequestNow">Request a banner now</label>
 										</div>
 									</div>
 									<#-- /Request a grphic now -->
 					
-									<div id="eventRequestNowBlock">
+									<div id="eventRequestNowBlock" style="display:none">
 										
 										
 
@@ -824,13 +834,19 @@
 
 								</div>
 
-								<#-- /Col 2: Request a new banner -->
+								<#-- /Col 2: Banner Request -->
 							</div>
 
 							<#--
 							<#include "../_includes/events/addEdit_additionalInfo.ftl">	
 							-->
+
 							<div class="table-responsive" id="bannerRequestHistory" style="display:none;">
+
+								<h5 class="mb-3 bold-text text-primary">
+									<i class="fa-solid fa-clock-rotate-left"></i>&nbsp;Request History
+								</h5>
+
 								<table id="requestsTable" class="display table table-hover table-striped" width="100%">
 									<thead>
 										<tr>
@@ -871,12 +887,6 @@
    	<#-- CSS and JS for summernote editor.-->
 	<link rel="stylesheet" href="/static/css/vendor/summernote-bs4.min.css">
 	<script src="/static/js/vendor/summernote-bs4.min.js"></script>
-	
-	<#-- bs stepper -->
-	<#-- PENDING REMOVAL
-	<link rel="stylesheet" href="/static/css/vendor/bs-stepper.min.css">
-	<script src="/static/js/vendor/bs-stepper.min.js"></script>
-	-->
 
 	<#-- jQuery inputmask -->
    	<script src="/static/js/vendor/jquery.inputmask.min.js"></script>
@@ -919,8 +929,9 @@
 				setValidTo(this.checked);
 			})
 
+			// Toggle banner request area by clicking the "Request a banner now" checkbox.
 			$('#eventRequestNow').change(function(){
-				setGraphicsRequest(this.checked);
+				$('#eventRequestNowBlock').toggle(this.checked);
 			})
 
 			$('.event-rrule-options').change(function(){
@@ -931,20 +942,9 @@
       			theme: 'bootstrap4'
     		})
 
-			// Initialize the stepper
-     		//eventStepper = new Stepper(document.querySelector('#eventStepper'), {
-    		//	linear: false
-  			//});
-
 			// Initialize the description box
 			initDescriptionBox('#eventDescription');
 		});
-		
-
-		//$(document).ready(function() {
-		//var urlParams = new URLSearchParams(window.location.search);
-    	//var eventId = urlParams.get('eventId');
-
 
     </script>
 </body>

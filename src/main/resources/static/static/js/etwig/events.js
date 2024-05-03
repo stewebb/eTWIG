@@ -738,11 +738,11 @@ function setValidTo(enableValidTo){
 	}
 }
 
-function setGraphicsRequest(graphicsRequest){
-	//$('#returningDate').attr('disabled', !graphicsRequest);
-	//$('#requestComment').attr('disabled', !graphicsRequest);
-	$('#eventRequestNowBlock').toggle(graphicsRequest);
-}
+//function toggleBannerRequestArea(graphicsRequest){
+//	//$('#returningDate').attr('disabled', !graphicsRequest);
+//	//$('#requestComment').attr('disabled', !graphicsRequest);
+//	$('#eventRequestNowBlock').toggle(graphicsRequest);
+//}
 
 function createDatePickers() {
 	var datePickersMap = new Map();
