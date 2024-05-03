@@ -241,6 +241,43 @@ function getEventInfo(datePickersMap){
 			
 		// Event options
 		getSelectedOptions(eventId);
+
+
+		// Banner request history
+		$('#bannerRequestHistory').show();
+        $('#requestsTable').DataTable({
+            "processing": true,
+            "serverSide": true,
+			"lengthMenu": [[3, 5, 10], [3, 5, 10]],
+			"pageLength": 3,
+			"searching": false, 
+            "ajax": {
+                "url": "/api/request/list?eventId=" + eventId + "&isApproved=na",
+                "type": "GET",
+                "data": function(d) {
+                    return $.extend({}, d, {
+                        "sortColumn": d.columns[d.order[0].column].data,
+                        "sortDirection": d.order[0].dir
+                    });
+                }
+            },
+            "columns": [
+				{ "data": "id", "orderable": false},
+				{ "data": "assetId", "orderable": false},
+                { "data": "requestTime", "orderable": false},
+				{ "data": "approved", "orderable": false},
+                //{ "data": "expectDate", "orderable": false},
+                //{ "data": "requesterName", "orderable": false},
+				//{ "data": "requestTime", "orderable": false},
+				//{ "data": "requestComment", "orderable": false},
+				//
+				//{ "data": "approverName", "orderable": false},
+				//{ "data": "responseTime", "orderable": false},
+				//{ "data": "responseComment", "orderable": false},
+				//
+            ]
+        });
+    //});
 	}
 
 	// Set add options
@@ -273,8 +310,7 @@ function getEventInfo(datePickersMap){
 
 		$('#eventGraphicsTab').hide();
     	$('#eventRequestNowBlock').show();
-
-		//return;
+		$('#bannerRequestHistory').hide();
 	}
 }
 
