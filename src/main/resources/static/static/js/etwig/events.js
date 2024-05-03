@@ -309,7 +309,7 @@ function getEventInfo(datePickersMap){
 		}
 
 		$('#eventGraphicsTab').hide();
-    	$('#eventRequestNowBlock').show();
+    	//$('#eventRequestNowBlock').show();
 		$('#bannerRequestHistory').hide();
 	}
 }
@@ -739,8 +739,9 @@ function setValidTo(enableValidTo){
 }
 
 function setGraphicsRequest(graphicsRequest){
-	$('#returningDate').attr('disabled', !graphicsRequest);
-	$('#requestComment').attr('disabled', !graphicsRequest);
+	//$('#returningDate').attr('disabled', !graphicsRequest);
+	//$('#requestComment').attr('disabled', !graphicsRequest);
+	$('#eventRequestNowBlock').toggle(graphicsRequest);
 }
 
 function createDatePickers() {
