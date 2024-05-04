@@ -36,7 +36,7 @@ public class GraphicsPageController {
 	@GetMapping("/eventList.do")
 	public String eventList(){
 
-		// TODO **Copy** this page to /events, then display different contents based on user permission
+		// TODO **Copy** this page to /events, then display different contents based on user permission!
 		return "graphics/event_list";
 	}
 
