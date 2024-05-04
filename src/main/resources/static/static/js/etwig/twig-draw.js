@@ -380,7 +380,7 @@ function draw(){
 //}
 
 function readImage(assets, assetId){
-    var assetUrl = "/assets/getPublicAsset?assetId=" + assetId;
+    var assetUrl = "/assets/content.do?assetId=" + assetId;
 			
     // Key: assetId, Value: content
     assets.set(
