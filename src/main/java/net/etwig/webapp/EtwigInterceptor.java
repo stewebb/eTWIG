@@ -61,11 +61,8 @@ public class EtwigInterceptor implements HandlerInterceptor{
 		// Application information.
 		LinkedHashMap<String, Object> appInfo = new LinkedHashMap<String, Object>();
 		appInfo.put("appName", config.getAppName());
-<<<<<<< HEAD:src/main/java/net/etwig/webapp/EtwigInterceptor.java
+
 		appInfo.put("appVersion", "3.0");
-=======
-		appInfo.put("appVersion", "2.2");
->>>>>>> main:src/main/java/net/grinecraft/etwig/EtwigInterceptor.java
 		appInfo.put("appOwner", config.getAppOwner());
 		modelAndView.addObject("app", appInfo);				
 	}

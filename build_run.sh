@@ -10,7 +10,7 @@ mkdir -p ./output
 
 # ---- Java Build ----
 mvn clean install -Dmaven.test.skip=true
-cp ./target/etwig-*.jar ./output/etwig.jar
+cp ./target/webapp-*.jar ./output/etwig.jar
 
 # ---- Python Build ----
 
