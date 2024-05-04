@@ -810,31 +810,12 @@
 											<textarea id="requestComment" class="form-control fixed-textarea" maxlength="255" rows="5"></textarea>
 											<small class="form-text text-muted">Additional comments and requirements, up to 255 characters.</small>
 										</div>			
-											<#-- /Comment -->
-
-											 <!--
-											<script>
-
-												
-												var myPositions = getMyPositions();
-												for (var key in myPositions) {
-													$("#requesterRole").append('<option value="' + myPositions[key].userRoleId + '">' + myPositions[key].position + ', ' + myPositions[key].portfolioName + '</option>');
-												}
-
-												$('#requesterRole').select2({
-      												theme: 'bootstrap4'
-    											})
-
-											</script>
-											-->
-
+										<#-- /Comment -->
 
 									</div>
-									
-
 								</div>
-
 								<#-- /Col 2: Banner Request -->
+
 							</div>
 
 							<#--
@@ -858,14 +839,46 @@
 									</thead>
 								</table>
 							</div>
-
-							<button type="button" class="btn btn-outline-primary right-div" onclick="addEvent();">
-                				<i class="fa-solid fa-check"></i>&nbsp;Submit
-                			</button>
 						</div>
 
 					</div>
 					<#-- /Additional Information -->
+
+					<div class="card mb-3">
+
+						<#--
+						<div class="card-header">
+							<h3 class="card-title">
+								<i class="fa-solid fa-gears"></i>&nbsp;Action
+							</h3>
+						</div>
+						-->
+
+						<div class="card-body">
+
+							<#-- Submit -->
+							<button type="button" class="btn btn-outline-primary right-div" onclick="addEvent();">
+                				<i class="fa-solid fa-check"></i>&nbsp;
+								<span id="submitText">Submit</span>
+                			</button>
+							<#-- /Submit -->
+
+							<#-- Back -->
+							<a class="btn btn-outline-secondary" href="/events/calendar.do">
+                				<i class="fa-solid fa-arrow-left"></i>&nbsp;Back
+                			</a>
+							<#-- /Back -->
+
+							<#-- Delete -->
+							<#--
+							<button type="button" class="btn btn-outline-danger" onclick="false;">
+                				<i class="fa-solid fa-trash"></i>&nbsp;
+								<span id="submitText">Delete</span>
+                			</button>
+							-->
+							<#-- /Delete -->
+						</div>
+					</div>
 
 					
 				</div>
@@ -932,6 +945,7 @@
 			// Toggle banner request area by clicking the "Request a banner now" checkbox.
 			$('#eventRequestNow').change(function(){
 				$('#eventRequestNowBlock').toggle(this.checked);
+				$("#submitText").text(this.checked? "Request and Submit" : "Submit");
 			})
 
 			$('.event-rrule-options').change(function(){

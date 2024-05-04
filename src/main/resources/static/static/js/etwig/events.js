@@ -251,6 +251,7 @@ function getEventInfo(datePickersMap){
 			"lengthMenu": [[3, 5, 10], [3, 5, 10]],
 			"pageLength": 3,
 			"searching": false, 
+			"order": [[0, "desc"]],
             "ajax": {
                 "url": "/api/request/list?eventId=" + eventId + "&isApproved=na",
                 "type": "GET",
@@ -265,7 +266,7 @@ function getEventInfo(datePickersMap){
 				{ "data": "id", "orderable": false},
 				{ "data": "assetId", "orderable": false},
                 { "data": "requestTime", "orderable": false},
-				{ "data": "approved", "orderable": false},
+				{ "data": "approved", "orderable": false, "render": approvalStatusRender},
                 //{ "data": "expectDate", "orderable": false},
                 //{ "data": "requesterName", "orderable": false},
 				//{ "data": "requestTime", "orderable": false},
@@ -464,8 +465,6 @@ function addEvent(){
 	}
 
 	var isEdit = mode > 0;
-	//console.log(parseInt($('#isEdit').val()))
-	//var modeStr =  isEdit ? "edit" : "add";
 	newEventObj["isEdit"] = isEdit;
 	
 	// Event id: Required in edit mode and provided
@@ -593,7 +592,7 @@ function addEvent(){
 			warningPopup("The duration string is not well-formed", "The format must be _d __h __m");
 			return;
 		}
-		console.log(eventDurationStr)
+		//console.log(eventDurationStr)
 		
 		var eventDuration = parseInt(eventDurationStr);
 		if(isNaN(eventDuration) || eventDuration <= 0){
@@ -648,7 +647,7 @@ function addEvent(){
 	
 	
 	// Graphics request (only available when adding an event)
-	if(!isEdit && $("#eventRequestNow").is(':checked')){
+	if($("#eventRequestNow").is(':checked')){
 		var graphics = {};
 		
 		// Returning Date
@@ -663,6 +662,8 @@ function addEvent(){
 		graphics["comments"] =  $("#requestComment").val();
 		newEventObj["graphics"] = graphics;
 	}
+
+	console.log(newEventObj);
 	
 	var hasError = true;
 	$.ajax({
@@ -905,4 +906,26 @@ function toAddPage(){
 	setTimeout(function() {
         window.location.href = "/events/add.do";
     }, 2000);
+}
+
+function approvalStatusRender(data, type, row){
+
+	// null -> Pending
+	if(data == undefined || data == null){
+		return '<span class="badge badge-warning">Pending</span>';
+	}
+
+	// true -> Approved
+	else if(data){
+		return '<span class="badge badge-success">Approved</span>';
+	}
+
+	// false -> Declined
+	else{
+		return '<span class="badge badge-danger">Declined</span>';
+	}
+
+	//return "";
+
+	//return data ? `<i class="fa-solid fa-check text-success bold-text"></i>` : `<i class="fa-solid fa-xmark text-danger bold-text"></i>`;
 }

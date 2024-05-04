@@ -26,7 +26,7 @@ public class NewGraphicsDTO {
     public void fromApproval(GraphicsRequest graphicsRequest){
 
         // Only approved requests are allowed to proceed.
-        if(!BooleanUtils.toBoolean(graphicsRequest.getApproved())){
+        if(!graphicsRequest.getApproved()){
             throw new IllegalArgumentException("This graphics request was declined.");
         }
 

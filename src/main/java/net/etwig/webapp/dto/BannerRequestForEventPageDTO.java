@@ -2,9 +2,7 @@ package net.etwig.webapp.dto;
 
 import lombok.Getter;
 import lombok.ToString;
-import net.etwig.webapp.dto.user.UserDTO;
 import net.etwig.webapp.model.GraphicsRequest;
-import net.etwig.webapp.model.User;
 import net.etwig.webapp.model.UserRole;
 
 import java.time.LocalDate;
@@ -24,7 +22,7 @@ public class BannerRequestForEventPageDTO {
     // Approval-related fields
     private Boolean approved;
     private String approverName;
-    private String approverRole;
+    private String approverPosition;
     private String approverPorrtfolioColor;
     private LocalDateTime responseTime;
     private String responseComment;
@@ -46,9 +44,14 @@ public class BannerRequestForEventPageDTO {
         this.assetId = graphicsRequest.getAssetId();
 
         UserRole approverRole = graphicsRequest.getApproverRole();
-        this.approverName = approverRole.getUser().getFullName();
-        this.approverRole = approverRole.getPosition();
-        this.approverPorrtfolioColor = approverRole.getPortfolio().getColor();
+
+        // approverRole is null if the banner request is pending.
+        if(approverRole != null){
+            this.approverName = approverRole.getUser().getFullName();
+            this.approverPosition = approverRole.getPosition();
+            this.approverPorrtfolioColor = approverRole.getPortfolio().getColor();
+        }
+
     }
 
 }
