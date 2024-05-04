@@ -172,7 +172,7 @@
 						<#-- /Profile -->
 						
 						<#-- Logout -->						
-						<a href="/user/logout.do" class="dropdown-item">
+						<a href="/user/logout" class="dropdown-item">
 							<i class="fa-solid fa-right-from-bracket"></i>&nbsp;Logout
 						</a>	
 						<#-- /Logout -->

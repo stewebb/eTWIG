@@ -80,7 +80,7 @@ function previewAsset(asset){
 		return;
 	}
 	
-	var fileURL = "/assets/getPublicAsset?assetId=" + asset.id;
+	var fileURL = "/assets/content.do?assetId=" + asset.id;
 	var category = asset.fileCategory;
 	
 	// File type is IMAGE, show an image on the screen.

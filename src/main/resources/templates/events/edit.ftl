@@ -722,7 +722,7 @@
 					</div>
 					<#-- /Timing -->
 
-					<#-- Additional Information -->
+					<#-- Grphics -->
 					<div class="card card-primary card-outline mb-3">
 						<div class="card-header">
 							<h3 class="card-title">
@@ -732,14 +732,16 @@
 
 						<div class="card-body">
 
-							<div class="row col-12">
+							<div class="row col-12 mb-3">
 
 								<#-- Col 1: Basic -->
+								<!--
 								<div class="col-md-6">
 									<h5 class="mb-3 bold-text text-primary">
 										<i class="fa-solid fa-images"></i>&nbsp;Current Graphics
 									</h5>
 								</div>
+								-->
 
 								<#-- Col 2: Banner Request -->
 								<div class="col-md-6">
@@ -842,7 +844,7 @@
 						</div>
 
 					</div>
-					<#-- /Additional Information -->
+					<#-- /Grphics -->
 
 					<div class="card mb-3">
 

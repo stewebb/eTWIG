@@ -65,7 +65,7 @@ public class AssetPageController {
 	 */
 	
 	@SuppressWarnings("null")
-	@GetMapping(value = "/content")
+	@GetMapping(value = "/content.do")
 	public ResponseEntity<Resource> content(@RequestParam Long assetId, @RequestParam (required=false) String download) throws Exception {
 		
 		// Get asset info, content and null check.

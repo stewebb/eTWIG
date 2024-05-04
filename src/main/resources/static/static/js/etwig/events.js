@@ -264,8 +264,8 @@ function getEventInfo(datePickersMap){
             },
             "columns": [
 				{ "data": "id", "orderable": false},
-				{ "data": "assetId", "orderable": false},
-                { "data": "requestTime", "orderable": false},
+				{ "data": "assetId", "orderable": false, "render": assetRender},
+                { "data": "requestTime", "orderable": false, "render": dateWeekRender},
 				{ "data": "approved", "orderable": false, "render": approvalStatusRender},
                 //{ "data": "expectDate", "orderable": false},
                 //{ "data": "requesterName", "orderable": false},
@@ -288,7 +288,7 @@ function getEventInfo(datePickersMap){
 		setRecurrentMode(0);
 		setAllDayEvent(false);
 		setValidTo(true);
-		setGraphicsRequest(true);
+		//setGraphicsRequest(true);
 		
 		// Set hidden fields.
 		$('#eventIdBlock').hide();
@@ -902,11 +902,26 @@ function calculateDuration(){
 	$('#eventDurationCalculated').text(formatTime((endDateTime - startDateTime) / 60000));
 }
 
+/**
+ * Redirects the user to the add event page after a delay of 2 seconds.
+ */
+
 function toAddPage(){
 	setTimeout(function() {
         window.location.href = "/events/add.do";
     }, 2000);
 }
+
+/**
+ * Renders the approval status as an HTML span element with a specific badge class based on the data provided.
+ * 
+ * @param {boolean|null|undefined} data - The data indicating the approval status, which can be true (approved), 
+ * 										  false (declined), or null/undefined (pending).
+ * @param {*} type - (not used in the current implementation).
+ * @param {*} row -  (not used in the current implementation).
+ * @returns {string} HTML string representing a span element with a class and text that reflects the approval status: 
+ * 										  'Pending', 'Approved', or 'Declined'.
+ */
 
 function approvalStatusRender(data, type, row){
 
@@ -924,8 +939,13 @@ function approvalStatusRender(data, type, row){
 	else{
 		return '<span class="badge badge-danger">Declined</span>';
 	}
+}
 
-	//return "";
+function assetRender(data, type, row){
+	return (data == undefined || data == null) ? 'N/A' : `<img src="/assets/content.do?assetId=${data}" class="table-img">`;
+}
 
-	//return data ? `<i class="fa-solid fa-check text-success bold-text"></i>` : `<i class="fa-solid fa-xmark text-danger bold-text"></i>`;
+function dateWeekRender(data, type, row){
+	var targetDate = Date.parse(data);
+	return targetDate.toString('yyyy-MM-dd HH:mm');
 }
