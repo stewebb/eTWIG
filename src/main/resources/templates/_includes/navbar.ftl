@@ -1,13 +1,15 @@
         
         <#-- Nav -->
-        <nav class="main-header navbar navbar-expand-md navbar-light navbar-white no-padding">
+        <nav class="main-header navbar navbar-expand-md navbar-light navbar-white no-padding fixed-top">
             <div class="container-fluid">
             
             	<#-- Logo -->
+				<#--
 				<a href="/" class="navbar-brand navbar-border">
 					<img src="/static/images/eTWIG.png" alt="eTWIG Logo" class="brand-image">
 					<span class="brand-text font-weight-light">&nbsp;</span>
 				</a>
+				-->
 				<#-- /Logo -->
 				
 				<button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,25 +20,17 @@
 				<div class="collapse navbar-collapse no-padding" id="navbarCollapse">
 					<ul class="navbar-nav">
 					
-						<#-- Dashboard -->
-						<li class="nav-item <#if navbar=="DASHBOARD">active</#if>">
-							<a href="/" class="nav-link navbar-border">
-								<i class="fa-solid fa-gauge-high"></i>&nbsp;Dashboard
+						<#-- Home -->
+						<li class="nav-item <#if navbar=="HOME">active</#if>">
+							<a href="/home.do" class="nav-link navbar-border">
+								<i class="fa-solid fa-home"></i>&nbsp;Home
 							</a>
 						</li>
-						<#-- /Dashboard -->
-						
-						<#-- TWIG -->
-						<li class="nav-item">
-							<a href="/twig" class="nav-link navbar-border" target="_blank">
-								<i class="fa-solid fa-tree"></i>&nbsp;TWIG
-							</a>
-						</li>
-						<#-- /TWIG -->
+						<#-- /Home -->
 						
 						<#-- Events -->
 						<li class="nav-item <#if navbar=="CALENDAR">active</#if>">
-							<a href="/events/calendar" class="nav-link navbar-border">
+							<a href="/events/calendar.do" class="nav-link navbar-border">
 								<i class="fa-solid fa-calendar-check"></i>&nbsp;Events
 							</a>
 						</li>
@@ -56,23 +50,25 @@
 								
 									<#-- Graphics Approval -->
 									<li>
-										<a href="/graphics/approval/list" class="dropdown-item <#if navbar=="GRAPHICS_APPROVAL">active</#if>">
+										<a href="/graphics/approvalList.do" class="dropdown-item <#if navbar=="GRAPHICS_APPROVAL">active</#if>">
 											<i class="fa-solid fa-circle-check"></i>&nbsp;Approval
 										</a>
 									</li>
 									<#-- /Graphics Approval -->
 									
 									<#-- TWIG Template -->
+									<!--
 									<li>
 										<a href="/graphics/twigTemplate/list" class="dropdown-item <#if navbar=="GRAPHICS_TWIG_TEMPLATE">active</#if>">
 											<i class="fa-solid fa-lines-leaning"></i>&nbsp;TWIG Template
 										</a>
 									</li>
+									-->
 									<#-- TWIG Template -->
 
 									<#-- Event -->
 									<li>
-										<a href="/graphics/events/list" class="dropdown-item <#if navbar=="GRAPHICS_EVENTS">active</#if>">
+										<a href="/graphics/eventList.do" class="dropdown-item <#if navbar=="GRAPHICS_EVENTS">active</#if>">
 											<i class="fa-solid fa-list-ul"></i>&nbsp;Events
 										</a>
 									</li>
@@ -108,18 +104,28 @@
             <#-- Navbar right-->
 			<ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
 
-				<!--
+				<#-- TWIG -->
+				<li class="nav-item">
+					<a href="/twig/index.do" class="nav-link navbar-border" target="_blank">TWIG</a>
+				</li>
+				<#-- /TWIG -->
+
+				
                 <#-- Notifications -->
                 <li class="nav-item dropdown">
                 	
                 	<#-- Bell icon -->
                 	<a class="nav-link navbar-border" data-toggle="dropdown" href="#">
                    		<i class="far fa-bell"></i>
+						<!--
                     	<span class="badge badge-warning navbar-badge">15</span>
+						-->
                 	</a>
                 	<#-- /Bell icon -->
                 	
 					<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+						<span class="dropdown-header">No Notifications</span>
+						<!--
 						<span class="dropdown-header">15 Notifications</span>
 						<div class="dropdown-divider"></div>
 						
@@ -129,11 +135,12 @@
 							<span class="float-right text-muted text-sm">3 mins</span>
 						</a>
 						<#-- /Notification item -->
+						-->
 
                     </div>
 				</li>
                 <#-- /Notifications -->
-				-->
+				
 
                 <#-- Account -->
                 <li class="nav-item dropdown <#if navbar=="USER">active</#if>">
@@ -159,7 +166,7 @@
 						<div class="dropdown-divider"></div>
 						
 						<#-- Profile -->						
-						<a href="/user/profile" class="dropdown-item">
+						<a href="/user/index.do" class="dropdown-item">
 							<i class="fa-regular fa-id-badge"></i>&nbsp;Profile
 						</a>	
 						<#-- /Profile -->

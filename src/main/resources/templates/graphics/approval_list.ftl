@@ -39,8 +39,8 @@
 						</div>
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
-								<li class="breadcrumb-item"><a href="/graphics">Graphics</a></li>
-								<li class="breadcrumb-item active"><a href="/graphics/approval/list">Request Approval</a></li>
+								<li class="breadcrumb-item"><a href="/graphics/index.do">Graphics</a></li>
+								<li class="breadcrumb-item active"><a href="/graphics/approvalList.do">Request Approval</a></li>
 							</ol>
 						</div>
 					</div>

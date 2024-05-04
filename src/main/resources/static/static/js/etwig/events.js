@@ -8,7 +8,7 @@
  	*/
 
 /**
- * A hard limit of the recurrent event counts to avoid infinite loops when trying to get all occurrences. 
+ * A hard limit of recurrent event count to avoid infinite loops when trying to get all occurrences. 
  * It's usually a big number.
  */
 
@@ -21,6 +21,10 @@ COUNT_HARD_LIMIT = 1000;
  */
 
 function getEventInfo(datePickersMap){
+
+	// Get page name, e.g., for http://localhost:8080/events/add.do, the page name is add.do
+	var pathname = window.location.pathname;
+	var pageName = pathname.substring(pathname.lastIndexOf('/') + 1);
 	
 	// Get eventId
 	var urlParams = new URLSearchParams(window.location.search);
@@ -28,66 +32,59 @@ function getEventInfo(datePickersMap){
     
     // Get my positions
     var myPositions = getMyPositions();
-    
-    /**
-	 * Add mode.
-	 */
-	
-    // Null check.
-    if(eventId == undefined || eventId == null || eventId.length == 0){
-		warningPopup("The eventId provided is empty.", "It must be not empty, and an integer. This page will be switched to Add Event mode.");
-		initAddOption(myPositions);
-		return;
-	}
-    
-    // Invalid check (not an integer).
-    if(eventId % 1 !== 0){
-		warningPopup(eventId +" is not a valid eventId", "It must be an integer. This page will be switched to Add Event mode.");
-		initAddOption(myPositions);
-		return;
-	}
-    
-    // Zero eventId, add event mode.
-    if(eventId == 0){
-		initAddOption(myPositions);
-		return;
-	}
-	
-	// Negative eventId, copy mode. Otherwise, edit mode.
-	var isEdit = eventId > 0;
-    $('#isEdit').val(isEdit ? 1 : -1);
 
-	// Positive eventId, search it in the DB.
-	var eventInfo;
-	$.ajax({ 
-		type: 'GET', 
-    	url: '/api/private/getEventById', 
-    	data: { 
-			eventId: Math.abs(eventId),
-		}, 
-    	async: false,
-		success: function(json) {
-			eventInfo = json;
-        },
-        
-        // Popup error info when it happens
-    	error: function(err) {   		
-			dangerPopup("Failed to get event information due to a HTTP " + err.status + " error.", err.responseJSON.exception);
-		}
-	});
-	
-	if(eventInfo == undefined || eventInfo == null || eventInfo.length == 0){
-		warningPopup("The event with id=" + eventId + " does not exist");
-		initAddOption(myPositions);
-		return;
-	}
+	// Set mode (add or edit)
+	var isEdit = pageName.includes("edit");
+	$('#isEdit').val(isEdit ? 1 : -1);
     
-    /**
-	 * Copy or edit mode.
-	 */
-	
-	// Actions only in edit mode.
+	// Set edit options
 	if(isEdit){
+
+		var eventInfo;
+		var commonInfo = " This page will be redirected to Add Event mode.";
+
+		// Null check
+		if(eventId == undefined || eventId == null || eventId.length == 0){
+			warningPopup("eventId is empty.", "It must be not empty, and an integer." + commonInfo);
+			toAddPage();
+			return;
+		}
+
+		// Integer check
+		if(eventId % 1 !== 0){
+			warningPopup(eventId + " is not a valid eventId", "It must be an integer." + commonInfo);
+			toAddPage();
+			return;
+		}
+
+		// Zero check
+		if(eventId == 0){
+			warningPopup("eventId is empty.", "It must be an integer which is either positive or negative." + commonInfo);
+			toAddPage();
+			return;
+		}
+
+		// Existence check
+		$.ajax({ 
+			type: 'GET', 
+    		url: '/api/event/view', 
+    		data: { 
+				eventId: Math.abs(eventId),
+			}, 
+    		async: false,
+			success: function(json) {
+				eventInfo = json;
+        	},
+			error: function(err) {   		
+				dangerPopup("Failed to get event information due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+			}
+		});
+	
+		if(eventInfo == undefined || eventInfo == null || eventInfo.length == 0){
+			warningPopup("The event with id=" + eventId + " does not exist" + commonInfo);
+			toAddPage();
+			return;
+		}
 
 		// Permission Check
 		var myPortfolioIds = [];
@@ -113,36 +110,19 @@ function getEventInfo(datePickersMap){
 		$('#eventIdBlock').show();
 		$('#eventId').text(eventInfo.id);
 
-		// Set the title.
+		// Set title.
 		$('#eventPageTitle').text('Edit Event: ' + eventInfo.name);
 		$('#eventPageLink').text('Edit Event');
+		$('#eventPageLink').attr('href', '/events/edit.do?eventId=-' + eventInfo.id);
 
 		// Copy and graphics, only available in edit mode.
 		$('.event-hidden-tabs').show();
-		$('#eventCopyLink').attr('href', '/events/edit?eventId=-' + eventInfo.id);
-		$('#eventGraphicsLink').attr('href', '/events/graphics?eventId=' + eventInfo.id);
-	}
+		//$('#eventCopyLink').attr('href', '/events/edit?eventId=-' + eventInfo.id);
+		//$('#eventGraphicsLink').attr('href', '/events/graphics?eventId=' + eventInfo.id);
 
-	// Actions only in copy mode.
-	else{
-
-		// Set the title.
-		$('#eventPageTitle').text('Copy Event: ' + eventInfo.name);
-		$('#eventPageLink').text('Copy Event');
-
-		$('.event-hidden-tabs').hide();
-	}
-
-	$('#eventPageLink').attr('href', '/events/edit?eventId=' + eventInfo.id);
-	$('#eventEditLink').attr('href', '/events/edit?eventId=' + eventInfo.id);
-	$('#eventRequestNowBlock').hide();
-    
-    // Get name and location
-    $('#eventName').val(eventInfo.name);
-    $('#eventLocation').val(eventInfo.location);
-    
-    // In edit mode
-	if(isEdit){
+		// Get name and location
+		$('#eventName').val(eventInfo.name);
+		$('#eventLocation').val(eventInfo.location);
 
 		// Get organizer info and set it to read-only.
 		$('#eventOrganizer').text(eventInfo.organizerName);
@@ -154,128 +134,184 @@ function getEventInfo(datePickersMap){
 		$('#eventUpdatedTimeBlock').show();
 		$('#eventCreatedTime').text((new Date(eventInfo.createdTime)).toString('yyyy-MM-dd HH:mm:ss'));
 		$('#eventUpdatedTime').text((new Date(eventInfo.updatedTime)).toString('yyyy-MM-dd HH:mm:ss'));
+	
+		// Get description
+		$('#eventDescription').html(eventInfo.description);
+    
+		// Get event start and end date time
+		var eventStartDate = Date.parse(eventInfo.startTime);    
+		datePickersMap.get('eventStartDate').setDate(eventStartDate);
+		$('#eventStartTime').val(eventStartDate.toString('HH:mm'));
+		$('#eventRecurringTime').val(eventStartDate.toString('HH:mm'));
+			
+		var eventEndDate = eventStartDate.addMinutes(eventInfo.duration);
+		datePickersMap.get('eventEndDate').setDate(eventEndDate);
+		$('#eventEndTime').val(eventEndDate.toString('HH:mm'));
+			
+		// Get duration
+		$('#eventDuration').val(minutesToString(eventInfo.duration));
+		$('#eventDurationCalculated').text(formatTime(eventInfo.duration));
+			
+		// Get recurrent info.
+		var rRule = new ETwig.RRuleFromStr(eventInfo.rrule);
+		var rule = rRule.getRuleObj();
+		
+		// All day event?
+		$('#eventAllDayEvent').prop('checked', eventInfo.allDayEvent);
+		$('#eventStartTimeBlock').toggle(!eventInfo.allDayEvent);
+		$('#eventEndTimeBlock').toggle(!eventInfo.allDayEvent);
+			
+		// This is a single time event, or the rRule is invalid.
+		if(rule == undefined || rule == null){
+				
+			// Invalid rRule check.
+			if(eventInfo.rrule != undefined && eventInfo.rrule != null && eventInfo.rrule.length > 0){
+				dangerPopup("Failed to parse Recurrence Rule.", eventInfo.rrule + " is not a valid iCalendar RFC 5545 Recurrence Rule.");
+			}
+				
+			// Single time mode
+			setRecurrentMode(false);
+			$('input[name="event-recurrent"][value="0"]').prop('checked', true);
+		}
+			
+		// This is a recurring event.
+		else{
+				
+			// Set the frequency.
+			$('input[name="eventFrequency"][value="' + rule.options.freq + '"]').prop('checked', true);
+				
+			// Set valid from
+			datePickersMap.get('eventValidFromDate').setDate(rule.options.dtstart);
+				
+			// Set valid to
+			$('#eventValidToDateEnabled').prop('checked', rule.options.until != null);
+			setValidTo(rule.options.until != null);
+			if(rule.options.until != null){
+				datePickersMap.get('eventValidToDate').setDate(rule.options.until);
+			}
+				
+			// Set count
+			$('#eventCount').val(rule.options.count);
+				
+			// Set interval
+			$('#eventInterval').val(rule.options.interval);
+				
+			// Set by weekday
+			if(rule.options.byweekday != null){
+				$('#eventByWeekDay option').each(function() {
+					if (rule.options.byweekday.includes(parseInt($(this).val()))) {
+					   $(this).prop('selected', true);
+					}    
+				});
+			}
+				
+			// Set by month
+			if(rule.options.bymonth != null){
+				$('#eventByMonth option').each(function() {
+					if (rule.options.bymonth.includes(parseInt($(this).val()))) {
+					   $(this).prop('selected', true);
+					}    
+				});
+			}
+				
+			// Set by month day
+			$('#eventByMonthDay').val(rule.options.bymonthday);
+				
+			// Display the rule.
+			$('#eventRRuleDiscription').text(rule.toText());
+		
+			// Recursion mode.
+			setRecurrentMode(true);
+			$('input[name="event-recurrent"][value="1"]').prop('checked', true);
+				
+			// Get RRule and selected options.
+			getRRuleByInput();
+				
+			// Excluded dates
+			var excludedDates = eventInfo.excluded;
+			if(excludedDates != undefined && excludedDates != null){
+				var excludedDatesStr = excludedDates.replace(/^\[|\]$/g, '').trim();
+				var excludeDates = excludedDatesStr.split(/\s*,\s*/);
+					
+				for(var i=0; i<excludeDates.length; i++){
+					addExcludeDate(excludeDates[i]);
+				}
+			}
+		}
+			
+		// Event options
+		getSelectedOptions(eventId);
+
+
+		// Banner request history
+		$('#bannerRequestHistory').show();
+        $('#requestsTable').DataTable({
+            "processing": true,
+            "serverSide": true,
+			"lengthMenu": [[3, 5, 10], [3, 5, 10]],
+			"pageLength": 3,
+			"searching": false, 
+			"order": [[0, "desc"]],
+            "ajax": {
+                "url": "/api/request/list?eventId=" + eventId + "&isApproved=na",
+                "type": "GET",
+                "data": function(d) {
+                    return $.extend({}, d, {
+                        "sortColumn": d.columns[d.order[0].column].data,
+                        "sortDirection": d.order[0].dir
+                    });
+                }
+            },
+            "columns": [
+				{ "data": "id", "orderable": false},
+				{ "data": "assetId", "orderable": false, "render": assetRender},
+                { "data": "requestTime", "orderable": false, "render": dateWeekRender},
+				{ "data": "approved", "orderable": false, "render": approvalStatusRender},
+                //{ "data": "expectDate", "orderable": false},
+                //{ "data": "requesterName", "orderable": false},
+				//{ "data": "requestTime", "orderable": false},
+				//{ "data": "requestComment", "orderable": false},
+				//
+				//{ "data": "approverName", "orderable": false},
+				//{ "data": "responseTime", "orderable": false},
+				//{ "data": "responseComment", "orderable": false},
+				//
+            ]
+        });
+    //});
 	}
 
-	// Otherwise, get the current user role.
+	// Set add options
 	else{
+
+		// Set default options.
+		setRecurrentMode(0);
+		setAllDayEvent(false);
+		setValidTo(true);
+		//setGraphicsRequest(true);
+		
+		// Set hidden fields.
+		$('#eventIdBlock').hide();
+		$('#eventCreatedTimeBlock').hide();
+		$('#eventUpdatedTimeBlock').hide();
+		$('.event-hidden-tabs').hide();
+		$('#eventRequestNowBlock').show();
+	
+		// Set title.
+		$('#eventPageTitle').text('Add Event');
+		$('#eventPageLink').text('Add Event');
+		$('#eventPageLink').attr('href', '/events/add.do');
+		$('#isEdit').val('0');
+		
+		// Set role(s).
 		$('#eventOrganizer').text($('#userName').text());
 		for (let key in myPositions) {
 			$("#eventRole").append(`<option value="${myPositions[key].userRoleId}">${myPositions[key].position}, ${myPositions[key].portfolioName}</option>`);
 		}
-		$("#eventRole").prop('disabled', false);
-	}
 
-    // Get description
-    $('#eventDescription').html(eventInfo.description);
-    
-    // Get event start and end date time
-    var eventStartDate = Date.parse(eventInfo.startTime);    
-    datePickersMap.get('eventStartDate').setDate(eventStartDate);
-    $('#eventStartTime').val(eventStartDate.toString('HH:mm'));
-    $('#eventRecurringTime').val(eventStartDate.toString('HH:mm'));
-    
-    var eventEndDate = eventStartDate.addMinutes(eventInfo.duration);
-    datePickersMap.get('eventEndDate').setDate(eventEndDate);
-    $('#eventEndTime').val(eventEndDate.toString('HH:mm'));
-    
-    // Get the duration
-    $('#eventDuration').val(minutesToString(eventInfo.duration));
-    $('#eventDurationCalculated').text(formatTime(eventInfo.duration));
-    
-    // Get recurrent info.
-    var rRule = new ETwig.RRuleFromStr(eventInfo.rrule);
-	var rule = rRule.getRuleObj();
-
-	// All day event?
-	$('#eventAllDayEvent').prop('checked', eventInfo.allDayEvent);
-	$('#eventStartTimeBlock').toggle(!eventInfo.allDayEvent);
-	$('#eventEndTimeBlock').toggle(!eventInfo.allDayEvent);
-	
-	// This is a single time event, or the rRule is invalid.
-	if(rule == undefined || rule == null){
-		
-		// Invalid rRule check.
-		if(eventInfo.rrule != undefined && eventInfo.rrule != null && eventInfo.rrule.length > 0){
-			dangerPopup("Failed to parse Recurrence Rule.", eventInfo.rrule + " is not a valid iCalendar RFC 5545 Recurrence Rule.");
-		}
-		
-		// Single time mode
-    	setRecurrentMode(false);
-    	$('input[name="event-recurrent"][value="0"]').prop('checked', true);
-	}
-	
-	// This is a recurring event.
-	else{
-		
-		// Set the frequency.
-		$('input[name="eventFrequency"][value="' + rule.options.freq + '"]').prop('checked', true);
-		
-		// Set valid from
-		datePickersMap.get('eventValidFromDate').setDate(rule.options.dtstart);
-		
-		// Set valid to
-		$('#eventValidToDateEnabled').prop('checked', rule.options.until != null);
-		setValidTo(rule.options.until != null);
-		if(rule.options.until != null){
-			datePickersMap.get('eventValidToDate').setDate(rule.options.until);
-		}
-		
-		// Set count
-		$('#eventCount').val(rule.options.count);
-		
-		// Set interval
-		$('#eventInterval').val(rule.options.interval);
-		
-		// Set by weekday
-		if(rule.options.byweekday != null){
-			$('#eventByWeekDay option').each(function() {
-       	 		if (rule.options.byweekday.includes(parseInt($(this).val()))) {
-           			$(this).prop('selected', true);
-       			}    
-       		});
-		}
-		
-		// Set by month
-		if(rule.options.bymonth != null){
-			$('#eventByMonth option').each(function() {
-       	 		if (rule.options.bymonth.includes(parseInt($(this).val()))) {
-           			$(this).prop('selected', true);
-       			}    
-       		});
-		}
-		
-		// Set by month day
-		$('#eventByMonthDay').val(rule.options.bymonthday);
-		
-		// Display the rule.
-		$('#eventRRuleDiscription').text(rule.toText());
-
-		// Recursion mode.
-		setRecurrentMode(true);
-		$('input[name="event-recurrent"][value="1"]').prop('checked', true);
-		
-		// Get RRule and selected options.
-		getRRuleByInput();
-		
-		// Excluded dates
-		var excludedDates = eventInfo.excluded;
-		if(excludedDates != undefined && excludedDates != null){
-			var excludedDatesStr = excludedDates.replace(/^\[|\]$/g, '').trim();
-			var excludeDates = excludedDatesStr.split(/\s*,\s*/);
-			
-			for(var i=0; i<excludeDates.length; i++){
-				addExcludeDate(excludeDates[i]);
-			}
-		}
-	}
-	
-	// Event options
-	getSelectedOptions(eventId);
-	
-	// Optional graphics request for copying an event.
-	if(!isEdit){
 		$('#eventGraphicsTab').hide();
-    	$('#eventRequestNowBlock').show();
+    	//$('#eventRequestNowBlock').show();
+		$('#bannerRequestHistory').hide();
 	}
 }
 
@@ -429,8 +465,6 @@ function addEvent(){
 	}
 
 	var isEdit = mode > 0;
-	//console.log(parseInt($('#isEdit').val()))
-	//var modeStr =  isEdit ? "edit" : "add";
 	newEventObj["isEdit"] = isEdit;
 	
 	// Event id: Required in edit mode and provided
@@ -558,7 +592,7 @@ function addEvent(){
 			warningPopup("The duration string is not well-formed", "The format must be _d __h __m");
 			return;
 		}
-		console.log(eventDurationStr)
+		//console.log(eventDurationStr)
 		
 		var eventDuration = parseInt(eventDurationStr);
 		if(isNaN(eventDuration) || eventDuration <= 0){
@@ -613,7 +647,7 @@ function addEvent(){
 	
 	
 	// Graphics request (only available when adding an event)
-	if(!isEdit && $("#eventRequestNow").is(':checked')){
+	if($("#eventRequestNow").is(':checked')){
 		var graphics = {};
 		
 		// Returning Date
@@ -628,10 +662,12 @@ function addEvent(){
 		graphics["comments"] =  $("#requestComment").val();
 		newEventObj["graphics"] = graphics;
 	}
+
+	console.log(newEventObj);
 	
 	var hasError = true;
 	$.ajax({
-   		url: '/api/private/editEvent', 
+   		url: isEdit ? '/api/event/edit' : '/api/event/add', 
    		type: "POST",
    		async: false,
    		dataType: "json",
@@ -654,7 +690,7 @@ function addEvent(){
  	});
 
 	if(!hasError){
-		setTimeout(function() { isEdit ? window.location.reload() : $(location).attr('href','/events/calendar'); }, 2500);
+		setTimeout(function() { isEdit ? window.location.reload() : $(location).attr('href','/events/calendar.do'); }, 2500);
 	}
 }
 
@@ -667,9 +703,9 @@ function initDescriptionBox(boxElem){
 	$(boxElem).summernote({
 		placeholder: 'Event description',
         tabsize: 4,
-        height: 350,
-        minHeight: 200,
-  		maxHeight: 500,
+        height: 300,
+        minHeight: 300,
+  		maxHeight: 300,
   		toolbar: [
   			['style', ['style']],
   			['font', ['bold', 'underline', 'clear']],
@@ -703,10 +739,11 @@ function setValidTo(enableValidTo){
 	}
 }
 
-function setGraphicsRequest(graphicsRequest){
-	$('#returningDate').attr('disabled', !graphicsRequest);
-	$('#requestComment').attr('disabled', !graphicsRequest);
-}
+//function toggleBannerRequestArea(graphicsRequest){
+//	//$('#returningDate').attr('disabled', !graphicsRequest);
+//	//$('#requestComment').attr('disabled', !graphicsRequest);
+//	$('#eventRequestNowBlock').toggle(graphicsRequest);
+//}
 
 function createDatePickers() {
 	var datePickersMap = new Map();
@@ -740,35 +777,6 @@ function createDatePickers() {
 	});
     
     return datePickersMap;
-}
-
-function initAddOption(myPositions){
-	
-	// Set the default options.
-	setRecurrentMode(0);
-	setAllDayEvent(false);
-	setValidTo(true);
-	setGraphicsRequest(true);
-	
-	// Set the hidden fields.
-	$('#eventIdBlock').hide();
-	$('#eventCreatedTimeBlock').hide();
-    $('#eventUpdatedTimeBlock').hide();
-    $('.event-hidden-tabs').hide();
-    $('#eventRequestNowBlock').show();
-   
-	// Set the title.
-	$('#eventPageTitle').text('Add Event');
-	$('#eventPageLink').text('Add Event');
-	$('#eventPageLink').attr('href', '/events/edit?eventId=-1');
-	$('#isEdit').val('0');
-	
-	// Set the role(s).
-	$('#eventOrganizer').text($('#userName').text());
-	for (let key in myPositions) {
-  		$("#eventRole").append(`<option value="${myPositions[key].userRoleId}">${myPositions[key].position}, ${myPositions[key].portfolioName}</option>`);
-	}
-	
 }
 
 /**
@@ -892,4 +900,52 @@ function calculateDuration(){
 	
 	// Re-format the duration string.
 	$('#eventDurationCalculated').text(formatTime((endDateTime - startDateTime) / 60000));
+}
+
+/**
+ * Redirects the user to the add event page after a delay of 2 seconds.
+ */
+
+function toAddPage(){
+	setTimeout(function() {
+        window.location.href = "/events/add.do";
+    }, 2000);
+}
+
+/**
+ * Renders the approval status as an HTML span element with a specific badge class based on the data provided.
+ * 
+ * @param {boolean|null|undefined} data - The data indicating the approval status, which can be true (approved), 
+ * 										  false (declined), or null/undefined (pending).
+ * @param {*} type - (not used in the current implementation).
+ * @param {*} row -  (not used in the current implementation).
+ * @returns {string} HTML string representing a span element with a class and text that reflects the approval status: 
+ * 										  'Pending', 'Approved', or 'Declined'.
+ */
+
+function approvalStatusRender(data, type, row){
+
+	// null -> Pending
+	if(data == undefined || data == null){
+		return '<span class="badge badge-warning">Pending</span>';
+	}
+
+	// true -> Approved
+	else if(data){
+		return '<span class="badge badge-success">Approved</span>';
+	}
+
+	// false -> Declined
+	else{
+		return '<span class="badge badge-danger">Declined</span>';
+	}
+}
+
+function assetRender(data, type, row){
+	return (data == undefined || data == null) ? 'N/A' : `<img src="/assets/content.do?assetId=${data}" class="table-img">`;
+}
+
+function dateWeekRender(data, type, row){
+	var targetDate = Date.parse(data);
+	return targetDate.toString('yyyy-MM-dd HH:mm');
 }

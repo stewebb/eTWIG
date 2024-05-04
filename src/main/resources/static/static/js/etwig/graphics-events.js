@@ -99,10 +99,10 @@ function dateWeekRender(data, type, row){
 function actionRender(data, type, full){
 	return `
 		<div class="btn-group">
-			<a href="/events/edit?eventId=${full.id}" class="btn btn-outline-secondary btn-sm" target="_blank">
+			<a href="/events/edit.do?eventId=${full.id}" class="btn btn-outline-secondary btn-sm" target="_blank">
 				<i class="fa-solid fa-lightbulb"></i>&nbsp;Event Info
 			</a>
-			<a href="/graphics/events/view?eventId=${full.id}" class="btn btn-outline-primary btn-sm">
+			<a href="/graphics/eventGraphics.do?eventId=${full.id}" class="btn btn-outline-primary btn-sm">
 				<i class="fa-solid fa-image"></i>&nbsp;Graphics
 			</a>
 		</div>

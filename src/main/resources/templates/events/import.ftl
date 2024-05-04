@@ -37,8 +37,8 @@
 	          			</div>
 	          			<div class="col-sm-6">
 	            			<ol class="breadcrumb float-sm-right">
-	              				<li class="breadcrumb-item"><a href="/events/calendar">Events</a></li>
-	              				<li class="breadcrumb-item active"><a href="#" id="eventPageLink">Import</a></li>
+	              				<li class="breadcrumb-item"><a href="/events/calendar.do">Events</a></li>
+	              				<li class="breadcrumb-item active"><a href="/events/import.do" id="eventPageLink">Import</a></li>
 	            			</ol>
 	          			</div>
 	        		</div>
@@ -54,7 +54,7 @@
 					<div class="card card-primary card-outline">
 						<div class="card-header">
 							<h3 class="card-title">
-								<i class="fa-solid fa-compass"></i>&nbsp;Directions and Examples
+								<i class="fa-solid fa-compass"></i>&nbsp;Introduction
 							</h3>
 						</div>
 
