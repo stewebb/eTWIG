@@ -11,10 +11,14 @@
 - **Free Software** (Licensed under MIT License)
 
 ## Technologies Used
-- **Frontend:** Bootstrap 4 and jQuery
-- **Backend:** Spring Boot 3 (with other Spring components) and Apache Freemarker.
+- **Frontend:** 
+  - **AdminLTE** (Bootstrap 4 version) as page/widget templates.
+  - **jQuery**
+  - **Font Awesome** to provide font icons.
+- **Backend:** 
+  - **Spring Framework** (with other Spring components, including Spring Boot, Spring Data and Spring Security)
+  - **Apache Freemarker** as a template engine
 - **Database:** PostgreSQL
-- **APIs:** List any APIs used (e.g., Google Calendar API, SendGrid for emails)
 
 ## Getting Started
 - **Clone** this project
