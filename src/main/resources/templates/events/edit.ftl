@@ -747,7 +747,7 @@
 									
 									<div class="mb-2">
 									<span class="bold-text">Banner</span>
-										<p><img src="about:blank" class="img-fluid" id="eventBanner" /></p>
+										<p id="eventBanner"></p>
 									</div>	
 								</div>
 								<#-- /Col 1: Current Graphics -->

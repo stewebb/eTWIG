@@ -246,7 +246,7 @@ function getEventInfo(datePickersMap){
 		$.ajax({
 			url: `/api/eventGraphics/list`, 
 			type: "GET",
-			async: false,
+			//async: false,
 			dataType: "json",
 			contentType: "application/json; charset=utf-8",
 			data: {
@@ -259,27 +259,42 @@ function getEventInfo(datePickersMap){
 				sortDirection: 'desc'
 			},
 			success: function (result) {
-				console.log(result);
-				//payload = result.data;
-
 				if(result.recordsTotal > 0){
-					$("#previewContent").html(`<img src="/asset/content.do?assetId=${result.data[0].assetId}" class="img-fluid"></img>`);
+					//alert(`<img src="/asset/content.do?assetId=${result.data[0].assetId}" class="img-fluid"></img>`);
+					$("#eventTwigComponent").html(`<img src="/assets/content.do?assetId=${result.data[0].assetId}" class="img-fluid"></img>`);
 				}
+		 	},
+		 	error: function (err) {
+				dangerPopup("Failed to get TWIG component due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+		 	}
+	  	});
 
-			//if(result.error > 0){
-			//	dangerPopup("Failed to get TWIG component", result.msg);
-			//	hasError = true;
-			//}else{
-			 	//var modeStrPP = (modeStr == "copy") ? "copied" : (modeStr + "ed");
-			 	//successPopup("Event " + modeStrPP + " successfully.");
-				// hasError = false;
-			//}	
-		 },
-		 error: function (err) {
-			dangerPopup("Failed to get TWIG component due to a HTTP " + err.status + " error.", err.responseJSON.exception);
-			hasError = true;
-		 }
-	  });
+		// Get Banner
+		$.ajax({
+			url: `/api/eventGraphics/list`, 
+			type: "GET",
+			//async: false,
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
+			data: {
+				eventId: eventId,
+				isBanner: true,
+				start: 0,		// First page
+				length: 1,		// This page has only 1 item
+				draw: 1,
+				sortColumn: 'id',
+				sortDirection: 'desc'
+			},
+			success: function (result) {
+				if(result.recordsTotal > 0){
+					//alert(`<img src="/asset/content.do?assetId=${result.data[0].assetId}" class="img-fluid"></img>`);
+					$("#eventBanner").html(`<img src="/assets/content.do?assetId=${result.data[0].assetId}" class="img-fluid"></img>`);
+				}
+		 	},
+		 	error: function (err) {
+				dangerPopup("Failed to get Banner due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+		 	}
+	  	});
 
 		// Banner request history
 		$('#bannerRequestHistory').show();
