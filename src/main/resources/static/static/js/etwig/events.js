@@ -242,59 +242,9 @@ function getEventInfo(datePickersMap){
 		// Event options
 		getSelectedOptions(eventId);
 
-		// Get TWIG component
-		$.ajax({
-			url: `/api/eventGraphics/list`, 
-			type: "GET",
-			//async: false,
-			dataType: "json",
-			contentType: "application/json; charset=utf-8",
-			data: {
-				eventId: eventId,
-				isBanner: false,
-				start: 0,		// First page
-				length: 1,		// This page has only 1 item
-				draw: 1,
-				sortColumn: 'id',
-				sortDirection: 'desc'
-			},
-			success: function (result) {
-				if(result.recordsTotal > 0){
-					//alert(`<img src="/asset/content.do?assetId=${result.data[0].assetId}" class="img-fluid"></img>`);
-					$("#eventTwigComponent").html(`<img src="/assets/content.do?assetId=${result.data[0].assetId}" class="img-fluid"></img>`);
-				}
-		 	},
-		 	error: function (err) {
-				dangerPopup("Failed to get TWIG component due to a HTTP " + err.status + " error.", err.responseJSON.exception);
-		 	}
-	  	});
-
-		// Get Banner
-		$.ajax({
-			url: `/api/eventGraphics/list`, 
-			type: "GET",
-			//async: false,
-			dataType: "json",
-			contentType: "application/json; charset=utf-8",
-			data: {
-				eventId: eventId,
-				isBanner: true,
-				start: 0,		// First page
-				length: 1,		// This page has only 1 item
-				draw: 1,
-				sortColumn: 'id',
-				sortDirection: 'desc'
-			},
-			success: function (result) {
-				if(result.recordsTotal > 0){
-					//alert(`<img src="/asset/content.do?assetId=${result.data[0].assetId}" class="img-fluid"></img>`);
-					$("#eventBanner").html(`<img src="/assets/content.do?assetId=${result.data[0].assetId}" class="img-fluid"></img>`);
-				}
-		 	},
-		 	error: function (err) {
-				dangerPopup("Failed to get Banner due to a HTTP " + err.status + " error.", err.responseJSON.exception);
-		 	}
-	  	});
+		// Get Graphics (TWIG component and Banner)
+		getGraphics(eventId, false);
+		getGraphics(eventId, true);
 
 		// Banner request history
 		$('#bannerRequestHistory').show();
@@ -938,7 +888,11 @@ function stringToMinutes(durationStr) {
 }
 
 /**
- * Calculate the real-time duration when clicking the event date/time inputs.
+ * Calculates the duration of an event based on its start and end times and updates the display.
+ * The function first checks if the event is marked as an all-day event. 
+ * If it is, it assumes the event starts and ends at midnight of the selected dates. 
+ * Otherwise, it uses the user-provided start and end times. 
+ * The duration is calculated in minutes, converted to a user-friendly format, and displayed in a specific page element.
  */
 
 function calculateDuration(){
@@ -994,11 +948,98 @@ function approvalStatusRender(data, type, row){
 	}
 }
 
+/**
+ * Generates HTML markup for rendering an image element in a table cell based on the asset ID provided.
+ * If the data is undefined or null, it returns 'N/A' indicating that the asset is not available.
+ * Otherwise, it constructs an <img> tag with a source URL that includes the asset ID, styling the image
+ * for display within a table.
+ *
+ * @param {string|null|undefined} data - The asset ID used to generate the image source URL.
+ * @param {string} type - The type of operation or context in which the function is called (unused in this function).
+ * @param {object} row - The data row that contains the asset ID (unused in this function).
+ * @returns {string} An HTML string for the image element or 'N/A' if the asset ID is not available.
+ */
+
 function assetRender(data, type, row){
 	return (data == undefined || data == null) ? 'N/A' : `<img src="/assets/content.do?assetId=${data}" class="table-img">`;
 }
 
+/**
+ * Converts a date string into a formatted date-time string.
+ * This function parses the input data string to a Date object and formats it into a 'YYYY-MM-DD HH:mm' format.
+ * It's intended for use in table renderers where consistent date-time formatting is required.
+ *
+ * @param {string} data - The date string to be converted.
+ * @param {string} type - The type of operation or context in which the function is called (unused in this function).
+ * @param {object} row - The data row that contains the date string (unused in this function).
+ * @returns {string} The formatted date-time string.
+ */
+
 function dateWeekRender(data, type, row){
 	var targetDate = Date.parse(data);
 	return targetDate.toString('yyyy-MM-dd HH:mm');
+}
+
+/**
+ * Fetches and displays graphics for a specific event component based on the given parameters.
+ * The function determines whether to fetch a banner or a TWIG component graphic based on the `isBanner` flag.
+ * It sends a GET request to the server and dynamically updates the HTML content of the selected element
+ * with the graphic if available, or displays a placeholder in case of no results or an error.
+ *
+ * @param {string} eventId - The unique identifier for the event for which graphics are being requested.
+ * @param {boolean} isBanner - Determines the type of graphic to fetch:
+ *                             true for an event banner, false for a TWIG component.
+ */
+
+function getGraphics(eventId, isBanner){
+
+	var selectedElement = isBanner ? "#eventBanner" : "#eventTwigComponent";
+	var title = isBanner ? "Banner" : "TWIG Component";
+
+	$.ajax({
+		url: `/api/eventGraphics/list`, 
+		type: "GET",
+		dataType: "json",
+		contentType: "application/json; charset=utf-8",
+		data: {
+			eventId: eventId,
+			isBanner: isBanner,
+			start: 0,		// The first page of result set
+			length: 1,		// This page has only 1 item
+			draw: 1,
+			sortColumn: 'id',
+			sortDirection: 'desc'
+		},
+		success: function (result) {
+			if(result.recordsTotal > 0){
+				$(selectedElement).html(`
+					<div class="row">
+    					<div class="col-sm">
+    </div>
+    <div class="col-sm">
+      One of three columns
+    </div>
+    <div class="col-sm">
+      One of three columns
+    </div>
+  </div>
+				<img src="/assets/content.do?assetId=${result.data[0].assetId}" class="img-fluid"></img>`);
+			}
+
+			else{
+				$(selectedElement).html(`
+					<div class="d-flex justify-content-center">	
+						<i class="fa-regular fa-ban medium-icons"></i>
+					</div>
+				
+					<div class="d-flex justify-content-center bold-text text-secondary">
+						No ${title}.
+					</div>`
+				);
+			}
+		 },
+		 error: function (err) {
+			dangerPopup(`Failed to get ${title} due to a HTTP ${err.status} error.`, err.responseJSON.exception);
+		 }
+	});
 }

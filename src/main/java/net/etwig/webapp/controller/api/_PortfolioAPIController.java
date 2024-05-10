@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import net.etwig.webapp.services.PortfolioService;
 
 @RestController
-public class PortfolioAPIController {
+public class _PortfolioAPIController {
 
 	@Autowired
 	PortfolioService portfolioService;
