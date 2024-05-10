@@ -53,6 +53,8 @@ public class EtwigInterceptor implements HandlerInterceptor{
 			
 			// Put user access into session
 			UserAccessDTO userAccess = (UserAccessDTO) session.getAttribute("access");
+			//System.out.println(session);
+			System.out.println(userAccess);
 			if(userAccess != null) {
 				modelAndView.addObject("access", userAccess);
 			}
@@ -62,7 +64,7 @@ public class EtwigInterceptor implements HandlerInterceptor{
 		LinkedHashMap<String, Object> appInfo = new LinkedHashMap<String, Object>();
 		appInfo.put("appName", config.getAppName());
 
-		appInfo.put("appVersion", "3.0");
+		appInfo.put("appVersion", "3.1");
 		appInfo.put("appOwner", config.getAppOwner());
 		modelAndView.addObject("app", appInfo);				
 	}

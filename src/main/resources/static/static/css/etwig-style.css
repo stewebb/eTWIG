@@ -98,6 +98,11 @@ body {
 	color: #BFBFBF;
 }
 
+.medium-icons{
+	font-size: 5em;
+	color: #BFBFBF;
+}
+
 .disabled-link {
   pointer-events: none;
   cursor: default;

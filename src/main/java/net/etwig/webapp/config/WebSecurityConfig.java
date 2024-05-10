@@ -49,7 +49,7 @@ public class WebSecurityConfig{
 		"/nsRest/public/**",
 		"/twig/**", 
 		"/error", 
-		"/assets/getPublicAsset"
+		"/assets/**"
 	};
 	
 	@SuppressWarnings("removal")

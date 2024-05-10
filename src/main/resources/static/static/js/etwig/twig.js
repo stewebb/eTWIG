@@ -217,7 +217,7 @@ class TwigSettings{
     }
 
     toUrl(){
-        return `/twig?portfolioId=${this.portfolio}&date=${this.date.toString("yyyy-MM-dd")}`; 
+        return `/twig/index.do?portfolioId=${this.portfolio}&date=${this.date.toString("yyyy-MM-dd")}`;
     }
 
 }

@@ -557,7 +557,7 @@ function getWeekByDate(date){
 }
 
 function applyChanges(){
-    window.location.href = '/twig?portfolioId=' + $('#twigPortfolio').val() + '&date=' + $('#twigWeek').val();
+    window.location.href = '/twig/index.do?portfolioId=' + $('#twigPortfolio').val() + '&date=' + $('#twigWeek').val();
 }
 
 function copyLink(url){

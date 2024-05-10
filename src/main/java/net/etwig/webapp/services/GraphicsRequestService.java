@@ -1,13 +1,10 @@
 package net.etwig.webapp.services;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import jakarta.persistence.criteria.Predicate;
-import net.etwig.webapp.dto.BannerRequestForEventPageDTO;
+import net.etwig.webapp.dto.BannerRequestAPIForEventPageDTO;
 import net.etwig.webapp.dto.graphics.*;
 import net.etwig.webapp.model.EventGraphics;
 import net.etwig.webapp.repository.EventGraphicsRepository;
@@ -22,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import net.etwig.webapp.model.GraphicsRequest;
 import net.etwig.webapp.repository.GraphicsRequestRepository;
-import net.etwig.webapp.util.MapUtils;
 
 @Service
 public class GraphicsRequestService {
@@ -72,12 +68,27 @@ public class GraphicsRequestService {
 	//	return graphicsRequestRepository.findByRequestsByEvent(eventId, pageable).map(BannerRequestForEventPageDTO::new);
 	//}
 
-	public Page<BannerRequestForEventPageDTO> findRequestsByEvent(Long eventId, String isApproved, Pageable pageable) {
-		Specification<GraphicsRequest> spec = byEventAndApprovalStatus(eventId, isApproved);
-		return graphicsRequestRepository.findAll(spec, pageable).map(BannerRequestForEventPageDTO::new);
+	/**
+	 * Retrieves a paginated list of banner requests based on the specified criteria.
+	 *
+	 * This method constructs a {@link Specification} using the given event ID and approval status to filter the results.
+	 * It then queries the {@link GraphicsRequestRepository} with this specification and the provided {@link Pageable} object
+	 * to obtain a paginated result. Each {@link GraphicsRequest} found is then transformed into a {@link BannerRequestAPIForEventPageDTO} object.
+	 *
+	 * @param eventId The unique identifier of the event to filter by; can be {@code null} if filtering by event ID is not required.
+	 * @param isApproved A {@link String} representing the approval status to filter the graphics requests;
+	 *                   can be {@code null} if this filter is not required. Possible values are "approved", "pending", "rejected".
+	 * @param pageable A {@link Pageable} instance containing pagination information.
+	 * @return A {@link Page} of {@link BannerRequestAPIForEventPageDTO} objects representing the filtered list of graphics requests.
+	 *         This can be empty if no matching requests are found, but never {@code null}.
+	 */
+
+	public Page<BannerRequestAPIForEventPageDTO> findRequestsByCriteria(Long eventId, String isApproved, Pageable pageable) {
+		Specification<GraphicsRequest> spec = bannerRequestCriteria(eventId, isApproved);
+		return graphicsRequestRepository.findAll(spec, pageable).map(BannerRequestAPIForEventPageDTO::new);
 	}
 
-	public Specification<GraphicsRequest> byEventAndApprovalStatus(Long eventId, String isApproved) {
+	public Specification<GraphicsRequest> bannerRequestCriteria(Long eventId, String isApproved) {
 		return (root, query, criteriaBuilder) -> {
 			Predicate finalPredicate = criteriaBuilder.conjunction(); // Start with a conjunction (true).
 

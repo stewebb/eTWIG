@@ -734,14 +734,52 @@
 
 							<div class="row col-12 mb-3">
 
-								<#-- Col 1: Basic -->
-								<!--
+								<#-- Col 1: Current Graphics -->
 								<div class="col-md-6">
 									<h5 class="mb-3 bold-text text-primary">
 										<i class="fa-solid fa-images"></i>&nbsp;Current Graphics
 									</h5>
+
+									<#-- TWIG Component -->
+									<div class="row justify-content-md-center mb-2">
+    									<div class="col-lg-3 bold-text">TWIG Component</div>
+										<div class="col-lg-7" id="eventTwigComponent"></div>
+										<div class="col-lg-2">
+											<button id="twigComponentDownloadBtn" class="btn btn-outline-primary" onclick="" disabled>
+												<i class="fa-regular fa-download"></i>
+											</button>
+										</div>
+									</div>
+									<#-- /TWIG Component -->
+
+									<#-- Banner -->
+									<div class="row justify-content-md-center">
+    									<div class="col-lg-3 bold-text">Banner</div>
+										<div class="col-lg-7" id="eventBanner"></div>
+										<div class="col-lg-2">
+											<button id="bannerDownloadBtn" class="btn btn-outline-primary" onclick="" disabled>
+												<i class="fa-regular fa-download"></i>
+											</button>
+										</div>
+									</div>
+									<#-- /Banner -->
+
+									<!--
+									<div class="mb-2">
+										<span class="bold-text">TWIG Component</span>
+										<p id="eventTwigComponent"></p>
+									</div>
+									-->
+									
+									<!--
+									<div class="mb-2">
+									<span class="bold-text">Banner</span>
+										<p id="eventBanner"></p>
+									</div>	
+									-->
 								</div>
-								-->
+								<#-- /Col 1: Current Graphics -->
+								
 
 								<#-- Col 2: Banner Request -->
 								<div class="col-md-6">

@@ -2,9 +2,6 @@ package net.etwig.webapp.controller.api;
 
 import net.etwig.webapp.dto.events.EventDetailsDTO;
 import net.etwig.webapp.dto.graphics.EventGraphicsListDTO;
-import net.etwig.webapp.dto.graphics.PendingRequestsBasicInfoDTO;
-import net.etwig.webapp.model.Event;
-import net.etwig.webapp.model.GraphicsRequest;
 import net.etwig.webapp.services.EventGraphicsService;
 import net.etwig.webapp.services.EventService;
 import net.etwig.webapp.util.NumberUtils;
@@ -18,7 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/private/")
-public class GraphicsAPIController {
+public class _GraphicsAPIController {
 
     @Autowired
     private EventGraphicsService eventGraphicsService;
