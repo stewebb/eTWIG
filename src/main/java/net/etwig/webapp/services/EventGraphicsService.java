@@ -34,13 +34,13 @@ public class EventGraphicsService {
 	 * If the event graphics data is found, it is converted into an {@link EventGraphicsAPIForDetailsPageDTO} object.
 	 * If no data is found, this method returns {@code null}.
 	 *
-	 * @param eventId The unique identifier of the event to find graphics for. This should be a non-null {@link Long} value.
+	 * @param graphicsId The unique identifier of the event to find graphics for. This should be a non-null {@link Long} value.
 	 * @return An {@link EventGraphicsAPIForDetailsPageDTO} containing the graphics details of the event, or {@code null} if no event graphics are found.
 	 * @throws IllegalArgumentException if {@code eventId} is {@code null}.
 	 */
 
-	public EventGraphicsAPIForDetailsPageDTO findById(Long eventId){
-		Optional<EventGraphics> eventGraphicsOptional = eventGraphicsRepository.findById(eventId);
+	public EventGraphicsAPIForDetailsPageDTO findById(Long graphicsId){
+		Optional<EventGraphics> eventGraphicsOptional = eventGraphicsRepository.findById(graphicsId);
         return eventGraphicsOptional.map(EventGraphicsAPIForDetailsPageDTO::new).orElse(null);
     }
 	
