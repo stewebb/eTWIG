@@ -77,7 +77,7 @@ public class BannerRequestAPIController {
         PageRequest pageable = PageRequest.of(start / length, length, Sort.by(dir, sortColumn));
 
         // Get data as pages
-        Page<BannerRequestAPIForEventPageDTO> page = graphicsRequestService.findRequestsByEvent(eventId, isApproved, pageable);
+        Page<BannerRequestAPIForEventPageDTO> page = graphicsRequestService.findRequestsByCriteria(eventId, isApproved, pageable);
 
         Map<String, Object> json = new HashMap<>();
         json.put("draw", draw);
