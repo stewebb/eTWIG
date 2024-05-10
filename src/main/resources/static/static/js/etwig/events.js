@@ -242,6 +242,44 @@ function getEventInfo(datePickersMap){
 		// Event options
 		getSelectedOptions(eventId);
 
+		// Get TWIG component
+		$.ajax({
+			url: `/api/eventGraphics/list`, 
+			type: "GET",
+			async: false,
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
+			data: {
+				eventId: eventId,
+				isBanner: false,
+				start: 0,		// First page
+				length: 1,		// This page has only 1 item
+				draw: 1,
+				sortColumn: 'id',
+				sortDirection: 'desc'
+			},
+			success: function (result) {
+				console.log(result);
+				//payload = result.data;
+
+				if(result.recordsTotal > 0){
+					$("#previewContent").html(`<img src="/asset/content.do?assetId=${result.data[0].assetId}" class="img-fluid"></img>`);
+				}
+
+			//if(result.error > 0){
+			//	dangerPopup("Failed to get TWIG component", result.msg);
+			//	hasError = true;
+			//}else{
+			 	//var modeStrPP = (modeStr == "copy") ? "copied" : (modeStr + "ed");
+			 	//successPopup("Event " + modeStrPP + " successfully.");
+				// hasError = false;
+			//}	
+		 },
+		 error: function (err) {
+			dangerPopup("Failed to get TWIG component due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+			hasError = true;
+		 }
+	  });
 
 		// Banner request history
 		$('#bannerRequestHistory').show();
@@ -253,7 +291,7 @@ function getEventInfo(datePickersMap){
 			"searching": false, 
 			"order": [[0, "desc"]],
             "ajax": {
-                "url": "/api/request/list?eventId=" + eventId + "&isApproved=na",
+                "url": "/api/bannerRequest/list?eventId=" + eventId + "&isApproved=na",
                 "type": "GET",
                 "data": function(d) {
                     return $.extend({}, d, {

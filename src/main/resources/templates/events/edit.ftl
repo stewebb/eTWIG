@@ -734,14 +734,24 @@
 
 							<div class="row col-12 mb-3">
 
-								<#-- Col 1: Basic -->
-								<!--
+								<#-- Col 1: Current Graphics -->
 								<div class="col-md-6">
 									<h5 class="mb-3 bold-text text-primary">
 										<i class="fa-solid fa-images"></i>&nbsp;Current Graphics
 									</h5>
+
+									<div class="mb-2">
+										<span class="bold-text">TWIG Component</span>
+										<p id="eventTwigComponent"></p>
+									</div>
+									
+									<div class="mb-2">
+									<span class="bold-text">Banner</span>
+										<p><img src="about:blank" class="img-fluid" id="eventBanner" /></p>
+									</div>	
 								</div>
-								-->
+								<#-- /Col 1: Current Graphics -->
+								
 
 								<#-- Col 2: Banner Request -->
 								<div class="col-md-6">
