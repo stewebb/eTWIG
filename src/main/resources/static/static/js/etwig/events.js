@@ -994,6 +994,7 @@ function dateWeekRender(data, type, row){
 function getGraphics(eventId, isBanner){
 
 	var selectedElement = isBanner ? "#eventBanner" : "#eventTwigComponent";
+	var selectedButton = isBanner ? "#bannerDownloadBtn" : "#twigComponentDownloadBtn";
 	var title = isBanner ? "Banner" : "TWIG Component";
 
 	$.ajax({
@@ -1012,30 +1013,28 @@ function getGraphics(eventId, isBanner){
 		},
 		success: function (result) {
 			if(result.recordsTotal > 0){
-				$(selectedElement).html(`
-					<div class="row">
-    					<div class="col-sm">
-    </div>
-    <div class="col-sm">
-      One of three columns
-    </div>
-    <div class="col-sm">
-      One of three columns
-    </div>
-  </div>
-				<img src="/assets/content.do?assetId=${result.data[0].assetId}" class="img-fluid"></img>`);
+
+				var imageUrl = '/assets/content.do?assetId=' + result.data[0].assetId;
+				$(selectedElement).html(`<img src="${imageUrl}" class="img-fluid"></img>`);
+				$(selectedButton).attr("onclick", `window.location.href='${imageUrl}&download=true'`);
+				$(selectedButton).attr("disabled", false);
 			}
 
 			else{
 				$(selectedElement).html(`
+					<!--
 					<div class="d-flex justify-content-center">	
 						<i class="fa-regular fa-ban medium-icons"></i>
 					</div>
+					-->
 				
 					<div class="d-flex justify-content-center bold-text text-secondary">
 						No ${title}.
 					</div>`
 				);
+
+				$(selectedButton).attr("onclick", "");
+				$(selectedButton).attr("disabled", true);
 			}
 		 },
 		 error: function (err) {

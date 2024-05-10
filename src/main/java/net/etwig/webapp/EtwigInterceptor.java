@@ -53,6 +53,7 @@ public class EtwigInterceptor implements HandlerInterceptor{
 			
 			// Put user access into session
 			UserAccessDTO userAccess = (UserAccessDTO) session.getAttribute("access");
+			//System.out.println(session);
 			System.out.println(userAccess);
 			if(userAccess != null) {
 				modelAndView.addObject("access", userAccess);
