@@ -1,13 +1,10 @@
 package net.etwig.webapp.services;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import jakarta.persistence.criteria.Predicate;
-import net.etwig.webapp.dto.BannerRequestForEventPageDTO;
+import net.etwig.webapp.dto.BannerRequestAPIForEventPageDTO;
 import net.etwig.webapp.dto.graphics.*;
 import net.etwig.webapp.model.EventGraphics;
 import net.etwig.webapp.repository.EventGraphicsRepository;
@@ -22,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import net.etwig.webapp.model.GraphicsRequest;
 import net.etwig.webapp.repository.GraphicsRequestRepository;
-import net.etwig.webapp.util.MapUtils;
 
 @Service
 public class GraphicsRequestService {
@@ -72,9 +68,9 @@ public class GraphicsRequestService {
 	//	return graphicsRequestRepository.findByRequestsByEvent(eventId, pageable).map(BannerRequestForEventPageDTO::new);
 	//}
 
-	public Page<BannerRequestForEventPageDTO> findRequestsByEvent(Long eventId, String isApproved, Pageable pageable) {
+	public Page<BannerRequestAPIForEventPageDTO> findRequestsByEvent(Long eventId, String isApproved, Pageable pageable) {
 		Specification<GraphicsRequest> spec = byEventAndApprovalStatus(eventId, isApproved);
-		return graphicsRequestRepository.findAll(spec, pageable).map(BannerRequestForEventPageDTO::new);
+		return graphicsRequestRepository.findAll(spec, pageable).map(BannerRequestAPIForEventPageDTO::new);
 	}
 
 	public Specification<GraphicsRequest> byEventAndApprovalStatus(Long eventId, String isApproved) {

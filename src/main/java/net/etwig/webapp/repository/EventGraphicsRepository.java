@@ -2,6 +2,7 @@ package net.etwig.webapp.repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import net.etwig.webapp.dto.events.RecurringEventGraphicsPublicInfoDTO;
 import net.etwig.webapp.dto.graphics.EventGraphicsListDTO;
@@ -51,4 +52,6 @@ public interface EventGraphicsRepository extends JpaRepository<EventGraphics, Lo
 	List<RecurringEventGraphicsPublicInfoDTO> findRecurringEventsAndLatestGraphicByPortfolio(@Param("portfolio") Long portfolio);
 
 	List<EventGraphics> findByEventIdAndBannerOrderByIdDesc(Long eventId, boolean banner);
+
+	Optional<EventGraphics> findById(Long id);
 }

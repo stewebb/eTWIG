@@ -1,6 +1,6 @@
 package net.etwig.webapp.controller.api;
 
-import net.etwig.webapp.dto.BannerRequestForEventPageDTO;
+import net.etwig.webapp.dto.BannerRequestAPIForEventPageDTO;
 import net.etwig.webapp.services.GraphicsRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,8 +13,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/request/")
-public class RequestAPIController {
+@RequestMapping("/api/bannerRequest/")
+public class BannerRequestAPIController {
 
     @Autowired
     private GraphicsRequestService graphicsRequestService;
@@ -77,7 +77,7 @@ public class RequestAPIController {
         PageRequest pageable = PageRequest.of(start / length, length, Sort.by(dir, sortColumn));
 
         // Get data as pages
-        Page<BannerRequestForEventPageDTO> page = graphicsRequestService.findRequestsByEvent(eventId, isApproved, pageable);
+        Page<BannerRequestAPIForEventPageDTO> page = graphicsRequestService.findRequestsByEvent(eventId, isApproved, pageable);
 
         Map<String, Object> json = new HashMap<>();
         json.put("draw", draw);
