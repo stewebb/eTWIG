@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import jakarta.persistence.criteria.Predicate;
+import net.etwig.webapp.dto.BannerRequestAPIForEventPageDTO;
 import net.etwig.webapp.dto.EventGraphicsAPIForDetailsPageDTO;
 import net.etwig.webapp.dto.events.RecurringEventGraphicsPublicInfoDTO;
 import net.etwig.webapp.dto.events.SingleTimeEventGraphicsPublicInfoDTO;
@@ -11,12 +13,15 @@ import net.etwig.webapp.dto.graphics.EventGraphicsDetailsDTO;
 import net.etwig.webapp.dto.graphics.EventGraphicsListDTO;
 import net.etwig.webapp.dto.graphics.NewGraphicsDTO;
 import net.etwig.webapp.model.EventGraphics;
+import net.etwig.webapp.model.GraphicsRequest;
 import net.etwig.webapp.model.Option;
 import net.etwig.webapp.util.DateUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import net.etwig.webapp.repository.EventGraphicsRepository;
@@ -43,6 +48,34 @@ public class EventGraphicsService {
 		Optional<EventGraphics> eventGraphicsOptional = eventGraphicsRepository.findById(graphicsId);
         return eventGraphicsOptional.map(EventGraphicsAPIForDetailsPageDTO::new).orElse(null);
     }
+
+	public Page<EventGraphicsAPIForDetailsPageDTO> findByCriteria(Long eventId, Boolean isBanner, Pageable pageable) {
+		Specification<EventGraphics> spec = eventGraphicsCriteria(eventId, isBanner);
+		return eventGraphicsRepository.findAll(spec, pageable).map(EventGraphicsAPIForDetailsPageDTO::new);
+	}
+
+	private Specification<EventGraphics> eventGraphicsCriteria(Long eventId, Boolean isBanner) {
+		return (root, query, criteriaBuilder) -> {
+			Predicate finalPredicate = criteriaBuilder.conjunction();
+
+			// Add condition for eventId if it is not null
+			if (eventId != null) {
+				finalPredicate = criteriaBuilder.and(finalPredicate, criteriaBuilder.equal(root.get("event").get("id"), eventId));
+			}
+
+			// If isApproved=null, ignore this filter.
+			if(isBanner != null){
+				finalPredicate = criteriaBuilder.and(finalPredicate, criteriaBuilder.equal(root.get("banner"), isBanner));
+			}
+
+			return finalPredicate;
+		};
+	}
+
+
+
+
+
 	
 	public LinkedHashMap<Integer, Object> getTwigGraphicsSingleTimeEvents(Long portfolioId, LocalDate givenDate) {
 		LinkedHashMap<Integer, Object> eventsThisWeek = new LinkedHashMap<>();
