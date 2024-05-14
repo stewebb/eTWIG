@@ -85,6 +85,16 @@ public class GraphicsRequestService {
 		return new BannerRequestAPIDetailsDTO(graphicsRequest);
 	}
 
+	/**
+	 * Counts the number of entities in the database table associated with this User entity,
+	 * based on the provided column and value.
+	 *
+	 * @param column the name of the column in the database table to be used for counting
+	 * @param value the value to be matched in the specified column for counting entities
+	 * @return the count of entities that match the provided column and value
+	 * @throws IllegalArgumentException if the column name is null or empty, or if the value is null
+	 */
+
 	public Long countByColumn(String column, Object value) {
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Long> query = cb.createQuery(Long.class);
@@ -93,17 +103,14 @@ public class GraphicsRequestService {
 		query.where(cb.equal(root.get(column), value));
 		return entityManager.createQuery(query).getSingleResult();
 	}
-
-
-	//public Long countByEventId(Long eventId) {
-	//	return graphicsRequestRepository.countByEventId(eventId);
+	
+	//public boolean hasPendingRequests(Long eventId) {
+	//	return graphicsRequestRepository.countByApprovedIsNullAndEventId(eventId) > 0;
 	//}
 	
-	public boolean hasPendingRequests(Long eventId) {
-		return graphicsRequestRepository.countByApprovedIsNullAndEventId(eventId) > 0;
-	}
-	
 	public Page<PendingRequestsBasicInfoDTO> getPendingRequests(int page, int size) {
+
+		// TODO USE NEW LIST API
 		Pageable pageable = PageRequest.of(page, size);
 		Page<GraphicsRequest> requests =  graphicsRequestRepository.findByApprovedIsNullOrderByExpectDateDesc(pageable);
 		return requests.map(PendingRequestsBasicInfoDTO::new);
@@ -136,6 +143,16 @@ public class GraphicsRequestService {
 		return graphicsRequestRepository.findAll(spec, pageable).map(BannerRequestAPIDetailsDTO::new);
 	}
 
+	/**
+	 * Generates a Specification object to define criteria for querying GraphicsRequest entities
+	 * based on the provided eventId and approval status.
+	 *
+	 * @param eventId the ID of the event to filter the GraphicsRequest entities by, or null to ignore
+	 * @param isApproved the approval status ("na" to ignore approval status, "true" for approved requests,
+	 *                   "false" for unapproved requests)
+	 * @return a Specification object representing the criteria for querying GraphicsRequest entities
+	 */
+
 	public Specification<GraphicsRequest> bannerRequestCriteria(Long eventId, String isApproved) {
 		return (root, query, criteriaBuilder) -> {
 			Predicate finalPredicate = criteriaBuilder.conjunction(); // Start with a conjunction (true).
@@ -146,35 +163,14 @@ public class GraphicsRequestService {
 			}
 
 			// If isApproved="na", return all results regardless of the approval status.
-			//isApproved.equalsIgnoreCase("na");
 			if(!"na".equalsIgnoreCase(isApproved)){
 				finalPredicate = criteriaBuilder.and(finalPredicate, criteriaBuilder.equal(root.get("approved"), BooleanUtils.toBooleanObject(isApproved)));
 			}
-
-			// Add condition for isApproved if it is not null
-			//if (isApproved) {
-			//}
 
 			return finalPredicate;
 		};
 	}
 
-	//public LinkedHashMap<Long, GraphicsRequestDTO> getRequestsByEvent(Long eventId) {
-		
-		// Get the original data.
-	//	List<GraphicsRequest> requestList = graphicsRequestRepository.findByRequestsByEventDescending(eventId, 10);
-		
-		// Apply the DTO.
-	//	List<GraphicsRequestDTO> requestDTOList = new ArrayList<GraphicsRequestDTO>();
-	//	for (GraphicsRequest request : requestList) {
-	//		requestDTOList.add(new GraphicsRequestDTO(request));
-	//	}
-		
-		// Convert to LinkedHashMap
-	//	MapUtils mapUtils = new MapUtils();
-	//	return mapUtils.listToLinkedHashMap(requestDTOList, GraphicsRequestDTO::getId);
-	//}
-	
 	public PendingRequestsDetailsDTO getPendingRequestsById(@NonNull Long requestId) {
 		
 		// Get a specific request

@@ -154,6 +154,17 @@ public class BannerRequestAPIController {
         return ResponseEntity.ok(json);
     }
 
+    /**
+     * Retrieves the count of entities from the GraphicsRequest table based on the provided column and object value.
+     *
+     * @param column the name of the column in the GraphicsRequest table for counting entities
+     * @param object the value to be matched in the specified column for counting entities
+     * @return ResponseEntity containing a map with the count of entities
+     * @throws IllegalArgumentException if the column name is null or empty, or if the object value is null
+     * @location /api/bannerRequest/count
+     * @permission All logged in users.
+     */
+
     @GetMapping("/count")
     public ResponseEntity<Map<String, Long>> count(@RequestParam String column, @RequestParam Object object) {
         return ResponseEntity.ok().body(Map.of("count", graphicsRequestService.countByColumn(column, object)));

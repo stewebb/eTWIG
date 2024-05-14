@@ -97,41 +97,7 @@ public class EventsPageController {
 		return "events/edit";
 	}
 
-	/**
-	 * Graphics request page
-	 * @location /events/graphics.do
-	 * @permission Those who has event management permission.
-	 */
-
-	/**
-	@PostAuthorize("hasAuthority('ROLE_EVENTS')")
-	@GetMapping("/graphics.do")
-	public String graphics(Model model, @RequestParam Long eventId) throws Exception{
-
-		// TODO Incorporate the banner request page into event page.
-		
-		// Get event info and existence check.
-		GraphicsRequestEventInfoDTO event = eventService.findEventsForGraphicsRequestById(eventId);
-		if(event == null) {
-			model.addAttribute("reason", "Event with id=" + eventId + " doesn't exist.");
-			return "_errors/custom_error";
-		}
-
-		model.addAttribute("eventInfo", event);
-		//model.addAttribute("requestInfo",graphicsRequestService.getRequestsByEvent(eventId));
-
-		// Get the number of requests of this event.
-		//model.addAttribute("count", graphicsRequestService.countByEventId(eventId));
-		model.addAttribute("count", graphicsRequestService.countByColumn("eventId", eventId));
-		
-		// Edit permission check
-		model.addAttribute("editPermission", eventService.eventEditPermissionCheck(event.getPortfolio()));
-		model.addAttribute("myPortfolios", userRoleService.getMyPortfolios());
-		return "events/graphics";
-	}
-	*/
-
-	/**
+    /**
 	 * Event (bulky) import page, which allows users to import multiple events simultaneously (via an EXCEL/ODS file).
 	 * @location /events/import.do
 	 * @permission Those who has event management permission.

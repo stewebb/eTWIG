@@ -16,6 +16,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,7 +35,6 @@ import net.etwig.webapp.dto.AssetBasicInfoDTO;
 import net.etwig.webapp.dto.user.UserDTO;
 import net.etwig.webapp.model.Asset;
 import net.etwig.webapp.repository.AssetRepository;
-import net.etwig.webapp.util.FileUtils;
 
 @Service
 public class AssetService {

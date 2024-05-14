@@ -41,14 +41,6 @@ public class _GraphicsRequestAPIController {
 	@Autowired
 	private EmailService emailService;
 
-	//@GetMapping("/countRequestsByEventId")
-    //public Map<String, Object> countRequestsByEventId(@RequestParam Long eventId) throws Exception {
-	//
-	//	Map<String, Object> myReturn = WebReturn.errorMsg(null, true);
-	//	myReturn.put("count", graphicsRequestService.countByEventId(eventId));
-	//	return myReturn;
-	//}
-	
 	@PostAuthorize("hasAuthority('ROLE_EVENTS')")
 	@PostMapping(value = "/requestGraphic")
     public Map<String, Object> requestGraphic(@RequestBody Map<String, Object> requestInfo) throws Exception {
@@ -61,7 +53,7 @@ public class _GraphicsRequestAPIController {
 		} 
 		
 		// Add request info to the DB.
-		Long ii = graphicsRequestService.addRequest(requestInfo);
+		//Long ii = graphicsRequestService.addRequest(requestInfo);
 
 		// Send an email to all graphics managers
 		//emailService.graphicsRequestNotification(requestInfo);	
@@ -75,7 +67,8 @@ public class _GraphicsRequestAPIController {
 		
         return WebReturn.errorMsg(null, true);
     }
-	
+
+	// TODO USE NEW LIST API.
 	@PostAuthorize("hasAuthority('ROLE_GRAPHICS')")
 	@GetMapping(value = "/getPendingRequests")
 	public Page<PendingRequestsBasicInfoDTO> getPendingRequests(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) throws Exception {
