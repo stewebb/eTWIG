@@ -41,13 +41,13 @@ public class _GraphicsRequestAPIController {
 	@Autowired
 	private EmailService emailService;
 
-	@GetMapping("/countRequestsByEventId")
-    public Map<String, Object> countRequestsByEventId(@RequestParam Long eventId) throws Exception {
-		
-		Map<String, Object> myReturn = WebReturn.errorMsg(null, true);
-		myReturn.put("count", graphicsRequestService.countByEventId(eventId));
-		return myReturn;
-	}
+	//@GetMapping("/countRequestsByEventId")
+    //public Map<String, Object> countRequestsByEventId(@RequestParam Long eventId) throws Exception {
+	//
+	//	Map<String, Object> myReturn = WebReturn.errorMsg(null, true);
+	//	myReturn.put("count", graphicsRequestService.countByEventId(eventId));
+	//	return myReturn;
+	//}
 	
 	@PostAuthorize("hasAuthority('ROLE_EVENTS')")
 	@PostMapping(value = "/requestGraphic")

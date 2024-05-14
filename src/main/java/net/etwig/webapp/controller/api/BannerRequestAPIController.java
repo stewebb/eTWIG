@@ -153,4 +153,9 @@ public class BannerRequestAPIController {
         json.put("data", page.getContent());
         return ResponseEntity.ok(json);
     }
+
+    @GetMapping("/count")
+    public ResponseEntity<Map<String, Long>> count(@RequestParam String column, @RequestParam Object object) {
+        return ResponseEntity.ok().body(Map.of("count", graphicsRequestService.countByColumn(column, object)));
+    }
 }

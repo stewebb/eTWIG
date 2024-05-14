@@ -15,9 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import net.etwig.webapp.dto.events.GraphicsRequestEventInfoDTO;
 import net.etwig.webapp.services.EventService;
 import net.etwig.webapp.services.GraphicsRequestService;
 import net.etwig.webapp.services.OptionService;
@@ -105,6 +103,7 @@ public class EventsPageController {
 	 * @permission Those who has event management permission.
 	 */
 
+	/**
 	@PostAuthorize("hasAuthority('ROLE_EVENTS')")
 	@GetMapping("/graphics.do")
 	public String graphics(Model model, @RequestParam Long eventId) throws Exception{
@@ -122,13 +121,15 @@ public class EventsPageController {
 		//model.addAttribute("requestInfo",graphicsRequestService.getRequestsByEvent(eventId));
 
 		// Get the number of requests of this event.
-		model.addAttribute("count", graphicsRequestService.countByEventId(eventId));
+		//model.addAttribute("count", graphicsRequestService.countByEventId(eventId));
+		model.addAttribute("count", graphicsRequestService.countByColumn("eventId", eventId));
 		
 		// Edit permission check
 		model.addAttribute("editPermission", eventService.eventEditPermissionCheck(event.getPortfolio()));
 		model.addAttribute("myPortfolios", userRoleService.getMyPortfolios());
 		return "events/graphics";
 	}
+	*/
 
 	/**
 	 * Event (bulky) import page, which allows users to import multiple events simultaneously (via an EXCEL/ODS file).

@@ -3,7 +3,11 @@ package net.etwig.webapp.services;
 import java.util.Map;
 import java.util.Optional;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import net.etwig.webapp.dto.BannerRequestAPIDetailsDTO;
 import net.etwig.webapp.dto.graphics.*;
 import net.etwig.webapp.model.EventGraphics;
@@ -31,7 +35,11 @@ public class GraphicsRequestService {
 	
 	@Autowired
 	private EmailService emailService;
-	
+
+	@Autowired
+	private EntityManager entityManager;
+
+
 	//@Autowired
 	//private EventService eventService;
 	
@@ -77,10 +85,19 @@ public class GraphicsRequestService {
 		return new BannerRequestAPIDetailsDTO(graphicsRequest);
 	}
 
-
-	public Long countByEventId(Long eventId) {
-		return graphicsRequestRepository.countByEventId(eventId);
+	public Long countByColumn(String column, Object value) {
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Long> query = cb.createQuery(Long.class);
+		Root<GraphicsRequest> root = query.from(GraphicsRequest.class);
+		query.select(cb.count(root));
+		query.where(cb.equal(root.get(column), value));
+		return entityManager.createQuery(query).getSingleResult();
 	}
+
+
+	//public Long countByEventId(Long eventId) {
+	//	return graphicsRequestRepository.countByEventId(eventId);
+	//}
 	
 	public boolean hasPendingRequests(Long eventId) {
 		return graphicsRequestRepository.countByApprovedIsNullAndEventId(eventId) > 0;
