@@ -5,13 +5,14 @@ import net.etwig.webapp.model.GraphicsRequest;
 import net.etwig.webapp.services.GraphicsRequestService;
 import net.etwig.webapp.util.InvalidParameterException;
 import net.etwig.webapp.util.NumberUtils;
-import net.etwig.webapp.util.WebReturn;
+import net.etwig.webapp.util.RecordNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -30,9 +31,35 @@ public class BannerRequestAPIController {
         return new ResponseEntity<>("Method not implemented.", HttpStatus.NOT_IMPLEMENTED);
     }
 
+    /**
+     * Processes the approval of a graphics request via a POST request.
+     * <p>
+     * This method is secured with an authorization check, ensuring that only users
+     * with the 'ROLE_GRAPHICS' authority can invoke it. It retrieves the request ID from
+     * the provided decision information, validates it, and proceeds to approve the corresponding
+     * graphics request if it exists.
+     * </p>
+     *
+     * @param decisionInfo A map containing decision-related information such as the request ID.
+     *                     This information is extracted from the body of the POST request.
+     * @return A {@link ResponseEntity} containing a map with a success message if the operation
+     *         is successful.
+     * @throws Exception Throws a generic exception if the approval process encounters any issues
+     *                   not handled by more specific exceptions.
+     * @throws InvalidParameterException If the request ID is null or not a positive number, indicating
+     *                                   an invalid or inappropriate request parameter.
+     * @throws RecordNotFoundException If no graphics request corresponds to the provided request ID.
+     *
+     * @location /api/bannerRequest/approve
+     * @permission Those who has graphic management permission.
+     */
+
     @PostMapping("/approve")
-    public Map<String, Object> edit(@RequestBody Map<String, Object> decisionInfo) throws Exception {
+    @PostAuthorize("hasAuthority('ROLE_GRAPHICS')")
+    public ResponseEntity<Map<String, String>> approve(@RequestBody Map<String, Object> decisionInfo) throws Exception {
         Long requestId = NumberUtils.safeCreateLong(decisionInfo.get("id").toString());
+
+        // Null and negative check
         if(requestId == null) {
             throw new InvalidParameterException("Request ID must not be null.");
         }
@@ -41,14 +68,14 @@ public class BannerRequestAPIController {
             throw new InvalidParameterException("Request ID must be a positive number.");
         }
 
-        // Check the existence
+        // Event existence check
         GraphicsRequest currentRequest = graphicsRequestService.findById(requestId);
         if(currentRequest == null) {
-            return WebReturn.errorMsg("The graphics request of requestId= " + requestId + " does not exist.", false);
+            throw new RecordNotFoundException("The banner request of Request ID = " + requestId + " does not exist.");
         }
 
         graphicsRequestService.approveRequest(currentRequest, decisionInfo);
-        return WebReturn.errorMsg(null, true);
+        return ResponseEntity.ok().body(Map.of("message", "Banner approved successfully."));
     }
 
     @PostMapping("/view")
@@ -78,11 +105,11 @@ public class BannerRequestAPIController {
      * @param sortColumn The name of the column to sort the results by.
      * @param sortDirection The direction of the sort (either "asc" for ascending or "desc" for descending).<br>
      *                      Defaults to "asc" if not correctly specified.
-     * @location /api/request/list
-     * @permission All logged in users.
      * @return {@code ResponseEntity<Map<String, Object>>} containing the paginated list of banner requests<br>
      * along with additional information like total records count, filtered count, and the client's draw count.<br>
      * This response is in the form of a JSON object structured for client-side processing.
+     * @location /api/bannerRequest/list
+     * @permission All logged in users.
      */
 
     @GetMapping("/list")

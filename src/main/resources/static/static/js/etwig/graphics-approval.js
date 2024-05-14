@@ -163,20 +163,15 @@ function decide(){
 		
 	var hasError = true;
 	$.ajax({
-   		url: '/api/private/approveRequests', 
+   		url: '/api/bannerRequest/approve', 
    		type: "POST",
    		async: false,
    		dataType: "json",
    		contentType: "application/json; charset=utf-8",
    		data: JSON.stringify(approvalDecisionObj),
    		success: function (result) {
-			if(result.error > 0){
-				dangerPopup("Failed to submit a decision.", result.msg);
-				hasError = true;
-			}else{
-				successPopup("Decision made successfully.");
-				hasError = false;
-			}	
+			successPopup(result.message);
+			hasError = false;
     	},
     	error: function (err) {
     		dangerPopup("Failed to submit a decision due to a HTTP " + err.status + " error.", err.responseJSON.exception);

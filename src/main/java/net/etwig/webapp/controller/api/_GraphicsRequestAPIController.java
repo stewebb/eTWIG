@@ -94,6 +94,8 @@ public class _GraphicsRequestAPIController {
 	 * @return
 	 * @throws Exception
 	 */
+
+	/**
 	@PostAuthorize("hasAuthority('ROLE_GRAPHICS')")
 	@PostMapping(value = "/approveRequests")
 	public Map<String, Object> approveRequests(@RequestBody Map<String, Object> decisionInfo) throws Exception {
@@ -115,4 +117,5 @@ public class _GraphicsRequestAPIController {
 		graphicsRequestService.approveRequest(currentRequest, decisionInfo);
 		return WebReturn.errorMsg(null, true);
 	}
+	*/
 }
