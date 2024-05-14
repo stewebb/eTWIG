@@ -7,7 +7,7 @@
 	* @function: The controller for user authentication - mainly login and logout.
 	*/
 
-package net.etwig.webapp.controller.pages;
+package net.etwig.webapp.controller.page;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

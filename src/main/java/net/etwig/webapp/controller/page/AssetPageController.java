@@ -7,7 +7,7 @@
  	* @function: The controller for public assets.
  	*/
 
-package net.etwig.webapp.controller.pages;
+package net.etwig.webapp.controller.page;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.BooleanUtils;
