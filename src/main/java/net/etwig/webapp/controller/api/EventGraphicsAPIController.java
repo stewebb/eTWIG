@@ -1,6 +1,5 @@
 package net.etwig.webapp.controller.api;
 
-import net.etwig.webapp.dto.BannerRequestAPIForEventPageDTO;
 import net.etwig.webapp.dto.EventGraphicsAPIForDetailsPageDTO;
 import net.etwig.webapp.services.EventGraphicsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +31,7 @@ public class EventGraphicsAPIController {
 
     /**
      * Handles the HTTP GET request to view event graphics details.
-     *
+     * <p>
      * This method is mapped to the "/view" endpoint and is responsible for fetching and displaying the graphics details
      * of an event identified by its unique graphics ID. The {@code graphicsId} is provided as a query parameter in the
      * request. This method leverages the {@link EventGraphicsService} to retrieve the corresponding

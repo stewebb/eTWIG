@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @ToString
-public class BannerRequestAPIForEventPageDTO {
+public class BannerRequestAPIDetailsDTO {
 
     // Requests-related fields
     private final Long id;
@@ -28,7 +28,7 @@ public class BannerRequestAPIForEventPageDTO {
     private String responseComment;
     private Long assetId;
 
-    public BannerRequestAPIForEventPageDTO(GraphicsRequest graphicsRequest){
+    public BannerRequestAPIDetailsDTO(GraphicsRequest graphicsRequest){
 
         // Requests-related fields
         this.id = graphicsRequest.getId();

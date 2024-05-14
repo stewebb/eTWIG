@@ -1,6 +1,6 @@
 package net.etwig.webapp.controller.api;
 
-import net.etwig.webapp.dto.BannerRequestAPIForEventPageDTO;
+import net.etwig.webapp.dto.BannerRequestAPIDetailsDTO;
 import net.etwig.webapp.model.GraphicsRequest;
 import net.etwig.webapp.services.GraphicsRequestService;
 import net.etwig.webapp.util.InvalidParameterException;
@@ -78,13 +78,31 @@ public class BannerRequestAPIController {
         return ResponseEntity.ok().body(Map.of("message", "Banner approved successfully."));
     }
 
-    @PostMapping("/view")
-    public Map<String, Object> view(@RequestBody Map<String, Object> eventInfo) {
-        return null;
+    /**
+     * Handles the HTTP GET request to retrieve and view the details of a graphics request.
+     * <p>
+     * This endpoint is accessible via a GET request and expects a request parameter 'requestId'.
+     * It utilizes the {@link GraphicsRequestService#findByIdWithDTO(Long)} method to fetch the request
+     * details as a {@link BannerRequestAPIDetailsDTO}. If the request is found, the corresponding DTO is returned,
+     * otherwise, the method returns {@code null}.
+     * </p>
+     *
+     * @param requestId The ID of the graphics request to retrieve, expected as a request parameter.
+     * @return A {@link BannerRequestAPIDetailsDTO} representing the details of the found graphics request,
+     *         or {@code null} if no request is found with the given ID. The response body directly contains this DTO.
+     * @location /api/bannerRequest/view
+     * @permission All logged in users
+     */
+
+    @GetMapping("/view")
+    public BannerRequestAPIDetailsDTO view(@RequestParam Long requestId) {
+        return graphicsRequestService.findByIdWithDTO(requestId);
     }
 
     @PostMapping("/remove")
     public Map<String, Object> remove(@RequestBody Map<String, Object> eventInfo) {
+
+        // TODO REMOVE A BANNER REQUEST
         return null;
     }
 
@@ -126,7 +144,7 @@ public class BannerRequestAPIController {
         PageRequest pageable = PageRequest.of(start / length, length, Sort.by(dir, sortColumn));
 
         // Get data as pages
-        Page<BannerRequestAPIForEventPageDTO> page = graphicsRequestService.findRequestsByCriteria(eventId, isApproved, pageable);
+        Page<BannerRequestAPIDetailsDTO> page = graphicsRequestService.findRequestsByCriteria(eventId, isApproved, pageable);
 
         Map<String, Object> json = new HashMap<>();
         json.put("draw", draw);

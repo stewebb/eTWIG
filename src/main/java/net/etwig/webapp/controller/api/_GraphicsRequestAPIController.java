@@ -66,7 +66,7 @@ public class _GraphicsRequestAPIController {
 		// Send an email to all graphics managers
 		//emailService.graphicsRequestNotification(requestInfo);	
 		//System.out.println(ii);
-		System.out.println(graphicsRequestService.findById(ii-1));
+		//System.out.println(graphicsRequestService.findById(ii-1));
 		//System.out.println(graphicsRequestService.findById(ii));
 		//System.out.println(graphicsRequestService.findById(ii));
 		//System.out.println(graphicsRequestService.findById(ii));
@@ -88,34 +88,4 @@ public class _GraphicsRequestAPIController {
 		return graphicsRequestService.getFinalizedRequests(page, size);
 	}
 
-	/**
-	 * Approve a pending graphics request.
-	 * @param decisionInfo
-	 * @return
-	 * @throws Exception
-	 */
-
-	/**
-	@PostAuthorize("hasAuthority('ROLE_GRAPHICS')")
-	@PostMapping(value = "/approveRequests")
-	public Map<String, Object> approveRequests(@RequestBody Map<String, Object> decisionInfo) throws Exception {
-		
-		// Get current request
-		Long requestId = NumberUtils.safeCreateLong(decisionInfo.get("id").toString());
-		
-		// Invalid or negative eventId, add event.
-		if(requestId == null || requestId <= 0) {
-			return WebReturn.errorMsg("The requestId is invalid.", false);
-		}
-		
-		// Check the existence
-		GraphicsRequest currentRequest = graphicsRequestService.findById(requestId);
-		if(currentRequest == null) {
-			return WebReturn.errorMsg("The graphics request of requestId= " + requestId + " does not exist.", false);
-		}
-		
-		graphicsRequestService.approveRequest(currentRequest, decisionInfo);
-		return WebReturn.errorMsg(null, true);
-	}
-	*/
 }
