@@ -1,11 +1,16 @@
 package net.etwig.webapp.controller.api;
 
 import net.etwig.webapp.dto.BannerRequestAPIForEventPageDTO;
+import net.etwig.webapp.model.GraphicsRequest;
 import net.etwig.webapp.services.GraphicsRequestService;
+import net.etwig.webapp.util.InvalidParameterException;
+import net.etwig.webapp.util.NumberUtils;
+import net.etwig.webapp.util.WebReturn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,14 +24,31 @@ public class BannerRequestAPIController {
     @Autowired
     private GraphicsRequestService graphicsRequestService;
 
-    @PostMapping("/add")
-    public Map<String, Object> add(@RequestBody Map<String, Object> eventInfo) {
-        return null;
+    @GetMapping("/add")
+    public ResponseEntity<String> add(@RequestBody Map<String, Object> eventInfo) {
+        // TODO Add an banner request
+        return new ResponseEntity<>("Method not implemented.", HttpStatus.NOT_IMPLEMENTED);
     }
 
-    @PostMapping("/edit")
-    public Map<String, Object> edit(@RequestBody Map<String, Object> eventInfo) {
-        return null;
+    @PostMapping("/approve")
+    public Map<String, Object> edit(@RequestBody Map<String, Object> decisionInfo) throws Exception {
+        Long requestId = NumberUtils.safeCreateLong(decisionInfo.get("id").toString());
+        if(requestId == null) {
+            throw new InvalidParameterException("Request ID must not be null.");
+        }
+
+        if(requestId <= 0){
+            throw new InvalidParameterException("Request ID must be a positive number.");
+        }
+
+        // Check the existence
+        GraphicsRequest currentRequest = graphicsRequestService.findById(requestId);
+        if(currentRequest == null) {
+            return WebReturn.errorMsg("The graphics request of requestId= " + requestId + " does not exist.", false);
+        }
+
+        graphicsRequestService.approveRequest(currentRequest, decisionInfo);
+        return WebReturn.errorMsg(null, true);
     }
 
     @PostMapping("/view")

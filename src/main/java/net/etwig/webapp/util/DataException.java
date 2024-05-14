@@ -7,7 +7,7 @@
 	* @function: An exception when data integrity has been violated. 
 	*/
 
-package net.etwig.webapp.util.exception;
+package net.etwig.webapp.util;
 
 public class DataException extends java.lang.Exception {
 

@@ -18,7 +18,7 @@ import net.etwig.webapp.model.EventOption;
 import net.etwig.webapp.model.Option;
 import net.etwig.webapp.repository.EventOptionRepository;
 import net.etwig.webapp.repository.OptionRepository;
-import net.etwig.webapp.util.exception.DataException;
+import net.etwig.webapp.util.DataException;
 
 @Service
 public class EventOptionService {
@@ -33,7 +33,7 @@ public class EventOptionService {
      * Get all options for an event.
      * @param userId
      * @return The LinkedHashMap of portfolios.
-     * @throws DataException 
+     * @throws DataException
      */
     
     public HashSet<Long> getOptionsByEvent(Long eventId) throws DataException {
