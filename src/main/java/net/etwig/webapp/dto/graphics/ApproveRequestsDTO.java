@@ -6,8 +6,8 @@ import java.util.Map;
 import lombok.Getter;
 import lombok.ToString;
 import net.etwig.webapp.model.GraphicsRequest;
-import net.etwig.webapp.util.BooleanUtils;
 import net.etwig.webapp.util.NumberUtils;
+import org.apache.commons.lang3.BooleanUtils;
 
 @Getter
 @ToString

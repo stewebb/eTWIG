@@ -10,16 +10,16 @@
 package net.etwig.webapp.util;
 
 public class NumberUtils extends org.apache.commons.lang3.math.NumberUtils{
-	
+
 	/**
-	 * Check whether an integer is a long number.
-	 * @param str the String that need to be checked
-	 * @return Result
+	 * Checks if a given string can be parsed as a long integer.
+	 *
+	 * @param str the string to be checked
+	 * @return true if the string can be parsed as a long integer, false otherwise
 	 */
 	
 	public static boolean isLong(String str) {
-		
-		if(str == null || str.length() == 0) {
+		if(str == null || str.isEmpty()) {
 			return false;
 		}
 		
@@ -30,12 +30,13 @@ public class NumberUtils extends org.apache.commons.lang3.math.NumberUtils{
 			return false;
 		}
 	}
-	
+
 	/**
-	 * Convert a String to long without exception
+	 * Converts a String to a Long without throwing an exception.
+	 *
 	 * @param str The input String
-	 * @return A long number if the String can be converted to Long. Null if the String cannot be converted to Long.
-	 * If the String itself is null, return null directly.
+	 * @return A Long number if the String can be converted to Long, or null if the String cannot be converted.
+	 *         If the input String is null, returns null directly.
 	 */
 	
 	public static Long safeCreateLong(String str) {

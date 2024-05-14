@@ -6,7 +6,7 @@ import org.apache.commons.io.FilenameUtils;
 
 import lombok.*;
 import net.etwig.webapp.model.Asset;
-import net.etwig.webapp.util.type.FileType;
+import net.etwig.webapp.util.FileType;
 
 @Getter
 @ToString

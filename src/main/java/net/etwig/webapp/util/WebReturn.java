@@ -1,16 +1,10 @@
-/**
- 	* eTWIG - The event management software for Griffin Hall.
- 	* @copyright: Copyright (c) 2024 Steven Webb (Social Media Representative)
-	* @license: MIT
-	* @author: Steven Webb [xiaoancloud@outlook.com]
-	* @website: https://etwig.grinecraft.net
-	* @function: Utilities for returns in the controllers.
-	*/
-
 package net.etwig.webapp.util;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+// TODO PENDING REMOVAL
 
 public class WebReturn {
 

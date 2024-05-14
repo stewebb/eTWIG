@@ -19,7 +19,8 @@ public class GlobalExceptionHandler {
 	 * @param e
 	 * @return
 	 */
-	
+
+    // TODO REMOVE ME AND USE ANNOTATIONS ON EXCEPTIONS ONLY.
     @ExceptionHandler(InvalidDateFormatException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ErrorResponse> handleInvalidDateFormat(InvalidDateFormatException e) {

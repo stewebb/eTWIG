@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.ToString;
 import net.etwig.webapp.model.EventGraphics;
 import net.etwig.webapp.model.GraphicsRequest;
-import net.etwig.webapp.util.BooleanUtils;
+import org.apache.commons.lang3.BooleanUtils;
 
 import java.time.LocalDateTime;
 import java.util.Map;
