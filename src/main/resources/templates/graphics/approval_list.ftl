@@ -56,27 +56,30 @@
 					<div class="card card-primary card-outline">
 						<div class="card-header">
 							<h3 class="card-title">
-								<i class="fa-solid fa-circle-question"></i>&nbsp;Pending requests
+								<i class="fa-solid fa-list-check"></i>&nbsp;List
 							</h3>
+							<!--
 							<div class="card-tools">
 								<button type="button" class="btn btn-tool" onclick="pendingDT.ajax.reload();">
 									<i class="fas fa-sync-alt"></i>
 								</button>
 							</div>
+							-->
 						</div>
 
 						<div class="card-body table-responsive">
-
-
 							<table id="requestsTable" class="display table table-hover table-striped" width="100%">
 								<thead>
 									<tr>
 										<th>Request ID</th>
 										<th>Event</th>
-										<th>Request Date</th>
+										<th>Request Time</th>
 										<th>Requester</th>
 										<th>Expect Date</th>
 										<th>Status</th>
+										<th>Approver</th>
+										<th>Response Time</th>
+										<th>Action</th>
 									</tr>
 								</thead>
 							</table>

@@ -6,7 +6,7 @@ function bannerRequestListTable(){
 		"lengthMenu": [[10, 20, 50, 100], [10, 20, 50, 100]],
 		"pageLength": 20,
 		"searching": false, 
-		"order": [[2, "desc"]],
+		"order": [[5, "desc"]],
 		"ajax": {
 			"url": "/api/bannerRequest/list?isApproved=na",
 			"type": "GET",
@@ -24,12 +24,9 @@ function bannerRequestListTable(){
 			{ "data": "requesterName", "orderable": false},
 			{ "data": "expectDate", "orderable": true, render: expectDateRender},
 			{ "data": "approved", "orderable": true, "render": approvalStatusRender},
-			//{ "data": "requestTime", "orderable": false},
-			//{ "data": "requestComment", "orderable": false},
-			//
-			//{ "data": "approverName", "orderable": false},
-			//{ "data": "responseTime", "orderable": false},
-			//{ "data": "responseComment", "orderable": false},
+			{ "data": "approverName", "orderable": false, "render": optionalFieldsRender},
+			{ "data": "responseTime", "orderable": true, "render": dateWeekRender},
+			{ "mRender": requestActionRender, "orderable": false}
 			//
 		]
 	});
@@ -100,17 +97,17 @@ function finalizedApprovalDataTable(){
 }
 */
 
-function approvedRender(data, type, row){
-	return data ? `<i class="fa-solid fa-check text-success bold-text"></i>` : `<i class="fa-solid fa-xmark text-danger bold-text"></i>`;
-}
+//function approvedRender(data, type, row){
+//	return data ? `<i class="fa-solid fa-check text-success bold-text"></i>` : `<i class="fa-solid fa-xmark text-danger bold-text"></i>`;
+//}
 
-function pendingActionRender(data, type, full){
-	return `
-		<a href="/graphics/approvalDetails.do?requestId=${full.id}" class="btn btn-outline-primary btn-sm">
-			<i class="fa-solid fa-check"></i>&nbsp;Decide
-		</a>
-	`;
-}
+//function pendingActionRender(data, type, full){
+//	return `
+//		<a href="/graphics/approvalDetails.do?requestId=${full.id}" class="btn btn-outline-primary btn-sm">
+//			<i class="fa-solid fa-check"></i>&nbsp;Decide
+//		</a>
+//	`;
+//}
 
 function finalizedActionRender(data, type, full){
 	return `

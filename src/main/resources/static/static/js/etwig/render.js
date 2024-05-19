@@ -46,62 +46,114 @@ function assetRender(data, type, row){
 
 /**
  * Converts a date string into a formatted date-time string.
- * This function parses the input data string to a Date object and formats it into a 'YYYY-MM-DD HH:mm' format.
- * It's intended for use in table renderers where consistent date-time formatting is required.
+ * This function parses the input date string into a Date object using Date.parse() and then formats it into
+ * the 'YYYY-MM-DD HH:mm' format using a date formatting library. It's intended for use in table renderers
+ * where consistent date-time formatting is required.
  *
  * @param {string} data - The date string to be converted.
  * @param {string} type - The type of operation or context in which the function is called (unused in this function).
  * @param {object} row - The data row that contains the date string (unused in this function).
- * @returns {string} The formatted date-time string.
+ * @returns {string} The formatted date-time string, or 'N/A' if the input is falsy.
  */
 
 function dateWeekRender(data, type, row){
-	var targetDate = Date.parse(data);
-	return targetDate.toString('yyyy-MM-dd HH:mm');
+    return data ? Date.parse(data).toString('yyyy-MM-dd HH:mm') : 'N/A'; 
 }
 
-function expectDateRender(data, type, row) {
-	
-	if (type === 'display') {
-		var today = new Date();
-		var date = new Date(data);
-		var timeDiff = date.getTime() - today.getTime();
-		var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+//function dateWeekRender(data, type, row){
+//    
+//	//var targetDate = Date.parse(data);
+//	//return targetDate.toString('yyyy-MM-dd HH:mm');
+//}
 
-		var color;
-		var text;
-		
-		// Overdue
-		if (diffDays < 0) {
-			color = "danger";
-			text = "Overdue";
-		} 
-                    
-		// Due today
-		else if (diffDays == 0) {
-			color = "warning";
-			text = "Due today";
-		} 
-		
-		// 1 day left
-		else if (diffDays == 1) {
-			color = "warning";
-			text = "1 day left";
-		} 
-		
-		// 2-5 days left
-		else if (diffDays <= 5) {
-			color = "warning";
-			text = diffDays + " days left";
-		} 
-		
-		// 5+ days
-		else{
-			color = "primary";
-			text = diffDays + " days left";
-		}
-		return `${data}&nbsp;<span class="badge badge-${color}">${text}</span>`;
-		
-	}	
-	return data;
+/**
+ * Formats a date string with an HTML badge indicating the urgency based on how many days are left until the date.
+ *
+ * @param {string} data - The date string to be formatted.
+ * @param {string} type - The type of operation; currently only 'display' is handled, which formats the date.
+ * @param {Object} row - An object representing the entire data row (not used in current implementation).
+ * @returns {string} The original date string with an appended HTML span element that includes a styled badge
+ * indicating the urgency (e.g., "Overdue", "Due today", "1 day left", "{n} days left"). If the type is not 'display',
+ * it returns the unmodified date string.
+ */
+
+function expectDateRender(data, type, row) {
+    if (type === 'display') {
+
+        var today = new Date();
+        var date = new Date(data);
+        var timeDiff = date.getTime() - today.getTime();
+        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+        var color;
+        var text;
+
+        // Overdue
+        if (diffDays < 0) {
+            color = "danger";
+            text = "Overdue";
+        } 
+        
+        // Due today
+        else if (diffDays == 0) {
+            color = "warning";
+            text = "Due today";
+        } 
+        
+        // Due tomorrow
+        else if (diffDays == 1) {
+            color = "warning";
+            text = "Due tomorrow";
+        } 
+        
+        // 2-5 days left
+        else if (diffDays <= 5) {
+            color = "warning";
+            text = diffDays + " days left";
+        } 
+        
+        // 5+ days left
+        else {
+            color = "primary";
+            text = diffDays + " days left";
+        }
+        return `${data}&nbsp;<span class="badge badge-${color}">${text}</span>`;
+    }
+    return data;
+}
+
+/**
+ * Renders optional fields with a fallback to 'N/A'.
+ * This function checks if the provided data is truthy. If it is, the function returns the data as-is;
+ * otherwise, it returns 'N/A'. This is useful for table renderers or any display logic where missing
+ * optional data should be represented by a placeholder.
+ *
+ * @param {*} data - The data to be rendered. This can be any type that needs to be displayed.
+ * @param {string} type - The type of operation or context in which the function is called (unused in this function).
+ * @param {object} row - The data row that contains the optional field (unused in this function).
+ * @returns {string} The original data if truthy, or 'N/A' if falsy.
+ */
+
+function optionalFieldsRender(data, type, row) {
+    return data ? data : 'N/A';
+}
+
+/**
+ * Generates an HTML string for an action button linked to a request's approval details.
+ * This function constructs an anchor tag styled as a button that directs to a detailed approval page for a specific request.
+ * The request ID is dynamically inserted into the URL from the 'full' parameter, which is expected to be an object containing the request ID.
+ * This button is typically used in data tables or web interfaces where actions can be initiated for specific records.
+ *
+ * @param {*} data - The data associated with the row, not used directly in generating the link (unused in this function).
+ * @param {string} type - The type of operation or context in which the function is called (unused in this function).
+ * @param {object} full - The complete data object for the row, expected to include an 'id' property used to construct the URL.
+ * @returns {string} An HTML string that renders an action button with a link to the approval details page for the request.
+ */
+
+function requestActionRender(data, type, full){
+	return `
+		<a href="/graphics/approvalDetails.do?requestId=${full.id}" class="btn btn-outline-primary btn-sm">
+            <i class="fa-solid fa-eye"></i>&nbsp;Details
+		</a>
+	`;
 }
