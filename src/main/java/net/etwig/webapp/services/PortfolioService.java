@@ -61,14 +61,18 @@ public class PortfolioService {
 			return portfolioRepository.findBySeparatedCalendarFalse();
 		}
 	}
-	
+
 	/**
-	 * Get a portfolio details by its Id.
-	 * @param id The Id of this portfolio.
-	 * @return The portfolio object with that Id, or null if no portfolio with that Id.
+	 * Retrieves a {@link Portfolio} instance by its identifier.
+	 * <p>
+	 * This method searches for a portfolio using the provided ID. If the portfolioRepository is not initialized,
+	 * or if no portfolio with the given ID is found, the method returns null.
+	 *
+	 * @param id The unique identifier of the portfolio to be retrieved.
+	 * @return The {@link Portfolio} instance with the specified ID, or null if not found or if the repository is not initialized.
 	 */
 	
-	public Portfolio getPortfolioById(long id) {
+	public Portfolio findById(long id) {
 		return portfolioRepository == null ? null : portfolioRepository.findById(id).orElse(null);
 	}
 	

@@ -93,7 +93,7 @@ public class EventsPageController {
 		// TODO Add a "view only" page, then set the permission of old pages to "event manager only"
 		// TODO Remove copy event function
 		model.addAttribute("allProperties", propertyService.findAll());
-        model.addAttribute("allOptions", optionService.findAllGroupByProperties());	
+        model.addAttribute("allOptions", propertyService.findAllGroupByProperties());
 		return "events/edit";
 	}
 

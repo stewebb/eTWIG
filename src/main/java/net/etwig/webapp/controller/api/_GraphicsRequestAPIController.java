@@ -17,11 +17,9 @@ import net.etwig.webapp.services.PortfolioService;
 import net.etwig.webapp.dto.events.EventDetailsDTO;
 import net.etwig.webapp.dto.graphics.FinalizedRequestsBasicInfoDTO;
 import net.etwig.webapp.dto.graphics.PendingRequestsBasicInfoDTO;
-import net.etwig.webapp.model.GraphicsRequest;
 import net.etwig.webapp.model.Portfolio;
 import net.etwig.webapp.services.EmailService;
 import net.etwig.webapp.services.EventService;
-import net.etwig.webapp.util.NumberUtils;
 import net.etwig.webapp.util.WebReturn;
 
 @RestController
@@ -47,7 +45,7 @@ public class _GraphicsRequestAPIController {
 		
 		// Check permission again!
 		EventDetailsDTO event = eventService.findById(Long.parseLong(requestInfo.get("eventId").toString()));
-		Portfolio eventPortfolio = portfolioService.getPortfolioById(event.getPortfolioId());
+		Portfolio eventPortfolio = portfolioService.findById(event.getPortfolioId());
 		if(!eventService.eventEditPermissionCheck(eventPortfolio)) {
 			return WebReturn.errorMsg("You don't have permission to make this request.", false);
 		} 

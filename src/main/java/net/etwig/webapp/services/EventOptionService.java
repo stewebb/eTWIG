@@ -36,7 +36,7 @@ public class EventOptionService {
      * @throws DataException
      */
     
-    public HashSet<Long> getOptionsByEvent(Long eventId) throws DataException {
+    public HashSet<Long> getOptionsByEvent(Long eventId) {
         List<EventOption> eventOptions = eventOptionRepository.findByIdEventId(eventId);
         
         // Only need to know the Id of the options, an set is adequate.

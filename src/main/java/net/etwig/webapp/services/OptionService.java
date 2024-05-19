@@ -24,31 +24,24 @@ import net.etwig.webapp.util.MapUtils;
 @Service
 public class OptionService {
 	
-	@Autowired
-	private OptionRepository optionRepository;
+	// TODO PENDING REMOVAL
 	
 	/**
 	 * Get the list of all options
 	 * @return A LinkedHashMap all options
 	 */
 	
-	public LinkedHashMap<Long, Option> findAll(){
-		
-		MapUtils mapUtils = new MapUtils();		
-		return mapUtils.listToLinkedHashMap(optionRepository.findAll(), Option::getId);
-	}
+	//public LinkedHashMap<Long, Option> findAll(){
+	//
+	//	MapUtils mapUtils = new MapUtils();
+	//	return mapUtils.listToLinkedHashMap(optionRepository.findAll(), Option::getId);
+	//}
 	
 	/**
 	 * Get all options, but are group by the properties.
 	 * @return A map, key is the propertyId, value is a list with all options that belong to this property.
 	 */
 	
-	public Map<String, List<Option>> findAllGroupByProperties() {
-		
-		List<Option> optionList = optionRepository.findAll();
-		Map<String, List<Option>> optionGrouped = optionList.stream().collect(Collectors.groupingBy(w -> Long.toString(w.getBelongsToId())));		
-		return optionGrouped;
-        
-	}
+
 	
 }
