@@ -1,3 +1,12 @@
+/**
+ * Initializes and configures the DataTable for managing banner requests.
+ * This function sets up a DataTable on the '#requestsTable' element with specific configurations for server-side processing.
+ * It includes settings for pagination, ordering, and custom column rendering to handle date formatting, status rendering,
+ * and action buttons. The function configures the DataTable to fetch data from a specified server endpoint with parameters
+ * adjusted for sorting. It is designed for admin panels or dashboard interfaces where managing banner requests efficiently is crucial.
+ *
+ * @returns {void} Does not return a value.
+ */
 
 function bannerRequestListTable(){
 	$('#requestsTable').DataTable({
@@ -27,94 +36,8 @@ function bannerRequestListTable(){
 			{ "data": "approverName", "orderable": false, "render": optionalFieldsRender},
 			{ "data": "responseTime", "orderable": true, "render": dateWeekRender},
 			{ "mRender": requestActionRender, "orderable": false}
-			//
 		]
 	});
-}
-
-/*
-function pendingApprovalDataTable(){
-	var dt = $('#pendingRequestsList').DataTable({
-        processing: true,
-        serverSide: true,
-        searching: false, 
-        bAutoWidth: false,
-        ajax: {
-            url: "/api/private/getPendingRequests",
-            data: function (d) {
-                d.page = d.start / d.length;
-                d.size = d.length;
-            },
-            type: "GET",
-            dataSrc: function (json) {
-                return json.content;
-            }
-        },
-        columns: [
-            { data: "id" },
-            { data: "eventName" },
-            { data: "requesterName"},
-            { data: "requesterPosition"},
-            { data: "expectDate", render: expectDateRender},
-            { data: "requestComments"},
-            {mRender:pendingActionRender}
-        ]
-    });
-    return dt;
-}
-
-function finalizedApprovalDataTable(){
-	var dt = $('#finalizedRequestsList').DataTable({
-        processing: true,
-        serverSide: true,
-        searching: false, 
-        bAutoWidth: false,
-        ajax: {
-            url: "/api/private/getFinalizedRequests",
-            data: function (d) {
-                d.page = d.start / d.length;
-                d.size = d.length;
-            },
-            type: "GET",
-            dataSrc: function (json) {
-                return json.content;
-            }
-        },
-        columns: [
-            { data: "id" },
-            { data: "eventName" },
-            { data: "requesterName"},
-            { data: "requesterPosition"},
-            { data: "expectDate"},
-            { data: "approved", render: approvedRender},
-            { data: "approverName"},
-            { data: "approverPosition"},
-            { data: "responseTime"},
-            {mRender: finalizedActionRender}
-        ]
-    });
-    return dt;
-}
-*/
-
-//function approvedRender(data, type, row){
-//	return data ? `<i class="fa-solid fa-check text-success bold-text"></i>` : `<i class="fa-solid fa-xmark text-danger bold-text"></i>`;
-//}
-
-//function pendingActionRender(data, type, full){
-//	return `
-//		<a href="/graphics/approvalDetails.do?requestId=${full.id}" class="btn btn-outline-primary btn-sm">
-//			<i class="fa-solid fa-check"></i>&nbsp;Decide
-//		</a>
-//	`;
-//}
-
-function finalizedActionRender(data, type, full){
-	return `
-		<a href="/graphics/approvalDetails.do?eventId=${full.id}" class="btn btn-outline-primary btn-sm">
-			<i class="fa-solid fa-eye"></i>&nbsp;Details
-		</a>
-	`;
 }
 
 function setAssetsUpload(approvedMode){

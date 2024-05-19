@@ -60,12 +60,6 @@ function dateWeekRender(data, type, row){
     return data ? Date.parse(data).toString('yyyy-MM-dd HH:mm') : 'N/A'; 
 }
 
-//function dateWeekRender(data, type, row){
-//    
-//	//var targetDate = Date.parse(data);
-//	//return targetDate.toString('yyyy-MM-dd HH:mm');
-//}
-
 /**
  * Formats a date string with an HTML badge indicating the urgency based on how many days are left until the date.
  *
