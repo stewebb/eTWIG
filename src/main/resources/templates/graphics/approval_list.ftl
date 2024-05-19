@@ -72,7 +72,10 @@
 								<thead>
 									<tr>
 										<th>Request ID</th>
+										<th>Event</th>
 										<th>Request Date</th>
+										<th>Requester</th>
+										<th>Expect Date</th>
 										<th>Status</th>
 									</tr>
 								</thead>

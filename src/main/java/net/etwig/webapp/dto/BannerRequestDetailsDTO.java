@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @ToString
-public class BannerRequestAPIDetailsDTO {
+public class BannerRequestDetailsDTO {
 
     // Requests-related fields
     private final Long id;
@@ -18,6 +18,7 @@ public class BannerRequestAPIDetailsDTO {
     private final String requesterName;
     private LocalDateTime requestTime;
     private String requestComment;
+    private String eventName;
 
     // Approval-related fields
     private Boolean approved;
@@ -28,7 +29,7 @@ public class BannerRequestAPIDetailsDTO {
     private String responseComment;
     private Long assetId;
 
-    public BannerRequestAPIDetailsDTO(GraphicsRequest graphicsRequest){
+    public BannerRequestDetailsDTO(GraphicsRequest graphicsRequest){
 
         // Requests-related fields
         this.id = graphicsRequest.getId();
@@ -36,6 +37,7 @@ public class BannerRequestAPIDetailsDTO {
         this.requesterName = graphicsRequest.getRequesterRole().getUser().getFullName();
         this.requestTime = graphicsRequest.getRequestTime();
         this.requestComment = graphicsRequest.getRequestComment();
+        this.eventName = graphicsRequest.getEvent().getName();
 
         // Approval-related fields
         this.approved = graphicsRequest.getApproved();

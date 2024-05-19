@@ -3,10 +3,10 @@ function bannerRequestListTable(){
 	$('#requestsTable').DataTable({
 		"processing": true,
 		"serverSide": true,
-		"lengthMenu": [[3, 5, 10], [3, 5, 10]],
-		"pageLength": 3,
+		"lengthMenu": [[10, 20, 50, 100], [10, 20, 50, 100]],
+		"pageLength": 20,
 		"searching": false, 
-		"order": [[0, "desc"]],
+		"order": [[2, "desc"]],
 		"ajax": {
 			"url": "/api/bannerRequest/list?isApproved=na",
 			"type": "GET",
@@ -18,12 +18,12 @@ function bannerRequestListTable(){
 			}
 		},
 		"columns": [
-			{ "data": "id", "orderable": false},
-			//{ "data": "assetId", "orderable": false, "render": assetRender},
-			{ "data": "requestTime", "orderable": false, "render": dateWeekRender},
-			{ "data": "approved", "orderable": false, "render": approvalStatusRender},
-			//{ "data": "expectDate", "orderable": false},
-			//{ "data": "requesterName", "orderable": false},
+			{ "data": "id", "orderable": true},
+			{ "data": "eventName", "orderable": true},
+			{ "data": "requestTime", "orderable": true, "render": dateWeekRender},
+			{ "data": "requesterName", "orderable": false},
+			{ "data": "expectDate", "orderable": true, render: expectDateRender},
+			{ "data": "approved", "orderable": true, "render": approvalStatusRender},
 			//{ "data": "requestTime", "orderable": false},
 			//{ "data": "requestComment", "orderable": false},
 			//
@@ -35,7 +35,7 @@ function bannerRequestListTable(){
 	});
 }
 
-
+/*
 function pendingApprovalDataTable(){
 	var dt = $('#pendingRequestsList').DataTable({
         processing: true,
@@ -98,52 +98,7 @@ function finalizedApprovalDataTable(){
     });
     return dt;
 }
-
-function expectDateRender(data, type, row) {
-	
-	if (type === 'display') {
-		var today = new Date();
-		var date = new Date(data);
-		var timeDiff = date.getTime() - today.getTime();
-		var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-
-		var color;
-		var text;
-		
-		// Overdue
-		if (diffDays < 0) {
-			color = "danger";
-			text = "Overdue";
-		} 
-                    
-		// Due today
-		else if (diffDays == 0) {
-			color = "warning";
-			text = "Due today";
-		} 
-		
-		// 1 day left
-		else if (diffDays == 1) {
-			color = "warning";
-			text = "1 day left";
-		} 
-		
-		// 2-5 days left
-		else if (diffDays <= 5) {
-			color = "warning";
-			text = diffDays + " days left";
-		} 
-		
-		// 5+ days
-		else{
-			color = "primary";
-			text = diffDays + " days left";
-		}
-		return `${data}&nbsp;<span class="badge badge-${color}">${text}</span>`;
-		
-	}	
-	return data;
-}
+*/
 
 function approvedRender(data, type, row){
 	return data ? `<i class="fa-solid fa-check text-success bold-text"></i>` : `<i class="fa-solid fa-xmark text-danger bold-text"></i>`;

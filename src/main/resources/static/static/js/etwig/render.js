@@ -59,3 +59,49 @@ function dateWeekRender(data, type, row){
 	var targetDate = Date.parse(data);
 	return targetDate.toString('yyyy-MM-dd HH:mm');
 }
+
+function expectDateRender(data, type, row) {
+	
+	if (type === 'display') {
+		var today = new Date();
+		var date = new Date(data);
+		var timeDiff = date.getTime() - today.getTime();
+		var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+		var color;
+		var text;
+		
+		// Overdue
+		if (diffDays < 0) {
+			color = "danger";
+			text = "Overdue";
+		} 
+                    
+		// Due today
+		else if (diffDays == 0) {
+			color = "warning";
+			text = "Due today";
+		} 
+		
+		// 1 day left
+		else if (diffDays == 1) {
+			color = "warning";
+			text = "1 day left";
+		} 
+		
+		// 2-5 days left
+		else if (diffDays <= 5) {
+			color = "warning";
+			text = diffDays + " days left";
+		} 
+		
+		// 5+ days
+		else{
+			color = "primary";
+			text = diffDays + " days left";
+		}
+		return `${data}&nbsp;<span class="badge badge-${color}">${text}</span>`;
+		
+	}	
+	return data;
+}

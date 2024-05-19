@@ -8,7 +8,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import net.etwig.webapp.dto.BannerRequestAPIDetailsDTO;
+import net.etwig.webapp.dto.BannerRequestDetailsDTO;
 import net.etwig.webapp.dto.graphics.*;
 import net.etwig.webapp.model.EventGraphics;
 import net.etwig.webapp.repository.EventGraphicsRepository;
@@ -63,7 +63,7 @@ public class GraphicsRequestService {
 	}
 
 	/**
-	 * Retrieves a {@link BannerRequestAPIDetailsDTO} by its ID.
+	 * Retrieves a {@link BannerRequestDetailsDTO} by its ID.
 	 * <p>
 	 * This method fetches a graphics request by ID and constructs a DTO with the details of the found request.
 	 * The method leverages the {@link #findById(Long)} method to retrieve the underlying {@link GraphicsRequest}.
@@ -71,18 +71,18 @@ public class GraphicsRequestService {
 	 * </p>
 	 *
 	 * @param requestId The ID of the graphics request to find.
-	 * @return A {@link BannerRequestAPIDetailsDTO} containing the details of the found graphics request,
+	 * @return A {@link BannerRequestDetailsDTO} containing the details of the found graphics request,
 	 *         or {@code null} if no request is found with the given ID.
 	 */
 
-	public BannerRequestAPIDetailsDTO findByIdWithDTO(Long requestId) {
+	public BannerRequestDetailsDTO findByIdWithDTO(Long requestId) {
 		GraphicsRequest graphicsRequest = this.findById(requestId);
 
 		// Null check!
 		if (graphicsRequest == null) {
 			return null;
 		}
-		return new BannerRequestAPIDetailsDTO(graphicsRequest);
+		return new BannerRequestDetailsDTO(graphicsRequest);
 	}
 
 	/**
@@ -128,19 +128,19 @@ public class GraphicsRequestService {
 	 * <p>
 	 * This method constructs a {@link Specification} using the given event ID and approval status to filter the results.
 	 * It then queries the {@link GraphicsRequestRepository} with this specification and the provided {@link Pageable} object
-	 * to obtain a paginated result. Each {@link GraphicsRequest} found is then transformed into a {@link BannerRequestAPIDetailsDTO} object.
+	 * to obtain a paginated result. Each {@link GraphicsRequest} found is then transformed into a {@link BannerRequestDetailsDTO} object.
 	 *
 	 * @param eventId The unique identifier of the event to filter by; can be {@code null} if filtering by event ID is not required.
 	 * @param isApproved A {@link String} representing the approval status to filter the graphics requests;
 	 *                   can be {@code null} if this filter is not required. Possible values are "approved", "pending", "rejected".
 	 * @param pageable A {@link Pageable} instance containing pagination information.
-	 * @return A {@link Page} of {@link BannerRequestAPIDetailsDTO} objects representing the filtered list of graphics requests.
+	 * @return A {@link Page} of {@link BannerRequestDetailsDTO} objects representing the filtered list of graphics requests.
 	 *         This can be empty if no matching requests are found, but never {@code null}.
 	 */
 
-	public Page<BannerRequestAPIDetailsDTO> findRequestsByCriteria(Long eventId, String isApproved, Pageable pageable) {
+	public Page<BannerRequestDetailsDTO> findRequestsByCriteria(Long eventId, String isApproved, Pageable pageable) {
 		Specification<GraphicsRequest> spec = bannerRequestCriteria(eventId, isApproved);
-		return graphicsRequestRepository.findAll(spec, pageable).map(BannerRequestAPIDetailsDTO::new);
+		return graphicsRequestRepository.findAll(spec, pageable).map(BannerRequestDetailsDTO::new);
 	}
 
 	/**
