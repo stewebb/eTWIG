@@ -31,7 +31,7 @@ import net.etwig.webapp.util.NumberUtils;
 import net.etwig.webapp.util.WebReturn;
 
 @RestController
-public class TwigAPIController {
+public class _TwigAPIController {
 
 	@Autowired
 	private TwigService twigService;

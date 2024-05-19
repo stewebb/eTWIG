@@ -22,8 +22,8 @@ import net.etwig.webapp.dto.AssetBasicInfoDTO;
 import net.etwig.webapp.model.Asset;
 import net.etwig.webapp.services.AssetService;
 import net.etwig.webapp.util.WebReturn;
-import net.etwig.webapp.util.type.FileCategory;
-import net.etwig.webapp.util.type.FileType;
+import net.etwig.webapp.util.FileCategory;
+import net.etwig.webapp.util.FileType;
 
 @RestController
 @RequestMapping(value = "/api/private/")

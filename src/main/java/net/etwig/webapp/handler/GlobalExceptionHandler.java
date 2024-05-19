@@ -9,7 +9,7 @@ import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import net.etwig.webapp.util.exception.InvalidDateFormatException;
+import net.etwig.webapp.util.InvalidDateFormatException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -19,7 +19,8 @@ public class GlobalExceptionHandler {
 	 * @param e
 	 * @return
 	 */
-	
+
+    // TODO REMOVE ME AND USE ANNOTATIONS ON EXCEPTIONS ONLY.
     @ExceptionHandler(InvalidDateFormatException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ErrorResponse> handleInvalidDateFormat(InvalidDateFormatException e) {

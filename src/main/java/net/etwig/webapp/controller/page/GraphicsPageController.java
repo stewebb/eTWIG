@@ -1,4 +1,4 @@
-package net.etwig.webapp.controller.pages;
+package net.etwig.webapp.controller.page;
 
 import net.etwig.webapp.dto.events.GraphicsRequestEventInfoDTO;
 import net.etwig.webapp.dto.graphics.PendingRequestsDetailsDTO;

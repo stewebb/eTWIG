@@ -5,7 +5,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import jakarta.persistence.criteria.Predicate;
-import net.etwig.webapp.dto.BannerRequestAPIForEventPageDTO;
 import net.etwig.webapp.dto.EventGraphicsAPIForDetailsPageDTO;
 import net.etwig.webapp.dto.events.RecurringEventGraphicsPublicInfoDTO;
 import net.etwig.webapp.dto.events.SingleTimeEventGraphicsPublicInfoDTO;
@@ -13,10 +12,7 @@ import net.etwig.webapp.dto.graphics.EventGraphicsDetailsDTO;
 import net.etwig.webapp.dto.graphics.EventGraphicsListDTO;
 import net.etwig.webapp.dto.graphics.NewGraphicsDTO;
 import net.etwig.webapp.model.EventGraphics;
-import net.etwig.webapp.model.GraphicsRequest;
-import net.etwig.webapp.model.Option;
 import net.etwig.webapp.util.DateUtils;
-import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

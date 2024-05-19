@@ -745,7 +745,7 @@
     									<div class="col-lg-3 bold-text">TWIG Component</div>
 										<div class="col-lg-7" id="eventTwigComponent"></div>
 										<div class="col-lg-2">
-											<button id="twigComponentDownloadBtn" class="btn btn-outline-primary" onclick="" disabled>
+											<button id="twigComponentDownloadBtn" class="btn btn-outline-primary btn-sm" onclick="" disabled>
 												<i class="fa-regular fa-download"></i>
 											</button>
 										</div>
@@ -757,26 +757,13 @@
     									<div class="col-lg-3 bold-text">Banner</div>
 										<div class="col-lg-7" id="eventBanner"></div>
 										<div class="col-lg-2">
-											<button id="bannerDownloadBtn" class="btn btn-outline-primary" onclick="" disabled>
+											<button id="bannerDownloadBtn" class="btn btn-outline-primary btn-sm" onclick="" disabled>
 												<i class="fa-regular fa-download"></i>
 											</button>
 										</div>
 									</div>
 									<#-- /Banner -->
 
-									<!--
-									<div class="mb-2">
-										<span class="bold-text">TWIG Component</span>
-										<p id="eventTwigComponent"></p>
-									</div>
-									-->
-									
-									<!--
-									<div class="mb-2">
-									<span class="bold-text">Banner</span>
-										<p id="eventBanner"></p>
-									</div>	
-									-->
 								</div>
 								<#-- /Col 1: Current Graphics -->
 								
@@ -788,41 +775,16 @@
 										<i class="fa-solid fa-hand"></i>&nbsp;Banner Request
 									</h5>
 
-									<#-- Request a grphic now -->										
+									<#-- Request a banner now -->										
 									<div class="mb-3">
 										<div class="icheck-primary">
 											<input type="checkbox" id="eventRequestNow" name="eventRequestNow">
 											<label for="eventRequestNow">Request a banner now</label>
 										</div>
 									</div>
-									<#-- /Request a grphic now -->
+									<#-- /Request a banner now -->
 					
 									<div id="eventRequestNowBlock" style="display:none">
-										
-										
-
-										<#-- <#assign editPermission = true> -->
-										
-										
-										<#-- Requester Role -->
-										<!--
-										<div class="form-group">
-											<label for="requesterRole">
-												Role&nbsp;<span class="required-symbol">*</span>
-											</label>
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text">
-														<i class="fa-solid fa-user-tie"></i>
-													</span>
-												</div>
-														
-												<select class="form-control" name="requesterRole" id="requesterRole"></select>
-											</div>
-											<small class="form-text text-muted">The position and associated portfolio, divided by comma.</small>
-										</div>
-										-->
-										<#-- Requester Role -->
 
 										<#-- Returning Date -->
 										<div class="form-group">
@@ -842,7 +804,7 @@
 											<div id="eventGraphicsDateWrapper" class="datepicker"></div>
 											<small class="form-text text-muted">Returning date for getting your graphic.</small>
 										</div>			
-											<#-- Returning Date -->
+										<#-- Returning Date -->
 											
 										<#-- Comment -->
 										<div class="form-group">
@@ -857,10 +819,6 @@
 								<#-- /Col 2: Banner Request -->
 
 							</div>
-
-							<#--
-							<#include "../_includes/events/addEdit_additionalInfo.ftl">	
-							-->
 
 							<div class="table-responsive" id="bannerRequestHistory" style="display:none;">
 
@@ -885,15 +843,6 @@
 					<#-- /Grphics -->
 
 					<div class="card mb-3">
-
-						<#--
-						<div class="card-header">
-							<h3 class="card-title">
-								<i class="fa-solid fa-gears"></i>&nbsp;Action
-							</h3>
-						</div>
-						-->
-
 						<div class="card-body">
 
 							<#-- Submit -->

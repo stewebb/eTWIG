@@ -7,7 +7,7 @@
  	* @function: The controller for the dashboard (main) page.
  	*/
 
-package net.etwig.webapp.controller.pages;
+package net.etwig.webapp.controller.page;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +28,6 @@ public class HomePageController {
 
 	@GetMapping("/")
 	public String root(){
-		//return "redirect:/twig/index.do";
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
 		// Check if user is authenticated and not anonymous

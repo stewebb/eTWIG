@@ -7,7 +7,11 @@
 	* @function: File categories.
 	*/
 
-package net.etwig.webapp.util.type;
+package net.etwig.webapp.util;
+
+/**
+ * Enumeration representing different categories of file types.
+ */
 
 public enum FileCategory {
 	APPLICATION,

@@ -64,84 +64,10 @@ public class _EventsAPIController {
 	public List<RecurringEventBasicInfoDTO> getAllRecurringEventList() throws Exception{
 		return eventService.getAllRecurringEvents();
 	}
-	
-	/**
-	 * Get the event information by a specific given id.
-	 * @param eventId
-	 * @return
-	 */
-	
-	//@GetMapping("/getEventById")
-	//public EventDetailsDTO getEventById(@RequestParam Long eventId){
-	//	return eventService.findById(eventId);
-	//}
-	
+
+	// TODO OPTIONS WITH A SEPARATE ENDPOINT
 	@GetMapping("/getSelectedOptionsByEventId")  
 	public HashSet<Long> getSelectedOptionsByEventId(@RequestParam Long eventId) throws Exception {
 		return eventOptionService.getOptionsByEvent(eventId);
 	}
-	
-	/**
-	 * Edit an existing event.
-	 * @param eventInfo
-	 * @return
-	 * @throws Exception
-	 * @authentication True
-	 */
-
-	/*
-	@PostMapping(value = "/editEvent")
-    public Map<String, Object> editEvent(@RequestBody Map<String, Object> eventInfo) throws Exception {
-				
-		// Get event type
-		Long eventId = NumberUtils.safeCreateLong(eventInfo.get("id").toString());
-		
-		// Invalid or negative eventId, add event.
-		if(eventId == null || eventId <= 0) {
-			eventService.editEvent(eventInfo, null);
-			return WebReturn.errorMsg(null, true);
-		}
-		
-		// Event not exist, add mode.
-		EventDetailsDTO event = eventService.findById(eventId);
-		if(event == null) {
-			eventService.editEvent(eventInfo, null);
-			return WebReturn.errorMsg(null, true);
-		}
-		
-		// Event exist, edit mode. But check permission again.
-		Portfolio eventPortfolio = portfolioService.getPortfolioById(event.getPortfolioId());
-		if(!eventService.eventEditPermissionCheck(eventPortfolio)) {
-			return WebReturn.errorMsg("You don't have permission to edit event.", false);
-		} 
-		
-		// Then edit event in the DB.
-		eventService.editEvent(eventInfo, event);
-        return WebReturn.errorMsg(null, true);
-    }
-
-	 */
-
-	/*
-	@PostMapping(value = "importEvents")
-	public Map<String, Object> importEvents(@RequestParam("file") MultipartFile file, @RequestParam("role") Long role) throws Exception {
-
-		// Null check
-		if(file == null || file.isEmpty()) {
-			return WebReturn.errorMsg("The file is null.", false);
-		}
-
-		// Check and read file
-		String fileName = file.getOriginalFilename();
-		String extension = FilenameUtils.getExtension(fileName);
-		if(!"xlsx".equalsIgnoreCase(extension) && ! "ods".equalsIgnoreCase(extension)) {
-			return WebReturn.errorMsg("Only Microsoft Excel Spreadsheet (*.xlsx) and OpenDocument Spreadsheet (*.ods) format are accepted. However, the extension of the uploaded file is " + extension, false);
-		}
-
-		Map<String, Object> webReturn = WebReturn.errorMsg("", true);
-		webReturn.put("result", eventService.importEvents(file, extension, role));
-		return webReturn;
-	}
-
-	 */
 }

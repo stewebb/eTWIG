@@ -11,6 +11,6 @@
 			<div class="float-right d-none d-sm-block">
 				<b>Version</b> ${app.appVersion}
 			</div>
-			<strong>${app.appName}</strong>
-			&nbsp;Star me on <a href="https://github.com/steven-webb/eTWIG" target="_blank">Github</a>.
+			<strong>${app.appName}</strong>&nbsp;
+			<a href="https://gitlab.com/xiaoanskywalker/etwig" target="_blank">Project repository</a> on GitLab.
 		</footer>

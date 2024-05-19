@@ -17,10 +17,10 @@ import org.springframework.context.annotation.Configuration;
 public class CookieConfig {
 
 	/**
-	 * Set "same site none secure" to all cookies
-	 * @doc https://docs.spring.io/spring-boot/docs/2.6.0/reference/html//web.html#web.servlet.embedded-container.customizing.samesite
-	 * @return
-	 */
+     * Set "same site none secure" to all cookies
+     * @doc <a href="https://docs.spring.io/spring-boot/docs/2.6.0/reference/html//web.html#web.servlet.embedded-container.customizing.samesite">...</a>
+     * @return
+     */
 	
 	@Bean
     public CookieSameSiteSupplier applicationCookieSameSiteSupplier() {

@@ -66,7 +66,7 @@ public class EventAPIController {
         }
 
         // Event exist, edit mode. But check permission in the backend again.
-        Portfolio eventPortfolio = portfolioService.getPortfolioById(event.getPortfolioId());
+        Portfolio eventPortfolio = portfolioService.findById(event.getPortfolioId());
         if(!eventService.eventEditPermissionCheck(eventPortfolio)) {
             //return WebReturn.errorMsg("You don't have permission to edit event.", false);
             throw new PortfolioMismatchException(eventPortfolio.getName());

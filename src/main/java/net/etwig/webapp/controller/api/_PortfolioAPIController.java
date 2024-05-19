@@ -24,24 +24,6 @@ public class _PortfolioAPIController {
 
 	@Autowired
 	PortfolioService portfolioService;
-	
-	/**
-	 * Get the portfolio information by its id.
-	 *
-	 * @param portfolioId
-	 * @return
-	 * @throws Exception
-	 */
-	
-	@RequestMapping("/api/public/getPortfolioById")  
-	public Portfolio getPortfolioById(@RequestParam Long portfolioId) throws Exception{
-		return portfolioService.getPortfolioById(portfolioId);
-			
-		//Map<String, Object> myReturn = WebReturn.errorMsg(null, true);
-	    //myReturn.put("portfolio", portfolioService.getPortfolioById(portfolioId));
-		//
-		//return myReturn;
-	}
 
 	@RequestMapping("/api/public/getPortfolioWithSeparateCalendar")
 	public List<Portfolio> getPortfolioWithSeparateCalendar(){

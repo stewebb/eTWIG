@@ -241,6 +241,7 @@ function getBrowserName(userAgent) {
     return browserName;
 }
 
+// TODO READY TO BE REMOVED
 function dateRender(data, type, row){
 	return data ? Date.parse(data).toString('yyyy-MM-dd HH:mm:ss') : 'N/A'; 
 }

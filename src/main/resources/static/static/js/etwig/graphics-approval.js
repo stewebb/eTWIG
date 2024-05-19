@@ -1,130 +1,43 @@
-function pendingApprovalDataTable(){
-	var dt = $('#pendingRequestsList').DataTable({
-        processing: true,
-        serverSide: true,
-        searching: false, 
-        bAutoWidth: false,
-        ajax: {
-            url: "/api/private/getPendingRequests",
-            data: function (d) {
-                d.page = d.start / d.length;
-                d.size = d.length;
-            },
-            type: "GET",
-            dataSrc: function (json) {
-                return json.content;
-            }
-        },
-        columns: [
-            { data: "id" },
-            { data: "eventName" },
-            { data: "requesterName"},
-            { data: "requesterPosition"},
-            { data: "expectDate", render: expectDateRender},
-            { data: "requestComments"},
-            {mRender:pendingActionRender}
-        ]
-    });
-    return dt;
-}
+/**
+ * Initializes and configures the DataTable for managing banner requests.
+ * This function sets up a DataTable on the '#requestsTable' element with specific configurations for server-side processing.
+ * It includes settings for pagination, ordering, and custom column rendering to handle date formatting, status rendering,
+ * and action buttons. The function configures the DataTable to fetch data from a specified server endpoint with parameters
+ * adjusted for sorting. It is designed for admin panels or dashboard interfaces where managing banner requests efficiently is crucial.
+ *
+ * @returns {void} Does not return a value.
+ */
 
-function finalizedApprovalDataTable(){
-	var dt = $('#finalizedRequestsList').DataTable({
-        processing: true,
-        serverSide: true,
-        searching: false, 
-        bAutoWidth: false,
-        ajax: {
-            url: "/api/private/getFinalizedRequests",
-            data: function (d) {
-                d.page = d.start / d.length;
-                d.size = d.length;
-            },
-            type: "GET",
-            dataSrc: function (json) {
-                return json.content;
-            }
-        },
-        columns: [
-            { data: "id" },
-            { data: "eventName" },
-            { data: "requesterName"},
-            { data: "requesterPosition"},
-            { data: "expectDate"},
-            { data: "approved", render: approvedRender},
-            { data: "approverName"},
-            { data: "approverPosition"},
-            { data: "responseTime"},
-            {mRender: finalizedActionRender}
-        ]
-    });
-    return dt;
-}
-
-function expectDateRender(data, type, row) {
-	
-	if (type === 'display') {
-		var today = new Date();
-		var date = new Date(data);
-		var timeDiff = date.getTime() - today.getTime();
-		var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-
-		var color;
-		var text;
-		
-		// Overdue
-		if (diffDays < 0) {
-			color = "danger";
-			text = "Overdue";
-		} 
-                    
-		// Due today
-		else if (diffDays == 0) {
-			color = "warning";
-			text = "Due today";
-		} 
-		
-		// 1 day left
-		else if (diffDays == 1) {
-			color = "warning";
-			text = "1 day left";
-		} 
-		
-		// 2-5 days left
-		else if (diffDays <= 5) {
-			color = "warning";
-			text = diffDays + " days left";
-		} 
-		
-		// 5+ days
-		else{
-			color = "primary";
-			text = diffDays + " days left";
-		}
-		return `${data}&nbsp;<span class="badge badge-${color}">${text}</span>`;
-		
-	}	
-	return data;
-}
-
-function approvedRender(data, type, row){
-	return data ? `<i class="fa-solid fa-check text-success bold-text"></i>` : `<i class="fa-solid fa-xmark text-danger bold-text"></i>`;
-}
-
-function pendingActionRender(data, type, full){
-	return `
-		<a href="/graphics/approvalDetails.do?requestId=${full.id}" class="btn btn-outline-primary btn-sm">
-			<i class="fa-solid fa-check"></i>&nbsp;Decide
-		</a>
-	`;
-}
-
-function finalizedActionRender(data, type, full){
-	return `
-		<a href="/graphics/approvalDetails.do?eventId=${full.id}" class="btn btn-outline-primary btn-sm">
-			<i class="fa-solid fa-eye"></i>&nbsp;Details
-		</a>
-	`;
+function bannerRequestListTable(){
+	$('#requestsTable').DataTable({
+		"processing": true,
+		"serverSide": true,
+		"lengthMenu": [[10, 20, 50, 100], [10, 20, 50, 100]],
+		"pageLength": 20,
+		"searching": false, 
+		"order": [[5, "desc"]],
+		"ajax": {
+			"url": "/api/bannerRequest/list?isApproved=na",
+			"type": "GET",
+			"data": function(d) {
+				return $.extend({}, d, {
+					"sortColumn": d.columns[d.order[0].column].data,
+					"sortDirection": d.order[0].dir
+				});
+			}
+		},
+		"columns": [
+			{ "data": "id", "orderable": true},
+			{ "data": "eventName", "orderable": true},
+			{ "data": "requestTime", "orderable": true, "render": dateWeekRender},
+			{ "data": "requesterName", "orderable": false},
+			{ "data": "expectDate", "orderable": true, render: expectDateRender},
+			{ "data": "approved", "orderable": true, "render": approvalStatusRender},
+			{ "data": "approverName", "orderable": false, "render": optionalFieldsRender},
+			{ "data": "responseTime", "orderable": true, "render": dateWeekRender},
+			{ "mRender": requestActionRender, "orderable": false}
+		]
+	});
 }
 
 function setAssetsUpload(approvedMode){
@@ -163,20 +76,15 @@ function decide(){
 		
 	var hasError = true;
 	$.ajax({
-   		url: '/api/private/approveRequests', 
+   		url: '/api/bannerRequest/approve', 
    		type: "POST",
    		async: false,
    		dataType: "json",
    		contentType: "application/json; charset=utf-8",
    		data: JSON.stringify(approvalDecisionObj),
    		success: function (result) {
-			if(result.error > 0){
-				dangerPopup("Failed to submit a decision.", result.msg);
-				hasError = true;
-			}else{
-				successPopup("Decision made successfully.");
-				hasError = false;
-			}	
+			successPopup(result.message);
+			hasError = false;
     	},
     	error: function (err) {
     		dangerPopup("Failed to submit a decision due to a HTTP " + err.status + " error.", err.responseJSON.exception);

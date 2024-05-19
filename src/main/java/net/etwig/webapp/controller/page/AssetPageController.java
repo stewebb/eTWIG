@@ -7,7 +7,7 @@
  	* @function: The controller for public assets.
  	*/
 
-package net.etwig.webapp.controller.pages;
+package net.etwig.webapp.controller.page;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import net.etwig.webapp.model.Asset;
 import net.etwig.webapp.services.AssetService;
-import net.etwig.webapp.util.type.FileType;
+import net.etwig.webapp.util.FileType;
 
 @Controller
 @RequestMapping(value = "/assets")
