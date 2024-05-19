@@ -51,3 +51,4 @@
 	<#-- eTWIG platform -->
 	<link rel="stylesheet" href="/static/css/etwig-style.css?ver=${app.appVersion}">
 	<script src="/static/js/etwig/common.js?ver=${app.appVersion}"></script>	
+	<script src="/static/js/etwig/render.js?ver=${app.appVersion}"></script>	

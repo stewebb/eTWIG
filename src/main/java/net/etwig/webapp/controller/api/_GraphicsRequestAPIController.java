@@ -39,6 +39,7 @@ public class _GraphicsRequestAPIController {
 	@Autowired
 	private EmailService emailService;
 
+	/*
 	@PostAuthorize("hasAuthority('ROLE_EVENTS')")
 	@PostMapping(value = "/requestGraphic")
     public Map<String, Object> requestGraphic(@RequestBody Map<String, Object> requestInfo) throws Exception {
@@ -65,6 +66,8 @@ public class _GraphicsRequestAPIController {
 		
         return WebReturn.errorMsg(null, true);
     }
+
+	 */
 
 	// TODO USE NEW LIST API.
 	@PostAuthorize("hasAuthority('ROLE_GRAPHICS')")

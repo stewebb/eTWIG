@@ -1,3 +1,41 @@
+
+function bannerRequestListTable(){
+	$('#requestsTable').DataTable({
+		"processing": true,
+		"serverSide": true,
+		"lengthMenu": [[3, 5, 10], [3, 5, 10]],
+		"pageLength": 3,
+		"searching": false, 
+		"order": [[0, "desc"]],
+		"ajax": {
+			"url": "/api/bannerRequest/list?isApproved=na",
+			"type": "GET",
+			"data": function(d) {
+				return $.extend({}, d, {
+					"sortColumn": d.columns[d.order[0].column].data,
+					"sortDirection": d.order[0].dir
+				});
+			}
+		},
+		"columns": [
+			{ "data": "id", "orderable": false},
+			//{ "data": "assetId", "orderable": false, "render": assetRender},
+			{ "data": "requestTime", "orderable": false, "render": dateWeekRender},
+			{ "data": "approved", "orderable": false, "render": approvalStatusRender},
+			//{ "data": "expectDate", "orderable": false},
+			//{ "data": "requesterName", "orderable": false},
+			//{ "data": "requestTime", "orderable": false},
+			//{ "data": "requestComment", "orderable": false},
+			//
+			//{ "data": "approverName", "orderable": false},
+			//{ "data": "responseTime", "orderable": false},
+			//{ "data": "responseComment", "orderable": false},
+			//
+		]
+	});
+}
+
+
 function pendingApprovalDataTable(){
 	var dt = $('#pendingRequestsList').DataTable({
         processing: true,

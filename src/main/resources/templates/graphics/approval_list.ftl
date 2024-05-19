@@ -67,7 +67,19 @@
 
 						<div class="card-body table-responsive">
 
+
+							<table id="requestsTable" class="display table table-hover table-striped" width="100%">
+								<thead>
+									<tr>
+										<th>Request ID</th>
+										<th>Request Date</th>
+										<th>Status</th>
+									</tr>
+								</thead>
+							</table>
+
 							<#-- Table Content -->
+							<!--
 							<table id="pendingRequestsList" class="table table-hover table-striped">
 								<thead>
 									<tr>
@@ -82,6 +94,7 @@
 								</thead>
 								<tbody></tbody>
 							</table>
+							-->
 							<#-- /Table Content -->
 
 						</div>
@@ -89,6 +102,7 @@
 					<#-- /Pending requests -->
 
 					<#-- Finalized requests -->
+					<!--
 					<div class="card card-primary card-outline">
 						<div class="card-header">
 							<h3 class="card-title">
@@ -125,6 +139,7 @@
 
 						</div>
 					</div>
+					-->
 					<#-- /Finalized requests -->
 
 				</div>
@@ -144,8 +159,10 @@
 	<script type="text/javascript" src="/static/js/etwig/graphics-approval.js?ver=${app.appVersion}"></script>
 	
 	<script>
-    	var pendingDT = pendingApprovalDataTable();
-		var finalizedDT = finalizedApprovalDataTable();
+    	//var pendingDT = pendingApprovalDataTable();
+		//var finalizedDT = finalizedApprovalDataTable();
+		bannerRequestListTable();
+
 	</script>
 </body>
 </html>

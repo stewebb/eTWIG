@@ -29,6 +29,7 @@ public class PropertyService {
 	@Autowired
 	private PropertyRepository propertyRepository;
 
+	@Autowired
 	private OptionRepository optionRepository;
 	
 	/**
@@ -50,8 +51,7 @@ public class PropertyService {
 	public Map<String, List<Option>> findAllGroupByProperties() {
 
 		List<Option> optionList = optionRepository.findAll();
-		Map<String, List<Option>> optionGrouped = optionList.stream().collect(Collectors.groupingBy(w -> Long.toString(w.getBelongsToId())));
-		return optionGrouped;
+        return optionList.stream().collect(Collectors.groupingBy(w -> Long.toString(w.getBelongsToId())));
 
 	}
 
