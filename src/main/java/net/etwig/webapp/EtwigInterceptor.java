@@ -20,7 +20,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import net.etwig.webapp.config.ConfigFile;
-import net.etwig.webapp.dto.user.UserAccessDTO;
+import net.etwig.webapp.dto.LoggedInUserAccessDTO;
 import net.etwig.webapp.dto.user.UserDTO;
 
 @Component
@@ -52,7 +52,7 @@ public class EtwigInterceptor implements HandlerInterceptor{
 			}
 			
 			// Put user access into session
-			UserAccessDTO userAccess = (UserAccessDTO) session.getAttribute("access");
+			LoggedInUserAccessDTO userAccess = (LoggedInUserAccessDTO) session.getAttribute("access");
 			//System.out.println(session);
 			System.out.println(userAccess);
 			if(userAccess != null) {

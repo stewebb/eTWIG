@@ -8,9 +8,9 @@ import net.etwig.webapp.model.User;
 @ToString
 public class UserDTO {
 	
-	private Long id;
-	private String fullName;
-	private String email;
+	private final Long id;
+	private final String fullName;
+	private final String email;
 	
 	public UserDTO(User user) {
 		this.id = user.getId();

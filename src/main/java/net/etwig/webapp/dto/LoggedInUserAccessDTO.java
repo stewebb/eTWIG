@@ -1,4 +1,4 @@
-package net.etwig.webapp.dto.user;
+package net.etwig.webapp.dto;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,15 +9,15 @@ import net.etwig.webapp.model.UserRole;
 
 @Getter
 @ToString
-public class UserAccessDTO {
+public class LoggedInUserAccessDTO {
 	
 	private boolean eventsAccess = false;
 	private boolean graphicsAccess = false;
 	private boolean adminAccess = false;
 	
-	private Set<Role> myRoles = new HashSet<Role>();
+	private final Set<Role> myRoles = new HashSet<Role>();
 	
-	public UserAccessDTO(Set<UserRole> userRoles) {
+	public LoggedInUserAccessDTO(Set<UserRole> userRoles) {
 		
 		// The permission of each roles accumulates.
 		for (UserRole userRole : userRoles) {

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import jakarta.servlet.http.HttpSession;
-import net.etwig.webapp.dto.user.UserAccessDTO;
+import net.etwig.webapp.dto.LoggedInUserAccessDTO;
 import net.etwig.webapp.dto.user.UserDTO;
 import net.etwig.webapp.model.User;
 import net.etwig.webapp.model.UserRole;
@@ -51,7 +51,7 @@ public class UserSession {
 		
 		// Store user and permission
 		session.setAttribute("user", new UserDTO(user));
-		session.setAttribute("access", new UserAccessDTO(userRoles));
+		session.setAttribute("access", new LoggedInUserAccessDTO(userRoles));
 	}
 	
 	public void setEmail(String email) {
