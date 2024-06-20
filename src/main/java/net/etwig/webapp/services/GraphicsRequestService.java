@@ -221,7 +221,12 @@ public class GraphicsRequestService {
 	 * @throws Exception
 	 */
 	public void approveRequest(GraphicsRequest currentRequest, Map<String, Object> decisionInfo) throws Exception {
-		ApproveRequestsDTO request = new ApproveRequestsDTO(currentRequest, decisionInfo);
+
+		ApproveRequestsDTO request = new ApproveRequestsDTO(
+				currentRequest,
+				decisionInfo,
+				userRoleService.getMyLoggedInPosition()
+		);
 		
 		// Update request info
 		GraphicsRequest updatedRequest = request.toEntity();

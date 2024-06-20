@@ -19,9 +19,9 @@ public class ApproveRequestsDTO {
 	private String responseComment;
 	private Long assetId;
 	
-	public ApproveRequestsDTO(GraphicsRequest currentRequest,  Map<String, Object> approvalInfo) {
+	public ApproveRequestsDTO(GraphicsRequest currentRequest,  Map<String, Object> approvalInfo, Long loggedInUserPosition) {
 		this.currentRequest = currentRequest;
-		this.approverRole = Long.parseLong(approvalInfo.get("role").toString());
+		this.approverRole = loggedInUserPosition;//Long.parseLong(approvalInfo.get("role").toString());
 		this.approved = BooleanUtils.toBoolean(approvalInfo.get("approved").toString());
 		this.responseComment = approvalInfo.get("comments").toString();
 		
