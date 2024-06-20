@@ -168,13 +168,35 @@
 						<#-- Switch Role -->						
 						<div class="dropdown-item">
 							<div class="form-group">
-								<label><i class="fa-regular fa-user-tie"></i>&nbsp;Select Position</label>
+								<label>
+									<i class="fa-regular fa-user-tie"></i>&nbsp;Select Position
+								</label>
+								
 								<select class="form-control select2bs4">
-									<option>option 1</option>
-									<option>option 2</option>
-									<option>option 3</option>
-									<option>option 4</option>
-									<option>option 5</option>
+									<#list position.myRoles?keys as key>
+										
+										<#--
+										${key?string}
+										${position.myCurrentRole?string}
+										<#assign a = key?string>
+										<#assign b = position.myCurrentRole?string>
+										<#assign c = (a==b)>
+
+										<#if c>
+											<option value="${key}" selected>${position.myRoles[a]}</option>
+										<#else>
+											<option value="${key}">${position.myRoles[key]}</option>
+										</#if>
+										-->
+
+										
+										<#if key?string == position.myCurrentRole?string>
+											<option value="${key}" selected>${position.myRoles?api.get(key)}</option>
+										<#else>
+											<option value="${key}">${position.myRoles?api.get(key)}</option>
+										</#if>
+										
+									</#list>
 								</select>
 							</div>
 						</div>	

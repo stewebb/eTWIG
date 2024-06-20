@@ -41,7 +41,6 @@ public class LoggedInUserPositionDTO {
 
     private Long myCurrentRole;
 
-
     public LoggedInUserPositionDTO(Set<UserRole> userRoles){
         this.myRoles = userRoles.stream()
                 .collect(Collectors.toMap(
@@ -69,5 +68,9 @@ public class LoggedInUserPositionDTO {
         } else{
             return false;
         }
+    }
+
+    public String getMyCurrentRoleStr(){
+        return this.myCurrentRole.toString();
     }
 }

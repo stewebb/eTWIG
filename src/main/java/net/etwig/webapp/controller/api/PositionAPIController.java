@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.HashMap;
+
 @RequestMapping("/api/position/")
 public class PositionAPIController {
 
@@ -53,5 +55,19 @@ public class PositionAPIController {
     @GetMapping("/current")
     public Long current() {
         return userRoleService.getMyLoggedInPosition();
+    }
+
+    /**
+     * Endpoint to retrieve all roles associated with the currently logged-in user.
+     *
+     * @return A map of role IDs to role names.
+     * @throws NullPointerException if no user position data is available in the session.
+     * @location /api/position/my
+     * @permission All logged in users
+     */
+
+    @GetMapping("/my")
+    public HashMap<Long, String> my() {
+        return userRoleService.getMyPositions();
     }
 }

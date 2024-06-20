@@ -45,29 +45,43 @@ public class UserRoleService implements UserDetailsService{
     @Autowired
 	private HttpSession session;
 
+    /**
+     * Retrieves the {@code LoggedInUserPositionDTO} object from the session.
+     * This method fetches the position information encapsulated in {@code LoggedInUserPositionDTO}
+     * from the session attribute named "position".
+     *
+     * @return the {@code LoggedInUserPositionDTO} object from the session.
+     * @throws ClassCastException if the object retrieved from the session cannot be cast to {@code LoggedInUserPositionDTO}.
+     */
+
     private LoggedInUserPositionDTO getCurrentPosition() {
         return (LoggedInUserPositionDTO) session.getAttribute("position");
     }
 
     /**
-     * Retrieves the current role ID of the logged-in user from their session.
-     * This method extracts the user's position information encapsulated in {@code LoggedInUserPositionDTO}
-     * from the session attribute named "position" and returns the current role ID associated with it.
+     * Retrieves the current role ID of the logged-in user.
+     * This method uses {@code getCurrentPosition()} to extract the user's position information from the session
+     * and returns the current role ID associated with it.
      *
      * @return the current role ID of the logged-in user as a {@code Long}.
-     *         Returns {@code null} if the "position" attribute is not set or cannot be cast to {@code LoggedInUserPositionDTO}.
-     * @throws ClassCastException if the object retrieved from session cannot be cast to {@code LoggedInUserPositionDTO}.
+     * @throws NullPointerException if the session does not contain position data.
      */
 
     public Long getMyLoggedInPosition(){
-        LoggedInUserPositionDTO currentPosition = getCurrentPosition();
-        return currentPosition.getMyCurrentRole();
+        return getCurrentPosition().getMyCurrentRole();
     }
 
-    // Get all my positions
+    /**
+     * Retrieves all role positions of the logged-in user.
+     * This method uses {@code getCurrentPosition()} to obtain the user's position information from the session
+     * and returns a map of role IDs and their corresponding names.
+     *
+     * @return a {@code HashMap<Long, String>} representing all role positions.
+     * @throws NullPointerException if the session does not contain position data.
+     */
+
     public HashMap<Long, String> getMyPositions(){
-        LoggedInUserPositionDTO currentPosition = getCurrentPosition();
-        return currentPosition.getMyRoles();
+        return getCurrentPosition().getMyRoles();
     }
 
 

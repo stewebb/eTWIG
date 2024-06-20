@@ -10,6 +10,9 @@
 package net.etwig.webapp;
 
 import java.util.LinkedHashMap;
+
+import net.etwig.webapp.dto.LoggedInUserPositionDTO;
+import net.etwig.webapp.services.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
@@ -28,6 +31,9 @@ public class EtwigInterceptor implements HandlerInterceptor{
 	
 	@Autowired
 	private ConfigFile config;
+
+	//@Autowired
+	//private UserRoleService userRoleService;
 	
 	/**
 	 * Add data that shared across the application.
@@ -53,11 +59,18 @@ public class EtwigInterceptor implements HandlerInterceptor{
 			
 			// Put user access into session
 			LoggedInUserAccessDTO userAccess = (LoggedInUserAccessDTO) session.getAttribute("access");
-			//System.out.println(session);
-			System.out.println(userAccess);
+			//System.out.println(userAccess);
 			if(userAccess != null) {
 				modelAndView.addObject("access", userAccess);
 			}
+
+			//System.out.println(userRoleService.getMyPositions());
+
+			LoggedInUserPositionDTO userPosition = (LoggedInUserPositionDTO) session.getAttribute("position");
+			if (userPosition != null){
+				modelAndView.addObject("position", userPosition);
+			}
+
 		}
 
 		// Application information.
