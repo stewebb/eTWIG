@@ -123,12 +123,14 @@
 									</div>
 									<#-- /Organizer -->
 
-									<#-- Organizer Role -->
+									<#-- Organizer Position -->
 									<div class="form-group row">
 										<label for="eventRole" class="col-lg-3 col-form-label">
-											Organizer Role&nbsp;<span class="required-symbol">*</span>
+											Organizer Position&nbsp;<span class="required-symbol">*</span>
 											</label>
 										<div class="col-lg-9">
+
+											<#--
 											<div class="input-group">
 												<div class="input-group-prepend">
 													<span class="input-group-text">
@@ -138,10 +140,12 @@
 												
 												<select class="form-control select2bs4" name="eventRole" id="eventRole"></select>
 											</div>
+											-->
+											<div id="eventRole"></div>
 											<small class="form-text text-muted">The position and associated portfolio, divided by comma.</small>
 										</div>
 									</div>
-									<#-- Organizer Role -->
+									<#-- Organizer Position -->
 
 									<#-- Created Time -->
 									<div class="form-group row" id="eventCreatedTimeBlock" style="display:none;">

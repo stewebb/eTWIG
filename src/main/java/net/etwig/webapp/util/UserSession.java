@@ -57,12 +57,13 @@ public class UserSession {
 			throw new IllegalStateException("User authentication successfully, but the user is not assigned to any portfolio.");
 		}
 		
-		// Store user and permission
+		// Store user info to session
 		session.setAttribute("user", new UserDTO(user));
 		session.setAttribute("access", new LoggedInUserAccessDTO(userRoles));
+		session.setAttribute("position", new LoggedInUserPositionDTO(userRoles));
 
 		//HashMap<Long, String> positions = userRoleService.findPositionsByUser(userId);
-		System.out.println(new LoggedInUserPositionDTO(userRoles));
+		//System.out.println(new LoggedInUserPositionDTO(userRoles));
 	}
 
 }

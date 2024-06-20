@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import net.etwig.webapp.dto.LoggedInUserInfoDTO;
+import net.etwig.webapp.dto.LoggedInUserPositionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -54,6 +56,10 @@ public class UserRoleService implements UserDetailsService{
     //                    HashMap::new));
     //}
 
+    public Long getMyLoggedInPosition(){
+        LoggedInUserPositionDTO currentPosition = (LoggedInUserPositionDTO) session.getAttribute("position");
+        return currentPosition.getMyCurrentRole();
+    }
     
     public Set<Portfolio> getMyPortfolios(){
 		UserDTO currentUser = (UserDTO) session.getAttribute("user");
@@ -61,7 +67,7 @@ public class UserRoleService implements UserDetailsService{
 	}
     
     public Set<PositionWithoutEmailDTO> getMyPositions(){
-    	UserDTO currentUser = (UserDTO) session.getAttribute("user");
+    	LoggedInUserInfoDTO currentUser = (LoggedInUserInfoDTO) session.getAttribute("user");
     	Set<UserRole> myRoles = userRoleRepository.findByUserId(currentUser.getId());
     	return myRoles.stream().map(PositionWithoutEmailDTO::new).collect(Collectors.toSet());
     	

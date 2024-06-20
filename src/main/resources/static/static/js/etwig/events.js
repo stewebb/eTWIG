@@ -31,7 +31,7 @@ function getEventInfo(datePickersMap){
     var eventId = urlParams.get('eventId');
     
     // Get my positions
-    var myPositions = getMyPositions();
+    // var myPositions = getMyPositions();
 
 	// Set mode (add or edit)
 	var isEdit = pageName.includes("edit");
@@ -89,6 +89,8 @@ function getEventInfo(datePickersMap){
 		// Permission Check
 		var myPortfolioIds = [];
 		var myPortfolioNames = [];
+
+		/*
 		for (let key in myPositions) {
 			  myPortfolioIds.push(myPositions[key].portfolioId)
 			  myPortfolioNames.push(myPositions[key].portfolioName)
@@ -105,6 +107,7 @@ function getEventInfo(datePickersMap){
 				</div>
 			`)
 		}
+		*/
 
 		// Get eventId
 		$('#eventIdBlock').show();
@@ -117,8 +120,6 @@ function getEventInfo(datePickersMap){
 
 		// Copy and graphics, only available in edit mode.
 		$('.event-hidden-tabs').show();
-		//$('#eventCopyLink').attr('href', '/events/edit?eventId=-' + eventInfo.id);
-		//$('#eventGraphicsLink').attr('href', '/events/graphics?eventId=' + eventInfo.id);
 
 		// Get name and location
 		$('#eventName').val(eventInfo.name);
@@ -126,7 +127,9 @@ function getEventInfo(datePickersMap){
 
 		// Get organizer info and set it to read-only.
 		$('#eventOrganizer').text(eventInfo.organizerName);
-		$("#eventRole").append(`<option value="${eventInfo.userRoleId}">${eventInfo.positionName}, ${eventInfo.portfolioName}</option>`);
+		//$("#eventRole").append(`<option value="${eventInfo.userRoleId}">${eventInfo.positionName}, ${eventInfo.portfolioName}</option>`);
+		$("#eventRole").html(`${eventInfo.positionName}, ${eventInfo.portfolioName}`);
+		
 		$("#eventRole").prop('disabled', true);
 
 		// Get created and updated time.
@@ -291,7 +294,6 @@ function getEventInfo(datePickersMap){
 		setRecurrentMode(0);
 		setAllDayEvent(false);
 		setValidTo(true);
-		//setGraphicsRequest(true);
 		
 		// Set hidden fields.
 		$('#eventIdBlock').hide();
@@ -308,12 +310,13 @@ function getEventInfo(datePickersMap){
 		
 		// Set role(s).
 		$('#eventOrganizer').text($('#userName').text());
-		for (let key in myPositions) {
-			$("#eventRole").append(`<option value="${myPositions[key].userRoleId}">${myPositions[key].position}, ${myPositions[key].portfolioName}</option>`);
-		}
+		$('#eventOrganizer').css('color', '#808080');
 
-		$('#eventGraphicsTab').hide();
-    	//$('#eventRequestNowBlock').show();
+		// for (let key in myPositions) {
+		// 	$("#eventRole").append(`<option value="${myPositions[key].userRoleId}">${myPositions[key].position}, ${myPositions[key].portfolioName}</option>`);
+		// }
+
+		// $('#eventGraphicsTab').hide();
 		$('#bannerRequestHistory').hide();
 	}
 }
@@ -491,7 +494,7 @@ function addEvent(){
 	newEventObj["description"] = $("#eventDescription").summernote("code");
 	
 	// Event Organizer Role
-	newEventObj["eventRole"]  = parseInt($('#eventRole').find(":selected").val());
+	// newEventObj["eventRole"]  = parseInt($('#eventRole').find(":selected").val());
 	
 	/**
 	 * Timing

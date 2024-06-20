@@ -133,9 +133,11 @@ public class EventService {
 	
 	@SuppressWarnings("null")
 	public void editEvent(Map<String, Object> eventInfo, EventDetailsDTO currentEvent){
-		
+
+		Long myPosition = userRoleService.getMyLoggedInPosition();
+
 		// Add event
-		AddEditEventDTO newEventDTO = new AddEditEventDTO(eventInfo, currentEvent);
+		AddEditEventDTO newEventDTO = new AddEditEventDTO(eventInfo, currentEvent, myPosition);
 		//System.out.println(newEventDTO);
 		Event addedEvent = eventRepository.save(newEventDTO.toEntity());
 		

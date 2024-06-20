@@ -3,7 +3,7 @@
  * This package includes data transfer objects (DTOs) to handle user roles operations such as
  * querying and modifying user roles in a web-based context.
  *
- * @since 1.0
+ * @since 3.3
  */
 
 package net.etwig.webapp.dto;
@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 
 @Getter
 @ToString
-//@AllArgsConstructor
 public class LoggedInUserPositionDTO {
 
     /**

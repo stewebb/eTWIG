@@ -34,7 +34,7 @@ public class AddEditEventDTO {
 	private String excluded;
 	
 	@SuppressWarnings("unchecked")
-	public AddEditEventDTO(Map<String, Object> eventInfo, EventDetailsDTO currentEvent) {
+	public AddEditEventDTO(Map<String, Object> eventInfo, EventDetailsDTO currentEvent, Long myPosition) {
 
 		// Mode
 		this.currentEvent = currentEvent;
@@ -44,7 +44,7 @@ public class AddEditEventDTO {
 		this.name = eventInfo.get("name").toString();
 		this.location = eventInfo.get("location").toString();
 		this.description = eventInfo.get("description").toString();
-		this.userRoleId = Long.parseLong(eventInfo.get("eventRole").toString());
+		this.userRoleId = myPosition;// Long.parseLong(eventInfo.get("eventRole").toString());
 		
 		// Edit mode, only update updated time.
 		this.updatedTime = LocalDateTime.now();

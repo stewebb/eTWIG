@@ -182,6 +182,7 @@ function combineDateAndTime(date, timeString) {
     return combinedDateTime;
 }
 
+/*
 function getMyPositions(){	
 	var position = {};
 	
@@ -201,6 +202,7 @@ function getMyPositions(){
 	
 	return position;
 }
+*/
 
 /**
  * Get the browser name by a given user agent.
