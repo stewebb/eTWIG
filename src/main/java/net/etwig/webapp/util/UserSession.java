@@ -1,7 +1,11 @@
 package net.etwig.webapp.util;
 
+import java.util.HashMap;
 import java.util.Set;
 
+import lombok.Setter;
+import net.etwig.webapp.dto.LoggedInUserPositionDTO;
+import net.etwig.webapp.services.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,8 +29,12 @@ public class UserSession {
 	
 	@Autowired
 	private UserRoleRepository userRoleRepository;
+
+	@Autowired
+	private UserRoleService userRoleService;
 	
-	private String email;
+	@Setter
+    private String email;
 	
 	public void put() {
 		
@@ -52,9 +60,9 @@ public class UserSession {
 		// Store user and permission
 		session.setAttribute("user", new UserDTO(user));
 		session.setAttribute("access", new LoggedInUserAccessDTO(userRoles));
+
+		//HashMap<Long, String> positions = userRoleService.findPositionsByUser(userId);
+		System.out.println(new LoggedInUserPositionDTO(userRoles));
 	}
-	
-	public void setEmail(String email) {
-		this.email = email;
-	}
+
 }

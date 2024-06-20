@@ -9,6 +9,7 @@
 
 package net.etwig.webapp.services;
 
+import java.util.HashMap;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -41,6 +42,18 @@ public class UserRoleService implements UserDetailsService{
 
     @Autowired
 	private HttpSession session;
+
+
+    //public HashMap<Long, String> findPositionsByUser(Long userId){
+    //    Set<UserRole> positions = userRoleRepository.findByUserId(userId);
+    //    return positions.stream()
+    //            .collect(Collectors.toMap(
+    //                    UserRole::getId,
+    //                    UserRole::getPosition,
+    //                    (existingValue, newValue) -> existingValue,
+    //                    HashMap::new));
+    //}
+
     
     public Set<Portfolio> getMyPortfolios(){
 		UserDTO currentUser = (UserDTO) session.getAttribute("user");

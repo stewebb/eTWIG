@@ -11,6 +11,7 @@ package net.etwig.webapp.util;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -35,4 +36,25 @@ public class MapUtils {
             LinkedHashMap::new
         ));
     }
+
+	/**
+	 * Returns the smallest key from the given map based on natural ordering of the keys.
+	 * Assumes that all keys in the map implement the Comparable interface. If the map is empty,
+	 * this method returns null.
+	 *
+	 * @param <K> the type of keys in the map, which extends Comparable
+	 * @param <V> the type of values in the map
+	 * @param map the map from which the smallest key is to be found
+	 * @return the smallest key if present; null if the map is empty
+	 */
+
+	public static <K extends Comparable<K>, V> K getSmallestKey(Map<K, V> map) {
+		K smallestKey = null;
+		for (K key : map.keySet()) {
+			if (smallestKey == null || key.compareTo(smallestKey) < 0) {
+				smallestKey = key;
+			}
+		}
+		return smallestKey;
+	}
 }
