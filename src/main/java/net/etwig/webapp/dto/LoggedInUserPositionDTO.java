@@ -33,7 +33,7 @@ public class LoggedInUserPositionDTO {
      * Stores the roles available to the user with role IDs as keys and role descriptions as values.
      */
 
-    private HashMap<Long, String> myRoles;
+    private final HashMap<Long, String> myRoles;
 
     /**
      * Stores the ID of the current active role of the user.

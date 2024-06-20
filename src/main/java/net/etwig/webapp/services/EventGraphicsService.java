@@ -33,7 +33,7 @@ public class EventGraphicsService {
 
 	/**
 	 * Finds an event's graphics details by the event's unique identifier.
-	 *
+	 * <p>
 	 * This method retrieves an {@link EventGraphics} object by its ID using the {@link EventGraphicsRepository}.
 	 * If the event graphics data is found, it is converted into an {@link EventGraphicsAPIForDetailsPageDTO} object.
 	 * If no data is found, this method returns {@code null}.
@@ -50,7 +50,7 @@ public class EventGraphicsService {
 
 	/**
 	 * Retrieves a paginated list of event graphics based on the specified criteria.
-	 *
+	 * <p>
 	 * This method constructs a {@link Specification} using the given event ID and banner status to filter the results.
 	 * It then queries the {@link EventGraphicsRepository} with this specification and the provided {@link Pageable} object
 	 * to obtain a paginated result. Each {@link EventGraphics} found is then transformed into an
@@ -70,9 +70,9 @@ public class EventGraphicsService {
 
 	/**
 	 * Constructs a {@link Specification} for querying {@link EventGraphics} based on the provided event ID and banner status.
-	 *
+	 * <p>
 	 * This method builds a dynamic query specification that can filter {@link EventGraphics} entities based on the event ID
-	 * and whether or not the graphics are considered banners. The specification constructs a {@link Predicate} that accumulates
+	 * and whether the graphics are considered banners. The specification constructs a {@link Predicate} that accumulates
 	 * all conditions for the query.
 	 *
 	 * @param eventId The unique identifier of the event to filter by; may be {@code null}, in which case the filter for event ID is not applied.

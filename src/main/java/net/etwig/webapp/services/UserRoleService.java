@@ -45,27 +45,39 @@ public class UserRoleService implements UserDetailsService{
     @Autowired
 	private HttpSession session;
 
+    private LoggedInUserPositionDTO getCurrentPosition() {
+        return (LoggedInUserPositionDTO) session.getAttribute("position");
+    }
 
-    //public HashMap<Long, String> findPositionsByUser(Long userId){
-    //    Set<UserRole> positions = userRoleRepository.findByUserId(userId);
-    //    return positions.stream()
-    //            .collect(Collectors.toMap(
-    //                    UserRole::getId,
-    //                    UserRole::getPosition,
-    //                    (existingValue, newValue) -> existingValue,
-    //                    HashMap::new));
-    //}
+    /**
+     * Retrieves the current role ID of the logged-in user from their session.
+     * This method extracts the user's position information encapsulated in {@code LoggedInUserPositionDTO}
+     * from the session attribute named "position" and returns the current role ID associated with it.
+     *
+     * @return the current role ID of the logged-in user as a {@code Long}.
+     *         Returns {@code null} if the "position" attribute is not set or cannot be cast to {@code LoggedInUserPositionDTO}.
+     * @throws ClassCastException if the object retrieved from session cannot be cast to {@code LoggedInUserPositionDTO}.
+     */
 
     public Long getMyLoggedInPosition(){
-        LoggedInUserPositionDTO currentPosition = (LoggedInUserPositionDTO) session.getAttribute("position");
+        LoggedInUserPositionDTO currentPosition = getCurrentPosition();
         return currentPosition.getMyCurrentRole();
     }
-    
+
+    // Get all my positions
+    public HashMap<Long, String> getMyPositions(){
+        LoggedInUserPositionDTO currentPosition = getCurrentPosition();
+        return currentPosition.getMyRoles();
+    }
+
+
+
     public Set<Portfolio> getMyPortfolios(){
 		UserDTO currentUser = (UserDTO) session.getAttribute("user");
 		return userRoleRepository.findByUserId(currentUser.getId()).stream().map(UserRole::getPortfolio).collect(Collectors.toSet());
 	}
-    
+
+    /*
     public Set<PositionWithoutEmailDTO> getMyPositions(){
     	LoggedInUserInfoDTO currentUser = (LoggedInUserInfoDTO) session.getAttribute("user");
     	Set<UserRole> myRoles = userRoleRepository.findByUserId(currentUser.getId());
@@ -77,6 +89,8 @@ public class UserRoleService implements UserDetailsService{
     	//}
     	//return myPositions;
     }
+
+     */
     
     public UserRole findById(@NonNull Long userRoleId) {
         return userRoleRepository.findById(userRoleId).orElse(null);

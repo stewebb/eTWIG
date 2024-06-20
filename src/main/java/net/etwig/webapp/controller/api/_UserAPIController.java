@@ -20,11 +20,14 @@ public class _UserAPIController {
 	
 	//@Autowired
     //private PasswordEncoder passwordEncoder;
-	
+
+	/*
 	@GetMapping("/getMyPositions")
     public Set<PositionWithoutEmailDTO> getMyPositions() throws Exception {
 		return userRoleService.getMyPositions();
 	}
+
+	 */
 	
 	@PostMapping("/changeMyPassword")
     public Map<String, Object> changeMyPassword(@RequestBody Map<String, Object> passwordInfo) {
