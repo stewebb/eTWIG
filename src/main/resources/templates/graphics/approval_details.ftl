@@ -292,9 +292,9 @@
 				setAssetsUpload(this.value);
 			});
 
-			$('.select2bs4').select2({
-      			theme: 'bootstrap4'
-    		})
+			//$('.select2bs4').select2({
+      		//	theme: 'bootstrap4'
+    		//})
 
 			var myPositions = getMyPositions();
 			for (var key in myPositions) {

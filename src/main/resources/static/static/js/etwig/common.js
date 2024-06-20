@@ -262,6 +262,15 @@ $(document).ready(function() {
 	if (window.self !== window.top) {
 		$('.navbar').hide();
 	}
+
+    $('.select2bs4').select2({
+    	theme: 'bootstrap4'
+    })
+
+    $('.dropdown-menu').on('click', function(e) {
+        e.stopPropagation();
+    });
+
 });
            
 // Leading zeros for the (positive) integers that below to 10. 

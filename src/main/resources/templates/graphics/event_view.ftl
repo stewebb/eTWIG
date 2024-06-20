@@ -64,8 +64,6 @@
 									</h3>
 								</div>
 								<div class="card-body">
-
-									
 									<#include "../_includes/events/graphics_info.ftl">
 								</div>
 							</div>						
@@ -87,6 +85,7 @@
 									<input type="hidden" value="${eventInfo.id}" id="eventId" />
 
 									<#-- Role -->
+									<#--
 									<div class="form-group row">
 										<label for="operatorRole" class="col-sm-2 col-form-label">
 											Role&nbsp;<span class="required-symbol">*</span>
@@ -104,6 +103,7 @@
 											<small class="form-text text-muted">The position and associated portfolio, divided by comma.</small>
 										</div>
 									</div>
+									-->
 									<#-- /Role -->
 
 									<#-- Type -->
@@ -268,9 +268,9 @@
 			//	setAssetsUpload(this.value);
 			//});
 
-			$('.select2bs4').select2({
-      			theme: 'bootstrap4'
-    		})
+			//$('.select2bs4').select2({
+      		//	theme: 'bootstrap4'
+    		//})
 
 			var myPositions = getMyPositions();
 			for (var key in myPositions) {

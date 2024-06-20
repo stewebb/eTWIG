@@ -41,9 +41,9 @@ public class NewGraphicsDTO {
      * @param newGraphicsInfo
      */
 
-    public void addDirectly(Map<String, Object> newGraphicsInfo){
+    public void addDirectly(Map<String, Object> newGraphicsInfo, Long loggedInPosition){
         this.eventId = Long.parseLong(newGraphicsInfo.get("eventId").toString());
-        this.operatorRoleId = Long.parseLong(newGraphicsInfo.get("operatorRole").toString());
+        this.operatorRoleId = loggedInPosition;//Long.parseLong(newGraphicsInfo.get("operatorRole").toString());
         this.banner = BooleanUtils.toBoolean(newGraphicsInfo.get("isBanner").toString());
         this.assetId = Long.parseLong(newGraphicsInfo.get("asset").toString());
     }

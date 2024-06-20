@@ -156,14 +156,29 @@
 						<div class="user-panel d-flex justify-content-center mt-2 mb-2">
 							<div class="image">
 								<img src="" class="img-circle elevation-3">
-								</div>
-								<div class="info">
+							</div>
+							<div class="info">
 								<a href="#" class="d-block" id="userName">${user.fullName}</a>
 							</div>
 						</div>
 
 
 						<div class="dropdown-divider"></div>
+
+						<#-- Switch Role -->						
+						<div class="dropdown-item">
+							<div class="form-group">
+								<label><i class="fa-regular fa-user-tie"></i>&nbsp;Select Position</label>
+								<select class="form-control select2bs4">
+									<option>option 1</option>
+									<option>option 2</option>
+									<option>option 3</option>
+									<option>option 4</option>
+									<option>option 5</option>
+								</select>
+							</div>
+						</div>	
+						<#-- /Switch Role -->
 						
 						<#-- Profile -->						
 						<a href="/user/index.do" class="dropdown-item">
