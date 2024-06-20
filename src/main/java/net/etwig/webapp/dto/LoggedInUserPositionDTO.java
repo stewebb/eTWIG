@@ -13,6 +13,7 @@ import net.etwig.webapp.model.UserRole;
 import net.etwig.webapp.util.MapUtils;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -70,7 +71,38 @@ public class LoggedInUserPositionDTO {
         }
     }
 
+    /**
+     * Retrieves the current active role of the user as a string.
+     * <p>
+     * This method converts the {@code myCurrentRole} ID to a string representation.
+     * If {@code myCurrentRole} is null, it may throw a {@link NullPointerException}.
+     * Use this method to get a string representation of the current role ID for display or logging purposes.
+     *
+     * @return the current active role ID as a string
+     * @throws NullPointerException if {@code myCurrentRole} is null
+     */
+
     public String getMyCurrentRoleStr(){
         return this.myCurrentRole.toString();
+    }
+
+    /**
+     * Retrieves a map of user roles with role IDs converted to strings.
+     * <p>
+     * This method converts the {@code myRoles} HashMap keys from {@code Long} to {@code String} and maintains the values unchanged.
+     * It returns a new {@code HashMap<String, String>} where each key is the string representation of the role ID.
+     * This is useful for systems or interfaces that require role identifiers in string format.
+     *
+     * @return a {@code HashMap<String, String>} representing user roles with string keys
+     */
+
+    public HashMap<String, String> getMyRolesStr(){
+        return myRoles.entrySet()
+                .stream()
+                .collect(Collectors.toMap(
+                        entry -> Long.toString(entry.getKey()),
+                        Map.Entry::getValue,
+                        (existing, replacement) -> existing,
+                        HashMap::new));
     }
 }

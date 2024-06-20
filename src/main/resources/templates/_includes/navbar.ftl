@@ -173,7 +173,7 @@
 								</label>
 								
 								<select class="form-control select2bs4">
-									<#list position.myRoles?keys as key>
+									<#list position.myRolesStr?keys as key>
 										
 										<#--
 										${key?string}
@@ -190,10 +190,10 @@
 										-->
 
 										
-										<#if key?string == position.myCurrentRole?string>
-											<option value="${key}" selected>${position.myRoles?api.get(key)}</option>
+										<#if key == position.myCurrentRoleStr>
+											<option value="${key}" selected>${position.myRolesStr[key]}</option>
 										<#else>
-											<option value="${key}">${position.myRoles?api.get(key)}</option>
+											<option value="${key}">${position.myRolesStr[key]}</option>
 										</#if>
 										
 									</#list>
