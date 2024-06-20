@@ -76,7 +76,7 @@ public class GraphicsPageController {
 		}
 
 		model.addAttribute("requestInfo", request);
-		return "graphics/approval_decide";
+		return "graphics/approval_details";
 
 		// TODO Decide and history in the same page.
 		// TODO Use data tables to display data.
