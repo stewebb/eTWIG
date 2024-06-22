@@ -37,7 +37,7 @@
 						<#-- /Events -->
 						
 						<#-- Graphics -->
-          				<#if access.graphicsAccess>
+          				<#if userPermission.graphicsAccess>
 							<li class="nav-item dropdown <#if navbar?starts_with("GRAPHICS_")>active</#if>">
 							
 								<#-- Dropdown btn -->
@@ -80,7 +80,7 @@
 					    <#-- /Graphics -->
 					
 					    <#-- Admin -->
-          				<#if access.adminAccess>
+          				<#if userPermission.adminAccess>
 							<li class="nav-item dropdown">
 							
 								<#-- Dropdown btn -->
@@ -158,7 +158,7 @@
 								<img src="" class="img-circle elevation-3">
 							</div>
 							<div class="info">
-								<a href="#" class="d-block" id="userName">${user.fullName}</a>
+								<a href="#" class="d-block" id="userName">${userBasicInfo.fullName}</a>
 							</div>
 						</div>
 
@@ -173,22 +173,11 @@
 								</label>
 								
 								<select class="form-control select2bs4">
+
+								<#--
 									<#list position.myRolesStr?keys as key>
 										
-										<#--
-										${key?string}
-										${position.myCurrentRole?string}
-										<#assign a = key?string>
-										<#assign b = position.myCurrentRole?string>
-										<#assign c = (a==b)>
-
-										<#if c>
-											<option value="${key}" selected>${position.myRoles[a]}</option>
-										<#else>
-											<option value="${key}">${position.myRoles[key]}</option>
-										</#if>
-										-->
-
+									
 										
 										<#if key == position.myCurrentRoleStr>
 											<option value="${key}" selected>${position.myRolesStr[key]}</option>
@@ -197,6 +186,7 @@
 										</#if>
 										
 									</#list>
+								-->
 								</select>
 							</div>
 						</div>	

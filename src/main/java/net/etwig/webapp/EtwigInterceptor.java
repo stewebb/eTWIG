@@ -11,6 +11,7 @@ package net.etwig.webapp;
 
 import java.util.LinkedHashMap;
 
+import net.etwig.webapp.dto.user.CurrentUserDTOWrapper;
 import net.etwig.webapp.services.UserSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
@@ -42,7 +43,16 @@ public class EtwigInterceptor implements HandlerInterceptor{
 			return;
 		}
 
-		System.out.println(userSessionService.validateSession());
+		CurrentUserDTOWrapper wrapper = userSessionService.validateSession();
+
+		if(wrapper != null){
+			modelAndView.addObject("userBasicInfo", wrapper.getBasicInfo());
+			modelAndView.addObject("userPermission", wrapper.getPermission());
+			modelAndView.addObject("userPosition", wrapper.getPosition());
+
+			System.out.println(wrapper.getPosition());
+		}
+		//UserSessionService.SessionValidation validatedSession = userSessionService.validateSession();
 
 		/*
 		// User-related data.

@@ -101,7 +101,7 @@
 										<#-- /Date Options -->										
 										
 										<#-- Event Options-->
-										<#if access.eventsAccess>
+										<#if userPermission.eventsAccess>
 											<hr class="mt-3 mb-3"/>
 											<div class="btn-group w-100">
 												<button type="button" class="btn btn-outline-primary" onclick="location.href='/events/add.do';">
