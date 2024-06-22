@@ -51,7 +51,7 @@ public class UserSession {
 		Long userId = user.getId();
 		Set<UserRole> userRoles = userRoleRepository.findByUserId(userId);	
 		
-		// Each user must has assigned at least 1 portfolio.
+		// Each user must have assigned at least 1 portfolio.
 		if(userRoles.isEmpty()) {
 			throw new IllegalStateException("User authentication successfully, but the user is not assigned to any portfolio.");
 		}

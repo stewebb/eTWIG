@@ -12,9 +12,7 @@ import lombok.*;
 import net.etwig.webapp.model.UserRole;
 import net.etwig.webapp.util.MapUtils;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -30,16 +28,47 @@ import java.util.stream.Collectors;
 @ToString
 public class CurrentUserPositionDTO {
 
+    private final HashSet<Position> myPositions;
+    private Position myCurrentPosition;
 
+    public CurrentUserPositionDTO(Set<UserRole> userRoles){
+
+        // Re-format my positions.
+        myPositions = new HashSet<>();
+        for(UserRole userRole : userRoles) {
+            this.myPositions.add(new Position(userRole));
+        }
+
+        // The default current position is the userRole with the smallest ID.
+        Optional<Position> current = this.myPositions.stream().min(Comparator.comparingLong(Position::getUserRoleId));
+        this.myCurrentPosition = current.get();
+    }
+
+    public boolean changeMyPosition(Long userRoleId){
+
+        // Check if the switched new position is value.
+        for(Position position : myPositions){
+            if(Objects.equals(userRoleId, position.getUserRoleId())){
+                this.myCurrentPosition = position;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public Long getMyCurrentPositionId(){
+        return this.myCurrentPosition.getUserRoleId();
+    }
 
     @Getter
     @ToString
     private class Position {
 
-        private Long userRoleId;
-        private String position;
-        private String portfolioName;
-        private String portfolioColor;
+        private final Long userRoleId;
+        private final String position;
+        private final String portfolioName;
+        private final String portfolioColor;
 
         public Position(UserRole userRole){
             this.userRoleId = userRole.getId();
