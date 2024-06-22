@@ -1,8 +1,6 @@
 package net.etwig.webapp.services;
 
 import jakarta.servlet.http.HttpSession;
-import lombok.Getter;
-import lombok.ToString;
 import net.etwig.webapp.dto.user.CurrentUserBasicInfoDTO;
 import net.etwig.webapp.dto.user.CurrentUserDTOWrapper;
 import net.etwig.webapp.dto.user.CurrentUserPermissionDTO;
@@ -96,47 +94,11 @@ public class UserSessionService {
         return wrapper;
     }
 
-    /*
-    @Getter
-    @ToString
-    public class SessionValidation {
-
-        @Autowired
-        private UserRepository userRepository;
-
-        @Autowired
-        private UserRoleRepository userRoleRepository;
-
-        private final CurrentUserBasicInfoDTO basicInfo;
-        private final CurrentUserPermissionDTO permission;
-        private final CurrentUserPositionDTO position;
-
-        public SessionValidation(Long userId, Long userRoleId) {
-
-            // Validate user basic info
-            Optional<User> user = userRepository.findById(userId);
-            if(user.isPresent()){
-                this.basicInfo = new CurrentUserBasicInfoDTO(user.get());
-            }
-
-            else {
-                throw new IllegalStateException("Failed to validate user information. Your session may expired!");
-            }
-
-            // Validate user permission
-            Set<UserRole> userRoles = userRoleRepository.findByUserId(userId);
-            if(userRoles.isEmpty()) {
-                throw new IllegalStateException("Failed to validate user permission. Your session may expired!");
-            }
-            this.permission = new CurrentUserPermissionDTO(userRoles);
-
-            // Validate user position
-            this.position = new CurrentUserPositionDTO(userRoles);
-            if(!this.position.changeMyPosition(userRoleId)){
-                throw new IllegalStateException("Failed to validate user position. Your session may expired!");
-            }
+    public void switchPosition(Long userRoleId){
+        CurrentUserDTOWrapper wrapper = validateSession();
+        if(wrapper.getPosition().changeMyPosition(userRoleId)){
+            return;
         }
     }
 
-     */
 }

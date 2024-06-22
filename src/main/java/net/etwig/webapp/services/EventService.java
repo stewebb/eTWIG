@@ -57,10 +57,7 @@ public class EventService {
 	private GraphicsRequestRepository graphicsRequestRepository;
 	
 	@Autowired
-	private GraphicsRequestService graphicsRequestService;
-	
-	@Autowired
-	private EmailService emailService;
+	private UserSessionService userSessionService;
 	
 	@Autowired
 	private HttpSession session;
@@ -134,8 +131,7 @@ public class EventService {
 	@SuppressWarnings("null")
 	public void editEvent(Map<String, Object> eventInfo, EventDetailsDTO currentEvent){
 
-		Long myPosition = null;//userRoleService.getMyLoggedInPosition();
-		//TODO
+		Long myPosition = userSessionService.validateSession().getPosition().getMyCurrentPositionId();
 
 		// Add event
 		AddEditEventDTO newEventDTO = new AddEditEventDTO(eventInfo, currentEvent, myPosition);

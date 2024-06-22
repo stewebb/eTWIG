@@ -29,7 +29,7 @@ public class EventGraphicsService {
 	private EventGraphicsRepository eventGraphicsRepository;
 
 	@Autowired
-	private UserRoleService userRoleService;
+	private UserSessionService userSessionService;
 
 	/**
 	 * Finds an event's graphics details by the event's unique identifier.
@@ -146,8 +146,7 @@ public class EventGraphicsService {
 
 	public void addGraphics(Map<String, Object> newGraphicsInfo){
 		NewGraphicsDTO newGraphicsDTO = new NewGraphicsDTO();
-		newGraphicsDTO.addDirectly(newGraphicsInfo, null);
-		// TODO
+		newGraphicsDTO.addDirectly(newGraphicsInfo, userSessionService.validateSession().getPosition().getMyCurrentPositionId());
 		eventGraphicsRepository.save(newGraphicsDTO.toEntity());
 	}
 }

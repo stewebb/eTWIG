@@ -1,18 +1,17 @@
 package net.etwig.webapp.controller.api;
 
-import net.etwig.webapp.services.UserRoleService;
+import net.etwig.webapp.dto.user.CurrentUserPositionDTO;
+import net.etwig.webapp.services.UserSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.HashMap;
-
 @RequestMapping("/api/position/")
 public class PositionAPIController {
 
     @Autowired
-    private UserRoleService userRoleService;
+    private UserSessionService userSessionService;
 
     @GetMapping("/add")
     public Object add(@RequestParam Long eventId) {
@@ -39,37 +38,13 @@ public class PositionAPIController {
         return null;
     }
 
-    /**
-     * Retrieves the current position of the logged-in user.
-     * <p>
-     * This method responds to a GET request at the "/current" endpoint.
-     * It calls the {@code getMyLoggedInPosition} method of {@code userRoleService}
-     * to obtain the position data of the currently authenticated user.
-     * </p>
-     *
-     * @return the position ID of the currently logged-in user as a {@code Long}.
-     * @location /api/position/current
-     * @permission All logged in users
-     */
-
-    @GetMapping("/current")
-    public Long current() {
-        return null;//userRoleService.getMyLoggedInPosition();
-        //TODO
+    @GetMapping("/my")
+    public CurrentUserPositionDTO my() {
+        return userSessionService.validateSession().getPosition();
     }
 
-    /**
-     * Endpoint to retrieve all roles associated with the currently logged-in user.
-     *
-     * @return A map of role IDs to role names.
-     * @throws NullPointerException if no user position data is available in the session.
-     * @location /api/position/my
-     * @permission All logged in users
-     */
+    @GetMapping("/switch")
+    public void switchPosition(){
 
-    @GetMapping("/my")
-    public HashMap<Long, String> my() {
-        return null;//userRoleService.getMyPositions();
-        //TODO
     }
 }

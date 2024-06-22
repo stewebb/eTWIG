@@ -40,8 +40,8 @@ public class GraphicsRequestService {
 	private EntityManager entityManager;
 
 
-	//@Autowired
-	//private EventService eventService;
+	@Autowired
+	private UserSessionService userSessionService;
 	
 	@Autowired
 	private UserRoleService userRoleService;
@@ -225,9 +225,8 @@ public class GraphicsRequestService {
 		ApproveRequestsDTO request = new ApproveRequestsDTO(
 				currentRequest,
 				decisionInfo,
-				null//userRoleService.getMyLoggedInPosition()
+				userSessionService.validateSession().getPosition().getMyCurrentPositionId()
 		);
-		// TODO
 
 		// Update request info
 		GraphicsRequest updatedRequest = request.toEntity();
