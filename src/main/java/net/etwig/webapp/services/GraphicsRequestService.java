@@ -256,7 +256,10 @@ public class GraphicsRequestService {
 		
 		// Send email
 		UserRole requesterRole = updatedRequest.getRequesterRole();
-		Asset asset = updatedRequest.getAsset();
+		Asset asset = assetService.getAssetDetailsById(updatedRequest.getAssetId());
+
+		//System.out.println(updatedRequest);
+		//System.out.println(asset);
 
 		emailService.bannerApprovalNotification(
 				requesterRole.getEmail(),

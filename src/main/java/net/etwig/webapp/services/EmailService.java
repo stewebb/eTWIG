@@ -129,6 +129,9 @@ public class EmailService {
 		recipients.add(portfolioEmail);
 		recipients.add(userEmail);
 
+		//System.out.println(attachmentName);
+		//System.out.println(attachmentContent);
+
 		// Only put asset content if a request was approved, the attachment is readable and it is not null.
     	HashMap<String, Resource> attachments = new HashMap<>();
     	if(isApproved && attachmentContent != null && (attachmentContent.exists() || attachmentContent.isReadable())) {

@@ -59,9 +59,6 @@ public class EventService {
 	@Autowired
 	private UserSessionService userSessionService;
 	
-	@Autowired
-	private HttpSession session;
-	
 	/**
 	 * Public entry of the event services.
 	 * The access control modifiers are "public".
@@ -190,16 +187,28 @@ public class EventService {
         eventOptionRepository.saveAll(newEventOptions);
 
     }
-	
+
 	/**
-	 * Helper methods below, they are only used in this class.
-	 * The access control modifiers are "private".
+	 * Checks if the current user has edit permissions for a specified portfolio.
+	 * <p>
+	 * This method assesses the user's permissions based on their role and the portfolios they are associated with.
+	 * There are three cases handled:
+	 * <ol>
+	 *     <li>System administrators: Always have edit permissions.</li>
+	 *     <li>Users with events access: Have edit permissions if they are associated with the specified portfolio.</li>
+	 *     <li>Other users: Do not have edit permissions.</li>
+	 * </ol>
+	 * </p>
+	 *
+	 * @param portfolio the portfolio for which edit permissions are being checked
+	 * @return true if the current user has edit permissions for the specified portfolio, false otherwise
+	 * @throws Exception if there is an issue validating the user session or fetching user roles
 	 */
 	
 	public boolean eventEditPermissionCheck(Portfolio portfolio) throws Exception {
 			
 		// Get user authority
-		CurrentUserPermissionDTO access = (CurrentUserPermissionDTO) session.getAttribute("access");
+		CurrentUserPermissionDTO access = userSessionService.validateSession().getPermission();
 		
 		// Case 1: System administrators have edit permission, regardless of which portfolio the user has.
 		if(access.isAdminAccess()) {

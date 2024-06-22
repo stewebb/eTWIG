@@ -39,12 +39,12 @@ public class UserRoleService implements UserDetailsService{
     private UserRepository userRepository;
 
     @Autowired
-	private HttpSession session;
+	private UserSessionService userSessionService;
 
 
     // TODO: REPLACE ME
     public Set<Portfolio> getMyPortfolios(){
-		CurrentUserBasicInfoDTO currentUser = (CurrentUserBasicInfoDTO) session.getAttribute("user");
+		CurrentUserBasicInfoDTO currentUser = userSessionService.validateSession().getBasicInfo();
 		return userRoleRepository.findByUserId(currentUser.getId()).stream().map(UserRole::getPortfolio).collect(Collectors.toSet());
 	}
 
@@ -64,10 +64,11 @@ public class UserRoleService implements UserDetailsService{
     public UserRole findById(@NonNull Long userRoleId) {
         return userRoleRepository.findById(userRoleId).orElse(null);
     }
-    
+
+    // TODO REPLACE ME
     @SuppressWarnings("null")
 	public User getMyDetails() {
-    	CurrentUserBasicInfoDTO currentUser = (CurrentUserBasicInfoDTO) session.getAttribute("user");
+        CurrentUserBasicInfoDTO currentUser = userSessionService.validateSession().getBasicInfo();
     	return userRepository.findById(currentUser.getId()).orElse(null);
     }
     
