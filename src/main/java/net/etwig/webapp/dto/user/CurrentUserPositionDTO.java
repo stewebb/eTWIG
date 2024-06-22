@@ -63,7 +63,7 @@ public class CurrentUserPositionDTO {
 
     @Getter
     @ToString
-    private class Position {
+    public class Position {
 
         private final Long userRoleId;
         private final String position;

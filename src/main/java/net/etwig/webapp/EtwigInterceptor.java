@@ -50,7 +50,7 @@ public class EtwigInterceptor implements HandlerInterceptor{
 			modelAndView.addObject("userPermission", wrapper.getPermission());
 			modelAndView.addObject("userPosition", wrapper.getPosition());
 
-			System.out.println(wrapper.getPosition());
+			//System.out.println(wrapper.getPosition());
 		}
 		//UserSessionService.SessionValidation validatedSession = userSessionService.validateSession();
 

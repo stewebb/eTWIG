@@ -174,6 +174,20 @@
 								
 								<select class="form-control select2bs4">
 
+								<#list userPosition.myPositions as position>
+									<#--
+									<option value="${position.userRoleId}">${position.position}</option>
+									-->
+
+									
+									<#if position.userRoleId == userPosition.myCurrentPosition.userRoleId>
+										<option value="${position.userRoleId}" selected>${position.position}</option>
+									<#else>
+										<option value="${position.userRoleId}">${position.position}</option>
+									</#if>
+									
+        						</#list>
+
 								<#--
 									<#list position.myRolesStr?keys as key>
 										
