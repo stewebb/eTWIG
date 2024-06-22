@@ -225,9 +225,10 @@ public class GraphicsRequestService {
 		ApproveRequestsDTO request = new ApproveRequestsDTO(
 				currentRequest,
 				decisionInfo,
-				userRoleService.getMyLoggedInPosition()
+				null//userRoleService.getMyLoggedInPosition()
 		);
-		
+		// TODO
+
 		// Update request info
 		GraphicsRequest updatedRequest = request.toEntity();
 		graphicsRequestRepository.save(updatedRequest);

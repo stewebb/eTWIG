@@ -134,7 +134,8 @@ public class EventService {
 	@SuppressWarnings("null")
 	public void editEvent(Map<String, Object> eventInfo, EventDetailsDTO currentEvent){
 
-		Long myPosition = userRoleService.getMyLoggedInPosition();
+		Long myPosition = null;//userRoleService.getMyLoggedInPosition();
+		//TODO
 
 		// Add event
 		AddEditEventDTO newEventDTO = new AddEditEventDTO(eventInfo, currentEvent, myPosition);

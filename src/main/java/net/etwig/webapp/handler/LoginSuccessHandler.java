@@ -10,6 +10,8 @@
 package net.etwig.webapp.handler;
 
 import java.io.IOException;
+
+import net.etwig.webapp.services.UserSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -20,7 +22,7 @@ import org.springframework.stereotype.Component;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import net.etwig.webapp.util.UserSession;
+//import net.etwig.webapp.util.UserSession;
 
 @Component
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
@@ -29,7 +31,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     private HttpSessionRequestCache requestCache = new HttpSessionRequestCache();
     
     @Autowired
-    private UserSession userSession;
+    private UserSessionService userSessionService;
     
 	/**
 	 * Put the user-related information into session after user logged in, then redirect user back.
@@ -54,8 +56,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     	}
     	
     	// Get user object
-	    userSession.setEmail(email);
-		userSession.put();
+	    userSessionService.initializeSession(email);
 	    	    
 	    DefaultSavedRequest savedRequest = (DefaultSavedRequest) requestCache.getRequest(request, response);
 	    String targetUrl = "/";

@@ -54,7 +54,8 @@ public class PositionAPIController {
 
     @GetMapping("/current")
     public Long current() {
-        return userRoleService.getMyLoggedInPosition();
+        return null;//userRoleService.getMyLoggedInPosition();
+        //TODO
     }
 
     /**
@@ -68,6 +69,7 @@ public class PositionAPIController {
 
     @GetMapping("/my")
     public HashMap<Long, String> my() {
-        return userRoleService.getMyPositions();
+        return null;//userRoleService.getMyPositions();
+        //TODO
     }
 }

@@ -11,7 +11,7 @@ package net.etwig.webapp;
 
 import java.util.LinkedHashMap;
 
-import net.etwig.webapp.dto.user.CurrentUserPositionDTO;
+import net.etwig.webapp.services.UserSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
@@ -20,10 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import net.etwig.webapp.config.ConfigFile;
-import net.etwig.webapp.dto.user.CurrentUserPermissionDTO;
-import net.etwig.webapp.dto.user.CurrentUserBasicInfoDTO;
 
 @Component
 public class EtwigInterceptor implements HandlerInterceptor{
@@ -31,8 +28,8 @@ public class EtwigInterceptor implements HandlerInterceptor{
 	@Autowired
 	private ConfigFile config;
 
-	//@Autowired
-	//private UserRoleService userRoleService;
+	@Autowired
+	private UserSessionService userSessionService;
 	
 	/**
 	 * Add data that shared across the application.
@@ -45,6 +42,9 @@ public class EtwigInterceptor implements HandlerInterceptor{
 			return;
 		}
 
+		System.out.println(userSessionService.validateSession());
+
+		/*
 		// User-related data.
 		// Check session first!
 		HttpSession session = request.getSession(false);
@@ -71,6 +71,8 @@ public class EtwigInterceptor implements HandlerInterceptor{
 			}
 
 		}
+		*/
+
 
 		// Application information.
 		LinkedHashMap<String, Object> appInfo = new LinkedHashMap<String, Object>();
@@ -78,6 +80,8 @@ public class EtwigInterceptor implements HandlerInterceptor{
 
 		appInfo.put("appVersion", "3.3");
 		appInfo.put("appOwner", config.getAppOwner());
-		modelAndView.addObject("app", appInfo);				
+		modelAndView.addObject("app", appInfo);
+
+
 	}
 }

@@ -146,7 +146,8 @@ public class EventGraphicsService {
 
 	public void addGraphics(Map<String, Object> newGraphicsInfo){
 		NewGraphicsDTO newGraphicsDTO = new NewGraphicsDTO();
-		newGraphicsDTO.addDirectly(newGraphicsInfo, userRoleService.getMyLoggedInPosition());
+		newGraphicsDTO.addDirectly(newGraphicsInfo, null);
+		// TODO
 		eventGraphicsRepository.save(newGraphicsDTO.toEntity());
 	}
 }

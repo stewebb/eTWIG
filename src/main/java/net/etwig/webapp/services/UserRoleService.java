@@ -43,47 +43,8 @@ public class UserRoleService implements UserDetailsService{
     @Autowired
 	private HttpSession session;
 
-    /**
-     * Retrieves the {@code LoggedInUserPositionDTO} object from the session.
-     * This method fetches the position information encapsulated in {@code LoggedInUserPositionDTO}
-     * from the session attribute named "position".
-     *
-     * @return the {@code LoggedInUserPositionDTO} object from the session.
-     * @throws ClassCastException if the object retrieved from the session cannot be cast to {@code LoggedInUserPositionDTO}.
-     */
 
-    private CurrentUserPositionDTO getCurrentPosition() {
-        return (CurrentUserPositionDTO) session.getAttribute("position");
-    }
-
-    /**
-     * Retrieves the current role ID of the logged-in user.
-     * This method uses {@code getCurrentPosition()} to extract the user's position information from the session
-     * and returns the current role ID associated with it.
-     *
-     * @return the current role ID of the logged-in user as a {@code Long}.
-     * @throws NullPointerException if the session does not contain position data.
-     */
-
-    public Long getMyLoggedInPosition(){
-        return getCurrentPosition().getMyCurrentRole();
-    }
-
-    /**
-     * Retrieves all role positions of the logged-in user.
-     * This method uses {@code getCurrentPosition()} to obtain the user's position information from the session
-     * and returns a map of role IDs and their corresponding names.
-     *
-     * @return a {@code HashMap<Long, String>} representing all role positions.
-     * @throws NullPointerException if the session does not contain position data.
-     */
-
-    public HashMap<Long, String> getMyPositions(){
-        return getCurrentPosition().getMyRoles();
-    }
-
-
-
+    // TODO: REPLACE ME
     public Set<Portfolio> getMyPortfolios(){
 		CurrentUserBasicInfoDTO currentUser = (CurrentUserBasicInfoDTO) session.getAttribute("user");
 		return userRoleRepository.findByUserId(currentUser.getId()).stream().map(UserRole::getPortfolio).collect(Collectors.toSet());

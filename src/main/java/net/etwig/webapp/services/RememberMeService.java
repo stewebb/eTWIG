@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import net.etwig.webapp.config.ConfigFile;
-import net.etwig.webapp.util.UserSession;
+//import net.etwig.webapp.util.UserSession;
 
 @Component
 public class RememberMeService extends TokenBasedRememberMeServices {
@@ -33,7 +33,7 @@ public class RememberMeService extends TokenBasedRememberMeServices {
 	}
 	
 	@Autowired
-	private UserSession userSession;
+	private UserSessionService userSessionService;
 
 	/**
 	 * Put the user info into session if the user is logged in via "remember me".
@@ -47,8 +47,9 @@ public class RememberMeService extends TokenBasedRememberMeServices {
 		
 		UserDetails userDetails = super.processAutoLoginCookie(cookieTokens, request, response);
 		
-		userSession.setEmail(userDetails.getUsername());
-		userSession.put();
+		//userSession.setEmail(userDetails.getUsername());
+		//userSession.put();
+		userSessionService.initializeSession(userDetails.getUsername());
 		
 	    return userDetails;
 	 }
