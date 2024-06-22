@@ -159,6 +159,16 @@ function constrainNumber(num, min, max){
 	return num;
 }
 
+/**
+ * Combines a Date object with a time string to create a new Date object set to the specified time on the same date.
+ * Validates the input to ensure the first parameter is a Date object and the second is a time string in the format 'hh:mm:ss'.
+ * If either parameter is invalid, logs an error to the console and terminates execution without returning a value.
+ *
+ * @param {Date} date - The Date object representing the date.
+ * @param {string} timeString - The time string in 'hh:mm:ss' format to set the time of the date.
+ * @returns {Date|null} A new Date object with the combined date and time, or null if there is an error with the input.
+ */
+
 function combineDateAndTime(date, timeString) {
     // Ensure the input is a Date object
     if (!(date instanceof Date)) {
@@ -205,9 +215,15 @@ function getMyPositions(){
 */
 
 /**
- * Get the browser name by a given user agent.
- * @param {string} userAgent 
- * @returns The browser name
+ * Retrieves the name of the browser based on the provided user agent string.
+ * If no user agent is provided, the function uses the browser's default user agent.
+ *
+ * The function identifies major browsers like Chrome, Firefox, Safari, Opera,
+ * Edge, and Internet Explorer, including distinctions for mobile versions on iOS.
+ * If the browser cannot be determined, it defaults to "Unknown Browser".
+ *
+ * @param {string} [userAgent=navigator.userAgent] - The user agent string to analyze.
+ * @returns {string} - The name of the browser identified from the user agent.
  */
 
 function getBrowserName(userAgent) {
@@ -235,7 +251,6 @@ function getBrowserName(userAgent) {
         } else if (userAgent.match(/fxios/i)) {
             browserName = "Firefox";
         } else {
-            // This is a simplification, as identifying Safari on iOS just from the user agent can be tricky due to the web view component
             browserName = "Safari";
         }
     }
@@ -243,10 +258,17 @@ function getBrowserName(userAgent) {
     return browserName;
 }
 
-// TODO READY TO BE REMOVED
-function dateRender(data, type, row){
-	return data ? Date.parse(data).toString('yyyy-MM-dd HH:mm:ss') : 'N/A'; 
-}
+/**
+ * Opens a modal dialog for selecting or uploading files.
+ * This function sets the title of the modal to "Select/Upload" and then
+ * loads the file selection and upload interface from a specified URL into
+ * the modal's body. Finally, it displays the modal on the screen.
+ *
+ * Assumes the existence of HTML elements with specific IDs: 'etwigModalTitle',
+ * 'etwigModalBody', and 'etwigModal', and that these elements are part of a modal
+ * component (e.g., Bootstrap modal). Also assumes jQuery is loaded for DOM manipulation
+ * and AJAX capabilities.
+ */
 
 function selectUpload(){
 	$('#etwigModalTitle').text('Select/Upload');
@@ -254,14 +276,19 @@ function selectUpload(){
 	$('#etwigModal').modal('show');
 }
 
-function selectRole(){
-    //alert($('#selectRole').val());
+/**
+ * Attempts to change the user's role by sending an asynchronous GET request to the specified API endpoint.
+ * The role ID to switch to is fetched from a select element with the ID 'selectRole'.
+ * Upon successful change, a popup confirms the new role with a visual color indicator and the page
+ * is reloaded after a 2.5-second delay to refresh the page.
+ * If the request fails, particularly if the action is forbidden (HTTP 403) or another error occurs,
+ * an error popup is displayed with a relevant message.
+ */
 
-    var hasError = true;
+function selectRole(){
 	$.ajax({
    		url: '/api/position/switch', 
    		type: "GET",
-   		async: false,
    		data: {
             "userRoleId" : $('#selectRole').val()
         },
@@ -269,23 +296,20 @@ function selectRole(){
             successPopup(`
                 You have switched your position to <span style="color:#${result.portfolioColor}">${result.position}</span>.
             `);
-			hasError = false;
+			setTimeout(function() {
+                window.location.reload();
+            }, 2500);
     	},
     	error: function (err) {
 
+            // Special consideration for HTTP 403 and display a user-friendly message.
             if(err.status == 403){
                 dangerPopup("You cannot switch to this position.", "");
             }else{
                 dangerPopup("Failed to switch position due to a HTTP " + err.status + " error.", err.responseJSON.exception);
             }
-    		hasError = true;
     	}
  	});
-
-	// Redirect back
-	if(!hasError){
-		setTimeout(function() {	window.location.reload(); }, 2500);
-	}
 }
 
 /**

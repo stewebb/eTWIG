@@ -10,10 +10,8 @@ package net.etwig.webapp.dto.user;
 
 import lombok.*;
 import net.etwig.webapp.model.UserRole;
-import net.etwig.webapp.util.MapUtils;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Data Transfer Object representing the roles associated with a logged-in user.
@@ -43,6 +41,22 @@ public class CurrentUserPositionDTO {
         Optional<Position> current = this.myPositions.stream().min(Comparator.comparingLong(Position::getUserRoleId));
         this.myCurrentPosition = current.get();
     }
+
+    /**
+     * Attempts to change the current user's position to a new position identified by the specified user role ID.
+     * This method checks if the specified user role ID corresponds to any of the positions currently held by the user.
+     * <p>
+     * Process:
+     * 1. Iterates through the list of positions held by the user ({@code myPositions}).
+     * 2. Compares each position's user role ID with the provided {@code userRoleId}.
+     * 3. If a match is found, updates the current position ({@code myCurrentPosition}) to the matched position,
+     *    and returns true, indicating the position has been successfully updated.
+     * 4. If no match is found after checking all positions, returns false, indicating that the user does not hold
+     *    a position corresponding to the provided role ID.
+     *
+     * @param userRoleId the ID of the user role to which the user's position should be changed
+     * @return true if the position was successfully changed; false otherwise
+     */
 
     public boolean changeMyPosition(Long userRoleId){
 
@@ -76,6 +90,5 @@ public class CurrentUserPositionDTO {
             this.portfolioName = userRole.getPortfolio().getName();
             this.portfolioColor = userRole.getPortfolio().getColor();
         }
-
     }
 }

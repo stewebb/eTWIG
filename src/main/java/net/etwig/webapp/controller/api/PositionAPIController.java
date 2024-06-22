@@ -40,6 +40,19 @@ public class PositionAPIController {
         return null;
     }
 
+    /**
+     * Retrieves the current user's position based on the session validation.
+     * This endpoint listens to GET requests at the path "/my".
+     * It requires a valid user session to function. If the session is valid, it returns
+     * the user's current position as a {@link CurrentUserPositionDTO} object.
+     *
+     * @return the {@link CurrentUserPositionDTO} instance representing the current user's position,
+     *         or an appropriate error response if the session is invalid.
+     *
+     * @location /api/position/my
+     * @permission All logged in users.
+     */
+
     @GetMapping("/my")
     public CurrentUserPositionDTO my() {
         return userSessionService.validateSession().getPosition();
@@ -62,6 +75,9 @@ public class PositionAPIController {
      * @return The new position of the user as a {@code CurrentUserPositionDTO.Position} upon successful role change.
      * @throws InvalidPositionException If the role ID is invalid or the user is not permitted to switch to the
      * requested role.
+     *
+     * @location /api/position/switch
+     * @permission All logged in users.
      */
 
     @GetMapping("/switch")
