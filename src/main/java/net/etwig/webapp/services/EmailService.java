@@ -17,7 +17,9 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 @Service
@@ -37,7 +39,8 @@ public class EmailService {
     
     @Autowired
     private AssetService assetService;
-    
+
+	/*
     @SuppressWarnings("null")
 	private void sendEmail(String to, String subject, String content, HashMap<String, Resource> attachments) throws Exception {
             MimeMessage message = emailSender.createMimeMessage();
@@ -63,8 +66,50 @@ public class EmailService {
             
             emailSender.send(message);
     }
-    
-    public boolean graphicsRequestNotification(NewRequestEmailNotificationDTO requestInfo) throws Exception {
+	 */
+
+	/**
+	 * Sends an email to multiple recipients with optional attachments.
+	 * <p>
+	 * This method configures and sends an email using the {@link JavaMailSender} interface.
+	 * It supports HTML content and can handle multiple recipients as well as file attachments.
+	 *
+	 * @param to A {@link HashSet} containing the email addresses of the recipients. Must not be empty.
+	 * @param subject The subject of the email. Cannot be {@code null} or empty.
+	 * @param content The HTML content of the email. Cannot be {@code null} or empty.
+	 * @param attachments A {@link HashMap} where the key is the attachment's filename and the value is the {@link Resource} object representing the attachment.
+	 *                    Can be {@code null} if there are no attachments to include.
+	 *
+	 * @throws Exception If there are issues creating or sending the email, such as invalid addresses, missing subject or content, or problems with attachments.
+	 */
+	private void sendEmail(HashSet<String> to, String subject, String content, HashMap<String, Resource> attachments) throws Exception {
+		MimeMessage message = emailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+		// Set the display name and from address.
+		String fromAddress = ((JavaMailSenderImpl) emailSender).getUsername();
+		String displayName = config.getDisplayName();
+		String from = String.format("%s <%s>", displayName, fromAddress);
+
+		// Set email properties.
+		helper.setFrom(from);
+		helper.setTo(to.toArray(new String[0]));  // Convert HashSet to Array
+		helper.setText(content, true);
+		helper.setSubject(subject);
+
+		// Add attachments
+		if(attachments != null) {
+			for (Map.Entry<String, Resource> attachment : attachments.entrySet()) {
+				helper.addAttachment(attachment.getKey(), attachment.getValue());
+			}
+		}
+
+		emailSender.send(message);
+	}
+
+
+	/*
+	public boolean graphicsRequestNotification(NewRequestEmailNotificationDTO requestInfo) throws Exception {
     	
     	// Get all graphics managers
     	Set<PositionDTO> graphicsManagers = userRoleRepository.getGraphicsManagers();
@@ -104,42 +149,53 @@ public class EmailService {
     	//System.out.println(graphicsManagers);
 		return true;
     }
+	 */
     
-    public void graphicsApprovalNotification(FinalizedRequestsDetailsDTO approvalInfo) throws Exception {
-    	
-    	//System.out.println(approvalInfo);
-    	
-    	// Get response and event info.
-    	String approvedStr = approvalInfo.isApproved() ? "approved" : "declined";
-    	
-    	// Get assets info and content
-    	HashMap<String, Resource> attachments = new HashMap<String, Resource>();
+    public void bannerApprovalNotification(
+			String portfolioEmail,
+			String userEmail,
+			boolean isApproved,
+			String eventName,
+			LocalDateTime responseTime,
+			String attachmentName,
+			Resource attachmentContent
 
-    	// Only get asset content when a request was approved.
-    	if(approvalInfo.isApproved()) {
-    		Long assetId = approvalInfo.getAssetId();
-        	Asset asset = assetService.getAssetDetailsById(assetId);
-    		Resource resource = assetService.getAssetContent(asset);
-        	String assetName = asset.getOriginalName();
+	) throws Exception {
+
+		// Send to portfolio email and user email
+    	HashSet<String>recipients = new HashSet<>();
+		recipients.add(portfolioEmail);
+		recipients.add(userEmail);
+
+		// Only put asset content if a request was approved, the attachment is readable and it is not null.
+    	HashMap<String, Resource> attachments = new HashMap<String, Resource>();
+    	if(isApproved && attachmentContent != null && (attachmentContent.exists() || attachmentContent.isReadable())) {
+			attachments.put(attachmentName, attachmentContent);
+			//Long assetId = approvalInfo.getAssetId();
+        	//Asset asset = assetService.getAssetDetailsById(assetId);
+    		 //resource = assetService.getAssetContent(asset);
+        	//String assetName = asset.getOriginalName();
         	
-    		if(resource != null && (resource.exists() || resource.isReadable())) {
-    			attachments.put(assetName, resource);
-    		}
+    		//if(attachmentContent != null && (attachmentContent.exists() || attachmentContent.isReadable())) {
+    		//	attachments.put(attachmentName, attachmentContent);
+    		//}
     	}
     	
 		
     	// Generate email subject.
     	StringBuilder subject = new StringBuilder();
-    	subject.append("The graphics request of event " + approvalInfo.getEventName());
-    	subject.append(" has been " + approvedStr + ".");
+    	subject.append("The banner request of event ").append(eventName).append(" has been ").append(isApproved ? "approved" : "declined").append(".");
     	
     	// Generate email content
     	Template t = freemarkerConfig.getTemplate("_emails/graphic_approval.ftl");
     	HashMap<String, Object> model = new HashMap<String, Object>();
-    	model.put("approvalInfo", approvalInfo);
-    	model.put("approvedStr", approvedStr);
+
+		model.put("isApproved", isApproved);
+
+    	//model.put("approvalInfo", approvalInfo);
+    	//model.put("approvedStr", approvedStr);
     	String content = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
 
-    	sendEmail(approvalInfo.getRequestRoleEmail(), subject.toString(), content, attachments);
+    	sendEmail(recipient, subject.toString(), content, attachments);
     }
 }

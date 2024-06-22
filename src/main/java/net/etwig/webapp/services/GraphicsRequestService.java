@@ -237,7 +237,7 @@ public class GraphicsRequestService {
 
 		// Need to set the approver info manually
 		FinalizedRequestsDetailsDTO detail = new FinalizedRequestsDetailsDTO(updatedRequest);
-		detail.setApprover(userRoleService.findById(updatedRequest.getApproverRoleId()));
+		//detail.setApprover(userRoleService.findById(updatedRequest.getApproverRoleId()));
 
 		// "Copy" the graphics to the "event_graphics" table.
 		NewGraphicsDTO newGraphicsDTO = new NewGraphicsDTO();
@@ -246,6 +246,11 @@ public class GraphicsRequestService {
 		eventGraphicsRepository.save(eventGraphics);
 		
 		// Send email
-		emailService.graphicsApprovalNotification(detail);
+		//emailService.graphicsApprovalNotification(detail);
+
+		emailService.bannerApprovalNotification(
+				updatedRequest.getRequesterRole().getEmail(),
+				updatedRequest.getRequesterRole().getUser().getEmail(),
+		);
 	}
 }
