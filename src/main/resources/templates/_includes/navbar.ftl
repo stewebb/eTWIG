@@ -146,7 +146,7 @@
                 <li class="nav-item dropdown <#if navbar=="USER">active</#if>">
 						
                 	<#-- User icon -->
-                	<a class="nav-link navbar-border" data-toggle="dropdown" href="#">
+                	<a class="nav-link navbar-border" data-toggle="dropdown" href="#" style="background-color:#${userPosition.myCurrentPosition.portfolioColor}; color:#FFFFFF">
                    		<i class="fa-solid fa-user"></i>
                 	</a>
                 	<#-- /User icon -->
@@ -172,35 +172,14 @@
 									<i class="fa-regular fa-user-tie"></i>&nbsp;Select Position
 								</label>
 								
-								<select class="form-control select2bs4">
-
-								<#list userPosition.myPositions as position>
-									<#--
-									<option value="${position.userRoleId}">${position.position}</option>
-									-->
-
-									
-									<#if position.userRoleId == userPosition.myCurrentPosition.userRoleId>
-										<option value="${position.userRoleId}" selected>${position.position}</option>
-									<#else>
-										<option value="${position.userRoleId}">${position.position}</option>
-									</#if>
-									
-        						</#list>
-
-								<#--
-									<#list position.myRolesStr?keys as key>
-										
-									
-										
-										<#if key == position.myCurrentRoleStr>
-											<option value="${key}" selected>${position.myRolesStr[key]}</option>
+								<select class="form-control select2bs4" id="selectRole" onchange="selectRole();">
+									<#list userPosition.myPositions as position>						
+										<#if position.userRoleId == userPosition.myCurrentPosition.userRoleId>
+											<option value="${position.userRoleId}" selected>${position.position}</option>
 										<#else>
-											<option value="${key}">${position.myRolesStr[key]}</option>
-										</#if>
-										
+											<option value="${position.userRoleId}">${position.position}</option>
+										</#if>			
 									</#list>
-								-->
 								</select>
 							</div>
 						</div>	

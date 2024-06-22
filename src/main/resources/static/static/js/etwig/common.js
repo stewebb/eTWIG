@@ -254,6 +254,40 @@ function selectUpload(){
 	$('#etwigModal').modal('show');
 }
 
+function selectRole(){
+    //alert($('#selectRole').val());
+
+    var hasError = true;
+	$.ajax({
+   		url: '/api/position/switch', 
+   		type: "GET",
+   		async: false,
+   		data: {
+            "userRoleId" : $('#selectRole').val()
+        },
+   		success: function (result) {
+            successPopup(`
+                You have switched your position to <span style="color:#${result.portfolioColor}">${result.position}</span>.
+            `);
+			hasError = false;
+    	},
+    	error: function (err) {
+
+            if(err.status == 403){
+                dangerPopup("You cannot switch to this position.", "");
+            }else{
+                dangerPopup("Failed to switch position due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+            }
+    		hasError = true;
+    	}
+ 	});
+
+	// Redirect back
+	if(!hasError){
+		setTimeout(function() {	window.location.reload(); }, 2500);
+	}
+}
+
 /**
  * Hide the navbar if the page is in a frame.
  */

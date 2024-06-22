@@ -9,6 +9,7 @@ import net.etwig.webapp.model.User;
 import net.etwig.webapp.model.UserRole;
 import net.etwig.webapp.repository.UserRepository;
 import net.etwig.webapp.repository.UserRoleRepository;
+import net.etwig.webapp.util.InvalidPositionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -68,7 +69,6 @@ public class UserSessionService {
         // Validate user basic info
         Optional<User> user = userRepository.findById(userId);
         if(user.isPresent()){
-            //this.basicInfo = new CurrentUserBasicInfoDTO(user.get());
             wrapper.setBasicInfo(new CurrentUserBasicInfoDTO(user.get()));
         }
 
@@ -81,11 +81,9 @@ public class UserSessionService {
         if(userRoles.isEmpty()) {
             throw new IllegalStateException("Failed to validate user permission. Your session may expired!");
         }
-        //this.permission = new CurrentUserPermissionDTO(userRoles);
         wrapper.setPermission(new CurrentUserPermissionDTO(userRoles));
 
         // Validate user position
-        //this.position = new CurrentUserPositionDTO(userRoles);
         wrapper.setPosition(new CurrentUserPositionDTO(userRoles));
         if(!wrapper.getPosition().changeMyPosition(userRoleId)){
             throw new IllegalStateException("Failed to validate user position. Your session may expired!");
@@ -94,11 +92,33 @@ public class UserSessionService {
         return wrapper;
     }
 
-    public void switchPosition(Long userRoleId){
-        CurrentUserDTOWrapper wrapper = validateSession();
-        if(wrapper.getPosition().changeMyPosition(userRoleId)){
-            return;
+    /**
+     * Attempts to switch the current user's position to the specified role ID.
+     * <p>
+     * This method validates the user's session and attempts to update their position based on the provided role ID.
+     * If the user's session is valid and the role ID is associated with the user, the position is updated in the session,
+     * and the updated position is returned. If the role ID is not associated with the user, an {@link InvalidPositionException}
+     * is thrown, indicating the role change is not permissible.
+     * </p>
+     *
+     * @param userRoleId The role ID to which the user wants to switch.
+     * @return The updated position of the user as a {@code CurrentUserPositionDTO.Position} if the role change is successful.
+     * @throws InvalidPositionException If the role ID is not valid for the current user or the user is not allowed to
+     *                                  switch to this role.
+     */
+
+    public CurrentUserPositionDTO.Position switchPosition(Long userRoleId){
+        CurrentUserPositionDTO position = validateSession().getPosition();
+
+        // Update position ID in session and return the updated position.
+        if(position.changeMyPosition(userRoleId)) {
+            session.setAttribute("position", userRoleId);
+            return position.getMyCurrentPosition();
+        }
+
+        // Otherwise, return HTTP 403
+        else{
+            throw new InvalidPositionException("Selected position is invalid. You are not assigned by this position.");
         }
     }
-
 }
