@@ -20,6 +20,8 @@ import net.etwig.webapp.repository.UserRoleRepository;
 @Component
 public class UserSession {
 
+	/*
+
 	@Autowired
 	private HttpSession session;
 	
@@ -61,8 +63,11 @@ public class UserSession {
 		session.setAttribute("access", new CurrentUserPermissionDTO(userRoles));
 		session.setAttribute("position", new CurrentUserPositionDTO(userRoles));
 
+
 		//HashMap<Long, String> positions = userRoleService.findPositionsByUser(userId);
 		//System.out.println(new LoggedInUserPositionDTO(userRoles));
 	}
+
+	 */
 
 }
