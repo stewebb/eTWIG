@@ -1,17 +1,16 @@
 package net.etwig.webapp.util;
 
-import java.util.HashMap;
 import java.util.Set;
 
 import lombok.Setter;
-import net.etwig.webapp.dto.LoggedInUserPositionDTO;
+import net.etwig.webapp.dto.user.CurrentUserPositionDTO;
 import net.etwig.webapp.services.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import jakarta.servlet.http.HttpSession;
-import net.etwig.webapp.dto.LoggedInUserAccessDTO;
-import net.etwig.webapp.dto.user.UserDTO;
+import net.etwig.webapp.dto.user.CurrentUserPermissionDTO;
+import net.etwig.webapp.dto.user.CurrentUserBasicInfoDTO;
 import net.etwig.webapp.model.User;
 import net.etwig.webapp.model.UserRole;
 
@@ -58,9 +57,9 @@ public class UserSession {
 		}
 		
 		// Store user info to session
-		session.setAttribute("user", new UserDTO(user));
-		session.setAttribute("access", new LoggedInUserAccessDTO(userRoles));
-		session.setAttribute("position", new LoggedInUserPositionDTO(userRoles));
+		session.setAttribute("user", new CurrentUserBasicInfoDTO(user));
+		session.setAttribute("access", new CurrentUserPermissionDTO(userRoles));
+		session.setAttribute("position", new CurrentUserPositionDTO(userRoles));
 
 		//HashMap<Long, String> positions = userRoleService.findPositionsByUser(userId);
 		//System.out.println(new LoggedInUserPositionDTO(userRoles));

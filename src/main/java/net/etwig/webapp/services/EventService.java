@@ -27,7 +27,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpSession;
 import net.etwig.webapp.dto.graphics.NewRequestDTO;
-import net.etwig.webapp.dto.LoggedInUserAccessDTO;
+import net.etwig.webapp.dto.user.CurrentUserPermissionDTO;
 import net.etwig.webapp.model.Event;
 import net.etwig.webapp.model.EventOption;
 import net.etwig.webapp.model.EventOptionKey;
@@ -202,7 +202,7 @@ public class EventService {
 	public boolean eventEditPermissionCheck(Portfolio portfolio) throws Exception {
 			
 		// Get user authority
-		LoggedInUserAccessDTO access = (LoggedInUserAccessDTO) session.getAttribute("access");
+		CurrentUserPermissionDTO access = (CurrentUserPermissionDTO) session.getAttribute("access");
 		
 		// Case 1: System administrators have edit permission, regardless of which portfolio the user has.
 		if(access.isAdminAccess()) {

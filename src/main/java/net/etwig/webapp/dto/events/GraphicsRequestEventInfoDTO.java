@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import lombok.Getter;
 import lombok.ToString;
-import net.etwig.webapp.dto.user.UserDTO;
+import net.etwig.webapp.dto.user.CurrentUserBasicInfoDTO;
 import net.etwig.webapp.model.Event;
 import net.etwig.webapp.model.Portfolio;
 import net.etwig.webapp.model.UserRole;
@@ -23,7 +23,7 @@ public class GraphicsRequestEventInfoDTO {
 	private int duration;
 	
 	// Organizer-related info
-	private UserDTO organizer;
+	private CurrentUserBasicInfoDTO organizer;
 	private String organizerPosition;
 	private Portfolio portfolio;
 	private Long userRoleId;
@@ -43,7 +43,7 @@ public class GraphicsRequestEventInfoDTO {
 		UserRole userRole = event.getUserRole();
 		
 		this.organizerPosition = userRole.getPosition();
-		this.organizer = new UserDTO(userRole.getUser());
+		this.organizer = new CurrentUserBasicInfoDTO(userRole.getUser());
 		this.portfolio = userRole.getPortfolio();
 		this.userRoleId = userRole.getId();
 		

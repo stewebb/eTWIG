@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.ToString;
 import net.etwig.webapp.dto.events.GraphicsRequestEventInfoDTO;
-import net.etwig.webapp.dto.user.UserDTO;
+import net.etwig.webapp.dto.user.CurrentUserBasicInfoDTO;
 import net.etwig.webapp.model.GraphicsRequest;
 import net.etwig.webapp.model.Portfolio;
 import net.etwig.webapp.model.UserRole;
@@ -18,7 +18,7 @@ public class PendingRequestsDetailsDTO {
 	private Long id;
 	private GraphicsRequestEventInfoDTO event;
 
-	private UserDTO requester;
+	private CurrentUserBasicInfoDTO requester;
 	private LocalDateTime requestTime;
 	private String requesterPosition;
 	private Portfolio requesterPortfolio;
@@ -34,7 +34,7 @@ public class PendingRequestsDetailsDTO {
 		this.requestComments = graphicsRequest.getRequestComment();
 		
 		UserRole requesterRole = graphicsRequest.getRequesterRole();
-		this.requester = new UserDTO(requesterRole.getUser());
+		this.requester = new CurrentUserBasicInfoDTO(requesterRole.getUser());
 		this.requesterPosition = requesterRole.getPosition();
 		this.requesterPortfolio = requesterRole.getPortfolio();
 

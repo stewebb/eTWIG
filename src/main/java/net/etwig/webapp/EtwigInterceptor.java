@@ -11,8 +11,7 @@ package net.etwig.webapp;
 
 import java.util.LinkedHashMap;
 
-import net.etwig.webapp.dto.LoggedInUserPositionDTO;
-import net.etwig.webapp.services.UserRoleService;
+import net.etwig.webapp.dto.user.CurrentUserPositionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
@@ -23,8 +22,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import net.etwig.webapp.config.ConfigFile;
-import net.etwig.webapp.dto.LoggedInUserAccessDTO;
-import net.etwig.webapp.dto.user.UserDTO;
+import net.etwig.webapp.dto.user.CurrentUserPermissionDTO;
+import net.etwig.webapp.dto.user.CurrentUserBasicInfoDTO;
 
 @Component
 public class EtwigInterceptor implements HandlerInterceptor{
@@ -52,13 +51,13 @@ public class EtwigInterceptor implements HandlerInterceptor{
 		if(session != null) {
 			
 			// Put user details into session
-			UserDTO userDTO = (UserDTO) session.getAttribute("user");
-			if (userDTO != null) {
-				modelAndView.addObject("user", userDTO);
+			CurrentUserBasicInfoDTO currentUserBasicInfoDTO = (CurrentUserBasicInfoDTO) session.getAttribute("user");
+			if (currentUserBasicInfoDTO != null) {
+				modelAndView.addObject("user", currentUserBasicInfoDTO);
 			}
 			
 			// Put user access into session
-			LoggedInUserAccessDTO userAccess = (LoggedInUserAccessDTO) session.getAttribute("access");
+			CurrentUserPermissionDTO userAccess = (CurrentUserPermissionDTO) session.getAttribute("access");
 			//System.out.println(userAccess);
 			if(userAccess != null) {
 				modelAndView.addObject("access", userAccess);
@@ -66,7 +65,7 @@ public class EtwigInterceptor implements HandlerInterceptor{
 
 			//System.out.println(userRoleService.getMyPositions());
 
-			LoggedInUserPositionDTO userPosition = (LoggedInUserPositionDTO) session.getAttribute("position");
+			CurrentUserPositionDTO userPosition = (CurrentUserPositionDTO) session.getAttribute("position");
 			if (userPosition != null){
 				modelAndView.addObject("position", userPosition);
 			}

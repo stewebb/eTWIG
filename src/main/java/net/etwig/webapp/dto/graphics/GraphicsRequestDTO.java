@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 import lombok.Getter;
 import lombok.ToString;
-import net.etwig.webapp.dto.user.UserDTO;
+import net.etwig.webapp.dto.user.CurrentUserBasicInfoDTO;
 import net.etwig.webapp.model.GraphicsRequest;
 import net.etwig.webapp.util.DateUtils;
 
@@ -16,14 +16,14 @@ public class GraphicsRequestDTO {
 	// Requests-related fields
 	private Long id;
 	private LocalDate expectDate;
-	private UserDTO requester;
+	private CurrentUserBasicInfoDTO requester;
 	private String requestComment;
 	private LocalDateTime requestTime;
 	private String requestTimeStr;
 	
 	// Approval-related fields
 	private Boolean approved;
-	private UserDTO approver;
+	private CurrentUserBasicInfoDTO approver;
 	private String responseComment;
 	private LocalDateTime responseTime;
 	private String responseTimeStr;
@@ -46,7 +46,7 @@ public class GraphicsRequestDTO {
 		this.requestTimeStr = DateUtils.timeAgo(requestTime);
 		
 		// Requester
-		this.requester = new UserDTO(graphicsRequest.getRequesterRole().getUser());
+		this.requester = new CurrentUserBasicInfoDTO(graphicsRequest.getRequesterRole().getUser());
 		
 		// The request status is pending.
 		if(approved == null) {
@@ -56,7 +56,7 @@ public class GraphicsRequestDTO {
 		
 		// Only get user name when this request is NOT pending!
 		else {
-			this.approver = new UserDTO(graphicsRequest.getApproverRole().getUser());
+			this.approver = new CurrentUserBasicInfoDTO(graphicsRequest.getApproverRole().getUser());
 			
 			// Response time
 			this.responseTime = graphicsRequest.getResponseTime();

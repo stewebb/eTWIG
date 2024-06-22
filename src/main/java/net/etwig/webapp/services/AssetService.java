@@ -32,7 +32,7 @@ import org.springframework.data.domain.Pageable;
 
 import net.etwig.webapp.config.ConfigFile;
 import net.etwig.webapp.dto.AssetBasicInfoDTO;
-import net.etwig.webapp.dto.user.UserDTO;
+import net.etwig.webapp.dto.user.CurrentUserBasicInfoDTO;
 import net.etwig.webapp.model.Asset;
 import net.etwig.webapp.repository.AssetRepository;
 
@@ -116,7 +116,7 @@ public class AssetService {
        	newAsset.setUploadedTime(LocalDateTime.now());
        
        	// The related user info
-       	UserDTO user = (UserDTO) session.getAttribute("user");
+       	CurrentUserBasicInfoDTO user = (CurrentUserBasicInfoDTO) session.getAttribute("user");
        	newAsset.setUploaderId(user.getId());
        
        	// Copy file to the file system before insert the data.

@@ -6,13 +6,13 @@ import net.etwig.webapp.model.User;
 
 @Getter
 @ToString
-public class UserDTO {
+public class CurrentUserBasicInfoDTO {
 	
 	private final Long id;
 	private final String fullName;
 	private final String email;
 	
-	public UserDTO(User user) {
+	public CurrentUserBasicInfoDTO(User user) {
 		this.id = user.getId();
 		this.fullName = user.getFullName();
 		this.email = user.getEmail();

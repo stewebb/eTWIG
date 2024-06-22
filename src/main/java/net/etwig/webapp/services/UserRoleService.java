@@ -13,8 +13,7 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import net.etwig.webapp.dto.LoggedInUserInfoDTO;
-import net.etwig.webapp.dto.LoggedInUserPositionDTO;
+import net.etwig.webapp.dto.user.CurrentUserPositionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,8 +23,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpSession;
-import net.etwig.webapp.dto.PositionWithoutEmailDTO;
-import net.etwig.webapp.dto.user.UserDTO;
+import net.etwig.webapp.dto.user.CurrentUserBasicInfoDTO;
 import net.etwig.webapp.handler.CustomUserDetails;
 import net.etwig.webapp.model.Portfolio;
 import net.etwig.webapp.model.User;
@@ -54,8 +52,8 @@ public class UserRoleService implements UserDetailsService{
      * @throws ClassCastException if the object retrieved from the session cannot be cast to {@code LoggedInUserPositionDTO}.
      */
 
-    private LoggedInUserPositionDTO getCurrentPosition() {
-        return (LoggedInUserPositionDTO) session.getAttribute("position");
+    private CurrentUserPositionDTO getCurrentPosition() {
+        return (CurrentUserPositionDTO) session.getAttribute("position");
     }
 
     /**
@@ -87,7 +85,7 @@ public class UserRoleService implements UserDetailsService{
 
 
     public Set<Portfolio> getMyPortfolios(){
-		UserDTO currentUser = (UserDTO) session.getAttribute("user");
+		CurrentUserBasicInfoDTO currentUser = (CurrentUserBasicInfoDTO) session.getAttribute("user");
 		return userRoleRepository.findByUserId(currentUser.getId()).stream().map(UserRole::getPortfolio).collect(Collectors.toSet());
 	}
 
@@ -112,7 +110,7 @@ public class UserRoleService implements UserDetailsService{
     
     @SuppressWarnings("null")
 	public User getMyDetails() {
-    	UserDTO currentUser = (UserDTO) session.getAttribute("user");
+    	CurrentUserBasicInfoDTO currentUser = (CurrentUserBasicInfoDTO) session.getAttribute("user");
     	return userRepository.findById(currentUser.getId()).orElse(null);
     }
     
