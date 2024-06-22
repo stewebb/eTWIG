@@ -75,8 +75,9 @@
 												<i class="fa-solid fa-forward"></i>&nbsp;Next
 											</button>
 										</div>
+										<#-- /Date Options -->
 
-										<#-- calendar view -->
+										<#-- Calendar View -->
 										<div class="form-group d-flex justify-content-between">
 											<div class="icheck-primary d-inline mr-2">
 												<input type="radio" id="weeklyView" name="calendarView" value="0" checked="">
@@ -87,7 +88,9 @@
 												<label for="monthlyView">Monthly view</label>
 											</div>
 										</div>
-										<#-- /calendar view -->
+										<#-- /Calendar View -->
+
+										<#-- Date Options -->	
 										<div class="input-group mb-2">
 											<div class="input-group-prepend">
 												<span class="input-group-text" id="basic-addon1"><i class="fa-regular fa-calendar-days"></i></span>

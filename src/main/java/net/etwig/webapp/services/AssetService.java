@@ -51,34 +51,36 @@ public class AssetService {
     public AssetService(ConfigFile config) {
         this.rootLocation = Paths.get(config.getRootLocation());
     }
-	
+
 	/**
-	 * Get the details an asset (but not the file content) by its id.
-	 * @param id The id of this asset.
-	 * @return The asset object with that Id, or null if no asset with that id.
+	 * Retrieves the details of an asset by its ID.
+	 * <p>
+	 * This method attempts to fetch an asset from the {@code assetRepository} using the provided ID.
+	 * If the repository is not initialized (i.e., it's {@code null}), or if no asset with the provided ID exists,
+	 * the method returns {@code null}.
+	 *
+	 * @param id The unique identifier of the asset to be retrieved.
+	 * @return The {@link Asset} with the specified ID, or {@code null} if the asset could not be found or the repository is not initialized.
 	 */
 	
 	public Asset getAssetDetailsById(long id) {
 		return assetRepository == null ? null : assetRepository.findById(id).orElse(null);
 	}
-	
-	
+
 	/**
-	 * Get the content of an asset by its id.
-	 * @param id
-	 * @return The file content.
-	 * @throws Exception
+	 * Retrieves the content of the specified asset as a {@link Resource}.
+	 * <p>
+	 * This method converts the stored name of the asset into a URI and wraps it in a {@link UrlResource},
+	 * providing a Spring-friendly way to access the asset's contents. If the input asset is {@code null},
+	 * the method returns {@code null}.
+	 *
+	 * @param asset The {@link Asset} whose content is to be retrieved. Can be {@code null}.
+	 * @return A {@link Resource} that represents the content of the asset, or {@code null} if the input asset is {@code null}.
+	 * @throws Exception If there is an issue resolving the asset's URI or accessing the asset.
 	 */
-	
-	@SuppressWarnings("null")
+
 	public Resource getAssetContent(Asset asset) throws Exception {
-		
 		return (asset == null) ? null : new UrlResource(rootLocation.resolve(asset.getStoredName()).toUri());
-		
-		// Retrieve the file from the file system
-		//Path file = rootLocation.resolve(asset.getStoredName());
-		//System.out.println(file);
-		//return new UrlResource(file.toUri());		
 	}
 	
 	/**

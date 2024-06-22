@@ -4,11 +4,6 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import jakarta.mail.internet.MimeMessage;
 import net.etwig.webapp.config.ConfigFile;
-import net.etwig.webapp.dto.PositionDTO;
-import net.etwig.webapp.dto.graphics.FinalizedRequestsDetailsDTO;
-import net.etwig.webapp.dto.graphics.NewRequestEmailNotificationDTO;
-import net.etwig.webapp.model.Asset;
-import net.etwig.webapp.repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -18,10 +13,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
+
 @Service
 public class EmailService {
 	
@@ -33,40 +29,6 @@ public class EmailService {
 
     @Autowired
     private Configuration freemarkerConfig;
-    
-    @Autowired
-    private UserRoleRepository userRoleRepository;
-    
-    @Autowired
-    private AssetService assetService;
-
-	/*
-    @SuppressWarnings("null")
-	private void sendEmail(String to, String subject, String content, HashMap<String, Resource> attachments) throws Exception {
-            MimeMessage message = emailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true);
-            
-            // Set the display name and from address.
-            String fromAddress = ((JavaMailSenderImpl) emailSender).getUsername();
-            String displayName = config.getDisplayName();
-            String from = String.format("%s <%s>", displayName, fromAddress);
-            
-            // Set email properties.
-            helper.setFrom(from);
-            helper.setTo(to);
-            helper.setText(content, true);
-            helper.setSubject(subject);
-            
-            // Add attachments
-            if(attachments != null) {
-            	for (Map.Entry<String, Resource> attachment : attachments.entrySet()) {
-                    helper.addAttachment(attachment.getKey(), attachment.getValue());
-                }
-            }
-            
-            emailSender.send(message);
-    }
-	 */
 
 	/**
 	 * Sends an email to multiple recipients with optional attachments.
@@ -168,34 +130,23 @@ public class EmailService {
 		recipients.add(userEmail);
 
 		// Only put asset content if a request was approved, the attachment is readable and it is not null.
-    	HashMap<String, Resource> attachments = new HashMap<String, Resource>();
+    	HashMap<String, Resource> attachments = new HashMap<>();
     	if(isApproved && attachmentContent != null && (attachmentContent.exists() || attachmentContent.isReadable())) {
 			attachments.put(attachmentName, attachmentContent);
-			//Long assetId = approvalInfo.getAssetId();
-        	//Asset asset = assetService.getAssetDetailsById(assetId);
-    		 //resource = assetService.getAssetContent(asset);
-        	//String assetName = asset.getOriginalName();
-        	
-    		//if(attachmentContent != null && (attachmentContent.exists() || attachmentContent.isReadable())) {
-    		//	attachments.put(attachmentName, attachmentContent);
-    		//}
     	}
+
+    	// Email subject.
+        String subject = "The banner request of event " + eventName + " has been " + (isApproved ? "approved" : "declined") + ".";
     	
-		
-    	// Generate email subject.
-    	StringBuilder subject = new StringBuilder();
-    	subject.append("The banner request of event ").append(eventName).append(" has been ").append(isApproved ? "approved" : "declined").append(".");
-    	
-    	// Generate email content
-    	Template t = freemarkerConfig.getTemplate("_emails/graphic_approval.ftl");
-    	HashMap<String, Object> model = new HashMap<String, Object>();
+    	// Email content
+    	Template template = freemarkerConfig.getTemplate("_emails/graphic_approval.ftl");
+    	HashMap<String, Object> model = new HashMap<>();
 
 		model.put("isApproved", isApproved);
+		model.put("eventName", eventName);
+		model.put("responseTime", responseTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+    	String content = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
 
-    	//model.put("approvalInfo", approvalInfo);
-    	//model.put("approvedStr", approvedStr);
-    	String content = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
-
-    	sendEmail(recipient, subject.toString(), content, attachments);
+    	sendEmail(recipients, subject, content, attachments);
     }
 }

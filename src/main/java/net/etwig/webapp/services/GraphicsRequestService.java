@@ -10,7 +10,9 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import net.etwig.webapp.dto.BannerRequestDetailsDTO;
 import net.etwig.webapp.dto.graphics.*;
+import net.etwig.webapp.model.Asset;
 import net.etwig.webapp.model.EventGraphics;
+import net.etwig.webapp.model.UserRole;
 import net.etwig.webapp.repository.EventGraphicsRepository;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +46,7 @@ public class GraphicsRequestService {
 	private UserSessionService userSessionService;
 	
 	@Autowired
-	private UserRoleService userRoleService;
+	private AssetService assetService;
 
 	/**
 	 * Retrieves a {@link GraphicsRequest} by its ID.
@@ -215,11 +217,22 @@ public class GraphicsRequestService {
 	//public void addRequest 
 
 	/**
-	 * Make a decision for a graphics request, and store the information in the DB.
-	 * @param currentRequest
-	 * @param decisionInfo
-	 * @throws Exception
+	 * Approves a graphics request and updates associated records.
+	 * <p>
+	 * This method processes the approval of a graphics request by updating its status,
+	 * copying approved graphics to the event-specific graphics table, and sending a
+	 * notification email to relevant stakeholders. It performs several operations:
+	 * 1. Validates the user session and incorporates decision information into the approval.
+	 * 2. Saves the updated request details to the repository.
+	 * 3. Retrieves the updated request data to ensure freshness and avoid null values.
+	 * 4. Copies the approved graphics into the 'event_graphics' table.
+	 * 5. Sends an email notification about the approval.
+	 *
+	 * @param currentRequest The {@link GraphicsRequest} currently being processed.
+	 * @param decisionInfo A map containing additional decision-making information used during the approval process.
+	 * @throws Exception If there are issues during processing, such as database access failures, session validation failures, or email sending errors.
 	 */
+
 	public void approveRequest(GraphicsRequest currentRequest, Map<String, Object> decisionInfo) throws Exception {
 
 		ApproveRequestsDTO request = new ApproveRequestsDTO(
@@ -235,10 +248,6 @@ public class GraphicsRequestService {
 		// Re-query the request data (to avoid some null values)
 		updatedRequest = this.findById(updatedRequest.getId());
 
-		// Need to set the approver info manually
-		FinalizedRequestsDetailsDTO detail = new FinalizedRequestsDetailsDTO(updatedRequest);
-		//detail.setApprover(userRoleService.findById(updatedRequest.getApproverRoleId()));
-
 		// "Copy" the graphics to the "event_graphics" table.
 		NewGraphicsDTO newGraphicsDTO = new NewGraphicsDTO();
 		newGraphicsDTO.fromApproval(updatedRequest);
@@ -246,11 +255,17 @@ public class GraphicsRequestService {
 		eventGraphicsRepository.save(eventGraphics);
 		
 		// Send email
-		//emailService.graphicsApprovalNotification(detail);
+		UserRole requesterRole = updatedRequest.getRequesterRole();
+		Asset asset = updatedRequest.getAsset();
 
 		emailService.bannerApprovalNotification(
-				updatedRequest.getRequesterRole().getEmail(),
-				updatedRequest.getRequesterRole().getUser().getEmail(),
+				requesterRole.getEmail(),
+				requesterRole.getUser().getEmail(),
+				updatedRequest.getApproved(),
+				updatedRequest.getEvent().getName(),
+				updatedRequest.getResponseTime(),
+				(asset == null) ? null : asset.getOriginalName(),
+				assetService.getAssetContent(asset)
 		);
 	}
 }
