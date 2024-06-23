@@ -48,10 +48,26 @@ public class PropertyService {
 		return propertyRepository.findAll();
 	}
 
+	/*
 	public Map<String, List<Option>> findAllGroupByProperties() {
 		List<Option> optionList = optionRepository.findAll();
         return optionList.stream().collect(Collectors.groupingBy(w -> Long.toString(w.getBelongsToId())));
 	}
+	 */
+
+	/**
+	 * Retrieves and organizes event options by property ID for a specific event, including a default unselected option.
+	 * <p>
+	 * This method performs several steps to fetch and process event options:
+	 * 1. Fetches all available options from the repository and maps them into {@link EventOptionsForEventPageDTO} objects.
+	 * 2. If a valid event ID is provided, it marks the relevant options as selected based on existing associations in the database.
+	 * 3. Groups the options by property ID into a map where each key is a property ID and the value is a list of DTOs for that property.
+	 * 4. Adds a default option indicating "Not Selected" to each group and sorts the options by option ID.
+	 *
+	 * @param eventId The ID of the event for which options are being fetched. Can be null or a non-positive value, in which case no options are marked as selected.
+	 * @return A map where the key is a string representation of the property ID and the value is a list of {@link EventOptionsForEventPageDTO},
+	 *         sorted by option ID and including a default "Not Selected" option.
+	 */
 
 	public Map<String, List<EventOptionsForEventPageDTO>> getOptionsByEvent(Long eventId) {
 

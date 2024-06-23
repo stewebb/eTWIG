@@ -65,10 +65,13 @@ public class _EventsAPIController {
 		return eventService.getAllRecurringEvents();
 	}
 
+	/*
 	// TODO OPTIONS WITH A SEPARATE ENDPOINT
 	@GetMapping("/getSelectedOptionsByEventId")  
 	public HashSet<Long> getSelectedOptionsByEventId(@RequestParam Long eventId) throws Exception {
 		//return eventOptionService.getOptionsByEvent(eventId);
 		return null;
 	}
+
+	 */
 }

@@ -225,12 +225,15 @@
 											
 														<#-- Each property has a select box. -->
 														<select class="form-control select2bs4 property-select-box" name="property-${property_info.id}" data-property-name="${property_info.name}" data-mandatory=${mandatoryStr}>
+															
+															<#--
 															<option value="-1">(Not selected)</option>
+															-->
 									
 															<#-- Get all options of a property -->
 															<#if allOptions[string_id]?has_content>
 																<#list allOptions[string_id] as opt>
-																	<option value="${opt.id}">${opt.name}</option>
+																	<option value="${opt.optionId}" <#if opt.selected >selected</#if> >${opt.name}</option>
 																</#list>
 															</#if>
 															<#-- /Get all options of a property -->

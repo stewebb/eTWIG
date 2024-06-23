@@ -243,7 +243,7 @@ function getEventInfo(datePickersMap){
 		}
 			
 		// Event options
-		getSelectedOptions(eventId);
+		// getSelectedOptions(eventId);
 
 		// Get Graphics (TWIG component and Banner)
 		getGraphics(eventId, false);
@@ -804,6 +804,8 @@ function deleteEventCheckboxOnChange(){
  * @param {int} eventId 
  */
 
+
+/*
 function getSelectedOptions(eventId){
 
 	// No need to get in add mode.
@@ -827,9 +829,9 @@ function getSelectedOptions(eventId){
 				//console.log(id + ' ' + value);
 				//console.log($('select[name="' + id + '"]').val())
 
-				$('select[name^="property-"]').each(function() {
-					$(this).val(value).trigger('change');
-				});
+				//$('select[name^="property-"]').each(function() {
+				//	$(this).val(value).trigger('change');
+				//});
 			})
 
 		
@@ -842,6 +844,7 @@ function getSelectedOptions(eventId){
 		}
 	});
 }
+*/
 
 /**
  * Convert the duration in minutes to _d __h __m format.
