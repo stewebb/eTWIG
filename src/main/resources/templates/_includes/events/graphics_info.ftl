@@ -1,9 +1,6 @@
                                     <#-- Event Information -->
 									<div class="mb-2">
-										<h5 class="mb-2 bold-text text-primary">
-											<i class="fa-solid fa-circle-info ="></i>&nbsp;Event Information
-										</h5>
-
+									
 										<#-- Basic Info -->
 										<table class="table table-bordered">
 

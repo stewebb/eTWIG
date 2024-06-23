@@ -162,14 +162,40 @@
 							</div>
 							<#-- /Request Info -->
 
-													<#-- Response -->
+							<#-- Response -->
+
+							<#--
+							<#assign disabledStr = (requestInfo.approved?has_content)?string("disabled","")>
+							<#assign decisionStr = (requestInfo.approved?has_content)?string("View result","Make a decision")>
+							-->
+
+
+							<#if requestInfo.approved?has_content>
+								<#assign disabledStr = "disabled">
+								<#assign decisionStr = "View result">
+								<#assign approveBtnVal = (requestInfo.approved)?string("checked", " ")>
+								<#assign declineBtnVal = (requestInfo.approved)?string("", "checked")>
+							<#else>
+								<#assign disabledStr = "">
+								<#assign decisionStr = "Make a decision">
+								<#assign approveBtnVal = "">
+								<#assign declineBtnVal = "">
+							</#if>
+
 							<div class="card card-primary card-outline col-12">
 								<div class="card-header">
 									<h3 class="card-title">
-										<i class="fa-solid fa-reply"></i>&nbsp;Make a decision
+										<i class="fa-solid fa-gavel"></i>&nbsp;${decisionStr}
 									</h3>
 								</div>
 								<div class="card-body">
+
+									<#if requestInfo.approved?has_content>
+										<div class="callout callout-primary mb-3">
+											<h5 class="bold-text mb-2">Finalized request</h5>
+											This banner request was finalized. You cannot make any changes.
+										</div>
+									</#if>
 
 									<#-- Decision -->
 									<div class="form-group row">
@@ -179,12 +205,12 @@
 										<div class="col-sm-10">
 											<div class="form-group clearfix">
 												<div class="icheck-success d-inline mr-2">
-													<input type="radio" id="graphicsApprovalApproved" name="graphicsApprovalOption" value="1">
-													<label for="graphicsApprovalApproved">Approved</label>
+													<input type="radio" id="graphicsApprovalApproved" name="graphicsApprovalOption" value="1" ${disabledStr} ${approveBtnVal}>
+													<label for="graphicsApprovalApproved">Approve</label>
 												</div>
 												<div class="icheck-danger d-inline mr-2">
-													<input type="radio" id="graphicsApprovalDeclined" name="graphicsApprovalOption" value="0">
-													<label for="graphicsApprovalDeclined">Declined</label>
+													<input type="radio" id="graphicsApprovalDeclined" name="graphicsApprovalOption" value="0" ${disabledStr} ${declineBtnVal}>
+													<label for="graphicsApprovalDeclined">Decline</label>
 												</div>
 											</div>				
 										</div>
@@ -195,7 +221,7 @@
 									<div class="form-group row">
 										<label for="graphicsApprovalComments" class="col-sm-2">Comments</label>
 										<div class="col-sm-10">
-											<textarea id="graphicsApprovalComments" class="form-control fixed-textarea" maxlength="255" rows="5"></textarea>
+											<textarea id="graphicsApprovalComments" class="form-control fixed-textarea" maxlength="255" rows="5" ${disabledStr}>${requestInfo.responseComment}</textarea>
 											<small class="form-text text-muted">Feedback to requester, up to 255 characters.</small>
 										</div>
 									</div>
@@ -229,8 +255,13 @@
 									<#-- /Assets -->	
 
 									<#-- Submit -->
-									<div class="right-div" role="group">
-										<button type="button" class="btn btn-outline-primary" onclick="decide();">
+									<div class="d-flex justify-content-between" role="group">
+
+										<a class="btn btn-outline-secondary" href="/graphics/approvalList.do">
+											<i class="fa-regular fa-arrow-left"></i>&nbsp;Back to list
+										</a>
+
+										<button type="button" class="btn btn-outline-primary" onclick="decide();" ${disabledStr}>
 											<i class="fa-regular fa-check"></i>&nbsp;Submit
 										</button>
 									</div>
