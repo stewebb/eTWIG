@@ -53,8 +53,6 @@
 			<#-- Main area -->
     		<section class="content">
 				<div class="container-fluid">
-
-					<#-- Row 1: Information -->
 					<div class="row col-12">
 
 						<#-- Information area -->
@@ -69,27 +67,8 @@
 								</div>
 								<div class="card-body">
 
-									<#-- Event Information -->
+									<#-- Event Information /-->
 									<#include "../_includes/events/graphics_info.ftl">
-									<#-- Event Information -->
-
-									<#--
-									<script>
-
-										// Display duration
-										var duration = ${eventInfo.duration};
-										$("#eventDuration").text(formatTime(duration));
-
-										var startTime = Date.parse("${eventInfo.startTime}");
-										$("#eventStartTime").text(startTime.toString("ddd yyyy-MM-dd HH:mm"));
-										$("#eventEndTime").text(startTime.addMinutes(duration).toString("ddd yyyy-MM-dd HH:mm"));
-
-										<#if eventInfo.recurring>
-											$("#eventStartTimeRow").hide();
-											$("#eventEndTimeRow").hide();
-										</#if>
-									</script>
-									-->
 
 								</div>
 							</div>
@@ -110,7 +89,7 @@
 								</div>
 								<div class="card-body">
 
-										<#-- Basic Info -->
+										<#-- Request Info -->
 										<table class="table table-bordered">
 													
 											<#-- Request Id -->
@@ -151,121 +130,186 @@
 											<#-- Position -->
 											<tr>
 												<th scope="row">Position</th>
-												<td id="eventPortfolio">${requestInfo.requesterPosition}</td>
+												<td style="color:#FFFFFF; background-color:#${eventInfo.portfolioColor}">
+													${requestInfo.requesterPosition}
+												</td>
 											</tr>
 											<#-- /Position -->
 													
 										</table>
-										<#-- /Basic Info -->
+										<#-- /Request Info -->
 
 								</div>
 							</div>
 							<#-- /Request Info -->
 
 							<#-- Response -->
-
-							<#--
-							<#assign disabledStr = (requestInfo.approved?has_content)?string("disabled","")>
-							<#assign decisionStr = (requestInfo.approved?has_content)?string("View result","Make a decision")>
-							-->
-
-
-							<#if requestInfo.approved?has_content>
-								<#assign disabledStr = "disabled">
-								<#assign decisionStr = "View result">
-								<#assign approveBtnVal = (requestInfo.approved)?string("checked", " ")>
-								<#assign declineBtnVal = (requestInfo.approved)?string("", "checked")>
-							<#else>
-								<#assign disabledStr = "">
-								<#assign decisionStr = "Make a decision">
-								<#assign approveBtnVal = "">
-								<#assign declineBtnVal = "">
-							</#if>
-
 							<div class="card card-primary card-outline col-12">
 								<div class="card-header">
 									<h3 class="card-title">
-										<i class="fa-solid fa-gavel"></i>&nbsp;${decisionStr}
+										<i class="fa-solid fa-gavel"></i>&nbsp;Decision
 									</h3>
 								</div>
 								<div class="card-body">
 
+									<#-- Finalized request -->
 									<#if requestInfo.approved?has_content>
 										<div class="callout callout-primary mb-3">
-											<h5 class="bold-text mb-2">Finalized request</h5>
+											<h5 class="bold-text mb-2">Finalized Request</h5>
 											This banner request was finalized. You cannot make any changes.
 										</div>
-									</#if>
 
-									<#-- Decision -->
-									<div class="form-group row">
-										<label for="graphicsApprovalOption" class="col-sm-2">
-											Decision&nbsp;<span class="required-symbol">*</span>
-										</label>
-										<div class="col-sm-10">
-											<div class="form-group clearfix">
-												<div class="icheck-success d-inline mr-2">
-													<input type="radio" id="graphicsApprovalApproved" name="graphicsApprovalOption" value="1" ${disabledStr} ${approveBtnVal}>
-													<label for="graphicsApprovalApproved">Approve</label>
-												</div>
-												<div class="icheck-danger d-inline mr-2">
-													<input type="radio" id="graphicsApprovalDeclined" name="graphicsApprovalOption" value="0" ${disabledStr} ${declineBtnVal}>
-													<label for="graphicsApprovalDeclined">Decline</label>
-												</div>
-											</div>				
+										<#-- Response Info -->
+										<table class="table table-bordered mb-3">	
+
+											<#-- Status -->
+											<tr>
+												<th scope="row">Status</th>
+												<td class="text-${(requestInfo.approved)?string("success","danger")} bold-text">
+													${(requestInfo.approved)?string("Approved","Declined")}
+												</td>
+											</tr>
+											<#-- /Status -->
+
+											<#-- Response Time -->
+											<tr>
+												<th scope="row">Response Time</th>
+												<td>${requestInfo.responseTime?replace("T", " ")}</td>
+											</tr>
+											<#-- /Request Time -->
+													
+											<#-- Comment -->
+											<tr>
+												<th scope="row">Comment</th>
+												<td><#if requestInfo.responseComment?has_content>${requestInfo.responseComment}</#if></td>
+											</tr>
+											<#-- /Comment -->
+														
+											<#-- Approver -->
+											<tr>
+												<th scope="row">Approver</th>
+												<td>${requestInfo.approverName}</td>
+											</tr>
+											<#-- /Requester -->
+
+											<#-- Position -->
+											<tr>
+												<th scope="row">Position</th>
+												<td style="color:#FFFFFF; background-color:#${requestInfo.approverPortfolioColor}">
+													${requestInfo.approverPosition}
+												</td>
+											</tr>
+											<#-- /Position -->
+											
+											<#-- Banner -->
+											<#if requestInfo.approved && requestInfo.assetId?has_content>
+												<tr>
+													<th scope="row">
+														<span class="mb-2">Banner</span><br>
+														<a class="btn btn-outline-primary btn-sm mb-2" href="/assets/content.do?assetId=${requestInfo.assetId}&download=true">
+															<i class="fa-solid fa-download"></i>&nbsp;Download
+														</a>
+
+														<br>
+														<a class="btn btn-outline-primary btn-sm" href="/assets/content.do?assetId=${requestInfo.assetId}&download=false" target="_blank">
+															<i class="fa-solid fa-magnifying-glass"></i>&nbsp;View
+														</a>
+													</th>
+													<td>
+														<img src="/assets/content.do?assetId=${requestInfo.assetId}" class="table-img" style="max-width:100%; height:auto;">				
+													</td>
+												</tr>
+											</#if>
+											<#-- /Banner -->
+													
+										</table>
+										<#-- /Response Info -->
+
+										<#-- Button -->
+										<div class="d-flex justify-content-center" role="group">
+											<a class="btn btn-outline-secondary" href="/graphics/approvalList.do">
+												<i class="fa-regular fa-arrow-left"></i>&nbsp;Back to list
+											</a>
 										</div>
-									</div>
-									<#-- /Decision -->
+										<#-- /Button -->
 
-									<#-- Feedback -->
-									<div class="form-group row">
-										<label for="graphicsApprovalComments" class="col-sm-2">Comments</label>
-										<div class="col-sm-10">
-											<textarea id="graphicsApprovalComments" class="form-control fixed-textarea" maxlength="255" rows="5" ${disabledStr}>${requestInfo.responseComment}</textarea>
-											<small class="form-text text-muted">Feedback to requester, up to 255 characters.</small>
-										</div>
-									</div>
-									<#-- /Feedback -->
+									<#-- /Finalized request -->
 
-									<#-- Assets -->
-									<div class="form-group row" id="graphicsApprovalAssets" style="display:none;">
-										<label for="graphicsApprovalAssets" class="col-sm-2 col-form-label">
-											Assets&nbsp;<span class="required-symbol">*</span>
-										</label>
-										<div class="col-sm-10">
-										
-											<div class="input-group mb-3">
-												<div class="input-group-prepend">
-													<span class="input-group-text">
-														<i class="fa-solid fa-image"></i>
-													</span>
-												</div>
-												<input type="text" class="form-control template-image-input" id="uploadCallback" readonly>
-												
-												<div class="input-group-append">
-													<button type="button" id="graphicsApprovalAssetsBtn" class="btn btn-outline-secondary" onclick="selectUpload();">
-														<i class="fa-regular fa-upload"></i>&nbsp;Select/Upload
-													</button>		
-												</div>
+									<#-- Pending request -->
+									<#else>
+
+										<#-- Decision -->
+										<div class="form-group row">
+											<label for="graphicsApprovalOption" class="col-sm-2">
+												Decision&nbsp;<span class="required-symbol">*</span>
+											</label>
+											<div class="col-sm-10">
+												<div class="form-group clearfix">
+													<div class="icheck-success d-inline mr-2">
+														<input type="radio" id="graphicsApprovalApproved" name="graphicsApprovalOption" value="1">
+														<label for="graphicsApprovalApproved">Approve</label>
+													</div>
+													<div class="icheck-danger d-inline mr-2">
+														<input type="radio" id="graphicsApprovalDeclined" name="graphicsApprovalOption" value="0">
+														<label for="graphicsApprovalDeclined">Decline</label>
+													</div>
+												</div>				
 											</div>
-
-											<img src="about:blank" class="img-fluid" id="uploadImage" />			
 										</div>
-									</div>
-									<#-- /Assets -->	
+										<#-- /Decision -->
 
-									<#-- Submit -->
-									<div class="d-flex justify-content-between" role="group">
+										<#-- Feedback -->
+										<div class="form-group row">
+											<label for="graphicsApprovalComments" class="col-sm-2">Comments</label>
+											<div class="col-sm-10">
+												<textarea id="graphicsApprovalComments" class="form-control fixed-textarea" maxlength="255" rows="5"></textarea>
+												<small class="form-text text-muted">Feedback to requester, up to 255 characters.</small>
+											</div>
+										</div>
+										<#-- /Feedback -->
 
-										<a class="btn btn-outline-secondary" href="/graphics/approvalList.do">
-											<i class="fa-regular fa-arrow-left"></i>&nbsp;Back to list
-										</a>
+										<#-- Assets -->
+										<div class="form-group row" id="graphicsApprovalAssets" style="display:none;">
+											<label for="graphicsApprovalAssets" class="col-sm-2 col-form-label">
+												Assets&nbsp;<span class="required-symbol">*</span>
+											</label>
+											<div class="col-sm-10">
+											
+												<div class="input-group mb-3">
+													<div class="input-group-prepend">
+														<span class="input-group-text">
+															<i class="fa-solid fa-image"></i>
+														</span>
+													</div>
+													<input type="text" class="form-control template-image-input" id="uploadCallback" readonly>
+													
+													<div class="input-group-append">
+														<button type="button" id="graphicsApprovalAssetsBtn" class="btn btn-outline-secondary" onclick="selectUpload();">
+															<i class="fa-regular fa-upload"></i>&nbsp;Select/Upload
+														</button>		
+													</div>
+												</div>
 
-										<button type="button" class="btn btn-outline-primary" onclick="decide();" ${disabledStr}>
-											<i class="fa-regular fa-check"></i>&nbsp;Submit
-										</button>
-									</div>
-									<#-- /Submit -->
+												<img src="about:blank" class="img-fluid" id="uploadImage" />			
+											</div>
+										</div>
+										<#-- /Assets -->	
+
+										<#-- Submit -->
+										<div class="d-flex justify-content-between" role="group">
+
+											<a class="btn btn-outline-secondary" href="/graphics/approvalList.do">
+												<i class="fa-regular fa-arrow-left"></i>&nbsp;Back to list
+											</a>
+
+											<button type="button" class="btn btn-outline-primary" onclick="decide();">
+												<i class="fa-regular fa-check"></i>&nbsp;Submit
+											</button>
+										</div>
+										<#-- /Submit -->
+
+									</#if>
+									<#-- /Pending request -->
 
 								</div>
 							</div>
@@ -275,8 +319,6 @@
 						<#-- /Col 2 -->
 
 					</div>
-					<#-- /Row 1: Information -->
-
 				</div>
 			</section>
 			<#-- /Main area -->
