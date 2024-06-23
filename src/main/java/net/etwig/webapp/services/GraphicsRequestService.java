@@ -262,6 +262,7 @@ public class GraphicsRequestService {
 				requesterRole.getEmail(),
 				requesterRole.getUser().getEmail(),
 				updatedRequest.getApproved(),
+				updatedRequest.getEventId(),
 				updatedRequest.getEvent().getName(),
 				updatedRequest.getResponseTime(),
 				(asset == null) ? null : asset.getOriginalName(),

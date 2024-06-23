@@ -32,7 +32,7 @@
                                     <table border="0" cellspacing="0" cellpadding="0">
                                         <tr>
                                             <td align="center" style="background-color: #004AAD; border-radius: 6px;">
-                                                <a href="https://www.google.com" target="_blank" style="font-size: 16px; font-weight: bolder; font-family: sans-serif; color: #ffffff; text-decoration: none; padding: 12px 24px; display: block; border-radius: 6px;">
+                                                <a href="${appUrl}/events/edit.do?eventId=${eventId}#graphicsAnchor" target="_blank" style="font-size: 16px; font-weight: bolder; font-family: sans-serif; color: #ffffff; text-decoration: none; padding: 12px 24px; display: block; border-radius: 6px;">
                                                 View Details
                                                 </a>
                                             </td>
@@ -44,7 +44,7 @@
                         <!-- /Button -->
 
                     </div>
-                    <p style="line-height: 20px;">&nbsp;</p>
+                    <p style="line-height: 10px;">&nbsp;</p>
                 </td>
             </tr>
         </table>

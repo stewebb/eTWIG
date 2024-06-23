@@ -49,49 +49,14 @@ public class EtwigInterceptor implements HandlerInterceptor{
 			modelAndView.addObject("userBasicInfo", wrapper.getBasicInfo());
 			modelAndView.addObject("userPermission", wrapper.getPermission());
 			modelAndView.addObject("userPosition", wrapper.getPosition());
-
-			//System.out.println(wrapper.getPosition());
 		}
-		//UserSessionService.SessionValidation validatedSession = userSessionService.validateSession();
-
-		/*
-		// User-related data.
-		// Check session first!
-		HttpSession session = request.getSession(false);
-		if(session != null) {
-			
-			// Put user details into session
-			CurrentUserBasicInfoDTO currentUserBasicInfoDTO = (CurrentUserBasicInfoDTO) session.getAttribute("user");
-			if (currentUserBasicInfoDTO != null) {
-				modelAndView.addObject("user", currentUserBasicInfoDTO);
-			}
-			
-			// Put user access into session
-			CurrentUserPermissionDTO userAccess = (CurrentUserPermissionDTO) session.getAttribute("access");
-			//System.out.println(userAccess);
-			if(userAccess != null) {
-				modelAndView.addObject("access", userAccess);
-			}
-
-			//System.out.println(userRoleService.getMyPositions());
-
-			CurrentUserPositionDTO userPosition = (CurrentUserPositionDTO) session.getAttribute("position");
-			if (userPosition != null){
-				modelAndView.addObject("position", userPosition);
-			}
-
-		}
-		*/
-
 
 		// Application information.
-		LinkedHashMap<String, Object> appInfo = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> appInfo = new LinkedHashMap<>();
 		appInfo.put("appName", config.getAppName());
 
 		appInfo.put("appVersion", "3.3");
 		appInfo.put("appOwner", config.getAppOwner());
 		modelAndView.addObject("app", appInfo);
-
-
 	}
 }

@@ -120,6 +120,7 @@ public class EmailService {
 	 * @param portfolioEmail The email address associated with the portfolio to which the notification will be sent.
 	 * @param userEmail The email address of the user who submitted the banner request.
 	 * @param isApproved Boolean indicating whether the banner request was approved or not.
+     * @param eventId The ID of the event associated with the banner request.
 	 * @param eventName The name of the event associated with the banner request.
 	 * @param responseTime The date and time when the response was generated.
 	 * @param attachmentName The name of the attachment to be included in the email if the request is approved.
@@ -135,6 +136,7 @@ public class EmailService {
 			String portfolioEmail,
 			String userEmail,
 			boolean isApproved,
+			Long eventId,
 			String eventName,
 			LocalDateTime responseTime,
 			String attachmentName,
@@ -161,8 +163,10 @@ public class EmailService {
     	HashMap<String, Object> model = new HashMap<>();
 
 		model.put("isApproved", isApproved);
+		model.put("eventId", eventId);
 		model.put("eventName", eventName);
 		model.put("responseTime", responseTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+		model.put("appUrl", config.getAppURL());
     	String content = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
 
     	sendEmail(recipients, subject, content, attachments);

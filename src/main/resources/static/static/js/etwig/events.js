@@ -241,9 +241,6 @@ function getEventInfo(datePickersMap){
 				}
 			}
 		}
-			
-		// Event options
-		// getSelectedOptions(eventId);
 
 		// Get Graphics (TWIG component and Banner)
 		getGraphics(eventId, false);
@@ -312,11 +309,6 @@ function getEventInfo(datePickersMap){
 		$('#eventOrganizer').text($('#userName').text());
 		$('#eventOrganizer').css('color', '#808080');
 
-		// for (let key in myPositions) {
-		// 	$("#eventRole").append(`<option value="${myPositions[key].userRoleId}">${myPositions[key].position}, ${myPositions[key].portfolioName}</option>`);
-		// }
-
-		// $('#eventGraphicsTab').hide();
 		$('#bannerRequestHistory').hide();
 	}
 }
@@ -800,56 +792,17 @@ function deleteEventCheckboxOnChange(){
 }
 
 /**
- * Get all selected options for a event
- * @param {int} eventId 
- */
-
-
-/*
-function getSelectedOptions(eventId){
-
-	// No need to get in add mode.
-	if(eventId <= 0){
-		return;
-	}
-	
-	$.ajax({ 
-		type: 'GET', 
-    	url: '/api/private/getSelectedOptionsByEventId', 
-    	data: {
-			eventId: eventId
-		},
-    	async: false,
-		success: function(json) {
-			
-			// Iterate all selected choices.
-			jQuery.each(json, function(id, value) {
-			//	$('.property-select-box option[value='+value+']').attr('selected','');
-				//$('select[name="' + value + '"]').val(value).trigger('change');
-				//console.log(id + ' ' + value);
-				//console.log($('select[name="' + id + '"]').val())
-
-				//$('select[name^="property-"]').each(function() {
-				//	$(this).val(value).trigger('change');
-				//});
-			})
-
-		
-			//$('#property-1').val('3').trigger('change');
-        },
-        
-        // Popup error info when it happens
-    	error: function(err) {   		
-			dangerPopup("Failed to get selected options due to a HTTP " + err.status + " error.", err.responseJSON.exception);
-		}
-	});
-}
-*/
-
-/**
- * Convert the duration in minutes to _d __h __m format.
- * @param {int} minutes 
- * @returns The converted string.
+ * Converts a duration in minutes into a formatted string "_d __h __m".
+ * This function formats the given minutes into a human-readable string that represents the number of days, hours, and minutes.
+ * The days component is capped at 9, meaning if the computed days exceed 9, it will be represented as 9.
+ * 
+ * @param {int} minutes - The total number of minutes to convert. Must be a non-negative integer.
+ * @returns {string} - The formatted duration string. Days are capped at 9 and both hours and minutes are zero-padded to two digits.
+ * 
+ * Example usage:
+ * minutesToString(1500);    // returns "1d 01h 00m"
+ * minutesToString(10000);   // returns "9d 00h 00m" (days are capped at 9)
+ * minutesToString(61);      // returns "0d 01h 01m"
  */
 
 function minutesToString(minutes) {
@@ -869,9 +822,17 @@ function minutesToString(minutes) {
 }
 
 /**
- * Convert duration string (_d __h __m format) back to minutes
- * @param {string} durationStr 
- * @returns The duration in minutes, or null if the input is not well-formed.
+ * Converts a duration string formatted as "_d __h __m" back to total minutes.
+ * This function is useful for interpreting human-readable duration strings into a numerical value that represents the total minutes.
+ * 
+ * @param {string} durationStr - The duration string in the format of "_d __h __m", where "_" can be any integer.
+ *        For example, "2d 3h 15m" represents 2 days, 3 hours, and 15 minutes.
+ * @returns {number|null} - Returns the total duration in minutes if the input string is well-formed according to the specified format.
+ *        Returns null if the input string does not match the expected format, indicating an improperly formed input.
+ * 
+ * Example usage:
+ * stringToMinutes("2d 3h 15m"); 	// returns 3335
+ * stringToMinutes("hello world"); 	// returns null
  */
 
 function stringToMinutes(durationStr) {

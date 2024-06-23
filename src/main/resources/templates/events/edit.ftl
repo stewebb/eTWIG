@@ -730,7 +730,7 @@
 					<#-- /Timing -->
 
 					<#-- Grphics -->
-					<div class="card card-primary card-outline mb-3">
+					<div class="card card-primary card-outline mb-3" id="graphicsAnchor">
 						<div class="card-header">
 							<h3 class="card-title">
 								<i class="fa-solid fa-palette"></i>&nbsp;Grphics
