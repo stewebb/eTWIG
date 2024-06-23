@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import net.etwig.webapp.services.PortfolioService;
 import net.etwig.webapp.services.PropertyService;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/events")
@@ -72,16 +73,16 @@ public class EventsPageController {
 	 */
 	
 	@RequestMapping({"/add.do", "/edit.do"})
-	public String edit(Model model){
+	public String edit(Model model, @RequestParam(required = false) Long eventId){
 
 		// TODO Add a "view only" page, then set the permission of old pages to "event manager only"
 		model.addAttribute("allProperties", propertyService.findAll());
-        model.addAttribute("allOptions", propertyService.findAllGroupByProperties());
+        model.addAttribute("allOptions", propertyService.getOptionsByEvent(eventId));
 
 		//System.out.println(propertyService.findAll());
 		//System.out.println(11111);
 		//System.out.println(propertyService.findAllGroupByProperties());
-		System.out.println(propertyService.getOptionsByEvent(1L));
+		// System.out.println(propertyService.getOptionsByEvent(eventId));
 
 		return "events/edit";
 	}
