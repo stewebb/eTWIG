@@ -18,9 +18,9 @@ function eventGraphicsDataTable(){
         columns: [
             { data: "id" },
             { data: "eventName" },
-            { data: "startTime", render: dateWeekRender},
+            { data: "startTime", render: dateWeekRender1},
             { data: null, render: statusRender},
-            { data: "lastModified", render: dateRender},
+            { data: "lastModified", render: dateWeekRender},
             { mRender: actionRender}
         ]
     });
@@ -52,9 +52,11 @@ function statusRender(data, type, row){
 }
 
 
-function dateWeekRender(data, type, row){
+function dateWeekRender1(data, type, row){
 
 	// Get dates
+	//console.log(data)
+
 	var targetDate = Date.parse(data);
 	var dateWeek = targetDate.toString('yyyy-MM-dd HH:mm') + '&nbsp;';
 	//var today = Date.today();

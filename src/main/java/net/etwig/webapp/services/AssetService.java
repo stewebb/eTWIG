@@ -63,8 +63,8 @@ public class AssetService {
 	 * @return The {@link Asset} with the specified ID, or {@code null} if the asset could not be found or the repository is not initialized.
 	 */
 	
-	public Asset getAssetDetailsById(long id) {
-		return assetRepository == null ? null : assetRepository.findById(id).orElse(null);
+	public Asset getAssetDetailsById(Long id) {
+		return (assetRepository == null || id == null) ? null : assetRepository.findById(id).orElse(null);
 	}
 
 	/**

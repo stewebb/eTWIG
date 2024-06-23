@@ -248,11 +248,13 @@ public class GraphicsRequestService {
 		// Re-query the request data (to avoid some null values)
 		updatedRequest = this.findById(updatedRequest.getId());
 
-		// "Copy" the graphics to the "event_graphics" table.
-		NewGraphicsDTO newGraphicsDTO = new NewGraphicsDTO();
-		newGraphicsDTO.fromApproval(updatedRequest);
-		EventGraphics eventGraphics = newGraphicsDTO.toEntity();
-		eventGraphicsRepository.save(eventGraphics);
+		// "Copy" the graphics to the "event_graphics" table only when the request is approved.
+		if(updatedRequest.getApproved()) {
+			NewGraphicsDTO newGraphicsDTO = new NewGraphicsDTO();
+			newGraphicsDTO.fromApproval(updatedRequest);
+			//EventGraphics eventGraphics = newGraphicsDTO.toEntity();
+			eventGraphicsRepository.save(newGraphicsDTO.toEntity());
+		}
 		
 		// Send email
 		UserRole requesterRole = updatedRequest.getRequesterRole();

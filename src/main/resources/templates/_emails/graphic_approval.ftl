@@ -16,9 +16,9 @@
                         <p style="line-height: 1.5;">
                             Your banner request for event <b>${eventName}</b> has been 
                             <#if isApproved>
-                                <b style="color:#198754">Approved</b>
+                                <b style="color:#198754">approved</b>
                             <#else>
-                                <b style="color:#DC3545">Declined</b>
+                                <b style="color:#DC3545">declined</b>
                             </#if>
                             on <b>${responseTime}</b>.
                             <#if isApproved>The banner is attached in this email.</#if>
