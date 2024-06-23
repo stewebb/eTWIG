@@ -73,6 +73,7 @@
 									<#include "../_includes/events/graphics_info.ftl">
 									<#-- Event Information -->
 
+									<#--
 									<script>
 
 										// Display duration
@@ -83,16 +84,22 @@
 										$("#eventStartTime").text(startTime.toString("ddd yyyy-MM-dd HH:mm"));
 										$("#eventEndTime").text(startTime.addMinutes(duration).toString("ddd yyyy-MM-dd HH:mm"));
 
-										<#-- Hide the start and end time for recurring events. -->
 										<#if eventInfo.recurring>
 											$("#eventStartTimeRow").hide();
 											$("#eventEndTimeRow").hide();
 										</#if>
 									</script>
+									-->
 
 								</div>
 							</div>
 							<#-- /Event Info -->
+	
+						</div>
+						<#-- /Information area -->
+											
+						<#-- Col 2 -->
+						<div class="col-md-6">	
 
 							<#-- Request Info -->
 							<div class="card card-primary card-outline">
@@ -154,15 +161,9 @@
 								</div>
 							</div>
 							<#-- /Request Info -->
-							
-						</div>
-						<#-- /Information area -->
-											
-						<#-- Col 2 -->
-						<div class="col-md-6">	
 
-							<#-- Response -->
-							<div class="card card-primary card-outline">
+													<#-- Response -->
+							<div class="card card-primary card-outline col-12">
 								<div class="card-header">
 									<h3 class="card-title">
 										<i class="fa-solid fa-reply"></i>&nbsp;Make a decision
@@ -237,20 +238,15 @@
 
 								</div>
 							</div>
-							<#-- Response -->
+						<#-- Response -->
 
 						</div>
 						<#-- /Col 2 -->
 
 					</div>
-				</div>
-				<#-- /Row 1: Information -->
+					<#-- /Row 1: Information -->
 
-				<#-- Row 2: Action -->
-				<div class="row">
 				</div>
-				<#-- /Row 2: Action -->
-
 			</section>
 			<#-- /Main area -->
 
@@ -273,15 +269,6 @@
 			$('input[type=radio][name=graphicsApprovalOption]').change(function() {
 				setAssetsUpload(this.value);
 			});
-
-			//$('.select2bs4').select2({
-      		//	theme: 'bootstrap4'
-    		//})
-
-			//var myPositions = getMyPositions();
-			//for (var key in myPositions) {
-  			//	$("#approverRole").append('<option value="' + myPositions[key].userRoleId + '">' + myPositions[key].position + ', ' + myPositions[key].portfolioName + '</option>');
-			//}
 
 			// Generate a banner-friendly event timeframe.
 			var startTime = Date.parse("${eventInfo.startTime}");

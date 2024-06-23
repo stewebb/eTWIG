@@ -99,7 +99,30 @@ function decide(){
 	
 }
 
+/**
+ * Formats the given start and end dates into a human-readable string.
+ * If the start and end dates are the same, it formats the time range on that day.
+ * If they are different, it includes both date and time for start and end.
+ *
+ * @param {string} startDate - The ISO 8601 string representation of the start date.
+ * @param {string} endDate - The ISO 8601 string representation of the end date.
+ * @returns {string} A formatted string representing the date and time range of the event.
+ *                   For events on the same day, it returns "Day, Date Month startTime - endTime".
+ *                   For multi-day events, it returns "Day, Date Month startTime - Day, Date Month endTime".
+ *
+ * @example
+ * // For a single day event
+ * formatEventDates('2024-04-22T12:00:00', '2024-04-22T19:00:00');
+ * // returns 'Mon, 22 Apr 12 PM - 7 PM'
+ *
+ * @example
+ * // For a multi-day event
+ * formatEventDates('2024-04-22T08:00:00', '2024-04-23T20:00:00');
+ * // returns 'Mon, 22 Apr 8 AM - Tue, 23 Apr 8 PM'
+ */
+
 function formatEventDates(startDate, endDate) {
+
     // Create Date objects from the start and end date strings
     const start = new Date(startDate);
     const end = new Date(endDate);

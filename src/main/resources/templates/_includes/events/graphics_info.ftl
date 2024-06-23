@@ -84,7 +84,6 @@
 										var duration = ${eventInfo.duration?c};
 										$("#eventDuration").text(formatTime(duration));
 
-
 										var startTime = Date.parse("${eventInfo.startTime}");
 										$("#eventStartTime").text(startTime.toString("ddd yyyy-MM-dd HH:mm"));
 										$("#eventEndTime").text(startTime.addMinutes(duration).toString("ddd yyyy-MM-dd HH:mm"));
