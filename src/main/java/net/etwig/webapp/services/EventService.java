@@ -66,12 +66,16 @@ public class EventService {
 		Event event = (eventRepository == null) ? null :eventRepository.findById(eventId).orElse(null);
 		return (event == null) ?  null : new GraphicsRequestEventInfoDTO(event);
 	}
-	
+
 	/**
-	 * Find the event detail by it's id.
-	 * @param id
-	 * @return EventDetailsDTO
-	 */	
+	 * Retrieves the details of an event by its ID and maps it to a DTO.
+	 * <p>This method attempts to fetch an event from the {@code eventRepository} using the provided ID.
+	 * If the event is found, it is transformed into an {@link EventDetailsDTO} using the DTO's constructor.
+	 * If no event with the provided ID exists, the method returns {@code null}.</p>
+	 *
+	 * @param id The unique identifier of the event to be retrieved. Should be a positive number.
+	 * @return An instance of {@link EventDetailsDTO} containing the event details, or {@code null} if no event is found.
+	 */
 	
 	public EventDetailsDTO findById(long id) {
 		return eventRepository.findById(id).map(EventDetailsDTO::new).orElse(null);

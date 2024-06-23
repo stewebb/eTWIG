@@ -98,3 +98,33 @@ function decide(){
 	}
 	
 }
+
+function formatEventDates(startDate, endDate) {
+    // Create Date objects from the start and end date strings
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    // Define options for date formatting
+    const dateOptions = { weekday: 'short', day: 'numeric', month: 'short' };
+    const timeOptions = { hour: 'numeric', minute: '2-digit', hour12: true };
+
+    // Function to format the time based on minute value
+    function formatTime(date) {
+        let formattedTime = date.toLocaleTimeString('en-US', timeOptions);
+        // Remove ':00' for times on the hour
+        return formattedTime.replace(':00', '');
+    }
+
+    // Format the start and end dates
+    const startDateFormat = start.toLocaleDateString('en-US', dateOptions);
+    const endDateFormat = end.toLocaleDateString('en-US', dateOptions);
+    const startTimeFormat = formatTime(start);
+    const endTimeFormat = formatTime(end);
+
+    // Check if the start and end dates are on the same day
+    if (startDateFormat === endDateFormat) {
+        return `${startDateFormat} ${startTimeFormat} - ${endTimeFormat}`;
+    } else {
+        return `${startDateFormat} ${startTimeFormat} - ${endDateFormat} ${endTimeFormat}`;
+    }
+}

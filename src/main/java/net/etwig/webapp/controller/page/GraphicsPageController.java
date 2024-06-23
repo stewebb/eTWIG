@@ -1,7 +1,9 @@
 package net.etwig.webapp.controller.page;
 
+import net.etwig.webapp.dto.events.EventDetailsDTO;
 import net.etwig.webapp.dto.events.GraphicsRequestEventInfoDTO;
 import net.etwig.webapp.dto.graphics.BannerRequestDetailsDTO;
+import net.etwig.webapp.model.GraphicsRequest;
 import net.etwig.webapp.services.EventGraphicsService;
 import net.etwig.webapp.services.EventService;
 import net.etwig.webapp.services.BannerRequestService;
@@ -47,7 +49,7 @@ public class GraphicsPageController {
 		GraphicsRequestEventInfoDTO event = eventService.findEventsForGraphicsRequestById(eventId);
 		if(event == null) {
 			model.addAttribute("reason", "Event with id=" + eventId + " doesn't exist.");
-			return "_errors/custom_error";
+			return "error_page";
 		}
 
 		model.addAttribute("eventInfo", event);
@@ -68,23 +70,19 @@ public class GraphicsPageController {
 	@GetMapping("/approvalDetails.do")
 	public String approvalDetails(Model model, @RequestParam @NonNull Long requestId) {
 
-		// Get request info
-		//PendingRequestsDetailsDTO request = bannerRequestService.getPendingRequestsById(requestId);
+		// Get banner request details
+		GraphicsRequest graphicsRequest = bannerRequestService.findById(requestId);
+		if (graphicsRequest == null) {
+			model.addAttribute("reason", "Banner request with id=" + requestId + " does not exist.");
+			return "error_page";
+		}
+		BannerRequestDetailsDTO requestDetails = new BannerRequestDetailsDTO(graphicsRequest);
 
-		//if(request == null) {
-		//	model.addAttribute("reason", "Graphics request with id=" + requestId + " doesn't exist, or it has been finalized.");
-		//	return "_errors/custom_error";
-		//}
+		// Get relevant event information.
+		EventDetailsDTO eventDetails = new EventDetailsDTO(graphicsRequest.getEvent());
 
-
-
-		//BannerRequestDetailsDTO requestDetails =
-
-		//model.addAttribute("requestInfo", request);
+		model.addAttribute("requestInfo", requestDetails);
+		model.addAttribute("eventInfo", eventDetails);
 		return "graphics/approval_details";
-
-		// TODO Decide and history in the same page.
-		// TODO Use data tables to display data.
 	}
-
 }

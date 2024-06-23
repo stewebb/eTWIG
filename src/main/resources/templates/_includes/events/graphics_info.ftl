@@ -24,13 +24,13 @@
 											<#--  /Location -->
 
 											<#--  Organizer /-->
-											<tr><th scope="row">Organizer</th><td>${eventInfo.organizer.fullName}</td></tr>
+											<tr><th scope="row">Organizer</th><td>${eventInfo.organizerName}</td></tr>
 
 											<#-- Position and Portfolio -->
 											<tr>
 												<th scope="row">Position and Portfolio</th>
-												<td id="eventPortfolio" style="color:#FFFFFF; background-color:#${eventInfo.portfolio.color}">
-													${eventInfo.organizerPosition}, ${eventInfo.portfolio.name}
+												<td id="eventPortfolio" style="color:#FFFFFF; background-color:#${eventInfo.portfolioColor}">
+													${eventInfo.organizerPosition}, ${eventInfo.portfolioName}
 												</td>
 											</tr>
 											<#-- /Position and Portfolio -->
@@ -41,7 +41,7 @@
 											<#-- Type -->
 											<tr>
 												<th scope="row">Type</th>
-												<td>${(eventInfo.recurrent)?string("Recurring","Single Time")} Event</td>
+												<td>${(eventInfo.recurring)?string("Recurring","Single Time")} Event</td>
 											</tr>
 											<#-- /Type -->
 													
@@ -53,6 +53,13 @@
 
 											<#-- End Time /-->
 											<tr id="eventEndTimeRow"><th scope="row">End Time</th><td id="eventEndTime"></td></tr>
+
+											<#-- To Banner -->
+											<tr id="toBannerRow" style="display:none;">
+												<th scope="row">To Banner</th>
+												<td id="eventToBanner" class="table-title"></td>
+											</tr>
+											<#-- /To Banner -->
 
 										</table>
 										<#-- /Basic Info -->
@@ -83,7 +90,7 @@
 										$("#eventEndTime").text(startTime.addMinutes(duration).toString("ddd yyyy-MM-dd HH:mm"));
 
 										<#-- Hide the start and end time for recurring events. -->
-										<#if eventInfo.recurrent>
+										<#if eventInfo.recurring>
 											$("#eventStartTimeRow").hide();
 											$("#eventEndTimeRow").hide();
 										</#if>

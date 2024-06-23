@@ -53,6 +53,8 @@
 			<#-- Main area -->
     		<section class="content">
 				<div class="container-fluid">
+
+					<#-- Row 1: Information -->
 					<div class="row col-12">
 
 						<#-- Information area -->
@@ -68,7 +70,6 @@
 								<div class="card-body">
 
 									<#-- Event Information -->
-									<#assign eventInfo = requestInfo.event>
 									<#include "../_includes/events/graphics_info.ftl">
 									<#-- Event Information -->
 
@@ -83,7 +84,7 @@
 										$("#eventEndTime").text(startTime.addMinutes(duration).toString("ddd yyyy-MM-dd HH:mm"));
 
 										<#-- Hide the start and end time for recurring events. -->
-										<#if eventInfo.recurrent>
+										<#if eventInfo.recurring>
 											$("#eventStartTimeRow").hide();
 											$("#eventEndTimeRow").hide();
 										</#if>
@@ -115,7 +116,7 @@
 											<#-- Request Time -->
 											<tr>
 												<th scope="row">Request Time</th>
-												<td></td>
+												<td>${requestInfo.requestTime?replace("T", " ")}</td>
 											</tr>
 											<#-- /Request Time -->
 													
@@ -136,18 +137,16 @@
 											<#-- Requester -->
 											<tr>
 												<th scope="row">Requester</th>
-												<td>${requestInfo.requester.fullName}</td>
+												<td>${requestInfo.requesterName}</td>
 											</tr>
 											<#-- /Requester -->
 
-											<#-- Position and Portfolio -->
+											<#-- Position -->
 											<tr>
-												<th scope="row">Position and Portfolio</th>
-												<td id="eventPortfolio" style="color:#FFFFFF; background-color:#${requestInfo.requesterPortfolio.color}">
-													${requestInfo.requesterPosition}, ${requestInfo.requesterPortfolio.name}
-												</td>
+												<th scope="row">Position</th>
+												<td id="eventPortfolio">${requestInfo.requesterPosition}</td>
 											</tr>
-											<#-- /Position and Portfolio -->
+											<#-- /Position -->
 													
 										</table>
 										<#-- /Basic Info -->
@@ -162,7 +161,7 @@
 						<#-- Col 2 -->
 						<div class="col-md-6">	
 
-						<#-- Response -->
+							<#-- Response -->
 							<div class="card card-primary card-outline">
 								<div class="card-header">
 									<h3 class="card-title">
@@ -170,28 +169,6 @@
 									</h3>
 								</div>
 								<div class="card-body">
-
-									<#-- Approver Role -->
-									<#--
-									<div class="form-group row">
-										<label for="approverRole" class="col-sm-2 col-form-label">
-											Role&nbsp;<span class="required-symbol">*</span>
-											</label>
-										<div class="col-sm-10">
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text">
-														<i class="fa-solid fa-user-tie"></i>
-													</span>
-												</div>
-												
-												<select class="form-control select2bs4" name="approverRole" id="approverRole"></select>
-											</div>
-											<small class="form-text text-muted">The position and associated portfolio, divided by comma.</small>
-										</div>
-									</div>
-									-->
-									<#-- Approver Role -->
 
 									<#-- Decision -->
 									<div class="form-group row">
@@ -260,14 +237,19 @@
 
 								</div>
 							</div>
-						<#-- Response -->
+							<#-- Response -->
 
 						</div>
 						<#-- /Col 2 -->
 
 					</div>
 				</div>
-				<#-- /Graphics -->
+				<#-- /Row 1: Information -->
+
+				<#-- Row 2: Action -->
+				<div class="row">
+				</div>
+				<#-- /Row 2: Action -->
 
 			</section>
 			<#-- /Main area -->
@@ -296,10 +278,16 @@
       		//	theme: 'bootstrap4'
     		//})
 
-			var myPositions = getMyPositions();
-			for (var key in myPositions) {
-  				$("#approverRole").append('<option value="' + myPositions[key].userRoleId + '">' + myPositions[key].position + ', ' + myPositions[key].portfolioName + '</option>');
-			}
+			//var myPositions = getMyPositions();
+			//for (var key in myPositions) {
+  			//	$("#approverRole").append('<option value="' + myPositions[key].userRoleId + '">' + myPositions[key].position + ', ' + myPositions[key].portfolioName + '</option>');
+			//}
+
+			// Generate a banner-friendly event timeframe.
+			var startTime = Date.parse("${eventInfo.startTime}");
+			var endTime = Date.parse("${eventInfo.startTime}").addMinutes(duration);
+			$("#toBannerRow").show();
+			$("#eventToBanner").text(formatEventDates(startTime, endTime));
 		});
 	
 	</script>

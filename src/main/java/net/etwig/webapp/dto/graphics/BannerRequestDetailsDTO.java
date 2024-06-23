@@ -16,6 +16,7 @@ public class BannerRequestDetailsDTO {
     private final Long id;
     private final LocalDate expectDate;
     private final String requesterName;
+    private final String requesterPosition;
     private final LocalDateTime requestTime;
     private final String requestComment;
     private final String eventName;
@@ -24,7 +25,7 @@ public class BannerRequestDetailsDTO {
     private final Boolean approved;
     private String approverName;
     private String approverPosition;
-    private String approverPorrtfolioColor;
+    private String approverPortfolioColor;
     private final LocalDateTime responseTime;
     private final String responseComment;
     private final Long assetId;
@@ -35,6 +36,7 @@ public class BannerRequestDetailsDTO {
         this.id = graphicsRequest.getId();
         this.expectDate = graphicsRequest.getExpectDate();
         this.requesterName = graphicsRequest.getRequesterRole().getUser().getFullName();
+        this.requesterPosition = graphicsRequest.getRequesterRole().getPosition();
         this.requestTime = graphicsRequest.getRequestTime();
         this.requestComment = graphicsRequest.getRequestComment();
         this.eventName = graphicsRequest.getEvent().getName();
@@ -51,9 +53,7 @@ public class BannerRequestDetailsDTO {
         if(approverRole != null){
             this.approverName = approverRole.getUser().getFullName();
             this.approverPosition = approverRole.getPosition();
-            this.approverPorrtfolioColor = approverRole.getPortfolio().getColor();
+            this.approverPortfolioColor = approverRole.getPortfolio().getColor();
         }
-
     }
-
 }
