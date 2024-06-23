@@ -13,15 +13,15 @@
                         <h2 style="text-align: center; color: #004AAD; font-weight: bolder;">Banner Request Outcome</h2>
 
                         <#-- Information -->
-                        <p>
-                            Your banner request for event <b style="color:#004AAD">${eventName}</b> has been 
+                        <p style="line-height: 1.5;">
+                            Your banner request for event <b>${eventName}</b> has been 
                             <#if isApproved>
                                 <b style="color:#198754">Approved</b>
                             <#else>
                                 <b style="color:#DC3545">Declined</b>
                             </#if>
-                            on ${responseTime}.
-                            <#if isApproved>The banner has been attached in this email.</#if>
+                            on <b>${responseTime}</b>.
+                            <#if isApproved>The banner is attached in this email.</#if>
                         </p>
                         <#-- /Information -->
 

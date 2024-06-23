@@ -492,10 +492,7 @@ function addEvent(){
 	
 	// Event description
 	newEventObj["description"] = $("#eventDescription").summernote("code");
-	
-	// Event Organizer Role
-	// newEventObj["eventRole"]  = parseInt($('#eventRole').find(":selected").val());
-	
+		
 	/**
 	 * Timing
 	 */
@@ -669,7 +666,7 @@ function addEvent(){
 		newEventObj["graphics"] = graphics;
 	}
 
-	console.log(newEventObj);
+	//console.log(newEventObj);
 	
 	var hasError = true;
 	$.ajax({
@@ -825,8 +822,18 @@ function getSelectedOptions(eventId){
 			
 			// Iterate all selected choices.
 			jQuery.each(json, function(id, value) {
-				$('.property-select-box option[value='+value+']').attr('selected','selected');
+			//	$('.property-select-box option[value='+value+']').attr('selected','');
+				//$('select[name="' + value + '"]').val(value).trigger('change');
+				//console.log(id + ' ' + value);
+				//console.log($('select[name="' + id + '"]').val())
+
+				$('select[name^="property-"]').each(function() {
+					$(this).val(value).trigger('change');
+				});
 			})
+
+		
+			//$('#property-1').val('3').trigger('change');
         },
         
         // Popup error info when it happens
