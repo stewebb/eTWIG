@@ -78,7 +78,10 @@ public class EventsPageController {
 		model.addAttribute("allProperties", propertyService.findAll());
         model.addAttribute("allOptions", propertyService.findAllGroupByProperties());
 
-		System.out.println(propertyService.findAllGroupByProperties());
+		//System.out.println(propertyService.findAll());
+		//System.out.println(11111);
+		//System.out.println(propertyService.findAllGroupByProperties());
+		System.out.println(propertyService.getOptionsByEvent(1L));
 
 		return "events/edit";
 	}

@@ -9,19 +9,22 @@
 
 package net.etwig.webapp.services;
 
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import net.etwig.webapp.dto.events.EventOptionsForEventPageDTO;
+import net.etwig.webapp.model.EventOption;
 import net.etwig.webapp.model.Option;
+import net.etwig.webapp.repository.EventOptionRepository;
 import net.etwig.webapp.repository.OptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import net.etwig.webapp.model.Property;
 import net.etwig.webapp.repository.PropertyRepository;
-import net.etwig.webapp.util.MapUtils;
 
 @Service
 public class PropertyService {
@@ -31,28 +34,53 @@ public class PropertyService {
 
 	@Autowired
 	private OptionRepository optionRepository;
-	
+
+	@Autowired
+	EventOptionRepository eventOptionRepository;
+
 	/**
-	 * Get the list of all properties
-	 * @return A LinkedHashMap all properties
+	 * Retrieves all properties from the repository.
+	 * <p>
+	 * This method utilizes the {@code findAll} method of the {@code propertyRepository} to fetch all records
+	 * from the data store.
+	 *
+	 * @return A list of {@code Property} objects representing all properties available in the repository.
 	 */
 	
-	public LinkedHashMap<Long, Property> findAll(){
-		MapUtils mapUtils = new MapUtils();		
-		return mapUtils.listToLinkedHashMap(propertyRepository.findAll(), Property::getId);
+	public List<Property> findAll(){
+		return propertyRepository.findAll();
 	}
 
-	//public LinkedHashMap<Long, Option> findAll(){
-
-	//	MapUtils mapUtils = new MapUtils();
-	//	return mapUtils.listToLinkedHashMap(optionRepository.findAll(), Option::getId);
-	//}
-
 	public Map<String, List<Option>> findAllGroupByProperties() {
-
 		List<Option> optionList = optionRepository.findAll();
         return optionList.stream().collect(Collectors.groupingBy(w -> Long.toString(w.getBelongsToId())));
+	}
 
+	public HashSet<Long> getOptionsByEvent(Long eventId) {
+
+		// Step 1: Get all options and assign to a DTO
+		List<Option> optionList = optionRepository.findAll();
+		//List<EventOptionsForEventPageDTO> eventOptionsForEventPage = new ArrayList<>();
+
+		//for (Option option : optionList) {
+		//	eventOptionsForEventPage.add(new EventOptionsForEventPageDTO(option));
+		//}
+
+		List<EventOptionsForEventPageDTO> eventOptionsForEventPage = optionList.stream()
+				.map(EventOptionsForEventPageDTO::new)
+				.collect(Collectors.toList());
+
+		System.out.println(eventOptionsForEventPage);
+		List<EventOption> eventOptions = eventOptionRepository.findByIdEventId(eventId);
+
+		// Only need to know the Id of the options, an set is adequate.
+		HashSet<Long> optionIds = new HashSet<Long>();
+		for (EventOption eventOption : eventOptions) {
+			optionIds.add(eventOption.getId().getOptionId());
+		}
+
+		//duplicateOptionCheck(optionIds);
+		return optionIds;
 	}
 
 

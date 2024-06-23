@@ -183,7 +183,7 @@
 
 									<#-- Iterate all properties -->
 									<#if allProperties?has_content>
-										<#list allProperties as property_id, property_info>
+										<#list allProperties as property_info>
 									
 											<#-- Set default value of the icon if it's empty in the DB. -->
 											<#if property_info.icon?has_content>
@@ -194,7 +194,7 @@
 											<#-- /Set. -->
 											
 											<#-- Convert the propertyId to String, as Freemarker doesn't accept numeric key when accessing to a map. -->
-											<#assign string_id = property_id?string>
+											<#assign string_id = property_info.id?string>
 											<#-- /Convert. -->
 
 											<#-- Mandatory field check. -->
@@ -210,7 +210,7 @@
 												<div class="form-group row">
 
 													<#-- Property name -->
-													<label for="property-${property_id}" class="col-lg-4 col-form-label">
+													<label for="property-${property_info.id}" class="col-lg-4 col-form-label">
 														${property_info.name}&nbsp;${mandatorySymbol}
 													</label>
 													<#-- /Property name -->
@@ -224,7 +224,7 @@
 														</div>
 											
 														<#-- Each property has a select box. -->
-														<select class="form-control select2bs4 property-select-box" name="property-${property_id}" data-property-name="${property_info.name}" data-mandatory=${mandatoryStr}>
+														<select class="form-control select2bs4 property-select-box" name="property-${property_info.id}" data-property-name="${property_info.name}" data-mandatory=${mandatoryStr}>
 															<option value="-1">(Not selected)</option>
 									
 															<#-- Get all options of a property -->

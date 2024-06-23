@@ -55,6 +55,7 @@ public class EventOptionService {
      * @throws DataException If an event has multiple contradicted options in a property.
      */
 
+    /*
      // TODO duplicateOptionCheck
     
     private void duplicateOptionCheck(HashSet<Long> optionIds) throws DataException {
@@ -80,7 +81,9 @@ public class EventOptionService {
             	propertyIds.add(propertyId);
             }
     	}
-    	
+
     }
 
+
+     */
 }
