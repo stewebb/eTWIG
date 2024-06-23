@@ -1,4 +1,4 @@
-package net.etwig.webapp.dto;
+package net.etwig.webapp.dto.graphics;
 
 import lombok.Getter;
 import lombok.ToString;
@@ -16,18 +16,18 @@ public class BannerRequestDetailsDTO {
     private final Long id;
     private final LocalDate expectDate;
     private final String requesterName;
-    private LocalDateTime requestTime;
-    private String requestComment;
-    private String eventName;
+    private final LocalDateTime requestTime;
+    private final String requestComment;
+    private final String eventName;
 
     // Approval-related fields
-    private Boolean approved;
+    private final Boolean approved;
     private String approverName;
     private String approverPosition;
     private String approverPorrtfolioColor;
-    private LocalDateTime responseTime;
-    private String responseComment;
-    private Long assetId;
+    private final LocalDateTime responseTime;
+    private final String responseComment;
+    private final Long assetId;
 
     public BannerRequestDetailsDTO(GraphicsRequest graphicsRequest){
 

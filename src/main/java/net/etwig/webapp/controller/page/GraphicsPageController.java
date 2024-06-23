@@ -1,7 +1,7 @@
 package net.etwig.webapp.controller.page;
 
 import net.etwig.webapp.dto.events.GraphicsRequestEventInfoDTO;
-import net.etwig.webapp.dto.graphics.PendingRequestsDetailsDTO;
+import net.etwig.webapp.dto.graphics.BannerRequestDetailsDTO;
 import net.etwig.webapp.services.EventGraphicsService;
 import net.etwig.webapp.services.EventService;
 import net.etwig.webapp.services.BannerRequestService;
@@ -69,13 +69,18 @@ public class GraphicsPageController {
 	public String approvalDetails(Model model, @RequestParam @NonNull Long requestId) {
 
 		// Get request info
-		PendingRequestsDetailsDTO request = bannerRequestService.getPendingRequestsById(requestId);
-		if(request == null) {
-			model.addAttribute("reason", "Graphics request with id=" + requestId + " doesn't exist, or it has been finalized.");
-			return "_errors/custom_error";
-		}
+		//PendingRequestsDetailsDTO request = bannerRequestService.getPendingRequestsById(requestId);
 
-		model.addAttribute("requestInfo", request);
+		//if(request == null) {
+		//	model.addAttribute("reason", "Graphics request with id=" + requestId + " doesn't exist, or it has been finalized.");
+		//	return "_errors/custom_error";
+		//}
+
+
+
+		//BannerRequestDetailsDTO requestDetails =
+
+		//model.addAttribute("requestInfo", request);
 		return "graphics/approval_details";
 
 		// TODO Decide and history in the same page.

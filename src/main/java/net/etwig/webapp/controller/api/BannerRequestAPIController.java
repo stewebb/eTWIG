@@ -1,6 +1,6 @@
 package net.etwig.webapp.controller.api;
 
-import net.etwig.webapp.dto.BannerRequestDetailsDTO;
+import net.etwig.webapp.dto.graphics.BannerRequestDetailsDTO;
 import net.etwig.webapp.model.GraphicsRequest;
 import net.etwig.webapp.services.BannerRequestService;
 import net.etwig.webapp.util.InvalidParameterException;

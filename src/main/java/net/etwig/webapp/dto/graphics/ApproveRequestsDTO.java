@@ -13,21 +13,20 @@ import org.apache.commons.lang3.BooleanUtils;
 @ToString
 public class ApproveRequestsDTO {
 	
-	private GraphicsRequest currentRequest;
-	private Long approverRole;
-	private boolean approved;
-	private String responseComment;
-	private Long assetId;
+	private final GraphicsRequest currentRequest;
+	private final Long approverRole;
+	private final boolean approved;
+	private final String responseComment;
+	private final Long assetId;
 	
 	public ApproveRequestsDTO(GraphicsRequest currentRequest,  Map<String, Object> approvalInfo, Long loggedInUserPosition) {
 		this.currentRequest = currentRequest;
-		this.approverRole = loggedInUserPosition;//Long.parseLong(approvalInfo.get("role").toString());
+		this.approverRole = loggedInUserPosition;
 		this.approved = BooleanUtils.toBoolean(approvalInfo.get("approved").toString());
 		this.responseComment = approvalInfo.get("comments").toString();
 		
 		Object assetObj = approvalInfo.get("asset");
 		this.assetId = (assetObj == null) ? null : NumberUtils.safeCreateLong(assetObj.toString());
-		//this.assetId = NumberUtils.safeCreateLong(approvalInfo.get("asset").toString());
 	}
 	
 	public GraphicsRequest toEntity() {

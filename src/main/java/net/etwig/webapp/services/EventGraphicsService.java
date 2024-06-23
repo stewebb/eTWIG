@@ -5,7 +5,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import jakarta.persistence.criteria.Predicate;
-import net.etwig.webapp.dto.EventGraphicsAPIForDetailsPageDTO;
 import net.etwig.webapp.dto.events.RecurringEventGraphicsPublicInfoDTO;
 import net.etwig.webapp.dto.events.SingleTimeEventGraphicsPublicInfoDTO;
 import net.etwig.webapp.dto.graphics.EventGraphicsDetailsDTO;
@@ -35,17 +34,17 @@ public class EventGraphicsService {
 	 * Finds an event's graphics details by the event's unique identifier.
 	 * <p>
 	 * This method retrieves an {@link EventGraphics} object by its ID using the {@link EventGraphicsRepository}.
-	 * If the event graphics data is found, it is converted into an {@link EventGraphicsAPIForDetailsPageDTO} object.
+	 * If the event graphics data is found, it is converted into an {@link EventGraphicsDetailsDTO.EventGraphicsAPIForDetailsPageDTO} object.
 	 * If no data is found, this method returns {@code null}.
 	 *
 	 * @param graphicsId The unique identifier of the event to find graphics for. This should be a non-null {@link Long} value.
-	 * @return An {@link EventGraphicsAPIForDetailsPageDTO} containing the graphics details of the event, or {@code null} if no event graphics are found.
+	 * @return An {@link EventGraphicsDetailsDTO.EventGraphicsAPIForDetailsPageDTO} containing the graphics details of the event, or {@code null} if no event graphics are found.
 	 * @throws IllegalArgumentException if {@code eventId} is {@code null}.
 	 */
 
-	public EventGraphicsAPIForDetailsPageDTO findById(Long graphicsId){
+	public EventGraphicsDetailsDTO.EventGraphicsAPIForDetailsPageDTO findById(Long graphicsId){
 		Optional<EventGraphics> eventGraphicsOptional = eventGraphicsRepository.findById(graphicsId);
-        return eventGraphicsOptional.map(EventGraphicsAPIForDetailsPageDTO::new).orElse(null);
+        return eventGraphicsOptional.map(EventGraphicsDetailsDTO.EventGraphicsAPIForDetailsPageDTO::new).orElse(null);
     }
 
 	/**
@@ -54,18 +53,18 @@ public class EventGraphicsService {
 	 * This method constructs a {@link Specification} using the given event ID and banner status to filter the results.
 	 * It then queries the {@link EventGraphicsRepository} with this specification and the provided {@link Pageable} object
 	 * to obtain a paginated result. Each {@link EventGraphics} found is then transformed into an
-	 * {@link EventGraphicsAPIForDetailsPageDTO} object.
+	 * {@link EventGraphicsDetailsDTO.EventGraphicsAPIForDetailsPageDTO} object.
 	 *
 	 * @param eventId The unique identifier of the event; can be {@code null} if filtering by event ID is not required.
 	 * @param isBanner A {@link Boolean} indicating whether to filter the graphics as banners; can be {@code null} if this filter is not required.
 	 * @param pageable A {@link Pageable} instance containing pagination information.
-	 * @return A {@link Page} of {@link EventGraphicsAPIForDetailsPageDTO} objects representing the filtered list of event graphics.
+	 * @return A {@link Page} of {@link EventGraphicsDetailsDTO.EventGraphicsAPIForDetailsPageDTO} objects representing the filtered list of event graphics.
 	 *         This can be empty if no matching graphics are found, but never {@code null}.
 	 */
 
-	public Page<EventGraphicsAPIForDetailsPageDTO> findByCriteria(Long eventId, Boolean isBanner, Pageable pageable) {
+	public Page<EventGraphicsDetailsDTO.EventGraphicsAPIForDetailsPageDTO> findByCriteria(Long eventId, Boolean isBanner, Pageable pageable) {
 		Specification<EventGraphics> spec = eventGraphicsCriteria(eventId, isBanner);
-		return eventGraphicsRepository.findAll(spec, pageable).map(EventGraphicsAPIForDetailsPageDTO::new);
+		return eventGraphicsRepository.findAll(spec, pageable).map(EventGraphicsDetailsDTO.EventGraphicsAPIForDetailsPageDTO::new);
 	}
 
 	/**

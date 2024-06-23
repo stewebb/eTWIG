@@ -1,14 +1,13 @@
 package net.etwig.webapp.services;
 
 import java.util.Map;
-import java.util.Optional;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import net.etwig.webapp.dto.BannerRequestDetailsDTO;
+import net.etwig.webapp.dto.graphics.BannerRequestDetailsDTO;
 import net.etwig.webapp.dto.graphics.*;
 import net.etwig.webapp.model.Asset;
 import net.etwig.webapp.model.UserRole;
@@ -16,10 +15,8 @@ import net.etwig.webapp.repository.EventGraphicsRepository;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import net.etwig.webapp.model.GraphicsRequest;
@@ -153,23 +150,6 @@ public class BannerRequestService {
 		};
 	}
 
-	public PendingRequestsDetailsDTO getPendingRequestsById(@NonNull Long requestId) {
-		
-		// Get a specific request
-		Optional<GraphicsRequest> requestOpt = graphicsRequestRepository.findById(requestId);
-		if(requestOpt.isEmpty()) {
-			return null;
-		}
-		
-		// Only get **pending** requests.
-		GraphicsRequest request = requestOpt.get();
-		if(request.getApproved() != null) {
-			return null;
-		}
-
-		return new PendingRequestsDetailsDTO(request);
-	}
-	
 	/**
 	 * Make a new graphics request.
 	 * @param requestInfo
