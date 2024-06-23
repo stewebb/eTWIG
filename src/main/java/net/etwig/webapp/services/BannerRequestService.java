@@ -11,7 +11,6 @@ import jakarta.persistence.criteria.Root;
 import net.etwig.webapp.dto.BannerRequestDetailsDTO;
 import net.etwig.webapp.dto.graphics.*;
 import net.etwig.webapp.model.Asset;
-import net.etwig.webapp.model.EventGraphics;
 import net.etwig.webapp.model.UserRole;
 import net.etwig.webapp.repository.EventGraphicsRepository;
 import org.apache.commons.lang3.BooleanUtils;
@@ -27,7 +26,7 @@ import net.etwig.webapp.model.GraphicsRequest;
 import net.etwig.webapp.repository.GraphicsRequestRepository;
 
 @Service
-public class GraphicsRequestService {
+public class BannerRequestService {
 
 	@Autowired
 	private GraphicsRequestRepository graphicsRequestRepository;
@@ -105,25 +104,6 @@ public class GraphicsRequestService {
 		query.where(cb.equal(root.get(column), value));
 		return entityManager.createQuery(query).getSingleResult();
 	}
-	
-	//public boolean hasPendingRequests(Long eventId) {
-	//	return graphicsRequestRepository.countByApprovedIsNullAndEventId(eventId) > 0;
-	//}
-	
-	public Page<PendingRequestsBasicInfoDTO> getPendingRequests(int page, int size) {
-
-		// TODO USE NEW LIST API
-		Pageable pageable = PageRequest.of(page, size);
-		Page<GraphicsRequest> requests =  graphicsRequestRepository.findByApprovedIsNullOrderByExpectDateDesc(pageable);
-		return requests.map(PendingRequestsBasicInfoDTO::new);
-	}
-	
-	public Page<FinalizedRequestsBasicInfoDTO> getFinalizedRequests(int page, int size) {
-		Pageable pageable = PageRequest.of(page, size);
-		Page<GraphicsRequest> requests =  graphicsRequestRepository.findByApprovedIsNotNullOrderByResponseTimeDesc(pageable);
-		return requests.map(FinalizedRequestsBasicInfoDTO::new);
-	}
-
 
 	/**
 	 * Retrieves a paginated list of banner requests based on the specified criteria.
@@ -225,7 +205,7 @@ public class GraphicsRequestService {
 	 * 1. Validates the user session and incorporates decision information into the approval.
 	 * 2. Saves the updated request details to the repository.
 	 * 3. Retrieves the updated request data to ensure freshness and avoid null values.
-	 * 4. Copies the approved graphics into the 'event_graphics' table.
+	 * 4. Copies the approved graphics into the 'event_graphics' table if the request was approved.
 	 * 5. Sends an email notification about the approval.
 	 *
 	 * @param currentRequest The {@link GraphicsRequest} currently being processed.
@@ -252,7 +232,6 @@ public class GraphicsRequestService {
 		if(updatedRequest.getApproved()) {
 			NewGraphicsDTO newGraphicsDTO = new NewGraphicsDTO();
 			newGraphicsDTO.fromApproval(updatedRequest);
-			//EventGraphics eventGraphics = newGraphicsDTO.toEntity();
 			eventGraphicsRepository.save(newGraphicsDTO.toEntity());
 		}
 		

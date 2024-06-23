@@ -4,7 +4,7 @@ import net.etwig.webapp.dto.events.GraphicsRequestEventInfoDTO;
 import net.etwig.webapp.dto.graphics.PendingRequestsDetailsDTO;
 import net.etwig.webapp.services.EventGraphicsService;
 import net.etwig.webapp.services.EventService;
-import net.etwig.webapp.services.GraphicsRequestService;
+import net.etwig.webapp.services.BannerRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.access.annotation.Secured;
@@ -26,7 +26,7 @@ public class GraphicsPageController {
 	private EventGraphicsService eventGraphicsService;
 
 	@Autowired
-	private GraphicsRequestService graphicsRequestService;
+	private BannerRequestService bannerRequestService;
 
 	/**
 	 * The event list page
@@ -66,10 +66,10 @@ public class GraphicsPageController {
 	}
 
 	@GetMapping("/approvalDetails.do")
-	public String approvalDetails(Model model, @RequestParam @NonNull Long requestId) throws Exception{
+	public String approvalDetails(Model model, @RequestParam @NonNull Long requestId) {
 
 		// Get request info
-		PendingRequestsDetailsDTO request = graphicsRequestService.getPendingRequestsById(requestId);
+		PendingRequestsDetailsDTO request = bannerRequestService.getPendingRequestsById(requestId);
 		if(request == null) {
 			model.addAttribute("reason", "Graphics request with id=" + requestId + " doesn't exist, or it has been finalized.");
 			return "_errors/custom_error";

@@ -61,59 +61,64 @@ function dateWeekRender(data, type, row){
 }
 
 /**
- * Formats a date string with an HTML badge indicating the urgency based on how many days are left until the date.
+ * Formats a date string with an HTML badge indicating the urgency based on the number of days left until the date.
+ * The badge's color and text reflect the urgency: overdue, due today, due tomorrow, or a specific number of days left.
+ * A badge is added only if the 'row.approved' attribute is null, indicating pending approval.
  *
  * @param {string} data - The date string to be formatted.
- * @param {string} type - The type of operation; currently only 'display' is handled, which formats the date.
- * @param {Object} row - An object representing the entire data row (not used in current implementation).
- * @returns {string} The original date string with an appended HTML span element that includes a styled badge
- * indicating the urgency (e.g., "Overdue", "Due today", "1 day left", "{n} days left"). If the type is not 'display',
- * it returns the unmodified date string.
+ * @param {string} type - The type of operation; currently, 'display' is the only handled type, which triggers formatting.
+ * @param {Object} row - An object representing the entire data row, used to check the approval status before adding a badge.
+ * @returns {string} The date string with an appended HTML span element styled as a badge if the condition meets. 
+ *                   If the 'type' is not 'display', or the 'row.approved' is not null, it returns the unmodified date string.
  */
 
 function expectDateRender(data, type, row) {
-    if (type === 'display') {
 
-        var today = new Date();
-        var date = new Date(data);
-        var timeDiff = date.getTime() - today.getTime();
-        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    var today = new Date();
+    var date = new Date(data);
+    var timeDiff = date.getTime() - today.getTime();
+    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
-        var color;
-        var text;
+    var color;
+    var text;
 
-        // Overdue
-        if (diffDays < 0) {
-            color = "danger";
-            text = "Overdue";
-        } 
+    // Overdue
+    if (diffDays < 0) {
+        color = "danger";
+        text = "Overdue";
+    } 
         
-        // Due today
-        else if (diffDays == 0) {
-            color = "warning";
-            text = "Due today";
-        } 
+    // Due today
+    else if (diffDays == 0) {
+        color = "warning";
+        text = "Due today";
+    } 
         
-        // Due tomorrow
-        else if (diffDays == 1) {
-            color = "warning";
-            text = "Due tomorrow";
-        } 
+    // Due tomorrow
+    else if (diffDays == 1) {
+        color = "warning";
+        text = "Due tomorrow";
+    } 
         
-        // 2-5 days left
-        else if (diffDays <= 5) {
-            color = "warning";
-            text = diffDays + " days left";
-        } 
+    // 2-5 days left
+    else if (diffDays <= 5) {
+        color = "warning";
+        text = diffDays + " days left";
+    } 
         
-        // 5+ days left
-        else {
-            color = "primary";
-            text = diffDays + " days left";
-        }
-        return `${data}&nbsp;<span class="badge badge-${color}">${text}</span>`;
+    // 5+ days left
+    else {
+        color = "primary";
+        text = diffDays + " days left";
     }
-    return data;
+
+    // Only add a badge on a pending request.
+    var output = data;
+    if(row.approved == null) {
+        output += `&nbsp;<span class="badge badge-${color}">${text}</span>`;
+    }
+    
+    return output;
 }
 
 /**

@@ -2,7 +2,7 @@ package net.etwig.webapp.controller.api;
 
 import net.etwig.webapp.dto.BannerRequestDetailsDTO;
 import net.etwig.webapp.model.GraphicsRequest;
-import net.etwig.webapp.services.GraphicsRequestService;
+import net.etwig.webapp.services.BannerRequestService;
 import net.etwig.webapp.util.InvalidParameterException;
 import net.etwig.webapp.util.NumberUtils;
 import net.etwig.webapp.util.RecordNotFoundException;
@@ -23,7 +23,7 @@ import java.util.Map;
 public class BannerRequestAPIController {
 
     @Autowired
-    private GraphicsRequestService graphicsRequestService;
+    private BannerRequestService bannerRequestService;
 
     @GetMapping("/add")
     public ResponseEntity<String> add(@RequestBody Map<String, Object> eventInfo) {
@@ -69,12 +69,12 @@ public class BannerRequestAPIController {
         }
 
         // Event existence check
-        GraphicsRequest currentRequest = graphicsRequestService.findById(requestId);
+        GraphicsRequest currentRequest = bannerRequestService.findById(requestId);
         if(currentRequest == null) {
             throw new RecordNotFoundException("The banner request of Request ID = " + requestId + " does not exist.");
         }
 
-        graphicsRequestService.approveRequest(currentRequest, decisionInfo);
+        bannerRequestService.approveRequest(currentRequest, decisionInfo);
         return ResponseEntity.ok().body(Map.of("message", "Banner approved successfully."));
     }
 
@@ -82,7 +82,7 @@ public class BannerRequestAPIController {
      * Handles the HTTP GET request to retrieve and view the details of a graphics request.
      * <p>
      * This endpoint is accessible via a GET request and expects a request parameter 'requestId'.
-     * It utilizes the {@link GraphicsRequestService#findByIdWithDTO(Long)} method to fetch the request
+     * It utilizes the {@link BannerRequestService#findByIdWithDTO(Long)} method to fetch the request
      * details as a {@link BannerRequestDetailsDTO}. If the request is found, the corresponding DTO is returned,
      * otherwise, the method returns {@code null}.
      * </p>
@@ -96,7 +96,7 @@ public class BannerRequestAPIController {
 
     @GetMapping("/view")
     public BannerRequestDetailsDTO view(@RequestParam Long requestId) {
-        return graphicsRequestService.findByIdWithDTO(requestId);
+        return bannerRequestService.findByIdWithDTO(requestId);
     }
 
     @PostMapping("/remove")
@@ -146,7 +146,7 @@ public class BannerRequestAPIController {
         PageRequest pageable = PageRequest.of(start / length, length, Sort.by(dir, sortColumn));
 
         // Get data as pages
-        Page<BannerRequestDetailsDTO> page = graphicsRequestService.findRequestsByCriteria(eventId, isApproved, pageable);
+        Page<BannerRequestDetailsDTO> page = bannerRequestService.findRequestsByCriteria(eventId, isApproved, pageable);
 
         Map<String, Object> json = new HashMap<>();
         json.put("draw", draw);
@@ -169,6 +169,6 @@ public class BannerRequestAPIController {
 
     @GetMapping("/count")
     public ResponseEntity<Map<String, Long>> count(@RequestParam String column, @RequestParam Object object) {
-        return ResponseEntity.ok().body(Map.of("count", graphicsRequestService.countByColumn(column, object)));
+        return ResponseEntity.ok().body(Map.of("count", bannerRequestService.countByColumn(column, object)));
     }
 }
