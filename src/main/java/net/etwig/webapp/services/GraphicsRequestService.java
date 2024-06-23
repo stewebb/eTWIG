@@ -258,9 +258,6 @@ public class GraphicsRequestService {
 		UserRole requesterRole = updatedRequest.getRequesterRole();
 		Asset asset = assetService.getAssetDetailsById(updatedRequest.getAssetId());
 
-		//System.out.println(updatedRequest);
-		//System.out.println(asset);
-
 		emailService.bannerApprovalNotification(
 				requesterRole.getEmail(),
 				requesterRole.getUser().getEmail(),

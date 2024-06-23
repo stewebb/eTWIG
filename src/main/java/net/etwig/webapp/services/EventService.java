@@ -15,17 +15,17 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import net.etwig.webapp.dto.events.*;
+import net.etwig.webapp.dto.user.CurrentUserDTOWrapper;
+import net.etwig.webapp.dto.user.CurrentUserPositionDTO;
 import net.etwig.webapp.importer.EventImporter;
 import net.etwig.webapp.importer.ExcelEventImporter;
 import net.etwig.webapp.importer.ODSEventImporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jakarta.servlet.http.HttpSession;
 import net.etwig.webapp.dto.graphics.NewRequestDTO;
 import net.etwig.webapp.dto.user.CurrentUserPermissionDTO;
 import net.etwig.webapp.model.Event;
@@ -46,9 +46,6 @@ public class EventService {
 
 	@Autowired
 	private EventRepository eventRepository;
-	
-	@Autowired
-	private UserRoleService userRoleService;
 	
 	@Autowired
 	private EventOptionRepository eventOptionRepository;
@@ -158,15 +155,9 @@ public class EventService {
 		// Send an email to graphics managers
 		//emailService.graphicsRequestNotification(new NewRequestEmailNotificationDTO(graphicsRequestService.findById(requestId)));
 	}
-	
-	/**
-	 * Get and set resources, they are only used in this class.
-	 * The access control modifiers are "private".
-	 */
-	
 
-	
-	/**
+
+    /**
 	 * Update event options bulky, by removing all all existing options first, and then add all new options.
 	 * @param eventId The id of the event.
 	 * @param optionIds A list with all options that associated for the event.
@@ -202,14 +193,16 @@ public class EventService {
 	 *
 	 * @param portfolio the portfolio for which edit permissions are being checked
 	 * @return true if the current user has edit permissions for the specified portfolio, false otherwise
-	 * @throws Exception if there is an issue validating the user session or fetching user roles
-	 */
+     */
 	
-	public boolean eventEditPermissionCheck(Portfolio portfolio) throws Exception {
+	public boolean eventEditPermissionCheck(Portfolio portfolio) {
 			
 		// Get user authority
-		CurrentUserPermissionDTO access = userSessionService.validateSession().getPermission();
-		
+
+		CurrentUserDTOWrapper wrapper = userSessionService.validateSession();
+		CurrentUserPermissionDTO access = wrapper.getPermission();
+		CurrentUserPositionDTO position = wrapper.getPosition();
+
 		// Case 1: System administrators have edit permission, regardless of which portfolio the user has.
 		if(access.isAdminAccess()) {
 			return true;
@@ -219,18 +212,26 @@ public class EventService {
 		else if (access.isEventsAccess()) {
 
 			// All portfolios that I have.
-			Set<Portfolio> myPortfolios = userRoleService.getMyPortfolios();
+			// Set<Portfolio> myPortfolios = userRoleService.getMyPortfolios();
+
+			//Long eventPortfolioId = portfolio.getId();
 			
 			// Iterate my portfolios, if any of them matches the given portfolio, I have edit permission.
-			for(Portfolio myPortfolio : myPortfolios) {
-				if(myPortfolio.equals(portfolio)) {
-					return true;
-				}
-			}
+			//for(Portfolio myPortfolio : myPortfolios) {
+			//	if(myPortfolio.equals(portfolio)) {
+			//		return true;
+			//	}
+			//}
+
+			//for(int p : position.){
+			//
+			//}
+
+			// Check if the portfolio of an event match my current position.
+            return portfolio.getName().equals(position.getMyCurrentPosition().getPortfolioName());
 			
 			// Otherwise I don't have edit permission.
-			return false;
-		}
+        }
 		
 		// Case 3: Other users have no edit permission.
 		else {

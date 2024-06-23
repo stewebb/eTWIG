@@ -10,7 +10,6 @@
 package net.etwig.webapp.services;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
@@ -20,10 +19,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import jakarta.servlet.http.HttpSession;
 import net.etwig.webapp.dto.user.CurrentUserBasicInfoDTO;
 import net.etwig.webapp.handler.CustomUserDetails;
-import net.etwig.webapp.model.Portfolio;
 import net.etwig.webapp.model.User;
 import net.etwig.webapp.model.UserRole;
 import net.etwig.webapp.repository.UserRepository;
@@ -41,12 +38,6 @@ public class UserRoleService implements UserDetailsService{
     @Autowired
 	private UserSessionService userSessionService;
 
-
-    // TODO: REPLACE ME
-    public Set<Portfolio> getMyPortfolios(){
-		CurrentUserBasicInfoDTO currentUser = userSessionService.validateSession().getBasicInfo();
-		return userRoleRepository.findByUserId(currentUser.getId()).stream().map(UserRole::getPortfolio).collect(Collectors.toSet());
-	}
 
     /**
      * Retrieves a {@link UserRole} based on the provided role ID.

@@ -112,8 +112,26 @@ public class EmailService {
 		return true;
     }
 	 */
-    
-    public void bannerApprovalNotification(
+
+	/**
+	 * Sends an email notification about the approval status of a banner request for a specific event.
+	 * The email is sent to both the portfolio and user email addresses.
+	 *
+	 * @param portfolioEmail The email address associated with the portfolio to which the notification will be sent.
+	 * @param userEmail The email address of the user who submitted the banner request.
+	 * @param isApproved Boolean indicating whether the banner request was approved or not.
+	 * @param eventName The name of the event associated with the banner request.
+	 * @param responseTime The date and time when the response was generated.
+	 * @param attachmentName The name of the attachment to be included in the email if the request is approved.
+	 * @param attachmentContent The content of the attachment. This can be null if there is no attachment to send.
+	 * @throws Exception If there are any issues in generating or sending the email, such as template processing failures or email sending errors.
+	 *
+	 * <p>The method constructs the email content using a FreeMarker template and sends it with the subject line indicating
+	 * the approval status. If the request is approved and the attachment content is not null and is accessible, it includes
+	 * the attachment in the email.</p>
+	 */
+
+	public void bannerApprovalNotification(
 			String portfolioEmail,
 			String userEmail,
 			boolean isApproved,
@@ -127,10 +145,7 @@ public class EmailService {
 		// Send to portfolio email and user email
     	HashSet<String>recipients = new HashSet<>();
 		recipients.add(portfolioEmail);
-		recipients.add(userEmail);
-
-		//System.out.println(attachmentName);
-		//System.out.println(attachmentContent);
+		//recipients.add(userEmail);
 
 		// Only put asset content if a request was approved, the attachment is readable and it is not null.
     	HashMap<String, Resource> attachments = new HashMap<>();

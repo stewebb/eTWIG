@@ -5,7 +5,6 @@
 </head>
 
 <body>
-
     <div style="background-color: #DFDFDF; width: 100%; padding: 20px 0;">
         <table align="center" style="max-width: 640px; margin: 0 auto; width: 100%;">
             <tr>
@@ -22,11 +21,8 @@
                                 <b style="color:#DC3545">Declined</b>
                             </#if>
                             on ${responseTime}.
+                            <#if isApproved>The banner has been attached in this email.</#if>
                         </p>
-                        
-                        <#if isApproved>
-                            <p>The banner has been attached in this email.</p>
-                        </#if>
                         <#-- /Information -->
 
                         <!-- Button -->
@@ -55,45 +51,3 @@
     </div>
 </body>
 </html>
-
-<#--
-    <div id="back">
-        <div id="core">
-    
-            <p>&nbsp;</p>
-            <div id="section">
-                <h2 class="center" style="color: #004AAD; font-weight: bolder;">Banner Request Outcome</h2>
-
-
-                <p>
-                    Your banner request for event <b style="color:#004AAD">${eventName}</b> has been 
-                    <#if isApproved>
-                        <b style="color:#198754">Approved</b>
-                    <#else>
-                        <b style="color:#DC3545">Declined</b>
-                    </#if>
-                    &nbsp;on ${responseTime}.
-                </p>
-
-
-                
-            </div>
-            <p>&nbsp;</p>
-        </div>
-    </div>
-</body>
-
-</html>
--->
-
-                <#--
-                <#assign nameParts = approvalInfo.requesterName?split(" ")>
-	            <#assign firstName = nameParts[0]>
-                <#assign result = condition?then("a", "b")>
-                
-	
-	            <p>Dear FirstName,</p>
-	            <p>Your banner request for event <b>${approvalInfo.eventName}</b> has been ${approvedStr}.</p>
-	            <p>&nbsp;</p>
-
-                -->
