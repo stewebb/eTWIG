@@ -2,7 +2,7 @@ package net.etwig.webapp.dto.graphics;
 
 import lombok.Getter;
 import lombok.ToString;
-import net.etwig.webapp.model.GraphicsRequest;
+import net.etwig.webapp.model.BannerRequest;
 import net.etwig.webapp.model.UserRole;
 
 import java.time.LocalDate;
@@ -30,24 +30,24 @@ public class BannerRequestDetailsDTO {
     private final String responseComment;
     private final Long assetId;
 
-    public BannerRequestDetailsDTO(GraphicsRequest graphicsRequest){
+    public BannerRequestDetailsDTO(BannerRequest bannerRequest){
 
         // Requests-related fields
-        this.id = graphicsRequest.getId();
-        this.expectDate = graphicsRequest.getExpectDate();
-        this.requesterName = graphicsRequest.getRequesterRole().getUser().getFullName();
-        this.requesterPosition = graphicsRequest.getRequesterRole().getPosition();
-        this.requestTime = graphicsRequest.getRequestTime();
-        this.requestComment = graphicsRequest.getRequestComment();
-        this.eventName = graphicsRequest.getEvent().getName();
+        this.id = bannerRequest.getId();
+        this.expectDate = bannerRequest.getExpectDate();
+        this.requesterName = bannerRequest.getRequesterRole().getUser().getFullName();
+        this.requesterPosition = bannerRequest.getRequesterRole().getPosition();
+        this.requestTime = bannerRequest.getRequestTime();
+        this.requestComment = bannerRequest.getRequestComment();
+        this.eventName = bannerRequest.getEvent().getName();
 
         // Approval-related fields
-        this.approved = graphicsRequest.getApproved();
-        this.responseTime = graphicsRequest.getResponseTime();
-        this.responseComment = graphicsRequest.getResponseComment();
-        this.assetId = graphicsRequest.getAssetId();
+        this.approved = bannerRequest.getApproved();
+        this.responseTime = bannerRequest.getResponseTime();
+        this.responseComment = bannerRequest.getResponseComment();
+        this.assetId = bannerRequest.getAssetId();
 
-        UserRole approverRole = graphicsRequest.getApproverRole();
+        UserRole approverRole = bannerRequest.getApproverRole();
 
         // approverRole is null if the banner request is pending.
         if(approverRole != null){

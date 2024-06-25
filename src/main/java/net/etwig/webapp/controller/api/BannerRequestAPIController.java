@@ -1,7 +1,7 @@
 package net.etwig.webapp.controller.api;
 
 import net.etwig.webapp.dto.graphics.BannerRequestDetailsDTO;
-import net.etwig.webapp.model.GraphicsRequest;
+import net.etwig.webapp.model.BannerRequest;
 import net.etwig.webapp.services.BannerRequestService;
 import net.etwig.webapp.util.InvalidParameterException;
 import net.etwig.webapp.util.NumberUtils;
@@ -69,7 +69,7 @@ public class BannerRequestAPIController {
         }
 
         // Event existence check
-        GraphicsRequest currentRequest = bannerRequestService.findById(requestId);
+        BannerRequest currentRequest = bannerRequestService.findById(requestId);
         if(currentRequest == null) {
             throw new RecordNotFoundException("The banner request of Request ID = " + requestId + " does not exist.");
         }

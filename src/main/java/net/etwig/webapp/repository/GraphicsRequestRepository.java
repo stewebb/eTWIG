@@ -8,16 +8,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
-import net.etwig.webapp.model.GraphicsRequest;
+import net.etwig.webapp.model.BannerRequest;
 
-public interface GraphicsRequestRepository extends JpaRepository <GraphicsRequest, Long>, JpaSpecificationExecutor<GraphicsRequest> {
+public interface GraphicsRequestRepository extends JpaRepository <BannerRequest, Long>, JpaSpecificationExecutor<BannerRequest> {
 
 	long countByEventId(long eventId);
 	
     long countByApprovedIsNullAndEventId(long eventIds);
 	
     @Query(value = "SELECT * FROM etwig_graphics_request WHERE event = ?1 ORDER BY id DESC LIMIT ?2", nativeQuery = true)
-    List<GraphicsRequest> findByRequestsByEventDescending(Long eventId, int limit);
+    List<BannerRequest> findByRequestsByEventDescending(Long eventId, int limit);
 
     //@Query(value = "SELECT * FROM etwig_graphics_request WHERE event = ?1",
     //        countQuery = "SELECT count(*) FROM etwig_graphics_request WHERE event = ?1",
@@ -25,8 +25,8 @@ public interface GraphicsRequestRepository extends JpaRepository <GraphicsReques
     //Page<GraphicsRequest> findByRequestsByEvent(Long eventId, Pageable pageable);
     
     // All pending requests, order by excepted date DESC.
-    Page<GraphicsRequest> findByApprovedIsNullOrderByExpectDateDesc(Pageable pageable);
+    Page<BannerRequest> findByApprovedIsNullOrderByExpectDateDesc(Pageable pageable);
 
     // All requests, order by response time DESC.
-    Page<GraphicsRequest> findByApprovedIsNotNullOrderByResponseTimeDesc(Pageable pageable);
+    Page<BannerRequest> findByApprovedIsNotNullOrderByResponseTimeDesc(Pageable pageable);
 }

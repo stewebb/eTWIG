@@ -5,7 +5,7 @@ import java.util.Map;
 
 import lombok.Getter;
 import lombok.ToString;
-import net.etwig.webapp.model.GraphicsRequest;
+import net.etwig.webapp.model.BannerRequest;
 import net.etwig.webapp.util.NumberUtils;
 import org.apache.commons.lang3.BooleanUtils;
 
@@ -13,13 +13,13 @@ import org.apache.commons.lang3.BooleanUtils;
 @ToString
 public class ApproveRequestsDTO {
 	
-	private final GraphicsRequest currentRequest;
+	private final BannerRequest currentRequest;
 	private final Long approverRole;
 	private final boolean approved;
 	private final String responseComment;
 	private final Long assetId;
 	
-	public ApproveRequestsDTO(GraphicsRequest currentRequest,  Map<String, Object> approvalInfo, Long loggedInUserPosition) {
+	public ApproveRequestsDTO(BannerRequest currentRequest, Map<String, Object> approvalInfo, Long loggedInUserPosition) {
 		this.currentRequest = currentRequest;
 		this.approverRole = loggedInUserPosition;
 		this.approved = BooleanUtils.toBoolean(approvalInfo.get("approved").toString());
@@ -29,7 +29,7 @@ public class ApproveRequestsDTO {
 		this.assetId = (assetObj == null) ? null : NumberUtils.safeCreateLong(assetObj.toString());
 	}
 	
-	public GraphicsRequest toEntity() {
+	public BannerRequest toEntity() {
 		currentRequest.setApproverRoleId(this.approverRole);
 		currentRequest.setApproved(this.approved);
 		currentRequest.setResponseComment(this.responseComment);

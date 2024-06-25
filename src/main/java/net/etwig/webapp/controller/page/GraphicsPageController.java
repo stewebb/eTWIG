@@ -3,7 +3,7 @@ package net.etwig.webapp.controller.page;
 import net.etwig.webapp.dto.events.EventDetailsDTO;
 import net.etwig.webapp.dto.events.GraphicsRequestEventInfoDTO;
 import net.etwig.webapp.dto.graphics.BannerRequestDetailsDTO;
-import net.etwig.webapp.model.GraphicsRequest;
+import net.etwig.webapp.model.BannerRequest;
 import net.etwig.webapp.services.EventGraphicsService;
 import net.etwig.webapp.services.EventService;
 import net.etwig.webapp.services.BannerRequestService;
@@ -71,15 +71,15 @@ public class GraphicsPageController {
 	public String approvalDetails(Model model, @RequestParam @NonNull Long requestId) {
 
 		// Get banner request details
-		GraphicsRequest graphicsRequest = bannerRequestService.findById(requestId);
-		if (graphicsRequest == null) {
+		BannerRequest bannerRequest = bannerRequestService.findById(requestId);
+		if (bannerRequest == null) {
 			model.addAttribute("reason", "Banner request with id=" + requestId + " does not exist.");
 			return "error_page";
 		}
-		BannerRequestDetailsDTO requestDetails = new BannerRequestDetailsDTO(graphicsRequest);
+		BannerRequestDetailsDTO requestDetails = new BannerRequestDetailsDTO(bannerRequest);
 
 		// Get relevant event information.
-		EventDetailsDTO eventDetails = new EventDetailsDTO(graphicsRequest.getEvent());
+		EventDetailsDTO eventDetails = new EventDetailsDTO(bannerRequest.getEvent());
 
 		model.addAttribute("requestInfo", requestDetails);
 		model.addAttribute("eventInfo", eventDetails);

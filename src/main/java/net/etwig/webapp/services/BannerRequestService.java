@@ -1,7 +1,6 @@
 package net.etwig.webapp.services;
 
 import java.util.Map;
-import java.util.Optional;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -20,7 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import net.etwig.webapp.model.GraphicsRequest;
+import net.etwig.webapp.model.BannerRequest;
 import net.etwig.webapp.repository.GraphicsRequestRepository;
 
 @Service
@@ -46,7 +45,7 @@ public class BannerRequestService {
 	private AssetService assetService;
 
 	/**
-	 * Retrieves a {@link GraphicsRequest} by its ID.
+	 * Retrieves a {@link BannerRequest} by its ID.
 	 * <p>
 	 * This method searches for a graphics request in the repository using the provided ID.
 	 * If the request is found, it is returned; otherwise, the method returns {@code null}.
@@ -54,10 +53,10 @@ public class BannerRequestService {
 	 * </p>
 	 *
 	 * @param requestId The ID of the graphics request to find.
-	 * @return The found {@link GraphicsRequest} or {@code null} if no request is found with the given ID.
+	 * @return The found {@link BannerRequest} or {@code null} if no request is found with the given ID.
 	 */
 
-	public GraphicsRequest findById(Long requestId) {
+	public BannerRequest findById(Long requestId) {
 		return graphicsRequestRepository.findById(requestId).orElse(null);
 	}
 
@@ -65,7 +64,7 @@ public class BannerRequestService {
 	 * Retrieves a {@link BannerRequestDetailsDTO} by its ID.
 	 * <p>
 	 * This method fetches a graphics request by ID and constructs a DTO with the details of the found request.
-	 * The method leverages the {@link #findById(Long)} method to retrieve the underlying {@link GraphicsRequest}.
+	 * The method leverages the {@link #findById(Long)} method to retrieve the underlying {@link BannerRequest}.
 	 * If the graphics request is found, a new DTO is created and returned; otherwise, this method returns {@code null}.
 	 * </p>
 	 *
@@ -75,13 +74,13 @@ public class BannerRequestService {
 	 */
 
 	public BannerRequestDetailsDTO findByIdWithDTO(Long requestId) {
-		GraphicsRequest graphicsRequest = this.findById(requestId);
+		BannerRequest bannerRequest = this.findById(requestId);
 
 		// Null check!
-		if (graphicsRequest == null) {
+		if (bannerRequest == null) {
 			return null;
 		}
-		return new BannerRequestDetailsDTO(graphicsRequest);
+		return new BannerRequestDetailsDTO(bannerRequest);
 	}
 
 	/**
@@ -97,7 +96,7 @@ public class BannerRequestService {
 	public Long countByColumn(String column, Object value) {
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Long> query = cb.createQuery(Long.class);
-		Root<GraphicsRequest> root = query.from(GraphicsRequest.class);
+		Root<BannerRequest> root = query.from(BannerRequest.class);
 		query.select(cb.count(root));
 		query.where(cb.equal(root.get(column), value));
 		return entityManager.createQuery(query).getSingleResult();
@@ -108,7 +107,7 @@ public class BannerRequestService {
 	 * <p>
 	 * This method constructs a {@link Specification} using the given event ID and approval status to filter the results.
 	 * It then queries the {@link GraphicsRequestRepository} with this specification and the provided {@link Pageable} object
-	 * to obtain a paginated result. Each {@link GraphicsRequest} found is then transformed into a {@link BannerRequestDetailsDTO} object.
+	 * to obtain a paginated result. Each {@link BannerRequest} found is then transformed into a {@link BannerRequestDetailsDTO} object.
 	 *
 	 * @param eventId The unique identifier of the event to filter by; can be {@code null} if filtering by event ID is not required.
 	 * @param isApproved A {@link String} representing the approval status to filter the graphics requests;
@@ -119,7 +118,7 @@ public class BannerRequestService {
 	 */
 
 	public Page<BannerRequestDetailsDTO> findRequestsByCriteria(Long eventId, String isApproved, Pageable pageable) {
-		Specification<GraphicsRequest> spec = bannerRequestCriteria(eventId, isApproved);
+		Specification<BannerRequest> spec = bannerRequestCriteria(eventId, isApproved);
 		return graphicsRequestRepository.findAll(spec, pageable).map(BannerRequestDetailsDTO::new);
 	}
 
@@ -133,7 +132,7 @@ public class BannerRequestService {
 	 * @return a Specification object representing the criteria for querying GraphicsRequest entities
 	 */
 
-	public Specification<GraphicsRequest> bannerRequestCriteria(Long eventId, String isApproved) {
+	public Specification<BannerRequest> bannerRequestCriteria(Long eventId, String isApproved) {
 		return (root, query, criteriaBuilder) -> {
 			Predicate finalPredicate = criteriaBuilder.conjunction(); // Start with a conjunction (true).
 
@@ -165,7 +164,7 @@ public class BannerRequestService {
 		newRequest.fromMap(requestInfo);
 		
 		// Get the information back
-		GraphicsRequest modifiedRequest = graphicsRequestRepository.save(newRequest.toEntity());
+		BannerRequest modifiedRequest = graphicsRequestRepository.save(newRequest.toEntity());
 		return modifiedRequest.getId();
 		
 		
@@ -189,12 +188,12 @@ public class BannerRequestService {
 	 * 4. Copies the approved graphics into the 'event_graphics' table if the request was approved.
 	 * 5. Sends an email notification about the approval.
 	 *
-	 * @param currentRequest The {@link GraphicsRequest} currently being processed.
+	 * @param currentRequest The {@link BannerRequest} currently being processed.
 	 * @param decisionInfo A map containing additional decision-making information used during the approval process.
 	 * @throws Exception If there are issues during processing, such as database access failures, session validation failures, or email sending errors.
 	 */
 
-	public void approveRequest(GraphicsRequest currentRequest, Map<String, Object> decisionInfo) throws Exception {
+	public void approveRequest(BannerRequest currentRequest, Map<String, Object> decisionInfo) throws Exception {
 
 		ApproveRequestsDTO request = new ApproveRequestsDTO(
 				currentRequest,
@@ -203,7 +202,7 @@ public class BannerRequestService {
 		);
 
 		// Update request info
-		GraphicsRequest updatedRequest = request.toEntity();
+		BannerRequest updatedRequest = request.toEntity();
 		graphicsRequestRepository.save(updatedRequest);
 		
 		// Re-query the request data (to avoid some null values)

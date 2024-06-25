@@ -21,7 +21,7 @@ import lombok.*;
 @ToString
 @Entity
 @Table(name = "etwig_graphics_request")
-public class GraphicsRequest {
+public class BannerRequest {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

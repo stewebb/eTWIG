@@ -5,7 +5,7 @@ import java.util.Map;
 
 import lombok.Getter;
 import lombok.ToString;
-import net.etwig.webapp.model.GraphicsRequest;
+import net.etwig.webapp.model.BannerRequest;
 import net.etwig.webapp.util.DateUtils;
 
 @Getter
@@ -31,8 +31,8 @@ public class NewRequestDTO {
 		this.expectDateStr = expectDateStr;
 	}
 	
-	public GraphicsRequest toEntity() {
-		GraphicsRequest request = new GraphicsRequest();
+	public BannerRequest toEntity() {
+		BannerRequest request = new BannerRequest();
 		request.setEventId(this.eventId);
 		request.setRequesterRoleId(this.requesterRole);
 		request.setRequestComment(this.requestComment);

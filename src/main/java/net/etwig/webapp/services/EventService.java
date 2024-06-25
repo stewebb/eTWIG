@@ -31,7 +31,7 @@ import net.etwig.webapp.dto.user.CurrentUserPermissionDTO;
 import net.etwig.webapp.model.Event;
 import net.etwig.webapp.model.EventOption;
 import net.etwig.webapp.model.EventOptionKey;
-import net.etwig.webapp.model.GraphicsRequest;
+import net.etwig.webapp.model.BannerRequest;
 import net.etwig.webapp.model.Portfolio;
 import net.etwig.webapp.repository.EventOptionRepository;
 import net.etwig.webapp.repository.EventRepository;
@@ -153,7 +153,7 @@ public class EventService {
 		// Make a request
 		NewRequestDTO newRequest = new NewRequestDTO();
 		newRequest.fromParam(eventId, addedEvent.getUserRoleId(), graphics.get("comments").toString(), graphics.get("returningDate").toString());
-		GraphicsRequest modifiedRequest = graphicsRequestRepository.save(newRequest.toEntity());
+		BannerRequest modifiedRequest = graphicsRequestRepository.save(newRequest.toEntity());
 		//Long requestId = modifiedRequest.getId();
 		
 		// Send an email to graphics managers
