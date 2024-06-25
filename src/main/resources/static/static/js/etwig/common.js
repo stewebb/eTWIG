@@ -329,38 +329,48 @@ $(document).ready(function() {
         e.stopPropagation();
     });
 
-    $(document).ready(function() {
-        $('.confirm-btn').each(function() {
-            var timeout;
-            var originalText = $(this).html(); // Store the original text when the page loads
-    
-            $(this).click(function() {
-                var $this = $(this);
-                var $textElement = $this.next('.confirmation-text');
-    
-                if ($this.data('confirmed') === true) {
-                    alert('Action performed for ' + $this.text());
-                    // Reset to the original text and state
-                    $this.html(originalText).data('confirmed', false);
-                    $textElement.hide();
-                    clearTimeout(timeout);
+    $('.confirm-btn').each(function() {
+        var timeout;
+        var originalText = $(this).html(); // Store the original text
+
+        $(this).click(function() {
+            var $this = $(this);
+            var $textElement = $this.next('.confirmation-text');
+            var actionData = JSON.parse($this.attr('data-action')); // Parse the JSON data
+
+            if ($this.data('confirmed') === true) {
+                // Dynamically call the function with parameters
+                if (typeof window[actionData.functionName] === 'function') {
+                    window[actionData.functionName].apply(null, actionData.params);
                 } else {
-                    $this.html('<i class="fa-solid fa-check-double"></i>&nbsp;Click again to confirm');
-                    $textElement.show();
-                    $this.data('confirmed', true);
-    
-                    // Set a timeout to reset the button after 10 seconds
-                    clearTimeout(timeout); // Clear any previous timeout
-                    timeout = setTimeout(function() {
-                        $this.html(originalText).data('confirmed', false); // Restore original text
-                        $textElement.hide();
-                    }, 10000); // 10 seconds timeout
+                    dangerPopup('Function ' + actionData.functionName + ' does not exist.', '');
                 }
-            });
+
+                // Reset to the original text and state
+                $this.html(originalText).data('confirmed', false);
+                $textElement.hide();
+                clearTimeout(timeout);
+            } else {
+                $this.html('<i class="fa-solid fa-check-double"></i>&nbsp;Click again to confirm');
+                $textElement.show();
+                $this.data('confirmed', true);
+
+                // Set a timeout to reset the button after 10 seconds
+                clearTimeout(timeout); // Clear any previous timeout
+                timeout = setTimeout(function() {
+                    $this.html(originalText).data('confirmed', false); // Restore original text
+                    $textElement.hide();
+                }, 10000); // 10 seconds timeout
+            }
         });
-    });    
+    });
 
 });
            
 // Leading zeros for the (positive) integers that below to 10. 
 const pad = (num) => (num < 10 ? '0' + num : num);
+
+// dangerPopup('Function ' + functionName + ' does not exist.', '');
+function functionTwo(param) {
+    alert('Function Two is executed with parameter: ' + param);
+}

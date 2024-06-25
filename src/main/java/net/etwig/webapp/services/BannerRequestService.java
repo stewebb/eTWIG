@@ -1,6 +1,7 @@
 package net.etwig.webapp.services;
 
 import java.util.Map;
+import java.util.Optional;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -229,5 +230,9 @@ public class BannerRequestService {
 				(asset == null) ? null : asset.getOriginalName(),
 				assetService.getAssetContent(asset)
 		);
+	}
+
+	public void deleteById(Long requestId) {
+		graphicsRequestRepository.deleteById(requestId);
 	}
 }

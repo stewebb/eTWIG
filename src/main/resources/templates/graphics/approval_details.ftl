@@ -231,7 +231,7 @@
 												<i class="fa-regular fa-arrow-left"></i>&nbsp;Back to list
 											</a>
 
-											<button type="button" class="btn btn-outline-danger confirm-btn">
+											<button type="button" class="btn btn-outline-danger confirm-btn" data-action='{"functionName": "removeBannerRequest", "params": [${requestInfo.id}]}'>
 												<i class="fa-solid fa-trash"></i>&nbsp;Delete
 											</button>
 										</div>
@@ -306,6 +306,10 @@
 											<a class="btn btn-outline-secondary" href="/graphics/approvalList.do">
 												<i class="fa-regular fa-arrow-left"></i>&nbsp;Back to list
 											</a>
+
+											<button type="button" class="btn btn-outline-danger confirm-btn" data-action='{"functionName": "removeBannerRequest", "params": [${requestInfo.id}]}'>
+												<i class="fa-solid fa-trash"></i>&nbsp;Delete
+											</button>
 
 											<button type="button" class="btn btn-outline-primary" onclick="decide();">
 												<i class="fa-regular fa-check"></i>&nbsp;Submit

@@ -99,11 +99,10 @@ public class BannerRequestAPIController {
         return bannerRequestService.findByIdWithDTO(requestId);
     }
 
-    @PostMapping("/remove")
-    public Map<String, Object> remove(@RequestBody Map<String, Object> eventInfo) {
-
-        // TODO REMOVE A BANNER REQUEST
-        return null;
+    @GetMapping("/remove")
+    @PostAuthorize("hasAuthority('ROLE_GRAPHICS')")
+    public void remove(@RequestParam Long requestId) {
+        bannerRequestService.deleteById(requestId);
     }
 
     /**

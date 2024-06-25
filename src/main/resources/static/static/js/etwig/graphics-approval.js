@@ -151,3 +151,20 @@ function formatEventDates(startDate, endDate) {
         return `${startDateFormat} ${startTimeFormat} - ${endDateFormat} ${endTimeFormat}`;
     }
 }
+
+function removeBannerRequest(requestId) {
+	$.ajax({
+   		url: '/api/bannerRequest/remove', 
+   		type: "GET",
+   		data: {
+			requestId: requestId
+		},
+   		success: function () {
+			successPopup("The banner request is removed successfully.");
+			setTimeout(function() {	$(location).attr('href','/graphics/approvalList.do'); }, 2500);
+    	},
+    	error: function (err) {
+    		dangerPopup("Failed to submit a decision due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+    	}
+ 	});
+}
