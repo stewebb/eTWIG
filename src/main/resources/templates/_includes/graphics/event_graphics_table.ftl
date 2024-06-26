@@ -6,7 +6,7 @@
 
                                                     <#-- Indicate latest one -->
 													<td>
-                                                        ${graphics.uploadTime}
+                                                        ${graphics.uploadedTime}
                                                         <#if graphicsCount == 1>
                                                             &nbsp;<span class="badge badge-primary">Latest</span>
                                                         </#if>

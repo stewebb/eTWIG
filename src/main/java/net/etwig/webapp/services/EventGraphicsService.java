@@ -1,26 +1,22 @@
 package net.etwig.webapp.services;
 
-import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.Collectors;
-
 import jakarta.persistence.criteria.Predicate;
 import net.etwig.webapp.dto.events.RecurringEventGraphicsPublicInfoDTO;
 import net.etwig.webapp.dto.events.SingleTimeEventGraphicsPublicInfoDTO;
 import net.etwig.webapp.dto.graphics.EventGraphicsAPIForDetailsPageDTO;
-import net.etwig.webapp.dto.graphics.EventGraphicsDetailsDTO;
 import net.etwig.webapp.dto.graphics.EventGraphicsAPIForSummaryPageDTO;
 import net.etwig.webapp.dto.graphics.NewGraphicsDTO;
 import net.etwig.webapp.model.EventGraphics;
+import net.etwig.webapp.repository.EventGraphicsRepository;
 import net.etwig.webapp.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import net.etwig.webapp.repository.EventGraphicsRepository;
+import java.time.LocalDate;
+import java.util.*;
 
 @Service
 public class EventGraphicsService {
@@ -148,13 +144,6 @@ public class EventGraphicsService {
 
 	public List<RecurringEventGraphicsPublicInfoDTO> getTwigGraphicsRecurringEvents(Long portfolioId) {
 		return eventGraphicsRepository.findRecurringEventsAndLatestGraphicByPortfolio(portfolioId);
-	}
-
-	public List<EventGraphicsDetailsDTO> getGraphicsDetailsByEventId(Long eventId, Boolean banner){
-		List<EventGraphics> eventGraphicsList = eventGraphicsRepository.findByEventIdAndBannerOrderByIdDesc(eventId, banner);
-		return eventGraphicsList.stream()
-				.map(EventGraphicsDetailsDTO::new)
-				.collect(Collectors.toList());
 	}
 
 	public void addGraphics(Map<String, Object> newGraphicsInfo){

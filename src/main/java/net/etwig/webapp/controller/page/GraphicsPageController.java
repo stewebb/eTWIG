@@ -47,41 +47,59 @@ public class GraphicsPageController {
 
 	@GetMapping("/eventGraphics.do")
 	public String eventGraphics(Model model, @RequestParam Long eventId) throws Exception {
-
-		// EventDetailsDTO eventDetails = new EventDetailsDTO(bannerRequest.getEvent());
-
-		// Get event info and existence check.
-		//GraphicsRequestEventInfoDTO event = eventService.findEventsForGraphicsRequestById(eventId);
-
 		EventDetailsDTO event = eventService.findById(eventId);
 		if(event == null) {
 			model.addAttribute("reason", "Event with id=" + eventId + " doesn't exist.");
 			return "error_page";
 		}
 
-		// Disable pagination for result, but sort by uploadedTime descending.
+		// Disable pagination for results, but sort them by uploadedTime descending.
 		Pageable pageable = Pageable.unpaged(Sort.by(Sort.Direction.DESC, "uploadedTime"));
 
 		// Get graphics info
 		Page<EventGraphicsAPIForDetailsPageDTO> banners = eventGraphicsService.findByCriteriaForDetails(eventId, true, pageable);
+		Page<EventGraphicsAPIForDetailsPageDTO> twigComponents = eventGraphicsService.findByCriteriaForDetails(eventId, false, pageable);
 
-		//System.out.println(banners);
-		//for (EventGraphicsAPIForDetailsPageDTO banner : banners) {
-		//	System.out.println(banner);
-		//}
-		// Separated query.
-		model.addAttribute("eventBanners", banners);
-		//model.addAttribute("eventGraphics", eventGraphicsService.getGraphicsDetailsByEventId(eventId, false));
 		model.addAttribute("eventInfo", event);
-
-
+		model.addAttribute("eventBanners", banners.getContent());
+		model.addAttribute("twigComponents", twigComponents.getContent());
 		return "graphics/event_view";
 	}
 
+	/**
+	 * Handles the GET request for the approval list page.
+	 * This method serves as the entry point for displaying the graphics approval list view.
+	 * It simply routes the request to the appropriate template view which is responsible for rendering the approval list.
+	 *
+	 * @return a string indicating the path to the view template for the graphics approval list,
+	 *         which is resolved by the framework's view resolver to render the actual HTML page.
+	 * @location /graphics/approvalList.do
+	 * @permission Those who has graphic management permission.
+	 */
+
 	@GetMapping("/approvalList.do")
-	public String approvalList() throws Exception{
+	public String approvalList() {
 		return "graphics/approval_list";
 	}
+
+	/**
+	 * Handles the GET request to retrieve the details of a specific banner request for approval.
+	 * This method is responsible for fetching and displaying detailed information about a banner request and its associated event.
+	 * <p>
+	 * Upon receiving a request ID, it first retrieves the corresponding {@link BannerRequest} from the service layer.
+	 * If the banner request does not exist, it redirects to an error page with an appropriate message.
+	 * Otherwise, it proceeds to construct DTOs for both the banner request and the associated event, and adds these to the model.
+	 * <p>
+	 * This setup allows the view template to present detailed information about the banner request and event,
+	 * aiding in the approval process.
+	 *
+	 * @param model the {@link Model} object to which attributes are added, enabling data to be passed to the view
+	 * @param requestId the ID of the banner request to be retrieved and displayed; must not be {@code null}
+	 * @return a string that indicates the path to the view template which is responsible for rendering the approval details page
+	 *         or an error page if the specified banner request does not exist
+	 * @location /graphics/approvalDetails.do
+	 * @permission Those who has graphic management permission.
+	 */
 
 	@GetMapping("/approvalDetails.do")
 	public String approvalDetails(Model model, @RequestParam @NonNull Long requestId) {

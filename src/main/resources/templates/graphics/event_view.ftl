@@ -177,26 +177,23 @@
 										<tbody>
 
 											<#-- Graphics -->
-											<#--
 											<tr>
 												<th colspan="6">
 													<span class="text-primary">
 														<center>
 															<i class="fa-solid fa-down-left-and-up-right-to-center"></i>
-															&nbsp;TWIG Component(s) (Count: ${eventGraphics?size})
+															&nbsp;TWIG Component(s) (Count: ${twigComponents?size})
 														</center>
 													</span>
 												</th>
 											</tr>
 											<#assign graphicsCount = 1>
-											<#list eventGraphics as graphics>
+											<#list twigComponents as graphics>
 												<#include "../_includes/graphics/event_graphics_table.ftl">
-											</#list>
-											-->
+											</#list>		
 											<#-- /Graphics -->			
 
-											<#-- Banners -->
-											<#--
+											<#-- Banners -->	
 											<tr>
 												<th colspan="6">
 													<span class="text-primary">
@@ -211,7 +208,6 @@
 											<#list eventBanners as graphics>
 												<#include "../_includes/graphics/event_graphics_table.ftl">
 											</#list>
-											-->
 											<#-- /Banners -->		
 
 										</tbody>
@@ -242,18 +238,11 @@
 	<#-- JS for Graphics Approval -->
 	<script type="text/javascript" src="/static/js/etwig/graphics-events.js?ver=${app.appVersion}"></script>
 	
+	<#--
 	<script>
 	
 		
 		$(document).ready(function() {
-			//$('input[type=radio][name=graphicsApprovalOption]').change(function() {
-			//	setAssetsUpload(this.value);
-			//});
-
-			//$('.select2bs4').select2({
-      		//	theme: 'bootstrap4'
-    		//})
-
 			var myPositions = getMyPositions();
 			for (var key in myPositions) {
   				$("#operatorRole").append('<option value="' + myPositions[key].userRoleId + '">' + myPositions[key].position + ', ' + myPositions[key].portfolioName + '</option>');
@@ -263,6 +252,7 @@
 	
 	</script>
 
+	-->
 </body>
 </html>
 
