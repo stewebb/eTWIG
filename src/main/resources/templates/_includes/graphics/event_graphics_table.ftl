@@ -15,7 +15,7 @@
 
                                                     <#-- Action buttons -->
 													<td>
-                                                        <button type="button" class="btn btn-outline-danger btn-sm mb-1 confirm-btn"  data-action='{"functionName": "hello", "params": [${graphics.id}]}'>
+                                                        <button type="button" class="btn btn-outline-danger btn-sm mb-1 confirm-btn"  data-action='{"functionName": "removeGraphics", "params": [${graphics.id}]}'>
                                                             <i class="fa-solid fa-trash"></i>&nbsp;Delete
                                                         </button>
                                                         <a href="/assets/content.do?assetId=${graphics.assetId}&download=true" class="btn btn-outline-secondary btn-sm mb-1">

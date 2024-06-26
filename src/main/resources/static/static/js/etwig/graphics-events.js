@@ -24,76 +24,12 @@ function eventGraphicsDataTable(){
 			{ data: "bannerNum", render: bannerCountRender, orderable: false},
 			{ data: "pendingApprovalNum", render: pendingApprovalCountRender, orderable: false},
             { data: "lastModified", render: dateWeekRender, orderable: false},
-            { mRender: actionRender, orderable: false}
+            { mRender: summaryActionRender, orderable: false}
         ]
     });
     return dt;
 }
 
-function dateWeekWithBadgeRender(data, type, row){
-
-	// Get dates
-	var targetDate = Date.parse(data);
-	var dateWeek = targetDate.toString('yyyy-MM-dd HH:mm') + '&nbsp;';
-
-    var today = new Date();
-    var dayOfWeek = today.getDay(); 						// Get current day of the week (0 for Sunday, 6 for Saturday)
-    var dateWeek = targetDate.toDateString() + '&nbsp;'; 	// Assuming targetDate is a Date object
-
-    // Find Monday of this week
-    var monday;
-
-	// If today is Sunday, go back six days to last Monday
-    if (dayOfWeek === 0) {
-        monday = new Date(today.setDate(today.getDate() - 6));	
-    } 
-	
-	// Otherwise, subtract the current day of week number minus 1 to get to the last Monday
-	else {
-        monday = new Date(today.setDate(today.getDate() - dayOfWeek + 1));
-    }
-
-    // Calculate week differences
-    var daysDifference = (targetDate - monday) / (1000 * 60 * 60 * 24);
-    var weeksDifference = Math.floor(daysDifference / 7);
-
-    // Weeks left
-    if (monday < targetDate) {
-
-        // Current Week
-        if (weeksDifference === 0) {
-            return dateWeek + `<span class="badge badge-danger">In this week</span>`;
-        }
-
-        // Next week
-        if (weeksDifference === 1) {
-            return dateWeek + `<span class="badge badge-warning">In next week</span>`;
-        }
-
-        // More than 1 week left
-        return dateWeek + `<span class="badge badge-primary">${weeksDifference + 1} weeks left</span>`;
-    }
-	
-	// Weeks passed
-	else {
-		dateWeek += (`<span class="badge badge-secondary">Past event</span>`);
-	}
-
-	return dateWeek;
-}
-
-function actionRender(data, type, full){
-	return `
-		<div class="btn-group">
-			<a href="/events/edit.do?eventId=${full.id}" class="btn btn-outline-secondary btn-sm" target="_blank">
-				<i class="fa-solid fa-lightbulb"></i>&nbsp;Event Info
-			</a>
-			<a href="/graphics/eventGraphics.do?eventId=${full.id}" class="btn btn-outline-primary btn-sm">
-				<i class="fa-solid fa-image"></i>&nbsp;Graphics
-			</a>
-		</div>
-	`;
-}
 
 function addGraphics(){
 	var newGraphicsObj = {}
@@ -120,7 +56,7 @@ function addGraphics(){
 	}
 	newGraphicsObj["asset"] = assetId;
 
-    console.log(newGraphicsObj);
+    //console.log(newGraphicsObj);
     //return;
 		
 	var hasError = true;
@@ -151,4 +87,21 @@ function addGraphics(){
 		setTimeout(function() {	location.reload(); }, 2500);
 	}
 	
+}
+
+function removeGraphics(graphicsId) {
+	$.ajax({
+   		url: '/api/eventGraphics/remove', 
+   		type: "GET",
+   		data: {
+			graphicsId: graphicsId
+		},
+   		success: function () {
+			successPopup("The graphics is removed successfully.");
+			setTimeout(function() {	window.location.reload(); }, 2500);
+    	},
+    	error: function (err) {
+    		dangerPopup("Failed to remove the graphics due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+    	}
+ 	});
 }

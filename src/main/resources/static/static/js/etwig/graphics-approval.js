@@ -164,7 +164,7 @@ function removeBannerRequest(requestId) {
 			setTimeout(function() {	$(location).attr('href','/graphics/approvalList.do'); }, 2500);
     	},
     	error: function (err) {
-    		dangerPopup("Failed to submit a decision due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+    		dangerPopup("Failed to remove the banner request due to a HTTP " + err.status + " error.", err.responseJSON.exception);
     	}
  	});
 }
