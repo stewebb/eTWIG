@@ -38,8 +38,11 @@ public interface EventGraphicsRepository extends JpaRepository<EventGraphics, Lo
 			"e.id, e.name, e.startTime, " +										// Events
 			"SUM(CASE WHEN g.banner = FALSE THEN 1 ELSE 0 END), " + 			// Count of graphics
 			"SUM(CASE WHEN g.banner = TRUE THEN 1 ELSE 0 END), " + 				// Count of banners
-			"MAX(g.uploadTime)) " + 											// Most recent modification date
-			"FROM Event e LEFT JOIN EventGraphics g ON e.id = g.eventId " +
+			"MAX(g.uploadTime), " + 											// Most recent modification date
+			"SUM(CASE WHEN b.approved = null THEN 1 ELSE 0 END))" +				// Count of pending banner requests
+			"FROM Event e LEFT " +
+			"JOIN EventGraphics g ON e.id = g.eventId " +
+			"JOIN BannerRequest b ON g.eventId = b.eventId" +
 			"GROUP BY e.id")
 			//"GROUP BY e.id ORDER BY e.id DESC")
 	Page<EventGraphicsAPIForSummaryPageDTO> eventGraphicsList(Pageable pageable);

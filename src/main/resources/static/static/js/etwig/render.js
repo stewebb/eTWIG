@@ -157,29 +157,10 @@ function requestActionRender(data, type, full){
 	`;
 }
 
-function countsRender(data, type, row) {
-    var color = (data > 0) ? "primary" : "danger";
-    return `<span class="text-${color} bold-text">${data}</span> `;
+function twigComponentCountRender(data, type, row) {
+    return `<span class="text-${(data > 0) ? "primary" : "danger"} bold-text">${data}</span> `;
+}
 
-    /*
-        // Both TWIG component and banner have been made.
-        if(row.twigComponentNum > 0 && row.bannerNum > 0) {
-          return '<span class="badge badge-success">All done</span> ';
-        }
-    
-        // Only TWIG component has been made
-        else if(row.twigComponentNum > 0 && row.bannerNum == 0) {
-            return '<span class="badge badge-primary">No banner</span> ';
-        }
-    
-        // Only banner has been made
-        else if(row.twigComponentNum == 0 && row.bannerNum > 0) {
-            return '<span class="badge badge-danger">No TWIG component</span> ';
-        }
-    
-        // Nothing has been made.
-        else {
-            return '<span class="badge badge-danger">No graphics</span>';
-        }
-    */  
+function bannerCountRender(data, type, row) {
+    return `<span class="text-${(data > 0) ? "primary" : "warning"} bold-text">${data}</span> `;
 }

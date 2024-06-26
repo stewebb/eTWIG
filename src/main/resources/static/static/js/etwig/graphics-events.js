@@ -21,8 +21,8 @@ function eventGraphicsDataTable(){
             { data: "eventName" },
             { data: "startTime", render: dateWeekRender1},
             //{ data: null, render: statusRender},
-			{ data: "twigComponentNum", render: countsRender},
-			{ data: "bannerNum", render: countsRender},
+			{ data: "twigComponentNum", render: twigComponentCountRender},
+			{ data: "bannerNum", render: bannerCountRender},
             { data: "lastModified", render: dateWeekRender},
             { mRender: actionRender}
         ]

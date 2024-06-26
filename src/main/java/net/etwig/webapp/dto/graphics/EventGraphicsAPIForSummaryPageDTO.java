@@ -17,6 +17,7 @@ public class EventGraphicsAPIForSummaryPageDTO {
     private long twigComponentNum;
     private long bannerNum;
     private LocalDateTime lastModified;
+    private long pendingRequestNum;
 
     //public EventGraphicsAPIForSummaryPageDTO(EventGraphics eventGraphics) {
     //}
