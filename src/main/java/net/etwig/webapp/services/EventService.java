@@ -55,17 +55,6 @@ public class EventService {
 	
 	@Autowired
 	private UserSessionService userSessionService;
-	
-	/**
-	 * Public entry of the event services.
-	 * The access control modifiers are "public".
-	 * @throws Exception 
-	 */
-	
-	public GraphicsRequestEventInfoDTO findEventsForGraphicsRequestById(long eventId) throws Exception {
-		Event event = (eventRepository == null) ? null :eventRepository.findById(eventId).orElse(null);
-		return (event == null) ?  null : new GraphicsRequestEventInfoDTO(event);
-	}
 
 	/**
 	 * Retrieves the details of an event by its ID and maps it to a DTO.

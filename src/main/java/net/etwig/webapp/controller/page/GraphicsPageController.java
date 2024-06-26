@@ -1,13 +1,16 @@
 package net.etwig.webapp.controller.page;
 
 import net.etwig.webapp.dto.events.EventDetailsDTO;
-import net.etwig.webapp.dto.events.GraphicsRequestEventInfoDTO;
 import net.etwig.webapp.dto.graphics.BannerRequestDetailsDTO;
+import net.etwig.webapp.dto.graphics.EventGraphicsAPIForDetailsPageDTO;
 import net.etwig.webapp.model.BannerRequest;
+import net.etwig.webapp.services.BannerRequestService;
 import net.etwig.webapp.services.EventGraphicsService;
 import net.etwig.webapp.services.EventService;
-import net.etwig.webapp.services.BannerRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.lang.NonNull;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -43,20 +46,33 @@ public class GraphicsPageController {
 	}
 
 	@GetMapping("/eventGraphics.do")
-	public String eventGraphics(Model model, @RequestParam Long eventId) throws Exception{
+	public String eventGraphics(Model model, @RequestParam Long eventId) throws Exception {
+
+		// EventDetailsDTO eventDetails = new EventDetailsDTO(bannerRequest.getEvent());
 
 		// Get event info and existence check.
-		GraphicsRequestEventInfoDTO event = eventService.findEventsForGraphicsRequestById(eventId);
+		//GraphicsRequestEventInfoDTO event = eventService.findEventsForGraphicsRequestById(eventId);
+
+		EventDetailsDTO event = eventService.findById(eventId);
 		if(event == null) {
 			model.addAttribute("reason", "Event with id=" + eventId + " doesn't exist.");
 			return "error_page";
 		}
 
-		model.addAttribute("eventInfo", event);
+		// Disable pagination for result, but sort by uploadedTime descending.
+		Pageable pageable = Pageable.unpaged(Sort.by(Sort.Direction.DESC, "uploadedTime"));
 
+		// Get graphics info
+		Page<EventGraphicsAPIForDetailsPageDTO> banners = eventGraphicsService.findByCriteriaForDetails(eventId, true, pageable);
+
+		//System.out.println(banners);
+		//for (EventGraphicsAPIForDetailsPageDTO banner : banners) {
+		//	System.out.println(banner);
+		//}
 		// Separated query.
-		model.addAttribute("eventBanners", eventGraphicsService.getGraphicsDetailsByEventId(eventId, true));
-		model.addAttribute("eventGraphics", eventGraphicsService.getGraphicsDetailsByEventId(eventId, false));
+		model.addAttribute("eventBanners", banners);
+		//model.addAttribute("eventGraphics", eventGraphicsService.getGraphicsDetailsByEventId(eventId, false));
+		model.addAttribute("eventInfo", event);
 
 
 		return "graphics/event_view";

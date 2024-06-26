@@ -84,28 +84,6 @@
 								<div class="card-body">
 									<input type="hidden" value="${eventInfo.id}" id="eventId" />
 
-									<#-- Role -->
-									<#--
-									<div class="form-group row">
-										<label for="operatorRole" class="col-sm-2 col-form-label">
-											Role&nbsp;<span class="required-symbol">*</span>
-										</label>
-										<div class="col-sm-10">
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text">
-														<i class="fa-solid fa-user-tie"></i>
-													</span>
-												</div>
-												
-												<select class="form-control select2bs4" name="operatorRole" id="operatorRole"></select>
-											</div>
-											<small class="form-text text-muted">The position and associated portfolio, divided by comma.</small>
-										</div>
-									</div>
-									-->
-									<#-- /Role -->
-
 									<#-- Type -->
 									<div class="form-group row">
 										<label for="graphicsType" class="col-sm-2">
@@ -148,7 +126,7 @@
 												</div>
 											</div>
 
-											<img src="about:blank" class="img-fluid" id="uploadImage" />			
+											<img class="img-fluid" id="uploadImage" />			
 										</div>
 									</div>
 									<#-- /Assets -->	
@@ -199,6 +177,7 @@
 										<tbody>
 
 											<#-- Graphics -->
+											<#--
 											<tr>
 												<th colspan="6">
 													<span class="text-primary">
@@ -213,9 +192,11 @@
 											<#list eventGraphics as graphics>
 												<#include "../_includes/graphics/event_graphics_table.ftl">
 											</#list>
+											-->
 											<#-- /Graphics -->			
 
 											<#-- Banners -->
+											<#--
 											<tr>
 												<th colspan="6">
 													<span class="text-primary">
@@ -230,6 +211,7 @@
 											<#list eventBanners as graphics>
 												<#include "../_includes/graphics/event_graphics_table.ftl">
 											</#list>
+											-->
 											<#-- /Banners -->		
 
 										</tbody>
