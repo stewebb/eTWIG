@@ -132,7 +132,11 @@
 									<#-- /Assets -->	
 
 									<#-- Submit -->
-									<div class="right-div" role="group">
+									<div class="d-flex justify-content-between" role="group">
+										<a class="btn btn-outline-secondary" href="/graphics/eventList.do">
+											<i class="fa-regular fa-arrow-left"></i>&nbsp;Back to list
+										</a>
+
 										<button type="button" class="btn btn-outline-primary" onclick="addGraphics();">
 											<i class="fa-regular fa-check"></i>&nbsp;Submit
 										</button>

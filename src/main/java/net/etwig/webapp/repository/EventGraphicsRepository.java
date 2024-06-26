@@ -69,6 +69,4 @@ public interface EventGraphicsRepository extends JpaRepository<EventGraphics, Lo
 			"AND (:portfolio < 0 OR e.userRole.portfolioId = :portfolio)" +
 			"ORDER BY e.startTime ASC")
 	List<RecurringEventGraphicsPublicInfoDTO> findRecurringEventsAndLatestGraphicByPortfolio(@Param("portfolio") Long portfolio);
-
-	List<EventGraphics> findByEventIdAndBannerOrderByIdDesc(Long eventId, boolean banner);
 }

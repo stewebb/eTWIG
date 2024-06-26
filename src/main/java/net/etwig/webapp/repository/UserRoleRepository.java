@@ -23,8 +23,8 @@ import net.etwig.webapp.model.UserRole;
 @Repository
 public interface UserRoleRepository extends JpaRepository<UserRole, Long> {
 	
-	@NonNull
-	Optional<UserRole> findById(@NonNull Long id);
+	//@NonNull
+	//Optional<UserRole> findById(@NonNull Long id);
 	
 	/**
 	 * Find all portfolios of a user.
