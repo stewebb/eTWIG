@@ -17,43 +17,18 @@ function eventGraphicsDataTable(){
 			}
 		},
         columns: [
-            { data: "id" },
-            { data: "eventName" },
-            { data: "startTime", render: dateWeekRender1},
-            //{ data: null, render: statusRender},
-			{ data: "twigComponentNum", render: twigComponentCountRender},
-			{ data: "bannerNum", render: bannerCountRender},
-            { data: "lastModified", render: dateWeekRender},
-            { mRender: actionRender}
+            { data: "id", orderable: true },
+            { data: "eventName", orderable: false },
+            { data: "startTime", render: dateWeekRender1, orderable: true},
+			{ data: "twigComponentNum", render: twigComponentCountRender, orderable: false},
+			{ data: "bannerNum", render: bannerCountRender, orderable: false},
+			{ data: "pendingApprovalNum", render: pendingApprovalCountRender, orderable: false},
+            { data: "lastModified", render: dateWeekRender, orderable: false},
+            { mRender: actionRender, orderable: false}
         ]
     });
     return dt;
 }
-
-function statusRender(data, type, row){
-
-	// Both TWIG component and banner have been made.
-	if(row.twigComponentNum > 0 && row.bannerNum > 0) {
-	  return '<span class="badge badge-success">All done</span> ';
-	}
-
-	// Only TWIG component has been made
-	else if(row.twigComponentNum > 0 && row.bannerNum == 0) {
-		return '<span class="badge badge-primary">No banner</span> ';
-	}
-
-	// Only banner has been made
-	else if(row.twigComponentNum == 0 && row.bannerNum > 0) {
-		return '<span class="badge badge-danger">No TWIG component</span> ';
-	}
-
-	// Nothing has been made.
-	else {
-		return '<span class="badge badge-danger">No graphics</span>';
-	}
-  
-}
-
 
 function dateWeekRender1(data, type, row){
 

@@ -65,13 +65,18 @@
 									<table id="eventGraphics" class="table table-hover table-striped">
 										<thead>
 											<tr>
+												<th colspan="3" style="vertical-align: middle;">Event Details</th>
+												<th colspan="3" style="vertical-align: middle;">Statistics</th>
+												<th rowspan="2" style="vertical-align: middle;">Last Modified</th>
+												<th rowspan="2" style="vertical-align: middle;">Action</th>
+											</tr>
+											<tr>
 												<th>ID</th>
 												<th>Event Name</th>
 												<th>Time</th>
-												<th>TWIG Component Count</th>
-												<th>Banner Count</th>
-												<th>Last Modified</th>
-												<th>Action</th>
+												<th>TWIG Component</th>
+												<th>Banner</th>
+												<th>Pending Approval</th>
 											</tr>
 										</thead>
 										<tbody></tbody>

@@ -1,7 +1,9 @@
 package net.etwig.webapp.dto.graphics;
 
-import lombok.*;
-import net.etwig.webapp.model.EventGraphics;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
@@ -17,8 +19,5 @@ public class EventGraphicsAPIForSummaryPageDTO {
     private long twigComponentNum;
     private long bannerNum;
     private LocalDateTime lastModified;
-    private long pendingRequestNum;
-
-    //public EventGraphicsAPIForSummaryPageDTO(EventGraphics eventGraphics) {
-    //}
+    private long pendingApprovalNum;
 }
