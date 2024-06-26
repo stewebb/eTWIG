@@ -1,6 +1,6 @@
 package net.etwig.webapp.controller.api;
 
-import net.etwig.webapp.dto.graphics.EventGraphicsDetailsDTO;
+import net.etwig.webapp.dto.graphics.EventGraphicsAPIForDetailsPageDTO;
 import net.etwig.webapp.services.EventGraphicsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,17 +35,17 @@ public class EventGraphicsAPIController {
      * This method is mapped to the "/view" endpoint and is responsible for fetching and displaying the graphics details
      * of an event identified by its unique graphics ID. The {@code graphicsId} is provided as a query parameter in the
      * request. This method leverages the {@link EventGraphicsService} to retrieve the corresponding
-     * {@link EventGraphicsDetailsDTO.EventGraphicsAPIForDetailsPageDTO} object. If found, the DTO is returned, otherwise, the response would be {@code null}.
+     * {@link EventGraphicsAPIForDetailsPageDTO} object. If found, the DTO is returned, otherwise, the response would be {@code null}.
      *
      * @param graphicsId The unique identifier of the event graphics to retrieve. This is passed as a query parameter.
-     * @return An {@link EventGraphicsDetailsDTO.EventGraphicsAPIForDetailsPageDTO} object containing the graphics details of the event,
+     * @return An {@link EventGraphicsAPIForDetailsPageDTO} object containing the graphics details of the event,
      *         or {@code null} if no graphics details are found.
      * @location /api/eventGraphics/view
      * @permission All logged in users.
      */
 
     @GetMapping("/view")
-    public EventGraphicsDetailsDTO.EventGraphicsAPIForDetailsPageDTO view(@RequestParam Long graphicsId) {
+    public EventGraphicsAPIForDetailsPageDTO view(@RequestParam Long graphicsId) {
         return eventGraphicsService.findById(graphicsId);
     }
 
@@ -90,7 +90,7 @@ public class EventGraphicsAPIController {
         PageRequest pageable = PageRequest.of(start / length, length, Sort.by(dir, sortColumn));
 
         // Get data as pages
-        Page<EventGraphicsDetailsDTO.EventGraphicsAPIForDetailsPageDTO> page = eventGraphicsService.findByCriteria(eventId, isBanner, pageable);
+        Page<EventGraphicsAPIForDetailsPageDTO> page = eventGraphicsService.findByCriteria(eventId, isBanner, pageable);
 
         Map<String, Object> json = new HashMap<>();
         json.put("draw", draw);

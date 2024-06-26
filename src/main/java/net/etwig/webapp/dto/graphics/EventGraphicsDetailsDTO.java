@@ -33,20 +33,5 @@ public class EventGraphicsDetailsDTO {
         this.uploadTime = eventGraphics.getUploadTime().format(DateTimeFormatter.ofPattern("E yyyy-MM-dd HH:mm:ss"));
     }
 
-    @Getter
-    @ToString
-    public static class EventGraphicsAPIForDetailsPageDTO {
 
-        private final Long id;
-        private final LocalDateTime uploadedTime;
-        private final Boolean isBanner;
-        private final Long assetId;
-
-        public EventGraphicsAPIForDetailsPageDTO(EventGraphics eventGraphics){
-            this.id = eventGraphics.getId();
-            this.uploadedTime = eventGraphics.getUploadTime();
-            this.isBanner = eventGraphics.isBanner();
-            this.assetId = eventGraphics.getAssetId();
-        }
-    }
 }
