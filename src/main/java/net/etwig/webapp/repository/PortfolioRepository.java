@@ -26,7 +26,7 @@ public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {
 	 * Find all portfolios in the database.
 	 */
 	
-    public @NonNull List<Portfolio> findAll();
+    //public @NonNull List<Portfolio> findAll();
     
     //@Query(value = "SELECT * FROM etwig_portfolio ORDER BY LENGTH(name) DESC", nativeQuery = true)
     @Query(value = "SELECT * FROM etwig_portfolio ORDER BY (COALESCE(LENGTH(name), 0) + COALESCE(LENGTH(abbreviation), 0)) DESC", nativeQuery = true)
@@ -37,20 +37,20 @@ public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {
      * @param id
      * @return
      */
-    
-    public Optional<Portfolio> findById(long id);
+
+    Optional<Portfolio> findById(long id);
     
     /**
      * Find the portfolios with separated calendar.
      * @return
      */
-    
-    public List<Portfolio> findBySeparatedCalendarTrue();
+
+    List<Portfolio> findBySeparatedCalendarTrue();
     
     /**
      * Find the portfolios without separated calendar.
      * @return
      */
-    
-    public List<Portfolio> findBySeparatedCalendarFalse();
+
+    List<Portfolio> findBySeparatedCalendarFalse();
 }

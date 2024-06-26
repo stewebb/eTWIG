@@ -41,10 +41,7 @@ public interface UserRoleRepository extends JpaRepository<UserRole, Long> {
      */
     
 	Set<UserRole> findByPortfolioId(Long portfolioId);
-	
-	//@Query("SELECT new net.etwig.webapp.dto.PositionDTO(u) FROM UserRole u WHERE u.userId = :userId")
-	//Set<PositionDTO> getPositionsByUserId(Long userId);
-	
+
 	@Query("SELECT new net.etwig.webapp.dto.PositionDTO(u) FROM UserRole u JOIN u.role r WHERE r.graphicsAccess = true OR r.adminAccess = true")
 	Set<PositionDTO> getGraphicsManagers();
 }

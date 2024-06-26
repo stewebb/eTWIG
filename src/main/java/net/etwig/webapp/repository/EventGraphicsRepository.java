@@ -53,6 +53,6 @@ public interface EventGraphicsRepository extends JpaRepository<EventGraphics, Lo
 
 	List<EventGraphics> findByEventIdAndBannerOrderByIdDesc(Long eventId, boolean banner);
 
-	Optional<EventGraphics> findById(Long id);
+	// Optional<EventGraphics> findById(Long id);
 
 }
