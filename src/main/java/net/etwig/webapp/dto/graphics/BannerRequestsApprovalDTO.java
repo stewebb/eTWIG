@@ -11,7 +11,7 @@ import org.apache.commons.lang3.BooleanUtils;
 
 @Getter
 @ToString
-public class ApproveRequestsDTO {
+public class BannerRequestsApprovalDTO {
 	
 	private final BannerRequest currentRequest;
 	private final Long approverRole;
@@ -19,7 +19,7 @@ public class ApproveRequestsDTO {
 	private final String responseComment;
 	private final Long assetId;
 	
-	public ApproveRequestsDTO(BannerRequest currentRequest, Map<String, Object> approvalInfo, Long loggedInUserPosition) {
+	public BannerRequestsApprovalDTO(BannerRequest currentRequest, Map<String, Object> approvalInfo, Long loggedInUserPosition) {
 		this.currentRequest = currentRequest;
 		this.approverRole = loggedInUserPosition;
 		this.approved = BooleanUtils.toBoolean(approvalInfo.get("approved").toString());

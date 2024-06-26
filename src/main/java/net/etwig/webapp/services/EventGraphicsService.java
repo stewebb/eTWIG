@@ -112,6 +112,10 @@ public class EventGraphicsService {
 		return eventGraphicsRepository.eventGraphicsList(pageable);
 	}
 
+	public void deleteById(Long graphicsId) {
+		eventGraphicsRepository.deleteById(graphicsId);
+	}
+
 
 
 

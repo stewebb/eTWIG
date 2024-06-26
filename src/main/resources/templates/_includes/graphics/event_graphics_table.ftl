@@ -6,7 +6,7 @@
 
                                                     <#-- Indicate latest one -->
 													<td>
-                                                        ${graphics.uploadedTime}
+                                                        ${graphics.uploadedTime?replace("T", " ")}
                                                         <#if graphicsCount == 1>
                                                             &nbsp;<span class="badge badge-primary">Latest</span>
                                                         </#if>
@@ -15,9 +15,9 @@
 
                                                     <#-- Action buttons -->
 													<td>
-                                                        <a href="#" class="btn btn-outline-danger btn-sm mb-1">
+                                                        <button type="button" class="btn btn-outline-danger btn-sm mb-1 confirm-btn"  data-action='{"functionName": "hello", "params": [${graphics.id}]}'>
                                                             <i class="fa-solid fa-trash"></i>&nbsp;Delete
-                                                         </a>
+                                                        </button>
                                                         <a href="/assets/content.do?assetId=${graphics.assetId}&download=true" class="btn btn-outline-secondary btn-sm mb-1">
                                                             <i class="fa-solid fa-download"></i>&nbsp;Download
                                                         </a>

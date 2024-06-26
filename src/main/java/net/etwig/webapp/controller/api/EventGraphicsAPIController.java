@@ -51,9 +51,10 @@ public class EventGraphicsAPIController {
         return eventGraphicsService.findById(graphicsId);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_GRAPHICS')")
     @PostMapping("/remove")
-    public Map<String, Object> remove(@RequestBody Map<String, Object> eventInfo) {
-        return null;
+    public void remove(@RequestParam Long graphicsID) {
+        eventGraphicsService.deleteById(graphicsID);
     }
 
     /**

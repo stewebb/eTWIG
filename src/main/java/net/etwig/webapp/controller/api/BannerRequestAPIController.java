@@ -12,7 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -55,7 +55,7 @@ public class BannerRequestAPIController {
      */
 
     @PostMapping("/approve")
-    @PostAuthorize("hasAuthority('ROLE_GRAPHICS')")
+    @PreAuthorize("hasAuthority('ROLE_GRAPHICS')")
     public ResponseEntity<Map<String, String>> approve(@RequestBody Map<String, Object> decisionInfo) throws Exception {
         Long requestId = NumberUtils.safeCreateLong(decisionInfo.get("id").toString());
 
@@ -99,8 +99,20 @@ public class BannerRequestAPIController {
         return bannerRequestService.findByIdWithDTO(requestId);
     }
 
+    /**
+     * Handles the GET request to remove a banner request based on the provided request ID.
+     * This method is secured with a post-authorization check that ensures only users with the 'ROLE_GRAPHICS'
+     * authority can execute this operation. It is designed to delete a specific banner request from the system.
+     *
+     * @param requestId the ID of the banner request to be deleted. This is a mandatory parameter and the method
+     *                  will not function without it.
+     * @throws SecurityException if the current user does not have the 'ROLE_GRAPHICS' authority.
+     * @location /api/bannerRequest/remove
+     * @permission Those who has graphic management permission.
+     */
+
     @GetMapping("/remove")
-    @PostAuthorize("hasAuthority('ROLE_GRAPHICS')")
+    @PreAuthorize("hasAuthority('ROLE_GRAPHICS')")
     public void remove(@RequestParam Long requestId) {
         bannerRequestService.deleteById(requestId);
     }

@@ -195,7 +195,7 @@ public class BannerRequestService {
 
 	public void approveRequest(BannerRequest currentRequest, Map<String, Object> decisionInfo) throws Exception {
 
-		ApproveRequestsDTO request = new ApproveRequestsDTO(
+		BannerRequestsApprovalDTO request = new BannerRequestsApprovalDTO(
 				currentRequest,
 				decisionInfo,
 				userSessionService.validateSession().getPosition().getMyCurrentPositionId()
@@ -230,6 +230,21 @@ public class BannerRequestService {
 				assetService.getAssetContent(asset)
 		);
 	}
+
+	/**
+	 * Deletes a graphics request from the repository using the specified request ID.
+	 * This method directly interacts with the {@code graphicsRequestRepository} to remove the specified entity.
+	 * It is intended to be a straightforward, efficient way to eliminate records that are no longer needed.
+	 * <p>
+	 * Calling this method results in the immediate deletion of the graphics request identified by the {@code requestId}.
+	 * It does not perform any additional checks or operations, making it crucial that this method is called
+	 * in appropriate scenarios and is adequately secured within the application to prevent unauthorized deletions.
+	 *
+	 * @param requestId the unique identifier of the graphics request to be deleted.
+	 *                  This ID must correspond to an existing record in the database.
+	 * @throws IllegalArgumentException if {@code requestId} is {@code null}.
+	 * @throws org.springframework.dao.EmptyResultDataAccessException if no entity with the given ID is found.
+	 */
 
 	public void deleteById(Long requestId) {
 		graphicsRequestRepository.deleteById(requestId);

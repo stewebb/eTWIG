@@ -27,18 +27,14 @@ public class BannerRequest {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
 	private Long id;
-	
-	//@OneToOne(cascade = CascadeType.ALL)
-	//@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+
 	@OneToOne
 	@JoinColumn(name = "event", referencedColumnName = "id", insertable = false, updatable = false)
     private Event event;
 	
 	@Column(name = "event")
 	private Long eventId;
-	
-	//@OneToOne(cascade = CascadeType.ALL)
-	//@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+
 	@OneToOne
 	@JoinColumn(name = "requester_role", referencedColumnName = "id", insertable = false, updatable = false)
     private UserRole requesterRole;
@@ -57,9 +53,7 @@ public class BannerRequest {
 	
 	@Column(name = "approved")
 	private Boolean approved;
-	
-	//@ManyToOne(cascade = CascadeType.ALL)
-	//@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+
 	@ManyToOne
 	@JoinColumn(name = "approver_role", referencedColumnName = "id", insertable = false, updatable = false)
     private UserRole approverRole;
@@ -72,15 +66,11 @@ public class BannerRequest {
 	
 	@Column(name = "response_time")
 	private LocalDateTime responseTime;
-	
-	//@ManyToOne(cascade = CascadeType.ALL)
-	//@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+
 	@ManyToOne
 	@JoinColumn(name = "asset", referencedColumnName = "id", insertable = false, updatable = false)
     private Asset asset;
 	
 	@Column(name = "asset")
 	private Long assetId;
-	
-
 }
