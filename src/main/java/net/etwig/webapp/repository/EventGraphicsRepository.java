@@ -2,7 +2,7 @@ package net.etwig.webapp.repository;
 
 import net.etwig.webapp.dto.events.RecurringEventGraphicsPublicInfoDTO;
 import net.etwig.webapp.dto.events.SingleTimeEventGraphicsPublicInfoDTO;
-import net.etwig.webapp.dto.graphics.EventGraphicsListDTO;
+import net.etwig.webapp.dto.graphics.EventGraphicsAPIForSummaryPageDTO;
 import net.etwig.webapp.model.EventGraphics;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,19 +14,22 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface EventGraphicsRepository extends JpaRepository<EventGraphics, Long>, JpaSpecificationExecutor<EventGraphics> {
 
-	@Query("SELECT new net.etwig.webapp.dto.graphics.EventGraphicsListDTO(" +
+	@Query("SELECT new net.etwig.webapp.dto.graphics.EventGraphicsAPIForSummaryPageDTO(" +
 			"e.id, e.name, e.startTime, " +										// Events
 			"SUM(CASE WHEN g.banner = FALSE THEN 1 ELSE 0 END), " + 			// Count of graphics
 			"SUM(CASE WHEN g.banner = TRUE THEN 1 ELSE 0 END), " + 				// Count of banners
 			"MAX(g.uploadTime)) " + 											// Most recent modification date
 			"FROM Event e LEFT JOIN EventGraphics g ON e.id = g.eventId " +
 			"GROUP BY e.id ORDER BY e.id DESC")
-	Page<EventGraphicsListDTO> eventGraphicsList(Pageable pageable);
+	Page<EventGraphicsAPIForSummaryPageDTO> eventGraphicsList(Pageable pageable);
+
+	//@Query("SELECT e FROM Event e LEFT JOIN EventGraphics g ON e.id = g.eventId GROUP BY e.id ORDER BY e.id DESC")
+	//Page<Event> eventGraphicsSummary(Pageable pageable);
+
 
 	@Query("SELECT new net.etwig.webapp.dto.events.SingleTimeEventGraphicsPublicInfoDTO(e, g) FROM Event e " +
 			"LEFT JOIN EventGraphics g WITH g.id = (" +

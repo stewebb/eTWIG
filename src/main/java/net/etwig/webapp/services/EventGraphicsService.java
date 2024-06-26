@@ -9,7 +9,7 @@ import net.etwig.webapp.dto.events.RecurringEventGraphicsPublicInfoDTO;
 import net.etwig.webapp.dto.events.SingleTimeEventGraphicsPublicInfoDTO;
 import net.etwig.webapp.dto.graphics.EventGraphicsAPIForDetailsPageDTO;
 import net.etwig.webapp.dto.graphics.EventGraphicsDetailsDTO;
-import net.etwig.webapp.dto.graphics.EventGraphicsListDTO;
+import net.etwig.webapp.dto.graphics.EventGraphicsAPIForSummaryPageDTO;
 import net.etwig.webapp.dto.graphics.NewGraphicsDTO;
 import net.etwig.webapp.model.EventGraphics;
 import net.etwig.webapp.util.DateUtils;
@@ -63,8 +63,8 @@ public class EventGraphicsService {
 	 *         This can be empty if no matching graphics are found, but never {@code null}.
 	 */
 
-	public Page<EventGraphicsAPIForDetailsPageDTO> findByCriteria(Long eventId, Boolean isBanner, Pageable pageable) {
-		Specification<EventGraphics> spec = eventGraphicsCriteria(eventId, isBanner);
+	public Page<EventGraphicsAPIForDetailsPageDTO> findByCriteriaForDetails(Long eventId, Boolean isBanner, Pageable pageable) {
+		Specification<EventGraphics> spec = eventGraphicsCriteriaForDetails(eventId, isBanner);
 		return eventGraphicsRepository.findAll(spec, pageable).map(EventGraphicsAPIForDetailsPageDTO::new);
 	}
 
@@ -81,7 +81,7 @@ public class EventGraphicsService {
 	 * @return A {@link Specification<EventGraphics>} that can be used to query the database with the specified filters.
 	 */
 
-	private Specification<EventGraphics> eventGraphicsCriteria(Long eventId, Boolean isBanner) {
+	private Specification<EventGraphics> eventGraphicsCriteriaForDetails(Long eventId, Boolean isBanner) {
 		return (root, query, criteriaBuilder) -> {
 			Predicate finalPredicate = criteriaBuilder.conjunction();
 
@@ -100,7 +100,11 @@ public class EventGraphicsService {
 	}
 
 
-
+	public Page<EventGraphicsAPIForSummaryPageDTO> findBySummary(Pageable pageable) {
+		//Specification<EventGraphics> spec = eventGraphicsCriteriaForDetails(eventId, isBanner);
+		//return eventGraphicsRepository.findAll(spec, pageable).map(EventGraphicsAPIForDetailsPageDTO::new);
+		return eventGraphicsRepository.eventGraphicsList(pageable);
+	}
 
 
 	
@@ -132,7 +136,7 @@ public class EventGraphicsService {
 		return eventGraphicsRepository.findRecurringEventsAndLatestGraphicByPortfolio(portfolioId);
 	}
 
-	public Page<EventGraphicsListDTO> eventGraphicsList(int page, int size){
+	public Page<EventGraphicsAPIForSummaryPageDTO> eventGraphicsList(int page, int size){
 		Pageable pageable = PageRequest.of(page, size);
 		return eventGraphicsRepository.eventGraphicsList(pageable);
 	}

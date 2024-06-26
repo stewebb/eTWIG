@@ -1,7 +1,7 @@
 package net.etwig.webapp.controller.api;
 
 import net.etwig.webapp.dto.events.EventDetailsDTO;
-import net.etwig.webapp.dto.graphics.EventGraphicsListDTO;
+import net.etwig.webapp.dto.graphics.EventGraphicsAPIForSummaryPageDTO;
 import net.etwig.webapp.services.EventGraphicsService;
 import net.etwig.webapp.services.EventService;
 import net.etwig.webapp.util.NumberUtils;
@@ -25,7 +25,7 @@ public class _GraphicsAPIController {
 
     @PostAuthorize("hasAuthority('ROLE_GRAPHICS')")
     @GetMapping(value = "/eventGraphicsList")
-    public Page<EventGraphicsListDTO> eventGraphicsList(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) throws Exception {
+    public Page<EventGraphicsAPIForSummaryPageDTO> eventGraphicsList(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) throws Exception {
         return eventGraphicsService.eventGraphicsList(page, size);
     }
 

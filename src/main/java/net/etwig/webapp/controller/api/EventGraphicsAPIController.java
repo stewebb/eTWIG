@@ -1,6 +1,7 @@
 package net.etwig.webapp.controller.api;
 
 import net.etwig.webapp.dto.graphics.EventGraphicsAPIForDetailsPageDTO;
+import net.etwig.webapp.dto.graphics.EventGraphicsAPIForSummaryPageDTO;
 import net.etwig.webapp.services.EventGraphicsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -90,7 +91,29 @@ public class EventGraphicsAPIController {
         PageRequest pageable = PageRequest.of(start / length, length, Sort.by(dir, sortColumn));
 
         // Get data as pages
-        Page<EventGraphicsAPIForDetailsPageDTO> page = eventGraphicsService.findByCriteria(eventId, isBanner, pageable);
+        Page<EventGraphicsAPIForDetailsPageDTO> page = eventGraphicsService.findByCriteriaForDetails(eventId, isBanner, pageable);
+
+        Map<String, Object> json = new HashMap<>();
+        json.put("draw", draw);
+        json.put("recordsTotal", page.getTotalElements());
+        json.put("recordsFiltered", page.getTotalElements());
+        json.put("data", page.getContent());
+        return ResponseEntity.ok(json);
+    }
+
+    @GetMapping("/summary")
+    public ResponseEntity<Map<String, Object>> summary(
+            @RequestParam("start") int start,
+            @RequestParam("length") int length,
+            @RequestParam("draw") int draw,
+            @RequestParam("sortColumn") String sortColumn,
+            @RequestParam("sortDirection") String sortDirection) {
+
+        Sort.Direction dir = "asc".equalsIgnoreCase(sortDirection) ? Sort.Direction.ASC : Sort.Direction.DESC;
+        PageRequest pageable = PageRequest.of(start / length, length, Sort.by(dir, sortColumn));
+
+        // Get data as pages
+        Page<EventGraphicsAPIForSummaryPageDTO> page = eventGraphicsService.findBySummary(pageable);
 
         Map<String, Object> json = new HashMap<>();
         json.put("draw", draw);

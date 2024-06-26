@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class EventGraphicsListDTO {
+public class EventGraphicsAPIForSummaryPageDTO {
 
     private Long id;
     private String eventName;
