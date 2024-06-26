@@ -64,8 +64,6 @@
 									</h3>
 								</div>
 								<div class="card-body">
-
-									
 									<#include "../_includes/events/graphics_info.ftl">
 								</div>
 							</div>						
@@ -85,26 +83,6 @@
 
 								<div class="card-body">
 									<input type="hidden" value="${eventInfo.id}" id="eventId" />
-
-									<#-- Role -->
-									<div class="form-group row">
-										<label for="operatorRole" class="col-sm-2 col-form-label">
-											Role&nbsp;<span class="required-symbol">*</span>
-										</label>
-										<div class="col-sm-10">
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text">
-														<i class="fa-solid fa-user-tie"></i>
-													</span>
-												</div>
-												
-												<select class="form-control select2bs4" name="operatorRole" id="operatorRole"></select>
-											</div>
-											<small class="form-text text-muted">The position and associated portfolio, divided by comma.</small>
-										</div>
-									</div>
-									<#-- /Role -->
 
 									<#-- Type -->
 									<div class="form-group row">
@@ -148,13 +126,17 @@
 												</div>
 											</div>
 
-											<img src="about:blank" class="img-fluid" id="uploadImage" />			
+											<img class="img-fluid" id="uploadImage" />			
 										</div>
 									</div>
 									<#-- /Assets -->	
 
 									<#-- Submit -->
-									<div class="right-div" role="group">
+									<div class="d-flex justify-content-between" role="group">
+										<a class="btn btn-outline-secondary" href="/graphics/eventList.do">
+											<i class="fa-regular fa-arrow-left"></i>&nbsp;Back to list
+										</a>
+
 										<button type="button" class="btn btn-outline-primary" onclick="addGraphics();">
 											<i class="fa-regular fa-check"></i>&nbsp;Submit
 										</button>
@@ -204,18 +186,18 @@
 													<span class="text-primary">
 														<center>
 															<i class="fa-solid fa-down-left-and-up-right-to-center"></i>
-															&nbsp;TWIG Component(s) (Count: ${eventGraphics?size})
+															&nbsp;TWIG Component(s) (Count: ${twigComponents?size})
 														</center>
 													</span>
 												</th>
 											</tr>
 											<#assign graphicsCount = 1>
-											<#list eventGraphics as graphics>
+											<#list twigComponents as graphics>
 												<#include "../_includes/graphics/event_graphics_table.ftl">
-											</#list>
+											</#list>		
 											<#-- /Graphics -->			
 
-											<#-- Banners -->
+											<#-- Banners -->	
 											<tr>
 												<th colspan="6">
 													<span class="text-primary">
@@ -260,18 +242,11 @@
 	<#-- JS for Graphics Approval -->
 	<script type="text/javascript" src="/static/js/etwig/graphics-events.js?ver=${app.appVersion}"></script>
 	
+	<#--
 	<script>
 	
 		
 		$(document).ready(function() {
-			//$('input[type=radio][name=graphicsApprovalOption]').change(function() {
-			//	setAssetsUpload(this.value);
-			//});
-
-			$('.select2bs4').select2({
-      			theme: 'bootstrap4'
-    		})
-
 			var myPositions = getMyPositions();
 			for (var key in myPositions) {
   				$("#operatorRole").append('<option value="' + myPositions[key].userRoleId + '">' + myPositions[key].position + ', ' + myPositions[key].portfolioName + '</option>');
@@ -281,6 +256,7 @@
 	
 	</script>
 
+	-->
 </body>
 </html>
 

@@ -61,59 +61,64 @@ function dateWeekRender(data, type, row){
 }
 
 /**
- * Formats a date string with an HTML badge indicating the urgency based on how many days are left until the date.
+ * Formats a date string with an HTML badge indicating the urgency based on the number of days left until the date.
+ * The badge's color and text reflect the urgency: overdue, due today, due tomorrow, or a specific number of days left.
+ * A badge is added only if the 'row.approved' attribute is null, indicating pending approval.
  *
  * @param {string} data - The date string to be formatted.
- * @param {string} type - The type of operation; currently only 'display' is handled, which formats the date.
- * @param {Object} row - An object representing the entire data row (not used in current implementation).
- * @returns {string} The original date string with an appended HTML span element that includes a styled badge
- * indicating the urgency (e.g., "Overdue", "Due today", "1 day left", "{n} days left"). If the type is not 'display',
- * it returns the unmodified date string.
+ * @param {string} type - The type of operation; currently, 'display' is the only handled type, which triggers formatting.
+ * @param {Object} row - An object representing the entire data row, used to check the approval status before adding a badge.
+ * @returns {string} The date string with an appended HTML span element styled as a badge if the condition meets. 
+ *                   If the 'type' is not 'display', or the 'row.approved' is not null, it returns the unmodified date string.
  */
 
 function expectDateRender(data, type, row) {
-    if (type === 'display') {
 
-        var today = new Date();
-        var date = new Date(data);
-        var timeDiff = date.getTime() - today.getTime();
-        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    var today = new Date();
+    var date = new Date(data);
+    var timeDiff = date.getTime() - today.getTime();
+    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
-        var color;
-        var text;
+    var color;
+    var text;
 
-        // Overdue
-        if (diffDays < 0) {
-            color = "danger";
-            text = "Overdue";
-        } 
+    // Overdue
+    if (diffDays < 0) {
+        color = "danger";
+        text = "Overdue";
+    } 
         
-        // Due today
-        else if (diffDays == 0) {
-            color = "warning";
-            text = "Due today";
-        } 
+    // Due today
+    else if (diffDays == 0) {
+        color = "warning";
+        text = "Due today";
+    } 
         
-        // Due tomorrow
-        else if (diffDays == 1) {
-            color = "warning";
-            text = "Due tomorrow";
-        } 
+    // Due tomorrow
+    else if (diffDays == 1) {
+        color = "warning";
+        text = "Due tomorrow";
+    } 
         
-        // 2-5 days left
-        else if (diffDays <= 5) {
-            color = "warning";
-            text = diffDays + " days left";
-        } 
+    // 2-5 days left
+    else if (diffDays <= 5) {
+        color = "warning";
+        text = diffDays + " days left";
+    } 
         
-        // 5+ days left
-        else {
-            color = "primary";
-            text = diffDays + " days left";
-        }
-        return `${data}&nbsp;<span class="badge badge-${color}">${text}</span>`;
+    // 5+ days left
+    else {
+        color = "primary";
+        text = diffDays + " days left";
     }
-    return data;
+
+    // Only add a badge on a pending request.
+    var output = data;
+    if(row.approved == null) {
+        output += `&nbsp;<span class="badge badge-${color}">${text}</span>`;
+    }
+    
+    return output;
 }
 
 /**
@@ -149,5 +154,132 @@ function requestActionRender(data, type, full){
 		<a href="/graphics/approvalDetails.do?requestId=${full.id}" class="btn btn-outline-primary btn-sm">
             <i class="fa-solid fa-eye"></i>&nbsp;Details
 		</a>
+	`;
+}
+
+/**
+ * Renders a formatted span element with text color and styling based on the provided data value.
+ * This function is used within a DataTable to dynamically style the display of twig component counts.
+ *
+ * @param {number} data - The numerical count of twig components.
+ * @param {string} type - The type of operation (usually 'display').
+ * @param {object} row - The data for the current row in the DataTable.
+ * @returns {string} HTML string representing a span element with styled twig component count.
+ */
+
+function twigComponentCountRender(data, type, row) {
+    return `<span class="text-${(data > 0) ? "primary" : "danger"} bold-text">${data}</span> `;
+}
+
+/**
+ * Renders a formatted span element with text color and styling based on the provided data value.
+ * This function is used within a DataTable to dynamically style the display of banner counts.
+ *
+ * @param {number} data - The numerical count of banners.
+ * @param {string} type - The type of operation (usually 'display').
+ * @param {object} row - The data for the current row in the DataTable.
+ * @returns {string} HTML string representing a span element with styled banner count.
+ */
+
+function bannerCountRender(data, type, row) {
+    return `<span class="text-${(data > 0) ? "primary" : "info"} bold-text">${data}</span> `;
+}
+
+/**
+ * Renders a formatted span element with text color and styling based on the provided data value.
+ * This function is used within a DataTable to dynamically style the display of pending approval counts.
+ *
+ * @param {number} data - The numerical count of items pending approval.
+ * @param {string} type - The type of operation (usually 'display').
+ * @param {object} row - The data for the current row in the DataTable.
+ * @returns {string} HTML string representing a span element with styled pending approval count.
+ */
+
+function pendingApprovalCountRender(data, type, row) {
+    return `<span class="text-${(data > 0) ? "warning" : "primary"} bold-text">${data}</span> `;
+}
+
+/**
+ * Renders a formatted span element with date and a badge indicating the time relation to the current week.
+ * This function is used within a DataTable to provide a visual indicator of an event's timing relative to the current week.
+ *
+ * @param {string} data - The date string of the event.
+ * @param {string} type - The type of operation (usually 'display').
+ * @param {object} row - The data for the current row in the DataTable.
+ * @returns {string} HTML string representing a formatted date and badge indicating time relation.
+ */
+
+function dateWeekWithBadgeRender(data, type, row){
+
+	// Get dates
+	var targetDate = Date.parse(data);
+	var dateWeek = targetDate.toString('yyyy-MM-dd HH:mm') + '&nbsp;';
+
+    var today = new Date();
+    var dayOfWeek = today.getDay(); 						// Get current day of the week (0 for Sunday, 6 for Saturday)
+    var dateWeek = targetDate.toDateString() + '&nbsp;'; 	// Assuming targetDate is a Date object
+
+    // Find Monday of this week
+    var monday;
+
+	// If today is Sunday, go back six days to last Monday
+    if (dayOfWeek === 0) {
+        monday = new Date(today.setDate(today.getDate() - 6));	
+    } 
+	
+	// Otherwise, subtract the current day of week number minus 1 to get to the last Monday
+	else {
+        monday = new Date(today.setDate(today.getDate() - dayOfWeek + 1));
+    }
+
+    // Calculate week differences
+    var daysDifference = (targetDate - monday) / (1000 * 60 * 60 * 24);
+    var weeksDifference = Math.floor(daysDifference / 7);
+
+    // Weeks left
+    if (monday < targetDate) {
+
+        // Current Week
+        if (weeksDifference === 0) {
+            return dateWeek + `<span class="badge badge-danger">In this week</span>`;
+        }
+
+        // Next week
+        if (weeksDifference === 1) {
+            return dateWeek + `<span class="badge badge-warning">In next week</span>`;
+        }
+
+        // More than 1 week left
+        return dateWeek + `<span class="badge badge-primary">${weeksDifference + 1} weeks left</span>`;
+    }
+	
+	// Weeks passed
+	else {
+		dateWeek += (`<span class="badge badge-secondary">Past event</span>`);
+	}
+
+	return dateWeek;
+}
+
+/**
+ * Renders a button group with links for editing event information and viewing event graphics.
+ * This function is used within a DataTable to provide quick access to detailed views and graphics associated with events.
+ *
+ * @param {string} data - The placeholder for data, not directly used in the function but required by DataTables format.
+ * @param {string} type - The type of operation (usually 'display').
+ * @param {object} full - The complete data object for the row, used to access specific properties like event ID.
+ * @returns {string} HTML string representing a button group with action links for the event.
+ */
+
+function summaryActionRender(data, type, full){
+	return `
+		<div class="btn-group">
+			<a href="/events/edit.do?eventId=${full.id}" class="btn btn-outline-secondary btn-sm" target="_blank">
+				<i class="fa-solid fa-lightbulb"></i>&nbsp;Event Info
+			</a>
+			<a href="/graphics/eventGraphics.do?eventId=${full.id}" class="btn btn-outline-primary btn-sm">
+				<i class="fa-solid fa-image"></i>&nbsp;Graphics
+			</a>
+		</div>
 	`;
 }

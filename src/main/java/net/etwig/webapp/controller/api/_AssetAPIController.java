@@ -27,7 +27,7 @@ import net.etwig.webapp.util.FileType;
 
 @RestController
 @RequestMapping(value = "/api/private/")
-public class AssetAPIController {
+public class _AssetAPIController {
 	
 	@Autowired
 	private AssetService assetService;

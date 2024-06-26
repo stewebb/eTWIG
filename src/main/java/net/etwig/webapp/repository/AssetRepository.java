@@ -22,15 +22,7 @@ import net.etwig.webapp.model.Asset;
 
 @Repository
 public interface AssetRepository extends JpaRepository<Asset, Long> {
-	
-	/**
-	 * Find the asset information by its id.
-	 * @param id
-	 * @return
-	 */
-	
-	public Optional<Asset> findById(long id);
-    
+
 	@Query("SELECT new net.etwig.webapp.dto.AssetBasicInfoDTO(a) FROM Asset a JOIN a.uploader u ORDER BY a.id DESC")
-    public Page<AssetBasicInfoDTO> findAllBasicInfo(Pageable pageable);
+    Page<AssetBasicInfoDTO> findAllBasicInfo(Pageable pageable);
 }

@@ -10,7 +10,6 @@
 package net.etwig.webapp.services;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
@@ -20,11 +19,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import jakarta.servlet.http.HttpSession;
-import net.etwig.webapp.dto.PositionWithoutEmailDTO;
-import net.etwig.webapp.dto.user.UserDTO;
+import net.etwig.webapp.dto.user.CurrentUserBasicInfoDTO;
 import net.etwig.webapp.handler.CustomUserDetails;
-import net.etwig.webapp.model.Portfolio;
 import net.etwig.webapp.model.User;
 import net.etwig.webapp.model.UserRole;
 import net.etwig.webapp.repository.UserRepository;
@@ -40,32 +36,30 @@ public class UserRoleService implements UserDetailsService{
     private UserRepository userRepository;
 
     @Autowired
-	private HttpSession session;
-    
-    public Set<Portfolio> getMyPortfolios(){
-		UserDTO currentUser = (UserDTO) session.getAttribute("user");
-		return userRoleRepository.findByUserId(currentUser.getId()).stream().map(UserRole::getPortfolio).collect(Collectors.toSet());
-	}
-    
-    public Set<PositionWithoutEmailDTO> getMyPositions(){
-    	UserDTO currentUser = (UserDTO) session.getAttribute("user");
-    	Set<UserRole> myRoles = userRoleRepository.findByUserId(currentUser.getId());
-    	return myRoles.stream().map(PositionWithoutEmailDTO::new).collect(Collectors.toSet());
-    	
-    	//Set<PositionWithoutEmailDTO> myPositions = new HashSet();
-    	//for(UserRole r : myRoles) {
-    	//	myPositions.add(new PositionWithoutEmailDTO(r));
-    	//}
-    	//return myPositions;
-    }
-    
+	private UserSessionService userSessionService;
+
+
+    /**
+     * Retrieves a {@link UserRole} based on the provided role ID.
+     * This method queries the database using the provided role ID to find the corresponding user role.
+     * If a user role with the specified ID exists, it returns that role; otherwise, it returns null.
+     * <p>
+     * The use of {@code @NonNull} on the parameter indicates that passing a null value for {@code userRoleId}
+     * will result in a {@link NullPointerException}.
+     *
+     * @param userRoleId the ID of the user role to find. This parameter must not be null.
+     * @return the {@link UserRole} corresponding to the provided ID, or null if no such role exists.
+     * @throws NullPointerException if {@code userRoleId} is null.
+     */
+
     public UserRole findById(@NonNull Long userRoleId) {
         return userRoleRepository.findById(userRoleId).orElse(null);
     }
-    
+
+    // TODO REPLACE ME
     @SuppressWarnings("null")
 	public User getMyDetails() {
-    	UserDTO currentUser = (UserDTO) session.getAttribute("user");
+        CurrentUserBasicInfoDTO currentUser = userSessionService.validateSession().getBasicInfo();
     	return userRepository.findById(currentUser.getId()).orElse(null);
     }
     

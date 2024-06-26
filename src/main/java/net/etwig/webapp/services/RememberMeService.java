@@ -19,7 +19,6 @@ import org.springframework.stereotype.Component;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import net.etwig.webapp.config.ConfigFile;
-import net.etwig.webapp.util.UserSession;
 
 @Component
 public class RememberMeService extends TokenBasedRememberMeServices {
@@ -33,28 +32,48 @@ public class RememberMeService extends TokenBasedRememberMeServices {
 	}
 	
 	@Autowired
-	private UserSession userSession;
+	private UserSessionService userSessionService;
 
 	/**
-	 * Put the user info into session if the user is logged in via "remember me".
-	 * @param cookieTokens
-	 * @param request
-	 * @param response
+	 * Processes the auto-login cookie and initializes a session with user details if the user is authenticated via "remember me".
+	 * This method overrides the standard cookie processing to add session initialization logic after the auto-login is confirmed.
+	 * <p>
+	 * Upon successful auto-login, this method retrieves the user details using the parent class's implementation,
+	 * then initializes a new session for the user through the {@code userSessionService}. This ensures that any necessary
+	 * user-specific data is loaded into the session right after the authentication via cookie, enhancing the user experience
+	 * by making the system immediately aware of the user's context.
+	 *
+	 * @param cookieTokens the tokens extracted from the auto-login cookie which are used to authenticate the user and obtain their details.
+	 *                     These tokens typically include credentials and expiry information.
+	 * @param request the {@code HttpServletRequest} in which the auto-login cookie was presented.
+	 * @param response the {@code HttpServletResponse} where any necessary responses or new cookies might be set.
+	 * @return {@code UserDetails} object containing the authenticated user's details.
+	 *         This user detail is then used to perform further operations like session initialization.
+	 * @throws IllegalArgumentException if the cookieTokens are invalid or if the authentication process fails.
 	 */
 	
 	@Override
 	protected UserDetails processAutoLoginCookie(String[] cookieTokens, HttpServletRequest request, HttpServletResponse response) {
-		
 		UserDetails userDetails = super.processAutoLoginCookie(cookieTokens, request, response);
-		
-		userSession.setEmail(userDetails.getUsername());
-		userSession.put();
-		
+		userSessionService.initializeSession(userDetails.getUsername());
 	    return userDetails;
-	 }
-	
+	}
+
 	/**
-	 * Set the custom cookie expire time.
+	 * Calculates and sets the custom expiration time for the login token.
+	 * This method overrides the default lifetime calculation for authentication tokens, providing a consistent expiration period
+	 * as defined by {@code TOKEN_VALIDITY_SECONDS}. It allows for customization of how long an authentication token remains valid
+	 * after a user logs in, which is particularly useful for managing session durations in security-sensitive environments.
+	 * <p>
+	 * By setting a custom token lifetime, the application can ensure that all tokens expire uniformly,
+	 * thus adhering to specific security policies or user experience requirements.
+	 *
+	 * @param request the {@code HttpServletRequest} in which the login request was made.
+	 *                This can be used to extract additional information about the request context if needed.
+	 * @param authentication the {@code Authentication} object representing the current user's authentication state.
+	 *                       This could be used to adjust the lifetime based on the user's roles or other factors, though
+	 *                       it is not utilized in this override.
+	 * @return an {@code int} value representing the number of seconds the login token should remain valid.
 	 */
 	
 	@Override

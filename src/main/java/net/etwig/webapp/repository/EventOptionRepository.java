@@ -19,12 +19,6 @@ import net.etwig.webapp.model.EventOptionKey;
 
 @Repository
 public interface EventOptionRepository extends JpaRepository<EventOption, EventOptionKey> {
-	
-	/**
-	 * Find all options of a given event.
-	 * @param eventId
-	 * @return
-	 */
-	
+
     List<EventOption> findByIdEventId(Long eventId);
 }

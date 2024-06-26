@@ -1,162 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Graphics Request Results</title>
-    <style>
-        .text-theme{
-            color: #004AAD;
-			font-weight: bold;
-        }
-        .table-title{
-            background-color: #004AAD;
-			color: white;
-			font-weight: bold;
-        }
-		.approved{
-			background-color: #28A745;
-			color: white;
-			font-weight: bold;
-		}
-		.declined{
-			background-color: #DC3545;
-			color: white;
-			font-weight: bold;
-		}
-
-		.no-horizontal-border{
-			border: 0;
-		}
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
-    </style>
+    <title>Banner Request Outcome</title>
 </head>
 
 <body>
+    <div style="background-color: #DFDFDF; width: 100%; padding: 20px 0;">
+        <table align="center" style="max-width: 640px; margin: 0 auto; width: 100%;">
+            <tr>
+                <td>
+                    <div style="background-color: #FFFFFF; padding: 10px; border-radius: 10px;">
+                        <h2 style="text-align: center; color: #004AAD; font-weight: bolder;">Banner Request Outcome</h2>
 
-	<#assign nameParts = approvalInfo.requesterName?split(" ")>
-	<#assign firstName = nameParts[0]>
-	
-	<p>Dear ${firstName},</p>
-	<p>Your graphics request for the event <b>${approvalInfo.eventName}</b> has been ${approvedStr}. Here are the details of this request.</p>
-	<p>&nbsp;</p>
-	
-    <h2 class="text-theme">Graphics Request Results</h2>
-    <table>
-		<tr class="${approvedStr}">
-			<th scope="col">Result</th>
-			<td>${approvedStr?cap_first}</td>
-		</tr>
+                        <#-- Information -->
+                        <p style="line-height: 1.5;">
+                            Your banner request for event <b>${eventName}</b> has been 
+                            <#if isApproved>
+                                <b style="color:#198754">approved</b>
+                            <#else>
+                                <b style="color:#DC3545">declined</b>
+                            </#if>
+                            on <b>${responseTime}</b>.
+                            <#if isApproved>The banner is attached in this email.</#if>
+                        </p>
+                        <#-- /Information -->
 
-		<tr>
-			<th scope="row">Response Time</th>
-			<td>${approvalInfo.responseTime}</td>
-		</tr>
+                        <!-- Button -->
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td align="center" style="padding-top: 20px;">
+                                    <table border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                            <td align="center" style="background-color: #004AAD; border-radius: 6px;">
+                                                <a href="${appUrl}/events/edit.do?eventId=${eventId}#graphicsAnchor" target="_blank" style="font-size: 16px; font-weight: bolder; font-family: sans-serif; color: #ffffff; text-decoration: none; padding: 12px 24px; display: block; border-radius: 6px;">
+                                                View Details
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <!-- /Button -->
 
-		<tr>
-			<th scope="row">Feedback</th>
-			<td>${approvalInfo.responseComment}</td>
-		</tr>
-
-		<tr>
-			<th scope="row">Approver</th>
-			<td>${approvalInfo.approverName}</td>
-		</tr>
-
-		<tr>
-			<th scope="row">Position and Portfolio</th>
-			<td style="background-color:#${approvalInfo.approverPortfolioColor}">
-				${approvalInfo.approverPosition}, ${approvalInfo.approverPortfolioName}
-			</td>
-		</tr>
-
-		<tr>
-			<td class="no-horizontal-border">&nbsp;</td>
-			<td class="no-horizontal-border">&nbsp;</td>
-		</tr>
-
-		<tr class="table-title">
-			<th scope="col" colspan="2">Request Details</th>
-		</tr>
-
-		<tr>
-			<th scope="row">Request Time</th>
-			<td>${approvalInfo.requestTime}</td>
-		</tr>
-
-		<tr>
-			<th scope="row">Expect Date</th>
-			<td>${approvalInfo.expectDate}</td>
-		</tr>
-
-		<tr>
-			<th scope="row">Additional Comments</th>
-			<td>${approvalInfo.requestComment}</td>
-		</tr>
-
-		<tr>
-			<th scope="row">Requester</th>
-			<td>${approvalInfo.requesterName}</td>
-		</tr>
-
-		<tr>
-			<th scope="row">Position and Portfolio</th>
-			<td style="background-color:#${approvalInfo.requesterPortfolioColor}">
-				${approvalInfo.requesterPosition}, ${approvalInfo.requesterPortfolioName}
-			</td>
-		</tr>
-
-		<tr>
-			<td class="no-horizontal-border">&nbsp;</td>
-			<td class="no-horizontal-border">&nbsp;</td>
-		</tr>
-
-		<tr class="table-title">
-			<th scope="col" colspan="2">Event Details</th>
-		</tr>
-													
-		<tr>
-			<th scope="row">Name</th>
-			<td>${approvalInfo.eventName}</td>
-		</tr>
-													
-		<tr>
-			<th scope="row">Location</th>
-			<td><#if approvalInfo.eventLocation?has_content>${approvalInfo.eventLocation}</#if></td>
-		</tr>
-													
-		<tr>
-			<th scope="row">Type</th>
-			<td>${(approvalInfo.eventRecurrent)?string("Recurring","Single Time")} Event</td>
-		</tr>
-													
-		<tr>
-			<th scope="row">Start Time</th>
-			<td>${approvalInfo.eventStartTime}</td>
-		</tr>
-
-		<tr>
-			<th scope="row">Duration</th>
-			<td>${approvalInfo.eventDuration}</td>
-		</tr>
-													
-		<tr>
-			<th scope="row">Organizer</th>
-			<td>${approvalInfo.organizerName}</td>
-		</tr>
-
-		<tr>
-			<th scope="row">Position and Portfolio</th>
-			<td style="background-color:#${approvalInfo.organizerPortfolioColor}">
-				${approvalInfo.organizerPosition}, ${approvalInfo.organizerPortfolioName}
-		</tr>
-
-	</table>
+                    </div>
+                    <p style="line-height: 10px;">&nbsp;</p>
+                </td>
+            </tr>
+        </table>
+    </div>
 </body>
 </html>

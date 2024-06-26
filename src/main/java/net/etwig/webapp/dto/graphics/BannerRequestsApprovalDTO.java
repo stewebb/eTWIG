@@ -5,32 +5,31 @@ import java.util.Map;
 
 import lombok.Getter;
 import lombok.ToString;
-import net.etwig.webapp.model.GraphicsRequest;
+import net.etwig.webapp.model.BannerRequest;
 import net.etwig.webapp.util.NumberUtils;
 import org.apache.commons.lang3.BooleanUtils;
 
 @Getter
 @ToString
-public class ApproveRequestsDTO {
+public class BannerRequestsApprovalDTO {
 	
-	private GraphicsRequest currentRequest;
-	private Long approverRole;
-	private boolean approved;
-	private String responseComment;
-	private Long assetId;
+	private final BannerRequest currentRequest;
+	private final Long approverRole;
+	private final boolean approved;
+	private final String responseComment;
+	private final Long assetId;
 	
-	public ApproveRequestsDTO(GraphicsRequest currentRequest,  Map<String, Object> approvalInfo) {
+	public BannerRequestsApprovalDTO(BannerRequest currentRequest, Map<String, Object> approvalInfo, Long loggedInUserPosition) {
 		this.currentRequest = currentRequest;
-		this.approverRole = Long.parseLong(approvalInfo.get("role").toString());
+		this.approverRole = loggedInUserPosition;
 		this.approved = BooleanUtils.toBoolean(approvalInfo.get("approved").toString());
 		this.responseComment = approvalInfo.get("comments").toString();
 		
 		Object assetObj = approvalInfo.get("asset");
 		this.assetId = (assetObj == null) ? null : NumberUtils.safeCreateLong(assetObj.toString());
-		//this.assetId = NumberUtils.safeCreateLong(approvalInfo.get("asset").toString());
 	}
 	
-	public GraphicsRequest toEntity() {
+	public BannerRequest toEntity() {
 		currentRequest.setApproverRoleId(this.approverRole);
 		currentRequest.setApproved(this.approved);
 		currentRequest.setResponseComment(this.responseComment);

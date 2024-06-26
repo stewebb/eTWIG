@@ -10,6 +10,9 @@
 package net.etwig.webapp;
 
 import java.util.LinkedHashMap;
+
+import net.etwig.webapp.dto.user.CurrentUserDTOWrapper;
+import net.etwig.webapp.services.UserSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
@@ -18,16 +21,16 @@ import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import net.etwig.webapp.config.ConfigFile;
-import net.etwig.webapp.dto.user.UserAccessDTO;
-import net.etwig.webapp.dto.user.UserDTO;
 
 @Component
 public class EtwigInterceptor implements HandlerInterceptor{
 	
 	@Autowired
 	private ConfigFile config;
+
+	@Autowired
+	private UserSessionService userSessionService;
 	
 	/**
 	 * Add data that shared across the application.
@@ -40,32 +43,20 @@ public class EtwigInterceptor implements HandlerInterceptor{
 			return;
 		}
 
-		// User-related data.
-		// Check session first!
-		HttpSession session = request.getSession(false);
-		if(session != null) {
-			
-			// Put user details into session
-			UserDTO userDTO = (UserDTO) session.getAttribute("user");
-			if (userDTO != null) {
-				modelAndView.addObject("user", userDTO);
-			}
-			
-			// Put user access into session
-			UserAccessDTO userAccess = (UserAccessDTO) session.getAttribute("access");
-			//System.out.println(session);
-			System.out.println(userAccess);
-			if(userAccess != null) {
-				modelAndView.addObject("access", userAccess);
-			}
+		CurrentUserDTOWrapper wrapper = userSessionService.validateSession();
+
+		if(wrapper != null){
+			modelAndView.addObject("userBasicInfo", wrapper.getBasicInfo());
+			modelAndView.addObject("userPermission", wrapper.getPermission());
+			modelAndView.addObject("userPosition", wrapper.getPosition());
 		}
 
 		// Application information.
-		LinkedHashMap<String, Object> appInfo = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> appInfo = new LinkedHashMap<>();
 		appInfo.put("appName", config.getAppName());
 
-		appInfo.put("appVersion", "3.2");
+		appInfo.put("appVersion", "3.3");
 		appInfo.put("appOwner", config.getAppOwner());
-		modelAndView.addObject("app", appInfo);				
+		modelAndView.addObject("app", appInfo);
 	}
 }

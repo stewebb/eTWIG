@@ -1,31 +1,29 @@
 package net.etwig.webapp.services;
 
 import java.util.Map;
-import java.util.Optional;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import net.etwig.webapp.dto.BannerRequestDetailsDTO;
+import net.etwig.webapp.dto.graphics.BannerRequestDetailsDTO;
 import net.etwig.webapp.dto.graphics.*;
-import net.etwig.webapp.model.EventGraphics;
+import net.etwig.webapp.model.Asset;
+import net.etwig.webapp.model.UserRole;
 import net.etwig.webapp.repository.EventGraphicsRepository;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
-import net.etwig.webapp.model.GraphicsRequest;
+import net.etwig.webapp.model.BannerRequest;
 import net.etwig.webapp.repository.GraphicsRequestRepository;
 
 @Service
-public class GraphicsRequestService {
+public class BannerRequestService {
 
 	@Autowired
 	private GraphicsRequestRepository graphicsRequestRepository;
@@ -40,14 +38,14 @@ public class GraphicsRequestService {
 	private EntityManager entityManager;
 
 
-	//@Autowired
-	//private EventService eventService;
+	@Autowired
+	private UserSessionService userSessionService;
 	
 	@Autowired
-	private UserRoleService userRoleService;
+	private AssetService assetService;
 
 	/**
-	 * Retrieves a {@link GraphicsRequest} by its ID.
+	 * Retrieves a {@link BannerRequest} by its ID.
 	 * <p>
 	 * This method searches for a graphics request in the repository using the provided ID.
 	 * If the request is found, it is returned; otherwise, the method returns {@code null}.
@@ -55,10 +53,10 @@ public class GraphicsRequestService {
 	 * </p>
 	 *
 	 * @param requestId The ID of the graphics request to find.
-	 * @return The found {@link GraphicsRequest} or {@code null} if no request is found with the given ID.
+	 * @return The found {@link BannerRequest} or {@code null} if no request is found with the given ID.
 	 */
 
-	public GraphicsRequest findById(Long requestId) {
+	public BannerRequest findById(Long requestId) {
 		return graphicsRequestRepository.findById(requestId).orElse(null);
 	}
 
@@ -66,7 +64,7 @@ public class GraphicsRequestService {
 	 * Retrieves a {@link BannerRequestDetailsDTO} by its ID.
 	 * <p>
 	 * This method fetches a graphics request by ID and constructs a DTO with the details of the found request.
-	 * The method leverages the {@link #findById(Long)} method to retrieve the underlying {@link GraphicsRequest}.
+	 * The method leverages the {@link #findById(Long)} method to retrieve the underlying {@link BannerRequest}.
 	 * If the graphics request is found, a new DTO is created and returned; otherwise, this method returns {@code null}.
 	 * </p>
 	 *
@@ -76,13 +74,13 @@ public class GraphicsRequestService {
 	 */
 
 	public BannerRequestDetailsDTO findByIdWithDTO(Long requestId) {
-		GraphicsRequest graphicsRequest = this.findById(requestId);
+		BannerRequest bannerRequest = this.findById(requestId);
 
 		// Null check!
-		if (graphicsRequest == null) {
+		if (bannerRequest == null) {
 			return null;
 		}
-		return new BannerRequestDetailsDTO(graphicsRequest);
+		return new BannerRequestDetailsDTO(bannerRequest);
 	}
 
 	/**
@@ -98,37 +96,18 @@ public class GraphicsRequestService {
 	public Long countByColumn(String column, Object value) {
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Long> query = cb.createQuery(Long.class);
-		Root<GraphicsRequest> root = query.from(GraphicsRequest.class);
+		Root<BannerRequest> root = query.from(BannerRequest.class);
 		query.select(cb.count(root));
 		query.where(cb.equal(root.get(column), value));
 		return entityManager.createQuery(query).getSingleResult();
 	}
-	
-	//public boolean hasPendingRequests(Long eventId) {
-	//	return graphicsRequestRepository.countByApprovedIsNullAndEventId(eventId) > 0;
-	//}
-	
-	public Page<PendingRequestsBasicInfoDTO> getPendingRequests(int page, int size) {
-
-		// TODO USE NEW LIST API
-		Pageable pageable = PageRequest.of(page, size);
-		Page<GraphicsRequest> requests =  graphicsRequestRepository.findByApprovedIsNullOrderByExpectDateDesc(pageable);
-		return requests.map(PendingRequestsBasicInfoDTO::new);
-	}
-	
-	public Page<FinalizedRequestsBasicInfoDTO> getFinalizedRequests(int page, int size) {
-		Pageable pageable = PageRequest.of(page, size);
-		Page<GraphicsRequest> requests =  graphicsRequestRepository.findByApprovedIsNotNullOrderByResponseTimeDesc(pageable);
-		return requests.map(FinalizedRequestsBasicInfoDTO::new);
-	}
-
 
 	/**
 	 * Retrieves a paginated list of banner requests based on the specified criteria.
 	 * <p>
 	 * This method constructs a {@link Specification} using the given event ID and approval status to filter the results.
 	 * It then queries the {@link GraphicsRequestRepository} with this specification and the provided {@link Pageable} object
-	 * to obtain a paginated result. Each {@link GraphicsRequest} found is then transformed into a {@link BannerRequestDetailsDTO} object.
+	 * to obtain a paginated result. Each {@link BannerRequest} found is then transformed into a {@link BannerRequestDetailsDTO} object.
 	 *
 	 * @param eventId The unique identifier of the event to filter by; can be {@code null} if filtering by event ID is not required.
 	 * @param isApproved A {@link String} representing the approval status to filter the graphics requests;
@@ -139,7 +118,7 @@ public class GraphicsRequestService {
 	 */
 
 	public Page<BannerRequestDetailsDTO> findRequestsByCriteria(Long eventId, String isApproved, Pageable pageable) {
-		Specification<GraphicsRequest> spec = bannerRequestCriteria(eventId, isApproved);
+		Specification<BannerRequest> spec = bannerRequestCriteria(eventId, isApproved);
 		return graphicsRequestRepository.findAll(spec, pageable).map(BannerRequestDetailsDTO::new);
 	}
 
@@ -153,7 +132,7 @@ public class GraphicsRequestService {
 	 * @return a Specification object representing the criteria for querying GraphicsRequest entities
 	 */
 
-	public Specification<GraphicsRequest> bannerRequestCriteria(Long eventId, String isApproved) {
+	public Specification<BannerRequest> bannerRequestCriteria(Long eventId, String isApproved) {
 		return (root, query, criteriaBuilder) -> {
 			Predicate finalPredicate = criteriaBuilder.conjunction(); // Start with a conjunction (true).
 
@@ -171,23 +150,6 @@ public class GraphicsRequestService {
 		};
 	}
 
-	public PendingRequestsDetailsDTO getPendingRequestsById(@NonNull Long requestId) {
-		
-		// Get a specific request
-		Optional<GraphicsRequest> requestOpt = graphicsRequestRepository.findById(requestId);
-		if(requestOpt.isEmpty()) {
-			return null;
-		}
-		
-		// Only get **pending** requests.
-		GraphicsRequest request = requestOpt.get();
-		if(request.getApproved() != null) {
-			return null;
-		}
-
-		return new PendingRequestsDetailsDTO(request);
-	}
-	
 	/**
 	 * Make a new graphics request.
 	 * @param requestInfo
@@ -202,7 +164,7 @@ public class GraphicsRequestService {
 		newRequest.fromMap(requestInfo);
 		
 		// Get the information back
-		GraphicsRequest modifiedRequest = graphicsRequestRepository.save(newRequest.toEntity());
+		BannerRequest modifiedRequest = graphicsRequestRepository.save(newRequest.toEntity());
 		return modifiedRequest.getId();
 		
 		
@@ -215,32 +177,76 @@ public class GraphicsRequestService {
 	//public void addRequest 
 
 	/**
-	 * Make a decision for a graphics request, and store the information in the DB.
-	 * @param currentRequest
-	 * @param decisionInfo
-	 * @throws Exception
+	 * Approves a graphics request and updates associated records.
+	 * <p>
+	 * This method processes the approval of a graphics request by updating its status,
+	 * copying approved graphics to the event-specific graphics table, and sending a
+	 * notification email to relevant stakeholders. It performs several operations:
+	 * 1. Validates the user session and incorporates decision information into the approval.
+	 * 2. Saves the updated request details to the repository.
+	 * 3. Retrieves the updated request data to ensure freshness and avoid null values.
+	 * 4. Copies the approved graphics into the 'event_graphics' table if the request was approved.
+	 * 5. Sends an email notification about the approval.
+	 *
+	 * @param currentRequest The {@link BannerRequest} currently being processed.
+	 * @param decisionInfo A map containing additional decision-making information used during the approval process.
+	 * @throws Exception If there are issues during processing, such as database access failures, session validation failures, or email sending errors.
 	 */
-	public void approveRequest(GraphicsRequest currentRequest, Map<String, Object> decisionInfo) throws Exception {
-		ApproveRequestsDTO request = new ApproveRequestsDTO(currentRequest, decisionInfo);
-		
+
+	public void approveRequest(BannerRequest currentRequest, Map<String, Object> decisionInfo) throws Exception {
+
+		BannerRequestsApprovalDTO request = new BannerRequestsApprovalDTO(
+				currentRequest,
+				decisionInfo,
+				userSessionService.validateSession().getPosition().getMyCurrentPositionId()
+		);
+
 		// Update request info
-		GraphicsRequest updatedRequest = request.toEntity();
+		BannerRequest updatedRequest = request.toEntity();
 		graphicsRequestRepository.save(updatedRequest);
 		
 		// Re-query the request data (to avoid some null values)
 		updatedRequest = this.findById(updatedRequest.getId());
 
-		// Need to set the approver info manually
-		FinalizedRequestsDetailsDTO detail = new FinalizedRequestsDetailsDTO(updatedRequest);
-		detail.setApprover(userRoleService.findById(updatedRequest.getApproverRoleId()));
-
-		// "Copy" the graphics to the "event_graphics" table.
-		NewGraphicsDTO newGraphicsDTO = new NewGraphicsDTO();
-		newGraphicsDTO.fromApproval(updatedRequest);
-		EventGraphics eventGraphics = newGraphicsDTO.toEntity();
-		eventGraphicsRepository.save(eventGraphics);
+		// "Copy" the graphics to the "event_graphics" table only when the request is approved.
+		if(updatedRequest.getApproved()) {
+			NewGraphicsDTO newGraphicsDTO = new NewGraphicsDTO();
+			newGraphicsDTO.fromApproval(updatedRequest);
+			eventGraphicsRepository.save(newGraphicsDTO.toEntity());
+		}
 		
 		// Send email
-		emailService.graphicsApprovalNotification(detail);
+		UserRole requesterRole = updatedRequest.getRequesterRole();
+		Asset asset = assetService.getAssetDetailsById(updatedRequest.getAssetId());
+
+		emailService.bannerApprovalNotification(
+				requesterRole.getEmail(),
+				requesterRole.getUser().getEmail(),
+				updatedRequest.getApproved(),
+				updatedRequest.getEventId(),
+				updatedRequest.getEvent().getName(),
+				updatedRequest.getResponseTime(),
+				(asset == null) ? null : asset.getOriginalName(),
+				assetService.getAssetContent(asset)
+		);
+	}
+
+	/**
+	 * Deletes a graphics request from the repository using the specified request ID.
+	 * This method directly interacts with the {@code graphicsRequestRepository} to remove the specified entity.
+	 * It is intended to be a straightforward, efficient way to eliminate records that are no longer needed.
+	 * <p>
+	 * Calling this method results in the immediate deletion of the graphics request identified by the {@code requestId}.
+	 * It does not perform any additional checks or operations, making it crucial that this method is called
+	 * in appropriate scenarios and is adequately secured within the application to prevent unauthorized deletions.
+	 *
+	 * @param requestId the unique identifier of the graphics request to be deleted.
+	 *                  This ID must correspond to an existing record in the database.
+	 * @throws IllegalArgumentException if {@code requestId} is {@code null}.
+	 * @throws org.springframework.dao.EmptyResultDataAccessException if no entity with the given ID is found.
+	 */
+
+	public void deleteById(Long requestId) {
+		graphicsRequestRepository.deleteById(requestId);
 	}
 }

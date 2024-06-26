@@ -1,8 +1,8 @@
 package net.etwig.webapp.controller.api;
 
-import net.etwig.webapp.dto.BannerRequestDetailsDTO;
-import net.etwig.webapp.model.GraphicsRequest;
-import net.etwig.webapp.services.GraphicsRequestService;
+import net.etwig.webapp.dto.graphics.BannerRequestDetailsDTO;
+import net.etwig.webapp.model.BannerRequest;
+import net.etwig.webapp.services.BannerRequestService;
 import net.etwig.webapp.util.InvalidParameterException;
 import net.etwig.webapp.util.NumberUtils;
 import net.etwig.webapp.util.RecordNotFoundException;
@@ -12,7 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -23,7 +23,7 @@ import java.util.Map;
 public class BannerRequestAPIController {
 
     @Autowired
-    private GraphicsRequestService graphicsRequestService;
+    private BannerRequestService bannerRequestService;
 
     @GetMapping("/add")
     public ResponseEntity<String> add(@RequestBody Map<String, Object> eventInfo) {
@@ -55,7 +55,7 @@ public class BannerRequestAPIController {
      */
 
     @PostMapping("/approve")
-    @PostAuthorize("hasAuthority('ROLE_GRAPHICS')")
+    @PreAuthorize("hasAuthority('ROLE_GRAPHICS')")
     public ResponseEntity<Map<String, String>> approve(@RequestBody Map<String, Object> decisionInfo) throws Exception {
         Long requestId = NumberUtils.safeCreateLong(decisionInfo.get("id").toString());
 
@@ -69,12 +69,12 @@ public class BannerRequestAPIController {
         }
 
         // Event existence check
-        GraphicsRequest currentRequest = graphicsRequestService.findById(requestId);
+        BannerRequest currentRequest = bannerRequestService.findById(requestId);
         if(currentRequest == null) {
             throw new RecordNotFoundException("The banner request of Request ID = " + requestId + " does not exist.");
         }
 
-        graphicsRequestService.approveRequest(currentRequest, decisionInfo);
+        bannerRequestService.approveRequest(currentRequest, decisionInfo);
         return ResponseEntity.ok().body(Map.of("message", "Banner approved successfully."));
     }
 
@@ -82,7 +82,7 @@ public class BannerRequestAPIController {
      * Handles the HTTP GET request to retrieve and view the details of a graphics request.
      * <p>
      * This endpoint is accessible via a GET request and expects a request parameter 'requestId'.
-     * It utilizes the {@link GraphicsRequestService#findByIdWithDTO(Long)} method to fetch the request
+     * It utilizes the {@link BannerRequestService#findByIdWithDTO(Long)} method to fetch the request
      * details as a {@link BannerRequestDetailsDTO}. If the request is found, the corresponding DTO is returned,
      * otherwise, the method returns {@code null}.
      * </p>
@@ -96,14 +96,25 @@ public class BannerRequestAPIController {
 
     @GetMapping("/view")
     public BannerRequestDetailsDTO view(@RequestParam Long requestId) {
-        return graphicsRequestService.findByIdWithDTO(requestId);
+        return bannerRequestService.findByIdWithDTO(requestId);
     }
 
-    @PostMapping("/remove")
-    public Map<String, Object> remove(@RequestBody Map<String, Object> eventInfo) {
+    /**
+     * Handles the GET request to remove a banner request based on the provided request ID.
+     * This method is secured with a post-authorization check that ensures only users with the 'ROLE_GRAPHICS'
+     * authority can execute this operation. It is designed to delete a specific banner request from the system.
+     *
+     * @param requestId the ID of the banner request to be deleted. This is a mandatory parameter and the method
+     *                  will not function without it.
+     * @throws SecurityException if the current user does not have the 'ROLE_GRAPHICS' authority.
+     * @location /api/bannerRequest/remove
+     * @permission Those who has graphic management permission.
+     */
 
-        // TODO REMOVE A BANNER REQUEST
-        return null;
+    @GetMapping("/remove")
+    @PreAuthorize("hasAuthority('ROLE_GRAPHICS')")
+    public void remove(@RequestParam Long requestId) {
+        bannerRequestService.deleteById(requestId);
     }
 
     /**
@@ -130,8 +141,6 @@ public class BannerRequestAPIController {
      * @permission All logged in users.
      */
 
-    // TODO ADD A DETAILS BUTTON
-
     @GetMapping("/list")
     public ResponseEntity<Map<String, Object>> list(
             @RequestParam(name = "eventId", required = false) Long eventId,
@@ -146,7 +155,7 @@ public class BannerRequestAPIController {
         PageRequest pageable = PageRequest.of(start / length, length, Sort.by(dir, sortColumn));
 
         // Get data as pages
-        Page<BannerRequestDetailsDTO> page = graphicsRequestService.findRequestsByCriteria(eventId, isApproved, pageable);
+        Page<BannerRequestDetailsDTO> page = bannerRequestService.findRequestsByCriteria(eventId, isApproved, pageable);
 
         Map<String, Object> json = new HashMap<>();
         json.put("draw", draw);
@@ -169,6 +178,6 @@ public class BannerRequestAPIController {
 
     @GetMapping("/count")
     public ResponseEntity<Map<String, Long>> count(@RequestParam String column, @RequestParam Object object) {
-        return ResponseEntity.ok().body(Map.of("count", graphicsRequestService.countByColumn(column, object)));
+        return ResponseEntity.ok().body(Map.of("count", bannerRequestService.countByColumn(column, object)));
     }
 }

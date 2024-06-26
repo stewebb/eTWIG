@@ -3,7 +3,6 @@ package net.etwig.webapp.dto.events;
 import java.time.LocalDateTime;
 
 import lombok.*;
-import net.etwig.webapp.dto.PositionDTO;
 import net.etwig.webapp.model.Event;
 import net.etwig.webapp.model.Portfolio;
 import net.etwig.webapp.model.UserRole;
@@ -12,44 +11,33 @@ import net.etwig.webapp.model.UserRole;
 @ToString
 public class EventDetailsDTO {
 
-	/**
-	 * Event basic information.
-	 */
-	
-	private Long id;
-	private String name;
-	private String location;
-	private String description;
-	private LocalDateTime createdTime;
-	private LocalDateTime updatedTime;
-	
-	/**
-	 * Timing
-	 */
-	
-	private boolean recurring;
-	private boolean allDayEvent;
-	private LocalDateTime startTime;
-	private int duration;
-	private String rRule;
-	private String excluded;
-	
-	/**
-	 * Portfolio, organizer and role.
-	 */
-	
-	private String OrganizerName;
-	private Long userRoleId;
-	private String positionName;
-	private Long portfolioId;
-	private String portfolioName;
-	
-	//private PositionDTO position;
-	
+	// Basic information.
+	private final Long id;
+	private final String name;
+	private final String location;
+	private final String description;
+	private final LocalDateTime createdTime;
+	private final LocalDateTime updatedTime;
+
+	// Timing
+	private final boolean recurring;
+	private final boolean allDayEvent;
+	private final LocalDateTime startTime;
+	private final int duration;
+	private final String rRule;
+	private final String excluded;
+
+	// Portfolio, organizer and position.
+	private final String organizerName;
+	private final Long userRoleId;
+	private final String organizerPosition;
+	private final Long portfolioId;
+	private final String portfolioName;
+	private final String portfolioColor;
 
 	public EventDetailsDTO(Event event) {
 		
-		// Event basic information.
+		// Basic information.
 		this.id = event.getId();
 		this.name = event.getName();
 		this.location = event.getLocation();
@@ -65,15 +53,14 @@ public class EventDetailsDTO {
 		this.rRule = event.getRRule();
 		this.excluded = event.getExcludedDates();
 		
-		//this.position = new PositionDTO(event.getUserRole());
 		UserRole organizerRole = event.getUserRole();
 		this.userRoleId = organizerRole.getId();
-		this.OrganizerName = organizerRole.getUser().getFullName();
-		this.positionName = organizerRole.getPosition();
+		this.organizerName = organizerRole.getUser().getFullName();
+		this.organizerPosition = organizerRole.getPosition();
 		
 		Portfolio portfolio = organizerRole.getPortfolio();
 		this.portfolioId = portfolio.getId();
 		this.portfolioName = portfolio.getName();
+		this.portfolioColor = portfolio.getColor();
 	}
-
 }

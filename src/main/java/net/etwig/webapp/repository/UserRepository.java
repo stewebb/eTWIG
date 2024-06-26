@@ -15,12 +15,5 @@ import net.etwig.webapp.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long>{
 
-	
-	/**
-	 * Find the user by email address.
-	 * @param email
-	 * @return
-	 */
-	
-	User findByEmail(String email);
+    User findByEmail(String email);
 }

@@ -16,12 +16,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import net.etwig.webapp.services.EventService;
-import net.etwig.webapp.services.GraphicsRequestService;
-import net.etwig.webapp.services.OptionService;
 import net.etwig.webapp.services.PortfolioService;
 import net.etwig.webapp.services.PropertyService;
-import net.etwig.webapp.services.UserRoleService;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/events")
@@ -29,18 +26,6 @@ public class EventsPageController {
 
 	@Autowired
 	private PropertyService propertyService;
-	
-	@Autowired
-	private OptionService optionService;
-	
-	@Autowired
-	private EventService eventService;
-	
-	@Autowired
-	private UserRoleService userRoleService;
-	
-	@Autowired
-	private GraphicsRequestService graphicsRequestService;
 	
 	@Autowired
 	private PortfolioService portfolioService;
@@ -88,12 +73,11 @@ public class EventsPageController {
 	 */
 	
 	@RequestMapping({"/add.do", "/edit.do"})
-	public String edit(Model model){
+	public String edit(Model model, @RequestParam(required = false) Long eventId){
 
 		// TODO Add a "view only" page, then set the permission of old pages to "event manager only"
-		// TODO Remove copy event function
 		model.addAttribute("allProperties", propertyService.findAll());
-        model.addAttribute("allOptions", propertyService.findAllGroupByProperties());
+        model.addAttribute("allOptions", propertyService.getOptionsByEvent(eventId));
 		return "events/edit";
 	}
 

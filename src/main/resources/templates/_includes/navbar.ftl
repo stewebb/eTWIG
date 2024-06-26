@@ -37,7 +37,7 @@
 						<#-- /Events -->
 						
 						<#-- Graphics -->
-          				<#if access.graphicsAccess>
+          				<#if userPermission.graphicsAccess>
 							<li class="nav-item dropdown <#if navbar?starts_with("GRAPHICS_")>active</#if>">
 							
 								<#-- Dropdown btn -->
@@ -80,7 +80,7 @@
 					    <#-- /Graphics -->
 					
 					    <#-- Admin -->
-          				<#if access.adminAccess>
+          				<#if userPermission.adminAccess>
 							<li class="nav-item dropdown">
 							
 								<#-- Dropdown btn -->
@@ -146,7 +146,7 @@
                 <li class="nav-item dropdown <#if navbar=="USER">active</#if>">
 						
                 	<#-- User icon -->
-                	<a class="nav-link navbar-border" data-toggle="dropdown" href="#">
+                	<a class="nav-link navbar-border" data-toggle="dropdown" href="#" style="background-color:#${userPosition.myCurrentPosition.portfolioColor}; color:#FFFFFF">
                    		<i class="fa-solid fa-user"></i>
                 	</a>
                 	<#-- /User icon -->
@@ -156,14 +156,34 @@
 						<div class="user-panel d-flex justify-content-center mt-2 mb-2">
 							<div class="image">
 								<img src="" class="img-circle elevation-3">
-								</div>
-								<div class="info">
-								<a href="#" class="d-block" id="userName">${user.fullName}</a>
+							</div>
+							<div class="info">
+								<a href="#" class="d-block" id="userName">${userBasicInfo.fullName}</a>
 							</div>
 						</div>
 
 
 						<div class="dropdown-divider"></div>
+
+						<#-- Switch Role -->						
+						<div class="dropdown-item">
+							<div class="form-group">
+								<label>
+									<i class="fa-regular fa-user-tie"></i>&nbsp;Select Position
+								</label>
+								
+								<select class="form-control select2bs4" id="selectRole" onchange="selectRole();">
+									<#list userPosition.myPositions as position>						
+										<#if position.userRoleId == userPosition.myCurrentPosition.userRoleId>
+											<option value="${position.userRoleId}" selected>${position.position}</option>
+										<#else>
+											<option value="${position.userRoleId}">${position.position}</option>
+										</#if>			
+									</#list>
+								</select>
+							</div>
+						</div>	
+						<#-- /Switch Role -->
 						
 						<#-- Profile -->						
 						<a href="/user/index.do" class="dropdown-item">

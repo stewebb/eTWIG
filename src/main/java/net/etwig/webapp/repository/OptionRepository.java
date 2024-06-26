@@ -9,19 +9,11 @@
 
 package net.etwig.webapp.repository;
 
-import java.util.List;
+import net.etwig.webapp.model.Option;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import net.etwig.webapp.model.Option;
-
 @Repository
 public interface OptionRepository extends JpaRepository<Option, Long> {
-	
-	/**
-	 * Find all options in the database.
-	 */
-	
-    public List<Option> findAll();
-    
+
 }

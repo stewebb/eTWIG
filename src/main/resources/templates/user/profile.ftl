@@ -7,7 +7,7 @@
 	function: The dashboard (site main) page.
    -->
 <#assign navbar = "USER">
-<#assign nameParts = user.fullName?split(" ")>
+<#assign nameParts = userBasicInfo.fullName?split(" ")>
 <#assign firstName = nameParts[0]>
 
 <!DOCTYPE html>
@@ -34,7 +34,7 @@
 			<#-- Page header -->
 			<section class="content-header">
 				<div class="container-fluid">
-					<h1 class="bold-text">User Settings: ${user.fullName}</h1>
+					<h1 class="bold-text">User Settings: ${userBasicInfo.fullName}</h1>
 				</div>
 			</section>
 			<#-- /Page header -->
@@ -58,9 +58,9 @@
 									<#-- /Avatar -->
 									
 									<#-- Name and role -->
-									<h3 class="profile-username text-center">${user.fullName}</h3>
+									<h3 class="profile-username text-center">${userBasicInfo.fullName}</h3>
 									<p class="text-muted text-center">
-										<#list access.myRoles as role>
+										<#list userPermission.myRoles as role>
 											${role.name}&nbsp;
 										</#list>		
 									</p>
@@ -69,10 +69,10 @@
 									<#-- User basic info -->
 									<ul class="list-group list-group-unbordered mb-3">
 										<li class="list-group-item">
-											<b>User ID</b> <a class="float-right">${user.id}</a>
+											<b>User ID</b> <a class="float-right">${userBasicInfo.id}</a>
 										</li>
 										<li class="list-group-item">
-											<b>Email</b> <a class="float-right">${user.email}</a>
+											<b>Email</b> <a class="float-right">${userBasicInfo.email}</a>
 										</li>
 										<li class="list-group-item">
 											<b>Last login</b> <a class="float-right"></a>
@@ -170,7 +170,6 @@
 
 									</div>
 									<#-- /Change password. -->
-
 									
 								</div>
 

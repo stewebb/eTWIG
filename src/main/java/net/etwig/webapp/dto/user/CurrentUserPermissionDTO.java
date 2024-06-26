@@ -9,24 +9,24 @@ import net.etwig.webapp.model.UserRole;
 
 @Getter
 @ToString
-public class UserAccessDTO {
+public class CurrentUserPermissionDTO {
 	
 	private boolean eventsAccess = false;
 	private boolean graphicsAccess = false;
 	private boolean adminAccess = false;
 	
-	private Set<Role> myRoles = new HashSet<Role>();
+	private final Set<Role> myRoles = new HashSet<Role>();
 	
-	public UserAccessDTO(Set<UserRole> userRoles) {
+	public CurrentUserPermissionDTO(Set<UserRole> userRoles) {
 		
-		// The permission of each roles accumulates.
+		// The permission of each role accumulates.
 		for (UserRole userRole : userRoles) {
 			Role role = userRole.getRole();
 			
 			// Add my roles
 			myRoles.add(role);
 			
-			// Grant all permissions immediately as long as the user is admin.
+			// Grant all permissions if the user is admin.
 			if(role.isAdminAccess()) {
 				this.eventsAccess = true;
 				this.graphicsAccess = true;

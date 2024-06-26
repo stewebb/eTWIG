@@ -3,7 +3,7 @@ package net.etwig.webapp.dto.graphics;
 import lombok.Getter;
 import lombok.ToString;
 import net.etwig.webapp.model.EventGraphics;
-import net.etwig.webapp.model.GraphicsRequest;
+import net.etwig.webapp.model.BannerRequest;
 import org.apache.commons.lang3.BooleanUtils;
 
 import java.time.LocalDateTime;
@@ -20,19 +20,19 @@ public class NewGraphicsDTO {
 
     /**
      * Get new graphics details from request approvals.
-     * @param graphicsRequest The detail of approved requests.
+     * @param bannerRequest The detail of approved requests.
      */
 
-    public void fromApproval(GraphicsRequest graphicsRequest){
+    public void fromApproval(BannerRequest bannerRequest){
 
         // Only approved requests are allowed to proceed.
-        if(!graphicsRequest.getApproved()){
+        if(!bannerRequest.getApproved()){
             throw new IllegalArgumentException("This graphics request was declined.");
         }
 
-        this.eventId = graphicsRequest.getEventId();
-        this.operatorRoleId = graphicsRequest.getApproverRoleId();
-        this.assetId = graphicsRequest.getAssetId();
+        this.eventId = bannerRequest.getEventId();
+        this.operatorRoleId = bannerRequest.getApproverRoleId();
+        this.assetId = bannerRequest.getAssetId();
         this.banner = true;
     }
 
@@ -41,9 +41,9 @@ public class NewGraphicsDTO {
      * @param newGraphicsInfo
      */
 
-    public void addDirectly(Map<String, Object> newGraphicsInfo){
+    public void addDirectly(Map<String, Object> newGraphicsInfo, Long loggedInPosition){
         this.eventId = Long.parseLong(newGraphicsInfo.get("eventId").toString());
-        this.operatorRoleId = Long.parseLong(newGraphicsInfo.get("operatorRole").toString());
+        this.operatorRoleId = loggedInPosition;//Long.parseLong(newGraphicsInfo.get("operatorRole").toString());
         this.banner = BooleanUtils.toBoolean(newGraphicsInfo.get("isBanner").toString());
         this.assetId = Long.parseLong(newGraphicsInfo.get("asset").toString());
     }

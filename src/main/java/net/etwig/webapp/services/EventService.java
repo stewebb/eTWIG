@@ -15,23 +15,23 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import net.etwig.webapp.dto.events.*;
+import net.etwig.webapp.dto.user.CurrentUserDTOWrapper;
+import net.etwig.webapp.dto.user.CurrentUserPositionDTO;
 import net.etwig.webapp.importer.EventImporter;
 import net.etwig.webapp.importer.ExcelEventImporter;
 import net.etwig.webapp.importer.ODSEventImporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jakarta.servlet.http.HttpSession;
 import net.etwig.webapp.dto.graphics.NewRequestDTO;
-import net.etwig.webapp.dto.user.UserAccessDTO;
+import net.etwig.webapp.dto.user.CurrentUserPermissionDTO;
 import net.etwig.webapp.model.Event;
 import net.etwig.webapp.model.EventOption;
 import net.etwig.webapp.model.EventOptionKey;
-import net.etwig.webapp.model.GraphicsRequest;
+import net.etwig.webapp.model.BannerRequest;
 import net.etwig.webapp.model.Portfolio;
 import net.etwig.webapp.repository.EventOptionRepository;
 import net.etwig.webapp.repository.EventRepository;
@@ -48,39 +48,23 @@ public class EventService {
 	private EventRepository eventRepository;
 	
 	@Autowired
-	private UserRoleService userRoleService;
-	
-	@Autowired
 	private EventOptionRepository eventOptionRepository;
 	
 	@Autowired
 	private GraphicsRequestRepository graphicsRequestRepository;
 	
 	@Autowired
-	private GraphicsRequestService graphicsRequestService;
-	
-	@Autowired
-	private EmailService emailService;
-	
-	@Autowired
-	private HttpSession session;
-	
+	private UserSessionService userSessionService;
+
 	/**
-	 * Public entry of the event services.
-	 * The access control modifiers are "public".
-	 * @throws Exception 
+	 * Retrieves the details of an event by its ID and maps it to a DTO.
+	 * <p>This method attempts to fetch an event from the {@code eventRepository} using the provided ID.
+	 * If the event is found, it is transformed into an {@link EventDetailsDTO} using the DTO's constructor.
+	 * If no event with the provided ID exists, the method returns {@code null}.</p>
+	 *
+	 * @param id The unique identifier of the event to be retrieved. Should be a positive number.
+	 * @return An instance of {@link EventDetailsDTO} containing the event details, or {@code null} if no event is found.
 	 */
-	
-	public GraphicsRequestEventInfoDTO findEventsForGraphicsRequestById(long eventId) throws Exception {
-		Event event = (eventRepository == null) ? null :eventRepository.findById(eventId).orElse(null);
-		return (event == null) ?  null : new GraphicsRequestEventInfoDTO(event);
-	}
-	
-	/**
-	 * Find the event detail by it's id.
-	 * @param id
-	 * @return EventDetailsDTO
-	 */	
 	
 	public EventDetailsDTO findById(long id) {
 		return eventRepository.findById(id).map(EventDetailsDTO::new).orElse(null);
@@ -133,9 +117,11 @@ public class EventService {
 	
 	@SuppressWarnings("null")
 	public void editEvent(Map<String, Object> eventInfo, EventDetailsDTO currentEvent){
-		
+
+		Long myPosition = userSessionService.validateSession().getPosition().getMyCurrentPositionId();
+
 		// Add event
-		AddEditEventDTO newEventDTO = new AddEditEventDTO(eventInfo, currentEvent);
+		AddEditEventDTO newEventDTO = new AddEditEventDTO(eventInfo, currentEvent, myPosition);
 		//System.out.println(newEventDTO);
 		Event addedEvent = eventRepository.save(newEventDTO.toEntity());
 		
@@ -156,21 +142,15 @@ public class EventService {
 		// Make a request
 		NewRequestDTO newRequest = new NewRequestDTO();
 		newRequest.fromParam(eventId, addedEvent.getUserRoleId(), graphics.get("comments").toString(), graphics.get("returningDate").toString());
-		GraphicsRequest modifiedRequest = graphicsRequestRepository.save(newRequest.toEntity());
+		BannerRequest modifiedRequest = graphicsRequestRepository.save(newRequest.toEntity());
 		//Long requestId = modifiedRequest.getId();
 		
 		// Send an email to graphics managers
 		//emailService.graphicsRequestNotification(new NewRequestEmailNotificationDTO(graphicsRequestService.findById(requestId)));
 	}
-	
-	/**
-	 * Get and set resources, they are only used in this class.
-	 * The access control modifiers are "private".
-	 */
-	
 
-	
-	/**
+
+    /**
 	 * Update event options bulky, by removing all all existing options first, and then add all new options.
 	 * @param eventId The id of the event.
 	 * @param optionIds A list with all options that associated for the event.
@@ -191,17 +171,31 @@ public class EventService {
         eventOptionRepository.saveAll(newEventOptions);
 
     }
-	
+
 	/**
-	 * Helper methods below, they are only used in this class.
-	 * The access control modifiers are "private".
-	 */
+	 * Checks if the current user has edit permissions for a specified portfolio.
+	 * <p>
+	 * This method assesses the user's permissions based on their role and the portfolios they are associated with.
+	 * There are three cases handled:
+	 * <ol>
+	 *     <li>System administrators: Always have edit permissions.</li>
+	 *     <li>Users with events access: Have edit permissions if they are associated with the specified portfolio.</li>
+	 *     <li>Other users: Do not have edit permissions.</li>
+	 * </ol>
+	 * </p>
+	 *
+	 * @param portfolio the portfolio for which edit permissions are being checked
+	 * @return true if the current user has edit permissions for the specified portfolio, false otherwise
+     */
 	
-	public boolean eventEditPermissionCheck(Portfolio portfolio) throws Exception {
+	public boolean eventEditPermissionCheck(Portfolio portfolio) {
 			
 		// Get user authority
-		UserAccessDTO access = (UserAccessDTO) session.getAttribute("access");
-		
+
+		CurrentUserDTOWrapper wrapper = userSessionService.validateSession();
+		CurrentUserPermissionDTO access = wrapper.getPermission();
+		CurrentUserPositionDTO position = wrapper.getPosition();
+
 		// Case 1: System administrators have edit permission, regardless of which portfolio the user has.
 		if(access.isAdminAccess()) {
 			return true;
@@ -211,18 +205,26 @@ public class EventService {
 		else if (access.isEventsAccess()) {
 
 			// All portfolios that I have.
-			Set<Portfolio> myPortfolios = userRoleService.getMyPortfolios();
+			// Set<Portfolio> myPortfolios = userRoleService.getMyPortfolios();
+
+			//Long eventPortfolioId = portfolio.getId();
 			
 			// Iterate my portfolios, if any of them matches the given portfolio, I have edit permission.
-			for(Portfolio myPortfolio : myPortfolios) {
-				if(myPortfolio.equals(portfolio)) {
-					return true;
-				}
-			}
+			//for(Portfolio myPortfolio : myPortfolios) {
+			//	if(myPortfolio.equals(portfolio)) {
+			//		return true;
+			//	}
+			//}
+
+			//for(int p : position.){
+			//
+			//}
+
+			// Check if the portfolio of an event match my current position.
+            return portfolio.getName().equals(position.getMyCurrentPosition().getPortfolioName());
 			
 			// Otherwise I don't have edit permission.
-			return false;
-		}
+        }
 		
 		// Case 3: Other users have no edit permission.
 		else {
