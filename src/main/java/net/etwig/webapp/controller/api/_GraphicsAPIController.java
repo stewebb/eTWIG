@@ -23,11 +23,14 @@ public class _GraphicsAPIController {
     @Autowired
     private EventService eventService;
 
+    /*
     @PostAuthorize("hasAuthority('ROLE_GRAPHICS')")
     @GetMapping(value = "/eventGraphicsList")
     public Page<EventGraphicsAPIForSummaryPageDTO> eventGraphicsList(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) throws Exception {
         return eventGraphicsService.eventGraphicsList(page, size);
     }
+
+     */
 
     @PostAuthorize("hasAuthority('ROLE_GRAPHICS')")
     @PostMapping(value = "/addGraphicsForEvent")

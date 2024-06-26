@@ -129,8 +129,6 @@ public class BannerRequestAPIController {
      * @permission All logged in users.
      */
 
-    // TODO ADD A DETAILS BUTTON
-
     @GetMapping("/list")
     public ResponseEntity<Map<String, Object>> list(
             @RequestParam(name = "eventId", required = false) Long eventId,

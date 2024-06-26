@@ -99,11 +99,26 @@ public class EventGraphicsService {
 		};
 	}
 
+	/**
+	 * Fetches a paginated list of event graphics summaries encapsulated within {@link EventGraphicsAPIForSummaryPageDTO} objects.
+	 * This method delegates the data retrieval to {@code eventGraphicsRepository.eventGraphicsList(pageable)},
+	 * which executes a complex query to gather detailed graphics data associated with each event.
+	 * <p>
+	 * The resulting page includes details such as event ID, name, start time, counts of banner and non-banner graphics,
+	 * the latest graphic upload time, and the count of pending banner requests. It utilizes the specified {@code Pageable}
+	 * to control pagination and sorting, ensuring that the data is presented in a manageable and ordered format.
+	 *
+	 * @param pageable a {@code Pageable} object that specifies the pagination and sorting criteria.
+	 * @return a {@code Page<EventGraphicsAPIForSummaryPageDTO>} containing the paginated event graphics summaries.
+	 */
 
 	public Page<EventGraphicsAPIForSummaryPageDTO> findBySummary(Pageable pageable) {
-		//return eventGraphicsRepository.findAll(pageable).map(EventGraphicsAPIForSummaryPageDTO::new);
 		return eventGraphicsRepository.eventGraphicsList(pageable);
 	}
+
+
+
+
 
 
 	
@@ -133,11 +148,6 @@ public class EventGraphicsService {
 
 	public List<RecurringEventGraphicsPublicInfoDTO> getTwigGraphicsRecurringEvents(Long portfolioId) {
 		return eventGraphicsRepository.findRecurringEventsAndLatestGraphicByPortfolio(portfolioId);
-	}
-
-	public Page<EventGraphicsAPIForSummaryPageDTO> eventGraphicsList(int page, int size){
-		Pageable pageable = PageRequest.of(page, size);
-		return eventGraphicsRepository.eventGraphicsList(pageable);
 	}
 
 	public List<EventGraphicsDetailsDTO> getGraphicsDetailsByEventId(Long eventId, Boolean banner){

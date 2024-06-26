@@ -19,19 +19,20 @@ import java.util.List;
 public interface EventGraphicsRepository extends JpaRepository<EventGraphics, Long>, JpaSpecificationExecutor<EventGraphics> {
 
 	/**
-	 * Retrieves a paginated list of {@link EventGraphicsAPIForSummaryPageDTO} representing events with graphics details.
-	 * Each {@link EventGraphicsAPIForSummaryPageDTO} includes the event ID, name, start time, count of non-banner graphics,
-	 * count of banner graphics, and the latest upload time of any associated graphic.
+	 * Retrieves a paginated list of {@link EventGraphicsAPIForSummaryPageDTO} representing events with detailed graphics information.
+	 * Each {@link EventGraphicsAPIForSummaryPageDTO} contains the event ID, name, start time, count of non-banner graphics,
+	 * count of banner graphics, the latest upload time of any associated graphic, and the count of pending banner requests.
 	 * <p>
-	 * The selection is made from the {@code Event} entities, with a left join on the {@code graphics} associated with each event.
-	 * This method counts the number of graphics flagged as banner and not banner, and retrieves the most recent upload time
-	 * for graphics in each event.
+	 * The data is extracted from the {@code Event} entities using a left join on the {@code graphics} associated with each event
+	 * and a subsequent join on {@code BannerRequest} for additional banner request details. This method aggregates the number of
+	 * graphics categorized as banners and non-banners, the most recent upload time for graphics, and the number of banner requests
+	 * without approval (pending status).
 	 * <p>
-	 * Results are grouped by event ID and ordered by event ID in descending order, ensuring that newer events are listed first.
+	 * Results are grouped by event ID and ordered by event ID in descending order to prioritize newer events.
 	 *
 	 * @param pageable a {@code Pageable} object to control pagination and sorting of the query results.
-	 * @return a {@code Page<EventGraphicsListDTO>} object containing the list of events with graphics details,
-	 *         paginated according to the given {@code Pageable} object.
+	 * @return a {@code Page<EventGraphicsListDTO>} containing paginated details of events with graphics information,
+	 *         organized according to the provided {@code Pageable} object.
 	 */
 
 	@Query("SELECT new net.etwig.webapp.dto.graphics.EventGraphicsAPIForSummaryPageDTO(" +
