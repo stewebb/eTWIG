@@ -1,25 +1,28 @@
 function eventGraphicsDataTable(){
 	var dt = $('#eventGraphics').DataTable({
-        processing: true,
-        serverSide: true,
-        searching: false, 
-        bAutoWidth: false,
-        ajax: {
-            url: "/api/private/eventGraphicsList",
-            data: function (d) {
-                d.page = d.start / d.length;
-                d.size = d.length;
-            },
-            type: "GET",
-            dataSrc: function (json) {
-                return json.content;
-            }
-        },
+		"processing": true,
+		"serverSide": true,
+		"lengthMenu": [[10, 20, 50, 100], [10, 20, 50, 100]],
+		"pageLength": 20,
+		"searching": false, 
+		"order": [[0, "desc"]],
+		"ajax": {
+			"url": "/api/eventGraphics/summary",
+			"type": "GET",
+			"data": function(d) {
+				return $.extend({}, d, {
+					"sortColumn": d.columns[d.order[0].column].data,
+					"sortDirection": d.order[0].dir
+				});
+			}
+		},
         columns: [
             { data: "id" },
             { data: "eventName" },
             { data: "startTime", render: dateWeekRender1},
-            { data: null, render: statusRender},
+            //{ data: null, render: statusRender},
+			{ data: "twigComponentNum", render: countsRender},
+			{ data: "bannerNum", render: countsRender},
             { data: "lastModified", render: dateWeekRender},
             { mRender: actionRender}
         ]

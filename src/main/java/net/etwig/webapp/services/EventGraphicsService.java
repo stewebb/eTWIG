@@ -101,8 +101,7 @@ public class EventGraphicsService {
 
 
 	public Page<EventGraphicsAPIForSummaryPageDTO> findBySummary(Pageable pageable) {
-		//Specification<EventGraphics> spec = eventGraphicsCriteriaForDetails(eventId, isBanner);
-		//return eventGraphicsRepository.findAll(spec, pageable).map(EventGraphicsAPIForDetailsPageDTO::new);
+		//return eventGraphicsRepository.findAll(pageable).map(EventGraphicsAPIForSummaryPageDTO::new);
 		return eventGraphicsRepository.eventGraphicsList(pageable);
 	}
 

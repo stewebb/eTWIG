@@ -18,13 +18,30 @@ import java.util.List;
 @Repository
 public interface EventGraphicsRepository extends JpaRepository<EventGraphics, Long>, JpaSpecificationExecutor<EventGraphics> {
 
+	/**
+	 * Retrieves a paginated list of {@link EventGraphicsAPIForSummaryPageDTO} representing events with graphics details.
+	 * Each {@link EventGraphicsAPIForSummaryPageDTO} includes the event ID, name, start time, count of non-banner graphics,
+	 * count of banner graphics, and the latest upload time of any associated graphic.
+	 * <p>
+	 * The selection is made from the {@code Event} entities, with a left join on the {@code graphics} associated with each event.
+	 * This method counts the number of graphics flagged as banner and not banner, and retrieves the most recent upload time
+	 * for graphics in each event.
+	 * <p>
+	 * Results are grouped by event ID and ordered by event ID in descending order, ensuring that newer events are listed first.
+	 *
+	 * @param pageable a {@code Pageable} object to control pagination and sorting of the query results.
+	 * @return a {@code Page<EventGraphicsListDTO>} object containing the list of events with graphics details,
+	 *         paginated according to the given {@code Pageable} object.
+	 */
+
 	@Query("SELECT new net.etwig.webapp.dto.graphics.EventGraphicsAPIForSummaryPageDTO(" +
 			"e.id, e.name, e.startTime, " +										// Events
 			"SUM(CASE WHEN g.banner = FALSE THEN 1 ELSE 0 END), " + 			// Count of graphics
 			"SUM(CASE WHEN g.banner = TRUE THEN 1 ELSE 0 END), " + 				// Count of banners
 			"MAX(g.uploadTime)) " + 											// Most recent modification date
 			"FROM Event e LEFT JOIN EventGraphics g ON e.id = g.eventId " +
-			"GROUP BY e.id ORDER BY e.id DESC")
+			"GROUP BY e.id")
+			//"GROUP BY e.id ORDER BY e.id DESC")
 	Page<EventGraphicsAPIForSummaryPageDTO> eventGraphicsList(Pageable pageable);
 
 	//@Query("SELECT e FROM Event e LEFT JOIN EventGraphics g ON e.id = g.eventId GROUP BY e.id ORDER BY e.id DESC")
