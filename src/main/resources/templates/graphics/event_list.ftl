@@ -62,13 +62,13 @@
 								<div class="card-body table-responsive">
 
 									<#-- Table Content -->
-									<table id="eventGraphics" class="table table-hover table-striped">
+									<table id="eventGraphics" class="display table table-hover table-striped" width="100%">
 										<thead>
 											<tr>
-												<th colspan="3" style="vertical-align: middle;">Event Details</th>
-												<th colspan="3" style="vertical-align: middle;">Statistics</th>
-												<th rowspan="2" style="vertical-align: middle;">Last Modified</th>
-												<th rowspan="2" style="vertical-align: middle;">Action</th>
+												<th colspan="3" style="vertical-align: middle; text-align: center;">Event Details</th>
+												<th colspan="3" style="vertical-align: middle; text-align: center;">Statistics</th>
+												<th rowspan="2" style="vertical-align: middle; text-align: center;">Last Modified</th>
+												<th rowspan="2" style="vertical-align: middle; text-align: center;">Action</th>
 											</tr>
 											<tr>
 												<th>ID</th>
@@ -104,7 +104,7 @@
 	
 	<script>
     	var dt = eventGraphicsDataTable();
-		console.log(dt)
+		//console.log(dt)
 	</script>
 </body>
 

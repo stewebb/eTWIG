@@ -44,13 +44,7 @@ public interface EventGraphicsRepository extends JpaRepository<EventGraphics, Lo
 			"LEFT JOIN EventGraphics g ON e.id = g.eventId " +
 			"LEFT JOIN BannerRequest b ON g.eventId = b.eventId " +
 			"GROUP BY e.id")
-
-			//"GROUP BY e.id ORDER BY e.id DESC")
 	Page<EventGraphicsAPIForSummaryPageDTO> eventGraphicsList(Pageable pageable);
-
-	//@Query("SELECT e FROM Event e LEFT JOIN EventGraphics g ON e.id = g.eventId GROUP BY e.id ORDER BY e.id DESC")
-	//Page<Event> eventGraphicsSummary(Pageable pageable);
-
 
 	@Query("SELECT new net.etwig.webapp.dto.events.SingleTimeEventGraphicsPublicInfoDTO(e, g) FROM Event e " +
 			"LEFT JOIN EventGraphics g WITH g.id = (" +
@@ -76,7 +70,4 @@ public interface EventGraphicsRepository extends JpaRepository<EventGraphics, Lo
 	List<RecurringEventGraphicsPublicInfoDTO> findRecurringEventsAndLatestGraphicByPortfolio(@Param("portfolio") Long portfolio);
 
 	List<EventGraphics> findByEventIdAndBannerOrderByIdDesc(Long eventId, boolean banner);
-
-	// Optional<EventGraphics> findById(Long id);
-
 }

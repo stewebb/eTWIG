@@ -19,7 +19,7 @@ function eventGraphicsDataTable(){
         columns: [
             { data: "id", orderable: true },
             { data: "eventName", orderable: false },
-            { data: "startTime", render: dateWeekRender1, orderable: true},
+            { data: "startTime", render: dateWeekWithBadgeRender, orderable: true},
 			{ data: "twigComponentNum", render: twigComponentCountRender, orderable: false},
 			{ data: "bannerNum", render: bannerCountRender, orderable: false},
 			{ data: "pendingApprovalNum", render: pendingApprovalCountRender, orderable: false},
@@ -30,43 +30,49 @@ function eventGraphicsDataTable(){
     return dt;
 }
 
-function dateWeekRender1(data, type, row){
+function dateWeekWithBadgeRender(data, type, row){
 
 	// Get dates
-	//console.log(data)
-
 	var targetDate = Date.parse(data);
 	var dateWeek = targetDate.toString('yyyy-MM-dd HH:mm') + '&nbsp;';
-	//var today = Date.today();
 
+    var today = new Date();
+    var dayOfWeek = today.getDay(); 						// Get current day of the week (0 for Sunday, 6 for Saturday)
+    var dateWeek = targetDate.toDateString() + '&nbsp;'; 	// Assuming targetDate is a Date object
 
-	// Find Monday of this week. If today is Sunday (0), Datejs considers it the start of a new week,
-	// so we need to adjust for that by going back to the previous week's Monday if today is Sunday.
-	//var monday = (today.getDay() === 0) ? today.last().monday() : today.monday()
-	var monday = Date.monday();
+    // Find Monday of this week
+    var monday;
 
-	// Calculate week differences
-	var daysDifference = Math.abs(monday - targetDate) / (1000 * 60 * 60 * 24);
-	var weeksDifference = Math.ceil(daysDifference / 7);
+	// If today is Sunday, go back six days to last Monday
+    if (dayOfWeek === 0) {
+        monday = new Date(today.setDate(today.getDate() - 6));	
+    } 
+	
+	// Otherwise, subtract the current day of week number minus 1 to get to the last Monday
+	else {
+        monday = new Date(today.setDate(today.getDate() - dayOfWeek + 1));
+    }
 
-	// Weeks left
-	if (monday < targetDate) {
+    // Calculate week differences
+    var daysDifference = (targetDate - monday) / (1000 * 60 * 60 * 24);
+    var weeksDifference = Math.floor(daysDifference / 7);
 
-		// Current Week
-		if(weeksDifference <= 1){
-			return dateWeek + `<span class="badge badge-danger">In this week</span>`
-		}	
+    // Weeks left
+    if (monday < targetDate) {
 
-		// Next week
-		if(weeksDifference == 2){
-			return dateWeek + `<span class="badge badge-warning">In next week</span>`
-		}
+        // Current Week
+        if (weeksDifference === 0) {
+            return dateWeek + `<span class="badge badge-danger">In this week</span>`;
+        }
 
-		// More than 1 week left
-		else{
-			return dateWeek + `<span class="badge badge-primary">${weeksDifference+1} weeks left</span>`
-		}
-	} 
+        // Next week
+        if (weeksDifference === 1) {
+            return dateWeek + `<span class="badge badge-warning">In next week</span>`;
+        }
+
+        // More than 1 week left
+        return dateWeek + `<span class="badge badge-primary">${weeksDifference + 1} weeks left</span>`;
+    }
 	
 	// Weeks passed
 	else {
