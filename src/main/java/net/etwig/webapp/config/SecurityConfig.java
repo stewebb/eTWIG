@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -30,13 +29,12 @@ import net.etwig.webapp.handler.CustomAuthenticationEntryPoint;
 import net.etwig.webapp.handler.LoginSuccessHandler;
 import net.etwig.webapp.services.RememberMeService;
 import net.etwig.webapp.services.UserRoleService;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @SuppressWarnings("deprecation")
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 
 /**
  * Configuration class for web security, defining the security constraints and behaviors
@@ -53,7 +51,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * </ul>
  */
 
-public class WebSecurityConfig {
+public class SecurityConfig {
 
 	@Autowired
 	private UserRoleService userRoleService;

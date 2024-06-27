@@ -12,7 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.lang.NonNull;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@Secured({"hasAuthority(ROLE_GRAPHICS)"})
+//@Secured({"hasAuthority(ROLE_GRAPHICS)"})
 @RequestMapping("/graphics")
 public class GraphicsPageController {
 
@@ -34,17 +34,31 @@ public class GraphicsPageController {
 	private BannerRequestService bannerRequestService;
 
 	/**
-	 * The event list page
-	 * @return The event_list template.
+	 * Displays the event list page for graphics-related events.
+	 * <p>
+	 * This method handles the GET request to show a list of events. It returns the view name
+	 * of the template used to render the event list, specifically tailored for users with graphics-related
+	 * roles. The template is located under the 'graphics' directory.
+	 * </p>
+	 * <p>
+	 * Security: Access to this method is restricted to users with the 'ROLE_GRAPHICS' authority, ensuring
+	 * that only authorized personnel can view the graphics event list.
+	 * </p>
+	 *
+	 * @return The path to the 'event_list' template within the 'graphics' directory.
+	 * @location /graphics/eventList.do
+	 * @permission Those who has graphic management permission.
 	 */
 
+	@PreAuthorize("hasAuthority('ROLE_GRAPHICS')")
 	@GetMapping("/eventList.do")
 	public String eventList(){
-
-		// TODO **Copy** this page to /events, then display different contents based on user permission
 		return "graphics/event_list";
 	}
 
+	// TODO **Copy** this page to /events, then display different contents based on user permission
+
+	@PreAuthorize("hasAuthority('ROLE_GRAPHICS')")
 	@GetMapping("/eventGraphics.do")
 	public String eventGraphics(Model model, @RequestParam Long eventId) throws Exception {
 		EventDetailsDTO event = eventService.findById(eventId);
@@ -77,6 +91,7 @@ public class GraphicsPageController {
 	 * @permission Those who has graphic management permission.
 	 */
 
+	@PreAuthorize("hasAuthority('ROLE_GRAPHICS')")
 	@GetMapping("/approvalList.do")
 	public String approvalList() {
 		return "graphics/approval_list";
@@ -101,6 +116,7 @@ public class GraphicsPageController {
 	 * @permission Those who has graphic management permission.
 	 */
 
+	@PreAuthorize("hasAuthority('ROLE_GRAPHICS')")
 	@GetMapping("/approvalDetails.do")
 	public String approvalDetails(Model model, @RequestParam @NonNull Long requestId) {
 

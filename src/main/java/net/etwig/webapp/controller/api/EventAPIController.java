@@ -9,6 +9,7 @@ import net.etwig.webapp.util.PortfolioMismatchException;
 import net.etwig.webapp.util.WebReturn;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -107,6 +108,7 @@ public class EventAPIController {
      * @permission Those who has event management permission.
      */
 
+    @PreAuthorize("hasAuthority('ROLE_EVENTS')")
     @PostMapping(value = "/import")
     public Map<String, Object> importEvents(@RequestParam("file") MultipartFile file, @RequestParam("role") Long role) throws Exception {
 
