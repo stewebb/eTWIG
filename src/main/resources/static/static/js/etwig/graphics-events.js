@@ -52,6 +52,23 @@ function eventGraphicsDataTable(){
     return dt;
 }
 
+/**
+ * Submits a POST request to the server to add a new graphics item based on the user inputs collected from the form. 
+ * The function constructs an object with the necessary parameters, validates the inputs, and makes a synchronous AJAX 
+ * request. If any required input is missing, it triggers a warning popup and aborts the submission.
+ *
+ * The parameters for the new graphics item include:
+ * - `eventId`: The event identifier, parsed from the input field with ID `eventId`.
+ * - `operatorRole`: The role of the operator, derived from the selected dropdown option in `operatorRole`.
+ * - `isBanner`: A boolean determined by a radio button input where 0 indicates a banner; other values or no selection results in a warning.
+ * - `asset`: The asset identifier, required for creating the graphics item; absence of a valid asset ID triggers a warning.
+ *
+ * Error Handling:
+ * - If the AJAX request encounters a server-side error or the response includes an error flag, it displays an appropriate error popup with details.
+ * - On successful addition, displays a success popup and refreshes the page after a brief delay.
+ *
+ * @returns {void} Does not return a value but initiates UI interactions based on AJAX response.
+ */
 
 function addGraphics(){
 	var newGraphicsObj = {}
@@ -81,7 +98,7 @@ function addGraphics(){
     //console.log(newGraphicsObj);
     //return;
 		
-	var hasError = true;
+	//var hasError = true;
 	$.ajax({
    		url: '/api/eventGraphics/add', 
    		type: "POST",
@@ -92,23 +109,22 @@ function addGraphics(){
    		success: function (result) {
 			if(result.error > 0){
 				dangerPopup("Failed to add graphics.", result.msg);
-				hasError = true;
+				//hasError = true;
 			}else{
 				successPopup("Graphics added successfully.");
-				hasError = false;
+				setTimeout(function() {	location.reload(); }, 2500);
 			}	
     	},
     	error: function (err) {
     		dangerPopup("Failed to add graphics due to a HTTP " + err.status + " error.", err.responseJSON.exception);
-    		hasError = true;
+    		//hasError = true;
     	}
  	});
 
 	// Redirect back
-	if(!hasError){
-		setTimeout(function() {	location.reload(); }, 2500);
-	}
-	
+	//if(!hasError){
+	//	setTimeout(function() {	location.reload(); }, 2500);
+	//}
 }
 
 /**

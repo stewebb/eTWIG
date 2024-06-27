@@ -68,10 +68,10 @@ public class EventGraphicsAPIController {
         return WebReturn.errorMsg(null, true);
     }
 
-    @PostMapping("/edit")
-    public Map<String, Object> edit(@RequestBody Map<String, Object> eventInfo) {
-        return null;
-    }
+    //@PostMapping("/edit")
+    //public Map<String, Object> edit(@RequestBody Map<String, Object> eventInfo) {
+    //    return null;
+    //}
 
     /**
      * Handles the HTTP GET request to view event graphics details.

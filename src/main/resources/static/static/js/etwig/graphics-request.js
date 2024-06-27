@@ -1,3 +1,6 @@
+// TODO: Pending Removal
+
+/*
 function createDatePicker(){
 	var datepicker = new tui.DatePicker("#eventGraphicsDateWrapper", {
 		date: Date.today(),
@@ -66,3 +69,4 @@ function requestEvent(embedded){
 		setTimeout(function() { window.location.reload(); }, 2500);
 	}
 }
+*/

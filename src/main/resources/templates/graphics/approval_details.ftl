@@ -341,8 +341,8 @@
 	<#include "../_includes/footer.ftl">
 	<#include "../_includes/header/body_end.ftl">
 
-	<#-- JS for Graphics Approval -->
-	<script type="text/javascript" src="/static/js/etwig/graphics-approval.js?ver=${app.appVersion}"></script>
+	<#-- JS for Banner Request Approval -->
+	<script type="text/javascript" src="/static/js/etwig/banner-approval.js?ver=${app.appVersion}"></script>
 	
 	<script>
 	
