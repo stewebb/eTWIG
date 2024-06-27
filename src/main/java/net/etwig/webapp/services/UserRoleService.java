@@ -65,6 +65,8 @@ public class UserRoleService implements UserDetailsService{
     
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
+        System.out.println("hello world");
         
     	// Find user details
     	User user = userRepository.findByEmail(email);

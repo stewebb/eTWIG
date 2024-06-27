@@ -9,6 +9,8 @@
 
 package net.etwig.webapp.config;
 
+import net.etwig.webapp.handler.ApiAuthenticationProvider;
+import net.etwig.webapp.handler.ApiLoginAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,15 +27,29 @@ import net.etwig.webapp.handler.CustomAuthenticationEntryPoint;
 import net.etwig.webapp.handler.LoginSuccessHandler;
 import net.etwig.webapp.services.RememberMeService;
 import net.etwig.webapp.services.UserRoleService;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @SuppressWarnings("deprecation")
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+
 /**
- * Configuration class for Spring Security, defining the security policy for the web application.
+ * Configuration class for web security, defining the security constraints and behaviors
+ * for various types of HTTP requests within the application. It uses Spring Security
+ * to enforce authentication and authorization policies.
+ *
+ * <p>Key configurations include:</p>
+ * <ul>
+ *     <li>Definition of public and secured endpoints.</li>
+ *     <li>Form login and logout configurations.</li>
+ *     <li>Remember Me functionality setup.</li>
+ *     <li>Custom handling of authentication entry points for unauthenticated requests.</li>
+ *     <li>Security enhancements such as HTTPS enforcement and headers configuration.</li>
+ * </ul>
  */
+
 public class WebSecurityConfig {
 
 	@Autowired
@@ -57,14 +73,19 @@ public class WebSecurityConfig {
 	 * @return the configured {@link SecurityFilterChain}
 	 * @throws Exception if an error occurs during the configuration
 	 */
+
 	@SuppressWarnings("removal")
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
 		// Permit all requests to public pages while securing all other requests.
 		http.authorizeHttpRequests((requests) -> requests
 				.requestMatchers(this.publicPages).permitAll()
 				.anyRequest().authenticated()
 		);
+
+		http.addFilterBefore(new ApiLoginAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+				.authenticationProvider(new ApiAuthenticationProvider());
 
 		// Configuration for the form login.
 		http.formLogin((form) -> form
@@ -106,6 +127,7 @@ public class WebSecurityConfig {
 	 * @param auth the {@link AuthenticationManagerBuilder} to configure
 	 * @throws Exception if an error occurs setting up the authentication manager
 	 */
+
 	@Autowired
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userRoleService).passwordEncoder(passwordEncoder());
@@ -115,6 +137,7 @@ public class WebSecurityConfig {
 	 * Provides a BCrypt password encoder for hashing passwords securely.
 	 * @return an instance of {@link BCryptPasswordEncoder}
 	 */
+
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
