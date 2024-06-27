@@ -1,8 +1,12 @@
 package net.etwig.webapp.controller.api;
 
+import net.etwig.webapp.dto.events.EventDetailsDTO;
 import net.etwig.webapp.dto.graphics.EventGraphicsAPIForDetailsPageDTO;
 import net.etwig.webapp.dto.graphics.EventGraphicsAPIForSummaryPageDTO;
 import net.etwig.webapp.services.EventGraphicsService;
+import net.etwig.webapp.services.EventService;
+import net.etwig.webapp.util.NumberUtils;
+import net.etwig.webapp.util.WebReturn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,9 +25,47 @@ public class EventGraphicsAPIController {
     @Autowired
     EventGraphicsService eventGraphicsService;
 
+    @Autowired
+    private EventService eventService;
+
+    /**
+     * Adds new graphics information to an event specified by the eventId included in the request body.
+     * <p>
+     * This method handles POST requests to add graphics-related data. It first retrieves the eventId from
+     * the request body and validates it. If the eventId is invalid or the event does not exist, it returns
+     * an error message. If the eventId is valid, it proceeds to add the new graphics information.
+     * </p>
+     * <p>
+     * Security: This method is secured with {@link PreAuthorize} and can only be accessed by users
+     * with the 'ROLE_GRAPHICS' authority.
+     * </p>
+     *
+     * @param newGraphicsInfo A {@link Map} representing the new graphics data to be added, including the eventId.
+     * @return A {@link Map} with a key of "error" or "success" indicating the result of the operation and a message if applicable.
+     * @location /api/eventGraphics/add
+     * @permission Those who has graphic management permission.
+     */
+
+    @PreAuthorize("hasAuthority('ROLE_GRAPHICS')")
     @PostMapping("/add")
-    public Map<String, Object> add(@RequestBody Map<String, Object> eventInfo) {
-        return null;
+    public Map<String, Object> add(@RequestBody Map<String, Object> newGraphicsInfo) {
+
+        // Get current request
+        Long eventId = NumberUtils.safeCreateLong(newGraphicsInfo.get("eventId").toString());
+
+        // Invalid or negative eventId, add event.
+        if(eventId == null || eventId <= 0) {
+            return WebReturn.errorMsg("The eventId is invalid.", false);
+        }
+
+        // Check the existence
+        EventDetailsDTO event = eventService.findById(eventId);
+        if(event == null) {
+            return WebReturn.errorMsg("The event with id= " + eventId + " does not exist.", false);
+        }
+
+        eventGraphicsService.addGraphics(newGraphicsInfo);
+        return WebReturn.errorMsg(null, true);
     }
 
     @PostMapping("/edit")
@@ -76,7 +118,7 @@ public class EventGraphicsAPIController {
      * @param sortDirection The direction of the sort ('asc' or 'desc').
      * @return A {@link ResponseEntity} containing the paginated data and status code.
      * @location /api/eventGraphics/list
-     * @permission All logged in users.
+     * @permission Those who has graphic management permission.
      */
 
     @GetMapping("/list")

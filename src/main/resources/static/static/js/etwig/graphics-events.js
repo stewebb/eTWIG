@@ -1,3 +1,25 @@
+/**
+ * Initializes and configures a DataTable for managing event graphics. The table is set up to perform server-side processing, 
+ * including pagination, sorting, and filtering controlled by the server. Specific column rendering functions are applied to 
+ * format dates and counts appropriately within the table.
+ *
+ * Configuration:
+ * - Processing: Enables the visual feedback that the data is being processed.
+ * - ServerSide: Enables server-side processing where sorting, pagination, and searching are handled by the server.
+ * - LengthMenu and PageLength: Configures the number of entries shown per page and the options available for the user to select.
+ * - Searching: Disabled to offload filtering logic to the server or other UI components.
+ * - Order: Sets the default column order.
+ * - Ajax: Configures the AJAX request for fetching data, including URL, type, and additional data handling to append sorting parameters.
+ * - Columns: Specifies column data sources, orderability, and custom render functions for specific columns to enhance the presentation of data.
+ *
+ * Each column has specific settings:
+ * - Orderable determines if the column can be sorted.
+ * - Render functions for columns like `startTime`, `twigComponentNum`, `bannerNum`, `pendingApprovalNum`, and `lastModified` provide customized display formats.
+ *
+ * Returns:
+ * - {object} The DataTable instance created and configured.
+ */
+
 function eventGraphicsDataTable(){
 	var dt = $('#eventGraphics').DataTable({
 		"processing": true,
@@ -61,7 +83,7 @@ function addGraphics(){
 		
 	var hasError = true;
 	$.ajax({
-   		url: '/api/private/addGraphicsForEvent', 
+   		url: '/api/eventGraphics/add', 
    		type: "POST",
    		async: false,
    		dataType: "json",
@@ -88,6 +110,21 @@ function addGraphics(){
 	}
 	
 }
+
+/**
+ * Sends a GET request to the server to remove a specific graphics item identified by the provided `graphicsId`. Upon 
+ * successful removal, it displays a success popup and refreshes the current page after a brief delay. If the removal 
+ * fails due to a server error, it displays an error popup detailing the issue.
+ *
+ * @param {number} graphicsId - The unique identifier for the graphics item to be removed.
+ *
+ * Errors:
+ * - If the AJAX request fails (e.g., due to network issues or server errors), it displays a danger popup with an error 
+ * message that includes the HTTP status and a specific error description returned by the server.
+ *
+ * Side Effects:
+ * - Triggers UI updates through popups and refreshes the page upon successful operation or error handling.
+ */
 
 function removeGraphics(graphicsId) {
 	$.ajax({

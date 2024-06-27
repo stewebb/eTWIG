@@ -44,6 +44,26 @@ function setAssetsUpload(approvedMode){
 	$('#graphicsApprovalAssets').toggle(approvedMode == 1);
 }
 
+/**
+ * Processes the approval decision for a graphic request. The function collects decision parameters from the user 
+ * interface, constructs an object with these parameters, and makes a synchronous AJAX POST request to submit the 
+ * approval or decline decision. If the decision or necessary parameters are not specified, the function triggers 
+ * warning pop-ups and aborts further execution.
+ *
+ * The approval decision parameters include:
+ * - `id`: Extracted from the element with ID `requestId`, representing the unique identifier of the request.
+ * - `role`: Extracted from the selected option in `approverRole`, representing the role of the approver.
+ * - `approved`: A boolean derived from the value of a checked radio button named `graphicsApprovalOption`, indicating approval (true) or decline (false).
+ * - `comments`: User comments from the `graphicsApprovalComments` input.
+ * - `asset`: (Conditional) If the request is approved, it extracts an asset ID from `uploadCallback`, required for approval.
+ *
+ * Error Handling:
+ * - If the approval option is not selected or the necessary asset ID is not provided when required, a warning popup is shown, and the function exits without submitting the data.
+ * - If the AJAX request fails, it shows an error popup with the error details.
+ *
+ * On successful data submission, it shows a success popup with a response message and redirects the user to the `graphics/approvalList.do` page after a delay.
+ */
+
 function decide(){
 	var approvalDecisionObj = {}
 	
@@ -74,7 +94,7 @@ function decide(){
 		approvalDecisionObj["asset"] = assetId;
 	}
 		
-	var hasError = true;
+	//var hasError = true;
 	$.ajax({
    		url: '/api/bannerRequest/approve', 
    		type: "POST",
@@ -84,18 +104,18 @@ function decide(){
    		data: JSON.stringify(approvalDecisionObj),
    		success: function (result) {
 			successPopup(result.message);
-			hasError = false;
+			setTimeout(function() {	$(location).attr('href','/graphics/approvalList.do'); }, 2500);
     	},
     	error: function (err) {
     		dangerPopup("Failed to submit a decision due to a HTTP " + err.status + " error.", err.responseJSON.exception);
-    		hasError = true;
+    		//hasError = true;
     	}
  	});
 
 	// Redirect back
-	if(!hasError){
-		setTimeout(function() {	$(location).attr('href','/graphics/approvalList.do'); }, 2500);
-	}
+	//if(!hasError){
+	//	setTimeout(function() {	$(location).attr('href','/graphics/approvalList.do'); }, 2500);
+	//}
 	
 }
 
@@ -151,6 +171,21 @@ function formatEventDates(startDate, endDate) {
         return `${startDateFormat} ${startTimeFormat} - ${endDateFormat} ${endTimeFormat}`;
     }
 }
+
+/**
+ * Sends a GET request to the server to remove a banner request identified by the given requestId. On successful removal, 
+ * it displays a success popup and redirects the user to the 'graphics/approvalList.do' page after a brief delay. If the 
+ * removal fails due to a server error, it displays an error popup detailing the issue.
+ *
+ * @param {number} requestId - The unique identifier for the banner request to be removed.
+ *
+ * Errors:
+ * - If the AJAX request fails (e.g., due to network issues or server errors), it displays a danger popup with an error 
+ * message that includes the HTTP status and a specific error description returned by the server.
+ *
+ * Side Effects:
+ * - Triggers UI updates through popups and redirects upon successful operation or error handling.
+ */
 
 function removeBannerRequest(requestId) {
 	$.ajax({

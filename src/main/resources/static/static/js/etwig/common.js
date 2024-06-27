@@ -8,31 +8,25 @@
  	*/
 
 /**
- * A popup that used in successful results.
- * @param title The title of the popup.
+ * Displays a success popup notification.
+ *
+ * This function triggers a SweetAlert2 popup with a success icon and a customized message.
+ * The popup automatically closes after a brief duration without displaying a countdown.
+ *
+ * @param {string} title - The title displayed in the popup, which is typically a success message.
  */
 
-function successPopup(title){
-	Swal.fire({
-		icon: "success",
-		title: "Success",
+function successPopup(title) {
+    Swal.fire({
+        icon: "success",
+        title: "Success",
         timer: 2000,
-		html: `
+        html: `
             <div style="text-align: left;">
                 <strong>${title}</strong>
-                <p>This popup will be closed in <b></b> seconds.</p>
-            </div>`,
-        didOpen: () => {
-            //Swal.showLoading();
-            const timer = Swal.getPopup().querySelector("b");
-            timerInterval = setInterval(() => {
-              timer.textContent = (Swal.getTimerLeft()*0.001).toFixed(1);
-            }, 100);
-          },
-          willClose: () => {
-            clearInterval(timerInterval);
-          }
-	  });
+                <p>This popup will close shortly.</p>
+            </div>`
+    });
 }
 
 /**
@@ -191,28 +185,6 @@ function combineDateAndTime(date, timeString) {
 
     return combinedDateTime;
 }
-
-/*
-function getMyPositions(){	
-	var position = {};
-	
-	$.ajax({ 
-		type: 'GET', 
-    	url: '/api/private/getMyPositions', 
-    	async: false,
-		success: function(json) {
-			position = json;
-        },
-        
-        // popup error info when it happens
-    	error: function(err) {   		
-			dangerPopup("Failed to get user positions due to a HTTP " + err.status + " error.", err.responseJSON.exception);
-		}
-	});
-	
-	return position;
-}
-*/
 
 /**
  * Retrieves the name of the browser based on the provided user agent string.
