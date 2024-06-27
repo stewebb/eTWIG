@@ -9,11 +9,10 @@
 
 package net.etwig.webapp.config;
 
-import net.etwig.webapp.handler.ApiAuthenticationProvider;
-import net.etwig.webapp.handler.ApiLoginAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -84,8 +83,12 @@ public class WebSecurityConfig {
 				.anyRequest().authenticated()
 		);
 
-		http.addFilterBefore(new ApiLoginAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-				.authenticationProvider(new ApiAuthenticationProvider());
+		//http.addFilterBefore(new ApiLoginAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+		//		.authenticationProvider(new ApiAuthenticationProvider());
+
+		//http.addFilterBefore(
+		//		apiLoginAuthenticationFilter(authenticationManagerBean()), UsernamePasswordAuthenticationFilter.class
+		//);
 
 		// Configuration for the form login.
 		http.formLogin((form) -> form
@@ -146,8 +149,23 @@ public class WebSecurityConfig {
 	 * Defines a custom authentication entry point to start the authentication process when unauthenticated requests are made to secured resources.
 	 * @return an instance of {@link AuthenticationEntryPoint}
 	 */
+
 	@Bean
 	public AuthenticationEntryPoint authenticationEntryPoint() {
 		return new CustomAuthenticationEntryPoint();
 	}
+
+	//@Bean
+	//public ApiLoginAuthenticationFilter apiLoginAuthenticationFilter(AuthenticationManager authenticationManager) {
+	//	ApiLoginAuthenticationFilter filter = new ApiLoginAuthenticationFilter();
+	//	filter.setAuthenticationManager(authenticationManager);
+	//	return filter;
+	//}
+
+	//@Bean
+	//@Override
+	//public AuthenticationManager authenticationManagerBean() throws Exception {
+	//	return super.authenticationManagerBean();
+	//}
+
 }
