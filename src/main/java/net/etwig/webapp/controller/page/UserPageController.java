@@ -9,9 +9,17 @@
 
 package net.etwig.webapp.controller.page;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/user")
@@ -87,5 +95,47 @@ public class UserPageController {
 		//return "user/profile";
 		// TODO Logout page
 		return null;
+	}
+
+	@Autowired
+	private AuthenticationManager authenticationManager;
+
+	@GetMapping("/pLogin.do")
+	public ResponseEntity<?> pLogin(@RequestParam String username) {
+		try {
+			// Create an authentication token
+			Authentication authenticationToken = new UsernamePasswordAuthenticationToken(
+					username, null);
+
+			// Authenticate the token using the custom provider
+			Authentication authentication = authenticationManager.authenticate(authenticationToken);
+
+			// If authentication is successful, you might want to create a JWT token or similar here
+			return ResponseEntity.ok().body("User authenticated successfully");
+		} catch (AuthenticationException e) {
+			return ResponseEntity.status(401).body("Authentication failed: " + e.getMessage());
+		}
+	}
+
+	public class LoginRequest {
+		private String username;
+		private String password; // Include if you need the password, exclude in DEMO mode
+
+		// Getters and setters
+		public String getUsername() {
+			return username;
+		}
+
+		public void setUsername(String username) {
+			this.username = username;
+		}
+
+		public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
 	}
 }

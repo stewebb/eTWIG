@@ -9,11 +9,15 @@
 
 package net.etwig.webapp.config;
 
+import net.etwig.webapp.handler.CustomAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -60,6 +64,9 @@ public class WebSecurityConfig {
 	@Autowired
 	private RememberMeService rememberMeService;
 
+	@Autowired
+	private CustomAuthenticationProvider customAuthenticationProvider; // TODO: Inject custom authentication provider
+
 	// Array of paths that should be accessible publicly without authentication.
 	private final String[] publicPages = {
 			"/", "/static/**", "/api/public/**", "/nsRest/public/**",
@@ -82,13 +89,6 @@ public class WebSecurityConfig {
 				.requestMatchers(this.publicPages).permitAll()
 				.anyRequest().authenticated()
 		);
-
-		//http.addFilterBefore(new ApiLoginAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-		//		.authenticationProvider(new ApiAuthenticationProvider());
-
-		//http.addFilterBefore(
-		//		apiLoginAuthenticationFilter(authenticationManagerBean()), UsernamePasswordAuthenticationFilter.class
-		//);
 
 		// Configuration for the form login.
 		http.formLogin((form) -> form
@@ -131,9 +131,21 @@ public class WebSecurityConfig {
 	 * @throws Exception if an error occurs setting up the authentication manager
 	 */
 
+	//@Autowired
+	//protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+	//	auth.userDetailsService(userRoleService).passwordEncoder(passwordEncoder());
+	//}
+
 	@Autowired
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userRoleService).passwordEncoder(passwordEncoder());
+		// Configure the DaoAuthenticationProvider with UserDetailsService and PasswordEncoder
+		DaoAuthenticationProvider daoAuthProvider = new DaoAuthenticationProvider();
+		daoAuthProvider.setUserDetailsService(userRoleService);
+		daoAuthProvider.setPasswordEncoder(passwordEncoder());
+		auth.authenticationProvider(daoAuthProvider); // Standard authentication provider
+
+		// Add custom AuthenticationProvider
+		auth.authenticationProvider(customAuthenticationProvider); // TODO: Use custom provider
 	}
 
 	/**
@@ -155,17 +167,8 @@ public class WebSecurityConfig {
 		return new CustomAuthenticationEntryPoint();
 	}
 
-	//@Bean
-	//public ApiLoginAuthenticationFilter apiLoginAuthenticationFilter(AuthenticationManager authenticationManager) {
-	//	ApiLoginAuthenticationFilter filter = new ApiLoginAuthenticationFilter();
-	//	filter.setAuthenticationManager(authenticationManager);
-	//	return filter;
-	//}
-
-	//@Bean
-	//@Override
-	//public AuthenticationManager authenticationManagerBean() throws Exception {
-	//	return super.authenticationManagerBean();
-	//}
-
+	@Bean
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+		return authenticationConfiguration.getAuthenticationManager();
+	}
 }
