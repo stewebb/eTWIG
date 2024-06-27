@@ -9,6 +9,9 @@
 
 package net.etwig.webapp.controller.page;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import net.etwig.webapp.handler.LoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,9 +24,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Base64;
+
 @Controller
 @RequestMapping("/user")
 public class UserPageController {
+
+	@Autowired
+	private LoginSuccessHandler successHandler;
 
     /**
 	 * Handles the root GET request and redirects to the index page.
@@ -101,7 +111,11 @@ public class UserPageController {
 	private AuthenticationManager authenticationManager;
 
 	@GetMapping("/pLogin.do")
-	public ResponseEntity<?> pLogin(@RequestParam String username) {
+	public ResponseEntity<?> pLogin(@RequestParam String token, HttpServletRequest request, HttpServletResponse response) {
+
+		byte[] decodedBytes = Base64.getDecoder().decode(token);
+		System.out.println(new String(decodedBytes));
+		/*
 		try {
 			// Create an authentication token
 			Authentication authenticationToken = new UsernamePasswordAuthenticationToken(
@@ -109,33 +123,18 @@ public class UserPageController {
 
 			// Authenticate the token using the custom provider
 			Authentication authentication = authenticationManager.authenticate(authenticationToken);
+			successHandler.onAuthenticationSuccess(request, response, authentication);
 
 			// If authentication is successful, you might want to create a JWT token or similar here
 			return ResponseEntity.ok().body("User authenticated successfully");
 		} catch (AuthenticationException e) {
 			return ResponseEntity.status(401).body("Authentication failed: " + e.getMessage());
-		}
-	}
+		} catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-	public class LoginRequest {
-		private String username;
-		private String password; // Include if you need the password, exclude in DEMO mode
+		 */
 
-		// Getters and setters
-		public String getUsername() {
-			return username;
-		}
-
-		public void setUsername(String username) {
-			this.username = username;
-		}
-
-		public String getPassword() {
-			return password;
-		}
-
-		public void setPassword(String password) {
-			this.password = password;
-		}
-	}
+		return ResponseEntity.ok().body("Body");
+    }
 }

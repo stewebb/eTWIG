@@ -7,7 +7,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
@@ -25,9 +24,14 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         UserDetails userDetails;
         try {
             userDetails = userRoleService.loadUserByUsername(username);
+
+            //return  new CustomUserDetails()
+
         } catch (UsernameNotFoundException ex) {
-            throw new UsernameNotFoundException("User not found in database");
+            throw new UsernameNotFoundException("User not found");
         }
+
+        userDetails.getAuthorities();
 
         // If the username exists, authenticate the user without checking the password
         return new UsernamePasswordAuthenticationToken(
