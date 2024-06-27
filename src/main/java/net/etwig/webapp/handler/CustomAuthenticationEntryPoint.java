@@ -24,6 +24,8 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     	
     	//Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     	//System.out.println(auth);
+
+        System.out.println("hello");
     	
     	// Not logged in.
         if (session == null || session.getAttribute("user") == null) {

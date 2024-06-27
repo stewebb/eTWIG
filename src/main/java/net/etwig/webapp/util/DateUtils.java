@@ -10,7 +10,6 @@
 package net.etwig.webapp.util;
 
 import java.time.*;
-import java.time.Duration;
 import java.util.Date;
 import java.time.temporal.TemporalAdjusters;
 
@@ -117,31 +116,6 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
     public static LocalDate findTomorrow(LocalDate date) {
 		return date.plusDays(1);
     }
-    
-    
-    public static String timeAgo(LocalDateTime date) {
-        LocalDateTime now = LocalDateTime.now();
-        Duration duration = Duration.between(date, now);
 
-        if (duration.isNegative()) {
-            return "In the future";
-        }
 
-        long seconds = duration.getSeconds();
-        long minutes = seconds / 60;
-        long hours = minutes / 60;
-        long days = hours / 24;
-        long months = days / 30;
-        long years = months / 12;
-
-        if (years > 0) return years + " years ago";
-        if (months > 0) return months + " months ago";
-        if (days > 0) return days + " days ago";
-        if (hours > 0) return hours + " hours ago";
-        if (minutes > 0) return minutes + " minutes ago";
-        return "Just now";
-    }
-    
-   
-    
 }

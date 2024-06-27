@@ -31,95 +31,100 @@ import net.etwig.webapp.services.UserRoleService;
 @EnableWebSecurity
 @EnableMethodSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig{
+/**
+ * Configuration class for Spring Security, defining the security policy for the web application.
+ */
+public class WebSecurityConfig {
 
 	@Autowired
-    private UserRoleService userRoleService;
-	
+	private UserRoleService userRoleService;
+
 	@Autowired
 	private LoginSuccessHandler loginSuccessHandler;
-	
+
 	@Autowired
 	private RememberMeService rememberMeService;
-	
+
+	// Array of paths that should be accessible publicly without authentication.
 	private final String[] publicPages = {
-		"/",
-		"/static/**", 
-		"/api/public/**",
-		"/nsRest/public/**",
-		"/twig/**", 
-		"/error", 
-		"/assets/**"
+			"/", "/static/**", "/api/public/**", "/nsRest/public/**",
+			"/twig/**", "/error", "/assets/**"
 	};
-	
+
+	/**
+	 * Configures the security filter chain that handles HTTP requests to enforce security constraints.
+	 * @param http the {@link HttpSecurity} to modify
+	 * @return the configured {@link SecurityFilterChain}
+	 * @throws Exception if an error occurs during the configuration
+	 */
 	@SuppressWarnings("removal")
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-          
-		// Public access resources.
+		// Permit all requests to public pages while securing all other requests.
 		http.authorizeHttpRequests((requests) -> requests
 				.requestMatchers(this.publicPages).permitAll()
 				.anyRequest().authenticated()
-			);
-		
-		// Login page.
+		);
+
+		// Configuration for the form login.
 		http.formLogin((form) -> form
 				.loginPage("/user/login.do")
-	            .loginProcessingUrl("/user/login")
+				.loginProcessingUrl("/user/login")
 				.permitAll()
 				.failureUrl("/user/login.do?success=false")
 				.successHandler(loginSuccessHandler)
-			);
-		
-		// Remember Me
-		http.rememberMe().rememberMeServices(rememberMeService);		
-		
-		// Logout URL.
+		);
+
+		// Configuration for the "remember me" functionality.
+		http.rememberMe().rememberMeServices(rememberMeService);
+
+		// Configuration for the logout process.
 		http.logout((logout) -> logout.logoutUrl("/user/logout"));
-		
-		// Disable CSRF.
+
+		// Disable CSRF to avoid conflicts with stateless APIs or client-side technologies.
 		http.csrf().disable();
-		
-		// Allow frames from any origin
+
+		// Allow all frame origins and disable frame options for clickjacking protection.
 		http.headers()
-        	.frameOptions().disable()
-            .contentSecurityPolicy("frame-ancestors 'self' https:;");
-		
-		// Force enable HTTPS. (or some browsers may block the website if it's in a frame)
-        http.requiresChannel(
-        		(channel) -> channel.anyRequest().requiresSecure()
-        );
-        
-        http.exceptionHandling((exception)-> exception.
-        		authenticationEntryPoint(authenticationEntryPoint())
-        );
-        
+				.frameOptions().disable()
+				.contentSecurityPolicy("frame-ancestors 'self' https:;");
+
+		// Enforce HTTPS to secure channel communications.
+		http.requiresChannel((channel) -> channel.anyRequest().requiresSecure());
+
+		// Exception handling to redirect to the custom entry point when authentication is needed.
+		http.exceptionHandling((exception) -> exception
+				.authenticationEntryPoint(authenticationEntryPoint())
+		);
+
 		return http.build();
 	}
 
 	/**
-	 * Set up a password encoder.
-	 * @param auth
-	 * @throws Exception
+	 * Configures the authentication manager with a user details service and a password encoder.
+	 * This is critical for verifying user credentials during authentication.
+	 * @param auth the {@link AuthenticationManagerBuilder} to configure
+	 * @throws Exception if an error occurs setting up the authentication manager
 	 */
-	
-    @Autowired
+	@Autowired
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    	auth.userDetailsService(userRoleService).passwordEncoder(passwordEncoder());
-    }
+		auth.userDetailsService(userRoleService).passwordEncoder(passwordEncoder());
+	}
 
-   /**
-    * Use BCrypt to encrypt the password.
-    * @return BCryptPasswordEncoder;
-    */
-    
-    public BCryptPasswordEncoder passwordEncoder() {
-    	return new BCryptPasswordEncoder();
-    }
-    
+	/**
+	 * Provides a BCrypt password encoder for hashing passwords securely.
+	 * @return an instance of {@link BCryptPasswordEncoder}
+	 */
+	public BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
-    @Bean
-    public AuthenticationEntryPoint authenticationEntryPoint(){
-        return new CustomAuthenticationEntryPoint();
-    }
+	/**
+	 * Defines a custom authentication entry point to start the authentication process when unauthenticated requests are made to secured resources.
+	 * @return an instance of {@link AuthenticationEntryPoint}
+	 */
+	@Bean
+	public AuthenticationEntryPoint authenticationEntryPoint() {
+		return new CustomAuthenticationEntryPoint();
+	}
 }
