@@ -10,6 +10,7 @@
 package net.etwig.webapp.controller.page;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -62,7 +63,9 @@ public class EventsPageController {
 	
 	@GetMapping("/calendar.do")
 	public String calendar(Model model){
-		model.addAttribute("portfolios", portfolioService.getAllPortfolioList());
+
+		//System.out.println(portfolioService.getAllPortfolioList(Pageable.unpaged()).getContent());
+		model.addAttribute("portfolios", portfolioService.getAllPortfolioList(Pageable.unpaged()).getContent());
 		return "events/calendar";
 	}
 	

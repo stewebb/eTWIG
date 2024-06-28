@@ -214,10 +214,10 @@
         												<optgroup label="My Portfolio(s)">
         									
         									
-        												<#if portfolio?has_content>
-        													<#list portfolio as portfolio_id, portfolio_info>
-																<option data-color="#${portfolio_info.color}" data-icon="<#if portfolio_info.icon?has_content>${portfolio_info.icon}</#if>" value="${portfolio_id}">
-																	${portfolio_info.name}
+        												<#if portfolios?has_content>
+        													<#list portfolios as portfolio>
+																<option data-color="#${portfolio.color}" data-icon="<#if portfolio.icon?has_content>${portfolio.icon}</#if>" value="${portfolio.id}">
+																	${portfolio.name}
 																</option>
 															</#list>
         												</#if>

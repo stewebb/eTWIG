@@ -11,25 +11,16 @@ package net.etwig.webapp.repository;
 
 import net.etwig.webapp.model.Portfolio;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {
-	
-	/**
-	 * Find all portfolios in the database.
-	 */
-	
-    //public @NonNull List<Portfolio> findAll();
-    
-    //@Query(value = "SELECT * FROM etwig_portfolio ORDER BY LENGTH(name) DESC", nativeQuery = true)
-    @Query(value = "SELECT * FROM etwig_portfolio ORDER BY (COALESCE(LENGTH(name), 0) + COALESCE(LENGTH(abbreviation), 0)) DESC", nativeQuery = true)
-    public List<Portfolio> findAllOrderByNameLengthDesc();
+public interface PortfolioRepository extends JpaRepository<Portfolio, Long>, JpaSpecificationExecutor<Portfolio> {
 
-    //Optional<Portfolio> findById(long id);
+	//Optional<Portfolio> findById(long id);
     
     /**
      * Find the portfolios with separated calendar.

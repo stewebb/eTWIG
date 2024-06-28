@@ -11,7 +11,13 @@ package net.etwig.webapp.services;
 
 import java.util.List;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import net.etwig.webapp.model.Portfolio;
@@ -23,17 +29,25 @@ public class PortfolioService {
 	@Autowired
 	private PortfolioRepository portfolioRepository;
 	
-	public PortfolioService(){
-		//new MapUtils();
-	}
-	
 	/**
 	 * Get the list of all portfolios.
+	 *
 	 * @return
 	 */
 	
-	public List<Portfolio> getAllPortfolioList(){
-		return portfolioRepository.findAllOrderByNameLengthDesc();
+	public Page<Portfolio> getAllPortfolioList(Pageable pageable){
+		//return portfolioRepository.findAllOrderByNameLengthDesc();
+		return portfolioRepository.findAll(orderByCombinedLengthDesc(), pageable);
+	}
+
+	public static Specification<Portfolio> orderByCombinedLengthDesc() {
+		return (Root<Portfolio> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) -> {
+			query.orderBy(criteriaBuilder.desc(criteriaBuilder.sum(
+					criteriaBuilder.coalesce(criteriaBuilder.length(root.get("name")), 0),
+					criteriaBuilder.coalesce(criteriaBuilder.length(root.get("abbreviation")), 0)
+			)));
+			return query.getRestriction();
+		};
 	}
 	
 	/**
