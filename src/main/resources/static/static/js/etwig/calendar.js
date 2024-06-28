@@ -33,7 +33,7 @@ function createCalendar(elem, currentMonth){
 			center: 'title',
 			end: ''
 		},
-    	events: getSingleTimeEventList(currentMonth),
+    	events: eventListForCalendar(currentMonth),
 
 		// Click the event, go to the edit page.
     	eventClick: function (info) {
@@ -52,9 +52,25 @@ function createCalendar(elem, currentMonth){
 	calendar = new EventCalendar(calendarElem, calendarProperties);
 }
 
-function getSingleTimeEventList(date){
-	var singleTimeEventList = getSingleTimeEventListByRange(date); 
-	var recurringEventList = getRecurringTimeEventListByRange(date);
+function eventListForCalendar(date){
+
+		//console.log(new Date(date));
+		var dateObj = new Date(date);
+		var startObj = new Date();
+		var endObj = new Date();
+	
+		if(calendarView == 0) {
+			startObj = dateObj.clone().last().monday();
+			endObj = startObj.clone().addDays(6);
+		}
+	
+		else {
+			startObj = dateObj.clone().moveToFirstDayOfMonth();
+			endObj = dateObj.clone().moveToLastDayOfMonth();
+		}
+
+	var singleTimeEventList = getSingleTimeEventListByRange(date, startObj, endObj); 
+	var recurringEventList = getRecurringTimeEventListByRange(date, startObj, endObj);
 	return singleTimeEventList.concat(recurringEventList);
 }
 
@@ -65,22 +81,9 @@ function getSingleTimeEventList(date){
  * @returns A list of events objects
  */
 
-function getSingleTimeEventListByRange(date){
+function getSingleTimeEventListByRange(date, startObj, endObj){
 
-	//console.log(new Date(date));
-	var dateObj = new Date(date);
-	var startObj = new Date();
-	var endObj = new Date();
 
-	if(calendarView == 0) {
-		startObj = dateObj.clone().last().monday();
-		endObj = startObj.clone().addDays(6);
-	}
-
-	else {
-		startObj = dateObj.clone().moveToFirstDayOfMonth();
-		endObj = dateObj.clone().moveToLastDayOfMonth();
-	}
 
 	// Get the Monday of the week
 	//const monday = new Date(date).clone().last().monday();
@@ -92,7 +95,7 @@ function getSingleTimeEventListByRange(date){
 	// Get the last day of the month
 	//const lastDay = date.clone().moveToLastDayOfMonth();
 
-	console.log(startObj.toString("yyyy-MM-dd") + " " + endObj.toString("yyyy-MM-dd"));
+	//console.log(startObj.toString("yyyy-MM-dd") + " " + endObj.toString("yyyy-MM-dd"));
 
 	var eventList = []; 
 
@@ -179,8 +182,77 @@ function getSingleTimeEventListByRange(date){
 	return eventList;
 }
 
-function getRecurringTimeEventListByRange(date){
-	
+function getRecurringTimeEventListByRange(date, startObj, endObj){
+
+	var eventList = []; 
+
+	$.ajax({ 
+		type: 'GET', 
+    	url: '/api/event/list', 
+    	async: false,
+    	data: { 
+			startDate: startObj.toString("yyyy-MM-dd"),
+			endDate: endObj.toString("yyyy-MM-dd"),
+			recurring: true,
+			portfolioId: null,
+			sortColumn: 'id',
+			sortDirection: 'asc',
+			start: 0,
+			length: 2147483647,
+			draw: 1
+		}, 
+
+		success: function(json) {
+			jQuery.each(json.data, function(id, value) {
+				//console.log(value);
+
+				var rRule = new ETwig.RRuleFromStr(value.rrule);
+				var rule = rRule.getRuleObj();
+								
+				// Failed to parse rRule, skip it.
+				if(rule == undefined || rule == null){
+					dangerPopup("Failed to parse Recurrence Rule.", value.rrule + " is not a valid iCalendar RFC 5545 Recurrence Rule.");
+					return;
+				}
+				
+				// Get and iterate all occurrences in this month.
+    			var occurrence = rRule.getOccurrenceBetween(startObj, endObj);
+    			for(var i=0; i< occurrence.length; i++){
+					
+					// Get start and end time for each event.
+					var occurrenceDate = new Date(occurrence[i].getTime() + occurrence[i].getTimezoneOffset() * 60000);
+					
+					if(value.excluded != null){
+						if(value.excluded.includes(occurrenceDate.toString('yyyy-MM-dd'))){
+							continue;
+						}
+					}
+
+					var eventTime = (new Date(value.startTime)).toString("HH:mm:ss");
+					//console.log(eventTime);
+					
+					var eventStartDateTime = combineDateAndTime(occurrenceDate, eventTime);
+					var eventEndDateTime = combineDateAndTime(occurrenceDate, eventTime).addMinutes(value.duration);
+					
+					// Save data
+					eventList.push({
+						id: value.id,
+						start: eventStartDateTime.toString('yyyy-MM-dd HH:mm'),
+						end: eventEndDateTime.toString('yyyy-MM-dd HH:mm'),
+						title: {html: `<span class="font-italic bold-text">${value.name}</span>`},
+						color: "#" + value.portfolioColor,
+						allDay: value.allDayEvent
+					}); 	
+
+				}
+			});
+		},
+
+		error: function(err) {   		
+			dangerPopup("Failed to get single time events due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+		}
+	});
+	/*
 	// Calculate the first and last day of the month for a given date.
 	var dateObj = Date.parse(date);
 	var firstDay;
@@ -257,6 +329,8 @@ function getRecurringTimeEventListByRange(date){
 			dangerPopup("Failed to get recurrent events due to a HTTP " + err.status + " error.", err.responseJSON.exception);
 		}
 	});
+
+	*/
 	return eventList;
 }
 
@@ -298,7 +372,7 @@ function changeCalendar(){
     
     // Change calendar value.
     calendar.setOption('date', yearMonthStr);
-    calendar.setOption('events', getSingleTimeEventList(yearMonthStr, "month"));
+    calendar.setOption('events', eventListForCalendar(yearMonthStr, "month"));
 
 	// Change the calendar view
 	calendar.setOption('view', (calendarView == 0) ? 'timeGridWeek' : 'dayGridMonth');
