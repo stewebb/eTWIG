@@ -34,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -79,22 +80,58 @@ public class EventService {
 		return eventRepository.findAll(spec, pageable).map(EventDetailsDTO::new);
 	}
 
-	private Specification<Event> eventCriteria(LocalDate startDate,
-													   LocalDate endDate,
-													   Boolean recurring,
-													   Long portfolioId) {
+	private Specification<Event> eventCriteria(
+			LocalDate earliestStartDate,
+			LocalDate latestStartDate,
+			Boolean recurring,
+			Long portfolioId) {
 		return (root, query, criteriaBuilder) -> {
 			Predicate finalPredicate = criteriaBuilder.conjunction();
 
-			// Add condition for eventId if it is not null
-			//if (eventId != null) {
-			//	finalPredicate = criteriaBuilder.and(finalPredicate, criteriaBuilder.equal(root.get("event").get("id"), eventId));
-			//}
+			if (earliestStartDate != null && latestStartDate != null) {
+				LocalDateTime earliestDateTime = earliestStartDate.atStartOfDay();
+				LocalDateTime latestDateTime = latestStartDate.atTime(23, 59, 59);
+				Predicate dateRangePredicate = criteriaBuilder.between(
+						root.get("startTime"), earliestDateTime, latestDateTime);
+				finalPredicate = criteriaBuilder.and(finalPredicate, dateRangePredicate);
+			}
 
-			// If isApproved=null, ignore this filter.
-			//if(isBanner != null){
-			//	finalPredicate = criteriaBuilder.and(finalPredicate, criteriaBuilder.equal(root.get("banner"), isBanner));
-			//}
+			if (recurring != null) {
+				finalPredicate = criteriaBuilder.and(finalPredicate, criteriaBuilder.equal(root.get("recurring"), recurring));
+			}
+
+			if (portfolioId != null) {
+				finalPredicate = criteriaBuilder.and(
+						finalPredicate, criteriaBuilder.equal(root.get("userRole").get("portfolioId"), portfolioId)
+				);
+			}
+
+			/*
+			// Add condition for startDate if it is not null
+			if (startDate != null && duration != null && duration > 0) {
+
+				LocalDate endDate = startDate.plusDays(duration);
+				finalPredicate = criteriaBuilder.and(finalPredicate, criteriaBuilder.greaterThanOrEqualTo(root.get("startTime"), startDate));
+				finalPredicate = criteriaBuilder.and(finalPredicate, criteriaBuilder.lessThanOrEqualTo(root.get("endDate"), endDate));
+
+			}
+
+			// Add condition for endDate if it is not null
+			if (endDate != null) {
+				finalPredicate = criteriaBuilder.and(finalPredicate, criteriaBuilder.lessThanOrEqualTo(root.get("endDate"), endDate));
+			}
+
+			// Add condition for recurring if it is not null
+			if (recurring != null) {
+				finalPredicate = criteriaBuilder.and(finalPredicate, criteriaBuilder.equal(root.get("recurring"), recurring));
+			}
+
+			// Add condition for portfolioId if it is not null
+			if (portfolioId != null) {
+				finalPredicate = criteriaBuilder.and(finalPredicate, criteriaBuilder.equal(root.get("portfolio").get("id"), portfolioId));
+			}
+
+			 */
 
 			return finalPredicate;
 		};

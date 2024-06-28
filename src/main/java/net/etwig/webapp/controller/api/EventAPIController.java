@@ -1,6 +1,7 @@
 package net.etwig.webapp.controller.api;
 
 import net.etwig.webapp.dto.events.EventDetailsDTO;
+import net.etwig.webapp.dto.graphics.BannerRequestDetailsDTO;
 import net.etwig.webapp.model.Portfolio;
 import net.etwig.webapp.services.EventService;
 import net.etwig.webapp.services.PortfolioService;
@@ -9,10 +10,16 @@ import net.etwig.webapp.util.PortfolioMismatchException;
 import net.etwig.webapp.util.WebReturn;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -127,5 +134,33 @@ public class EventAPIController {
         Map<String, Object> webReturn = WebReturn.errorMsg("", true);
         webReturn.put("result", eventService.importEvents(file, extension, role));
         return webReturn;
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<Map<String, Object>> list(
+            @RequestParam(name = "startDate", required = false) LocalDate startDate,
+            @RequestParam(name = "endDate",required = false) LocalDate endDate,
+            @RequestParam(name = "recurring",required = false) Boolean recurring,
+            @RequestParam(name = "portfolioId",required = false) Long portfolioId,
+            @RequestParam("start") int start,
+            @RequestParam("length") int length,
+            @RequestParam("draw") int draw,
+            @RequestParam("sortColumn") String sortColumn,
+            @RequestParam("sortDirection") String sortDirection) {
+
+        Sort.Direction dir = "asc".equalsIgnoreCase(sortDirection) ? Sort.Direction.ASC : Sort.Direction.DESC;
+        PageRequest pageable = PageRequest.of(start / length, length, Sort.by(dir, sortColumn));
+
+        // Get data as pages
+        Page<EventDetailsDTO> page = eventService.findByCriteria(
+                startDate, endDate, recurring, portfolioId, pageable
+        );
+
+        Map<String, Object> json = new HashMap<>();
+        json.put("draw", draw);
+        json.put("recordsTotal", page.getTotalElements());
+        json.put("recordsFiltered", page.getTotalElements());
+        json.put("data", page.getContent());
+        return ResponseEntity.ok(json);
     }
 }
