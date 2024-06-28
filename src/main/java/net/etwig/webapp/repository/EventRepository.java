@@ -9,17 +9,16 @@
 
 package net.etwig.webapp.repository;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-
+import net.etwig.webapp.model.Event;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import net.etwig.webapp.model.Event;
+import java.time.LocalDate;
+import java.util.List;
 
-public interface EventRepository extends JpaRepository<Event, Long>{
+public interface EventRepository extends JpaRepository<Event, Long>, JpaSpecificationExecutor<Event> {
 
 	//public Optional<Event> findById(long id);
 	
@@ -27,7 +26,7 @@ public interface EventRepository extends JpaRepository<Event, Long>{
 	public List<Event> findSingleTimeEventByDateRange(@Param("dts") LocalDate startDateTime, @Param("dte") LocalDate endDateTime);
     
 	public List<Event> findByRecurringTrue();
-	
+
     //@Query("SELECT s FROM SingleTimeEvent s WHERE s.portfolio IN :portfolios ORDER BY s.id DESC")
     ///List<Event> findByMultiPortfolios(@Param("portfolios") Collection<Long> portfolios);
     

@@ -9,6 +9,29 @@
 
 package net.etwig.webapp.services;
 
+import jakarta.persistence.criteria.Predicate;
+import net.etwig.webapp.dto.events.*;
+import net.etwig.webapp.dto.graphics.NewRequestDTO;
+import net.etwig.webapp.dto.user.CurrentUserDTOWrapper;
+import net.etwig.webapp.dto.user.CurrentUserPermissionDTO;
+import net.etwig.webapp.dto.user.CurrentUserPositionDTO;
+import net.etwig.webapp.importer.EventImporter;
+import net.etwig.webapp.importer.ExcelEventImporter;
+import net.etwig.webapp.importer.ODSEventImporter;
+import net.etwig.webapp.model.*;
+import net.etwig.webapp.repository.EventOptionRepository;
+import net.etwig.webapp.repository.EventRepository;
+import net.etwig.webapp.repository.GraphicsRequestRepository;
+import net.etwig.webapp.util.DateUtils;
+import net.etwig.webapp.util.ListUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,30 +39,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import net.etwig.webapp.dto.events.*;
-import net.etwig.webapp.dto.user.CurrentUserDTOWrapper;
-import net.etwig.webapp.dto.user.CurrentUserPositionDTO;
-import net.etwig.webapp.importer.EventImporter;
-import net.etwig.webapp.importer.ExcelEventImporter;
-import net.etwig.webapp.importer.ODSEventImporter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import net.etwig.webapp.dto.graphics.NewRequestDTO;
-import net.etwig.webapp.dto.user.CurrentUserPermissionDTO;
-import net.etwig.webapp.model.Event;
-import net.etwig.webapp.model.EventOption;
-import net.etwig.webapp.model.EventOptionKey;
-import net.etwig.webapp.model.BannerRequest;
-import net.etwig.webapp.model.Portfolio;
-import net.etwig.webapp.repository.EventOptionRepository;
-import net.etwig.webapp.repository.EventRepository;
-import net.etwig.webapp.repository.GraphicsRequestRepository;
-import net.etwig.webapp.util.DateUtils;
-import net.etwig.webapp.util.ListUtils;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class EventService {
@@ -69,6 +68,45 @@ public class EventService {
 	public EventDetailsDTO findById(long id) {
 		return eventRepository.findById(id).map(EventDetailsDTO::new).orElse(null);
 	}
+
+	public Page<EventDetailsDTO> findByCriteria(
+			LocalDate startDate,
+			LocalDate endDate,
+			Boolean recurring,
+			Long portfolioId,
+			Pageable pageable) {
+		Specification<Event> spec = eventCriteria(startDate, endDate, recurring, portfolioId);
+		return eventRepository.findAll(spec, pageable).map(EventDetailsDTO::new);
+	}
+
+	private Specification<Event> eventCriteria(LocalDate startDate,
+													   LocalDate endDate,
+													   Boolean recurring,
+													   Long portfolioId) {
+		return (root, query, criteriaBuilder) -> {
+			Predicate finalPredicate = criteriaBuilder.conjunction();
+
+			// Add condition for eventId if it is not null
+			//if (eventId != null) {
+			//	finalPredicate = criteriaBuilder.and(finalPredicate, criteriaBuilder.equal(root.get("event").get("id"), eventId));
+			//}
+
+			// If isApproved=null, ignore this filter.
+			//if(isBanner != null){
+			//	finalPredicate = criteriaBuilder.and(finalPredicate, criteriaBuilder.equal(root.get("banner"), isBanner));
+			//}
+
+			return finalPredicate;
+		};
+	}
+
+
+
+
+
+
+
+
 	
 	public LinkedHashMap<Long, SingleTimeEventBasicInfoDTO> getSingleTimeEventsByDateRange(LocalDate givenDate, int calendarView) throws Exception{
 		LocalDate last;
@@ -150,13 +188,16 @@ public class EventService {
 	}
 
 
-    /**
-	 * Update event options bulky, by removing all all existing options first, and then add all new options.
-	 * @param eventId The id of the event.
-	 * @param optionIds A list with all options that associated for the event.
+	/**
+	 * Updates the event options in bulk by first removing all existing options and then adding the new options.
+	 *
+	 * <p>This method is transactional, ensuring that either both the removal and addition of options are successful,
+	 * or neither operation takes effect in case of an error.</p>
+	 *
+	 * @param eventId   The ID of the event whose options are to be updated.
+	 * @param optionIds A list of option IDs to associate with the event.
 	 */
 	
-	@SuppressWarnings("null")
 	@Transactional
 	private void updateEventOptionBulky(Long eventId, List<Long> optionIds) {
 
@@ -203,27 +244,7 @@ public class EventService {
 		
 		// Case 2: This user has events access, has edit view permission depends on the portfolio.
 		else if (access.isEventsAccess()) {
-
-			// All portfolios that I have.
-			// Set<Portfolio> myPortfolios = userRoleService.getMyPortfolios();
-
-			//Long eventPortfolioId = portfolio.getId();
-			
-			// Iterate my portfolios, if any of them matches the given portfolio, I have edit permission.
-			//for(Portfolio myPortfolio : myPortfolios) {
-			//	if(myPortfolio.equals(portfolio)) {
-			//		return true;
-			//	}
-			//}
-
-			//for(int p : position.){
-			//
-			//}
-
-			// Check if the portfolio of an event match my current position.
-            return portfolio.getName().equals(position.getMyCurrentPosition().getPortfolioName());
-			
-			// Otherwise I don't have edit permission.
+			return portfolio.getName().equals(position.getMyCurrentPosition().getPortfolioName());
         }
 		
 		// Case 3: Other users have no edit permission.
