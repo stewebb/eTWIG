@@ -9,6 +9,7 @@
 
 package net.etwig.webapp.controller.page;
 
+import net.etwig.webapp.services.UserSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PostAuthorize;
@@ -30,6 +31,9 @@ public class EventsPageController {
 	
 	@Autowired
 	private PortfolioService portfolioService;
+
+	@Autowired
+	private UserSessionService userSessionService;
 
 	/**
 	 * The root location, redirect to index page.
@@ -63,9 +67,14 @@ public class EventsPageController {
 	
 	@GetMapping("/calendar.do")
 	public String calendar(Model model){
-
-		//System.out.println(portfolioService.getAllPortfolioList(Pageable.unpaged()).getContent());
-		model.addAttribute("portfolios", portfolioService.getAllPortfolioList(Pageable.unpaged()).getContent());
+		model.addAttribute(
+				"portfolios",
+				portfolioService.getPortfolioList(Pageable.unpaged()).getContent()
+		);
+		//model.addAttribute(
+		//		"myPortfolio",
+		//		userSessionService.validateSession().getPosition().getMyCurrentPosition().getPortfolioName()
+		//);
 		return "events/calendar";
 	}
 	

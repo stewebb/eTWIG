@@ -28,6 +28,7 @@ public class PortfolioService {
 	
 	@Autowired
 	private PortfolioRepository portfolioRepository;
+
 	
 	/**
 	 * Get the list of all portfolios.
@@ -35,8 +36,7 @@ public class PortfolioService {
 	 * @return
 	 */
 	
-	public Page<Portfolio> getAllPortfolioList(Pageable pageable){
-		//return portfolioRepository.findAllOrderByNameLengthDesc();
+	public Page<Portfolio> getPortfolioList(Pageable pageable){
 		return portfolioRepository.findAll(orderByCombinedLengthDesc(), pageable);
 	}
 

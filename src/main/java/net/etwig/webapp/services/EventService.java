@@ -125,7 +125,7 @@ public class EventService {
 				finalPredicate = criteriaBuilder.and(finalPredicate, criteriaBuilder.equal(root.get("recurring"), recurring));
 			}
 
-			if (portfolioId != null) {
+			if (portfolioId != null && portfolioId > 0) {
 				finalPredicate = criteriaBuilder.and(
 						finalPredicate, criteriaBuilder.equal(root.get("userRole").get("portfolioId"), portfolioId)
 				);
