@@ -78,6 +78,7 @@
 										<#-- /Date Options -->
 
 										<#-- Calendar View -->
+										<#--
 										<div class="form-group d-flex justify-content-between">
 											<div class="icheck-primary d-inline mr-2">
 												<input type="radio" id="weeklyView" name="calendarView" value="0" checked="">
@@ -88,7 +89,33 @@
 												<label for="monthlyView">Monthly view</label>
 											</div>
 										</div>
+										-->
 										<#-- /Calendar View -->
+
+										<#-- Recurrence-->
+										<div class="form-group row">
+											<label for="eventRecurrence" class="col-xl-4 col-form-label">View</label>
+											<div class="col-xl-8">
+												<div class="form-group clearfix">
+
+													<#-- Weekly -->
+													<div class="icheck-primary">
+														<input type="radio" id="weeklyView" name="calendarView" value="0" checked="">
+														<label for="weeklyView">Weekly</label>
+													</div>
+													<#-- /Weekly -->
+
+													<#-- Monthly -->
+													<div class="icheck-primary">
+														<input type="radio" id="monthlyView" name="calendarView" value="1">
+														<label for="monthlyView">Monthly</label>
+													</div>
+													<#-- /Monthly -->
+
+												</div>
+											</div>
+										</div>
+										<#-- Recurrence-->
 
 										<#-- Date Options -->	
 										<div class="input-group mb-2">
@@ -96,9 +123,12 @@
 												<span class="input-group-text" id="basic-addon1"><i class="fa-regular fa-calendar-days"></i></span>
 											</div>
 											<input type="text" id="datepicker-input" aria-label="Date-Time" class="form-control">
+											
+											<#--
 											<span class="input-group-append">
 												<button type="button" class="btn btn-primary btn-flat" id="select-month">Go!</button>
 											</span>
+											-->
 										</div>
 										<div id="wrapper" class="datepicker"></div>
 										<#-- /Date Options -->										
@@ -158,7 +188,7 @@
 								</div>
 								<#-- /Legend -->
 
-								<!--
+								
 								<#-- Filter -->
 								<div class="card card-primary card-outline">
 									<div class="card-header">
@@ -250,7 +280,7 @@
 									</div>
 								</div>
 								<#-- /Filter -->
-								-->
+								
 								
 							</div>
 						</div>

@@ -188,9 +188,7 @@ function getRecurringTimeEventListByRange(date, startObj, endObj){
 						}
 					}
 
-					var eventTime = (new Date(value.startTime)).toString("HH:mm:ss");
-					//console.log(eventTime);
-					
+					var eventTime = (new Date(value.startTime)).toString("HH:mm:ss");					
 					var eventStartDateTime = combineDateAndTime(occurrenceDate, eventTime);
 					var eventEndDateTime = combineDateAndTime(occurrenceDate, eventTime).addMinutes(value.duration);
 					
@@ -235,16 +233,21 @@ function createDatePicker(htmlElem, pickerElem, buttonElem){
 	});
 	
 	// Set date
-	$(buttonElem).click(function(){
-		
-		// Get selected date from PopupUI datepicker and store it.
-  		currentDate = datepicker.getDate();
+	//$(buttonElem).click(function(){
+	//	
+	//	// Get selected date from PopupUI datepicker and store it.
+  	//	currentDate = datepicker.getDate();
+  	//	changeCalendar(currentDate);
+	//}); 
+
+	datepicker.on('change', function(){
+		currentDate = datepicker.getDate();
   		changeCalendar(currentDate);
-	}); 
+	});
 }
 
 /**
- * Helper function, change the calendar value.
+ * Helper function to change the calendar's current date and events.
  */
 
 function changeCalendar(){
@@ -259,6 +262,15 @@ function changeCalendar(){
 	// Change the calendar view
 	calendar.setOption('view', (calendarView == 0) ? 'timeGridWeek' : 'dayGridMonth');
 }
+
+/**
+ * Changes the current date based on the specified mode and updates the calendar.
+ *
+ * @param {number} mode - The mode for changing the date: 
+ *                        - Negative value to move to the previous week/month,
+ *                        - 0 to reset to the current date,
+ *                        - Positive value to move to the next week/month.
+ */
 
 function changeCurrentDate(mode){
 
