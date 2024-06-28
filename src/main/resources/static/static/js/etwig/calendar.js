@@ -52,9 +52,15 @@ function createCalendar(elem, currentMonth){
 	calendar = new EventCalendar(calendarElem, calendarProperties);
 }
 
+/**
+ * Retrieves the combined list of single-time and recurring events for the calendar view.
+ *
+ * @param {Date|string} date - The date object or string representing the current date.
+ * @returns {Array<Object>} A combined list of event objects for the calendar.
+ */
+
 function eventListForCalendar(date){
 
-		//console.log(new Date(date));
 		var dateObj = new Date(date);
 		var startObj = new Date();
 		var endObj = new Date();
@@ -75,30 +81,17 @@ function eventListForCalendar(date){
 }
 
 /**
- * Get the event list based on a specific range
- * @param dateStr The String contains current month/week/day.
- * @param rangeStr The String to set the search range.
- * @returns A list of events objects
+ * Retrieves the event list based on a specific date range.
+ *
+ * @param {Date} date - The date object representing the current date.
+ * @param {Date} startObj - The date object representing the start of the range.
+ * @param {Date} endObj - The date object representing the end of the range.
+ * @returns {Array<Object>} A list of event objects.
  */
 
 function getSingleTimeEventListByRange(date, startObj, endObj){
 
-
-
-	// Get the Monday of the week
-	//const monday = new Date(date).clone().last().monday();
-	// Get the Sunday of the week
-	//const sunday = monday.clone().addDays(6);
-
-	// Get the first day of the month
-	//const firstDay = date.clone().moveToFirstDayOfMonth();
-	// Get the last day of the month
-	//const lastDay = date.clone().moveToLastDayOfMonth();
-
-	//console.log(startObj.toString("yyyy-MM-dd") + " " + endObj.toString("yyyy-MM-dd"));
-
 	var eventList = []; 
-
 	$.ajax({ 
 		type: 'GET', 
     	url: '/api/event/list', 
@@ -116,11 +109,7 @@ function getSingleTimeEventListByRange(date, startObj, endObj){
 		}, 
 
 		success: function(json) {
-			//console.log(json);
-
 			jQuery.each(json.data, function(id, value) {
-				//console.log(id);
-				//console.log(value);
 
 				// Get start and end time
 				var eventStartDateTime = new Date(value.startTime);
@@ -143,49 +132,21 @@ function getSingleTimeEventListByRange(date, startObj, endObj){
 		}
 	});
 
-	/*
-	$.ajax({ 
-		type: 'GET', 
-    	url: '/api/private/getSingleTimeEventList', 
-    	async: false,
-    	data: { 
-			date: date,
-			calendarView: calendarView
-		}, 
-		success: function(json) {
-			
-			// Iterate all dates.
-			jQuery.each(json, function(id, value) {				
-					
-				// Get start and end time
-				var eventStartDateTime = new Date(value.startTime);
-				var eventEndDateTime = new Date(value.startTime).addMinutes(value.duration);
-    				
-    			// Save data
-				eventList.push({
-					  id: id,
-					  start: eventStartDateTime.toString('yyyy-MM-dd HH:mm'),
-					  end: eventEndDateTime.toString('yyyy-MM-dd HH:mm'),
-					  title: {html: `<span class="font-weight-bold">${value.name}</span>`},
-					  color: "#" + value.portfolioColor,
-					  allDay: value.allDayEvent
-				}); 	
-			})
-        },
-        
-        // Popup error info when it happens
-    	error: function(err) {   		
-			dangerPopup("Failed to get single time events due to a HTTP " + err.status + " error.", err.responseJSON.exception);
-		}
-	});
-	*/
 	return eventList;
 }
+
+/**
+ * Retrieves the recurring event list based on a specific date range.
+ *
+ * @param {Date} date - The date object representing the current date.
+ * @param {Date} startObj - The date object representing the start of the range.
+ * @param {Date} endObj - The date object representing the end of the range.
+ * @returns {Array<Object>} A list of recurring event objects.
+ */
 
 function getRecurringTimeEventListByRange(date, startObj, endObj){
 
 	var eventList = []; 
-
 	$.ajax({ 
 		type: 'GET', 
     	url: '/api/event/list', 
@@ -204,7 +165,6 @@ function getRecurringTimeEventListByRange(date, startObj, endObj){
 
 		success: function(json) {
 			jQuery.each(json.data, function(id, value) {
-				//console.log(value);
 
 				var rRule = new ETwig.RRuleFromStr(value.rrule);
 				var rule = rRule.getRuleObj();
@@ -252,85 +212,7 @@ function getRecurringTimeEventListByRange(date, startObj, endObj){
 			dangerPopup("Failed to get single time events due to a HTTP " + err.status + " error.", err.responseJSON.exception);
 		}
 	});
-	/*
-	// Calculate the first and last day of the month for a given date.
-	var dateObj = Date.parse(date);
-	var firstDay;
-	var lastDay;
-
-	// Monthly view
-	if(calendarView > 0){
-		var year = dateObj.getFullYear();
-		var month = dateObj.getMonth();
-		firstDay = new Date(year, month, 1);
-		lastDay = new Date(year, month + 1, 1);
-	}
-
-	// Weekly view
-	else{
-		firstDay = Date.parse(date).monday().addDays(-7);
-		lastDay = Date.parse(date).monday();
-	}
-        				
-	var eventList = []; 
-	$.ajax({ 
-		type: 'GET', 
-    	url: '/api/private/getAllRecurringEventList', 
-    	async: false,
-    	data: { 
-			date: date,
-		}, 
-    	dataType: 'json',
-		success: function(json) {
-			
-			// Iterate all dates.
-			jQuery.each(json, function(id, value) {			
-								
-				var rRule = new ETwig.RRuleFromStr(value.rrule);
-				var rule = rRule.getRuleObj();
-								
-				// Failed to parse rRule, skip it.
-				if(rule == undefined || rule == null){
-					dangerPopup("Failed to parse Recurrence Rule.", value.rrule + " is not a valid iCalendar RFC 5545 Recurrence Rule.");
-					return;
-				}
-				
-				// Get and iterate all occurrences in this month.
-    			var occurrence = rRule.getOccurrenceBetween(firstDay, lastDay);
-    			for(var i=0; i< occurrence.length; i++){
-					
-					// Get start and end time for each event.
-					var occurrenceDate = new Date(occurrence[i].getTime() + occurrence[i].getTimezoneOffset() * 60000);
-					
-					if(value.excluded != null){
-						if(value.excluded.includes(occurrenceDate.toString('yyyy-MM-dd'))){
-							continue;
-						}
-					}
-					
-					var eventStartDateTime = combineDateAndTime(occurrenceDate, value.eventTime);
-					var eventEndDateTime = combineDateAndTime(occurrenceDate, value.eventTime).addMinutes(value.duration);
-					
-					// Save data
-					eventList.push({
-						id: value.id,
-						start: eventStartDateTime.toString('yyyy-MM-dd HH:mm'),
-						end: eventEndDateTime.toString('yyyy-MM-dd HH:mm'),
-						title: {html: `<span class="font-italic bold-text">${value.name}</span>`},
-						color: "#" + value.portfolioColor,
-						allDay: value.allDayEvent
-					}); 	
-				}
-			})
-        },
-        
-        // Popup error info when it happens
-    	error: function(err) {   		
-			dangerPopup("Failed to get recurrent events due to a HTTP " + err.status + " error.", err.responseJSON.exception);
-		}
-	});
-
-	*/
+	
 	return eventList;
 }
 

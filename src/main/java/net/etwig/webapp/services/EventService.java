@@ -10,7 +10,9 @@
 package net.etwig.webapp.services;
 
 import jakarta.persistence.criteria.Predicate;
-import net.etwig.webapp.dto.events.*;
+import net.etwig.webapp.dto.events.AddEditEventDTO;
+import net.etwig.webapp.dto.events.EventDetailsDTO;
+import net.etwig.webapp.dto.events.EventImportDTO;
 import net.etwig.webapp.dto.graphics.NewRequestDTO;
 import net.etwig.webapp.dto.user.CurrentUserDTOWrapper;
 import net.etwig.webapp.dto.user.CurrentUserPermissionDTO;
@@ -22,7 +24,6 @@ import net.etwig.webapp.model.*;
 import net.etwig.webapp.repository.EventOptionRepository;
 import net.etwig.webapp.repository.EventRepository;
 import net.etwig.webapp.repository.GraphicsRequestRepository;
-import net.etwig.webapp.util.DateUtils;
 import net.etwig.webapp.util.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -36,7 +37,6 @@ import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -70,6 +70,19 @@ public class EventService {
 		return eventRepository.findById(id).map(EventDetailsDTO::new).orElse(null);
 	}
 
+	/**
+	 * Retrieves a paginated list of event details that match the given criteria.
+	 * This method constructs a dynamic query based on the specified parameters and
+	 * maps the resulting events to their DTO representation.
+	 *
+	 * @param startDate the earliest start date of the events to include (inclusive)
+	 * @param endDate the latest start date of the events to include (inclusive)
+	 * @param recurring whether the events are recurring or not
+	 * @param portfolioId the portfolio identifier to which the events are associated
+	 * @param pageable the pagination information and sorting criteria
+	 * @return a paginated {@link Page} of {@link EventDetailsDTO} matching the criteria
+	 */
+
 	public Page<EventDetailsDTO> findByCriteria(
 			LocalDate startDate,
 			LocalDate endDate,
@@ -79,6 +92,18 @@ public class EventService {
 		Specification<Event> spec = eventCriteria(startDate, endDate, recurring, portfolioId);
 		return eventRepository.findAll(spec, pageable).map(EventDetailsDTO::new);
 	}
+
+	/**
+	 * Creates a {@link Specification} for querying events based on provided criteria.
+	 * This method constructs predicates based on the presence and validity of the input parameters,
+	 * allowing for flexible and dynamic database queries.
+	 *
+	 * @param earliestStartDate the earliest start date for the events to filter (inclusive)
+	 * @param latestStartDate the latest start date for the events to filter (inclusive)
+	 * @param recurring true if only recurring events should be included, false otherwise
+	 * @param portfolioId the identifier of the portfolio to which the events must be linked
+	 * @return a {@link Specification} that can be used to filter events according to the provided criteria
+	 */
 
 	private Specification<Event> eventCriteria(
 			LocalDate earliestStartDate,
@@ -111,52 +136,6 @@ public class EventService {
 	}
 
 
-
-
-
-
-
-
-	
-	public LinkedHashMap<Long, SingleTimeEventBasicInfoDTO> getSingleTimeEventsByDateRange(LocalDate givenDate, int calendarView) throws Exception{
-		LocalDate last;
-		LocalDate next;
-		
-		// Date boundary (monthly)
-		if(calendarView > 0) {
-			last = DateUtils.findFirstDayOfThisMonth(givenDate);
-			next = DateUtils.findFirstDayOfNextMonth(givenDate);
-		}
-		
-		// Date boundary (weekly)
-		else if (calendarView == 0) {
-			last = DateUtils.findThisMonday(givenDate);
-			next = DateUtils.findNextMonday(givenDate);
-		}
-		
-		// Date boundary (daily)
-		else {
-			last = givenDate;
-			next = DateUtils.findTomorrow(givenDate);
-		}
-		
-        LinkedHashMap<Long, SingleTimeEventBasicInfoDTO> allEvents = new LinkedHashMap<>();
-
-		// Get all single time events in the given date range.
-		List<Event> singleTimeEventList = eventRepository.findSingleTimeEventByDateRange(last, next);
-        for(Event event : singleTimeEventList) {     
-        	allEvents.put(event.getId(), new SingleTimeEventBasicInfoDTO(event));
-        }
-        return allEvents;
-	}
-	
-	public List<RecurringEventBasicInfoDTO> getAllRecurringEvents(){
-		if(eventRepository == null) {
-			return null;
-		}
-		return eventRepository.findByRecurringTrue().stream().map(RecurringEventBasicInfoDTO::new).collect(Collectors.toList());
-	}
-	
 	/**
 	 * Edit an event to the database
 	 * @param eventInfo The event details.
