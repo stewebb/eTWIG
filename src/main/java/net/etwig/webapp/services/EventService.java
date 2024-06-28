@@ -106,33 +106,6 @@ public class EventService {
 				);
 			}
 
-			/*
-			// Add condition for startDate if it is not null
-			if (startDate != null && duration != null && duration > 0) {
-
-				LocalDate endDate = startDate.plusDays(duration);
-				finalPredicate = criteriaBuilder.and(finalPredicate, criteriaBuilder.greaterThanOrEqualTo(root.get("startTime"), startDate));
-				finalPredicate = criteriaBuilder.and(finalPredicate, criteriaBuilder.lessThanOrEqualTo(root.get("endDate"), endDate));
-
-			}
-
-			// Add condition for endDate if it is not null
-			if (endDate != null) {
-				finalPredicate = criteriaBuilder.and(finalPredicate, criteriaBuilder.lessThanOrEqualTo(root.get("endDate"), endDate));
-			}
-
-			// Add condition for recurring if it is not null
-			if (recurring != null) {
-				finalPredicate = criteriaBuilder.and(finalPredicate, criteriaBuilder.equal(root.get("recurring"), recurring));
-			}
-
-			// Add condition for portfolioId if it is not null
-			if (portfolioId != null) {
-				finalPredicate = criteriaBuilder.and(finalPredicate, criteriaBuilder.equal(root.get("portfolio").get("id"), portfolioId));
-			}
-
-			 */
-
 			return finalPredicate;
 		};
 	}

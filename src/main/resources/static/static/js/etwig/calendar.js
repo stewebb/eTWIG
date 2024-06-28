@@ -66,7 +66,81 @@ function getSingleTimeEventList(date){
  */
 
 function getSingleTimeEventListByRange(date){
+
+	//console.log(new Date(date));
+	var dateObj = new Date(date);
+	var startObj = new Date();
+	var endObj = new Date();
+
+	if(calendarView == 0) {
+		startObj = dateObj.clone().last().monday();
+		endObj = startObj.clone().addDays(6);
+	}
+
+	else {
+		startObj = dateObj.clone().moveToFirstDayOfMonth();
+		endObj = dateObj.clone().moveToLastDayOfMonth();
+	}
+
+	// Get the Monday of the week
+	//const monday = new Date(date).clone().last().monday();
+	// Get the Sunday of the week
+	//const sunday = monday.clone().addDays(6);
+
+	// Get the first day of the month
+	//const firstDay = date.clone().moveToFirstDayOfMonth();
+	// Get the last day of the month
+	//const lastDay = date.clone().moveToLastDayOfMonth();
+
+	console.log(startObj.toString("yyyy-MM-dd") + " " + endObj.toString("yyyy-MM-dd"));
+
 	var eventList = []; 
+
+	$.ajax({ 
+		type: 'GET', 
+    	url: '/api/event/list', 
+    	async: false,
+    	data: { 
+			startDate: startObj.toString("yyyy-MM-dd"),
+			endDate: endObj.toString("yyyy-MM-dd"),
+			recurring: false,
+			portfolioId: null,
+			sortColumn: 'id',
+			sortDirection: 'asc',
+			start: 0,
+			length: 2147483647,
+			draw: 1
+		}, 
+
+		success: function(json) {
+			//console.log(json);
+
+			jQuery.each(json.data, function(id, value) {
+				//console.log(id);
+				//console.log(value);
+
+				// Get start and end time
+				var eventStartDateTime = new Date(value.startTime);
+				var eventEndDateTime = new Date(value.startTime).addMinutes(value.duration);
+					
+				// Save data
+				eventList.push({
+					id: value.id,
+					start: eventStartDateTime.toString('yyyy-MM-dd HH:mm'),
+					end: eventEndDateTime.toString('yyyy-MM-dd HH:mm'),
+					title: {html: `<span class="font-weight-bold">${value.name}</span>`},
+					color: "#" + value.portfolioColor,
+					allDay: value.allDayEvent
+				}); 	
+			});
+		},
+
+		error: function(err) {   		
+			dangerPopup("Failed to get single time events due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+		}
+	});
+
+	/*
 	$.ajax({ 
 		type: 'GET', 
     	url: '/api/private/getSingleTimeEventList', 
@@ -101,6 +175,7 @@ function getSingleTimeEventListByRange(date){
 			dangerPopup("Failed to get single time events due to a HTTP " + err.status + " error.", err.responseJSON.exception);
 		}
 	});
+	*/
 	return eventList;
 }
 
