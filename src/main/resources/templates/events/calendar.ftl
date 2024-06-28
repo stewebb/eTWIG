@@ -129,7 +129,7 @@
 														</span>
 													</div>
 									
-													<select class="form-control select2" name="eventPortfolio" id="eventPortfolio">
+													<select class="form-control select2" name="eventPortfolio" id="eventPortfolio" onchange="updatePortfolio();">
         												<option value="-1">(All portfolios)</option>
 														<#if portfolios?has_content>
         													<#list portfolios as portfolio>
@@ -158,14 +158,14 @@
 											
 													<#-- Single time-->
 													<div class="icheck-primary">
-														<input type="radio" id="singleTime" name="eventRecurrence" value="-1" >
+														<input type="radio" id="singleTime" name="eventRecurrence" value="-1">
 														<label for="singleTime">Single Time</label>
 													</div>
 													<#-- /Single time-->
 
 													<#-- Recurring-->
 													<div class="icheck-primary">
-														<input type="radio" id="recurring" name="eventRecurrence" value="1" >
+														<input type="radio" id="recurring" name="eventRecurrence" value="1">
 														<label for="recurring">Recurring</label>
 													</div>
 													<#-- /Recurring-->
@@ -281,6 +281,11 @@
 
 		$('input[type=radio][name=calendarView]').change(function() {
 			calendarView = parseInt(this.value);
+			changeCalendar();
+		});
+
+		$('input[type=radio][name=eventRecurrence]').change(function() {
+			recurrenceMode = parseInt(this.value);
 			changeCalendar();
 		});
     </script>

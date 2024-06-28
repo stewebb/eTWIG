@@ -16,6 +16,11 @@ var currentDate = Date.today();
 // Calendar view: 1 -> Monthly, 0 -> Weekly, -1 -> Daily (not used in here but will be used in the TWIG)
 var calendarView = 0;
 
+var portfolioId = null;
+
+// Recurrence mode: 1 -> Recurring, 0 -> Both, -1 -> Single time
+var recurrenceMode = 0;
+
 /**
  * Create a calendar on webpage
  * @param elem The calendar element.
@@ -77,7 +82,23 @@ function eventListForCalendar(date){
 
 	var singleTimeEventList = getSingleTimeEventListByRange(date, startObj, endObj); 
 	var recurringEventList = getRecurringTimeEventListByRange(date, startObj, endObj);
-	return singleTimeEventList.concat(recurringEventList);
+
+	//console.log(recurrenceMode);
+
+	// Recurring events only
+	if (recurrenceMode > 0) {
+		return recurringEventList;
+	}
+
+	// Single time events only
+	else if (recurrenceMode < 0) {
+		return singleTimeEventList;
+	}
+
+	// Both kinds of events
+	else {
+		return singleTimeEventList.concat(recurringEventList);
+	}
 }
 
 /**
@@ -100,7 +121,7 @@ function getSingleTimeEventListByRange(date, startObj, endObj){
 			startDate: startObj.toString("yyyy-MM-dd"),
 			endDate: endObj.toString("yyyy-MM-dd"),
 			recurring: false,
-			portfolioId: null,
+			portfolioId: portfolioId,
 			sortColumn: 'id',
 			sortDirection: 'asc',
 			start: 0,
@@ -155,7 +176,7 @@ function getRecurringTimeEventListByRange(date, startObj, endObj){
 			startDate: startObj.toString("yyyy-MM-dd"),
 			endDate: endObj.toString("yyyy-MM-dd"),
 			recurring: true,
-			portfolioId: null,
+			portfolioId: portfolioId,
 			sortColumn: 'id',
 			sortDirection: 'asc',
 			start: 0,
@@ -231,14 +252,6 @@ function createDatePicker(htmlElem, pickerElem, buttonElem){
 			usageStatistics: false
 		}
 	});
-	
-	// Set date
-	//$(buttonElem).click(function(){
-	//	
-	//	// Get selected date from PopupUI datepicker and store it.
-  	//	currentDate = datepicker.getDate();
-  	//	changeCalendar(currentDate);
-	//}); 
 
 	datepicker.on('change', function(){
 		currentDate = datepicker.getDate();
@@ -287,6 +300,14 @@ function changeCurrentDate(mode){
 	// Next
 	else{
 		currentDate = (calendarView == 0) ? currentDate.next().week() : currentDate.next().month();
+	}
+	changeCalendar();
+}
+
+function updatePortfolio() {
+	portfolioId = $('#eventPortfolio').val();
+	if(portfolioId <= 0){
+		portfolioId = null;
 	}
 	changeCalendar();
 }
