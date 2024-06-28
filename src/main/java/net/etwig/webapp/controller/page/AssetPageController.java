@@ -57,14 +57,29 @@ public class AssetPageController {
 	}
 
 	/**
-	 * Get the content of an asset.
-	 * @param assetId The id of this asset.
-	 * @return The file content.
+	 * Retrieves the content of an asset based on its ID.
+	 *
+	 * <p>This method fetches the details of the asset and its content. If the content is found,
+	 * it will be returned with the appropriate MIME type. If the content is not found, a 404 status
+	 * code will be returned.</p>
+	 *
+	 * <p>The content can be retrieved in two modes:
+	 * <ul>
+	 *   <li>Inline: The content is displayed in the browser.</li>
+	 *   <li>Download: The content is forced to be downloaded as a file.</li>
+	 * </ul>
+	 * The mode is determined by the 'download' parameter.</p>
+	 *
+	 * @param assetId The unique identifier of the asset.
+	 * @param download Optional parameter that forces the content to be downloaded if set.
+	 * @return The ResponseEntity containing the asset content or a 404 status if not found.
+	 * @throws Exception If an error occurs during the retrieval of the asset content.
+	 *
 	 * @location /asset/content.do
 	 * @permission All users, including visitors
 	 */
 	
-	@SuppressWarnings("null")
+	// @SuppressWarnings("null")
 	@GetMapping(value = "/content.do")
 	public ResponseEntity<Resource> content(@RequestParam Long assetId, @RequestParam (required=false) String download) throws Exception {
 		
@@ -100,6 +115,11 @@ public class AssetPageController {
         	return ResponseEntity.notFound().build();
         } 
     }
+
+	@GetMapping("list.do")
+	public String list(Model model){
+		return null;
+	}
 
 	/**
 	 * The embedded asset selector page

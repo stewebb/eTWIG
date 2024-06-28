@@ -95,9 +95,6 @@ function addGraphics(){
 	}
 	newGraphicsObj["asset"] = assetId;
 
-    //console.log(newGraphicsObj);
-    //return;
-		
 	//var hasError = true;
 	$.ajax({
    		url: '/api/eventGraphics/add', 
@@ -120,11 +117,6 @@ function addGraphics(){
     		//hasError = true;
     	}
  	});
-
-	// Redirect back
-	//if(!hasError){
-	//	setTimeout(function() {	location.reload(); }, 2500);
-	//}
 }
 
 /**
