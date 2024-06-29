@@ -120,16 +120,20 @@ function previewAsset(asset){
 	$("#selectBtn").attr("disabled", false);
 }
 
-function uploadFile(isMultiple, fileElem){
-	//var data = new FormData();
-    //var file = $('#' + fileUploadSingle)[0].files[0];
-    
-    // Null check
-    //if(file == undefined || file == null){
-	//	warningPopup("Please select a file.");
-	//	return;
-	//}
+/**
+ * Handles the uploading of a file to a specified endpoint via AJAX POST request.
+ * This function supports both single and multiple file upload modes, but only processes one file per call.
+ * Upon successful upload, it reloads a specified DataTable and shows a success popup.
+ * If the upload fails, it displays an error popup with detailed information.
+ *
+ * @param {boolean} isMultiple - Indicates if the upload is meant to handle multiple files.
+ *                               This function logic currently supports one file, but this parameter
+ *                               can be used for backend processing logic differentiation.
+ * @param {string} fileElem - The ID of the input element that contains the file to be uploaded.
+ * @param {string} selectorElem - The ID of the DataTable element to be reloaded after successful upload.
+ */
 
+function uploadFile(isMultiple, fileElem, selectorElem){
 	var data = new FormData();
 	var file = $('#' + fileElem)[0].files[0];
   
@@ -143,8 +147,6 @@ function uploadFile(isMultiple, fileElem){
 	data.append('file', file);
   	data.append('isMultiple', isMultiple);
     
-    //data.append('file', file);
-    
     $.ajax({
 		type: 'POST',
         url: '/api/asset/add',
@@ -152,20 +154,11 @@ function uploadFile(isMultiple, fileElem){
         contentType: false,
         processData: false,
         success: function() {
-
 			successPopup("File upload successfully.");
-
-        	//if(result.error > 0){
-			//	dangerPopup("Failed to upload file.", result.msg);
-			//}else{
-			//	successPopup("File upload successfully.");
-				//resetFile();
-				//$('#assetSelector').DataTable().ajax.reload();
-			//}	
+			$('#' + selectorElem).DataTable().ajax.reload();
         },
         error: function (err) {
 			dangerPopup("Failed to upload file due to a HTTP " + err.status + " error.", err.responseJSON.exception);
-    		hasError = true;
     	}
     });
 }
@@ -173,14 +166,14 @@ function uploadFile(isMultiple, fileElem){
 $(".custom-file-input").on("change", function() {
 	var fileName = $(this).val().split("\\").pop();
 	$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-	$("#uploadFileBtn").prop('disabled', false);
+	//$("#uploadFileBtn").prop('disabled', false);
 });
 
-function resetFile(){
-	$('#fileUpload').val('');
-    $('.custom-file-input').siblings(".custom-file-label").removeClass("selected").html("Choose file");
-    $("#uploadFileBtn").prop('disabled', true);
-}
+//function resetFile(){
+//	$('#fileUpload').val('');
+//    $('.custom-file-input').siblings(".custom-file-label").removeClass("selected").html("Choose file");
+//    //$("#uploadFileBtn").prop('disabled', true);
+//}
 
 /**
  * Initializes a DataTable on the #assetsList element. This table is configured to
