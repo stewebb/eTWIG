@@ -283,3 +283,44 @@ function summaryActionRender(data, type, full){
 		</div>
 	`;
 }
+
+/**
+ * Renders the asset type with a corresponding badge based on its category.
+ *
+ * This function generates a string that includes the asset type and a span element
+ * with a badge class styled according to the file category. If the category is unknown
+ * or unspecified, it defaults to displaying "Unknown" with a danger badge.
+ *
+ * @param {Object} data - The data object passed to the DataTables render function.
+ * @param {string} type - The type descriptor from DataTables, often used for handling different rendering modes.
+ * @param {Object} row - The data for the current row. Expected to have 'fileCategory' and 'type' properties.
+ * @returns {string} The HTML string representing the formatted type with a styled badge indicating the category.
+ */
+
+function assetTypeRender(data, type, row) {
+
+    // The category is unknown
+    if (!row.fileCategory) {
+        return `${row.type}&nbsp;<span class="badge badge-danger">Unknown</span>`;
+    }
+
+    // The category is Image
+    else if (row.fileCategory == "IMAGE") {
+        return `${row.type}&nbsp;<span class="badge badge-primary">Image</span>`;
+    }
+
+    // The category is Text
+    else if (row.fileCategory == "TEXT") {
+        return `${row.type}&nbsp;<span class="badge badge-success">Text</span>`;
+    }
+
+    // The category is Text
+    else if (row.fileCategory == "APPLICATION") {
+        return `${row.type}&nbsp;<span class="badge badge-secondary">Application</span>`;
+    }
+
+    // Other categories
+    else {
+        return `${row.type}&nbsp;<span class="badge badge-warning">Other</span>`;
+    }
+}

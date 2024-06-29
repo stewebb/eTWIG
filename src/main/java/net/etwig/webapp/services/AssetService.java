@@ -115,7 +115,8 @@ public class AssetService {
 	
 	public Page<AssetAPIDTO> getAssetList(int page, int size) {
 			Pageable pageable = PageRequest.of(page, size);
-			return assetRepository.findAllBasicInfo(pageable);
+			//return assetRepository.findAllBasicInfo(pageable);
+			return null;
 	}
 	
 	/**

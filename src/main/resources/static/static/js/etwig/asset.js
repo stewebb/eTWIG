@@ -166,3 +166,36 @@ function resetFile(){
     $("#uploadFileBtn").prop('disabled', true);
 }
 
+function assetListTable(){
+	$('#assetsList').DataTable({
+		"processing": true,
+		"serverSide": true,
+		"lengthMenu": [[10, 20, 50, 100], [10, 20, 50, 100]],
+		"pageLength": 20,
+		"searching": false, 
+		"order": [[0, "desc"]],
+		"ajax": {
+			"url": "/api/asset/list",
+			"type": "GET",
+			"data": function(d) {
+				return $.extend({}, d, {
+					"sortColumn": d.columns[d.order[0].column].data,
+					"sortDirection": d.order[0].dir
+				});
+			}
+		},
+		"columns": [
+			{ "data": "id", "orderable": true},
+			{ "data": "name", "orderable": false},
+			{ "data": "type", "orderable": false, "render": assetTypeRender}
+
+			//{ "data": "requestTime", "orderable": true, "render": dateWeekRender},
+			//{ "data": "requesterName", "orderable": false},
+			//{ "data": "expectDate", "orderable": true, render: expectDateRender},
+			//{ "data": "approved", "orderable": true, "render": approvalStatusRender},
+			//{ "data": "approverName", "orderable": false, "render": optionalFieldsRender},
+			//{ "data": "responseTime", "orderable": true, "render": dateWeekRender},
+			//{ "mRender": requestActionRender, "orderable": false}
+		]
+	});
+}

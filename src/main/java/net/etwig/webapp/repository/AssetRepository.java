@@ -22,6 +22,6 @@ import net.etwig.webapp.model.Asset;
 @Repository
 public interface AssetRepository extends JpaRepository<Asset, Long>, JpaSpecificationExecutor<Asset> {
 
-	@Query("SELECT new net.etwig.webapp.dto.AssetBasicInfoDTO(a) FROM Asset a JOIN a.uploader u ORDER BY a.id DESC")
-    Page<AssetAPIDTO> findAllBasicInfo(Pageable pageable);
+	//@Query("SELECT new net.etwig.webapp.dto.AssetBasicInfoDTO(a) FROM Asset a JOIN a.uploader u ORDER BY a.id DESC")
+    //Page<AssetAPIDTO> findAllBasicInfo(Pageable pageable);
 }

@@ -68,11 +68,13 @@
 										<thead>
 											<tr>
 												<th>ID</th>
-												<th>Event Name</th>
-												<th>Time</th>
-												<th>TWIG Component</th>
-												<th>Banner</th>
-												<th>Pending Approval</th>
+												<th>Name</th>
+												<th>Type</th>
+												<th>Category</th>
+												<th>Uploader</th>
+												<th>Last Modified</th>
+												<th>Preview</th>
+												<th>Action</th>
 											</tr>
 										</thead>
 										<tbody></tbody>
@@ -98,6 +100,8 @@
 	<#include "../_includes/header/body_end.ftl">
 
 	<script type="text/javascript" src="/static/js/etwig/asset.js?ver=${app.appVersion}"></script>
-	
+	<script>
+		assetListTable();
+	</script>
 </body>
 </html>
