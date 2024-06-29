@@ -29,9 +29,83 @@
 		<#-- Content Wrapper. -->
 		<div class="content-wrapper">
 			
-			
+			<#-- Page header -->
+			<section class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1 class="bold-text">Upload Asset(s)</h1>
+						</div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item"><a href="/assets/index.do">Assets</a></li>
+								<li class="breadcrumb-item active"><a href="/assets/upload.do">Upload</a></li>
+							</ol>
+						</div>
+					</div>
+				</div>
+			</section>
+			<#-- /Page header -->
+
+			<#-- Main area -->
+    		<section class="content">
+				<div class="container-fluid">
+					<div class="row">
+
+						<#-- \ Single File -->
+						<div class="col-md-6">
+							<div class="card card-outline card-primary">
+								<div class="card-header">
+									<h3 class="card-title">
+										<i class="fa-solid fa-cloud-arrow-up"></i>&nbsp;Single File
+									</h3>
+								</div>
+
+								<div class="card-body">
+
+								</div>
+							</div>
+						</div>
+						<#-- /Upload -->
+
+						<#-- Result -->
+						<div class="col-md-6">
+							<div class="card card-outline card-primary">
+								<div class="card-header">
+									<h3 class="card-title">
+										<i class="fa-solid fa-circle-check"></i>&nbsp;Result
+									</h3>
+								</div>
+
+								<#--
+								<div class="card-body table-responsive">
+									<table id="importResult" class="table table-striped table-hover">
+
+										<thead>
+										<tr>
+											<th>Row Number</th>
+											<th>Status</th>
+										</tr>
+										</thead>
+
+										<tbody>
+										</tbody>
+									</table>
+								</div>
+								-->
+
+							</div>
+						</div>
+						<#-- /Result -->
+
+					</div>
+				</div>
+			</section>
+			<#-- /Main area -->
+
 		</div>
 		<#-- /Content Wrapper. -->
+
 	</div>
 	<#-- Main Wrapper -->
 	
