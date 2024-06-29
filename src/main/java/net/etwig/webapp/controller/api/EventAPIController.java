@@ -1,7 +1,6 @@
 package net.etwig.webapp.controller.api;
 
 import net.etwig.webapp.dto.events.EventDetailsDTO;
-import net.etwig.webapp.dto.graphics.BannerRequestDetailsDTO;
 import net.etwig.webapp.model.Portfolio;
 import net.etwig.webapp.services.EventService;
 import net.etwig.webapp.services.PortfolioService;
@@ -47,6 +46,7 @@ public class EventAPIController {
     @PostMapping("/add")
     public Map<String, Object> add(@RequestBody Map<String, Object> eventInfo) {
         eventService.editEvent(eventInfo, null);
+        // TODO REMOVE WEBRETURN
         return WebReturn.errorMsg("Event added successfully.", true);
     }
 
@@ -82,14 +82,18 @@ public class EventAPIController {
         // Edit event in the DB.
         eventService.editEvent(eventInfo, event);
         return WebReturn.errorMsg(null, true);
+        // TODO refactor me
     }
 
     /**
-     * View the detail of an event.
-     * @param eventId The ID of the event.
-     * @return The event details according to the ID, if not found, return null;
+     * Handles the HTTP GET request to view the details of an event specified by its ID. This endpoint retrieves the event details
+     * from the service layer based on the provided eventId. If the event is found, its details are returned; if not, null is returned.
+     * This method is accessible to all logged-in users.
+     *
+     * @param eventId The ID of the event whose details are to be retrieved. Must not be null.
+     * @return The event details as an Object. Returns null if no event matches the given ID.
      * @location /api/event/view
-     * @permission All logged in users.
+     * @permission This endpoint requires the user to be logged in.
      */
 
     @GetMapping("/view")

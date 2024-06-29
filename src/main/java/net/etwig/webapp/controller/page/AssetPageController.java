@@ -15,7 +15,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,28 +31,18 @@ public class AssetPageController {
 	private AssetService assetService;
 
 	/**
-	 * The root location, redirect to index page.
-	 * @location /asset/
-	 * @permission All users, including visitors
+	 * Handles the HTTP GET request for the root of the asset module by redirecting to the index page. This method is mapped to
+	 * the base URL of the asset module and serves as the default entry point, redirecting users to the main index page of the application.
+	 * This ensures that visitors who access the root of the asset module are guided to the appropriate starting page.
+	 *
+	 * @location /asset/  (Assuming the controller itself is mapped to "/asset")
+	 * @permission Accessible to all users, including visitors, without any authentication requirements.
 	 */
 
 	@GetMapping("/")
 	public String root(){
 		return "redirect:/index.do";
 	}
-
-	/**
-	 * Asset index page.
-	 * @location /asset/index.do
-	 * @permission All logged in users
-	 */
-
-	//@GetMapping("index.do")
-	//public String index(Model model){
-	//
-	//	// TODO Make an index page for events
-	//	return null;
-	//}
 
 	/**
 	 * Retrieves the content of an asset based on its ID.
@@ -78,7 +67,6 @@ public class AssetPageController {
 	 * @permission All users, including visitors
 	 */
 	
-	// @SuppressWarnings("null")
 	@GetMapping(value = "/content.do")
 	public ResponseEntity<Resource> content(
 			@RequestParam Long assetId,
@@ -128,15 +116,20 @@ public class AssetPageController {
 	}
 
 	/**
-	 * The embedded asset selector page
+	 * Handles requests to display the embedded asset selector page. This controller method is mapped to handle
+	 * a specific endpoint and is responsible for returning the view name of the asset selector page. This page
+	 * allows logged-in users to select files or assets from a list. The method simply directs to the view and
+	 * does not perform any additional logic or data manipulation.
+	 *
 	 * @location /asset/_selectFile.do
-	 * @permission All logged in users
+	 * @permission Accessible only to users who are logged in, ensuring that only authenticated users can access
+	 *             the asset selection capabilities.
+	 * @return The name of the view that displays the asset selector.
+	 * @throws Exception if there are issues in rendering the view.
 	 */
 
 	@RequestMapping("_selectFile.do")
-	public String selector(Model model) throws Exception{
+	public String selector() throws Exception{
 		return "assets/selector";
 	}
-
-	// TODO asset admin page
 }

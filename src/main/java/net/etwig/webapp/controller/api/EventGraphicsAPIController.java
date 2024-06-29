@@ -7,7 +7,6 @@ import net.etwig.webapp.services.EventGraphicsService;
 import net.etwig.webapp.services.EventService;
 import net.etwig.webapp.util.InvalidParameterException;
 import net.etwig.webapp.util.NumberUtils;
-import net.etwig.webapp.util.WebReturn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,17 +29,19 @@ public class EventGraphicsAPIController {
     private EventService eventService;
 
     /**
-     * Handles POST requests to add new graphics information to an event specified by the eventId included in the request body.
-     * This method first retrieves and validates the eventId from the request body. If the eventId is invalid or the event does not exist,
-     * it throws an exception. If the eventId is valid, it proceeds to add the new graphics information.
+     * Handles POST requests to add new graphics information to an event, identified by the eventId included in the request body.
+     * This method validates the eventId to ensure it exists and is valid. If the eventId is found to be invalid or if the event
+     * does not exist, an InvalidParameterException is thrown. If the eventId is valid, the method proceeds to add the specified
+     * graphics information to the event.
      * <p>
-     * Security: This method is secured with {@link PreAuthorize} and can only be accessed by users with the 'ROLE_GRAPHICS' authority.
+     * Security: Access to this method is restricted by the {@link PreAuthorize} annotation, ensuring it can only be executed by
+     * users who possess the 'ROLE_GRAPHICS' authority.
      * </p>
      *
-     * @param newGraphicsInfo A {@link Map} containing the new graphics data to be added, including the eventId.
-     * @throws InvalidParameterException if the eventId is invalid or the event does not exist, with a message detailing the issue.
+     * @param newGraphicsInfo A {@link Map} representing the new graphics data to be added, keyed by property names including 'eventId'.
+     * @throws InvalidParameterException if the eventId is either invalid or if no event corresponds to the provided ID.
      * @location /api/eventGraphics/add
-     * @permission This endpoint requires the user to have graphic management permissions.
+     * @permission This endpoint requires users to have graphics management permissions.
      */
 
     @PreAuthorize("hasAuthority('ROLE_GRAPHICS')")
@@ -52,20 +53,15 @@ public class EventGraphicsAPIController {
 
         // Invalid or negative eventId, add event.
         if(eventId == null || eventId <= 0) {
-            //return WebReturn.errorMsg("The eventId is invalid.", false);
             throw new InvalidParameterException("Event ID is invalid.");
         }
 
         // Check the existence
         EventDetailsDTO event = eventService.findById(eventId);
         if(event == null) {
-            //return WebReturn.errorMsg("The event with id= " + eventId + " does not exist.", false);
             throw new InvalidParameterException("The event with id= " + eventId + " does not exist.");
         }
-
         eventGraphicsService.addGraphics(newGraphicsInfo);
-        //return null;
-        //return WebReturn.errorMsg(null, true);
     }
 
     /**
@@ -87,6 +83,17 @@ public class EventGraphicsAPIController {
     public EventGraphicsAPIForDetailsPageDTO view(@RequestParam Long graphicsId) {
         return eventGraphicsService.findById(graphicsId);
     }
+
+    /**
+     * Handles HTTP GET requests to remove graphics associated with a specified graphics ID. This method invokes a service to delete
+     * the graphics based on the provided ID. If the operation is successful, it completes without a return value; if there is an issue,
+     * such as the graphics ID not existing, the underlying service method should handle it, potentially throwing an exception.
+     *
+     * @param graphicsId The ID of the graphics to be removed. This ID must correspond to existing graphics in the system.
+     * @throws IllegalArgumentException if the provided graphicsId is null or does not correspond to any existing graphics.
+     * @location /api/eventGraphics/remove
+     * @permission Those who has graphic management permission.
+     */
 
     @PreAuthorize("hasAuthority('ROLE_GRAPHICS')")
     @GetMapping("/remove")

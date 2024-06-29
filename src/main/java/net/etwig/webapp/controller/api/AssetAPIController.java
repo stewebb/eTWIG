@@ -47,7 +47,6 @@ public class AssetAPIController {
 
         // Copy file and add related info
         assetService.uploadFile(file);
-        //return WebReturn.errorMsg("", true);
     }
 
     @GetMapping("/edit")
@@ -55,12 +54,10 @@ public class AssetAPIController {
         return null;
     }
 
-
     @GetMapping("/view")
     public Object view(@RequestParam Long eventId) {
         return null;
     }
-
 
     @GetMapping("/remove")
     public Object remove(@RequestParam Long eventId) {
@@ -109,5 +106,4 @@ public class AssetAPIController {
         json.put("data", page.getContent());
         return ResponseEntity.ok(json);
     }
-
 }

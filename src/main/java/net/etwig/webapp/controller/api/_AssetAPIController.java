@@ -27,22 +27,6 @@ public class _AssetAPIController {
 	@Autowired
 	private AssetService assetService;
 
-	/*
-	@PostMapping(value = "upload")
-	public Map<String, Object> upload(@RequestParam("file") MultipartFile file) throws IOException {
-		
-		// Null check...
-		if(file == null) {
-			return WebReturn.errorMsg("The file is null.", false);
-		} 
-		
-		// Copy file and add related info
-		assetService.uploadFile(file);
-		return WebReturn.errorMsg("", true);
-    }
-
-	 */
-	
 	@GetMapping("/getImageInfo")
     public Map<String, Object> getImageInfo(@RequestParam Long assetId) throws Exception {
 		
@@ -78,9 +62,4 @@ public class _AssetAPIController {
 		return myReturn;
 
     }
-	
-	//@GetMapping("/getAssetList")
-    //public Page<AssetAPIDTO> getAssetList(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-    //    return assetService.getAssetList(page, size);
-    //}
 }

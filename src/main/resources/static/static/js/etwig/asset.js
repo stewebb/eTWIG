@@ -166,14 +166,7 @@ function uploadFile(isMultiple, fileElem, selectorElem){
 $(".custom-file-input").on("change", function() {
 	var fileName = $(this).val().split("\\").pop();
 	$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-	//$("#uploadFileBtn").prop('disabled', false);
 });
-
-//function resetFile(){
-//	$('#fileUpload').val('');
-//    $('.custom-file-input').siblings(".custom-file-label").removeClass("selected").html("Choose file");
-//    //$("#uploadFileBtn").prop('disabled', true);
-//}
 
 /**
  * Initializes a DataTable on the #assetsList element. This table is configured to

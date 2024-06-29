@@ -32,13 +32,18 @@ public class EventsPageController {
 	@Autowired
 	private PortfolioService portfolioService;
 
-	@Autowired
-	private UserSessionService userSessionService;
+	//@Autowired
+	//private UserSessionService userSessionService;
 
 	/**
-	 * The root location, redirect to index page.
-	 * @location /events/
-	 * @permission All logged in users
+	 * Handles the HTTP GET request at the root of the 'events' module by redirecting to the main index page. This method serves as
+	 * the entry point for the events section of the application, where it automatically redirects users to a centralized index page,
+	 * facilitating easier navigation and consistent user experience across the platform. This redirection is essential for maintaining
+	 * a structured flow within the application, especially for first-time users or general navigation purposes.
+	 *
+	 * @location /events/  (This assumes the controller is mapped to "/events")
+	 * @permission Accessible only to logged in users, ensuring that the functionality is available for authenticated sessions only.
+	 * @return The redirection path to the index page.
 	 */
 
 	@GetMapping("/")
@@ -58,11 +63,19 @@ public class EventsPageController {
 		// TODO Make an index page for events
 		return null;
 	}
-	
+
 	/**
-	 * Event calendar page.
+	 * Serves the event calendar page for the 'events' module, which displays a calendar with relevant event data. This method
+	 * retrieves a list of portfolios via the portfolioService, and adds them to the model to be accessible within the view.
+	 * This setup is integral for displaying portfolios that may be linked to specific events on the calendar. The calendar
+	 * view provides a visual representation of event timelines and is designed to be interactive and user-friendly for logged-in users.
+	 *
 	 * @location /events/calendar.do
-	 * @permission All logged in users
+	 * @permission Accessible only to users who are logged in, ensuring that the calendar and its associated event data are
+	 *             securely accessed by authenticated users.
+	 * @param model The Spring Model object that is used to pass attributes to the view. It's utilized here to add portfolios
+	 *              to the view, enhancing the functionality of the calendar page.
+	 * @return The name of the view ('events/calendar') that renders the calendar.
 	 */
 	
 	@GetMapping("/calendar.do")
@@ -71,10 +84,6 @@ public class EventsPageController {
 				"portfolios",
 				portfolioService.getPortfolioList(Pageable.unpaged()).getContent()
 		);
-		//model.addAttribute(
-		//		"myPortfolio",
-		//		userSessionService.validateSession().getPosition().getMyCurrentPosition().getPortfolioName()
-		//);
 		return "events/calendar";
 	}
 	
