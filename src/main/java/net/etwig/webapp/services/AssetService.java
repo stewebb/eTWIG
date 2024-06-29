@@ -112,7 +112,7 @@ public class AssetService {
 	 * @throws SecurityException If the user's session is invalid or expired.
 	 */
 
-	public Page<AssetAPIDTO> findAssetsByCriteria(Long uploadUserId, Pageable pageable) {
+	public Page<AssetAPIDTO> findAssetsByCriteria(Long uploadUserId, String searchValue, Pageable pageable) {
 
 		// Get current user info
 		CurrentUserDTOWrapper wrapper = userSessionService.validateSession();
@@ -123,7 +123,7 @@ public class AssetService {
 		boolean globalDeletePermission = permission.isAdminAccess() || permission.isGraphicsAccess();
 
 		// Get asset list
-		Specification<Asset> spec = assetsCriteria(uploadUserId);
+		Specification<Asset> spec = assetsCriteria(uploadUserId, searchValue);
 		Page<Asset> assets = assetRepository.findAll(spec, pageable);
 		List<AssetAPIDTO> dtos = new ArrayList<>();
 
@@ -147,13 +147,19 @@ public class AssetService {
 	 * @return A {@code Specification<Asset>} that can be used with JPA to generate a database query for assets, based on the provided uploader ID.
 	 */
 
-	public Specification<Asset> assetsCriteria(Long uploadUserId) {
+	public Specification<Asset> assetsCriteria(Long uploadUserId, String searchValue) {
 		return (root, query, criteriaBuilder) -> {
 			Predicate finalPredicate = criteriaBuilder.conjunction();
 
 			// Add condition for uploadUserId if it is not null
 			if (uploadUserId != null) {
 				finalPredicate = criteriaBuilder.and(finalPredicate, criteriaBuilder.equal(root.get("uploaderId"), uploadUserId));
+			}
+
+			// Add condition for searchValue if it is not empty or null
+			if (searchValue != null && !searchValue.isEmpty()) {
+				Predicate searchPredicate = criteriaBuilder.like(criteriaBuilder.lower(root.get("originalName")), "%" + searchValue.toLowerCase() + "%");
+				finalPredicate = criteriaBuilder.and(finalPredicate, searchPredicate);
 			}
 			return finalPredicate;
 		};

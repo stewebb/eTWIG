@@ -172,7 +172,9 @@ function assetListTable(){
 		"serverSide": true,
 		"lengthMenu": [[10, 20, 50, 100], [10, 20, 50, 100]],
 		"pageLength": 20,
-		"searching": false, 
+		"language": {
+            "searchPlaceholder": "File Name",
+        },
 		"order": [[0, "desc"]],
 		"ajax": {
 			"url": "/api/asset/list",
@@ -192,14 +194,6 @@ function assetListTable(){
 			{ "data": "lastModified", "orderable": true, "render": dateWeekRender },
 			{ "mRender": assetPreviewRender, "orderable": false },
 			{ "mRender": assetListActionRender, "orderable": false }
-
-			//{ "data": "requestTime", "orderable": true, "render": dateWeekRender},
-			,
-			//{ "data": "expectDate", "orderable": true, render: expectDateRender},
-			//{ "data": "approved", "orderable": true, "render": approvalStatusRender},
-			//{ "data": "approverName", "orderable": false, "render": optionalFieldsRender},
-			
-			
 		]
 	});
 }
