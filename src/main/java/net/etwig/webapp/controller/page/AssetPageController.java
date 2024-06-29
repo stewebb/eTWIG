@@ -127,11 +127,6 @@ public class AssetPageController {
 		return "assets/index";
 	}
 
-	//@GetMapping("upload.do")
-	//public String upload(){
-	//	return "assets/upload";
-	//}
-
 	/**
 	 * The embedded asset selector page
 	 * @location /asset/_selectFile.do

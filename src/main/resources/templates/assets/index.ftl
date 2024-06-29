@@ -54,23 +54,29 @@
 				<div class="container-fluid">
 
 					<#-- Upload -->
-					<div class="row">
+					<div class="row mb-3">
 
 						<#-- Single File -->
 						<div class="col-md-6">
 							<div class="card card-outline card-primary">
 								<div class="card-header">
 									<h3 class="card-title">
-										<i class="fa-solid fa-upload"></i>&nbsp;Single File
+										<i class="fa-solid fa-cloud-arrow-up"></i>&nbsp;Single File
 									</h3>
 								</div>
 
 								<div class="card-body">
 
+									<#--
 									<div class="callout callout-primary mb-3">
 										<h5 class="bold-text">Upload single file</h5>
 										<p>You can only upload one file each time in this area.</p>
 									</div>
+									-->
+									<p>
+										You can only upload <b>one file each time</b> in this area and
+										a compressed folder will also be treated as a single file.
+									</p>
 
 									<#-- Upload Area -->
 									<div class="input-group">
@@ -87,29 +93,12 @@
 										</div>
 										
 										<div class="input-group-append">
-										
-											<#-- Upload file button -->
 											<button type="button" class="btn btn-outline-primary" onclick="uploadFile(false, 'fileUploadSingle', 'assetsList');" id="uploadSingleFileBtn">
 												<i class="fa-solid fa-upload"></i>
-											</button>
-											
-											<#-- Reset file button -->
-											<#--
-											<button type="button" class="btn btn-outline-secondary" onclick = "resetFile();">
-												<i class="fa-solid fa-xmark"></i>
-											</button>
-											-->
-											
-											<#--Reload table button -->
-											<#--
-											<button type="button" class="btn btn-outline-secondary" onclick = "dt.ajax.reload();">
-												<i class="fa-solid fa-rotate"></i>
-											</button>
-											-->
-
 										</div>
 									</div>
 									<#-- Upload Area -->
+
 								</div>
 							</div>
 						</div>
@@ -120,26 +109,46 @@
 							<div class="card card-outline card-primary">
 								<div class="card-header">
 									<h3 class="card-title">
-										<i class="fa-solid fa-cloud-arrow-up"></i>&nbsp;Multiple Files
+										<i class="fa-solid fa-layer-group"></i>&nbsp;Multiple Files
 									</h3>
 								</div>
 
-								<#--
-								<div class="card-body table-responsive">
-									<table id="importResult" class="table table-striped table-hover">
+								<div class="card-body">
 
-										<thead>
-										<tr>
-											<th>Row Number</th>
-											<th>Status</th>
-										</tr>
-										</thead>
+									<#--
+									<div class="callout callout-primary mb-3">
+										<h5 class="bold-text">Upload multiple files</h5>
+										<p>You can</p>
+									</div>
+									-->
+									<p>You can only upload <b>multiple files</b> in this area.</p>
 
-										<tbody>
-										</tbody>
-									</table>
+									<#-- Upload Area -->
+									<#--
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text">
+												<i class="fa-solid fa-file-arrow-up"></i>
+											</span>
+										</div>				
+									
+										<-- File upload box --
+										
+										<div class="custom-file">
+											<input type="file" class="custom-file-input" id="fileUploadSingle">
+											<label class="custom-file-label" for="exampleInputFile">Choose a file</label>
+										</div>
+										
+										<div class="input-group-append">
+											<button type="button" class="btn btn-outline-primary" onclick="uploadFile(false, 'fileUploadSingle', 'assetsList');" id="uploadSingleFileBtn">
+												<i class="fa-solid fa-upload"></i>
+										</div>
+										
+									</div>
+									-->
+									<#-- Upload Area -->
+
 								</div>
-								-->
 
 							</div>
 						</div>

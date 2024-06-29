@@ -1,7 +1,6 @@
 package net.etwig.webapp.controller.api;
 
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -10,15 +9,11 @@ import javax.imageio.ImageIO;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
-import net.etwig.webapp.dto.AssetAPIDTO;
 import net.etwig.webapp.model.Asset;
 import net.etwig.webapp.services.AssetService;
 import net.etwig.webapp.util.WebReturn;
@@ -32,6 +27,7 @@ public class _AssetAPIController {
 	@Autowired
 	private AssetService assetService;
 
+	/*
 	@PostMapping(value = "upload")
 	public Map<String, Object> upload(@RequestParam("file") MultipartFile file) throws IOException {
 		
@@ -44,6 +40,8 @@ public class _AssetAPIController {
 		assetService.uploadFile(file);
 		return WebReturn.errorMsg("", true);
     }
+
+	 */
 	
 	@GetMapping("/getImageInfo")
     public Map<String, Object> getImageInfo(@RequestParam Long assetId) throws Exception {

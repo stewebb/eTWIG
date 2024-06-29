@@ -29,12 +29,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import jakarta.servlet.http.HttpSession;
-
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import net.etwig.webapp.config.ConfigFile;
@@ -51,19 +48,22 @@ public class AssetService {
 	@Autowired
 	private AssetRepository assetRepository;
 	
-	@Autowired
-	private HttpSession session;
+	//@Autowired
+	//private HttpSession session;
 
 	@Autowired
 	private UserSessionService userSessionService;
-
-	//@Autowired
-	//private UserRoleRepository userRoleRepository;
 	
 	@Autowired
     public AssetService(ConfigFile config) {
         this.rootLocation = Paths.get(config.getRootLocation());
     }
+
+	//@Autowired
+	//public AssetService(ConfigFile config, HttpSession session) {
+	//	this.rootLocation = Paths.get(config.getRootLocation());
+	//	//this.session = session;
+	//}
 
 	/**
 	 * Retrieves the details of an asset by its ID.
@@ -112,7 +112,6 @@ public class AssetService {
 	 *         user's roles and relation to the asset.
 	 * @throws SecurityException If the user's session is invalid or expired.
 	 */
-
 
 	public Page<AssetAPIDTO> findAssetsByCriteria(Long uploadUserId, String searchValue, Pageable pageable) {
 
@@ -170,16 +169,13 @@ public class AssetService {
 		};
 	}
 
-    //public Page<AssetAPIDTO> getAssetList(int page, int size) {
-	//		Pageable pageable = PageRequest.of(page, size);
-	//		//return assetRepository.findAllBasicInfo(pageable);
-	//		return null;
-	//}
-	
 	/**
-	 * Upload the file to the server and add the related information to database.
-	 * @param file
-	 * @throws IOException
+	 * Uploads a file to the server and adds related information to the database. This method extracts the original filename, generates a unique stored filename
+	 * using a UUID, and sets various attributes such as file size and upload time. It also associates the uploaded file with the user from the current session.
+	 * The file is then saved to the server's file system and the asset information is persisted to the database.
+	 *
+	 * @param file The multipart file uploaded by the user. Must not be null.
+	 * @throws IOException if an I/O error occurs during file processing or while copying the file to the server's file system.
 	 */
 	
 	public void uploadFile(MultipartFile file) throws IOException {
@@ -199,7 +195,6 @@ public class AssetService {
        	newAsset.setUploadedTime(LocalDateTime.now());
        
        	// The related user info
-       	//CurrentUserBasicInfoDTO user = (CurrentUserBasicInfoDTO) session.getAttribute("user");
        	newAsset.setUploaderId(userSessionService.validateSession().getBasicInfo().getId());
        
        	// Copy file to the file system before insert the data.

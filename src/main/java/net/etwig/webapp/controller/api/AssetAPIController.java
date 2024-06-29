@@ -23,21 +23,31 @@ public class AssetAPIController {
     @Autowired
     private AssetService assetService;
 
-    @PostMapping(value = "add")
-    public Map<String, Object> add(
-            @RequestParam("file") MultipartFile file,
-            @RequestParam("isMultiple") Boolean isMultiple
-    ) throws IOException {
+    /**
+     * Handles POST requests to upload a file. This method takes a file and a Boolean flag indicating whether multiple files are expected to be uploaded.
+     * The method first checks if the uploaded file is null or empty and throws an exception if it is. Currently, it is designed to handle single file uploads,
+     * with placeholder logic ready for handling multiple files in the future.
+     *
+     * @param file The file to be uploaded.
+     * @param isMultiple Boolean flag indicating if the upload involves multiple files. This functionality is not implemented yet.
+     * @throws IOException if there is an issue during file I/O operations.
+     * @throws InvalidParameterException if the uploaded file is null or empty.
+     * @location /api/asset/add
+     * @permission All logged in users.
+     */
 
-        // Null check...
+    @PostMapping(value = "add")
+    public void add(@RequestParam("file") MultipartFile file, @RequestParam("isMultiple") Boolean isMultiple) throws IOException {
+
+        // Check if the uploaded file is null or empty
         if(file == null) {
-            //return WebReturn.errorMsg("The file is null.", false);
             throw new InvalidParameterException("Uploaded file is null or empty.");
         }
+        // TODO: Upload multiple files.
 
         // Copy file and add related info
         assetService.uploadFile(file);
-        return WebReturn.errorMsg("", true);
+        //return WebReturn.errorMsg("", true);
     }
 
     @GetMapping("/edit")
@@ -75,7 +85,6 @@ public class AssetAPIController {
      * @location /api/asset/list
      * @permission All logged in users.
      */
-
 
     @GetMapping("/list")
     public ResponseEntity<Map<String, Object>> list(
