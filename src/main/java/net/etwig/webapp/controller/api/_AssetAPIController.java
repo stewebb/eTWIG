@@ -81,8 +81,8 @@ public class _AssetAPIController {
 
     }
 	
-	@GetMapping("/getAssetList")  
-    public Page<AssetAPIDTO> getAssetList(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-        return assetService.getAssetList(page, size);
-    }
+	//@GetMapping("/getAssetList")
+    //public Page<AssetAPIDTO> getAssetList(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    //    return assetService.getAssetList(page, size);
+    //}
 }

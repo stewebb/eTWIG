@@ -16,19 +16,13 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import jakarta.persistence.criteria.Predicate;
-import net.etwig.webapp.dto.graphics.BannerRequestDetailsDTO;
 import net.etwig.webapp.dto.user.CurrentUserDTOWrapper;
 import net.etwig.webapp.dto.user.CurrentUserPermissionDTO;
-import net.etwig.webapp.model.BannerRequest;
-import net.etwig.webapp.model.UserRole;
-import net.etwig.webapp.repository.UserRoleRepository;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.jpa.domain.Specification;
@@ -63,8 +57,8 @@ public class AssetService {
 	@Autowired
 	private UserSessionService userSessionService;
 
-	@Autowired
-	private UserRoleRepository userRoleRepository;
+	//@Autowired
+	//private UserRoleRepository userRoleRepository;
 	
 	@Autowired
     public AssetService(ConfigFile config) {
@@ -102,11 +96,23 @@ public class AssetService {
 		return (asset == null) ? null : new UrlResource(rootLocation.resolve(asset.getStoredName()).toUri());
 	}
 
-	public Page<AssetAPIDTO> findAssetsByCriteria(Long uploadUserId, Pageable pageable) {
+	/**
+	 * Retrieves a paginated list of assets filtered by the upload user ID. This method first validates the current user's
+	 * session and checks their permissions.
+	 * Each asset in the list includes information about whether the current user has permission to delete the asset.
+	 * Users with admin or graphics manager roles,
+	 * or users who are the original uploader of the asset, are granted deletion rights.
+	 *
+	 * @param uploadUserId The user ID of the asset uploader to filter the assets by. If this is null, assets are not
+	 *                        filtered by uploader.
+	 * @param pageable The pagination information and sorting criteria.
+	 * @return A {@code Page<AssetAPIDTO>} containing the assets that match the criteria and pagination settings.
+	 * Each {@code AssetAPIDTO} includes
+	 *         asset details and a deletion permission flag specific to the current user's roles and relation to the asset.
+	 * @throws SecurityException If the user's session is invalid or expired.
+	 */
 
-		//CurrentUserPermissionDTO permission = userSessionService.validateSession().getPermission();
-		//if (permission.isAdminAccess() || permission.isGraphicsAccess()) {
-		//
+	public Page<AssetAPIDTO> findAssetsByCriteria(Long uploadUserId, Pageable pageable) {
 
 		// Get current user info
 		CurrentUserDTOWrapper wrapper = userSessionService.validateSession();
@@ -121,14 +127,9 @@ public class AssetService {
 		Page<Asset> assets = assetRepository.findAll(spec, pageable);
 		List<AssetAPIDTO> dtos = new ArrayList<>();
 
-		// Perform permission check
+		// Perform permission check on each asset
 		for (Asset asset : assets) {
 			AssetAPIDTO assetAPIDTO = new AssetAPIDTO(asset);
-			//if(globalDeletePermission) {
-			//	assetAPIDTO.setCanDelete(true);
-			//} else {
-			//	assetAPIDTO.setCanDelete(basicInfo.getId().equals(asset.getUploaderId()));
-			//}
 
 			// User can also delete asset if the user is the uploader of it.
 			assetAPIDTO.setCanDelete(globalDeletePermission || basicInfo.getId().equals(asset.getUploaderId()));
@@ -136,9 +137,15 @@ public class AssetService {
 		}
 
 		return new PageImpl<>(dtos, pageable, assets.getTotalElements());
-
-		//return assetRepository.findAll(spec, pageable).map(AssetAPIDTO::new);
 	}
+
+	/**
+	 * Constructs a specification for querying assets based on the uploader's user ID. This method creates a criteria query that can be used to filter assets
+	 * by the uploader ID if provided. If the uploadUserId is null, the specification will not apply any uploader-specific filters, potentially returning all assets.
+	 *
+	 * @param uploadUserId The ID of the user who uploaded the assets. If specified, the query filters to include only assets uploaded by this user.
+	 * @return A {@code Specification<Asset>} that can be used with JPA to generate a database query for assets, based on the provided uploader ID.
+	 */
 
 	public Specification<Asset> assetsCriteria(Long uploadUserId) {
 		return (root, query, criteriaBuilder) -> {
@@ -152,37 +159,11 @@ public class AssetService {
 		};
 	}
 
-	public boolean hasGlobalDeletePermission(Asset asset) {
-		//return asset.getUploader().
-
-		// Admins and Graphics Managers has
-		CurrentUserPermissionDTO permission = userSessionService.validateSession().getPermission();
-		if (permission.isAdminAccess() || permission.isGraphicsAccess()) {
-			return true;
-		}
-
-		// Get all uploader roles
-		// Set<UserRole> uploaderRoles = userRoleRepository.findByUserId(asset.getUploaderId());
-
-		//
-		//for (UserRole uploaderRole : uploaderRoles) {
-		//	if ()
-		//}
-	}
-
-
-	/**
-	 * Get the list of assets with pages.
-	 * @param page
-	 * @param size
-	 * @return
-	 */
-	
-	public Page<AssetAPIDTO> getAssetList(int page, int size) {
-			Pageable pageable = PageRequest.of(page, size);
-			//return assetRepository.findAllBasicInfo(pageable);
-			return null;
-	}
+    //public Page<AssetAPIDTO> getAssetList(int page, int size) {
+	//		Pageable pageable = PageRequest.of(page, size);
+	//		//return assetRepository.findAllBasicInfo(pageable);
+	//		return null;
+	//}
 	
 	/**
 	 * Upload the file to the server and add the related information to database.
