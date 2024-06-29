@@ -100,18 +100,6 @@ public class AssetPageController {
         	FileType fileType = (Boolean.TRUE.equals(download)) ?
 					FileType.OTHER :
 					FileType.safeValueOf(FilenameUtils.getExtension(resource.getFilename()));
-        	//if(BooleanUtils.toBoolean(download)) {
-        	//	fileType = FileType.OTHER;
-        	//}
-
-			//if (download) {
-			//	fileType = FileType.OTHER;
-			//}
-        	
-        	// Or the MIME type is based on the file suffix.
-        	//else {
-            //	fileType = FileType.safeValueOf(FilenameUtils.getExtension(resource.getFilename()));
-        	//}
         	
         	return ResponseEntity.ok()
         			.contentType(fileType.getMediaType())
@@ -128,7 +116,7 @@ public class AssetPageController {
 
 	@GetMapping("list.do")
 	public String list(Model model){
-		return "list";
+		return "assets/list";
 	}
 
 	/**

@@ -10,32 +10,22 @@ import net.etwig.webapp.util.FileType;
 
 @Getter
 @ToString
-public class AssetBasicInfoDTO {
+public class AssetAPIDTO {
 
-	private Long id;
+	private final Long id;
+	private final String name;
+	private final FileType type;
+	private final long size;
+	private final String uploader;
+	private final LocalDateTime lastModified;
 	
-	private String name;
-		
-	private FileType type;
-	
-	private long size;
-	
-	private String uploader;
-	
-	private LocalDateTime lastModified;
-	
-	public AssetBasicInfoDTO(Asset asset) {
-		
-		
+	public AssetAPIDTO(Asset asset) {
 		this.id = asset.getId();
 		this.name = asset.getOriginalName();
 		this.type = FileType.safeValueOf(FilenameUtils.getExtension(this.name));
 		this.size = asset.getSize();
-		
 		this.uploader = asset.getUploader().getFullName();
 		this.lastModified = asset.getUploadedTime();
-
-		
 	}
 	
 	public String getMediaType() {

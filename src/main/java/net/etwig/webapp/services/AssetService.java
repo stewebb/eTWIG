@@ -16,9 +16,14 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import jakarta.persistence.criteria.Predicate;
+import net.etwig.webapp.dto.graphics.BannerRequestDetailsDTO;
+import net.etwig.webapp.model.BannerRequest;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,7 +36,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import net.etwig.webapp.config.ConfigFile;
-import net.etwig.webapp.dto.AssetBasicInfoDTO;
+import net.etwig.webapp.dto.AssetAPIDTO;
 import net.etwig.webapp.dto.user.CurrentUserBasicInfoDTO;
 import net.etwig.webapp.model.Asset;
 import net.etwig.webapp.repository.AssetRepository;
@@ -82,7 +87,25 @@ public class AssetService {
 	public Resource getAssetContent(Asset asset) throws Exception {
 		return (asset == null) ? null : new UrlResource(rootLocation.resolve(asset.getStoredName()).toUri());
 	}
-	
+
+	public Page<AssetAPIDTO> findAssetsByCriteria(Long uploadUserId, Pageable pageable) {
+		Specification<Asset> spec = assetsCriteria(uploadUserId);
+		return assetRepository.findAll(spec, pageable).map(AssetAPIDTO::new);
+	}
+
+	public Specification<Asset> assetsCriteria(Long uploadUserId) {
+		return (root, query, criteriaBuilder) -> {
+			Predicate finalPredicate = criteriaBuilder.conjunction();
+
+			// Add condition for uploadUserId if it is not null
+			if (uploadUserId != null) {
+				finalPredicate = criteriaBuilder.and(finalPredicate, criteriaBuilder.equal(root.get("uploaderId"), uploadUserId));
+			}
+			return finalPredicate;
+		};
+	}
+
+
 	/**
 	 * Get the list of assets with pages.
 	 * @param page
@@ -90,7 +113,7 @@ public class AssetService {
 	 * @return
 	 */
 	
-	public Page<AssetBasicInfoDTO> getAssetList(int page, int size) {
+	public Page<AssetAPIDTO> getAssetList(int page, int size) {
 			Pageable pageable = PageRequest.of(page, size);
 			return assetRepository.findAllBasicInfo(pageable);
 	}

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import net.etwig.webapp.dto.AssetBasicInfoDTO;
+import net.etwig.webapp.dto.AssetAPIDTO;
 import net.etwig.webapp.model.Asset;
 import net.etwig.webapp.services.AssetService;
 import net.etwig.webapp.util.WebReturn;
@@ -82,7 +82,7 @@ public class _AssetAPIController {
     }
 	
 	@GetMapping("/getAssetList")  
-    public Page<AssetBasicInfoDTO> getAssetList(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    public Page<AssetAPIDTO> getAssetList(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return assetService.getAssetList(page, size);
     }
 }

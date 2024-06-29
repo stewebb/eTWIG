@@ -165,3 +165,4 @@ function resetFile(){
     $('.custom-file-input').siblings(".custom-file-label").removeClass("selected").html("Choose file");
     $("#uploadFileBtn").prop('disabled', true);
 }
+
