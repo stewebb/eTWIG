@@ -78,7 +78,31 @@
 							</li>
 						</#if>
 					    <#-- /Graphics -->
-					
+
+					    <#-- Assets -->
+						<li class="nav-item dropdown <#if navbar?starts_with("ASSETS_")>active</#if>">
+							
+							<#-- Dropdown btn -->
+							<a id="assetsSubMenu" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link navbar-border">
+								<i class="fa-solid fa-file"></i>&nbsp;Assets&nbsp;
+								<i class="fa-solid fa-caret-down"></i>
+							</a>
+							<#-- /Dropdown btn -->
+								
+							<ul aria-labelledby="assetsSubMenu" class="dropdown-menu border-0 shadow">
+								
+								<#-- List -->
+								<li>
+									<a href="/assets/list.do" class="dropdown-item <#if navbar=="ASSETS_LIST">active</#if>">
+										<i class="fa-solid fa-list-ul"></i>&nbsp;List
+									</a>
+								</li>
+								<#-- /List -->
+
+							</ul>
+						</li>
+					    <#-- /Assets -->
+
 					    <#-- Admin -->
           				<#if userPermission.adminAccess>
 							<li class="nav-item dropdown">

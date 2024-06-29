@@ -81,7 +81,10 @@ public class AssetPageController {
 	
 	// @SuppressWarnings("null")
 	@GetMapping(value = "/content.do")
-	public ResponseEntity<Resource> content(@RequestParam Long assetId, @RequestParam (required=false) String download) throws Exception {
+	public ResponseEntity<Resource> content(
+			@RequestParam Long assetId,
+			@RequestParam (required=false) Boolean download
+	) throws Exception {
 		
 		// Get asset info, content and null check.
 		Asset asset = assetService.getAssetDetailsById(assetId);
@@ -93,15 +96,22 @@ public class AssetPageController {
         if (resource.exists() || resource.isReadable()) {
         	
         	// In force download mode, set the MIME type to application/octet-stream
-        	FileType fileType;
-        	if(BooleanUtils.toBoolean(download)) {
-        		fileType = FileType.OTHER;
-        	}
+			// Otherwise, set the MIME type is based on the file suffix.
+        	FileType fileType = (Boolean.TRUE.equals(download)) ?
+					FileType.OTHER :
+					FileType.safeValueOf(FilenameUtils.getExtension(resource.getFilename()));
+        	//if(BooleanUtils.toBoolean(download)) {
+        	//	fileType = FileType.OTHER;
+        	//}
+
+			//if (download) {
+			//	fileType = FileType.OTHER;
+			//}
         	
         	// Or the MIME type is based on the file suffix.
-        	else {
-            	fileType = FileType.safeValueOf(FilenameUtils.getExtension(resource.getFilename()));
-        	}
+        	//else {
+            //	fileType = FileType.safeValueOf(FilenameUtils.getExtension(resource.getFilename()));
+        	//}
         	
         	return ResponseEntity.ok()
         			.contentType(fileType.getMediaType())
@@ -118,7 +128,7 @@ public class AssetPageController {
 
 	@GetMapping("list.do")
 	public String list(Model model){
-		return null;
+		return "list";
 	}
 
 	/**
