@@ -212,6 +212,7 @@ function assetListTable(){
 			{ "data": "id", "orderable": true },
 			{ "data": "name", "orderable": false },
 			{ "data": "type", "orderable": false, "render": assetTypeRender },
+			{ "data": "size", "orderable": true, "render": fileSizeRender },
 			{ "data": "uploader", "orderable": false },
 			{ "data": "lastModified", "orderable": true, "render": dateWeekRender },
 			{ "mRender": assetPreviewRender, "orderable": false },

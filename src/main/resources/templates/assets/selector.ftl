@@ -19,15 +19,13 @@
 
 <body>
 
-	<#-- Check whether this page is included in a normal page, by checking whether jQuery is loaded. -->
+	<#-- Check if this page is included in another page, by checking whether jQuery is loaded. -->
 	<script>
 	if (typeof jQuery == 'undefined') {
 		alert("Warning: This page is not supposed to be opened directly.");
 		window.location.href = '/';
 	}
 	</script>
-
-	<#--include "../_includes/header/body_start.ftl"-->
 	
 	<div class="wrapper">
 
@@ -47,6 +45,7 @@
 					<div class="card-body table-responsive">
 								
 						<#-- Upload Options -->
+						<#--
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
 								<span class="input-group-text">
@@ -54,7 +53,7 @@
 								</span>
 							</div>				
 						
-							<#-- File upload box -->
+							-- File upload box -
 							<div class="custom-file">
 								<input type="file" class="custom-file-input" id="fileUpload">
 								<label class="custom-file-label" for="exampleInputFile">Choose file</label>
@@ -62,35 +61,34 @@
 							
 							<div class="input-group-append">
 							
-								<#-- Upload file button -->
+								-- Upload file button --
 								<button type="button" class="btn btn-outline-primary" onclick="uploadFile();" id="uploadFileBtn" disabled>
 									<i class="fa-solid fa-upload"></i>
 								</button>
 								
-								<#-- Reset file button -->
+								-- Reset file button -
 								<button type="button" class="btn btn-outline-secondary" onclick = "resetFile();">
 									<i class="fa-solid fa-xmark"></i>
 								</button>
 								
-								<#--Reload table button -->
+								--Reload table button --
 								<button type="button" class="btn btn-outline-secondary" onclick = "dt.ajax.reload();">
 									<i class="fa-solid fa-rotate"></i>
 								</button>
 							</div>
 						</div>
+						-->
 						<#-- /Upload Options -->
 							
 						<#-- Table Content -->
 						<table id="assetSelector" class="table table-hover table-striped">
 							<thead>
 								<tr>
-									<th>AssetId</th>
+									<th>ID</th>
 									<th>Name</th>
-									<th>Type</th>
-									<th>Category</th>
-									<th>Size</th>
 									<th>Uploader</th>
-									<th>Last Modified</th>
+									<th>Preview</th>
+									<th>Action</th>
 								</tr>
 							</thead>
 							<tbody></tbody>
@@ -99,6 +97,7 @@
 				</div>
 					
 				<#-- Preview -->
+				<#--
 				<div class="card card-primary card-outline">	
 					<div class="card-header">
 						<h3 class="card-title">
@@ -108,38 +107,39 @@
 					
 					<div class="card-body">
 					
-						<#-- Preview content / -->
+						-- Preview content / --
 						<div id="previewContent"></div>
 						
-						<#-- Submit options -->
+						-- Submit options --
 						<div class="btn-group mt-3" role="group" style="float: right;">
 						
-							<#-- Download -->
+							-- Download --
 							<button id="downloadBtn" class="btn btn-outline-success" onclick="" disabled>
 								<i class="fa-regular fa-download"></i>&nbsp;Download
 							</button>
-							<#-- /Download -->
+							-- /Download --
 							
-							<#-- Cancel -->
+							-- Cancel --
 							<button type="button" class="btn btn-outline-secondary" onclick="$('#etwigModal').modal('hide');">
 								<i class="fa-solid fa-xmark"></i>&nbsp;Close
 							</button>
-							<#-- /Cancel -->
+							-- /Cancel --
 							
-							<#-- Select -->
+							-- Select --
 							<button type="button" class="btn btn-outline-primary" id="selectBtn">
 								<i class="fa-regular fa-check"></i>&nbsp; Select
 							</button>
-							<#-- /Select -->
+							-- /Select --
 							
 						</div>
-						<#-- /Submit options -->
+						-- /Submit options --
 						
 					</div>
 					
 					</div>
 				</div>
-				<#-- Preview -->
+				-->
+				<#-- Preview -->'
 				
 			</div>
 		</section>
@@ -150,10 +150,10 @@
 	<script type="text/javascript" src="/static/js/etwig/asset.js?ver=${app.appVersion}"></script>
 	
 	<script>
-    	assetSelectorDataTable();
+    	//assetSelectorDataTable();
 
 		// By default, no asset is selected.
-    	previewAsset(null);
+    	//previewAsset(null);
 	</script>
 </body>
 </html>

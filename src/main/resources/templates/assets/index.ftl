@@ -23,7 +23,6 @@
 	
 	<#-- Main Wrapper -->
 	<div class="wrapper">
-
 	
 		<#include "../_includes/navbar.ftl">
 
@@ -40,9 +39,6 @@
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item"><a href="/assets/index.do">Assets</a></li>
-								<#--
-								<li class="breadcrumb-item active"><a href="/assets/list.do">List</a></li>
-								-->
 							</ol>
 						</div>
 					</div>
@@ -61,22 +57,18 @@
 							<div class="card card-outline card-primary">
 								<div class="card-header">
 									<h3 class="card-title">
-										<i class="fa-solid fa-cloud-arrow-up"></i>&nbsp;Single File
+										<i class="fa-solid fa-cloud-arrow-up"></i>&nbsp;Upload Single File
 									</h3>
 								</div>
 
 								<div class="card-body">
 
-									<#--
-									<div class="callout callout-primary mb-3">
-										<h5 class="bold-text">Upload single file</h5>
-										<p>You can only upload one file each time in this area.</p>
-									</div>
-									-->
+									<#-- Notice -->
 									<p>
 										You can only upload <b>one file each time</b> in this area and
 										a compressed folder will also be treated as a single file.
 									</p>
+									<#-- /Notice -->
 
 									<#-- Upload Area -->
 									<div class="input-group">
@@ -94,7 +86,7 @@
 										
 										<div class="input-group-append">
 											<button type="button" class="btn btn-outline-primary" onclick="uploadFile(false, 'fileUploadSingle', 'assetsList');" id="uploadSingleFileBtn">
-												<i class="fa-solid fa-upload"></i>
+												<i class="fa-solid fa-upload"></i>&nbsp;Upload
 										</div>
 									</div>
 									<#-- Upload Area -->
@@ -109,18 +101,11 @@
 							<div class="card card-outline card-primary">
 								<div class="card-header">
 									<h3 class="card-title">
-										<i class="fa-solid fa-layer-group"></i>&nbsp;Multiple Files
+										<i class="fa-solid fa-layer-group"></i>&nbsp;Upload Multiple Files
 									</h3>
 								</div>
 
 								<div class="card-body">
-
-									<#--
-									<div class="callout callout-primary mb-3">
-										<h5 class="bold-text">Upload multiple files</h5>
-										<p>You can</p>
-									</div>
-									-->
 									<p>You can only upload <b>multiple files</b> in this area.</p>
 
 									<#-- Upload Area -->
@@ -176,6 +161,7 @@
 												<th>ID</th>
 												<th>Name</th>
 												<th>Type</th>
+												<th>Size</th>
 												<th>Uploader</th>
 												<th>Last Modified</th>
 												<th>Preview</th>
