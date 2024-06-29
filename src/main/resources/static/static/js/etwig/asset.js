@@ -166,6 +166,19 @@ function resetFile(){
     $("#uploadFileBtn").prop('disabled', true);
 }
 
+/**
+ * Initializes a DataTable on the #assetsList element. This table is configured to
+ * handle server-side processing and sorting. It fetches asset data asynchronously
+ * from the "/api/asset/list" endpoint using a GET request. Additional configurations
+ * include custom length menu options, default page length, custom language settings
+ * for the search placeholder, default ordering, and specific column rendering functions.
+ *
+ * The server response is expected to handle sorting based on passed parameters for
+ * the column index and direction of sort. The table defines several columns such as
+ * asset ID, name, type, uploader, last modified date, and custom renders for preview
+ * and actions which are not orderable.
+ */
+
 function assetListTable(){
 	$('#assetsList').DataTable({
 		"processing": true,

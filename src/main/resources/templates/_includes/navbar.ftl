@@ -99,6 +99,14 @@
 								</li>
 								<#-- /List -->
 
+								<#-- Upload -->
+								<li>
+									<a href="/assets/upload.do" class="dropdown-item <#if navbar=="ASSETS_UPLOAD">active</#if>">
+										<i class="fa-solid fa-upload"></i>&nbsp;Upload
+									</a>
+								</li>
+								<#-- /Upload -->
+
 							</ul>
 						</li>
 					    <#-- /Assets -->

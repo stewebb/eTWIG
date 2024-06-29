@@ -47,11 +47,13 @@ public class AssetAPIController {
 
     /**
      * Handles the HTTP GET request to list assets with pagination and sorting parameters. This endpoint allows clients to request
-     * a page of assets based on various criteria such as the uploader user ID, pagination settings, and sorting directions.
+     * a page of assets based on various criteria such as the uploader user ID, a search value, pagination settings, and sorting directions.
      * The method supports dynamic sorting by column name and direction, and returns the assets in a structured JSON format suitable for
      * client-side frameworks like DataTables.
      *
      * @param uploader The ID of the user who uploaded the assets. This parameter is optional. If specified, the list will only include assets uploaded by this user.
+     * @param searchValue The search value used to filter assets based on asset names. This parameter is optional and, if provided,
+     *                    filters the list to include only those assets whose names contain the specified string.
      * @param start The zero-based index of the first record to return, effectively the starting point of pagination.
      * @param length The number of records to return in each page, defining the size of the pagination.
      * @param draw An integer sent by the client-side to identify the draw count, used primarily for handling asynchronous requests in DataTables.
@@ -61,6 +63,7 @@ public class AssetAPIController {
      * @location /api/asset/list
      * @permission All logged in users.
      */
+
 
     @GetMapping("/list")
     public ResponseEntity<Map<String, Object>> list(

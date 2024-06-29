@@ -97,20 +97,22 @@ public class AssetService {
 	}
 
 	/**
-	 * Retrieves a paginated list of assets filtered by the upload user ID. This method first validates the current user's
-	 * session and checks their permissions.
-	 * Each asset in the list includes information about whether the current user has permission to delete the asset.
-	 * Users with admin or graphics manager roles,
-	 * or users who are the original uploader of the asset, are granted deletion rights.
+	 * Retrieves a paginated list of assets filtered by the upload user ID and a search value. This method first validates
+	 * the current user's session and checks their permissions. Each asset in the list includes information about whether
+	 * the current user has permission to delete the asset. Users with admin or graphics manager roles, or users who are
+	 * the original uploader of the asset, are granted deletion rights.
 	 *
 	 * @param uploadUserId The user ID of the asset uploader to filter the assets by. If this is null, assets are not
 	 *                        filtered by uploader.
+	 * @param searchValue The search criterion used to further filter the asset results. If null or empty, the search
+	 *                        criterion is ignored.
 	 * @param pageable The pagination information and sorting criteria.
 	 * @return A {@code Page<AssetAPIDTO>} containing the assets that match the criteria and pagination settings.
-	 * Each {@code AssetAPIDTO} includes
-	 *         asset details and a deletion permission flag specific to the current user's roles and relation to the asset.
+	 *         Each {@code AssetAPIDTO} includes asset details and a deletion permission flag specific to the current
+	 *         user's roles and relation to the asset.
 	 * @throws SecurityException If the user's session is invalid or expired.
 	 */
+
 
 	public Page<AssetAPIDTO> findAssetsByCriteria(Long uploadUserId, String searchValue, Pageable pageable) {
 
@@ -140,11 +142,14 @@ public class AssetService {
 	}
 
 	/**
-	 * Constructs a specification for querying assets based on the uploader's user ID. This method creates a criteria query that can be used to filter assets
-	 * by the uploader ID if provided. If the uploadUserId is null, the specification will not apply any uploader-specific filters, potentially returning all assets.
+	 * Constructs a specification for querying assets based on the uploader's user ID and a search criterion. This method creates a criteria query that can
+	 * be used to filter assets by the uploader ID and asset name if provided. If the `uploadUserId` is null, the specification will not apply any
+	 * uploader-specific filters, potentially returning all assets. If `searchValue` is provided, it filters assets whose names contain the specified search string.
 	 *
 	 * @param uploadUserId The ID of the user who uploaded the assets. If specified, the query filters to include only assets uploaded by this user.
-	 * @return A {@code Specification<Asset>} that can be used with JPA to generate a database query for assets, based on the provided uploader ID.
+	 * @param searchValue The search criterion used to filter the assets by name. Only assets with names that contain the provided search string will be included.
+	 *                    If this parameter is null or empty, it is ignored in the filtering process.
+	 * @return A {@code Specification<Asset>} that can be used with JPA to generate a database query for assets, based on the provided criteria.
 	 */
 
 	public Specification<Asset> assetsCriteria(Long uploadUserId, String searchValue) {

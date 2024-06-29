@@ -10,7 +10,6 @@
 package net.etwig.webapp.controller.page;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -108,15 +107,29 @@ public class AssetPageController {
         } 
         
         // If the file not exists or has no read permission (this is managed by the file system of the server)
-        // Just simply return a HTTP status 404 code.
+        // Just simply return an HTTP status 404 code.
         else {
         	return ResponseEntity.notFound().build();
         } 
     }
 
+	/**
+	 * Handles the HTTP GET request mapped to "list.do". This method serves as a straightforward controller method that
+	 * directs the user to the "assets/list" view. It's typically used to display a list page for assets within a web application.
+	 *
+	 * @return The logical name of the view that will present the list of assets, aligning with the MVC architecture of Spring.
+	 * @location /asset/list.do
+	 * @permission All logged in users
+	 */
+
 	@GetMapping("list.do")
-	public String list(Model model){
+	public String list(){
 		return "assets/list";
+	}
+
+	@GetMapping("upload.do")
+	public String upload(){
+		return "assets/upload";
 	}
 
 	/**
