@@ -288,14 +288,15 @@ function selectRole(){
  * Hide the navbar if the page is in a frame.
  */
 
+$.fn.dataTable.ext.errMode = function (settings, helpPage, message ) { 
+    warningPopup('Warning when fetching data', message);
+};
+
 $(document).ready(function() {
 	if (window.self !== window.top) {
 		$('.navbar').hide();
 	}
 
-    $.fn.dataTable.ext.errMode = function (settings, helpPage, message ) { 
-        console.log(message);
-    };
 
     $('.select2bs4').select2({
     	theme: 'bootstrap4'

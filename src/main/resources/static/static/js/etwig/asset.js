@@ -199,8 +199,8 @@ function assetListTable(){
 	$('#assetsList').DataTable({
 		"processing": true,
 		"serverSide": true,
-		"lengthMenu": [[10, 20, 50, 100], [10, 20, 50, 100]],
-		"pageLength": 20,
+		"lengthMenu": [[5, 10, 20], [5, 10, 20]],
+		"pageLength": 10,
 		"language": {
             "searchPlaceholder": "File Name",
         },

@@ -2,15 +2,6 @@
         <#-- Nav -->
         <nav class="main-header navbar navbar-expand-md navbar-light navbar-white no-padding fixed-top">
             <div class="container-fluid">
-            
-            	<#-- Logo -->
-				<#--
-				<a href="/" class="navbar-brand navbar-border">
-					<img src="/static/images/eTWIG.png" alt="eTWIG Logo" class="brand-image">
-					<span class="brand-text font-weight-light">&nbsp;</span>
-				</a>
-				-->
-				<#-- /Logo -->
 				
 				<button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
@@ -80,35 +71,37 @@
 					    <#-- /Graphics -->
 
 					    <#-- Assets -->
+						<#--
 						<li class="nav-item dropdown <#if navbar?starts_with("ASSETS_")>active</#if>">
 							
-							<#-- Dropdown btn -->
 							<a id="assetsSubMenu" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link navbar-border">
 								<i class="fa-solid fa-file"></i>&nbsp;Assets&nbsp;
 								<i class="fa-solid fa-caret-down"></i>
 							</a>
-							<#-- /Dropdown btn -->
 								
 							<ul aria-labelledby="assetsSubMenu" class="dropdown-menu border-0 shadow">
 								
-								<#-- List -->
 								<li>
 									<a href="/assets/list.do" class="dropdown-item <#if navbar=="ASSETS_LIST">active</#if>">
 										<i class="fa-solid fa-list-ul"></i>&nbsp;List
 									</a>
 								</li>
-								<#-- /List -->
 
-								<#-- Upload -->
 								<li>
 									<a href="/assets/upload.do" class="dropdown-item <#if navbar=="ASSETS_UPLOAD">active</#if>">
 										<i class="fa-solid fa-upload"></i>&nbsp;Upload
 									</a>
 								</li>
-								<#-- /Upload -->
 
 							</ul>
 						</li>
+						-->
+						<li class="nav-item <#if navbar=="ASSETS">active</#if>">
+							<a href="/assets/index.do" class="nav-link navbar-border">
+								<i class="fa-solid fa-file"></i>&nbsp;Assets
+							</a>
+						</li>
+
 					    <#-- /Assets -->
 
 					    <#-- Admin -->

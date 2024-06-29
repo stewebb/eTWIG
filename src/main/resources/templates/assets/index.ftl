@@ -7,7 +7,7 @@
 	function: The dashboard (site main) page.
    -->
 
-<#assign navbar = "ASSETS_LIST">
+<#assign navbar = "ASSETS">
 
 <!DOCTYPE html>
 <html>
@@ -35,12 +35,14 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1 class="bold-text">Asset List</h1>
+							<h1 class="bold-text">Asset Management</h1>
 						</div>
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item"><a href="/assets/index.do">Assets</a></li>
+								<#--
 								<li class="breadcrumb-item active"><a href="/assets/list.do">List</a></li>
+								-->
 							</ol>
 						</div>
 					</div>
