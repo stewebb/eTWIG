@@ -18,6 +18,9 @@ public class AssetAPIDTO {
 	private final long size;
 	private final String uploader;
 	private final LocalDateTime lastModified;
+
+	@Setter
+	private boolean canDelete;
 	
 	public AssetAPIDTO(Asset asset) {
 		this.id = asset.getId();
@@ -26,6 +29,7 @@ public class AssetAPIDTO {
 		this.size = asset.getSize();
 		this.uploader = asset.getUploader().getFullName();
 		this.lastModified = asset.getUploadedTime();
+		this.canDelete = false;
 	}
 	
 	public String getMediaType() {

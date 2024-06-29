@@ -299,22 +299,22 @@ function summaryActionRender(data, type, full){
 
 function assetTypeRender(data, type, row) {
 
-    // The category is unknown
+    // Unknown file category
     if (!row.fileCategory) {
         return `${row.type}&nbsp;<span class="badge badge-danger">Unknown</span>`;
     }
 
-    // The category is Image
+    // File category is Image
     else if (row.fileCategory == "IMAGE") {
         return `${row.type}&nbsp;<span class="badge badge-primary">Image</span>`;
     }
 
-    // The category is Text
+    // File category is Text
     else if (row.fileCategory == "TEXT") {
         return `${row.type}&nbsp;<span class="badge badge-success">Text</span>`;
     }
 
-    // The category is Text
+    // File category is Text
     else if (row.fileCategory == "APPLICATION") {
         return `${row.type}&nbsp;<span class="badge badge-secondary">Application</span>`;
     }
@@ -323,4 +323,53 @@ function assetTypeRender(data, type, row) {
     else {
         return `${row.type}&nbsp;<span class="badge badge-warning">Other</span>`;
     }
+}
+
+function assetPreviewRender(data, type, row){
+
+    if (!row.fileCategory) {
+        return `<span class="text-secondary">Unknown file category.</span>`;
+    }
+    var fileURL = "/assets/content.do?assetId=" + row.id;
+    
+    // File type is IMAGE, display it
+	if(row.fileCategory == "IMAGE"){
+		return `<img src="${fileURL}" class="img-fluid table-img"></img>`;
+	}
+	
+	// File type is TEXT, show first 128 characters.
+	else if(row.fileCategory == "TEXT"){
+
+        var content = '';
+        $.ajax({
+            url: fileURL,
+            type: 'GET',
+            async: false,
+            success: function(data) {
+                content = `<textarea class="form-control" readonly>${data.substring(0, 128)}</textarea>`;
+            },
+            error: function() {
+                content = `<span class="text-secondary">Failed to load the text file.</span>`;
+            }
+        });
+
+        return content;
+	}
+	
+    // Other types, the file cannot be previewed.
+    else {
+        content = `<span class="text-secondary">Preview is not available.</span>`;
+    }
+
+}
+
+function assetListActionRender(data, type, full){
+	return `
+		<a href="/assets/content.do?assetId=${full.id}&download=true" class="btn btn-outline-secondary btn-sm" target="_blank">
+			<i class="fa-solid fa-download"></i>&nbsp;Download
+		</a>&nbsp;
+		<a href="/assets/content.do?assetId=${full.id}&download=false" class="btn btn-outline-primary btn-sm" target="_blank">
+			<i class="fa-solid fa-magnifying-glass-plus"></i>&nbsp;View
+		</a>
+	`;
 }

@@ -70,7 +70,6 @@
 												<th>ID</th>
 												<th>Name</th>
 												<th>Type</th>
-												<th>Category</th>
 												<th>Uploader</th>
 												<th>Last Modified</th>
 												<th>Preview</th>

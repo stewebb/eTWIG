@@ -14,15 +14,23 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import jakarta.persistence.criteria.Predicate;
 import net.etwig.webapp.dto.graphics.BannerRequestDetailsDTO;
+import net.etwig.webapp.dto.user.CurrentUserDTOWrapper;
+import net.etwig.webapp.dto.user.CurrentUserPermissionDTO;
 import net.etwig.webapp.model.BannerRequest;
+import net.etwig.webapp.model.UserRole;
+import net.etwig.webapp.repository.UserRoleRepository;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,6 +59,12 @@ public class AssetService {
 	
 	@Autowired
 	private HttpSession session;
+
+	@Autowired
+	private UserSessionService userSessionService;
+
+	@Autowired
+	private UserRoleRepository userRoleRepository;
 	
 	@Autowired
     public AssetService(ConfigFile config) {
@@ -89,8 +103,41 @@ public class AssetService {
 	}
 
 	public Page<AssetAPIDTO> findAssetsByCriteria(Long uploadUserId, Pageable pageable) {
+
+		//CurrentUserPermissionDTO permission = userSessionService.validateSession().getPermission();
+		//if (permission.isAdminAccess() || permission.isGraphicsAccess()) {
+		//
+
+		// Get current user info
+		CurrentUserDTOWrapper wrapper = userSessionService.validateSession();
+		CurrentUserPermissionDTO permission = wrapper.getPermission();
+		CurrentUserBasicInfoDTO basicInfo = wrapper.getBasicInfo();
+
+		// The user can delete any asset if the user is an admin or a graphics manager.
+		boolean globalDeletePermission = permission.isAdminAccess() || permission.isGraphicsAccess();
+
+		// Get asset list
 		Specification<Asset> spec = assetsCriteria(uploadUserId);
-		return assetRepository.findAll(spec, pageable).map(AssetAPIDTO::new);
+		Page<Asset> assets = assetRepository.findAll(spec, pageable);
+		List<AssetAPIDTO> dtos = new ArrayList<>();
+
+		// Perform permission check
+		for (Asset asset : assets) {
+			AssetAPIDTO assetAPIDTO = new AssetAPIDTO(asset);
+			//if(globalDeletePermission) {
+			//	assetAPIDTO.setCanDelete(true);
+			//} else {
+			//	assetAPIDTO.setCanDelete(basicInfo.getId().equals(asset.getUploaderId()));
+			//}
+
+			// User can also delete asset if the user is the uploader of it.
+			assetAPIDTO.setCanDelete(globalDeletePermission || basicInfo.getId().equals(asset.getUploaderId()));
+			dtos.add(assetAPIDTO);
+		}
+
+		return new PageImpl<>(dtos, pageable, assets.getTotalElements());
+
+		//return assetRepository.findAll(spec, pageable).map(AssetAPIDTO::new);
 	}
 
 	public Specification<Asset> assetsCriteria(Long uploadUserId) {
@@ -103,6 +150,24 @@ public class AssetService {
 			}
 			return finalPredicate;
 		};
+	}
+
+	public boolean hasGlobalDeletePermission(Asset asset) {
+		//return asset.getUploader().
+
+		// Admins and Graphics Managers has
+		CurrentUserPermissionDTO permission = userSessionService.validateSession().getPermission();
+		if (permission.isAdminAccess() || permission.isGraphicsAccess()) {
+			return true;
+		}
+
+		// Get all uploader roles
+		// Set<UserRole> uploaderRoles = userRoleRepository.findByUserId(asset.getUploaderId());
+
+		//
+		//for (UserRole uploaderRole : uploaderRoles) {
+		//	if ()
+		//}
 	}
 
 
