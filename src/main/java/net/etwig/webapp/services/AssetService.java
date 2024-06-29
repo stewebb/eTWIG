@@ -191,7 +191,7 @@ public class AssetService {
 		
 		// Rename the file as <UUID>.<EXTENSION>
         String extension = FilenameUtils.getExtension(fileName);
-        String storedFileName = UUID.randomUUID().toString() + "." + extension;
+        String storedFileName = UUID.randomUUID() + "." + extension;
        	newAsset.setStoredName(storedFileName);
        
        	// Other file attributes.
@@ -199,8 +199,8 @@ public class AssetService {
        	newAsset.setUploadedTime(LocalDateTime.now());
        
        	// The related user info
-       	CurrentUserBasicInfoDTO user = (CurrentUserBasicInfoDTO) session.getAttribute("user");
-       	newAsset.setUploaderId(user.getId());
+       	//CurrentUserBasicInfoDTO user = (CurrentUserBasicInfoDTO) session.getAttribute("user");
+       	newAsset.setUploaderId(userSessionService.validateSession().getBasicInfo().getId());
        
        	// Copy file to the file system before insert the data.
        	File destFile = new File(this.rootLocation + File.separator + storedFileName);

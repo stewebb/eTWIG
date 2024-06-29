@@ -293,6 +293,10 @@ $(document).ready(function() {
 		$('.navbar').hide();
 	}
 
+    $.fn.dataTable.ext.errMode = function (settings, helpPage, message ) { 
+        console.log(message);
+    };
+
     $('.select2bs4').select2({
     	theme: 'bootstrap4'
     })
@@ -343,6 +347,6 @@ $(document).ready(function() {
 const pad = (num) => (num < 10 ? '0' + num : num);
 
 // dangerPopup('Function ' + functionName + ' does not exist.', '');
-function functionTwo(param) {
-    alert('Function Two is executed with parameter: ' + param);
-}
+//function functionTwo(param) {
+//    alert('Function Two is executed with parameter: ' + param);
+//}

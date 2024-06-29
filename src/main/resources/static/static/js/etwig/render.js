@@ -358,7 +358,7 @@ function assetPreviewRender(data, type, row){
 	
     // Other types, the file cannot be previewed.
     else {
-        content = `<span class="text-secondary">Preview is not available.</span>`;
+        return `<span class="text-secondary">Preview is not available.</span>`;
     }
 
 }

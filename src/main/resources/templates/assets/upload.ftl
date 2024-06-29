@@ -52,7 +52,7 @@
 				<div class="container-fluid">
 					<div class="row">
 
-						<#-- \ Single File -->
+						<#-- Single File -->
 						<div class="col-md-6">
 							<div class="card card-outline card-primary">
 								<div class="card-header">
@@ -63,10 +63,53 @@
 
 								<div class="card-body">
 
+									<div class="callout callout-primary mb-3">
+										<h5 class="bold-text">Upload single file</h5>
+										<p>You can only upload one file each time in this area.</p>
+									</div>
+
+									<#-- Upload Area -->
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text">
+												<i class="fa-solid fa-file-arrow-up"></i>
+											</span>
+										</div>				
+									
+										<#-- File upload box -->
+										<div class="custom-file">
+											<input type="file" class="custom-file-input" id="fileUploadSingle">
+											<label class="custom-file-label" for="exampleInputFile">Choose a file</label>
+										</div>
+										
+										<div class="input-group-append">
+										
+											<#-- Upload file button -->
+											<button type="button" class="btn btn-outline-primary" onclick="uploadFile(false, 'fileUploadSingle');" id="uploadSingleFileBtn">
+												<i class="fa-solid fa-upload"></i>
+											</button>
+											
+											<#-- Reset file button -->
+											<#--
+											<button type="button" class="btn btn-outline-secondary" onclick = "resetFile();">
+												<i class="fa-solid fa-xmark"></i>
+											</button>
+											-->
+											
+											<#--Reload table button -->
+											<#--
+											<button type="button" class="btn btn-outline-secondary" onclick = "dt.ajax.reload();">
+												<i class="fa-solid fa-rotate"></i>
+											</button>
+											-->
+
+										</div>
+									</div>
+									<#-- Upload Area -->
 								</div>
 							</div>
 						</div>
-						<#-- /Upload -->
+						<#-- /Single File -->
 
 						<#-- Result -->
 						<div class="col-md-6">

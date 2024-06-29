@@ -5,6 +5,7 @@ import net.etwig.webapp.dto.graphics.EventGraphicsAPIForDetailsPageDTO;
 import net.etwig.webapp.dto.graphics.EventGraphicsAPIForSummaryPageDTO;
 import net.etwig.webapp.services.EventGraphicsService;
 import net.etwig.webapp.services.EventService;
+import net.etwig.webapp.util.InvalidParameterException;
 import net.etwig.webapp.util.NumberUtils;
 import net.etwig.webapp.util.WebReturn;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,49 +30,43 @@ public class EventGraphicsAPIController {
     private EventService eventService;
 
     /**
-     * Adds new graphics information to an event specified by the eventId included in the request body.
+     * Handles POST requests to add new graphics information to an event specified by the eventId included in the request body.
+     * This method first retrieves and validates the eventId from the request body. If the eventId is invalid or the event does not exist,
+     * it throws an exception. If the eventId is valid, it proceeds to add the new graphics information.
      * <p>
-     * This method handles POST requests to add graphics-related data. It first retrieves the eventId from
-     * the request body and validates it. If the eventId is invalid or the event does not exist, it returns
-     * an error message. If the eventId is valid, it proceeds to add the new graphics information.
-     * </p>
-     * <p>
-     * Security: This method is secured with {@link PreAuthorize} and can only be accessed by users
-     * with the 'ROLE_GRAPHICS' authority.
+     * Security: This method is secured with {@link PreAuthorize} and can only be accessed by users with the 'ROLE_GRAPHICS' authority.
      * </p>
      *
-     * @param newGraphicsInfo A {@link Map} representing the new graphics data to be added, including the eventId.
-     * @return A {@link Map} with a key of "error" or "success" indicating the result of the operation and a message if applicable.
+     * @param newGraphicsInfo A {@link Map} containing the new graphics data to be added, including the eventId.
+     * @throws InvalidParameterException if the eventId is invalid or the event does not exist, with a message detailing the issue.
      * @location /api/eventGraphics/add
-     * @permission Those who has graphic management permission.
+     * @permission This endpoint requires the user to have graphic management permissions.
      */
 
     @PreAuthorize("hasAuthority('ROLE_GRAPHICS')")
     @PostMapping("/add")
-    public Map<String, Object> add(@RequestBody Map<String, Object> newGraphicsInfo) {
+    public void add(@RequestBody Map<String, Object> newGraphicsInfo) {
 
         // Get current request
         Long eventId = NumberUtils.safeCreateLong(newGraphicsInfo.get("eventId").toString());
 
         // Invalid or negative eventId, add event.
         if(eventId == null || eventId <= 0) {
-            return WebReturn.errorMsg("The eventId is invalid.", false);
+            //return WebReturn.errorMsg("The eventId is invalid.", false);
+            throw new InvalidParameterException("Event ID is invalid.");
         }
 
         // Check the existence
         EventDetailsDTO event = eventService.findById(eventId);
         if(event == null) {
-            return WebReturn.errorMsg("The event with id= " + eventId + " does not exist.", false);
+            //return WebReturn.errorMsg("The event with id= " + eventId + " does not exist.", false);
+            throw new InvalidParameterException("The event with id= " + eventId + " does not exist.");
         }
 
         eventGraphicsService.addGraphics(newGraphicsInfo);
-        return WebReturn.errorMsg(null, true);
+        //return null;
+        //return WebReturn.errorMsg(null, true);
     }
-
-    //@PostMapping("/edit")
-    //public Map<String, Object> edit(@RequestBody Map<String, Object> eventInfo) {
-    //    return null;
-    //}
 
     /**
      * Handles the HTTP GET request to view event graphics details.

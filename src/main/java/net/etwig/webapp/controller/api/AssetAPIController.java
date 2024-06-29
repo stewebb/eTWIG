@@ -1,18 +1,18 @@
 package net.etwig.webapp.controller.api;
 
 import net.etwig.webapp.dto.AssetAPIDTO;
-import net.etwig.webapp.dto.graphics.BannerRequestDetailsDTO;
 import net.etwig.webapp.services.AssetService;
+import net.etwig.webapp.util.InvalidParameterException;
+import net.etwig.webapp.util.WebReturn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,9 +23,21 @@ public class AssetAPIController {
     @Autowired
     private AssetService assetService;
 
-    @GetMapping("/add")
-    public Object add(@RequestParam Long eventId) {
-        return null;
+    @PostMapping(value = "add")
+    public Map<String, Object> add(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("isMultiple") Boolean isMultiple
+    ) throws IOException {
+
+        // Null check...
+        if(file == null) {
+            //return WebReturn.errorMsg("The file is null.", false);
+            throw new InvalidParameterException("Uploaded file is null or empty.");
+        }
+
+        // Copy file and add related info
+        assetService.uploadFile(file);
+        return WebReturn.errorMsg("", true);
     }
 
     @GetMapping("/edit")

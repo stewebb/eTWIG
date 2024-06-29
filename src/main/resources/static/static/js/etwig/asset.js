@@ -120,32 +120,48 @@ function previewAsset(asset){
 	$("#selectBtn").attr("disabled", false);
 }
 
-function uploadFile(){
-	var data = new FormData();
-    var file = $('#fileUpload')[0].files[0];
+function uploadFile(isMultiple, fileElem){
+	//var data = new FormData();
+    //var file = $('#' + fileUploadSingle)[0].files[0];
     
     // Null check
-    if(file == undefined || file == null){
+    //if(file == undefined || file == null){
+	//	warningPopup("Please select a file.");
+	//	return;
+	//}
+
+	var data = new FormData();
+	var file = $('#' + fileElem)[0].files[0];
+  
+	// Null check
+	if(!file){
 		warningPopup("Please select a file.");
-		return;
-	}
+	  	return;
+  	}
+
+  	// Add file and mode
+	data.append('file', file);
+  	data.append('isMultiple', isMultiple);
     
-    data.append('file', file);
+    //data.append('file', file);
     
     $.ajax({
 		type: 'POST',
-        url: '/api/private/upload',
+        url: '/api/asset/add',
         data: data,
         contentType: false,
         processData: false,
-        success: function(result) {
-        	if(result.error > 0){
-				dangerPopup("Failed to upload file.", result.msg);
-			}else{
-				successPopup("File upload successfully.");
-				resetFile();
-				$('#assetSelector').DataTable().ajax.reload();
-			}	
+        success: function() {
+
+			successPopup("File upload successfully.");
+
+        	//if(result.error > 0){
+			//	dangerPopup("Failed to upload file.", result.msg);
+			//}else{
+			//	successPopup("File upload successfully.");
+				//resetFile();
+				//$('#assetSelector').DataTable().ajax.reload();
+			//}	
         },
         error: function (err) {
 			dangerPopup("Failed to upload file due to a HTTP " + err.status + " error.", err.responseJSON.exception);
