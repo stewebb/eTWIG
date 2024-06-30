@@ -89,40 +89,13 @@ function getEventInfo(datePickersMap){
 			return;
 		}
 
-		// Permission Check
-		var myPortfolioIds = [];
-		var myPortfolioNames = [];
-
-		/*
-		for (let key in myPositions) {
-			  myPortfolioIds.push(myPositions[key].portfolioId)
-			  myPortfolioNames.push(myPositions[key].portfolioName)
-		}
-		
-		// My portfolios should includes the event portfolio.
-		if (!myPortfolioIds.includes(eventInfo.portfolioId)){
-			$('#noPermissionCallout').html(`
-				<div class="callout callout-primary">
-					<h5 class="bold-text mb-3">No edit permission</h5>
-						This event was created by the user with <span class="bold-text" style="color:#000000">${eventInfo.portfolioName}</span> portfolio. <br />
-						However, your portfolios are [
-						<span class="bold-text" style="color:#000000}">${myPortfolioNames}</span>, ].
-				</div>
-			`)
-		}
-		*/
-
-		//console.log(eventInfo);
-		//console.log($('#myPortfolioName').val());
-
-		
 		// Get eventId
 		$('#twigDeadline').hide();
 		$('#eventIdBlock').show();
 		$('#eventId').text(eventInfo.id);
 
 		// Set title.
-		$('#currentAction').text('edit');
+		//$('#currentAction').text('edit');
 		$('#eventPageTitle').text('Edit Event: ' + eventInfo.name);
 		$('#eventPageLink').text('Edit Event');
 		$('#eventPageLink').attr('href', '/events/edit.do?eventId=-' + eventInfo.id);
@@ -136,7 +109,6 @@ function getEventInfo(datePickersMap){
 
 		// Get organizer info and set it to read-only.
 		$('#eventOrganizer').text(eventInfo.organizerName);
-		//$("#eventRole").append(`<option value="${eventInfo.userRoleId}">${eventInfo.positionName}, ${eventInfo.portfolioName}</option>`);
 		$("#eventRole").html(`${eventInfo.positionName}, ${eventInfo.portfolioName}`);
 		$("#eventRole").prop('disabled', true);
 
@@ -289,7 +261,22 @@ function getEventInfo(datePickersMap){
 				//
             ]
         });
-    //});
+
+		// Permission check
+		if($('#myPortfolioName').val() != eventInfo.portfolioName) {
+			$('#portfolioCheck').html(`
+				<b>You cannot edit this event</b> because it was organized by a user with
+				<span class="bold-text" style="color:#${eventInfo.portfolioColor};">${eventInfo.portfolioName}</span> portfolio.
+			`);
+		
+			// Disable some inputs if no permission
+			$('input').prop('disabled', true);
+			$('select').prop('disabled', true);
+			$('button').prop('disabled', true);
+
+			$('#selectRole').prop('disabled', false);
+			
+		}
 	}
 
 	// Set add options
@@ -309,7 +296,7 @@ function getEventInfo(datePickersMap){
 		//$('#eventRequestNowBlock').show();
 	
 		// Set title.
-		$('#currentAction').text('add');
+		//$('#currentAction').text('add');
 		$('#eventPageTitle').text('Add Event');
 		$('#eventPageLink').text('Add Event');
 		$('#eventPageLink').attr('href', '/events/add.do');

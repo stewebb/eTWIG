@@ -92,13 +92,12 @@
 									<#-- Position -->
 									<div class="callout callout-primary mb-3" id="positionCallout" style="border-left-color:#${myCurrentPosition.portfolioColor};">
 										<h5 class="bold-text mb-3">
-											You will <span id="currentAction"></span> event as ${article(myCurrentPosition.position)}
+											You are logged in as ${article(myCurrentPosition.position)}
 											<span style="color:#${myCurrentPosition.portfolioColor};">${myCurrentPosition.position}</span>.
 										</h5>
 
 										You have been assigned <b>${myPositionCount}</b> position<#if myPositionCount gt 1>s</#if>, and you can 
 										switch positions by clicking the <b><i class="fa-solid fa-user"></i>&nbsp;User</b> icon on the NavBar.
-									
 										<p id="portfolioCheck"></p>
 									</div>
 									<#-- /Position -->

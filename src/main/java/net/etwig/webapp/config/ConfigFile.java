@@ -24,7 +24,7 @@ import lombok.Data;
 
 @Data
 @Configuration
-public class ConfigFile implements WebMvcConfigurer{
+public class ConfigFile implements WebMvcConfigurer {
 
 	/**
 	 * The application name as specified in the configuration properties.
@@ -73,4 +73,7 @@ public class ConfigFile implements WebMvcConfigurer{
 
 	@Value("${etwig.app.url}")
 	private String appURL;
+
+	@Value("${etwig.security.trusted-referrer}")
+	private String trustedReferrer;
 }

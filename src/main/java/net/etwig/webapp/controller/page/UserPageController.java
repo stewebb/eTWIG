@@ -11,6 +11,7 @@ package net.etwig.webapp.controller.page;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import net.etwig.webapp.config.ConfigFile;
 import net.etwig.webapp.handler.LoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,9 @@ import java.util.Base64;
 @Controller
 @RequestMapping("/user")
 public class UserPageController {
+
+	@Autowired
+	private ConfigFile config;
 
 	@Autowired
 	private LoginSuccessHandler successHandler;
@@ -104,11 +108,29 @@ public class UserPageController {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
-	@GetMapping("/pLogin.do")
-	public ResponseEntity<?> pLogin(@RequestParam String token, HttpServletRequest request, HttpServletResponse response) {
+	@GetMapping("/tokenLogin.do")
+	public ResponseEntity<?> tokenLogin(@RequestParam String token, HttpServletRequest request, HttpServletResponse response) {
 
-		byte[] decodedBytes = Base64.getDecoder().decode(token);
-		System.out.println(new String(decodedBytes));
+
+		// Only allow a specific referrer
+		String referrer = request.getHeader("Referer");
+		if (referrer != null && referrer.startsWith(config.getTrustedReferrer())) {
+			return ResponseEntity.ok().body("Body");
+		}
+
+		// Otherwise, return 403 Forbidden.
+		else {
+			return ResponseEntity.status(403).body("Access Denied: The referrer is not allowed.");
+		}
+
+		//System.out.println(referrer);
+		//if (referrer == null || allowedReferrers.stream().noneMatch(referrer::startsWith)) {
+		//	throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied due to invalid referrer");
+		//}
+		//return "securedData";
+
+		//byte[] decodedBytes = Base64.getDecoder().decode(token);
+		//System.out.println(new String(decodedBytes));
 		/*
 		try {
 			// Create an authentication token
@@ -129,6 +151,6 @@ public class UserPageController {
 
 		 */
 
-		return ResponseEntity.ok().body("Body");
+
     }
 }

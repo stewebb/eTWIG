@@ -68,7 +68,8 @@ public class SecurityConfig {
 	// Array of paths that should be accessible publicly without authentication.
 	private final String[] publicPages = {
 			"/", "/static/**", "/api/public/**", "/nsRest/public/**",
-			"/twig/**", "/error", "/assets/**"
+			"/twig/**", "/error", "/assets/**",
+			"/user/tokenLogin.do"
 	};
 
 	/**

@@ -28,8 +28,7 @@
 
 		<#-- Content Wrapper. -->
 		<div class="content-wrapper">
-			
-			
+			<a href="/user/tokenLogin.do?token=a">aaa</a>
 		</div>
 		<#-- /Content Wrapper. -->
 		
