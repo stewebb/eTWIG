@@ -51,16 +51,15 @@
     		<section class="content">
 				<div class="container-fluid">
 
-					<#-- Event Information -->
+					<#-- General -->
 					<div class="card card-primary card-outline mb-3">
 						<div class="card-header">
 							<h3 class="card-title">
-								<i class="fas fa-circle-info"></i>&nbsp;Event Information
+								<i class="fas fa-circle-info"></i>&nbsp;General
 							</h3>
 						</div>
 
 						<div class="card-body">
-							<#--<div class="container-fluid">-->
 							<div class="row col-12">
 
 								<#-- Col 1: Basic -->
@@ -69,6 +68,15 @@
 									<h5 class="mb-3 bold-text text-primary">
 										<i class="fa-solid fa-map-pin"></i>&nbsp;Basic
 									</h5>
+
+									<#-- Reminder -->
+									<div class="callout callout-primary mb-3" id="twigDeadline" style="display:none;">
+										<h5 class="bold-text mb-3">TWIG Deadline Reminder</h5>
+										It is suggested that the event be added before 
+										<b>last Friday of the start time</b>, giving Social Media Rep
+										adequate time to make TWIGs. 
+									</div>
+									<#-- /Reminder -->
 
 									<div class="mb-2" id="noPermissionCallout"></div>
 									<input type="hidden" id="isEdit" value="0" />
@@ -127,20 +135,8 @@
 									<div class="form-group row">
 										<label for="eventRole" class="col-lg-3 col-form-label">
 											Organizer Position&nbsp;<span class="required-symbol">*</span>
-											</label>
+										</label>
 										<div class="col-lg-9">
-
-											<#--
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text">
-														<i class="fa-solid fa-user-tie"></i>
-													</span>
-												</div>
-												
-												<select class="form-control select2bs4" name="eventRole" id="eventRole"></select>
-											</div>
-											-->
 											<div id="eventRole"></div>
 											<small class="form-text text-muted">The position and associated portfolio, divided by comma.</small>
 										</div>
@@ -266,7 +262,7 @@
 						</div>
 
 					</div>
-					<#-- /Event Information -->
+					<#-- /General -->
 
 					<#-- Timing -->
 					<div class="card card-primary card-outline mb-3">
@@ -277,12 +273,6 @@
 						</div>
 
 						<div class="card-body">
-							<#--
-								<#include "../_includes/events/addEdit_timing.ftl">	
-							-->
-							
-
-						<!-- <div class="container-fluid"> -->
 							<div class="row col-12">
 
 								<#-- Col 1 -->

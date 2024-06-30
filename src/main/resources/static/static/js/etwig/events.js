@@ -8,8 +8,11 @@
  	*/
 
 /**
- * A hard limit of recurrent event count to avoid infinite loops when trying to get all occurrences. 
- * It's usually a big number.
+ * A hard limit on the number of recurrent event occurrences to avoid infinite loops.
+ * This limit is used to prevent excessive computations when generating all occurrences of a recurrent event.
+ * Typically set to a large number.
+ * 
+ * @constant {number}
  */
 
 COUNT_HARD_LIMIT = 1000;
@@ -110,6 +113,7 @@ function getEventInfo(datePickersMap){
 		*/
 
 		// Get eventId
+		$('#twigDeadline').hide();
 		$('#eventIdBlock').show();
 		$('#eventId').text(eventInfo.id);
 
@@ -293,6 +297,7 @@ function getEventInfo(datePickersMap){
 		setValidTo(true);
 		
 		// Set hidden fields.
+		$('#twigDeadline').show();
 		$('#eventIdBlock').hide();
 		$('#eventCreatedTimeBlock').hide();
 		$('#eventUpdatedTimeBlock').hide();
@@ -429,8 +434,11 @@ function getRRuleByInput(){
 }
 
 /**
- * Add an excluded date to the list.
- * @param {string} dateStr Date string in yyyy-mm-dd format.
+ * Adds an excluded date to the list of excluded dates.
+ * This function appends the provided date string to a select element with the ID 'eventExcludedDates',
+ * ensuring the date is only added if the string is non-empty.
+ *
+ * @param {string} dateStr - A date string in yyyy-mm-dd format.
  */
 
 function addExcludeDate(dateStr){
@@ -640,8 +648,7 @@ function addEvent(){
 	}
 	newEventObj["properties"]  = selectedProperties;
 	
-	
-	// Graphics request (only available when adding an event)
+	// Banner request (only available when adding an event)
 	if($("#eventRequestNow").is(':checked')){
 		var graphics = {};
 		
@@ -657,42 +664,31 @@ function addEvent(){
 		graphics["comments"] =  $("#requestComment").val();
 		newEventObj["graphics"] = graphics;
 	}
-
-	//console.log(newEventObj);
 	
-	//var hasError = true;
 	$.ajax({
    		url: isEdit ? '/api/event/edit' : '/api/event/add', 
    		type: "POST",
    		async: false,
-   		//dataType: "json",
    		contentType: "application/json; charset=utf-8",
    		data: JSON.stringify(newEventObj),
    		success: function () {
-			//if(result.error > 0){
-			//	dangerPopup("Failed to " + modeStr +" event.", result.msg);
-			//	hasError = true;
-			//}else{
-				//var modeStrPP = (modeStr == "copy") ? "copied" : (modeStr + "ed");
 			successPopup("Event " + modeStr + "ed successfully.");
 			setTimeout(function() { isEdit ? window.location.reload() : $(location).attr('href','/events/calendar.do'); }, 2500);
-			//	hasError = false;
-			//}	
     	},
     	error: function (err) {
     		dangerPopup("Failed to " + modeStr +"  event due to a HTTP " + err.status + " error.", err.responseJSON.exception);
-    		//hasError = true;
     	}
  	});
-
-	//if(!hasError){
-	//	setTimeout(function() { isEdit ? window.location.reload() : $(location).attr('href','/events/calendar.do'); }, 2500);
-	//}
 }
 
 /**
- * Create a WYSIWYG editor by using summernote.
- * @param boxElem The HTML element for this editor.
+ * Initializes a WYSIWYG editor using Summernote on the specified HTML element.
+ * 
+ * This function configures the Summernote editor with a placeholder for 
+ * event descriptions, a tab size of 4, and fixed dimensions of 300px height.
+ * It also sets up a toolbar with various formatting options.
+ *
+ * @param {HTMLElement} boxElem - The HTML element where the Summernote editor will be initialized.
  */
 
 function initDescriptionBox(boxElem){
@@ -762,6 +758,7 @@ function createDatePickers() {
 	datePickersMap.get('eventValidFromDate').on('change', () => {
     	getRRuleByInput();
 	});
+
 	datePickersMap.get('eventValidToDate').on('change', () => {
     	getRRuleByInput();
 	});
@@ -771,9 +768,11 @@ function createDatePickers() {
 
 /**
  * Get the ordinal indicator for a number.
- * e.g., 1st, 2nd, 3rd, 4th...
- * @param {int} n A number
- * @returns Number with the ordinal indicator.
+ * This function returns the number with its corresponding ordinal indicator
+ * (e.g., 1st, 2nd, 3rd, 4th, ...).
+ *
+ * @param {number} n - The number for which to get the ordinal indicator.
+ * @returns {string} The number followed by its ordinal indicator.
  */
 
 function getOrdinalIndicator(n) {
