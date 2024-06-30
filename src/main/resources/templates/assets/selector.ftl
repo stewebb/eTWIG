@@ -33,8 +33,30 @@
 		<section class="content">
 			<div class="container-fluid">
 
+				<#-- Upload Area -->
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text">
+							<i class="fa-solid fa-file-arrow-up"></i>
+						</span>
+					</div>				
+									
+					<#-- File upload box -->
+					<div class="custom-file">
+						<input type="file" class="custom-file-input" id="fileUploadSelector">
+							<label class="custom-file-label" for="exampleInputFile">Choose a file</label>
+						</div>
+										
+						<div class="input-group-append">
+							<button type="button" class="btn btn-outline-primary" onclick="uploadFile(false, 'fileUploadSelector', 'assetSelector');" id="uploadSingleFileBtn">
+							<i class="fa-solid fa-upload"></i>&nbsp;Upload
+						</div>
+					</div>
+					<#-- Upload Area -->
+				</div>
+
 				<#-- List -->
-				<div class="table-responsive">
+				<div class="table-responsive mb-3">
 					<table id="assetSelector" class="table table-hover table-striped">
 						<thead>
 							<tr>
@@ -48,6 +70,18 @@
 					</table>
 				</div>
 				<#-- /List -->
+
+				<#-- Action -->
+				<div class="d-flex justify-content-between">
+					<button type="button" class="btn btn-outline-secondary" onclick="$('#etwigModal').modal('hide');">
+						<i class="fa-solid fa-xmark"></i>&nbsp;Close
+					</button>
+					<button type="button" class="btn btn-outline-primary" id="selectBtn" onclick="" disabled="disabled">
+						<i class="fa-regular fa-check"></i>&nbsp; Select
+					</button>
+							
+				</div>
+				<#-- /Action -->
 
 			</div>
 		</section>

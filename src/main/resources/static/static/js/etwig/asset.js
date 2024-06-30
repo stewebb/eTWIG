@@ -36,7 +36,9 @@ function assetSelectorDataTable(){
 		// De-select a row
 		if (classList.contains('selected')) {
 			classList.remove('selected');
-			previewAsset(null);
+
+			$("#selectBtn").attr("onclick", ``);
+			$("#selectBtn").attr("disabled", true);
 		}
 		
 		// Select a row
@@ -47,64 +49,19 @@ function assetSelectorDataTable(){
 			classList.add('selected');
 	
 			var rowData = dt.row(this).data();
+			var fileURL = "/assets/content.do?assetId=" + rowData.id;
 			//console.log(rowData);
 			//previewAsset(rowData);
 			console.log(rowData);
+
+			$("#selectBtn").attr("onclick", `
+				parent.$("#uploadCallback").val(${rowData.id});
+				parent.$("#uploadImage").attr("src", "${fileURL}");
+				parent.$('#etwigModal').modal('hide');
+			`);
+			$("#selectBtn").attr("disabled", false);
 		}
 	});
-
-	/*
-	var dt = $('#assetSelector').DataTable({
-        processing: true,
-        serverSide: true,
-        searching: true, 
-        bAutoWidth: false,
-        ajax: {
-            url: "/api/private/getAssetList",
-            data: function (d) {
-                d.page = d.start / d.length;
-                d.size = d.length;
-            },
-            type: "GET",
-            dataSrc: function (json) {
-                return json.content;
-            }
-        },
-        columns: [
-            { data: "id" },
-            { data: "name" },
-            { data: "mediaType", visible: false},
-            { data: "fileCategory", visible: false},
-            { data: "size", visible: false},
-            { data: "uploader"},
-            { data: "lastModified", render: lastModifiedRender},
-        ]
-    });
-	
-	dt.on('click', 'tbody tr', function(e) {
-    var classList = e.currentTarget.classList;
-
-	// De-select a row
-    if (classList.contains('selected')) {
-        classList.remove('selected');
-        previewAsset(null);
-    }
-    
-    // Select a row
-     else {
-		
-        // Deselect any currently selected row
-        dt.rows('.selected').nodes().each((row) => row.classList.remove('selected'));
-        classList.add('selected');
-
-        var rowData = dt.row(this).data();
-        //console.log(rowData);
-        previewAsset(rowData);
-    }
-});
-
-    return dt;
-	*/
 }
 
 function lastModifiedRender(data, type, row){

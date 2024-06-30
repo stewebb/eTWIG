@@ -67,7 +67,7 @@ public class GraphicsPageController {
 		}
 
 		// Disable pagination for results, but sort them by uploadedTime descending.
-		Pageable pageable = Pageable.unpaged(Sort.by(Sort.Direction.DESC, "uploadedTime"));
+		Pageable pageable = Pageable.unpaged(Sort.by(Sort.Direction.DESC, "id"));
 
 		// Get graphics info
 		Page<EventGraphicsAPIForDetailsPageDTO> banners = eventGraphicsService.findByCriteriaForDetails(eventId, true, pageable);

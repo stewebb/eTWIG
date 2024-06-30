@@ -103,16 +103,17 @@ function addGraphics(){
    		dataType: "json",
    		contentType: "application/json; charset=utf-8",
    		data: JSON.stringify(newGraphicsObj),
-   		success: function (result) {
-			if(result.error > 0){
-				dangerPopup("Failed to add graphics.", result.msg);
+   		success: function () {
+			//if(result.error > 0){
+			//	dangerPopup("Failed to add graphics.", result.msg);
 				//hasError = true;
-			}else{
+			//}else{
 				successPopup("Graphics added successfully.");
 				setTimeout(function() {	location.reload(); }, 2500);
-			}	
+			//}	
     	},
     	error: function (err) {
+			console.log(err);
     		dangerPopup("Failed to add graphics due to a HTTP " + err.status + " error.", err.responseJSON.exception);
     		//hasError = true;
     	}
