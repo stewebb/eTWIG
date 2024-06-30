@@ -139,7 +139,9 @@ public class UserPageController {
 				// Token expiration check
 				long currentTimestamp = Instant.now().getEpochSecond();
 				long timeDifference = currentTimestamp - loginToken.getTimestamp();
+				System.out.println(timeDifference);
 				if (timeDifference < 0 || timeDifference > 60) {
+					System.out.println("Token has expired.");
 					throw new IllegalStateException("Token has expired.");
 				}
 
@@ -151,13 +153,13 @@ public class UserPageController {
 				successHandler.onAuthenticationSuccess(request, response, authentication);
 
 			} catch (JsonProcessingException | IllegalStateException | AuthenticationException e) {
-				//System.err.println("Login Failed: Token is invalid or expired.");
+				e.printStackTrace();
 				return ResponseEntity.status(401).body("Login Failed: Token is invalid or expired.");
 			} catch (IOException e) {
                 throw new RuntimeException(e);
             }
 
-            return ResponseEntity.ok().body("Body");
+            return ResponseEntity.ok().body("Login Successful.");
 		}
 
 		// Otherwise, return 403 Forbidden.

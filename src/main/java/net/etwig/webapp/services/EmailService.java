@@ -106,7 +106,7 @@ public class EmailService {
 				.collect(Collectors.toCollection(HashSet::new));
 
 		// Email subject
-		String subject = requester + " made a graphics request for event " + eventName;
+		String subject = requester + " submitted a new banner request for event " + eventName;
 
 		// Email content
 		Template template = freemarkerConfig.getTemplate("_emails/graphic_request.ftl");
