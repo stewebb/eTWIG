@@ -660,33 +660,34 @@ function addEvent(){
 
 	//console.log(newEventObj);
 	
-	var hasError = true;
+	//var hasError = true;
 	$.ajax({
    		url: isEdit ? '/api/event/edit' : '/api/event/add', 
    		type: "POST",
    		async: false,
-   		dataType: "json",
+   		//dataType: "json",
    		contentType: "application/json; charset=utf-8",
    		data: JSON.stringify(newEventObj),
-   		success: function (result) {
-			if(result.error > 0){
-				dangerPopup("Failed to " + modeStr +" event.", result.msg);
-				hasError = true;
-			}else{
-				var modeStrPP = (modeStr == "copy") ? "copied" : (modeStr + "ed");
-				successPopup("Event " + modeStrPP + " successfully.");
-				hasError = false;
-			}	
+   		success: function () {
+			//if(result.error > 0){
+			//	dangerPopup("Failed to " + modeStr +" event.", result.msg);
+			//	hasError = true;
+			//}else{
+				//var modeStrPP = (modeStr == "copy") ? "copied" : (modeStr + "ed");
+			successPopup("Event " + modeStr + "ed successfully.");
+			setTimeout(function() { isEdit ? window.location.reload() : $(location).attr('href','/events/calendar.do'); }, 2500);
+			//	hasError = false;
+			//}	
     	},
     	error: function (err) {
     		dangerPopup("Failed to " + modeStr +"  event due to a HTTP " + err.status + " error.", err.responseJSON.exception);
-    		hasError = true;
+    		//hasError = true;
     	}
  	});
 
-	if(!hasError){
-		setTimeout(function() { isEdit ? window.location.reload() : $(location).attr('href','/events/calendar.do'); }, 2500);
-	}
+	//if(!hasError){
+	//	setTimeout(function() { isEdit ? window.location.reload() : $(location).attr('href','/events/calendar.do'); }, 2500);
+	//}
 }
 
 /**

@@ -49,9 +49,6 @@ public class EventService {
 	
 	@Autowired
 	private EventOptionRepository eventOptionRepository;
-	
-	@Autowired
-	private GraphicsRequestRepository graphicsRequestRepository;
 
 	@Autowired
 	private BannerRequestService bannerRequestService;
@@ -199,7 +196,6 @@ public class EventService {
             .map(optionId -> new EventOption(new EventOptionKey(eventId, optionId)))
             .collect(Collectors.toList());
         eventOptionRepository.saveAll(newEventOptions);
-
     }
 
 	/**

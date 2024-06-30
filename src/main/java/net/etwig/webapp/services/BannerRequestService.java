@@ -161,12 +161,19 @@ public class BannerRequestService {
 	}
 
 	/**
-	 * Make a new banner request.
-	 * @param requestInfo
-	 * @throws Exception 
+	 * Creates a new banner request with the provided information.
+	 * <p>
+	 * This method constructs a new banner request, saves it to the database, and sends a notification email
+	 * about the request. The email includes details about the request, requester, and the event.
+	 * </p>
+	 *
+	 * @param eventId The ID of the event for which the banner request is made.
+	 * @param requesterRole The ID of the requester's role.
+	 * @param requestComment Comments related to the banner request.
+	 * @param expectDate The expected date for the banner to be completed.
+	 * @throws Exception if there is an error during the request creation or email sending process.
 	 */
 	
-	@SuppressWarnings("null")
 	public void addRequest (Long eventId, Long requesterRole, String requestComment, LocalDate expectDate) throws Exception {
 
 		// Make a new request with essential information
@@ -179,12 +186,6 @@ public class BannerRequestService {
 
 		// Get the submitted request back with full information
 		BannerRequest submittedRequest = graphicsRequestRepository.save(request);
-
-		//graphicsRequestRepository.save(request);
-		//BannerRequest updatedRequest = graphicsRequestRepository.save(request);
-		//Long newRequestId = graphicsRequestRepository.save(request).getId();
-		//Optional<BannerRequest> submittedRequest = graphicsRequestRepository.findById(updatedRequest.getId());
-
 		Event event = eventRepository.findById(eventId).orElse(null);
 		UserRole userRole = userRoleRepository.findById(requesterRole).orElse(null);
 
@@ -195,8 +196,6 @@ public class BannerRequestService {
 				submittedRequest.getRequestTime()
 		);
 	}
-	
-	//public void addRequest 
 
 	/**
 	 * Approves a graphics request and updates associated records.
