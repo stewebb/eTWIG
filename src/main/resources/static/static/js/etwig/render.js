@@ -283,3 +283,142 @@ function summaryActionRender(data, type, full){
 		</div>
 	`;
 }
+
+/**
+ * Renders the asset type with a corresponding badge based on its category.
+ *
+ * This function generates a string that includes the asset type and a span element
+ * with a badge class styled according to the file category. If the category is unknown
+ * or unspecified, it defaults to displaying "Unknown" with a danger badge.
+ *
+ * @param {Object} data - The data object passed to the DataTables render function.
+ * @param {string} type - The type descriptor from DataTables, often used for handling different rendering modes.
+ * @param {Object} row - The data for the current row. Expected to have 'fileCategory' and 'type' properties.
+ * @returns {string} The HTML string representing the formatted type with a styled badge indicating the category.
+ */
+
+function assetTypeRender(data, type, row) {
+
+    // Unknown file category
+    if (!row.fileCategory) {
+        return `${row.type}&nbsp;<span class="badge badge-danger">Unknown</span>`;
+    }
+
+    // File category is Image
+    else if (row.fileCategory == "IMAGE") {
+        return `${row.type}&nbsp;<span class="badge badge-primary">Image</span>`;
+    }
+
+    // File category is Text
+    else if (row.fileCategory == "TEXT") {
+        return `${row.type}&nbsp;<span class="badge badge-success">Text</span>`;
+    }
+
+    // File category is Text
+    else if (row.fileCategory == "APPLICATION") {
+        return `${row.type}&nbsp;<span class="badge badge-secondary">Application</span>`;
+    }
+
+    // Other categories
+    else {
+        return `${row.type}&nbsp;<span class="badge badge-warning">Other</span>`;
+    }
+}
+
+/**
+ * Renders a preview of an asset based on its file category within a DataTable. This function
+ * supports different rendering for images and text files. Images are displayed directly,
+ * while text files show the first 128 characters in a textarea. Other file types are marked
+ * as not previewable.
+ *
+ * @param {string} data - The current cell data (unused in this function but required by DataTables).
+ * @param {string} type - The type call from DataTables; not used in this function but required by DataTables rendering API.
+ * @param {object} row - The full data object for the row, which includes properties like `id` and `fileCategory`.
+ * @returns {string} HTML content for the preview of the asset. It displays an image or text preview,
+ *           or a message indicating that preview is not available, depending on the file category.
+ */
+
+function assetPreviewRender(data, type, row){
+
+    if (!row.fileCategory) {
+        return `<span class="text-secondary">Unknown file category.</span>`;
+    }
+    var fileURL = "/assets/content.do?assetId=" + row.id;
+    
+    // File type is IMAGE, display it
+	if(row.fileCategory == "IMAGE"){
+		return `<img src="${fileURL}" class="img-fluid table-img"></img>`;
+	}
+	
+	// File type is TEXT, show first 128 characters.
+	else if(row.fileCategory == "TEXT"){
+
+        var content = '';
+        $.ajax({
+            url: fileURL,
+            type: 'GET',
+            async: false,
+            success: function(data) {
+                content = `<textarea class="form-control" readonly>${data.substring(0, 128)}</textarea>`;
+            },
+            error: function() {
+                content = `<span class="text-secondary">Failed to load the text file.</span>`;
+            }
+        });
+
+        return content;
+	}
+	
+    // Other types, the file cannot be previewed.
+    else {
+        return `<span class="text-secondary">Preview is not available.</span>`;
+    }
+}
+
+/**
+ * Renders action buttons for each asset in a DataTable. This includes options to download, view,
+ * and delete an asset. The delete button's availability is conditional based on whether the
+ * asset can be deleted, as indicated by the `canDelete` property of the asset.
+ *
+ * @param {string} data - The current cell data (unused in this function but required by DataTables).
+ * @param {string} type - The type call from DataTables; not used in this function but required by DataTables rendering API.
+ * @param {object} full - The full data object for the row, which includes properties like `id` and `canDelete`.
+ * @returns {string} HTML string for the action buttons group, allowing users to interact with the asset.
+ */
+
+function assetListActionRender(data, type, full){
+    var disabledStr = full.canDelete ? '' : 'disabled';
+	return `
+        <div class="btn-group" role="group">
+            <a href="/assets/content.do?assetId=${full.id}&download=true" class="btn btn-outline-secondary btn-sm" target="_blank">
+                <i class="fa-solid fa-download"></i>&nbsp;Download
+            </a>&nbsp;
+
+            <a href="/assets/content.do?assetId=${full.id}&download=false" class="btn btn-outline-primary btn-sm" target="_blank">
+                <i class="fa-solid fa-magnifying-glass-plus"></i>&nbsp;View
+            </a>&nbsp;
+
+            <button type="button" class="btn btn-outline-danger btn-sm" ${disabledStr}>
+                <i class="fa-solid fa-trash"></i>&nbsp;Delete
+            </button>
+        </div>
+	`;
+}
+
+/**
+ * Renders file size from numeric data into a human-readable string with appropriate units.
+ * This function handles conversion of file size data to a string with units such as Bytes, KB, MB, or GB.
+ * It is intended for use in DataTables or similar displays where file sizes need to be presented in a user-friendly format.
+ *
+ * @param {number} data - The file size in bytes.
+ * @param {string} type - The type call from DataTables; not used in this function but required by DataTables rendering API.
+ * @param {object} row - The full data row object from DataTables; not used in this function but required by DataTables rendering API.
+ * @returns {string} The formatted file size with units.
+ */
+
+function fileSizeRender(data, type, row) {
+    if (data < 1024) return data + " Bytes";
+    else if (data < 1024 * 1024) return (data / 1024).toFixed(2) + " KB";
+    else if (data < 1024 * 1024 * 1024) return (data / 1024 / 1024).toFixed(2) + " MB";
+    else return (data / 1024 / 1024 / 1024).toFixed(2) + " GB";
+}

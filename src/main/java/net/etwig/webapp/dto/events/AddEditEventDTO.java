@@ -14,22 +14,22 @@ import org.apache.commons.lang3.BooleanUtils;
 public class AddEditEventDTO {
 	
 	// Mode
-	private EventDetailsDTO currentEvent;
+	private final EventDetailsDTO currentEvent;
 	
 	// Basic info
-	private Long id;
-	private String name;
-	private String location;
-	private String description;
-	private Long userRoleId;
-	private LocalDateTime createdTime;
-	private LocalDateTime updatedTime;
+	private final Long id;
+	private final String name;
+	private final String location;
+	private final String description;
+	private final Long userRoleId;
+	private final LocalDateTime createdTime;
+	private final LocalDateTime updatedTime;
 	
 	// Timing
-	private boolean recurring;
-	private boolean allDayEvent;
-	private LocalDateTime startTime;
-	private int duration;
+	private final boolean recurring;
+	private final boolean allDayEvent;
+	private final LocalDateTime startTime;
+	private final int duration;
 	private String rRule;
 	private String excluded;
 	
@@ -44,7 +44,7 @@ public class AddEditEventDTO {
 		this.name = eventInfo.get("name").toString();
 		this.location = eventInfo.get("location").toString();
 		this.description = eventInfo.get("description").toString();
-		this.userRoleId = myPosition;// Long.parseLong(eventInfo.get("eventRole").toString());
+		this.userRoleId = myPosition;
 		
 		// Edit mode, only update updated time.
 		this.updatedTime = LocalDateTime.now();

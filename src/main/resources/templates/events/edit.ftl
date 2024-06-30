@@ -9,6 +9,26 @@
    
 <#assign navbar = "CALENDAR">
 
+<#-- 
+  This function returns the appropriate indefinite article ("a" or "an") 
+  based on the provided noun.
+
+  Parameters:
+  noun - The noun for which the article is to be determined.
+
+  Returns:
+  "an" if the noun starts with a vowel sound (a, e, i, o, u), 
+  otherwise "a".
+-->
+
+<#function article noun>
+  <#if noun?lower_case?matches("^[aeiou].*")>
+    <#return "an">
+  <#else>
+    <#return "a">
+  </#if>
+</#function>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,16 +71,15 @@
     		<section class="content">
 				<div class="container-fluid">
 
-					<#-- Event Information -->
+					<#-- General -->
 					<div class="card card-primary card-outline mb-3">
 						<div class="card-header">
 							<h3 class="card-title">
-								<i class="fas fa-circle-info"></i>&nbsp;Event Information
+								<i class="fas fa-circle-info"></i>&nbsp;General
 							</h3>
 						</div>
 
 						<div class="card-body">
-							<#--<div class="container-fluid">-->
 							<div class="row col-12">
 
 								<#-- Col 1: Basic -->
@@ -70,8 +89,23 @@
 										<i class="fa-solid fa-map-pin"></i>&nbsp;Basic
 									</h5>
 
+									<#-- Position -->
+									<div class="callout callout-primary mb-3" id="positionCallout" style="border-left-color:#${myCurrentPosition.portfolioColor};">
+										<h5 class="bold-text mb-3">
+											You are logged in as ${article(myCurrentPosition.position)}
+											<span style="color:#${myCurrentPosition.portfolioColor};">${myCurrentPosition.position}</span>.
+										</h5>
+
+										You have been assigned <b>${myPositionCount}</b> position<#if myPositionCount gt 1>s</#if>, and you can 
+										switch positions by clicking the <b><i class="fa-solid fa-user"></i>&nbsp;User</b> icon on the NavBar.
+										<p id="portfolioCheck"></p>
+									</div>
+									<#-- /Position -->
+
 									<div class="mb-2" id="noPermissionCallout"></div>
+
 									<input type="hidden" id="isEdit" value="0" />
+									<input type="hidden" id="myPortfolioName" value="${myCurrentPosition.portfolioName}" />
 
 									<#-- EventId -->
 									<div class="form-group row" id="eventIdBlock" style="display:none">
@@ -127,20 +161,8 @@
 									<div class="form-group row">
 										<label for="eventRole" class="col-lg-3 col-form-label">
 											Organizer Position&nbsp;<span class="required-symbol">*</span>
-											</label>
+										</label>
 										<div class="col-lg-9">
-
-											<#--
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text">
-														<i class="fa-solid fa-user-tie"></i>
-													</span>
-												</div>
-												
-												<select class="form-control select2bs4" name="eventRole" id="eventRole"></select>
-											</div>
-											-->
 											<div id="eventRole"></div>
 											<small class="form-text text-muted">The position and associated portfolio, divided by comma.</small>
 										</div>
@@ -266,7 +288,7 @@
 						</div>
 
 					</div>
-					<#-- /Event Information -->
+					<#-- /General -->
 
 					<#-- Timing -->
 					<div class="card card-primary card-outline mb-3">
@@ -277,12 +299,6 @@
 						</div>
 
 						<div class="card-body">
-							<#--
-								<#include "../_includes/events/addEdit_timing.ftl">	
-							-->
-							
-
-						<!-- <div class="container-fluid"> -->
 							<div class="row col-12">
 
 								<#-- Col 1 -->
@@ -822,6 +838,16 @@
 										<#-- /Comment -->
 
 									</div>
+
+									<#-- Reminder -->
+									<div class="callout callout-primary mt-3" id="twigDeadline" style="display:none;">
+										<h5 class="bold-text mb-3">TWIG Deadline Reminder</h5>
+										It is suggested that the event be added before 
+										<b>last Friday of the start time</b>, giving Social Media Rep
+										adequate time to make TWIGs. 
+									</div>
+									<#-- /Reminder -->
+
 								</div>
 								<#-- /Col 2: Banner Request -->
 

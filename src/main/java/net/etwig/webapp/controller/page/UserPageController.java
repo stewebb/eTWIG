@@ -9,13 +9,37 @@
 
 package net.etwig.webapp.controller.page;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import net.etwig.webapp.config.ConfigFile;
+import net.etwig.webapp.dto.LoginToken;
+import net.etwig.webapp.handler.LoginSuccessHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.io.IOException;
+import java.time.Instant;
+import java.util.Base64;
 
 @Controller
 @RequestMapping("/user")
 public class UserPageController {
+
+	@Autowired
+	private ConfigFile config;
+
+	@Autowired
+	private LoginSuccessHandler successHandler;
 
     /**
 	 * Handles the root GET request and redirects to the index page.
@@ -88,4 +112,86 @@ public class UserPageController {
 		// TODO Logout page
 		return null;
 	}
+
+	@Autowired
+	private AuthenticationManager authenticationManager;
+
+	@GetMapping("/tokenLogin.do")
+	public ResponseEntity<?> tokenLogin(@RequestParam String token, HttpServletRequest request, HttpServletResponse response) {
+
+
+		// Only allow a specific referrer
+		String referrer = request.getHeader("Referer");
+		if (referrer != null && referrer.startsWith(config.getTrustedReferrer())) {
+
+			// Decode encoded String
+			byte[] decodedBytes = Base64.getDecoder().decode(token);
+			String decodedStr = new String(decodedBytes);
+			//System.out.println(decodedStr);
+
+			try {
+
+				// Parse the JSON object from the decoded String.
+				ObjectMapper objectMapper = new ObjectMapper();
+				LoginToken loginToken = objectMapper.readValue(decodedStr, LoginToken.class);
+				//System.out.println(loginToken);
+
+				// Token expiration check
+				long currentTimestamp = Instant.now().getEpochSecond();
+				long timeDifference = currentTimestamp - loginToken.getTimestamp();
+				if (timeDifference < 0 || timeDifference > 60) {
+					throw new IllegalStateException("Token has expired.");
+				}
+
+				Authentication authenticationToken = new UsernamePasswordAuthenticationToken(
+						loginToken.getUserEmail(), null
+				);
+
+				Authentication authentication = authenticationManager.authenticate(authenticationToken);
+				successHandler.onAuthenticationSuccess(request, response, authentication);
+
+			} catch (JsonProcessingException | IllegalStateException | AuthenticationException e) {
+				//System.err.println("Login Failed: Token is invalid or expired.");
+				return ResponseEntity.status(401).body("Login Failed: Token is invalid or expired.");
+			} catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            return ResponseEntity.ok().body("Body");
+		}
+
+		// Otherwise, return 403 Forbidden.
+		else {
+			return ResponseEntity.status(401).body("Login Failed: The referrer is not allowed.");
+		}
+
+		//System.out.println(referrer);
+		//if (referrer == null || allowedReferrers.stream().noneMatch(referrer::startsWith)) {
+		//	throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied due to invalid referrer");
+		//}
+		//return "securedData";
+
+
+		/*
+		try {
+			// Create an authentication token
+			Authentication authenticationToken = new UsernamePasswordAuthenticationToken(
+					username, null);
+
+			// Authenticate the token using the custom provider
+			Authentication authentication = authenticationManager.authenticate(authenticationToken);
+			successHandler.onAuthenticationSuccess(request, response, authentication);
+
+			// If authentication is successful, you might want to create a JWT token or similar here
+			return ResponseEntity.ok().body("User authenticated successfully");
+		} catch (AuthenticationException e) {
+			return ResponseEntity.status(401).body("Authentication failed: " + e.getMessage());
+		} catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+		 */
+
+
+    }
 }

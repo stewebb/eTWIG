@@ -28,9 +28,11 @@
 	<link rel="stylesheet" href="/static/css/twig.css">
 
     <#-- Griffin Hall logo -->
+	<#--
     <div id="logo-container">
         <img src="/static/images/GHLogo.min.svg" class="beating-logo" id="logo" width="50%" height="50%"/>
     </div>
+	-->
 	<#-- /Griffin Hall logo -->
 
 	<#-- Required resources -->
@@ -42,8 +44,10 @@
 	<#-- rrule.js -->
    	<script src="/static/js/etwig/recurrent.min.js?ver=${app.appVersion}"></script>
 
+	<#--
 	<script src="/static/js/etwig/twig.js?ver=${app.appVersion}"></script>
 	<script src="/static/js/etwig/twig-draw.js?ver=${app.appVersion}"></script>
+	-->
 
 	<script src="/static/js/vendor/qrcode.min.js"></script>
 
@@ -231,5 +235,6 @@
 		
 	</script>
 
+	<b>TWIG is current unavailable.</b>
 </body>
 </html>

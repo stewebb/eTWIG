@@ -1,8 +1,12 @@
 package net.etwig.webapp.controller.api;
 
+import net.etwig.webapp.dto.events.EventDetailsDTO;
 import net.etwig.webapp.dto.graphics.EventGraphicsAPIForDetailsPageDTO;
 import net.etwig.webapp.dto.graphics.EventGraphicsAPIForSummaryPageDTO;
 import net.etwig.webapp.services.EventGraphicsService;
+import net.etwig.webapp.services.EventService;
+import net.etwig.webapp.util.InvalidParameterException;
+import net.etwig.webapp.util.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,14 +25,44 @@ public class EventGraphicsAPIController {
     @Autowired
     EventGraphicsService eventGraphicsService;
 
-    @PostMapping("/add")
-    public Map<String, Object> add(@RequestBody Map<String, Object> eventInfo) {
-        return null;
-    }
+    @Autowired
+    private EventService eventService;
 
-    @PostMapping("/edit")
-    public Map<String, Object> edit(@RequestBody Map<String, Object> eventInfo) {
-        return null;
+    /**
+     * Handles POST requests to add new graphics information to an event, identified by the eventId included in the request body.
+     * This method validates the eventId to ensure it exists and is valid. If the eventId is found to be invalid or if the event
+     * does not exist, an InvalidParameterException is thrown. If the eventId is valid, the method proceeds to add the specified
+     * graphics information to the event.
+     * <p>
+     * Security: Access to this method is restricted by the {@link PreAuthorize} annotation, ensuring it can only be executed by
+     * users who possess the 'ROLE_GRAPHICS' authority.
+     * </p>
+     *
+     * @param newGraphicsInfo A {@link Map} representing the new graphics data to be added, keyed by property names including 'eventId'.
+     * @throws InvalidParameterException if the eventId is either invalid or if no event corresponds to the provided ID.
+     * @location /api/eventGraphics/add
+     * @permission This endpoint requires users to have graphics management permissions.
+     */
+
+    @PreAuthorize("hasAuthority('ROLE_GRAPHICS')")
+    @PostMapping("/add")
+    public void add(@RequestBody Map<String, Object> newGraphicsInfo) {
+
+        // Get current request
+        Long eventId = NumberUtils.safeCreateLong(newGraphicsInfo.get("eventId").toString());
+
+        // Invalid or negative eventId, add event.
+        if(eventId == null || eventId <= 0) {
+            throw new InvalidParameterException("Event ID is invalid.");
+        }
+
+        // Check the existence
+        EventDetailsDTO event = eventService.findById(eventId);
+        if(event == null) {
+            throw new InvalidParameterException("The event with id= " + eventId + " does not exist.");
+        }
+
+        eventGraphicsService.addGraphics(newGraphicsInfo);
     }
 
     /**
@@ -50,6 +84,17 @@ public class EventGraphicsAPIController {
     public EventGraphicsAPIForDetailsPageDTO view(@RequestParam Long graphicsId) {
         return eventGraphicsService.findById(graphicsId);
     }
+
+    /**
+     * Handles HTTP GET requests to remove graphics associated with a specified graphics ID. This method invokes a service to delete
+     * the graphics based on the provided ID. If the operation is successful, it completes without a return value; if there is an issue,
+     * such as the graphics ID not existing, the underlying service method should handle it, potentially throwing an exception.
+     *
+     * @param graphicsId The ID of the graphics to be removed. This ID must correspond to existing graphics in the system.
+     * @throws IllegalArgumentException if the provided graphicsId is null or does not correspond to any existing graphics.
+     * @location /api/eventGraphics/remove
+     * @permission Those who has graphic management permission.
+     */
 
     @PreAuthorize("hasAuthority('ROLE_GRAPHICS')")
     @GetMapping("/remove")
@@ -76,7 +121,7 @@ public class EventGraphicsAPIController {
      * @param sortDirection The direction of the sort ('asc' or 'desc').
      * @return A {@link ResponseEntity} containing the paginated data and status code.
      * @location /api/eventGraphics/list
-     * @permission All logged in users.
+     * @permission Those who has graphic management permission.
      */
 
     @GetMapping("/list")

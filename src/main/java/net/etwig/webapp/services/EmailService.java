@@ -4,6 +4,8 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import jakarta.mail.internet.MimeMessage;
 import net.etwig.webapp.config.ConfigFile;
+import net.etwig.webapp.model.UserRole;
+import net.etwig.webapp.repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -17,6 +19,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class EmailService {
@@ -29,6 +33,9 @@ public class EmailService {
 
     @Autowired
     private Configuration freemarkerConfig;
+
+	@Autowired
+	private UserRoleRepository userRoleRepository;
 
 	/**
 	 * Sends an email to multiple recipients with optional attachments.
@@ -44,6 +51,7 @@ public class EmailService {
 	 *
 	 * @throws Exception If there are issues creating or sending the email, such as invalid addresses, missing subject or content, or problems with attachments.
 	 */
+
 	private void sendEmail(HashSet<String> to, String subject, String content, HashMap<String, Resource> attachments) throws Exception {
 		MimeMessage message = emailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -69,49 +77,49 @@ public class EmailService {
 		emailSender.send(message);
 	}
 
-
-	/*
-	public boolean graphicsRequestNotification(NewRequestEmailNotificationDTO requestInfo) throws Exception {
-    	
-    	// Get all graphics managers
-    	Set<PositionDTO> graphicsManagers = userRoleRepository.getGraphicsManagers();
-    	if(graphicsManagers.isEmpty()) {
-    		return false;    	
-    	}
-    	
-   		// Get event info.
-    	//
-    	
-    	//Long eventId = Long.parseLong(requestInfo.get("eventId").toString());
-    	//GraphicsRequestEventInfoDTO event = eventService.findEventsForGraphicsRequestById(eventId);
-		//UserRole requesterRole = userRoleService.findById(Long.parseLong(requestInfo.get("requesterRole").toString()));
-		//User requester = requesterRole.getUser();
-		//System.out.print(event);
-		
-		// Generate email subject.
-		StringBuilder subject = new StringBuilder();
-		subject.append(requestInfo.getRequesterPosition() + " ");
-		subject.append(requestInfo.getRequesterName());
-		subject.append(" made a graphics request for the event ");
-		//subject.append(requestInfo.getEventName());
-		
-		// Generate email content
-		Template t = freemarkerConfig.getTemplate("_emails/graphic_request.ftl");
-		HashMap<String, Object> model = new HashMap<String, Object>();
-		//model.put("eventInfo", event);
-		model.put("requestInfo", requestInfo);
-		//model.put("organizer", new UserDTO(requester));
-	    String content = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
-		
-		// Iterate all graphics managers
-		for(PositionDTO graphicsManager : graphicsManagers) {
-			sendEmail(graphicsManager.getEmail(), subject.toString(), content, null);
-		}
-    		
-    	//System.out.println(graphicsManagers);
-		return true;
-    }
+	/**
+	 * Sends an email notification to all graphics managers about a new graphics request for an event.
+	 * <p>
+	 * This method gathers all graphics managers as recipients, constructs an email with the request details,
+	 * and sends it using a predefined email template.
+	 * </p>
+	 *
+	 * @param requestId The ID of the graphics request.
+	 * @param requester The name of the person who made the request.
+	 * @param eventName The name of the event for which the graphics request was made.
+	 * @param requestTime The time when the request was made.
+	 * @throws Exception if there is an error during the email sending process.
 	 */
+
+	public void bannerRequestNotification(
+			Long requestId, String requester, String eventName, LocalDateTime requestTime
+	) throws Exception {
+    	
+    	// Set all graphics managers as recipients
+    	Set<UserRole> graphicsManagers = userRoleRepository.getGraphicsManagers();
+    	if(graphicsManagers.isEmpty()) {
+    		return;
+    	}
+
+		HashSet<String> recipients = graphicsManagers.stream()
+				.map(UserRole::getEmail)
+				.collect(Collectors.toCollection(HashSet::new));
+
+		// Email subject
+		String subject = requester + " made a graphics request for event " + eventName;
+
+		// Email content
+		Template template = freemarkerConfig.getTemplate("_emails/graphic_request.ftl");
+		HashMap<String, Object> model = new HashMap<String, Object>();
+		model.put("requestId", requestId);
+		model.put("requester", requester);
+		model.put("eventName", eventName);
+		model.put("requestTime", requestTime);
+		model.put("appUrl", config.getAppURL());
+	    String content = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+
+		sendEmail(recipients, subject, content, null);
+	}
 
 	/**
 	 * Sends an email notification about the approval status of a banner request for a specific event.
@@ -145,7 +153,7 @@ public class EmailService {
 	) throws Exception {
 
 		// Send to portfolio email and user email
-    	HashSet<String>recipients = new HashSet<>();
+    	HashSet<String> recipients = new HashSet<>();
 		recipients.add(portfolioEmail);
 		//recipients.add(userEmail);
 

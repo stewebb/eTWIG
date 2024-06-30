@@ -9,37 +9,37 @@
 
 package net.etwig.webapp.services;
 
-import java.io.InputStream;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import net.etwig.webapp.dto.events.*;
+import jakarta.persistence.criteria.Predicate;
+import net.etwig.webapp.dto.events.AddEditEventDTO;
+import net.etwig.webapp.dto.events.EventDetailsDTO;
+import net.etwig.webapp.dto.events.EventImportDTO;
 import net.etwig.webapp.dto.user.CurrentUserDTOWrapper;
+import net.etwig.webapp.dto.user.CurrentUserPermissionDTO;
 import net.etwig.webapp.dto.user.CurrentUserPositionDTO;
 import net.etwig.webapp.importer.EventImporter;
 import net.etwig.webapp.importer.ExcelEventImporter;
 import net.etwig.webapp.importer.ODSEventImporter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import net.etwig.webapp.dto.graphics.NewRequestDTO;
-import net.etwig.webapp.dto.user.CurrentUserPermissionDTO;
-import net.etwig.webapp.model.Event;
-import net.etwig.webapp.model.EventOption;
-import net.etwig.webapp.model.EventOptionKey;
-import net.etwig.webapp.model.BannerRequest;
-import net.etwig.webapp.model.Portfolio;
+import net.etwig.webapp.model.*;
 import net.etwig.webapp.repository.EventOptionRepository;
 import net.etwig.webapp.repository.EventRepository;
 import net.etwig.webapp.repository.GraphicsRequestRepository;
 import net.etwig.webapp.util.DateUtils;
 import net.etwig.webapp.util.ListUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.InputStream;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class EventService {
@@ -49,9 +49,9 @@ public class EventService {
 	
 	@Autowired
 	private EventOptionRepository eventOptionRepository;
-	
+
 	@Autowired
-	private GraphicsRequestRepository graphicsRequestRepository;
+	private BannerRequestService bannerRequestService;
 	
 	@Autowired
 	private UserSessionService userSessionService;
@@ -69,94 +69,121 @@ public class EventService {
 	public EventDetailsDTO findById(long id) {
 		return eventRepository.findById(id).map(EventDetailsDTO::new).orElse(null);
 	}
-	
-	public LinkedHashMap<Long, SingleTimeEventBasicInfoDTO> getSingleTimeEventsByDateRange(LocalDate givenDate, int calendarView) throws Exception{
-		LocalDate last;
-		LocalDate next;
-		
-		// Date boundary (monthly)
-		if(calendarView > 0) {
-			last = DateUtils.findFirstDayOfThisMonth(givenDate);
-			next = DateUtils.findFirstDayOfNextMonth(givenDate);
-		}
-		
-		// Date boundary (weekly)
-		else if (calendarView == 0) {
-			last = DateUtils.findThisMonday(givenDate);
-			next = DateUtils.findNextMonday(givenDate);
-		}
-		
-		// Date boundary (daily)
-		else {
-			last = givenDate;
-			next = DateUtils.findTomorrow(givenDate);
-		}
-		
-        LinkedHashMap<Long, SingleTimeEventBasicInfoDTO> allEvents = new LinkedHashMap<>();
 
-		// Get all single time events in the given date range.
-		List<Event> singleTimeEventList = eventRepository.findSingleTimeEventByDateRange(last, next);
-        for(Event event : singleTimeEventList) {     
-        	allEvents.put(event.getId(), new SingleTimeEventBasicInfoDTO(event));
-        }
-        return allEvents;
-	}
-	
-	public List<RecurringEventBasicInfoDTO> getAllRecurringEvents(){
-		if(eventRepository == null) {
-			return null;
-		}
-		return eventRepository.findByRecurringTrue().stream().map(RecurringEventBasicInfoDTO::new).collect(Collectors.toList());
-	}
-	
 	/**
-	 * Edit an event to the database
-	 * @param eventInfo The event details.
-	 * @throws Exception 
+	 * Retrieves a paginated list of event details that match the given criteria.
+	 * This method constructs a dynamic query based on the specified parameters and
+	 * maps the resulting events to their DTO representation.
+	 *
+	 * @param startDate the earliest start date of the events to include (inclusive)
+	 * @param endDate the latest start date of the events to include (inclusive)
+	 * @param recurring whether the events are recurring or not
+	 * @param portfolioId the portfolio identifier to which the events are associated
+	 * @param pageable the pagination information and sorting criteria
+	 * @return a paginated {@link Page} of {@link EventDetailsDTO} matching the criteria
 	 */
-	
-	@SuppressWarnings("null")
-	public void editEvent(Map<String, Object> eventInfo, EventDetailsDTO currentEvent){
 
+	public Page<EventDetailsDTO> findByCriteria(
+			LocalDate startDate,
+			LocalDate endDate,
+			Boolean recurring,
+			Long portfolioId,
+			Pageable pageable) {
+		Specification<Event> spec = eventCriteria(startDate, endDate, recurring, portfolioId);
+		return eventRepository.findAll(spec, pageable).map(EventDetailsDTO::new);
+	}
+
+	/**
+	 * Creates a {@link Specification} for querying events based on provided criteria.
+	 * This method constructs predicates based on the presence and validity of the input parameters,
+	 * allowing for flexible and dynamic database queries.
+	 *
+	 * @param earliestStartDate the earliest start date for the events to filter (inclusive)
+	 * @param latestStartDate the latest start date for the events to filter (inclusive)
+	 * @param recurring true if only recurring events should be included, false otherwise
+	 * @param portfolioId the identifier of the portfolio to which the events must be linked
+	 * @return a {@link Specification} that can be used to filter events according to the provided criteria
+	 */
+
+	private Specification<Event> eventCriteria(
+			LocalDate earliestStartDate,
+			LocalDate latestStartDate,
+			Boolean recurring,
+			Long portfolioId) {
+		return (root, query, criteriaBuilder) -> {
+			Predicate finalPredicate = criteriaBuilder.conjunction();
+
+			if (earliestStartDate != null && latestStartDate != null) {
+				LocalDateTime earliestDateTime = earliestStartDate.atStartOfDay();
+				LocalDateTime latestDateTime = latestStartDate.atTime(23, 59, 59);
+				Predicate dateRangePredicate = criteriaBuilder.between(
+						root.get("startTime"), earliestDateTime, latestDateTime);
+				finalPredicate = criteriaBuilder.and(finalPredicate, dateRangePredicate);
+			}
+
+			if (recurring != null) {
+				finalPredicate = criteriaBuilder.and(finalPredicate, criteriaBuilder.equal(root.get("recurring"), recurring));
+			}
+
+			if (portfolioId != null && portfolioId > 0) {
+				finalPredicate = criteriaBuilder.and(
+						finalPredicate, criteriaBuilder.equal(root.get("userRole").get("portfolioId"), portfolioId)
+				);
+			}
+
+			return finalPredicate;
+		};
+	}
+
+	/**
+	 * Adds or edits an event in the database.
+	 * <p>
+	 * This method handles both adding a new event and editing an existing event. It validates the user session,
+	 * creates a new event or updates an existing one with the provided details, associates the selected options
+	 * with the event, and optionally makes a banner request for the event.
+	 * </p>
+	 *
+	 * @param eventInfo A {@link Map} containing the event details.
+	 * @param currentEvent An {@link EventDetailsDTO} representing the current event details, if any.
+	 */
+
+	@SuppressWarnings("unchecked")
+	public void editEvent(Map<String, Object> eventInfo, EventDetailsDTO currentEvent) throws Exception {
+
+		// Add a new event to DB
 		Long myPosition = userSessionService.validateSession().getPosition().getMyCurrentPositionId();
-
-		// Add event
 		AddEditEventDTO newEventDTO = new AddEditEventDTO(eventInfo, currentEvent, myPosition);
-		//System.out.println(newEventDTO);
 		Event addedEvent = eventRepository.save(newEventDTO.toEntity());
 		
-		// Add options
+		// Add the selected options that associated with this new event.
 		Long eventId = addedEvent.getId();
-
-		//String selectedOprions = eventInfo.get("properties").toString();
-		//System.out.println(selectedOprions.length());
-		ArrayList<Long> optionList = ListUtils.stringArrayToLongArray(ListUtils.stringToArrayList(eventInfo.get("properties").toString()));
+		ArrayList<Long> optionList = ListUtils.stringArrayToLongArray(
+				ListUtils.stringToArrayList(eventInfo.get("properties").toString())
+		);
 		updateEventOptionBulky(eventId, optionList);
 		
-		// Optional graphics requests
+		// Make a banner request for this event (optional)
 		Map<String, Object> graphics = (Map<String, Object>) eventInfo.get("graphics");
-		if(graphics == null) {
-			return;
+		if(graphics != null) {
+			bannerRequestService.addRequest(
+					eventId,
+					addedEvent.getUserRoleId(),
+					graphics.get("comments").toString(),
+					DateUtils.safeParseDate(graphics.get("returningDate").toString(), "yyyy-MM-dd")
+			);
 		}
-		
-		// Make a request
-		NewRequestDTO newRequest = new NewRequestDTO();
-		newRequest.fromParam(eventId, addedEvent.getUserRoleId(), graphics.get("comments").toString(), graphics.get("returningDate").toString());
-		BannerRequest modifiedRequest = graphicsRequestRepository.save(newRequest.toEntity());
-		//Long requestId = modifiedRequest.getId();
-		
-		// Send an email to graphics managers
-		//emailService.graphicsRequestNotification(new NewRequestEmailNotificationDTO(graphicsRequestService.findById(requestId)));
 	}
 
-
-    /**
-	 * Update event options bulky, by removing all all existing options first, and then add all new options.
-	 * @param eventId The id of the event.
-	 * @param optionIds A list with all options that associated for the event.
+	/**
+	 * Updates the event options in bulk by first removing all existing options and then adding the new options.
+	 *
+	 * <p>This method is transactional, ensuring that either both the removal and addition of options are successful,
+	 * or neither operation takes effect in case of an error.</p>
+	 *
+	 * @param eventId   The ID of the event whose options are to be updated.
+	 * @param optionIds A list of option IDs to associate with the event.
 	 */
 	
-	@SuppressWarnings("null")
 	@Transactional
 	private void updateEventOptionBulky(Long eventId, List<Long> optionIds) {
 
@@ -169,7 +196,6 @@ public class EventService {
             .map(optionId -> new EventOption(new EventOptionKey(eventId, optionId)))
             .collect(Collectors.toList());
         eventOptionRepository.saveAll(newEventOptions);
-
     }
 
 	/**
@@ -203,27 +229,7 @@ public class EventService {
 		
 		// Case 2: This user has events access, has edit view permission depends on the portfolio.
 		else if (access.isEventsAccess()) {
-
-			// All portfolios that I have.
-			// Set<Portfolio> myPortfolios = userRoleService.getMyPortfolios();
-
-			//Long eventPortfolioId = portfolio.getId();
-			
-			// Iterate my portfolios, if any of them matches the given portfolio, I have edit permission.
-			//for(Portfolio myPortfolio : myPortfolios) {
-			//	if(myPortfolio.equals(portfolio)) {
-			//		return true;
-			//	}
-			//}
-
-			//for(int p : position.){
-			//
-			//}
-
-			// Check if the portfolio of an event match my current position.
-            return portfolio.getName().equals(position.getMyCurrentPosition().getPortfolioName());
-			
-			// Otherwise I don't have edit permission.
+			return portfolio.getName().equals(position.getMyCurrentPosition().getPortfolioName());
         }
 		
 		// Case 3: Other users have no edit permission.

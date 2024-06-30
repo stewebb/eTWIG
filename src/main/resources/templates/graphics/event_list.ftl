@@ -94,6 +94,7 @@
 			
 		</div>
 		<#-- /Content Wrapper. -->
+
 	</div>
 	<#-- Main Wrapper -->
 	
@@ -104,7 +105,6 @@
 	
 	<script>
     	var dt = eventGraphicsDataTable();
-		//console.log(dt)
 	</script>
 </body>
 

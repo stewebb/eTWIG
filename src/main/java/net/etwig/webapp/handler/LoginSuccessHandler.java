@@ -22,23 +22,42 @@ import org.springframework.stereotype.Component;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-//import net.etwig.webapp.util.UserSession;
+
+/**
+ * Handles the successful authentication event by initializing the user session and redirecting the user
+ * to either a saved request URL or the home page if no saved request is found.
+ * <p>
+ * This component is responsible for post-authentication actions such as session initialization
+ * and redirect handling. It uses {@link DefaultRedirectStrategy} for managing redirections
+ * and {@link HttpSessionRequestCache} for retrieving the originally requested URL before authentication.
+ * </p>
+ *
+ * @Component Indicates that an annotated class is a "component". Such classes are considered as candidates
+ * for auto-detection when using annotation-based configuration and classpath scanning.
+ */
 
 @Component
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	
-	private DefaultRedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-    private HttpSessionRequestCache requestCache = new HttpSessionRequestCache();
+	private final DefaultRedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+    private final HttpSessionRequestCache requestCache = new HttpSessionRequestCache();
     
     @Autowired
     private UserSessionService userSessionService;
-    
+
 	/**
-	 * Put the user-related information into session after user logged in, then redirect user back.
-	 * @param request
-	 * @param response
-	 * @param authentication
-	 * @throws IOException 
+	 * Called when a user has been successfully authenticated.
+	 * This method checks if the authentication object is valid and authenticated. If so,
+	 * it initializes the user's session with their email and redirects them to their original destination
+	 * or to the default page if no saved request is found.
+	 * <p>
+	 * The redirection strategy can be customized through the {@link DefaultRedirectStrategy} component.
+	 * </p>
+	 *
+	 * @param request The request from which the authentication attempt was initiated.
+	 * @param response The response, where the redirect will be written.
+	 * @param authentication The authentication token which can be used to obtain the authenticated user's details.
+	 * @throws IOException If an input or output exception occurs during redirect.
 	 */
 	
 	@Override

@@ -50,7 +50,7 @@
 				<div class="container-fluid" id="eventMainComponent">
 					<div class="row col-12">
 
-						<#-- Options -->
+						<#-- Left Bar -->
 						<div class="col-md-3" id="left-column">
 							<div class="mb-3">
 
@@ -78,30 +78,102 @@
 										<#-- /Date Options -->
 
 										<#-- Calendar View -->
-										<div class="form-group d-flex justify-content-between">
-											<div class="icheck-primary d-inline mr-2">
-												<input type="radio" id="weeklyView" name="calendarView" value="0" checked="">
-												<label for="weeklyView">Weekly view</label>
-											</div>
-											<div class="icheck-primary d-inline">
-												<input type="radio" id="monthlyView" name="calendarView" value="1">
-												<label for="monthlyView">Monthly view</label>
+										<div class="form-group row">
+											<label for="eventRecurrence" class="col-xl-4 col-form-label">View</label>
+											<div class="col-xl-8">
+												<div class="form-group clearfix">
+
+													<#-- Weekly -->
+													<div class="icheck-primary">
+														<input type="radio" id="weeklyView" name="calendarView" value="0" checked="">
+														<label for="weeklyView">Weekly</label>
+													</div>
+													<#-- /Weekly -->
+
+													<#-- Monthly -->
+													<div class="icheck-primary">
+														<input type="radio" id="monthlyView" name="calendarView" value="1">
+														<label for="monthlyView">Monthly</label>
+													</div>
+													<#-- /Monthly -->
+
+												</div>
 											</div>
 										</div>
 										<#-- /Calendar View -->
 
 										<#-- Date Options -->	
-										<div class="input-group mb-2">
-											<div class="input-group-prepend">
-												<span class="input-group-text" id="basic-addon1"><i class="fa-regular fa-calendar-days"></i></span>
+										<div class="form-group row">
+											<label for="eventRecurrence" class="col-xl-4 col-form-label">Month</label>
+											<div class="col-xl-8">
+												<div class="input-group mb-2">
+													<div class="input-group-prepend">
+														<span class="input-group-text" id="basic-addon1"><i class="fa-regular fa-calendar-days"></i></span>
+													</div>
+													<input type="text" id="datepicker-input" aria-label="Date-Time" class="form-control">
+												</div>
+												<div id="wrapper" class="datepicker"></div>
 											</div>
-											<input type="text" id="datepicker-input" aria-label="Date-Time" class="form-control">
-											<span class="input-group-append">
-												<button type="button" class="btn btn-primary btn-flat" id="select-month">Go!</button>
-											</span>
 										</div>
-										<div id="wrapper" class="datepicker"></div>
-										<#-- /Date Options -->										
+
+										<#-- /Date Options -->	
+
+										<#-- Portfolio -->
+										<div class="form-group row">
+											<label for="eventPortfolio" class="col-xl-4 col-form-label">Portfolio</label>
+											<div class="col-xl-8 input-group">
+									
+													<div class="input-group-prepend">
+														<span class="input-group-text">
+															<i class="fa-solid fa-briefcase"></i>
+														</span>
+													</div>
+									
+													<select class="form-control select2" name="eventPortfolio" id="eventPortfolio" onchange="updatePortfolio();">
+        												<option value="-1">(All portfolios)</option>
+														<#if portfolios?has_content>
+        													<#list portfolios as portfolio>
+																<option value="${portfolio.id}">
+																	${portfolio.name}												
+																</option>
+															</#list>
+        												</#if>
+      												</select>
+											</div>
+										</div>
+										<#-- /Portfolio -->		
+
+										<#-- Recurrence-->
+										<div class="form-group row">
+											<label for="eventRecurrence" class="col-xl-4 col-form-label">Recurrence</label>
+											<div class="col-xl-8">
+												<div class="form-group clearfix">
+										
+													<#-- All-->
+													<div class="icheck-primary">
+														<input type="radio" id="allEvents" name="eventRecurrence" checked value="0">
+														<label for="allEvents">All events</label>
+													</div>
+													<#-- /All-->
+											
+													<#-- Single time-->
+													<div class="icheck-primary">
+														<input type="radio" id="singleTime" name="eventRecurrence" value="-1">
+														<label for="singleTime">Single Time</label>
+													</div>
+													<#-- /Single time-->
+
+													<#-- Recurring-->
+													<div class="icheck-primary">
+														<input type="radio" id="recurring" name="eventRecurrence" value="1">
+														<label for="recurring">Recurring</label>
+													</div>
+													<#-- /Recurring-->
+
+												</div>
+											</div>
+										</div>
+										<#-- Recurrence-->							
 										
 										<#-- Event Options-->
 										<#if userPermission.eventsAccess>
@@ -157,104 +229,10 @@
 									</div>
 								</div>
 								<#-- /Legend -->
-
-								<!--
-								<#-- Filter -->
-								<div class="card card-primary card-outline">
-									<div class="card-header">
-										<h3 class="card-title">
-											<i class="fa-solid fa-filter"></i>&nbsp;Filter
-										</h3>
-									</div>
-									<div class="card-body">
-
-										<#-- Portfolio -->
-										<div class="form-group row">
-											<label for="eventPortfolio" class="col-xl-4 col-form-label">Portfolio</label>
-											<div class="col-xl-8 input-group">
-									
-													<div class="input-group-prepend">
-														<span class="input-group-text">
-															<i class="fa-solid fa-briefcase"></i>
-														</span>
-													</div>
-									
-													<select class="form-control select2" name="eventPortfolio" id="eventPortfolio">
-      										
-        												<optgroup label="My Portfolio(s)">
-        									
-        									
-        												<#if portfolio?has_content>
-        													<#list portfolio as portfolio_id, portfolio_info>
-																<option data-color="#${portfolio_info.color}" data-icon="<#if portfolio_info.icon?has_content>${portfolio_info.icon}</#if>" value="${portfolio_id}">
-																	${portfolio_info.name}
-																</option>
-															</#list>
-        												</#if>
-        									
-      												</select>
-											</div>
-										</div>
-										<#-- /Portfolio -->
-
-										<#-- Recurrence-->
-										<div class="form-group row">
-											<label for="eventRecurrence" class="col-xl-4 col-form-label">Recurrence</label>
-											<div class="col-xl-8">
-												<div class="form-group clearfix">
-										
-													<#-- All-->
-													<div class="icheck-primary">
-														<input type="radio" id="allEvents" name="eventRecurrence" checked value="0">
-														<label for="allEvents">All events</label>
-													</div>
-													<#-- /All-->
-											
-													<#-- Single time-->
-													<div class="icheck-primary">
-														<input type="radio" id="singleTime" name="eventRecurrence" value="-1" >
-														<label for="singleTime">Single Time</label>
-													</div>
-													<#-- /Single time-->
-
-													<#-- Recurring-->
-													<div class="icheck-primary">
-														<input type="radio" id="recurring" name="eventRecurrence" value="1" >
-														<label for="recurring">Recurring</label>
-													</div>
-													<#-- /Recurring-->
-
-												</div>
-											</div>
-										</div>
-										<#-- Recurrence-->
-
-										<#-- Apply and reset button -->
-										<div class="button-container">
-                							
-                							<#-- Reset (Left) -->
-                	                		<button type="button"class="btn btn-outline-secondary">
-                								<i class="fa-solid fa-rotate-left"></i>&nbsp;Reset
-                							</button>
-                							<#-- /Reset (Left) -->
-                						
-											<#-- Apply (Right) -->
-                							<button type="button" class="btn btn-outline-primary right-div">
-                								<i class="fa-solid fa-check"></i>&nbsp;Apply
-                							</button>
-                							<#-- /Apply (Right) -->
-                							
-                						</div>
-										<#-- Apply and reset button -->
-
-									</div>
-								</div>
-								<#-- /Filter -->
-								-->
 								
 							</div>
 						</div>
-						<#-- Options -->
+						<#-- Left Bar -->
 
 						<#-- Calendar -->
 						<div class="col-md-9">
@@ -303,6 +281,11 @@
 
 		$('input[type=radio][name=calendarView]').change(function() {
 			calendarView = parseInt(this.value);
+			changeCalendar();
+		});
+
+		$('input[type=radio][name=eventRecurrence]').change(function() {
+			recurrenceMode = parseInt(this.value);
 			changeCalendar();
 		});
     </script>

@@ -1,5 +1,7 @@
 package net.etwig.webapp.services;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 import jakarta.persistence.EntityManager;
@@ -10,8 +12,11 @@ import jakarta.persistence.criteria.Root;
 import net.etwig.webapp.dto.graphics.BannerRequestDetailsDTO;
 import net.etwig.webapp.dto.graphics.*;
 import net.etwig.webapp.model.Asset;
+import net.etwig.webapp.model.Event;
 import net.etwig.webapp.model.UserRole;
 import net.etwig.webapp.repository.EventGraphicsRepository;
+import net.etwig.webapp.repository.EventRepository;
+import net.etwig.webapp.repository.UserRoleRepository;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,12 +42,17 @@ public class BannerRequestService {
 	@Autowired
 	private EntityManager entityManager;
 
-
 	@Autowired
 	private UserSessionService userSessionService;
 	
 	@Autowired
 	private AssetService assetService;
+
+	@Autowired
+	private EventRepository eventRepository;
+
+	@Autowired
+	private UserRoleRepository userRoleRepository;
 
 	/**
 	 * Retrieves a {@link BannerRequest} by its ID.
@@ -151,30 +161,41 @@ public class BannerRequestService {
 	}
 
 	/**
-	 * Make a new graphics request.
-	 * @param requestInfo
-	 * @throws Exception 
+	 * Creates a new banner request with the provided information.
+	 * <p>
+	 * This method constructs a new banner request, saves it to the database, and sends a notification email
+	 * about the request. The email includes details about the request, requester, and the event.
+	 * </p>
+	 *
+	 * @param eventId The ID of the event for which the banner request is made.
+	 * @param requesterRole The ID of the requester's role.
+	 * @param requestComment Comments related to the banner request.
+	 * @param expectDate The expected date for the banner to be completed.
+	 * @throws Exception if there is an error during the request creation or email sending process.
 	 */
 	
-	@SuppressWarnings("null")
-	public Long addRequest(Map<String, Object> requestInfo) throws Exception {
-		
-		// New request
-		NewRequestDTO newRequest = new NewRequestDTO();
-		newRequest.fromMap(requestInfo);
-		
-		// Get the information back
-		BannerRequest modifiedRequest = graphicsRequestRepository.save(newRequest.toEntity());
-		return modifiedRequest.getId();
-		
-		
-		//System.out.println(this.findById(requestId));
-		
-		// Send an email to graphics managers
-		//emailService.graphicsRequestNotification(new NewRequestEmailNotificationDTO(this.findById(requestId)));
+	public void addRequest (Long eventId, Long requesterRole, String requestComment, LocalDate expectDate) throws Exception {
+
+		// Make a new request with essential information
+		BannerRequest request = new BannerRequest();
+		request.setEventId(eventId);
+		request.setRequesterRoleId(requesterRole);
+		request.setRequestComment(requestComment);
+		request.setExpectDate(expectDate);
+		request.setRequestTime(LocalDateTime.now());
+
+		// Get the submitted request back with full information
+		BannerRequest submittedRequest = graphicsRequestRepository.save(request);
+		Event event = eventRepository.findById(eventId).orElse(null);
+		UserRole userRole = userRoleRepository.findById(requesterRole).orElse(null);
+
+		emailService.bannerRequestNotification(
+				submittedRequest.getId(),
+				(userRole == null) ? "Unknown user" : userRole.getUser().getFullName(),
+				(event == null) ? "Unknown event" : event.getName(),
+				submittedRequest.getRequestTime()
+		);
 	}
-	
-	//public void addRequest 
 
 	/**
 	 * Approves a graphics request and updates associated records.

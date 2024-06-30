@@ -1,69 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>New Graphics Request</title>
-    <style>
-        .text-theme-color{
-            color: #004AAD;
-        }
-        .table-background{
-            background-color: #004AAD;
-			color: white;
-			text-align: center;
-        }
-		.no-horizontal-border{
-			border: 0;
-		}
-        .bold-text{
-	        font-weight: bold;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
-    </style>
+    <title>New Banner Request</title>
 </head>
-<body>
-    <h2 class="bold-text text-theme-color">New Graphics Request</h2>
-    	
-	<table>
-			<tr class="table-background">
-				<th scope="col" colspan="2">Graphics Request Details</th>
-			</tr>
-	
-			<tr>
-				<th scope="row">Event Name</th>
-				<td><#--${requestInfo.eventName}--></td>
-			</tr>
-	
-			<tr>
-				<th scope="row">Expect Date</th>
-				<td>${requestInfo.expectDate}</td>
-			</tr>
-				
-			<tr>
-				<th scope="row">Additional Comments</th>
-				<td>${requestInfo.comments}</td>
-			</tr>
-	
-			<tr>
-				<th scope="row">Requester</th>
-				<td>${requestInfo.requesterName}</td>
-			</tr>
-	
-			<tr>
-				<th scope="row">Position and Portfolio</th>
-				<td style="background-color:#${requestInfo.requesterPortfolioColor}">
-					${requestInfo.requesterPosition}, ${requestInfo.requesterPortfolioName}
-				</td>
-			</tr>
-			
-	</table>
 
+<body>
+    <div style="background-color: #DFDFDF; width: 100%; padding: 20px 0;">
+        <table align="center" style="max-width: 640px; margin: 0 auto; width: 100%;">
+            <tr>
+                <td>
+                    <div style="background-color: #FFFFFF; padding: 10px; border-radius: 10px;">
+                        <h2 style="text-align: center; color: #004AAD; font-weight: bolder;">New Banner Request</h2>
+
+                        <#-- Information -->
+                        <p style="line-height: 1.5;">
+                            <b>${requester}</b> submitted a new banner request for event <b>${eventName}</b> on <b>${requestTime}</b>.
+                        </p>
+                        <#-- /Information -->
+
+                        <!-- Button -->
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td align="center" style="padding-top: 20px;">
+                                    <table border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                            <td align="center" style="background-color: #004AAD; border-radius: 6px;">
+                                                <a href="${appUrl}/graphics/approvalDetails.do?requestId=${requestId}" target="_blank" style="font-size: 16px; font-weight: bolder; font-family: sans-serif; color: #ffffff; text-decoration: none; padding: 12px 24px; display: block; border-radius: 6px;">
+                                                View Details
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <!-- /Button -->
+
+                    </div>
+                    <p style="line-height: 10px;">&nbsp;</p>
+                </td>
+            </tr>
+        </table>
+    </div>
 </body>
 </html>

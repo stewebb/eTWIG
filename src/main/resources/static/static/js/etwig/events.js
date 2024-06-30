@@ -8,8 +8,11 @@
  	*/
 
 /**
- * A hard limit of recurrent event count to avoid infinite loops when trying to get all occurrences. 
- * It's usually a big number.
+ * A hard limit on the number of recurrent event occurrences to avoid infinite loops.
+ * This limit is used to prevent excessive computations when generating all occurrences of a recurrent event.
+ * Typically set to a large number.
+ * 
+ * @constant {number}
  */
 
 COUNT_HARD_LIMIT = 1000;
@@ -86,34 +89,13 @@ function getEventInfo(datePickersMap){
 			return;
 		}
 
-		// Permission Check
-		var myPortfolioIds = [];
-		var myPortfolioNames = [];
-
-		/*
-		for (let key in myPositions) {
-			  myPortfolioIds.push(myPositions[key].portfolioId)
-			  myPortfolioNames.push(myPositions[key].portfolioName)
-		}
-		
-		// My portfolios should includes the event portfolio.
-		if (!myPortfolioIds.includes(eventInfo.portfolioId)){
-			$('#noPermissionCallout').html(`
-				<div class="callout callout-primary">
-					<h5 class="bold-text mb-3">No edit permission</h5>
-						This event was created by the user with <span class="bold-text" style="color:#000000">${eventInfo.portfolioName}</span> portfolio. <br />
-						However, your portfolios are [
-						<span class="bold-text" style="color:#000000}">${myPortfolioNames}</span>, ].
-				</div>
-			`)
-		}
-		*/
-
 		// Get eventId
+		$('#twigDeadline').hide();
 		$('#eventIdBlock').show();
 		$('#eventId').text(eventInfo.id);
 
 		// Set title.
+		//$('#currentAction').text('edit');
 		$('#eventPageTitle').text('Edit Event: ' + eventInfo.name);
 		$('#eventPageLink').text('Edit Event');
 		$('#eventPageLink').attr('href', '/events/edit.do?eventId=-' + eventInfo.id);
@@ -127,9 +109,7 @@ function getEventInfo(datePickersMap){
 
 		// Get organizer info and set it to read-only.
 		$('#eventOrganizer').text(eventInfo.organizerName);
-		//$("#eventRole").append(`<option value="${eventInfo.userRoleId}">${eventInfo.positionName}, ${eventInfo.portfolioName}</option>`);
 		$("#eventRole").html(`${eventInfo.positionName}, ${eventInfo.portfolioName}`);
-		
 		$("#eventRole").prop('disabled', true);
 
 		// Get created and updated time.
@@ -281,7 +261,22 @@ function getEventInfo(datePickersMap){
 				//
             ]
         });
-    //});
+
+		// Permission check
+		if($('#myPortfolioName').val() != eventInfo.portfolioName) {
+			$('#portfolioCheck').html(`
+				<b>You cannot edit this event</b> because it was organized by a user with
+				<span class="bold-text" style="color:#${eventInfo.portfolioColor};">${eventInfo.portfolioName}</span> portfolio.
+			`);
+		
+			// Disable some inputs if no permission
+			$('input').prop('disabled', true);
+			$('select').prop('disabled', true);
+			$('button').prop('disabled', true);
+
+			$('#selectRole').prop('disabled', false);
+			
+		}
 	}
 
 	// Set add options
@@ -293,13 +288,15 @@ function getEventInfo(datePickersMap){
 		setValidTo(true);
 		
 		// Set hidden fields.
+		$('#twigDeadline').show();
 		$('#eventIdBlock').hide();
 		$('#eventCreatedTimeBlock').hide();
 		$('#eventUpdatedTimeBlock').hide();
 		$('.event-hidden-tabs').hide();
-		$('#eventRequestNowBlock').show();
+		//$('#eventRequestNowBlock').show();
 	
 		// Set title.
+		//$('#currentAction').text('add');
 		$('#eventPageTitle').text('Add Event');
 		$('#eventPageLink').text('Add Event');
 		$('#eventPageLink').attr('href', '/events/add.do');
@@ -429,8 +426,11 @@ function getRRuleByInput(){
 }
 
 /**
- * Add an excluded date to the list.
- * @param {string} dateStr Date string in yyyy-mm-dd format.
+ * Adds an excluded date to the list of excluded dates.
+ * This function appends the provided date string to a select element with the ID 'eventExcludedDates',
+ * ensuring the date is only added if the string is non-empty.
+ *
+ * @param {string} dateStr - A date string in yyyy-mm-dd format.
  */
 
 function addExcludeDate(dateStr){
@@ -640,8 +640,7 @@ function addEvent(){
 	}
 	newEventObj["properties"]  = selectedProperties;
 	
-	
-	// Graphics request (only available when adding an event)
+	// Banner request (only available when adding an event)
 	if($("#eventRequestNow").is(':checked')){
 		var graphics = {};
 		
@@ -657,41 +656,31 @@ function addEvent(){
 		graphics["comments"] =  $("#requestComment").val();
 		newEventObj["graphics"] = graphics;
 	}
-
-	//console.log(newEventObj);
 	
-	var hasError = true;
 	$.ajax({
    		url: isEdit ? '/api/event/edit' : '/api/event/add', 
    		type: "POST",
    		async: false,
-   		dataType: "json",
    		contentType: "application/json; charset=utf-8",
    		data: JSON.stringify(newEventObj),
-   		success: function (result) {
-			if(result.error > 0){
-				dangerPopup("Failed to " + modeStr +" event.", result.msg);
-				hasError = true;
-			}else{
-				var modeStrPP = (modeStr == "copy") ? "copied" : (modeStr + "ed");
-				successPopup("Event " + modeStrPP + " successfully.");
-				hasError = false;
-			}	
+   		success: function () {
+			successPopup("Event " + modeStr + "ed successfully.");
+			setTimeout(function() { isEdit ? window.location.reload() : $(location).attr('href','/events/calendar.do'); }, 2500);
     	},
     	error: function (err) {
     		dangerPopup("Failed to " + modeStr +"  event due to a HTTP " + err.status + " error.", err.responseJSON.exception);
-    		hasError = true;
     	}
  	});
-
-	if(!hasError){
-		setTimeout(function() { isEdit ? window.location.reload() : $(location).attr('href','/events/calendar.do'); }, 2500);
-	}
 }
 
 /**
- * Create a WYSIWYG editor by using summernote.
- * @param boxElem The HTML element for this editor.
+ * Initializes a WYSIWYG editor using Summernote on the specified HTML element.
+ * 
+ * This function configures the Summernote editor with a placeholder for 
+ * event descriptions, a tab size of 4, and fixed dimensions of 300px height.
+ * It also sets up a toolbar with various formatting options.
+ *
+ * @param {HTMLElement} boxElem - The HTML element where the Summernote editor will be initialized.
  */
 
 function initDescriptionBox(boxElem){
@@ -761,6 +750,7 @@ function createDatePickers() {
 	datePickersMap.get('eventValidFromDate').on('change', () => {
     	getRRuleByInput();
 	});
+
 	datePickersMap.get('eventValidToDate').on('change', () => {
     	getRRuleByInput();
 	});
@@ -770,9 +760,11 @@ function createDatePickers() {
 
 /**
  * Get the ordinal indicator for a number.
- * e.g., 1st, 2nd, 3rd, 4th...
- * @param {int} n A number
- * @returns Number with the ordinal indicator.
+ * This function returns the number with its corresponding ordinal indicator
+ * (e.g., 1st, 2nd, 3rd, 4th, ...).
+ *
+ * @param {number} n - The number for which to get the ordinal indicator.
+ * @returns {string} The number followed by its ordinal indicator.
  */
 
 function getOrdinalIndicator(n) {

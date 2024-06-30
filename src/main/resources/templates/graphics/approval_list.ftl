@@ -95,7 +95,7 @@
 	<#include "../_includes/header/body_end.ftl">
 	
 	<#-- JS for Banner Request Approval -->
-	<script type="text/javascript" src="/static/js/etwig/graphics-approval.js?ver=${app.appVersion}"></script>
+	<script type="text/javascript" src="/static/js/etwig/banner-approval.js?ver=${app.appVersion}"></script>
 	
 	<script>
 		bannerRequestListTable();

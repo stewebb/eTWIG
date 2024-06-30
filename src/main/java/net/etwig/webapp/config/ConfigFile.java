@@ -24,12 +24,13 @@ import lombok.Data;
 
 @Data
 @Configuration
-public class ConfigFile implements WebMvcConfigurer{
+public class ConfigFile implements WebMvcConfigurer {
 
 	/**
 	 * The application name as specified in the configuration properties.
 	 * This value is typically used in UI elements or logging.
 	 */
+
 	@Value("${etwig.app.name}")
 	private String appName;
 
@@ -37,6 +38,7 @@ public class ConfigFile implements WebMvcConfigurer{
 	 * The owner of the application. This could be an individual's name, a company name, or
 	 * any other type of administrative ownership designation.
 	 */
+
 	@Value("${etwig.app.owner}")
 	private String appOwner;
 
@@ -44,6 +46,7 @@ public class ConfigFile implements WebMvcConfigurer{
 	 * The root location where media assets are stored. This path is used to configure
 	 * where the application should look for its media files, such as images, videos, etc.
 	 */
+
 	@Value("${etwig.media.root-location}")
 	private String rootLocation;
 
@@ -51,6 +54,7 @@ public class ConfigFile implements WebMvcConfigurer{
 	 * A security key used for cookie operations. Altering this value will invalidate
 	 * all existing cookies, which might be a necessary action to enforce new security measures.
 	 */
+
 	@Value("${etwig.security.cookie-key}")
 	private String cookieKey;
 
@@ -58,6 +62,7 @@ public class ConfigFile implements WebMvcConfigurer{
 	 * The display name used in outgoing mails sent by the application.
 	 * This could appear as the sender's name in email clients.
 	 */
+
 	@Value("${etwig.mail.display-name}")
 	private String displayName;
 
@@ -65,6 +70,10 @@ public class ConfigFile implements WebMvcConfigurer{
 	 * The URL where the application is hosted. This might be used internally for
 	 * generating absolute URLs for emails, link generation, and redirects within the application.
 	 */
+
 	@Value("${etwig.app.url}")
 	private String appURL;
+
+	@Value("${etwig.security.trusted-referrer}")
+	private String trustedReferrer;
 }

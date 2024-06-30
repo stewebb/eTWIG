@@ -14,24 +14,28 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import jakarta.persistence.criteria.Predicate;
+import net.etwig.webapp.dto.user.CurrentUserDTOWrapper;
+import net.etwig.webapp.dto.user.CurrentUserPermissionDTO;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import jakarta.servlet.http.HttpSession;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import net.etwig.webapp.config.ConfigFile;
-import net.etwig.webapp.dto.AssetBasicInfoDTO;
+import net.etwig.webapp.dto.AssetAPIDTO;
 import net.etwig.webapp.dto.user.CurrentUserBasicInfoDTO;
 import net.etwig.webapp.model.Asset;
 import net.etwig.webapp.repository.AssetRepository;
@@ -44,13 +48,22 @@ public class AssetService {
 	@Autowired
 	private AssetRepository assetRepository;
 	
+	//@Autowired
+	//private HttpSession session;
+
 	@Autowired
-	private HttpSession session;
+	private UserSessionService userSessionService;
 	
 	@Autowired
     public AssetService(ConfigFile config) {
         this.rootLocation = Paths.get(config.getRootLocation());
     }
+
+	//@Autowired
+	//public AssetService(ConfigFile config, HttpSession session) {
+	//	this.rootLocation = Paths.get(config.getRootLocation());
+	//	//this.session = session;
+	//}
 
 	/**
 	 * Retrieves the details of an asset by its ID.
@@ -82,23 +95,87 @@ public class AssetService {
 	public Resource getAssetContent(Asset asset) throws Exception {
 		return (asset == null) ? null : new UrlResource(rootLocation.resolve(asset.getStoredName()).toUri());
 	}
-	
+
 	/**
-	 * Get the list of assets with pages.
-	 * @param page
-	 * @param size
-	 * @return
+	 * Retrieves a paginated list of assets filtered by the upload user ID and a search value. This method first validates
+	 * the current user's session and checks their permissions. Each asset in the list includes information about whether
+	 * the current user has permission to delete the asset. Users with admin or graphics manager roles, or users who are
+	 * the original uploader of the asset, are granted deletion rights.
+	 *
+	 * @param uploadUserId The user ID of the asset uploader to filter the assets by. If this is null, assets are not
+	 *                        filtered by uploader.
+	 * @param searchValue The search criterion used to further filter the asset results. If null or empty, the search
+	 *                        criterion is ignored.
+	 * @param pageable The pagination information and sorting criteria.
+	 * @return A {@code Page<AssetAPIDTO>} containing the assets that match the criteria and pagination settings.
+	 *         Each {@code AssetAPIDTO} includes asset details and a deletion permission flag specific to the current
+	 *         user's roles and relation to the asset.
+	 * @throws SecurityException If the user's session is invalid or expired.
 	 */
-	
-	public Page<AssetBasicInfoDTO> getAssetList(int page, int size) {
-			Pageable pageable = PageRequest.of(page, size);
-			return assetRepository.findAllBasicInfo(pageable);
+
+	public Page<AssetAPIDTO> findAssetsByCriteria(Long uploadUserId, String searchValue, Pageable pageable) {
+
+		// Get current user info
+		CurrentUserDTOWrapper wrapper = userSessionService.validateSession();
+		CurrentUserPermissionDTO permission = wrapper.getPermission();
+		CurrentUserBasicInfoDTO basicInfo = wrapper.getBasicInfo();
+
+		// The user can delete any asset if the user is an admin or a graphics manager.
+		boolean globalDeletePermission = permission.isAdminAccess() || permission.isGraphicsAccess();
+
+		// Get asset list
+		Specification<Asset> spec = assetsCriteria(uploadUserId, searchValue);
+		Page<Asset> assets = assetRepository.findAll(spec, pageable);
+		List<AssetAPIDTO> dtos = new ArrayList<>();
+
+		// Perform permission check on each asset
+		for (Asset asset : assets) {
+			AssetAPIDTO assetAPIDTO = new AssetAPIDTO(asset);
+
+			// User can also delete asset if the user is the uploader of it.
+			assetAPIDTO.setCanDelete(globalDeletePermission || basicInfo.getId().equals(asset.getUploaderId()));
+			dtos.add(assetAPIDTO);
+		}
+
+		return new PageImpl<>(dtos, pageable, assets.getTotalElements());
 	}
-	
+
 	/**
-	 * Upload the file to the server and add the related information to database.
-	 * @param file
-	 * @throws IOException
+	 * Constructs a specification for querying assets based on the uploader's user ID and a search criterion. This method creates a criteria query that can
+	 * be used to filter assets by the uploader ID and asset name if provided. If the `uploadUserId` is null, the specification will not apply any
+	 * uploader-specific filters, potentially returning all assets. If `searchValue` is provided, it filters assets whose names contain the specified search string.
+	 *
+	 * @param uploadUserId The ID of the user who uploaded the assets. If specified, the query filters to include only assets uploaded by this user.
+	 * @param searchValue The search criterion used to filter the assets by name. Only assets with names that contain the provided search string will be included.
+	 *                    If this parameter is null or empty, it is ignored in the filtering process.
+	 * @return A {@code Specification<Asset>} that can be used with JPA to generate a database query for assets, based on the provided criteria.
+	 */
+
+	public Specification<Asset> assetsCriteria(Long uploadUserId, String searchValue) {
+		return (root, query, criteriaBuilder) -> {
+			Predicate finalPredicate = criteriaBuilder.conjunction();
+
+			// Add condition for uploadUserId if it is not null
+			if (uploadUserId != null) {
+				finalPredicate = criteriaBuilder.and(finalPredicate, criteriaBuilder.equal(root.get("uploaderId"), uploadUserId));
+			}
+
+			// Add condition for searchValue if it is not empty or null
+			if (searchValue != null && !searchValue.isEmpty()) {
+				Predicate searchPredicate = criteriaBuilder.like(criteriaBuilder.lower(root.get("originalName")), "%" + searchValue.toLowerCase() + "%");
+				finalPredicate = criteriaBuilder.and(finalPredicate, searchPredicate);
+			}
+			return finalPredicate;
+		};
+	}
+
+	/**
+	 * Uploads a file to the server and adds related information to the database. This method extracts the original filename, generates a unique stored filename
+	 * using a UUID, and sets various attributes such as file size and upload time. It also associates the uploaded file with the user from the current session.
+	 * The file is then saved to the server's file system and the asset information is persisted to the database.
+	 *
+	 * @param file The multipart file uploaded by the user. Must not be null.
+	 * @throws IOException if an I/O error occurs during file processing or while copying the file to the server's file system.
 	 */
 	
 	public void uploadFile(MultipartFile file) throws IOException {
@@ -110,7 +187,7 @@ public class AssetService {
 		
 		// Rename the file as <UUID>.<EXTENSION>
         String extension = FilenameUtils.getExtension(fileName);
-        String storedFileName = UUID.randomUUID().toString() + "." + extension;
+        String storedFileName = UUID.randomUUID() + "." + extension;
        	newAsset.setStoredName(storedFileName);
        
        	// Other file attributes.
@@ -118,8 +195,7 @@ public class AssetService {
        	newAsset.setUploadedTime(LocalDateTime.now());
        
        	// The related user info
-       	CurrentUserBasicInfoDTO user = (CurrentUserBasicInfoDTO) session.getAttribute("user");
-       	newAsset.setUploaderId(user.getId());
+       	newAsset.setUploaderId(userSessionService.validateSession().getBasicInfo().getId());
        
        	// Copy file to the file system before insert the data.
        	File destFile = new File(this.rootLocation + File.separator + storedFileName);
