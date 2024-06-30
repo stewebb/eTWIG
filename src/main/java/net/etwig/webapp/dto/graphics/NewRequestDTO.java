@@ -24,7 +24,7 @@ public class NewRequestDTO {
 		this.expectDateStr = requestInfo.get("returningDate").toString();
 	}
 	
-	public void fromParam(Long eventId, Long requesterRole, String requestComment,  String expectDateStr) {
+	public void fromParam(Long eventId, Long requesterRole, String requestComment, String expectDateStr) {
 		this.eventId = eventId;
 		this.requesterRole = requesterRole;
 		this.requestComment = requestComment;

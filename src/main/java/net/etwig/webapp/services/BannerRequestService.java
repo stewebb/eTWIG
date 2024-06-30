@@ -1,5 +1,7 @@
 package net.etwig.webapp.services;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 import jakarta.persistence.EntityManager;
@@ -12,6 +14,7 @@ import net.etwig.webapp.dto.graphics.*;
 import net.etwig.webapp.model.Asset;
 import net.etwig.webapp.model.UserRole;
 import net.etwig.webapp.repository.EventGraphicsRepository;
+import net.etwig.webapp.util.DateUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -157,15 +160,24 @@ public class BannerRequestService {
 	 */
 	
 	@SuppressWarnings("null")
-	public Long addRequest(Map<String, Object> requestInfo) throws Exception {
-		
+	public void addRequest (Long eventId, Long requesterRole, String requestComment, LocalDate expectDate) {
+
+		BannerRequest request = new BannerRequest();
+		request.setEventId(eventId);
+		request.setRequesterRoleId(requesterRole);
+		request.setRequestComment(requestComment);
+		request.setExpectDate(expectDate);
+		request.setRequestTime(LocalDateTime.now());
+
+		BannerRequest submittedRequest = graphicsRequestRepository.save(request);
+
 		// New request
-		NewRequestDTO newRequest = new NewRequestDTO();
-		newRequest.fromMap(requestInfo);
+		//NewRequestDTO newRequest = new NewRequestDTO();
+		//newRequest.fromMap(requestInfo);
 		
 		// Get the information back
-		BannerRequest modifiedRequest = graphicsRequestRepository.save(newRequest.toEntity());
-		return modifiedRequest.getId();
+		//BannerRequest modifiedRequest = graphicsRequestRepository.save(newRequest.toEntity());
+		//return modifiedRequest.getId();
 		
 		
 		//System.out.println(this.findById(requestId));

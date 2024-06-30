@@ -24,6 +24,7 @@ import net.etwig.webapp.model.*;
 import net.etwig.webapp.repository.EventOptionRepository;
 import net.etwig.webapp.repository.EventRepository;
 import net.etwig.webapp.repository.GraphicsRequestRepository;
+import net.etwig.webapp.util.DateUtils;
 import net.etwig.webapp.util.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -52,6 +53,9 @@ public class EventService {
 	
 	@Autowired
 	private GraphicsRequestRepository graphicsRequestRepository;
+
+	@Autowired
+	private BannerRequestService bannerRequestService;
 	
 	@Autowired
 	private UserSessionService userSessionService;
@@ -162,14 +166,21 @@ public class EventService {
 		
 		// Optional graphics requests
 		Map<String, Object> graphics = (Map<String, Object>) eventInfo.get("graphics");
-		if(graphics == null) {
-			return;
+		if(graphics != null) {
+			bannerRequestService.addRequest(
+					eventId,
+					addedEvent.getUserRoleId(),
+					graphics.get("comments").toString(),
+					DateUtils.safeParseDate(graphics.get("returningDate").toString(), "yyyy-MM-dd")
+			);
 		}
+
+		//DateUtils.safeParseDate(this.expectDateStr, "yyyy-MM-dd")
 		
 		// Make a request
-		NewRequestDTO newRequest = new NewRequestDTO();
-		newRequest.fromParam(eventId, addedEvent.getUserRoleId(), graphics.get("comments").toString(), graphics.get("returningDate").toString());
-		BannerRequest modifiedRequest = graphicsRequestRepository.save(newRequest.toEntity());
+		//NewRequestDTO newRequest = new NewRequestDTO();
+		//newRequest.fromParam(eventId, addedEvent.getUserRoleId(), graphics.get("comments").toString(), graphics.get("returningDate").toString());
+		//BannerRequest modifiedRequest = graphicsRequestRepository.save(newRequest.toEntity());
 		//Long requestId = modifiedRequest.getId();
 		
 		// Send an email to graphics managers
