@@ -39,7 +39,6 @@ public class EventGraphicsAPIController {
      * </p>
      *
      * @param newGraphicsInfo A {@link Map} representing the new graphics data to be added, keyed by property names including 'eventId'.
-     * @return
      * @throws InvalidParameterException if the eventId is either invalid or if no event corresponds to the provided ID.
      * @location /api/eventGraphics/add
      * @permission This endpoint requires users to have graphics management permissions.
@@ -47,7 +46,7 @@ public class EventGraphicsAPIController {
 
     @PreAuthorize("hasAuthority('ROLE_GRAPHICS')")
     @PostMapping("/add")
-    public ResponseEntity<String> add(@RequestBody Map<String, Object> newGraphicsInfo) {
+    public void add(@RequestBody Map<String, Object> newGraphicsInfo) {
 
         // Get current request
         Long eventId = NumberUtils.safeCreateLong(newGraphicsInfo.get("eventId").toString());
@@ -64,7 +63,6 @@ public class EventGraphicsAPIController {
         }
 
         eventGraphicsService.addGraphics(newGraphicsInfo);
-        return ResponseEntity.ok("Success");
     }
 
     /**

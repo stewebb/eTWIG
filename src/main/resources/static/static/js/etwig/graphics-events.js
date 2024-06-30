@@ -95,27 +95,20 @@ function addGraphics(){
 	}
 	newGraphicsObj["asset"] = assetId;
 
-	//var hasError = true;
 	$.ajax({
    		url: '/api/eventGraphics/add', 
    		type: "POST",
    		async: false,
-   		dataType: "json",
+   		//dataType: "json",
    		contentType: "application/json; charset=utf-8",
    		data: JSON.stringify(newGraphicsObj),
    		success: function () {
-			//if(result.error > 0){
-			//	dangerPopup("Failed to add graphics.", result.msg);
-				//hasError = true;
-			//}else{
-				successPopup("Graphics added successfully.");
-				setTimeout(function() {	location.reload(); }, 2500);
-			//}	
+			successPopup("Graphics added successfully.");
+			setTimeout(function() {	location.reload(); }, 2500);
     	},
     	error: function (err) {
 			console.log(err);
     		dangerPopup("Failed to add graphics due to a HTTP " + err.status + " error.", err.responseJSON.exception);
-    		//hasError = true;
     	}
  	});
 }

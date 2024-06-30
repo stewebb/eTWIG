@@ -9,6 +9,7 @@ import net.etwig.webapp.services.EventGraphicsService;
 import net.etwig.webapp.services.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.lang.NonNull;
@@ -67,11 +68,14 @@ public class GraphicsPageController {
 		}
 
 		// Disable pagination for results, but sort them by uploadedTime descending.
-		Pageable pageable = Pageable.unpaged(Sort.by(Sort.Direction.DESC, "id"));
+		//Pageable pageable = Pageable.unpaged(Sort.by(Sort.Direction.DESC, "id"));
+		Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE, Sort.by(Sort.Direction.DESC, "id"));
 
 		// Get graphics info
 		Page<EventGraphicsAPIForDetailsPageDTO> banners = eventGraphicsService.findByCriteriaForDetails(eventId, true, pageable);
 		Page<EventGraphicsAPIForDetailsPageDTO> twigComponents = eventGraphicsService.findByCriteriaForDetails(eventId, false, pageable);
+
+		//System.out.println(banners.getContent());
 
 		model.addAttribute("eventInfo", event);
 		model.addAttribute("eventBanners", banners.getContent());
