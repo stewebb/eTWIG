@@ -154,7 +154,7 @@ public class BannerRequestService {
 	}
 
 	/**
-	 * Make a new graphics request.
+	 * Make a new banner request.
 	 * @param requestInfo
 	 * @throws Exception 
 	 */
@@ -162,6 +162,7 @@ public class BannerRequestService {
 	@SuppressWarnings("null")
 	public void addRequest (Long eventId, Long requesterRole, String requestComment, LocalDate expectDate) {
 
+		// Make a new request with essential information
 		BannerRequest request = new BannerRequest();
 		request.setEventId(eventId);
 		request.setRequesterRoleId(requesterRole);
@@ -169,6 +170,7 @@ public class BannerRequestService {
 		request.setExpectDate(expectDate);
 		request.setRequestTime(LocalDateTime.now());
 
+		// Get the submitted request back with full information
 		BannerRequest submittedRequest = graphicsRequestRepository.save(request);
 
 		// New request

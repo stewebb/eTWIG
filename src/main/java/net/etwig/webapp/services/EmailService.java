@@ -4,6 +4,9 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import jakarta.mail.internet.MimeMessage;
 import net.etwig.webapp.config.ConfigFile;
+import net.etwig.webapp.dto.PositionDTO;
+import net.etwig.webapp.model.UserRole;
+import net.etwig.webapp.repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -17,6 +20,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 public class EmailService {
@@ -29,6 +33,9 @@ public class EmailService {
 
     @Autowired
     private Configuration freemarkerConfig;
+
+	@Autowired
+	private UserRoleRepository userRoleRepository;
 
 	/**
 	 * Sends an email to multiple recipients with optional attachments.
@@ -70,11 +77,11 @@ public class EmailService {
 	}
 
 
-	/*
-	public boolean graphicsRequestNotification(NewRequestEmailNotificationDTO requestInfo) throws Exception {
+
+	public boolean graphicsRequestNotification(String requester, String eventName) throws Exception {
     	
     	// Get all graphics managers
-    	Set<PositionDTO> graphicsManagers = userRoleRepository.getGraphicsManagers();
+    	Set<UserRole> graphicsManagers = userRoleRepository.getGraphicsManagers();
     	if(graphicsManagers.isEmpty()) {
     		return false;    	
     	}
@@ -89,11 +96,12 @@ public class EmailService {
 		//System.out.print(event);
 		
 		// Generate email subject.
-		StringBuilder subject = new StringBuilder();
-		subject.append(requestInfo.getRequesterPosition() + " ");
-		subject.append(requestInfo.getRequesterName());
-		subject.append(" made a graphics request for the event ");
-		//subject.append(requestInfo.getEventName());
+		//StringBuilder subject = new StringBuilder();
+		//subject.append(requester).append(" ");
+		//subject.append(" made a graphics request for the event ");
+		//subject.append(eventName);
+
+		String
 		
 		// Generate email content
 		Template t = freemarkerConfig.getTemplate("_emails/graphic_request.ftl");
@@ -111,7 +119,7 @@ public class EmailService {
     	//System.out.println(graphicsManagers);
 		return true;
     }
-	 */
+
 
 	/**
 	 * Sends an email notification about the approval status of a banner request for a specific event.

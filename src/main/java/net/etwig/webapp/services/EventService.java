@@ -13,7 +13,6 @@ import jakarta.persistence.criteria.Predicate;
 import net.etwig.webapp.dto.events.AddEditEventDTO;
 import net.etwig.webapp.dto.events.EventDetailsDTO;
 import net.etwig.webapp.dto.events.EventImportDTO;
-import net.etwig.webapp.dto.graphics.NewRequestDTO;
 import net.etwig.webapp.dto.user.CurrentUserDTOWrapper;
 import net.etwig.webapp.dto.user.CurrentUserPermissionDTO;
 import net.etwig.webapp.dto.user.CurrentUserPositionDTO;
@@ -139,32 +138,34 @@ public class EventService {
 		};
 	}
 
-
 	/**
-	 * Edit an event to the database
-	 * @param eventInfo The event details.
-	 * @throws Exception 
+	 * Adds or edits an event in the database.
+	 * <p>
+	 * This method handles both adding a new event and editing an existing event. It validates the user session,
+	 * creates a new event or updates an existing one with the provided details, associates the selected options
+	 * with the event, and optionally makes a banner request for the event.
+	 * </p>
+	 *
+	 * @param eventInfo A {@link Map} containing the event details.
+	 * @param currentEvent An {@link EventDetailsDTO} representing the current event details, if any.
 	 */
-	
-	@SuppressWarnings("null")
+
+	@SuppressWarnings("unchecked")
 	public void editEvent(Map<String, Object> eventInfo, EventDetailsDTO currentEvent){
 
+		// Add a new event to DB
 		Long myPosition = userSessionService.validateSession().getPosition().getMyCurrentPositionId();
-
-		// Add event
 		AddEditEventDTO newEventDTO = new AddEditEventDTO(eventInfo, currentEvent, myPosition);
-		//System.out.println(newEventDTO);
 		Event addedEvent = eventRepository.save(newEventDTO.toEntity());
 		
-		// Add options
+		// Add the selected options that associated with this new event.
 		Long eventId = addedEvent.getId();
-
-		//String selectedOprions = eventInfo.get("properties").toString();
-		//System.out.println(selectedOprions.length());
-		ArrayList<Long> optionList = ListUtils.stringArrayToLongArray(ListUtils.stringToArrayList(eventInfo.get("properties").toString()));
+		ArrayList<Long> optionList = ListUtils.stringArrayToLongArray(
+				ListUtils.stringToArrayList(eventInfo.get("properties").toString())
+		);
 		updateEventOptionBulky(eventId, optionList);
 		
-		// Optional graphics requests
+		// Make a banner request for this event (optional)
 		Map<String, Object> graphics = (Map<String, Object>) eventInfo.get("graphics");
 		if(graphics != null) {
 			bannerRequestService.addRequest(
@@ -174,19 +175,7 @@ public class EventService {
 					DateUtils.safeParseDate(graphics.get("returningDate").toString(), "yyyy-MM-dd")
 			);
 		}
-
-		//DateUtils.safeParseDate(this.expectDateStr, "yyyy-MM-dd")
-		
-		// Make a request
-		//NewRequestDTO newRequest = new NewRequestDTO();
-		//newRequest.fromParam(eventId, addedEvent.getUserRoleId(), graphics.get("comments").toString(), graphics.get("returningDate").toString());
-		//BannerRequest modifiedRequest = graphicsRequestRepository.save(newRequest.toEntity());
-		//Long requestId = modifiedRequest.getId();
-		
-		// Send an email to graphics managers
-		//emailService.graphicsRequestNotification(new NewRequestEmailNotificationDTO(graphicsRequestService.findById(requestId)));
 	}
-
 
 	/**
 	 * Updates the event options in bulk by first removing all existing options and then adding the new options.
