@@ -9,18 +9,24 @@
 
 package net.etwig.webapp.controller.page;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import net.etwig.webapp.config.ConfigFile;
+import net.etwig.webapp.dto.LoginToken;
 import net.etwig.webapp.handler.LoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.IOException;
 import java.util.Base64;
 
 @Controller
@@ -115,12 +121,35 @@ public class UserPageController {
 		// Only allow a specific referrer
 		String referrer = request.getHeader("Referer");
 		if (referrer != null && referrer.startsWith(config.getTrustedReferrer())) {
-			return ResponseEntity.ok().body("Body");
+
+			// Attempt to decode encoded String
+			byte[] decodedBytes = Base64.getDecoder().decode(token);
+			String decodedStr = new String(decodedBytes);
+
+			try {
+				ObjectMapper objectMapper = new ObjectMapper();
+				LoginToken loginToken = objectMapper.readValue(decodedStr, LoginToken.class);
+				System.out.println(loginToken);
+
+				Authentication authenticationToken = new UsernamePasswordAuthenticationToken(
+						loginToken.getUserEmail(), null
+				);
+
+				Authentication authentication = authenticationManager.authenticate(authenticationToken);
+				successHandler.onAuthenticationSuccess(request, response, authentication);
+
+			} catch (JsonProcessingException | IllegalStateException e) {
+				System.err.println("Login Failed: Token is invalid or expired.");
+			} catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            return ResponseEntity.ok().body("Body");
 		}
 
 		// Otherwise, return 403 Forbidden.
 		else {
-			return ResponseEntity.status(403).body("Access Denied: The referrer is not allowed.");
+			return ResponseEntity.status(401).body("Login Failed: The referrer is not allowed.");
 		}
 
 		//System.out.println(referrer);
@@ -129,8 +158,7 @@ public class UserPageController {
 		//}
 		//return "securedData";
 
-		//byte[] decodedBytes = Base64.getDecoder().decode(token);
-		//System.out.println(new String(decodedBytes));
+
 		/*
 		try {
 			// Create an authentication token

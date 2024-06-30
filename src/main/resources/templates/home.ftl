@@ -28,7 +28,7 @@
 
 		<#-- Content Wrapper. -->
 		<div class="content-wrapper">
-			<a href="/user/tokenLogin.do?token=a">aaa</a>
+			<a href="/user/tokenLogin.do?token=ewogICAgImNvbnRyb2xJRCI6ICJlU3ZrdDlBNSIsCiAgICAidGltZXN0YW1wIjogMTcxOTc4Mzg3MSwKICAgICJ1c2VyRW1haWwiOiAidTc1NDQ5OThAYW51LmVkdS5hdSIsCiAgICAidXNlck5hbWUiOiAiU3RldmVuIFdlYmIiCn0=">aaa</a>
 		</div>
 		<#-- /Content Wrapper. -->
 		

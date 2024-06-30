@@ -27,7 +27,7 @@ import net.etwig.webapp.repository.UserRepository;
 import net.etwig.webapp.repository.UserRoleRepository;
 
 @Service
-public class UserRoleService implements UserDetailsService{
+public class UserRoleService implements UserDetailsService {
 	
     @Autowired
     private UserRoleRepository userRoleRepository;
@@ -62,22 +62,57 @@ public class UserRoleService implements UserDetailsService{
         CurrentUserBasicInfoDTO currentUser = userSessionService.validateSession().getBasicInfo();
     	return userRepository.findById(currentUser.getId()).orElse(null);
     }
-    
+
+    /**
+     * Loads the user details by email.
+     * <p>
+     * This method searches for a user with the specified email address, retrieves their roles,
+     * and returns a {@link CustomUserDetails} object containing the user's information and roles.
+     * </p>
+     *
+     * @param email the email address of the user to load.
+     * @return a {@link UserDetails} object containing the user's information and roles.
+     * @throws UsernameNotFoundException if no user is found with the specified email address.
+     */
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        System.out.println("hello world");
-        
     	// Find user details
     	User user = userRepository.findByEmail(email);
         if(user == null) {
-        	throw new UsernameNotFoundException("User not found");
+        	throw new UsernameNotFoundException("User not found with email: " + email);
         }
 
+        // Set role
         Set<UserRole> userRoles = userRoleRepository.findByUserId(user.getId());
         return new CustomUserDetails(user, userRoles);
     }
-    
+
+    /**
+     * Loads the user details by username and email.
+     * <p>
+     * This method searches for a user with the specified username and email address, retrieves their roles,
+     * and returns a {@link CustomUserDetails} object containing the user's information and roles.
+     * </p>
+     *
+     * @param username the username of the user to load.
+     * @param email the email address of the user to load.
+     * @return a {@link UserDetails} object containing the user's information and roles.
+     * @throws UsernameNotFoundException if no user is found with the specified username and email address.
+     */
+
+    public UserDetails loadUserByUsernameAndEmail(String username, String email) throws UsernameNotFoundException {
+        User user = userRepository.findByUsernameAndEmail(username, email);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found with username: " + username + " and email: " + email);
+        }
+
+        // Set role
+        Set<UserRole> userRoles = userRoleRepository.findByUserId(user.getId());
+        return new CustomUserDetails(user, userRoles);
+    }
+
     public void changePassword(User user, String newPassword) {
         String encodedPassword = (new BCryptPasswordEncoder()).encode(newPassword);
         user.setPassword(encodedPassword);
