@@ -112,12 +112,17 @@ function getEventInfo(datePickersMap){
 		}
 		*/
 
+		//console.log(eventInfo);
+		//console.log($('#myPortfolioName').val());
+
+		
 		// Get eventId
 		$('#twigDeadline').hide();
 		$('#eventIdBlock').show();
 		$('#eventId').text(eventInfo.id);
 
 		// Set title.
+		$('#currentAction').text('edit');
 		$('#eventPageTitle').text('Edit Event: ' + eventInfo.name);
 		$('#eventPageLink').text('Edit Event');
 		$('#eventPageLink').attr('href', '/events/edit.do?eventId=-' + eventInfo.id);
@@ -133,7 +138,6 @@ function getEventInfo(datePickersMap){
 		$('#eventOrganizer').text(eventInfo.organizerName);
 		//$("#eventRole").append(`<option value="${eventInfo.userRoleId}">${eventInfo.positionName}, ${eventInfo.portfolioName}</option>`);
 		$("#eventRole").html(`${eventInfo.positionName}, ${eventInfo.portfolioName}`);
-		
 		$("#eventRole").prop('disabled', true);
 
 		// Get created and updated time.
@@ -302,9 +306,10 @@ function getEventInfo(datePickersMap){
 		$('#eventCreatedTimeBlock').hide();
 		$('#eventUpdatedTimeBlock').hide();
 		$('.event-hidden-tabs').hide();
-		$('#eventRequestNowBlock').show();
+		//$('#eventRequestNowBlock').show();
 	
 		// Set title.
+		$('#currentAction').text('add');
 		$('#eventPageTitle').text('Add Event');
 		$('#eventPageLink').text('Add Event');
 		$('#eventPageLink').attr('href', '/events/add.do');

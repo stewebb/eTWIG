@@ -9,6 +9,26 @@
    
 <#assign navbar = "CALENDAR">
 
+<#-- 
+  This function returns the appropriate indefinite article ("a" or "an") 
+  based on the provided noun.
+
+  Parameters:
+  noun - The noun for which the article is to be determined.
+
+  Returns:
+  "an" if the noun starts with a vowel sound (a, e, i, o, u), 
+  otherwise "a".
+-->
+
+<#function article noun>
+  <#if noun?lower_case?matches("^[aeiou].*")>
+    <#return "an">
+  <#else>
+    <#return "a">
+  </#if>
+</#function>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -69,17 +89,24 @@
 										<i class="fa-solid fa-map-pin"></i>&nbsp;Basic
 									</h5>
 
-									<#-- Reminder -->
-									<div class="callout callout-primary mb-3" id="twigDeadline" style="display:none;">
-										<h5 class="bold-text mb-3">TWIG Deadline Reminder</h5>
-										It is suggested that the event be added before 
-										<b>last Friday of the start time</b>, giving Social Media Rep
-										adequate time to make TWIGs. 
+									<#-- Position -->
+									<div class="callout callout-primary mb-3" id="positionCallout" style="border-left-color:#${myCurrentPosition.portfolioColor};">
+										<h5 class="bold-text mb-3">
+											You will <span id="currentAction"></span> event as ${article(myCurrentPosition.position)}
+											<span style="color:#${myCurrentPosition.portfolioColor};">${myCurrentPosition.position}</span>.
+										</h5>
+
+										You have been assigned <b>${myPositionCount}</b> position<#if myPositionCount gt 1>s</#if>, and you can 
+										switch positions by clicking the <b><i class="fa-solid fa-user"></i>&nbsp;User</b> icon on the NavBar.
+									
+										<p id="portfolioCheck"></p>
 									</div>
-									<#-- /Reminder -->
+									<#-- /Position -->
 
 									<div class="mb-2" id="noPermissionCallout"></div>
+
 									<input type="hidden" id="isEdit" value="0" />
+									<input type="hidden" id="myPortfolioName" value="${myCurrentPosition.portfolioName}" />
 
 									<#-- EventId -->
 									<div class="form-group row" id="eventIdBlock" style="display:none">
@@ -812,6 +839,16 @@
 										<#-- /Comment -->
 
 									</div>
+
+									<#-- Reminder -->
+									<div class="callout callout-primary mt-3" id="twigDeadline" style="display:none;">
+										<h5 class="bold-text mb-3">TWIG Deadline Reminder</h5>
+										It is suggested that the event be added before 
+										<b>last Friday of the start time</b>, giving Social Media Rep
+										adequate time to make TWIGs. 
+									</div>
+									<#-- /Reminder -->
+
 								</div>
 								<#-- /Col 2: Banner Request -->
 

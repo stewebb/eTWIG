@@ -9,6 +9,8 @@
 
 package net.etwig.webapp.controller.page;
 
+import net.etwig.webapp.dto.user.CurrentUserDTOWrapper;
+import net.etwig.webapp.dto.user.CurrentUserPositionDTO;
 import net.etwig.webapp.services.UserSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -32,8 +34,8 @@ public class EventsPageController {
 	@Autowired
 	private PortfolioService portfolioService;
 
-	//@Autowired
-	//private UserSessionService userSessionService;
+	@Autowired
+	private UserSessionService userSessionService;
 
 	/**
 	 * Handles the HTTP GET request at the root of the 'events' module by redirecting to the main index page. This method serves as
@@ -96,11 +98,15 @@ public class EventsPageController {
 	@RequestMapping({"/add.do", "/edit.do"})
 	public String edit(Model model, @RequestParam(required = false) Long eventId){
 
-		// TODO Add a "view only" page, then set the permission of old pages to "event manager only"
+		CurrentUserPositionDTO position = userSessionService.validateSession().getPosition();
+		model.addAttribute("myCurrentPosition", position.getMyCurrentPosition());
+		model.addAttribute("myPositionCount", position.getMyPositions().size());
+
 		model.addAttribute("allProperties", propertyService.findAll());
         model.addAttribute("allOptions", propertyService.getOptionsByEvent(eventId));
 		return "events/edit";
 	}
+	// TODO Add a "view only" page, then set the permission of old pages to "event manager only"
 
     /**
 	 * Event (bulky) import page, which allows users to import multiple events simultaneously (via an EXCEL/ODS file).
