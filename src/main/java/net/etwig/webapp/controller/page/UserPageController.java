@@ -21,12 +21,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Base64;
 
 @Controller
@@ -122,14 +124,24 @@ public class UserPageController {
 		String referrer = request.getHeader("Referer");
 		if (referrer != null && referrer.startsWith(config.getTrustedReferrer())) {
 
-			// Attempt to decode encoded String
+			// Decode encoded String
 			byte[] decodedBytes = Base64.getDecoder().decode(token);
 			String decodedStr = new String(decodedBytes);
+			//System.out.println(decodedStr);
 
 			try {
+
+				// Parse the JSON object from the decoded String.
 				ObjectMapper objectMapper = new ObjectMapper();
 				LoginToken loginToken = objectMapper.readValue(decodedStr, LoginToken.class);
-				System.out.println(loginToken);
+				//System.out.println(loginToken);
+
+				// Token expiration check
+				long currentTimestamp = Instant.now().getEpochSecond();
+				long timeDifference = currentTimestamp - loginToken.getTimestamp();
+				if (timeDifference < 0 || timeDifference > 60) {
+					throw new IllegalStateException("Token has expired.");
+				}
 
 				Authentication authenticationToken = new UsernamePasswordAuthenticationToken(
 						loginToken.getUserEmail(), null
@@ -138,8 +150,9 @@ public class UserPageController {
 				Authentication authentication = authenticationManager.authenticate(authenticationToken);
 				successHandler.onAuthenticationSuccess(request, response, authentication);
 
-			} catch (JsonProcessingException | IllegalStateException e) {
-				System.err.println("Login Failed: Token is invalid or expired.");
+			} catch (JsonProcessingException | IllegalStateException | AuthenticationException e) {
+				//System.err.println("Login Failed: Token is invalid or expired.");
+				return ResponseEntity.status(401).body("Login Failed: Token is invalid or expired.");
 			} catch (IOException e) {
                 throw new RuntimeException(e);
             }

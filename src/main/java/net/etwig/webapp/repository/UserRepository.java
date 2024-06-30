@@ -40,5 +40,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	 * @return the {@link User} with the specified username and email address, or {@code null} if no user is found.
 	 */
 
-	User findByUsernameAndEmail(String username, String email);
+	//User findByUsernameAndEmail(String username, String email);
 }

@@ -102,6 +102,7 @@ public class UserRoleService implements UserDetailsService {
      * @throws UsernameNotFoundException if no user is found with the specified username and email address.
      */
 
+    /*
     public UserDetails loadUserByUsernameAndEmail(String username, String email) throws UsernameNotFoundException {
         User user = userRepository.findByUsernameAndEmail(username, email);
         if (user == null) {
@@ -112,6 +113,8 @@ public class UserRoleService implements UserDetailsService {
         Set<UserRole> userRoles = userRoleRepository.findByUserId(user.getId());
         return new CustomUserDetails(user, userRoles);
     }
+
+     */
 
     public void changePassword(User user, String newPassword) {
         String encodedPassword = (new BCryptPasswordEncoder()).encode(newPassword);
