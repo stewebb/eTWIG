@@ -1,5 +1,60 @@
 function assetSelectorDataTable(){
 	var dt = $('#assetSelector').DataTable({
+		"processing": true,
+		"serverSide": true,
+		"lengthMenu": [[5, 10, 20], [5, 10, 20]],
+		"pageLength": 10,
+		"language": {
+            "searchPlaceholder": "File Name",
+        },
+		"order": [[0, "desc"]],
+		"ajax": {
+			"url": "/api/asset/list",
+			"type": "GET",
+			"data": function(d) {
+				return $.extend({}, d, {
+					"sortColumn": d.columns[d.order[0].column].data,
+					"sortDirection": d.order[0].dir
+				});
+			}
+		},
+		"columns": [
+			{ "data": "id", "orderable": true },
+			{ "data": "name", "orderable": false },
+			//{ "data": "type", "orderable": false, "render": assetTypeRender },
+			//{ "data": "size", "orderable": true, "render": fileSizeRender },
+			{ "data": "uploader", "orderable": false },
+			//{ "data": "lastModified", "orderable": true, "render": dateWeekRender },
+			{ "mRender": assetPreviewRender, "orderable": false }//,
+			//{ "mRender": assetListActionRender, "orderable": false }
+		]
+	});
+
+	dt.on('click', 'tbody tr', function(e) {
+		var classList = e.currentTarget.classList;
+	
+		// De-select a row
+		if (classList.contains('selected')) {
+			classList.remove('selected');
+			previewAsset(null);
+		}
+		
+		// Select a row
+		else {
+			
+			// Deselect any currently selected row
+			dt.rows('.selected').nodes().each((row) => row.classList.remove('selected'));
+			classList.add('selected');
+	
+			var rowData = dt.row(this).data();
+			//console.log(rowData);
+			//previewAsset(rowData);
+			console.log(rowData);
+		}
+	});
+
+	/*
+	var dt = $('#assetSelector').DataTable({
         processing: true,
         serverSide: true,
         searching: true, 
@@ -49,6 +104,7 @@ function assetSelectorDataTable(){
 });
 
     return dt;
+	*/
 }
 
 function lastModifiedRender(data, type, row){

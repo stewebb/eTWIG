@@ -42,7 +42,6 @@
 								<th>Name</th>
 								<th>Uploader</th>
 								<th>Preview</th>
-								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody></tbody>
@@ -60,7 +59,7 @@
 	<script type="text/javascript" src="/static/js/etwig/asset.js?ver=${app.appVersion}"></script>
 	
 	<script>
-    	//assetSelectorDataTable();
+    	assetSelectorDataTable();
 
 		// By default, no asset is selected.
     	//previewAsset(null);
