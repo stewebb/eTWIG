@@ -124,19 +124,19 @@ public class SecurityConfig {
 	}
 
 	/**
-	 * Configures the authentication manager with a user details service and a password encoder.
-	 * This is critical for verifying user credentials during authentication.
-	 * @param auth the {@link AuthenticationManagerBuilder} to configure
-	 * @throws Exception if an error occurs setting up the authentication manager
+	 * Configures the {@link AuthenticationManagerBuilder} with authentication providers.
+	 * <p>
+	 * This method sets up the standard {@link DaoAuthenticationProvider} with a {@link UserDetailsService}
+	 * and a {@link PasswordEncoder}, and adds a custom authentication provider.
+	 * </p>
+	 *
+	 * @param auth the {@link AuthenticationManagerBuilder} to configure.
+	 * @throws Exception if there is an error during the configuration.
 	 */
-
-	//@Autowired
-	//protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-	//	auth.userDetailsService(userRoleService).passwordEncoder(passwordEncoder());
-	//}
 
 	@Autowired
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+
 		// Configure the DaoAuthenticationProvider with UserDetailsService and PasswordEncoder
 		DaoAuthenticationProvider daoAuthProvider = new DaoAuthenticationProvider();
 		daoAuthProvider.setUserDetailsService(userRoleService);
@@ -144,7 +144,7 @@ public class SecurityConfig {
 		auth.authenticationProvider(daoAuthProvider); // Standard authentication provider
 
 		// Add custom AuthenticationProvider
-		auth.authenticationProvider(customAuthenticationProvider); // TODO: Use custom provider
+		auth.authenticationProvider(customAuthenticationProvider);
 	}
 
 	/**

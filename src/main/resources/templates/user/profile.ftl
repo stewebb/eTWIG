@@ -53,7 +53,10 @@
 
 									<#-- Avatar -->
 									<div class="text-center">
+										<#--
 										<img class="profile-user-img img-fluid img-circle" src="https://api.dicebear.com/7.x/identicon/svg?seed=${firstName}">
+										-->
+										
 									</div>
 									<#-- /Avatar -->
 									
@@ -100,6 +103,41 @@
 								</div>
 
 								<div class="card-body">
+
+									<#-- My Access -->
+									<div class="mb-3">
+										<h5 class="bold-text mb-2">My eTWIG Access</h5>
+
+										<div class="table-responsive">
+											<table class="table table-head-fixed text-nowrap table-striped table-hover" id="eventRRuleAllDates">
+												<thead>
+													<tr>
+														<th>Access</th>
+														<th>Description</th>
+														<th>Status</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>Event Management</td>
+														<td>Add and edit events, make banner requests.</td>
+														<td></td>
+													</tr>
+													<tr>
+														<td>Graphics Management</td>
+														<td>Approve banner requests, add graphics to events.</td>
+														<td></td>
+													</tr>
+													<tr>
+														<td>Administrator</td>
+														<td>System administration.</td>
+														<td></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<#-- /My Access -->
 
 									<#-- Change password. -->
 									<div class="mb-2">
