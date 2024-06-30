@@ -44,7 +44,7 @@ public class EventAPIController {
      */
 
     @PostMapping("/add")
-    public Map<String, Object> add(@RequestBody Map<String, Object> eventInfo) {
+    public Map<String, Object> add(@RequestBody Map<String, Object> eventInfo) throws Exception {
         eventService.editEvent(eventInfo, null);
         // TODO REMOVE WEBRETURN
         return WebReturn.errorMsg("Event added successfully.", true);

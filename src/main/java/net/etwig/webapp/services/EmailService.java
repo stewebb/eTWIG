@@ -4,7 +4,6 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import jakarta.mail.internet.MimeMessage;
 import net.etwig.webapp.config.ConfigFile;
-import net.etwig.webapp.dto.PositionDTO;
 import net.etwig.webapp.model.UserRole;
 import net.etwig.webapp.repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class EmailService {
@@ -78,13 +78,24 @@ public class EmailService {
 
 
 
-	public boolean graphicsRequestNotification(String requester, String eventName) throws Exception {
+	public void graphicsRequestNotification(Long requestId, String requester, String eventName) throws Exception {
     	
-    	// Get all graphics managers
+    	// Set all graphics managers as recipients
     	Set<UserRole> graphicsManagers = userRoleRepository.getGraphicsManagers();
     	if(graphicsManagers.isEmpty()) {
-    		return false;    	
+    		return;
     	}
+
+		HashSet<String> recipients = graphicsManagers.stream()
+				.map(UserRole::getEmail)
+				.collect(Collectors.toCollection(HashSet::new));
+
+		//HashSet<String> recipients = new HashSet<>();
+		//for (UserRole userRole : graphicsManagers) {
+		//	recipients.add(userRole.getEmail());
+		//}
+
+		//recipients.add(portfolioEmail);
     	
    		// Get event info.
     	//
@@ -101,24 +112,28 @@ public class EmailService {
 		//subject.append(" made a graphics request for the event ");
 		//subject.append(eventName);
 
-		String
+		String subjuct = requester + " made a graphics request for event " + eventName;
 		
 		// Generate email content
 		Template t = freemarkerConfig.getTemplate("_emails/graphic_request.ftl");
 		HashMap<String, Object> model = new HashMap<String, Object>();
+
+
 		//model.put("eventInfo", event);
-		model.put("requestInfo", requestInfo);
+		model.put("requestId", requestId);
+		model.put("appUrl", config.getAppURL());
 		//model.put("organizer", new UserDTO(requester));
 	    String content = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
 		
 		// Iterate all graphics managers
-		for(PositionDTO graphicsManager : graphicsManagers) {
-			sendEmail(graphicsManager.getEmail(), subject.toString(), content, null);
-		}
+		//for(PositionDTO graphicsManager : graphicsManagers) {
+		//	sendEmail(graphicsManager.getEmail(), subject.toString(), content, null);
+		//}
+
+		sendEmail(recipients, subjuct, content, null);
     		
     	//System.out.println(graphicsManagers);
-		return true;
-    }
+	}
 
 
 	/**
@@ -153,7 +168,7 @@ public class EmailService {
 	) throws Exception {
 
 		// Send to portfolio email and user email
-    	HashSet<String>recipients = new HashSet<>();
+    	HashSet<String> recipients = new HashSet<>();
 		recipients.add(portfolioEmail);
 		//recipients.add(userEmail);
 

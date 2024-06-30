@@ -151,7 +151,7 @@ public class EventService {
 	 */
 
 	@SuppressWarnings("unchecked")
-	public void editEvent(Map<String, Object> eventInfo, EventDetailsDTO currentEvent){
+	public void editEvent(Map<String, Object> eventInfo, EventDetailsDTO currentEvent) throws Exception {
 
 		// Add a new event to DB
 		Long myPosition = userSessionService.validateSession().getPosition().getMyCurrentPositionId();

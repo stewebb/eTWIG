@@ -3,6 +3,7 @@ package net.etwig.webapp.services;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.Optional;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -12,8 +13,11 @@ import jakarta.persistence.criteria.Root;
 import net.etwig.webapp.dto.graphics.BannerRequestDetailsDTO;
 import net.etwig.webapp.dto.graphics.*;
 import net.etwig.webapp.model.Asset;
+import net.etwig.webapp.model.Event;
 import net.etwig.webapp.model.UserRole;
 import net.etwig.webapp.repository.EventGraphicsRepository;
+import net.etwig.webapp.repository.EventRepository;
+import net.etwig.webapp.repository.UserRoleRepository;
 import net.etwig.webapp.util.DateUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,12 +44,17 @@ public class BannerRequestService {
 	@Autowired
 	private EntityManager entityManager;
 
-
 	@Autowired
 	private UserSessionService userSessionService;
 	
 	@Autowired
 	private AssetService assetService;
+
+	@Autowired
+	private EventRepository eventRepository;
+
+	@Autowired
+	private UserRoleRepository userRoleRepository;
 
 	/**
 	 * Retrieves a {@link BannerRequest} by its ID.
@@ -160,7 +169,7 @@ public class BannerRequestService {
 	 */
 	
 	@SuppressWarnings("null")
-	public void addRequest (Long eventId, Long requesterRole, String requestComment, LocalDate expectDate) {
+	public void addRequest (Long eventId, Long requesterRole, String requestComment, LocalDate expectDate) throws Exception {
 
 		// Make a new request with essential information
 		BannerRequest request = new BannerRequest();
@@ -172,6 +181,23 @@ public class BannerRequestService {
 
 		// Get the submitted request back with full information
 		BannerRequest submittedRequest = graphicsRequestRepository.save(request);
+
+		//graphicsRequestRepository.save(request);
+		//BannerRequest updatedRequest = graphicsRequestRepository.save(request);
+		//Long newRequestId = graphicsRequestRepository.save(request).getId();
+		//Optional<BannerRequest> submittedRequest = graphicsRequestRepository.findById(updatedRequest.getId());
+
+		Event event = eventRepository.findById(eventId).orElse(null);
+		UserRole userRole = userRoleRepository.findById(requesterRole).orElse(null);
+
+		emailService.graphicsRequestNotification(
+				submittedRequest.getId(),
+				(userRole == null) ? "Unknown user" : userRole.getUser().getFullName(),
+				(event == null) ? "Unknown event" : event.getName()
+		);
+
+
+
 
 		// New request
 		//NewRequestDTO newRequest = new NewRequestDTO();
