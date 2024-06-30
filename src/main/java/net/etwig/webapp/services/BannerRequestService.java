@@ -3,7 +3,6 @@ package net.etwig.webapp.services;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
-import java.util.Optional;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -18,7 +17,6 @@ import net.etwig.webapp.model.UserRole;
 import net.etwig.webapp.repository.EventGraphicsRepository;
 import net.etwig.webapp.repository.EventRepository;
 import net.etwig.webapp.repository.UserRoleRepository;
-import net.etwig.webapp.util.DateUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -190,28 +188,12 @@ public class BannerRequestService {
 		Event event = eventRepository.findById(eventId).orElse(null);
 		UserRole userRole = userRoleRepository.findById(requesterRole).orElse(null);
 
-		emailService.graphicsRequestNotification(
+		emailService.bannerRequestNotification(
 				submittedRequest.getId(),
 				(userRole == null) ? "Unknown user" : userRole.getUser().getFullName(),
-				(event == null) ? "Unknown event" : event.getName()
+				(event == null) ? "Unknown event" : event.getName(),
+				submittedRequest.getRequestTime()
 		);
-
-
-
-
-		// New request
-		//NewRequestDTO newRequest = new NewRequestDTO();
-		//newRequest.fromMap(requestInfo);
-		
-		// Get the information back
-		//BannerRequest modifiedRequest = graphicsRequestRepository.save(newRequest.toEntity());
-		//return modifiedRequest.getId();
-		
-		
-		//System.out.println(this.findById(requestId));
-		
-		// Send an email to graphics managers
-		//emailService.graphicsRequestNotification(new NewRequestEmailNotificationDTO(this.findById(requestId)));
 	}
 	
 	//public void addRequest 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Banner Request Outcome</title>
+    <title>New Banner Request</title>
 </head>
 
 <body>
@@ -13,18 +13,9 @@
                         <h2 style="text-align: center; color: #004AAD; font-weight: bolder;">New Banner Request</h2>
 
                         <#-- Information -->
-						<#--
                         <p style="line-height: 1.5;">
-                            Your banner request for event <b>${eventName}</b> has been 
-                            <#if isApproved>
-                                <b style="color:#198754">approved</b>
-                            <#else>
-                                <b style="color:#DC3545">declined</b>
-                            </#if>
-                            on <b>${responseTime}</b>.
-                            <#if isApproved>The banner is attached in this email.</#if>
+                            <b>${requester}</b> submitted a new banner request for event <b>${eventName}</b> on <b>${requestTime}</b>.
                         </p>
-						-->
                         <#-- /Information -->
 
                         <!-- Button -->

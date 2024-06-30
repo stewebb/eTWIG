@@ -78,10 +78,15 @@ public class EmailService {
 
 
 
-	public void graphicsRequestNotification(Long requestId, String requester, String eventName) throws Exception {
+	public void bannerRequestNotification(
+			Long requestId, String requester, String eventName, LocalDateTime requestTime
+	) throws Exception {
     	
     	// Set all graphics managers as recipients
     	Set<UserRole> graphicsManagers = userRoleRepository.getGraphicsManagers();
+
+		//System.out.println(graphicsManagers);
+
     	if(graphicsManagers.isEmpty()) {
     		return;
     	}
@@ -90,28 +95,6 @@ public class EmailService {
 				.map(UserRole::getEmail)
 				.collect(Collectors.toCollection(HashSet::new));
 
-		//HashSet<String> recipients = new HashSet<>();
-		//for (UserRole userRole : graphicsManagers) {
-		//	recipients.add(userRole.getEmail());
-		//}
-
-		//recipients.add(portfolioEmail);
-    	
-   		// Get event info.
-    	//
-    	
-    	//Long eventId = Long.parseLong(requestInfo.get("eventId").toString());
-    	//GraphicsRequestEventInfoDTO event = eventService.findEventsForGraphicsRequestById(eventId);
-		//UserRole requesterRole = userRoleService.findById(Long.parseLong(requestInfo.get("requesterRole").toString()));
-		//User requester = requesterRole.getUser();
-		//System.out.print(event);
-		
-		// Generate email subject.
-		//StringBuilder subject = new StringBuilder();
-		//subject.append(requester).append(" ");
-		//subject.append(" made a graphics request for the event ");
-		//subject.append(eventName);
-
 		String subjuct = requester + " made a graphics request for event " + eventName;
 		
 		// Generate email content
@@ -119,10 +102,12 @@ public class EmailService {
 		HashMap<String, Object> model = new HashMap<String, Object>();
 
 
-		//model.put("eventInfo", event);
+
 		model.put("requestId", requestId);
+		model.put("requester", requester);
+		model.put("eventName", eventName);
+		model.put("requestTime", requestTime);
 		model.put("appUrl", config.getAppURL());
-		//model.put("organizer", new UserDTO(requester));
 	    String content = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
 		
 		// Iterate all graphics managers
