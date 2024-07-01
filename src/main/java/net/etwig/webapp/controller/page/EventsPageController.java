@@ -9,7 +9,6 @@
 
 package net.etwig.webapp.controller.page;
 
-import net.etwig.webapp.dto.user.CurrentUserDTOWrapper;
 import net.etwig.webapp.dto.user.CurrentUserPositionDTO;
 import net.etwig.webapp.services.UserSessionService;
 import org.springframework.beans.factory.annotation.Autowired;

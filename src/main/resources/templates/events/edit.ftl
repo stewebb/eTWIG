@@ -60,7 +60,7 @@
 	            			<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item active">
 									<a href="/events/calendar.do">Calendar</a>&nbsp|&nbsp
-									<a href="/events/index.do">List</a>
+									<a href="/events/list.do">List</a>
 								</li>
 	              				<li class="breadcrumb-item active"><a id="eventPageLink" href="#"></a></li>
 	            			</ol>
