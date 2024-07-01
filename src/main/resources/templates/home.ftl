@@ -13,16 +13,16 @@
 <head>
 
 	<#include "./_includes/header/head.ftl">
-	<title>Dashboard - ${app.appName}</title>
+	<title>Homepage - ${app.appName}</title>
 </head>
 
 <body class="hold-transition layout-top-nav">
 	
 	<#include "./_includes/header/body_start.ftl">
+	<link rel="stylesheet" type="text/css" href="/static/css/menubar.css">
 	
 	<#-- Main Wrapper -->
 	<div class="wrapper">
-
 	
 		<#include "./_includes/navbar.ftl">
 
@@ -49,31 +49,49 @@
 			<#-- /Page header -->
 
 			<section class="content">
-				
-    <div class="container-fluid"> <!-- Use container-fluid for full width -->
-        <div class="row menu-row">
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
-                <div class="menu-option p-3">Option 1</div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
-                <div class="menu-option p-3">Option 2</div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
-                <div class="menu-option p-3">Option 3</div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
-                <div class="menu-option p-3">Option 4</div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
-                <div class="menu-option p-3">Option 5</div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
-                <div class="menu-option p-3">Option 6</div>
-            </div>
-        </div>
-    </div>
 
+				<#-- Menu -->
+				<div class="card card-primary card-outline">							
+					<div class="card-header">
+						<h3 class="card-title">
+							<i class="fa-solid fa-compass"></i>&nbsp;Menu
+						</h3>
+					</div>
 
+					<div class="card-body">
+
+						<#-- Event Management -->
+						<h5>Event Management</h5>
+						<div class="row menu-row">
+
+							
+							
+
+							<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
+								<div class="menu-option p-3">
+								    <div><i class="fa fa-list fa-super"></i></div>
+                    				<div>List</div>
+								
+								</div>
+							</div>
+							<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
+								<div class="menu-option p-3">Option 2</div>
+							</div>
+							<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
+								<div class="menu-option p-3">Option 3</div>
+							</div>
+							<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
+								<div class="menu-option p-3">Option 4</div>
+							</div>
+							<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
+								<div class="menu-option p-3">Option 5</div>
+							</div>
+							<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
+								<div class="menu-option p-3">Option 6</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</section>
 
 			<#--

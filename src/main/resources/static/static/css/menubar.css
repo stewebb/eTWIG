@@ -1,0 +1,33 @@
+.menu-option {
+    height: 191px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4px;
+    font-size: 24px;
+}
+
+  .menu-row {
+    margin-right: -15px; /* Adjust margins for precise alignment */
+    margin-left: -15px; /* Adjust margins for precise alignment */
+  }
+
+  .menu-col {
+    padding: 8px; /* Padding to create some space around items */
+  }
+  
+  /* Enhance hover effect */
+  .menu-option:hover {
+    background-color: #004aad1f; /* Change background on hover */
+    cursor: pointer; /* Indicates an interactive element */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Soft shadow for 3D effect */
+    transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transition for hover effects */
+  }
+
+  .fa-super {
+    font-size: 64px; /* Super-big icon size */
+    margin-bottom: 10px; /* Space between icon and text */
+}
