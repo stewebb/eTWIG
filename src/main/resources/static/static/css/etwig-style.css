@@ -171,17 +171,26 @@ body {
 }
 
 .menu-option {
-  height: 256px;
-  background-color: #f8f9fa; /* Light grey background */
-  border: 1px solid #dee2e6; /* Border color */
+  height: 256px; /* Fixed height */
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 4px; /* Space between rows */
-}
-
-/* Ensure that the text or content in the menu option is centered */
-.menu-text {
   text-align: center;
-  font-size: 20px; /* Larger text */
+  font-size: 20px; /* Larger text for visibility */
+  background-color: #f8f9fa; /* A soft background color */
+  border: 1px solid #dee2e6; /* Subtle border */
+}
+.menu-row {
+  margin-right: -15px; /* Adjust margins for precise alignment */
+  margin-left: -15px; /* Adjust margins for precise alignment */
+}
+.menu-col {
+  padding: 8px; /* Padding to create some space around items */
+}
+/* Enhance hover effect */
+.menu-option:hover {
+  background-color: #e2e6ea; /* Change background on hover */
+  cursor: pointer; /* Indicates an interactive element */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Soft shadow for 3D effect */
+  transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transition for hover effects */
 }

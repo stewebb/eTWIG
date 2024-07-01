@@ -49,41 +49,31 @@
 			<#-- /Page header -->
 
 			<section class="content">
-				<div class="container-fluid">
-
-				<div class="row">
-            <div class="col-2">
-                <div class="menu-option">
-                    <div class="menu-text">Option 1</div>
-                </div>
+				
+    <div class="container-fluid"> <!-- Use container-fluid for full width -->
+        <div class="row menu-row">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
+                <div class="menu-option p-3">Option 1</div>
             </div>
-            <div class="col-2">
-                <div class="menu-option">
-                    <div class="menu-text">Option 2</div>
-                </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
+                <div class="menu-option p-3">Option 2</div>
             </div>
-            <div class="col-2">
-                <div class="menu-option">
-                    <div class="menu-text">Option 3</div>
-                </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
+                <div class="menu-option p-3">Option 3</div>
             </div>
-            <div class="col-2">
-                <div class="menu-option">
-                    <div class="menu-text">Option 4</div>
-                </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
+                <div class="menu-option p-3">Option 4</div>
             </div>
-            <div class="col-2">
-                <div class="menu-option">
-                    <div class="menu-text">Option 5</div>
-                </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
+                <div class="menu-option p-3">Option 5</div>
             </div>
-            <div class="col-2">
-                <div class="menu-option">
-                    <div class="menu-text">Option 6</div>
-                </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
+                <div class="menu-option p-3">Option 6</div>
             </div>
         </div>
-				</div>
+    </div>
+
+
 			</section>
 
 			<#--
