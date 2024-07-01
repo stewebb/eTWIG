@@ -9,8 +9,10 @@
 
 package net.etwig.webapp.services;
 
+import java.util.Optional;
 import java.util.Set;
 
+import net.etwig.webapp.util.InvalidParameterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -57,11 +59,11 @@ public class UserRoleService implements UserDetailsService {
     }
 
     // TODO REPLACE ME
-    @SuppressWarnings("null")
-	public User getMyDetails() {
-        CurrentUserBasicInfoDTO currentUser = userSessionService.validateSession().getBasicInfo();
-    	return userRepository.findById(currentUser.getId()).orElse(null);
-    }
+    //@SuppressWarnings("null")
+	//public User getMyDetails() {
+    //    CurrentUserBasicInfoDTO currentUser = userSessionService.validateSession().getBasicInfo();
+    //	return userRepository.findById(currentUser.getId()).orElse(null);
+    //}
 
     /**
      * Loads the user details by email.
@@ -89,37 +91,26 @@ public class UserRoleService implements UserDetailsService {
         return new CustomUserDetails(user, userRoles);
     }
 
-    /**
-     * Loads the user details by username and email.
-     * <p>
-     * This method searches for a user with the specified username and email address, retrieves their roles,
-     * and returns a {@link CustomUserDetails} object containing the user's information and roles.
-     * </p>
-     *
-     * @param username the username of the user to load.
-     * @param email the email address of the user to load.
-     * @return a {@link UserDetails} object containing the user's information and roles.
-     * @throws UsernameNotFoundException if no user is found with the specified username and email address.
-     */
+    public boolean changePassword(Long userId, String currentPassword, String newPassword) {
 
-    /*
-    public UserDetails loadUserByUsernameAndEmail(String username, String email) throws UsernameNotFoundException {
-        User user = userRepository.findByUsernameAndEmail(username, email);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found with username: " + username + " and email: " + email);
+        // User check
+        User user = userRepository.findById(userId).orElse(null);
+        if(user == null) {
+        	throw new InvalidParameterException("User with id=" + userId + "does not exist.");
         }
 
-        // Set role
-        Set<UserRole> userRoles = userRoleRepository.findByUserId(user.getId());
-        return new CustomUserDetails(user, userRoles);
-    }
+        // Original password check
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        if (!encoder.matches(currentPassword, user.getPassword())) {
+            return false;
+            //return WebReturn.errorMsg("You current password is incorrect.", false);
+        }
 
-     */
-
-    public void changePassword(User user, String newPassword) {
+        // Change password
         String encodedPassword = (new BCryptPasswordEncoder()).encode(newPassword);
         user.setPassword(encodedPassword);
         userRepository.save(user);
+        return true;
     }
 
 }

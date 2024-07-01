@@ -15,7 +15,8 @@ public class _UserAPIController {
 	
 	@Autowired
 	private UserRoleService userRoleService;
-	
+
+	/*
 	@PostMapping("/changeMyPassword")
     public Map<String, Object> changeMyPassword(@RequestBody Map<String, Object> passwordInfo) {
 		
@@ -32,4 +33,6 @@ public class _UserAPIController {
         userRoleService.changePassword(currentUser, newPassword);
         return WebReturn.errorMsg(null, true);
     }
+
+	 */
 }

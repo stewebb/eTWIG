@@ -32,37 +32,39 @@ function changePassword(){
 		newPassword: newPassword,
 	}
 	
-	var hasError = true;
+	//var hasError = true;
 	$.ajax({
-   		url: '/api/private/changeMyPassword', 
+   		url: '/api/user/changePwd', 
    		type: "POST",
-   		async: false,
-   		dataType: "json",
+   		//async: false,
+   		//dataType: "json",
    		contentType: "application/json; charset=utf-8",
-   		data: JSON.stringify(passwordObj),
+   		data: passwordObj, //JSON.stringify(passwordObj),
    		success: function (result) {
-			if(result.error > 0){
-				dangerPopup("Failed to change password", result.msg);
-				hasError = true;
-			}else{
+			if(result == "true"){
+				//dangerPopup("Failed to change password");
+				//hasError = true;
 				successPopup("Password changed successfully.");
-				hasError = false;
+				setTimeout(function() {	location.reload(); }, 2500);
+			}else{
+				warningPopup("Your current password is incorrect.");
+				//hasError = false;
 			}	
     	},
     	error: function (err) {
-    		dangerPopup("Failed to  change password due to a HTTP " + err.status + " error.", err.responseJSON.exception);
-    		hasError = true;
+    		dangerPopup("Failed to change password due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+    		//hasError = true;
     	}
  	});
 
 	// Post-add operations
 	// More timeout if error happens.
-	setTimeout(
-		function() {
-			window.location.reload();
-		}, 
-		hasError ? 10000 : 2000
-	);
+	//setTimeout(
+	//	function() {
+	//		window.location.reload();
+	//	}, 
+	//	hasError ? 10000 : 2000
+	//);
 }
 
 function isPasswordComplex(password) {
@@ -72,5 +74,7 @@ function isPasswordComplex(password) {
     const hasNumbers = /\d/.test(password);
     //const hasSpecialChars = /[\!\@\#\$\%\^\&\*\(\)\_\+\-\=\[\]\{\}\;\:\'\"\,\<\.\>\/\?\\|\`]/.test(password);
 
-    return password.length >= minLength && hasUpperCase && hasLowerCase && hasNumbers;
+    //return password.length >= minLength && hasUpperCase && hasLowerCase && hasNumbers;
+
+	return true;
 }

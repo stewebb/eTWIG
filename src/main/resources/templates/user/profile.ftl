@@ -188,7 +188,7 @@
 
 									<#-- My Position -->
 									<div class="mb-3">
-										<h5 class="bold-text mb-2">My Position</h5>
+										<h5 class="bold-text mb-2">My Position(s)</h5>
 
 										<div class="table-responsive" style="max-height: 300px;">
 											<table class="table table-head-fixed text-nowrap table-striped table-hover" id="eventRRuleAllDates">
@@ -204,6 +204,7 @@
 													</tr>
 												</thead>
 												<tbody>
+
 													<#list userPosition.myPositions as position>		
 														<tr <#if position.userRoleId == userPosition.myCurrentPosition.userRoleId>class="bold-text"</#if>>	
 															<td>${position.position}</td>
@@ -214,16 +215,9 @@
 															<td style="color:#${position.portfolioColor};">
 																<i class="fa-solid fa-square fa-xl"></i>&nbsp;#${position.portfolioColor}
 															</td>
-															<#--	
-															<#if position.userRoleId == userPosition.myCurrentPosition.userRoleId>
-																<option value="${position.userRoleId}" selected>${position.position}</option>
-															<#else>
-																<option value="${position.userRoleId}">${position.position}</option>
-															</#if>	
-															-->
-
 														</tr>		
 													</#list>
+
 												</tbody>
 											</table>
 											<small class="form-text text-muted">
