@@ -46,12 +46,12 @@ public class GraphicsPageController {
 	 * </p>
 	 *
 	 * @return The path to the 'event_list' template within the 'graphics' directory.
-	 * @location /graphics/eventList.do
+	 * @location /graphics/summaryList.do
 	 * @permission Those who has graphic management permission.
 	 */
 
 	@PreAuthorize("hasAuthority('ROLE_GRAPHICS')")
-	@GetMapping("/eventList.do")
+	@GetMapping("/summaryList.do")
 	public String eventList(){
 		return "graphics/event_list";
 	}

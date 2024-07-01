@@ -20,11 +20,62 @@
 						<#-- /Home -->
 						
 						<#-- Events -->
+						<#--
 						<li class="nav-item <#if navbar=="CALENDAR">active</#if>">
 							<a href="/events/calendar.do" class="nav-link navbar-border">
 								<i class="fa-solid fa-calendar-check"></i>&nbsp;Events
 							</a>
 						</li>
+						-->
+						<#-- /Events -->
+
+						<#-- Events -->
+						
+						<li class="nav-item dropdown <#if navbar?starts_with("EVENTS_")>active</#if>">
+							<a id="eventsSubMenu" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link navbar-border">
+								<i class="fa-solid fa-lightbulb"></i>&nbsp;Events
+								<i class="fa-solid fa-caret-down"></i>
+							</a>
+								
+							<ul aria-labelledby="eventsSubMenu" class="dropdown-menu border-0 shadow">
+
+								<#-- List -->
+								<li>
+									<a href="/events/index.do" class="dropdown-item <#if navbar=="EVENTS_LIST">active</#if>">
+										<i class="fa-solid fa-list"></i>&nbsp;List
+									</a>
+								</li>
+								<#-- /List -->
+
+								<#-- Calendar -->
+								<li>
+									<a href="/events/calendar.do" class="dropdown-item <#if navbar=="EVENTS_CALENDAR">active</#if>">
+										<i class="fa-solid fa-calendar-check"></i>&nbsp;Calendar
+									</a>
+								</li>
+								<#-- /Calendar -->
+								
+								<#-- Add -->
+								<li>
+									<a href="/events/add.do" class="dropdown-item <#if navbar=="EVENTS_ADD">active</#if>">
+										<i class="fa-solid fa-calendar-plus"></i>&nbsp;Add
+									</a>
+								</li>
+								<#-- /Add -->
+
+								<#-- Import -->
+								<#if userPermission.eventsAccess>
+								<li>
+									<a href="/events/import.do" class="dropdown-item <#if navbar=="EVENTS_IMPORT">active</#if>">
+										<i class="fa-solid fa-cloud-arrow-up"></i>&nbsp;Import
+									</a>
+								</li>
+								</#if>
+								<#-- /Import -->
+
+							</ul>
+						</li>
+						
 						<#-- /Events -->
 						
 						<#-- Graphics -->
@@ -57,45 +108,19 @@
 									-->
 									<#-- TWIG Template -->
 
-									<#-- Event -->
+									<#-- Summary -->
 									<li>
-										<a href="/graphics/eventList.do" class="dropdown-item <#if navbar=="GRAPHICS_EVENTS">active</#if>">
-											<i class="fa-solid fa-list-ul"></i>&nbsp;Events
+										<a href="/graphics/summaryList.do" class="dropdown-item <#if navbar=="GRAPHICS_EVENTS">active</#if>">
+											<i class="fa-regular fa-rectangle-list"></i>&nbsp;Summary
 										</a>
 									</li>
-									<#-- /Event -->
+									<#-- /Summary -->
 								
 								</ul>
 							</li>
 						</#if>
 					    <#-- /Graphics -->
 
-					    <#-- Assets -->
-						<#--
-						<li class="nav-item dropdown <#if navbar?starts_with("ASSETS_")>active</#if>">
-							
-							<a id="assetsSubMenu" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link navbar-border">
-								<i class="fa-solid fa-file"></i>&nbsp;Assets&nbsp;
-								<i class="fa-solid fa-caret-down"></i>
-							</a>
-								
-							<ul aria-labelledby="assetsSubMenu" class="dropdown-menu border-0 shadow">
-								
-								<li>
-									<a href="/assets/list.do" class="dropdown-item <#if navbar=="ASSETS_LIST">active</#if>">
-										<i class="fa-solid fa-list-ul"></i>&nbsp;List
-									</a>
-								</li>
-
-								<li>
-									<a href="/assets/upload.do" class="dropdown-item <#if navbar=="ASSETS_UPLOAD">active</#if>">
-										<i class="fa-solid fa-upload"></i>&nbsp;Upload
-									</a>
-								</li>
-
-							</ul>
-						</li>
-						-->
 						<li class="nav-item <#if navbar=="ASSETS">active</#if>">
 							<a href="/assets/index.do" class="nav-link navbar-border">
 								<i class="fa-solid fa-file"></i>&nbsp;Assets
@@ -165,7 +190,6 @@
                     </div>
 				</li>
                 <#-- /Notifications -->
-				
 
                 <#-- Account -->
                 <li class="nav-item dropdown <#if navbar=="USER">active</#if>">
@@ -179,11 +203,6 @@
 					<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right ">
 						                	
 						<div class="user-panel d-flex justify-content-center mt-2 mb-2">
-							<#--
-							<div class="image">
-								<img src="" class="img-circle elevation-3">
-							</div>
-							-->
 							<div class="info">
 								<a href="#" class="d-block" id="userName">${userBasicInfo.fullName}</a>
 							</div>

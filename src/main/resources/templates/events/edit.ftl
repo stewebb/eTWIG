@@ -7,7 +7,7 @@
 	function: The add/edit event page.
    -->
    
-<#assign navbar = "CALENDAR">
+<#assign navbar = "EVENTS_EDIT">
 
 <#-- 
   This function returns the appropriate indefinite article ("a" or "an") 
@@ -58,7 +58,10 @@
 	          			</div>
 	          			<div class="col-sm-6">
 	            			<ol class="breadcrumb float-sm-right">
-	              				<li class="breadcrumb-item"><a href="/events/calendar.do">Events</a></li>
+								<li class="breadcrumb-item active">
+									<a href="/events/calendar.do">Calendar</a>&nbsp|&nbsp
+									<a href="/events/index.do">List</a>
+								</li>
 	              				<li class="breadcrumb-item active"><a id="eventPageLink" href="#"></a></li>
 	            			</ol>
 	          			</div>

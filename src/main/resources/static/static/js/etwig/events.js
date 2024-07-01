@@ -97,7 +97,7 @@ function getEventInfo(datePickersMap){
 		// Set title.
 		//$('#currentAction').text('edit');
 		$('#eventPageTitle').text('Edit Event: ' + eventInfo.name);
-		$('#eventPageLink').text('Edit Event');
+		$('#eventPageLink').text('Edit');
 		$('#eventPageLink').attr('href', '/events/edit.do?eventId=-' + eventInfo.id);
 
 		// Copy and graphics, only available in edit mode.
@@ -298,7 +298,7 @@ function getEventInfo(datePickersMap){
 		// Set title.
 		//$('#currentAction').text('add');
 		$('#eventPageTitle').text('Add Event');
-		$('#eventPageLink').text('Add Event');
+		$('#eventPageLink').text('Add');
 		$('#eventPageLink').attr('href', '/events/add.do');
 		$('#isEdit').val('0');
 		

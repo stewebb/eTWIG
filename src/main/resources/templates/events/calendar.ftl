@@ -7,7 +7,7 @@
 	function: The event calendar/planner page.
    -->
    
-<#assign navbar = "CALENDAR">
+<#assign navbar = "EVENTS_CALENDAR">
 
 <!DOCTYPE html>
 <html>
@@ -37,7 +37,10 @@
 						</div>
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
-								<li class="breadcrumb-item active"><a href="/events/calendar.do">Events</a></li>
+								<li class="breadcrumb-item active">
+									<a href="/events/calendar.do">Calendar</a>&nbsp|&nbsp
+									<a href="/events/index.do">List</a>
+								</li>
 							</ol>
 						</div>
 					</div>
