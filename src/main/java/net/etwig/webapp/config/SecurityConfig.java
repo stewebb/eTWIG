@@ -144,7 +144,7 @@ public class SecurityConfig {
 		auth.authenticationProvider(daoAuthProvider); // Standard authentication provider
 
 		// Add custom AuthenticationProvider
-		auth.authenticationProvider(customAuthenticationProvider);
+		//auth.authenticationProvider(customAuthenticationProvider);
 	}
 
 	/**

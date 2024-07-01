@@ -26,8 +26,35 @@ import java.util.*;
 @ToString
 public class CurrentUserPositionDTO {
 
+    /**
+     * Represents a set of {@link Position} objects associated with the user.
+     * Each position corresponds to a role the user holds, encapsulated by {@link UserRole}.
+     * This set is populated based on the user roles provided when constructing an instance of this class.
+     */
+
     private final HashSet<Position> myPositions;
+
+    /**
+     * Represents the current position of the user, determined as the position associated
+     * with the user role that has the smallest ID. If no positions are derived from the user roles,
+     * this field will be set to null.
+     */
+
     private Position myCurrentPosition;
+
+    /**
+     * Constructs a new CurrentUserPositionDTO with specific user roles.
+     * This constructor initializes the set of positions associated with the user,
+     * based on the roles passed to it. Positions are derived from {@link UserRole} objects.
+     *
+     * <p>The current position is determined by selecting the {@link Position} associated
+     * with the user role having the smallest ID. If no positions are available, the current
+     * position will be set to null.</p>
+     *
+     * @param userRoles A set of {@link UserRole} objects representing the roles assigned to the user.
+     *                  Each role is transformed into a {@link Position} object and added to the set of
+     *                  positions held by this DTO.
+     */
 
     public CurrentUserPositionDTO(Set<UserRole> userRoles){
 
@@ -39,7 +66,7 @@ public class CurrentUserPositionDTO {
 
         // The default current position is the userRole with the smallest ID.
         Optional<Position> current = this.myPositions.stream().min(Comparator.comparingLong(Position::getUserRoleId));
-        this.myCurrentPosition = current.get();
+        this.myCurrentPosition = current.orElse(null);
     }
 
     /**
@@ -70,6 +97,14 @@ public class CurrentUserPositionDTO {
 
         return false;
     }
+
+    /**
+     * Retrieves the ID of the current position held by the user.
+     * This ID corresponds to the user role ID from which the current position was derived.
+     *
+     * @return the ID of the current position, or {@code null} if no current position has been set.
+     * @throws NullPointerException if the current position is {@code null}.
+     */
 
     public Long getMyCurrentPositionId(){
         return this.myCurrentPosition.getUserRoleId();
