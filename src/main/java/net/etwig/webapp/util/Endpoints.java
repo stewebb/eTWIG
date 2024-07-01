@@ -1,6 +1,5 @@
 package net.etwig.webapp.util;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 
@@ -17,5 +16,7 @@ public class Endpoints {
     private final String EVENTS_EDIT     = "/events/edit.do";
     private final String EVENTS_IMPORT   = "/events/import.do";
     private final String EVENTS_LIST     = "/events/list.do";
+
+    // Graphics
 
 }
