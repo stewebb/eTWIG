@@ -1,3 +1,22 @@
+/**
+ * Attempts to change the user's password through an AJAX call to the server.
+ * 
+ * This function first validates the current password, new password, and password confirmation input fields.
+ * It checks for non-empty input, password match between new password and its confirmation, and complexity
+ * requirements for the new password. It uses jQuery to handle input value retrieval and trimming.
+ * 
+ * Upon successful validation, it packages the current and new passwords into a JSON object and sends
+ * them to the server via a POST request. If the server responds positively, it will show a success message and reload the page after a delay.
+ * Otherwise, it will display appropriate error messages based on the error type (e.g., incorrect current password or HTTP error).
+ * 
+ * Dependencies:
+ * - jQuery for DOM manipulation and AJAX call
+ * - `isPasswordComplex(password)`: Validates password complexity, ensuring it meets the length and character requirements.
+ * 
+ * @requires jQuery
+ * @see isPasswordComplex
+ */
+
 function changePassword(){
 	
 	// Current password
@@ -32,49 +51,42 @@ function changePassword(){
 		newPassword: newPassword,
 	}
 	
-	//var hasError = true;
 	$.ajax({
    		url: '/api/user/changePwd', 
    		type: "POST",
-   		//async: false,
-   		//dataType: "json",
    		contentType: "application/json; charset=utf-8",
-   		data: passwordObj, //JSON.stringify(passwordObj),
+   		data: JSON.stringify(passwordObj),
    		success: function (result) {
-			if(result == "true"){
-				//dangerPopup("Failed to change password");
-				//hasError = true;
+			if(result){
 				successPopup("Password changed successfully.");
 				setTimeout(function() {	location.reload(); }, 2500);
 			}else{
 				warningPopup("Your current password is incorrect.");
-				//hasError = false;
 			}	
     	},
     	error: function (err) {
     		dangerPopup("Failed to change password due to a HTTP " + err.status + " error.", err.responseJSON.exception);
-    		//hasError = true;
     	}
  	});
-
-	// Post-add operations
-	// More timeout if error happens.
-	//setTimeout(
-	//	function() {
-	//		window.location.reload();
-	//	}, 
-	//	hasError ? 10000 : 2000
-	//);
 }
+
+/**
+ * Checks if a given password meets defined complexity requirements.
+ * 
+ * This function validates the password based on the following criteria:
+ * - Minimum length of 8 characters
+ * - Contains at least one uppercase letter
+ * - Contains at least one lowercase letter
+ * - Contains at least one numerical digit
+ *
+ * @param {string} password - The password string to be validated.
+ * @returns {boolean} Returns `true` if the password meets all complexity requirements, otherwise `false`.
+ */
 
 function isPasswordComplex(password) {
     const minLength = 8;
     const hasUpperCase = /[A-Z]/.test(password);
     const hasLowerCase = /[a-z]/.test(password);
     const hasNumbers = /\d/.test(password);
-    //const hasSpecialChars = /[\!\@\#\$\%\^\&\*\(\)\_\+\-\=\[\]\{\}\;\:\'\"\,\<\.\>\/\?\\|\`]/.test(password);
-
-    //return password.length >= minLength && hasUpperCase && hasLowerCase && hasNumbers;
-
-	return true;
+    return password.length >= minLength && hasUpperCase && hasLowerCase && hasNumbers;
 }

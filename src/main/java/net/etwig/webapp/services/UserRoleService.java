@@ -9,7 +9,6 @@
 
 package net.etwig.webapp.services;
 
-import java.util.Optional;
 import java.util.Set;
 
 import net.etwig.webapp.util.InvalidParameterException;
@@ -21,7 +20,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import net.etwig.webapp.dto.user.CurrentUserBasicInfoDTO;
 import net.etwig.webapp.handler.CustomUserDetails;
 import net.etwig.webapp.model.User;
 import net.etwig.webapp.model.UserRole;
@@ -36,10 +34,6 @@ public class UserRoleService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-	private UserSessionService userSessionService;
-
 
     /**
      * Retrieves a {@link UserRole} based on the provided role ID.
@@ -57,13 +51,6 @@ public class UserRoleService implements UserDetailsService {
     public UserRole findById(@NonNull Long userRoleId) {
         return userRoleRepository.findById(userRoleId).orElse(null);
     }
-
-    // TODO REPLACE ME
-    //@SuppressWarnings("null")
-	//public User getMyDetails() {
-    //    CurrentUserBasicInfoDTO currentUser = userSessionService.validateSession().getBasicInfo();
-    //	return userRepository.findById(currentUser.getId()).orElse(null);
-    //}
 
     /**
      * Loads the user details by email.
@@ -91,6 +78,19 @@ public class UserRoleService implements UserDetailsService {
         return new CustomUserDetails(user, userRoles);
     }
 
+    /**
+     * Changes a user's password after validating the current password.
+     * This method first verifies if the user exists and checks if the provided current password matches
+     * the stored password. If the current password is correct, it updates the user's password with the new password.
+     *
+     * @param userId The unique identifier of the user whose password is to be changed.
+     * @param currentPassword The current password of the user, which needs to be verified.
+     * @param newPassword The new password to be set for the user.
+     * @return {@code true} if the password was successfully changed, {@code false} otherwise.
+     * @throws InvalidParameterException if no user exists with the provided {@code userId}.
+     * @throws IllegalArgumentException if the current password does not match the stored password.
+     */
+
     public boolean changePassword(Long userId, String currentPassword, String newPassword) {
 
         // User check
@@ -103,7 +103,6 @@ public class UserRoleService implements UserDetailsService {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         if (!encoder.matches(currentPassword, user.getPassword())) {
             return false;
-            //return WebReturn.errorMsg("You current password is incorrect.", false);
         }
 
         // Change password

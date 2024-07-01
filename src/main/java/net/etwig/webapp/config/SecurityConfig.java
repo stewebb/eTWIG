@@ -131,11 +131,10 @@ public class SecurityConfig {
 	 * </p>
 	 *
 	 * @param auth the {@link AuthenticationManagerBuilder} to configure.
-	 * @throws Exception if there is an error during the configuration.
-	 */
+     */
 
 	@Autowired
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+	protected void configure(AuthenticationManagerBuilder auth) {
 
 		// Configure the DaoAuthenticationProvider with UserDetailsService and PasswordEncoder
 		DaoAuthenticationProvider daoAuthProvider = new DaoAuthenticationProvider();
