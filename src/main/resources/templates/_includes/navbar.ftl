@@ -179,9 +179,11 @@
 					<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right ">
 						                	
 						<div class="user-panel d-flex justify-content-center mt-2 mb-2">
+							<#--
 							<div class="image">
 								<img src="" class="img-circle elevation-3">
 							</div>
+							-->
 							<div class="info">
 								<a href="#" class="d-block" id="userName">${userBasicInfo.fullName}</a>
 							</div>

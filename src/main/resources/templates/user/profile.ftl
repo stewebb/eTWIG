@@ -108,6 +108,7 @@
 									<div class="mb-3">
 										<h5 class="bold-text mb-2">My eTWIG Access</h5>
 
+										<#--
 										<div class="table-responsive">
 											<table class="table table-head-fixed text-nowrap table-striped table-hover" id="eventRRuleAllDates">
 												<thead>
@@ -120,22 +121,105 @@
 												<tbody>
 													<tr>
 														<td>Event Management</td>
-														<td>Add and edit events, make banner requests.</td>
+														<td>
+															<b>Events: </b>Add, view, edit and delete events. <br>
+															<b>Graphics: </b> Make banner requests and view results; View graphics for any events. <br>
+															<b>Assets: </b>Add and view assets library; delete assets that uploaded by himself/herself. 
+														</td>
 														<td></td>
 													</tr>
 													<tr>
 														<td>Graphics Management</td>
-														<td>Approve banner requests, add graphics to events.</td>
+														<td>
+															<b>Events: </b>View events only. <br>
+															<b>Graphics: </b> Approve banner requests and view all requests; Add, view, edit and delete graphics for any events. <br>
+															<b>Assets: </b>Add, view and delete assets library; 
+														</td>
 														<td></td>
 													</tr>
 													<tr>
 														<td>Administrator</td>
-														<td>System administration.</td>
+														<td>Has all permission of Event Management and Graphics Management; System administration.</td>
 														<td></td>
 													</tr>
 												</tbody>
 											</table>
 										</div>
+
+										-->
+
+										<div class="table-responsive">
+											<table class="table table-head-fixed text-nowrap table-striped table-hover" id="eventRRuleAllDates">
+												<thead>
+													<tr>
+														<th rowspan="2">Access</th> <!-- This header spans two rows -->
+														<th rowspan="2">Status</th> <!-- This header spans two rows -->
+														<th colspan="9">Detail</th> <!-- This header spans nine columns for specific permissions -->
+													</tr>
+													<tr>
+														<!-- These are the sub-columns under 'Detail' -->
+														<th>Event Add</th>
+														<th>Event View</th>
+														<th>Event Edit</th>
+														<th>Event Delete</th>
+														<th>Graphics Banner</th>
+														<th>Graphics View</th>
+														<th>Asset Add</th>
+														<th>Asset View</th>
+														<th>Asset Delete</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>Event Management</td>
+														<td>
+															<#if userPermission.eventsAccess>
+																<i class="fa-solid fa-check"></i></td>
+															<#else>
+																<i class="fa-solid fa-xmark"></i></td>
+															</#if>
+														</td> <!-- Status -->
+														<td><i class="fa-solid fa-check"></i></td> <!-- Event Add -->
+														<td><i class="fa-solid fa-check"></i></td> <!-- Event View -->
+														<td><i class="fa-solid fa-check"></i></td> <!-- Event Edit -->
+														<td><i class="fa-solid fa-check"></i></td> <!-- Event Delete -->
+														<td><i class="fa-solid fa-check"></i></td> <!-- Graphics Banner -->
+														<td><i class="fa-solid fa-check"></i></td> <!-- Graphics View -->
+														<td><i class="fa-solid fa-check"></i></td> <!-- Asset Add -->
+														<td><i class="fa-solid fa-check"></i></td> <!-- Asset View -->
+														<td><i class="fa-solid fa-xmark"></i></td> <!-- Asset Delete -->
+													</tr>
+													<tr>
+														<td>Graphics Management</td>
+														<td></td> <!-- Status -->
+														<td><i class="fa-solid fa-xmark"></i></td> <!-- Event Add -->
+														<td><i class="fa-solid fa-check"></i></td> <!-- Event View -->
+														<td><i class="fa-solid fa-xmark"></i></td> <!-- Event Edit -->
+														<td><i class="fa-solid fa-xmark"></i></td> <!-- Event Delete -->
+														<td><i class="fa-solid fa-check"></i></td> <!-- Graphics Banner -->
+														<td><i class="fa-solid fa-check"></i></td> <!-- Graphics View -->
+														<td><i class="fa-solid fa-check"></i></td> <!-- Asset Add -->
+														<td><i class="fa-solid fa-check"></i></td> <!-- Asset View -->
+														<td><i class="fa-solid fa-check"></i></td> <!-- Asset Delete -->
+
+													</tr>
+													<tr>
+														<td>Administrator</td>
+														<td></td> <!-- Status -->
+														<td><i class="fa-solid fa-check"></i></td> <!-- Event Add -->
+														<td><i class="fa-solid fa-check"></i></td> <!-- Event View -->
+														<td><i class="fa-solid fa-check"></i></td> <!-- Event Edit -->
+														<td><i class="fa-solid fa-check"></i></td> <!-- Event Delete -->
+														<td><i class="fa-solid fa-check"></i></td> <!-- Graphics Banner -->
+														<td><i class="fa-solid fa-check"></i></td> <!-- Graphics View -->
+														<td><i class="fa-solid fa-check"></i></td> <!-- Asset Add -->
+														<td><i class="fa-solid fa-check"></i></td> <!-- Asset View -->
+														<td><i class="fa-solid fa-check"></i></td> <!-- Asset Delete -->
+													</tr>
+												</tbody>
+											</table>
+										</div>
+
 									</div>
 									<#-- /My Access -->
 
