@@ -41,7 +41,7 @@
 
 								<#-- List -->
 								<li>
-									<a href="/events/index.do" class="dropdown-item <#if navbar=="EVENTS_LIST">active</#if>">
+									<a href="${ENDPOINTS.EVENTS_LIST}" class="dropdown-item <#if navbar=="EVENTS_LIST">active</#if>">
 										<i class="fa-solid fa-list"></i>&nbsp;List
 									</a>
 								</li>

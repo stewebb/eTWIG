@@ -11,6 +11,7 @@ package net.etwig.webapp.controller.page;
 
 import net.etwig.webapp.dto.user.CurrentUserPositionDTO;
 import net.etwig.webapp.services.UserSessionService;
+import net.etwig.webapp.util.Endpoints;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PostAuthorize;
@@ -49,7 +50,7 @@ public class EventsPageController {
 
 	@GetMapping("/")
 	public String root(){
-		return "redirect:/index.do";
+		return "redirect:" + Endpoints.EVENTS_CALENDAR;
 	}
 
 	/**
@@ -58,12 +59,12 @@ public class EventsPageController {
 	 * @permission All logged in users
 	 */
 
-	@GetMapping("index.do")
-	public String index(Model model){
-
+	//@GetMapping("index.do")
+	//public String index(Model model){
+	//
 		// TODO Make an index page for events
-		return null;
-	}
+	//	return null;
+	//}
 
 	/**
 	 * Serves the event calendar page for the 'events' module, which displays a calendar with relevant event data. This method

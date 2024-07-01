@@ -1,15 +1,14 @@
 package net.etwig.webapp.util;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 
-@Getter
 @AllArgsConstructor
 public enum Endpoints {
     // Home
+    HOME            ("/home.do"),
 
     // Events
-    EVENTS          ("/events"),
+    EVENTS          ("/events/"),
     EVENTS_ADD      ("/events/add.do"),
     EVENTS_CALENDAR ("/events/calendar.do"),
     EVENTS_EDIT     ("/events/edit.do"),
@@ -17,4 +16,9 @@ public enum Endpoints {
     EVENTS_LIST     ("/events/list.do");
 
     private final String endpoint;
+
+    @Override
+    public String toString() {
+        return endpoint;
+    }
 }
