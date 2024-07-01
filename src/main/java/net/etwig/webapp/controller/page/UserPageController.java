@@ -104,7 +104,7 @@ public class UserPageController {
 
 	@GetMapping("/index.do")
     public String profile(Model model) {
-		model.addAttribute("userPermission", userSessionService.validateSession().getPermission());
+		//model.addAttribute("userPermission", userSessionService.validateSession().getPermission());
 		return "user/profile";
     }
 

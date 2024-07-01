@@ -83,12 +83,14 @@ public class CurrentUserPositionDTO {
         private final String position;
         private final String portfolioName;
         private final String portfolioColor;
+        private final String portfolioEmail;
 
         public Position(UserRole userRole){
             this.userRoleId = userRole.getId();
             this.position = userRole.getPosition();
             this.portfolioName = userRole.getPortfolio().getName();
             this.portfolioColor = userRole.getPortfolio().getColor();
+            this.portfolioEmail = userRole.getEmail();
         }
     }
 }

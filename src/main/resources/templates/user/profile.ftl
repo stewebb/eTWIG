@@ -50,15 +50,6 @@
 							<#-- Profile -->
 							<div class="card card-primary card-outline">
 								<div class="card-body box-profile">
-
-									<#-- Avatar -->
-									<div class="text-center">
-										<#--
-										<img class="profile-user-img img-fluid img-circle" src="https://api.dicebear.com/7.x/identicon/svg?seed=${firstName}">
-										-->
-										
-									</div>
-									<#-- /Avatar -->
 									
 									<#-- Name and role -->
 									<h3 class="profile-username text-center">${userBasicInfo.fullName}</h3>
@@ -108,75 +99,35 @@
 									<div class="mb-3">
 										<h5 class="bold-text mb-2">My eTWIG Access</h5>
 
-										<#--
 										<div class="table-responsive">
 											<table class="table table-head-fixed text-nowrap table-striped table-hover" id="eventRRuleAllDates">
 												<thead>
 													<tr>
-														<th>Access</th>
-														<th>Description</th>
-														<th>Status</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td>Event Management</td>
-														<td>
-															<b>Events: </b>Add, view, edit and delete events. <br>
-															<b>Graphics: </b> Make banner requests and view results; View graphics for any events. <br>
-															<b>Assets: </b>Add and view assets library; delete assets that uploaded by himself/herself. 
-														</td>
-														<td></td>
-													</tr>
-													<tr>
-														<td>Graphics Management</td>
-														<td>
-															<b>Events: </b>View events only. <br>
-															<b>Graphics: </b> Approve banner requests and view all requests; Add, view, edit and delete graphics for any events. <br>
-															<b>Assets: </b>Add, view and delete assets library; 
-														</td>
-														<td></td>
-													</tr>
-													<tr>
-														<td>Administrator</td>
-														<td>Has all permission of Event Management and Graphics Management; System administration.</td>
-														<td></td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-
-										-->
-
-										<div class="table-responsive">
-											<table class="table table-head-fixed text-nowrap table-striped table-hover" id="eventRRuleAllDates">
-												<thead>
-													<tr>
-														<th rowspan="2">Access</th> <!-- This header spans two rows -->
-														<th rowspan="2">Status</th> <!-- This header spans two rows -->
-														<th colspan="9">Detail</th> <!-- This header spans nine columns for specific permissions -->
+														<th rowspan="2" style="vertical-align: middle; text-align: center;">Access</th> <!-- This header spans two rows -->
+														<th rowspan="2" style="vertical-align: middle; text-align: center;">Status</th> <!-- This header spans two rows -->
+														<th colspan="9" style="vertical-align: middle; text-align: center;">Detail</th> <!-- This header spans nine columns for specific permissions -->
 													</tr>
 													<tr>
 														<!-- These are the sub-columns under 'Detail' -->
-														<th>Event Add</th>
-														<th>Event View</th>
-														<th>Event Edit</th>
-														<th>Event Delete</th>
-														<th>Graphics Banner</th>
-														<th>Graphics View</th>
-														<th>Asset Add</th>
-														<th>Asset View</th>
-														<th>Asset Delete</th>
+														<th>Event<br>Add</th>
+														<th>Event<br>View</th>
+														<th>Event<br>Edit</th>
+														<th>Event<br>Delete</th>
+														<th>Graphics<br>Banner</th>
+														<th>Graphics<br>View</th>
+														<th>Asset<br>Add</th>
+														<th>Asset<br>View</th>
+														<th>Asset<br>Delete</th>
 													</tr>
 												</thead>
 												<tbody>
 													<tr>
 														<td>Event Management</td>
-														<td>
+														<td class="table-${userPermission.eventsAccess?string('success', 'danger')}">
 															<#if userPermission.eventsAccess>
-																<i class="fa-solid fa-check"></i></td>
+																<i class="fa-solid fa-check text-success"></i></td>
 															<#else>
-																<i class="fa-solid fa-xmark"></i></td>
+																<i class="fa-solid fa-xmark text-danger"></i></td>
 															</#if>
 														</td> <!-- Status -->
 														<td><i class="fa-solid fa-check"></i></td> <!-- Event Add -->
@@ -191,7 +142,13 @@
 													</tr>
 													<tr>
 														<td>Graphics Management</td>
-														<td></td> <!-- Status -->
+														<td class="table-${userPermission.graphicsAccess?string('success', 'danger')}">
+															<#if userPermission.graphicsAccess>
+																<i class="fa-solid fa-check text-success"></i></td>
+															<#else>
+																<i class="fa-solid fa-xmark text-danger"></i></td>															
+															</#if>
+														</td> <!-- Status -->
 														<td><i class="fa-solid fa-xmark"></i></td> <!-- Event Add -->
 														<td><i class="fa-solid fa-check"></i></td> <!-- Event View -->
 														<td><i class="fa-solid fa-xmark"></i></td> <!-- Event Edit -->
@@ -205,7 +162,13 @@
 													</tr>
 													<tr>
 														<td>Administrator</td>
-														<td></td> <!-- Status -->
+														<td class="table-${userPermission.adminAccess?string('success', 'danger')}">
+															<#if userPermission.adminAccess>
+																<i class="fa-solid fa-check text-success"></i></td>
+															<#else>
+																<i class="fa-solid fa-xmark text-danger"></i></td>															
+															</#if>			
+														</td> <!-- Status -->
 														<td><i class="fa-solid fa-check"></i></td> <!-- Event Add -->
 														<td><i class="fa-solid fa-check"></i></td> <!-- Event View -->
 														<td><i class="fa-solid fa-check"></i></td> <!-- Event Edit -->
@@ -222,6 +185,55 @@
 
 									</div>
 									<#-- /My Access -->
+
+									<#-- My Position -->
+									<div class="mb-3">
+										<h5 class="bold-text mb-2">My Position</h5>
+
+										<div class="table-responsive" style="max-height: 300px;">
+											<table class="table table-head-fixed text-nowrap table-striped table-hover" id="eventRRuleAllDates">
+												<thead>
+													<tr>
+														<th rowspan="2" style="vertical-align: middle; text-align: center;">Position</th>
+														<th colspan="3" style="vertical-align: middle; text-align: center;">Portfolio</th>
+													</tr>
+													<tr>
+														<th>Name</th>
+														<th>Email</th>
+														<th>Color</th>
+													</tr>
+												</thead>
+												<tbody>
+													<#list userPosition.myPositions as position>		
+														<tr <#if position.userRoleId == userPosition.myCurrentPosition.userRoleId>class="bold-text"</#if>>	
+															<td>${position.position}</td>
+															<td>${position.portfolioName}</td>
+															<td>
+																<a href="mailto:${position.portfolioEmail};">${position.portfolioEmail}</a>
+															</td>
+															<td style="color:#${position.portfolioColor};">
+																<i class="fa-solid fa-square fa-xl"></i>&nbsp;#${position.portfolioColor}
+															</td>
+															<#--	
+															<#if position.userRoleId == userPosition.myCurrentPosition.userRoleId>
+																<option value="${position.userRoleId}" selected>${position.position}</option>
+															<#else>
+																<option value="${position.userRoleId}">${position.position}</option>
+															</#if>	
+															-->
+
+														</tr>		
+													</#list>
+												</tbody>
+											</table>
+											<small class="form-text text-muted">
+												<b>Row with bold text</b> indicates current selected position.
+												You can switch positions by clicking the <b><i class="fa-solid fa-user fa-sm"></i>&nbsp;User</b> icon on the NavBar.
+											</small>
+
+										</div>
+									</div>
+									<#-- /My Position -->
 
 									<#-- Change password. -->
 									<div class="mb-2">
