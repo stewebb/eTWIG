@@ -61,34 +61,47 @@
 					<div class="card-body">
 
 						<#-- Event Management -->
-						<h5>Event Management</h5>
+						<h5><i class="fa-solid fa-lightbulb"></i>&nbsp;Event Management</h5>
 						<div class="row menu-row">
 
-							
-							
-
+							<#-- List -->
 							<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
-								<div class="menu-option p-3">
+								<div class="menu-option p-3" onclick="window.location.href='${ENDPOINTS.EVENTS_LIST}';">
 								    <div><i class="fa fa-list fa-super"></i></div>
                     				<div>List</div>
-								
 								</div>
 							</div>
+							<#-- /List -->
+
+							<#-- Calendar -->
 							<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
-								<div class="menu-option p-3">Option 2</div>
+								<div class="menu-option p-3">
+								    <div><i class="fa fa-calendar-check fa-super"></i></div>
+                    				<div>Calendar</div>
+								</div>
 							</div>
+							<#-- /Calendar -->
+
+							<#-- Add -->
+							<#if userPermission.eventsAccess>
 							<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
-								<div class="menu-option p-3">Option 3</div>
+								<div class="menu-option p-3">
+								    <div><i class="fa fa-calendar-plus fa-super"></i></div>
+                    				<div>Add</div>
+								</div>
 							</div>
+							<#-- /Add -->
+
+							<#-- Import -->
 							<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
-								<div class="menu-option p-3">Option 4</div>
+								<div class="menu-option p-3">
+								    <div><i class="fa-solid fa-cloud-arrow-up fa-super"></i></div>
+                    				<div>Import</div>
+								</div>
 							</div>
-							<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
-								<div class="menu-option p-3">Option 5</div>
-							</div>
-							<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
-								<div class="menu-option p-3">Option 6</div>
-							</div>
+							</#if>
+							<#-- /Import -->
+
 						</div>
 					</div>
 				</div>

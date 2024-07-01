@@ -56,6 +56,7 @@
 								<#-- /Calendar -->
 								
 								<#-- Add -->
+								<#if userPermission.eventsAccess>
 								<li>
 									<a href="${ENDPOINTS.EVENTS_ADD}" class="dropdown-item <#if navbar=="EVENTS_ADD">active</#if>">
 										<i class="fa-solid fa-calendar-plus"></i>&nbsp;Add
@@ -64,7 +65,6 @@
 								<#-- /Add -->
 
 								<#-- Import -->
-								<#if userPermission.eventsAccess>
 								<li>
 									<a href="${ENDPOINTS.EVENTS_IMPORT}" class="dropdown-item <#if navbar=="EVENTS_IMPORT">active</#if>">
 										<i class="fa-solid fa-cloud-arrow-up"></i>&nbsp;Import

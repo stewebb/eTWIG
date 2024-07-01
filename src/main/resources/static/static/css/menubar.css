@@ -1,5 +1,5 @@
 .menu-option {
-    height: 191px;
+    height: 128px;
     background-color: #f8f9fa;
     border: 1px solid #dee2e6;
     display: flex;
@@ -7,7 +7,7 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 4px;
-    font-size: 24px;
+    font-size: 20px;
 }
 
   .menu-row {
@@ -28,6 +28,6 @@
   }
 
   .fa-super {
-    font-size: 64px; /* Super-big icon size */
-    margin-bottom: 10px; /* Space between icon and text */
+    font-size: 48px; /* Super-big icon size */
+    margin-bottom: 8px; /* Space between icon and text */
 }
