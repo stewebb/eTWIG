@@ -6,8 +6,9 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    text-align: center;
     margin-bottom: 4px;
-    font-size: 20px;
+    font-size: 18px;
 }
 
   .menu-row {
@@ -28,6 +29,12 @@
   }
 
   .fa-super {
-    font-size: 48px; /* Super-big icon size */
+    font-size: 42px; /* Super-big icon size */
     margin-bottom: 8px; /* Space between icon and text */
+}
+
+.icon {
+    height: 42px; /* Matching SVG size with Font Awesome */
+    width: 42px; /* Maintain aspect ratio */
+    margin-bottom: 8px;
 }
