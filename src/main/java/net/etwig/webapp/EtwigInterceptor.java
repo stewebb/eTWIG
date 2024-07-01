@@ -32,6 +32,9 @@ public class EtwigInterceptor implements HandlerInterceptor{
 
 	@Autowired
 	private UserSessionService userSessionService;
+
+	@Autowired
+	private Endpoints endpoints;
 	
 	/**
 	 * Add data that shared across the application.
@@ -51,7 +54,7 @@ public class EtwigInterceptor implements HandlerInterceptor{
 			modelAndView.addObject("userPermission", wrapper.getPermission());
 			modelAndView.addObject("userPosition", wrapper.getPosition());
 		}
-		modelAndView.addObject("ENDPOINTS", Endpoints.class);
+		modelAndView.addObject("ENDPOINTS", endpoints);
 
 		// Application information.
 		LinkedHashMap<String, Object> appInfo = new LinkedHashMap<>();

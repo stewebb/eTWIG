@@ -38,8 +38,8 @@
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item active">
-									<a href="/events/calendar.do">Calendar</a>&nbsp|&nbsp
-									<a href="/events/list.do">List</a>
+									<a href="${ENDPOINTS.EVENTS_CALENDAR}">Calendar</a>&nbsp|&nbsp
+									<a href="${ENDPOINTS.EVENTS_LIST}">List</a>
 								</li>
 							</ol>
 						</div>

@@ -13,7 +13,7 @@
 					
 						<#-- Home -->
 						<li class="nav-item <#if navbar=="HOME">active</#if>">
-							<a href="/home.do" class="nav-link navbar-border">
+							<a href="${ENDPOINTS.HOME}" class="nav-link navbar-border">
 								<i class="fa-solid fa-home"></i>&nbsp;Home
 							</a>
 						</li>
@@ -49,7 +49,7 @@
 
 								<#-- Calendar -->
 								<li>
-									<a href="/events/calendar.do" class="dropdown-item <#if navbar=="EVENTS_CALENDAR">active</#if>">
+									<a href="${ENDPOINTS.EVENTS_CALENDAR}" class="dropdown-item <#if navbar=="EVENTS_CALENDAR">active</#if>">
 										<i class="fa-solid fa-calendar-check"></i>&nbsp;Calendar
 									</a>
 								</li>
@@ -57,7 +57,7 @@
 								
 								<#-- Add -->
 								<li>
-									<a href="/events/add.do" class="dropdown-item <#if navbar=="EVENTS_ADD">active</#if>">
+									<a href="${ENDPOINTS.EVENTS_ADD}" class="dropdown-item <#if navbar=="EVENTS_ADD">active</#if>">
 										<i class="fa-solid fa-calendar-plus"></i>&nbsp;Add
 									</a>
 								</li>
@@ -66,7 +66,7 @@
 								<#-- Import -->
 								<#if userPermission.eventsAccess>
 								<li>
-									<a href="/events/import.do" class="dropdown-item <#if navbar=="EVENTS_IMPORT">active</#if>">
+									<a href="${ENDPOINTS.EVENTS_IMPORT}" class="dropdown-item <#if navbar=="EVENTS_IMPORT">active</#if>">
 										<i class="fa-solid fa-cloud-arrow-up"></i>&nbsp;Import
 									</a>
 								</li>

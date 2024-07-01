@@ -37,6 +37,9 @@ public class EventsPageController {
 	@Autowired
 	private UserSessionService userSessionService;
 
+	@Autowired
+	private Endpoints endpoints;
+
 	/**
 	 * Handles the HTTP GET request at the root of the 'events' module by redirecting to the main index page. This method serves as
 	 * the entry point for the events section of the application, where it automatically redirects users to a centralized index page,
@@ -50,7 +53,7 @@ public class EventsPageController {
 
 	@GetMapping("/")
 	public String root(){
-		return "redirect:" + Endpoints.EVENTS_CALENDAR;
+		return "redirect:" + endpoints.getEVENTS_CALENDAR();
 	}
 
 	/**

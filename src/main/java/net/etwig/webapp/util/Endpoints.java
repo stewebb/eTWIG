@@ -1,24 +1,21 @@
 package net.etwig.webapp.util;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import org.springframework.stereotype.Component;
 
-@AllArgsConstructor
-public enum Endpoints {
+@Component
+@Getter
+public class Endpoints {
     // Home
-    HOME            ("/home.do"),
+    public final String HOME            = "/home.do";
 
     // Events
-    EVENTS          ("/events/"),
-    EVENTS_ADD      ("/events/add.do"),
-    EVENTS_CALENDAR ("/events/calendar.do"),
-    EVENTS_EDIT     ("/events/edit.do"),
-    EVENTS_IMPORT   ("/events/import.do"),
-    EVENTS_LIST     ("/events/list.do");
+    private final String EVENTS          = "/events/";
+    private final String EVENTS_ADD      = "/events/add.do";
+    private final String EVENTS_CALENDAR = "/events/calendar.do";
+    private final String EVENTS_EDIT     = "/events/edit.do";
+    private final String EVENTS_IMPORT   = "/events/import.do";
+    private final String EVENTS_LIST     = "/events/list.do";
 
-    private final String endpoint;
-
-    @Override
-    public String toString() {
-        return endpoint;
-    }
 }
