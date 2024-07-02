@@ -22,8 +22,22 @@ public class UserService {
     @Autowired
     private UserRoleRepository userRoleRepository;
 
-    public Page<UserListDTO> getAllUsersWithPositions(Pageable pageable) {
-        Page<Object[]> rawData = userRoleRepository.findAllUsersWithPositions(pageable);
+    public Page<UserListDTO> getAllUsersWithPositions(Long portfolioId, String roleId, Pageable pageable) {
+
+        Specification<UserRole> spec = userCriteria(portfolioId, roleId);
+
+        // Adjust this query to use specifications and properly project the required data
+        Page<Object[]> rawData = userRoleRepository.findAll(spec, pageable).map(
+                ur -> new Object[] {
+                        ur.getUser().getId(),           // User ID
+                        ur.getUser().getFullName(),     // User Name
+                        ur.getId(),                     // Position ID
+                        ur.getPosition()                // Position Name
+                }
+        );
+
+        // TODO
+        //Page<Object[]> rawData = userRoleRepository.findAllUsersWithPositions(pageable);
         Map<Long, UserListDTO> users = new LinkedHashMap<>();
 
         rawData.forEach(objects -> {
@@ -41,7 +55,7 @@ public class UserService {
         return new PageImpl<>(dtos, pageable, rawData.getTotalElements());
     }
 
-    public Specification<UserRole> userPositionCriteria(Long portfolioId, String roleId) {
+    public Specification<UserRole> userCriteria(Long portfolioId, String roleId) {
         return (root, query, criteriaBuilder) -> {
             Predicate finalPredicate = criteriaBuilder.conjunction();
 

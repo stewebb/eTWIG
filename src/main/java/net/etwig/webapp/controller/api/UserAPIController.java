@@ -1,5 +1,6 @@
 package net.etwig.webapp.controller.api;
 
+import net.etwig.webapp.dto.admin.UserListDTO;
 import net.etwig.webapp.dto.graphics.BannerRequestDetailsDTO;
 import net.etwig.webapp.services.UserRoleService;
 import net.etwig.webapp.services.UserService;
@@ -90,7 +91,7 @@ public class UserAPIController {
 		PageRequest pageable = PageRequest.of(start / length, length, Sort.by(dir, sortColumn));
 
 		// Get data as pages
-		Page<BannerRequestDetailsDTO> page = bannerRequestService.findRequestsByCriteria(eventId, isApproved, pageable);
+		Page<UserListDTO> page = userService.getAllUsersWithPositions(portfolioId, roleId, pageable);
 
 		Map<String, Object> json = new HashMap<>();
 		json.put("draw", draw);
