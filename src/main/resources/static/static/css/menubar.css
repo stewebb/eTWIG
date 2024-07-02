@@ -1,3 +1,15 @@
+/**
+ * General: Defines the appearance and layout of individual menu options within the user interface.
+ *
+ * Specifics: 
+ * - Sets a fixed height.
+ * - Applies background color and border.
+ * - Utilizes flexbox for centering content.
+ * - Aligns text centrally.
+ * - Adds bottom margin for spacing.
+ * - Specifies font size.
+ */
+
 .menu-option {
     height: 128px;
     background-color: #f8f9fa;
@@ -11,30 +23,69 @@
     font-size: 18px;
 }
 
-  .menu-row {
-    margin-right: -15px; /* Adjust margins for precise alignment */
-    margin-left: -15px; /* Adjust margins for precise alignment */
-  }
+/**
+ * General: Adjusts the margins of the row container for menu items to ensure precise alignment.
+ *
+ * Specifics:
+ * - Modifies right and left margins to control spacing.
+ */
 
-  .menu-col {
-    padding: 8px; /* Padding to create some space around items */
-  }
-  
-  /* Enhance hover effect */
-  .menu-option:hover {
-    background-color: #004aad1f; /* Change background on hover */
-    cursor: pointer; /* Indicates an interactive element */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Soft shadow for 3D effect */
-    transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transition for hover effects */
-  }
-
-  .fa-super {
-    font-size: 42px; /* Super-big icon size */
-    margin-bottom: 8px; /* Space between icon and text */
+.menu-row {
+    margin-right: -15px;
+    margin-left: -15px;
 }
 
+/**
+ * General: Defines the spacing around individual menu columns within a row.
+ *
+ * Specifics:
+ * - Adds padding to create space around column items.
+ */
+
+.menu-col {
+    padding: 8px;
+}
+  
+/**
+ * General: Enhances the hover effect for menu options to improve interactivity and visual feedback.
+ *
+ * Specifics:
+ * - Changes background color on hover.
+ * - Changes cursor to indicate interactivity.
+ * - Adds a shadow effect for a 3D appearance.
+ * - Smooth transitions for background color and shadow.
+ */
+
+.menu-option:hover {
+    background-color: #004aad1f;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+/**
+ * General: Styles super-sized Font Awesome icons within the menu options.
+ *
+ * Specifics:
+ * - Sets a large font size.
+ * - Adds spacing between the icon and accompanying text.
+ */
+
+.fa-super {
+    font-size: 42px;
+    margin-bottom: 8px;
+}
+
+/**
+ * General: Styles SVG icons within the menu options to match the size of Font Awesome icons.
+ *
+ * Specifics:
+ * - Sets fixed height and width while maintaining aspect ratio.
+ * - Adds spacing between the icon and accompanying text.
+ */
+
 .icon {
-    height: 42px; /* Matching SVG size with Font Awesome */
-    width: 42px; /* Maintain aspect ratio */
+    height: 42px;
+    width: 42px;
     margin-bottom: 8px;
 }

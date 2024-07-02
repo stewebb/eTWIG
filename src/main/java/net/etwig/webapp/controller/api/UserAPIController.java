@@ -18,12 +18,6 @@ public class UserAPIController {
 	@Autowired
 	private UserSessionService userSessionService;
 
-	@Autowired
-	private UserRepository userRepository;
-	
-	//@Autowired
-    //private PasswordEncoder passwordEncoder;
-
 	/**
 	 * Add a user
 	 * @location /nsRest/private/user/add

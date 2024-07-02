@@ -30,7 +30,6 @@
 						<#-- /Events -->
 
 						<#-- Events -->
-						
 						<li class="nav-item dropdown <#if navbar?starts_with("EVENTS_")>active</#if>">
 							<a id="eventsSubMenu" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link navbar-border">
 								<i class="fa-solid fa-lightbulb"></i>&nbsp;Events
@@ -42,7 +41,7 @@
 								<#-- List -->
 								<li>
 									<a href="${ENDPOINTS.EVENTS_LIST}" class="dropdown-item <#if navbar=="EVENTS_LIST">active</#if>">
-										<i class="fa-solid fa-list"></i>&nbsp;List
+										<i class="fa-solid fa-calendar-week"></i>&nbsp;List
 									</a>
 								</li>
 								<#-- /List -->
@@ -93,7 +92,7 @@
 									<#-- Graphics Approval -->
 									<li>
 										<a href="/graphics/approvalList.do" class="dropdown-item <#if navbar=="GRAPHICS_APPROVAL">active</#if>">
-											<i class="fa-solid fa-circle-check"></i>&nbsp;Approval
+											<i class="fa-solid fa-thumbs-up"></i>&nbsp;Approval
 										</a>
 									</li>
 									<#-- /Graphics Approval -->
@@ -111,7 +110,7 @@
 									<#-- Summary -->
 									<li>
 										<a href="/graphics/summaryList.do" class="dropdown-item <#if navbar=="GRAPHICS_EVENTS">active</#if>">
-											<i class="fa-regular fa-rectangle-list"></i>&nbsp;Summary
+											<i class="fa-regular fa-panorama"></i>&nbsp;Summary
 										</a>
 									</li>
 									<#-- /Summary -->
@@ -122,7 +121,7 @@
 					    <#-- /Graphics -->
 
 						<li class="nav-item <#if navbar=="ASSETS">active</#if>">
-							<a href="/assets/index.do" class="nav-link navbar-border">
+							<a href="${ENDPOINTS.ASSETS_LIST}" class="nav-link navbar-border">
 								<i class="fa-solid fa-file"></i>&nbsp;Assets
 							</a>
 						</li>
@@ -232,7 +231,7 @@
 						<#-- /Switch Role -->
 						
 						<#-- Profile -->						
-						<a href="/user/index.do" class="dropdown-item">
+						<a href="${ENDPOINTS.USER_PROFILE}" class="dropdown-item">
 							<i class="fa-regular fa-id-badge"></i>&nbsp;Profile
 						</a>	
 						<#-- /Profile -->

@@ -31,17 +31,20 @@ public class AssetPageController {
 	private AssetService assetService;
 
 	/**
-	 * Handles the HTTP GET request for the root of the asset module by redirecting to the index page. This method is mapped to
-	 * the base URL of the asset module and serves as the default entry point, redirecting users to the main index page of the application.
+	 * Handles the HTTP GET request for the root of the asset module by redirecting to the index page.
+	 * This method is mapped to the base URL of the asset module and serves as the default entry point,
+	 * redirecting users to the main index page of the application.
 	 * This ensures that visitors who access the root of the asset module are guided to the appropriate starting page.
 	 *
-	 * @location /asset/  (Assuming the controller itself is mapped to "/asset")
+	 * @return a redirection string that points to the index page located at "/list.do".
+	 *         The redirection is handled internally by the framework to forward the user to the appropriate destination.
+	 * @location /asset/
 	 * @permission Accessible to all users, including visitors, without any authentication requirements.
 	 */
 
 	@GetMapping("/")
 	public String root(){
-		return "redirect:/index.do";
+		return "redirect:/list.do";
 	}
 
 	/**
@@ -110,9 +113,9 @@ public class AssetPageController {
 	 * @permission All logged in users
 	 */
 
-	@GetMapping("/index.do")
+	@GetMapping("/list.do")
 	public String index(){
-		return "assets/index";
+		return "assets/list";
 	}
 
 	/**
