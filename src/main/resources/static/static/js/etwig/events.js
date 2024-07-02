@@ -663,7 +663,7 @@ function addEvent(){
    		success: function () {
 			successPopup("Event " + modeStr + "ed successfully.");
 			setTimeout(function() { 
-				isEdit ? window.location.reload() : $(location).attr('href', $('#eventCalendarL').val()); 
+				isEdit ? window.location.reload() : $(location).attr('href', $('#eventCalendarLink').val()); 
 			}, 2500);
     	},
     	error: function (err) {

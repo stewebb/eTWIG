@@ -18,6 +18,7 @@
 
 <body class="hold-transition layout-top-nav">
 	
+	<input type="hidden" id="editEventLink" value="${ENDPOINTS.EVENTS_EDIT}"> 
 	<input type="hidden" id="summaryDetailsLink" value="${ENDPOINTS.GRAPHICS_SUMMARY_DETAILS}"> 
 	<#include "../_includes/header/body_start.ftl">
 	

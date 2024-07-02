@@ -274,7 +274,7 @@ function dateWeekWithBadgeRender(data, type, row){
 function summaryActionRender(data, type, full){
 	return `
 		<div class="btn-group">
-			<a href="/events/edit.do?eventId=${full.id}" class="btn btn-outline-secondary btn-sm" target="_blank">
+			<a href="${$('#editEventLink').val()}?eventId=${full.id}" class="btn btn-outline-secondary btn-sm" target="_blank">
 				<i class="fa-solid fa-lightbulb"></i>&nbsp;Event Info
 			</a>
 			<a href="${$('#summaryDetailsLink').val()}?eventId=${full.id}" class="btn btn-outline-primary btn-sm">

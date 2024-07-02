@@ -96,6 +96,15 @@
                     				<div>Import Event</div>
 								</div>
 							</div>
+							<#-- /Import Event -->
+
+							<#-- Import Event -->
+							<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
+								<div class="menu-option p-3" onclick="infoPopup('Please request a banner in the event details page.', '');">
+								    <div><i class="fa-solid fa-hand fa-super"></i></div>
+                    				<div>Banner Request</div>
+								</div>
+							</div>
 							</#if>
 							<#-- /Import Event -->
 
