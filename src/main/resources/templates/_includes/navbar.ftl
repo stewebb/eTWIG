@@ -91,7 +91,7 @@
 								
 									<#-- Graphics Approval -->
 									<li>
-										<a href="/graphics/approvalList.do" class="dropdown-item <#if navbar=="GRAPHICS_APPROVAL">active</#if>">
+										<a href="${ENDPOINTS.GRAPHICS_APPROVAL_LIST}" class="dropdown-item <#if navbar=="GRAPHICS_APPROVAL">active</#if>">
 											<i class="fa-solid fa-thumbs-up"></i>&nbsp;Approval
 										</a>
 									</li>
@@ -109,7 +109,7 @@
 
 									<#-- Summary -->
 									<li>
-										<a href="/graphics/summaryList.do" class="dropdown-item <#if navbar=="GRAPHICS_EVENTS">active</#if>">
+										<a href="${ENDPOINTS.GRAPHICS_SUMMARY_LIST}" class="dropdown-item <#if navbar=="GRAPHICS_EVENTS">active</#if>">
 											<i class="fa-regular fa-panorama"></i>&nbsp;Summary
 										</a>
 									</li>
@@ -130,7 +130,7 @@
 
 					    <#-- Admin -->
           				<#if userPermission.adminAccess>
-							<li class="nav-item dropdown">
+							<li class="nav-item dropdown <#if navbar?starts_with("ADMIN_")>active</#if>">
 							
 								<#-- Dropdown btn -->
 								<a id="adminSubMenu" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link navbar-border">
@@ -139,7 +139,15 @@
 								<#-- /Dropdown btn -->
 								
 								<ul aria-labelledby="adminSubMenu" class="dropdown-menu border-0 shadow">
-								
+									
+									<#-- User Admin -->
+									<li>
+										<a href="${ENDPOINTS.ADMIN_USER_LIST}" class="dropdown-item <#if navbar=="ADMIN_USER_LIST">active</#if>">
+											<i class="fa-regular fa-users-gear"></i>&nbsp;Users
+										</a>
+									</li>
+									<#-- /Admin -->
+
 								</ul>
 							</li>
 						</#if>

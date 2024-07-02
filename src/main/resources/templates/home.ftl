@@ -51,7 +51,7 @@
 			<section class="content">
 
 				<#-- Menu -->
-				<div class="card card-primary card-outline">							
+				<div class="card card-primary card-outline mb-3">							
 					<div class="card-header">
 						<h3 class="card-title">
 							<i class="fa-solid fa-compass"></i>&nbsp;Quick Link
@@ -161,6 +161,35 @@
 						</div>
 					</div>
 				</div>
+				<#-- /Menu -->
+
+				<#-- Admin -->
+				<#if userPermission.adminAccess>
+				<div class="card card-primary card-outline">							
+					<div class="card-header">
+						<h3 class="card-title">
+							<i class="fa-solid fa-user-shield"></i>&nbsp;Administration Options
+						</h3>
+					</div>
+
+					<div class="card-body">
+						<div class="row menu-row">
+
+							<#-- User Management -->
+							<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
+								<div class="menu-option p-3" onclick="window.location.href='${ENDPOINTS.ADMIN_USER_LIST}';">
+								    <div><i class="fa fa-users-gear fa-super"></i></div>
+                    				<div>User Management</div>
+								</div>
+							</div>
+							<#-- /User Management -->
+
+						</div>
+					</div>
+				</div>
+				</#if>
+				<#-- /Admin -->
+
 			</section>
 
 			<#--

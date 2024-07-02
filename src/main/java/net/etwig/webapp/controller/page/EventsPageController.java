@@ -57,19 +57,6 @@ public class EventsPageController {
 	}
 
 	/**
-	 * Event index page.
-	 * @location /events/index.do
-	 * @permission All logged in users
-	 */
-
-	//@GetMapping("index.do")
-	//public String index(Model model){
-	//
-		// TODO Make an index page for events
-	//	return null;
-	//}
-
-	/**
 	 * Serves the event calendar page for the 'events' module, which displays a calendar with relevant event data. This method
 	 * retrieves a list of portfolios via the portfolioService, and adds them to the model to be accessible within the view.
 	 * This setup is integral for displaying portfolios that may be linked to specific events on the calendar. The calendar
@@ -119,8 +106,7 @@ public class EventsPageController {
 
 	@GetMapping("/import.do")
 	@PostAuthorize("hasAuthority('ROLE_EVENTS')")
-	public String importEvent(Model model){
-		//model.addAttribute("portfolios", portfolioService.getAllPortfolioList());
+	public String importEvent(){
 		return "events/import";
 	}
 }

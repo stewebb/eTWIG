@@ -7,6 +7,10 @@ import org.springframework.stereotype.Component;
 @Getter
 public class Endpoints {
 
+    // Admin
+    private final String ADMIN                      = "/admin/";
+    private final String ADMIN_USER_LIST            = "/admin/userList.do";
+
     // Assets
     private final String ASSETS                     = "/assets/";
     private final String ASSETS_LIST                = "/assets/list.do";
