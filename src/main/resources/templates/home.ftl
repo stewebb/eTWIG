@@ -105,7 +105,7 @@
 							<#-- Event Graphics Summary -->
           					<#if userPermission.graphicsAccess>
 							<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
-								<div class="menu-option p-3" onclick="window.location.href='#';">
+								<div class="menu-option p-3" onclick="window.location.href='${ENDPOINTS.GRAPHICS_SUMMARY_LIST}';">
 								    <div><i class="fa fa-rectangle-list fa-super"></i></div>
                     				<div>Event Graphics Summary</div>
 								</div>
@@ -114,7 +114,7 @@
 
 							<#-- Banner Request Approval -->
 							<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
-								<div class="menu-option p-3" onclick="window.location.href='#';">
+								<div class="menu-option p-3" onclick="window.location.href='${GRAPHICS_APPROVAL_LIST}';">
 								    <div><i class="fa fa-circle-check fa-super"></i></div>
                     				<div>Banner Request Approval</div>
 								</div>
@@ -124,7 +124,7 @@
 
 							<#-- Asset Management -->
 							<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
-								<div class="menu-option p-3" onclick="window.location.href='#';">
+								<div class="menu-option p-3" onclick="window.location.href='${ASSETS_LIST}';">
 								    <div><i class="fa fa-file fa-super"></i></div>
                     				<div>Asset Management</div>
 								</div>
@@ -145,7 +145,7 @@
 
 							<#-- User Profile -->
 							<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
-								<div class="menu-option p-3" onclick="window.location.href='#';">
+								<div class="menu-option p-3" onclick="window.location.href='${USER_PROFILE}';">
 								    <div><i class="fa fa-id-badge fa-super"></i></div>
                     				<div>User Profile</div>
 								</div>
