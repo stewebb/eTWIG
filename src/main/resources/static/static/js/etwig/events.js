@@ -32,9 +32,6 @@ function getEventInfo(datePickersMap){
 	// Get eventId
 	var urlParams = new URLSearchParams(window.location.search);
     var eventId = urlParams.get('eventId');
-    
-    // Get my positions
-    // var myPositions = getMyPositions();
 
 	// Set mode (add or edit)
 	var isEdit = pageName.includes("edit");
@@ -98,7 +95,7 @@ function getEventInfo(datePickersMap){
 		//$('#currentAction').text('edit');
 		$('#eventPageTitle').text('Edit Event: ' + eventInfo.name);
 		$('#eventPageLink').text('Edit');
-		$('#eventPageLink').attr('href', '/events/edit.do?eventId=-' + eventInfo.id);
+		$('#eventPageLink').attr('href', $('#editEventLink').val() + '?eventId=' + eventInfo.id);
 
 		// Copy and graphics, only available in edit mode.
 		$('.event-hidden-tabs').show();
@@ -299,7 +296,7 @@ function getEventInfo(datePickersMap){
 		//$('#currentAction').text('add');
 		$('#eventPageTitle').text('Add Event');
 		$('#eventPageLink').text('Add');
-		$('#eventPageLink').attr('href', '/events/add.do');
+		$('#eventPageLink').attr('href', $('#addEventLink').val());
 		$('#isEdit').val('0');
 		
 		// Set role(s).
@@ -665,7 +662,9 @@ function addEvent(){
    		data: JSON.stringify(newEventObj),
    		success: function () {
 			successPopup("Event " + modeStr + "ed successfully.");
-			setTimeout(function() { isEdit ? window.location.reload() : $(location).attr('href','/events/calendar.do'); }, 2500);
+			setTimeout(function() { 
+				isEdit ? window.location.reload() : $(location).attr('href', $('#eventCalendarL').val()); 
+			}, 2500);
     	},
     	error: function (err) {
     		dangerPopup("Failed to " + modeStr +"  event due to a HTTP " + err.status + " error.", err.responseJSON.exception);

@@ -22,7 +22,9 @@
 	<#-- Main Wrapper -->
 	<div class="wrapper">
 
-		<#-- Navbar -->
+		<input type="hidden" id="addEventLink" value="${ENDPOINTS.EVENTS_ADD}">
+		<input type="hidden" id="editEventLink" value="${ENDPOINTS.EVENTS_EDIT}"> 
+		<input type="hidden" id="eventCalendarLink" value="${ENDPOINTS.EVENTS_CALENDAR}"> 
 		<#include "../_includes/navbar.ftl">
 
 		<#-- Content Wrapper. -->

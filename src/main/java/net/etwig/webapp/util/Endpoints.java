@@ -28,7 +28,7 @@ public class Endpoints {
     private final String GRAPHICS_APPROVAL_DETAILS  = "/graphics/approvalDetails.do";
     private final String GRAPHICS_APPROVAL_LIST     = "/graphics/approvalList.do";
     private final String GRAPHICS_SUMMARY_LIST      = "/graphics/summaryList.do";
-    private final String GRAPHICS_SUMMERY_DETAILS   = "/graphics/eventGraphics.do";
+    private final String GRAPHICS_SUMMARY_DETAILS   = "/graphics/summaryDetails.do";
 
     // User
     private final String USER                       = "/user/";

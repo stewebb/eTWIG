@@ -40,8 +40,8 @@
 	          			</div>
 	          			<div class="col-sm-6">
 	            			<ol class="breadcrumb float-sm-right">
-								<li class="breadcrumb-item"><a href="/graphics/approvalList.do">Approval</a></li>
-								<li class="breadcrumb-item active"><a href="/graphics/approvalDetails.do?requestId=${requestInfo.id}">Details</a></li>
+								<li class="breadcrumb-item"><a href="${ENDPOINTS.GRAPHICS_APPROVAL_LIST}">Approval</a></li>
+								<li class="breadcrumb-item active"><a href="${ENDPOINTS.GRAPHICS_APPROVAL_DETAILS}?requestId=${requestInfo.id}">Details</a></li>
 	            			</ol>
 	          			</div>
 	        		</div>

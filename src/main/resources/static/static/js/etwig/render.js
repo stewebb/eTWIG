@@ -151,7 +151,7 @@ function optionalFieldsRender(data, type, row) {
 
 function requestActionRender(data, type, full){
 	return `
-		<a href="/graphics/approvalDetails.do?requestId=${full.id}" class="btn btn-outline-primary btn-sm">
+		<a href="${$('#approvalDetailsLink').val()}?requestId=${full.id}" class="btn btn-outline-primary btn-sm">
             <i class="fa-solid fa-eye"></i>&nbsp;Details
 		</a>
 	`;
@@ -277,8 +277,8 @@ function summaryActionRender(data, type, full){
 			<a href="/events/edit.do?eventId=${full.id}" class="btn btn-outline-secondary btn-sm" target="_blank">
 				<i class="fa-solid fa-lightbulb"></i>&nbsp;Event Info
 			</a>
-			<a href="/graphics/eventGraphics.do?eventId=${full.id}" class="btn btn-outline-primary btn-sm">
-				<i class="fa-solid fa-image"></i>&nbsp;Graphics
+			<a href="${$('#summaryDetailsLink').val()}?eventId=${full.id}" class="btn btn-outline-primary btn-sm">
+				<i class="fa-solid fa-image"></i>&nbsp;Details
 			</a>
 		</div>
 	`;
