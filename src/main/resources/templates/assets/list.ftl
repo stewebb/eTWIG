@@ -24,6 +24,7 @@
 	<#-- Main Wrapper -->
 	<div class="wrapper">
 	
+		<input type="hidden" id="assetContentLink" value="${ENDPOINTS.ASSETS_CONTENT}"> 
 		<#include "../_includes/navbar.ftl">
 
 		<#-- Content Wrapper. -->

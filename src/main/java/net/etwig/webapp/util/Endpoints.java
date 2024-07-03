@@ -13,6 +13,7 @@ public class Endpoints {
 
     // Assets
     private final String ASSETS                     = "/assets/";
+    private final String ASSETS_CONTENT             = "/assets/content.do";
     private final String ASSETS_LIST                = "/assets/list.do";
     private final String ASSETS_SELECTOR            = "assets/_selectFile.do";
 

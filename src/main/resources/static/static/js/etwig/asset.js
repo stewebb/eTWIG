@@ -233,7 +233,28 @@ function assetListTable(){
 			{ "data": "uploader", "orderable": false },
 			{ "data": "lastModified", "orderable": true, "render": dateWeekRender },
 			{ "mRender": assetPreviewRender, "orderable": false },
-			{ "mRender": assetListActionRender, "orderable": false }
+			{ 
+				// Action
+				"mRender": function (data, type, full) {
+					var disabledStr = full.canDelete ? '' : 'disabled';
+					return `
+						<div class="btn-group" role="group">
+							<a href="${$('#assetContentLink').val()}?assetId=${full.id}&download=true" class="btn btn-outline-secondary btn-sm" target="_blank">
+								<i class="fa-solid fa-download"></i>&nbsp;Download
+							</a>&nbsp;
+				
+							<a href="${$('#assetContentLink').val()}?assetId=${full.id}&download=false" class="btn btn-outline-primary btn-sm" target="_blank">
+								<i class="fa-solid fa-magnifying-glass-plus"></i>&nbsp;View
+							</a>&nbsp;
+				
+							<button type="button" class="btn btn-outline-danger btn-sm" ${disabledStr}>
+								<i class="fa-solid fa-trash"></i>&nbsp;Delete
+							</button>
+						</div>
+					`;
+				}, 
+				"orderable": false 
+			}
 		]
 	});
 }
