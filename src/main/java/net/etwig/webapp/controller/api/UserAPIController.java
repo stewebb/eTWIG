@@ -87,6 +87,11 @@ public class UserAPIController {
 			@RequestParam("sortDirection") String sortDirection
 	) {
 
+		System.out.println(sortColumn);
+		if ("username".equalsIgnoreCase(sortColumn)) {
+			sortColumn = "user.fullName";
+		}
+
 		Sort.Direction dir = "asc".equalsIgnoreCase(sortDirection) ? Sort.Direction.ASC : Sort.Direction.DESC;
 		PageRequest pageable = PageRequest.of(start / length, length, Sort.by(dir, sortColumn));
 

@@ -6,15 +6,11 @@ function userListTable() {
             "url": "/api/user/list",
             "type": "GET",
             "data": function(d) {
-                // Add any additional parameters here
-                //d.portfolioId = $('#portfolioId').val();
-                //d.roleId = $('#roleId').val();
-                d.start = d.start;
-                d.length = d.length;
-                d.draw = d.draw;
-                d.sortColumn = d.columns[d.order[0].column].data;
-                d.sortDirection = d.order[0].dir;
-            }
+				return $.extend({}, d, {
+					"sortColumn": d.columns[d.order[0].column].data,
+					"sortDirection": d.order[0].dir
+				});
+			}
         },
         "columns": [
             { "data": "userId" },
@@ -23,24 +19,28 @@ function userListTable() {
             { "data": "userLastLogin" },
             { 
                 "data": "userPositions",
+                "orderable": false,
                 "render": function(data, type, row) {
-                    return data.map(pos => pos.positionName).join("<br>");
+                    return data.map(pos => `<span>${pos.positionName}</span>`).join("<br class='mb-1'>");
                 }
             },
             { 
                 "data": "userPositions",
+                "orderable": false,
                 "render": function(data, type, row) {
-                    return data.map(pos => pos.portfolioName).join("<br>");
+                    return data.map(pos => `<span style="color:#${pos.portfolioColor};">${pos.portfolioName}</span>`).join("<br class='mb-1'>");
                 }
             },
             { 
                 "data": "userPositions",
+                "orderable": false,
                 "render": function(data, type, row) {
-                    return data.map(pos => pos.portfolioEmail).join("<br>");
+                    return data.map(pos => `<span>${pos.portfolioEmail}</span>`).join("<br class='mb-1'>");
                 }
             },
             {
                 "data": null,
+                "orderable": false,
                 "defaultContent": "<button class='btn btn-outline-primary btn-sm'>Action</button>"
             }
         ]

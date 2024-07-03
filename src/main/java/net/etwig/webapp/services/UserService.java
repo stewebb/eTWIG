@@ -30,11 +30,15 @@ public class UserService {
         // Adjust this query to use specifications and properly project the required data
         Page<Object[]> rawData = userRoleRepository.findAll(spec, pageable).map(
                 ur -> new Object[] {
-                        ur.getUser().getId(),           // 0: User ID
-                        ur.getUser().getFullName(),     // 1: User Name
-                        ur.getUser().getEmail(),        // 2: User Email
-                        ur.getUser().getLastLogin(),    // 3: User Last Login
-                        ur.getPosition()                // 4: Position Name
+                        ur.getUser().getId(),                   // 0: User ID
+                        ur.getUser().getFullName(),             // 1: User Name
+                        ur.getUser().getEmail(),                // 2: User Email
+                        ur.getUser().getLastLogin(),            // 3: User Last Login
+                        ur.getPosition(),                       // 4: Position Name
+                        ur.getPortfolio().getName(),            // 5: Portfolio Name
+                        ur.getPortfolio().getAbbreviation(),    // 6: Portfolio Abbreviation
+                        ur.getPortfolio().getColor(),           // 7: Portfolio Color
+                        ur.getEmail()                           // 8: Portfolio Email
                 }
         );
 
@@ -45,12 +49,19 @@ public class UserService {
             String userName = (String) objects[1];
             String userEmail = (String) objects [2];
             LocalDateTime userLastLogin = (LocalDateTime) objects[3];
-            //Long positionId = (Long) objects[4];
             String positionName = (String) objects[4];
+            String portfolioName = (String) objects[5];
+            String portfolioAbbr = (String) objects[6];
+            String portfolioColor = (String) objects[7];
+            String portfolioEmail = (String) objects[8];
 
             UserListDTO userDto = users.computeIfAbsent(userId, id -> new UserListDTO());
             userDto.setUser(userId, userName, userEmail, userLastLogin);
-            userDto.addPosition(positionName, null, null, null);
+            userDto.addPosition(
+                    positionName,
+                    (portfolioAbbr == null || portfolioAbbr.isEmpty()) ? portfolioName : portfolioName + " (" + portfolioAbbr +")",
+                    portfolioColor,
+                    portfolioEmail);
         });
 
         List<UserListDTO> dtos = new ArrayList<>(users.values());
