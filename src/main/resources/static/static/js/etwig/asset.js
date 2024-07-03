@@ -70,71 +70,6 @@ function lastModifiedRender(data, type, row){
 	return timeAgo(data); 
 }
 
-/*
-function previewAsset(asset){
-	
-	// Not selected
-	if(asset == undefined || asset == null){
-		$("#previewContent").html(`
-			<div class="d-flex justify-content-center mb-2">
-				<i class="fa-regular fa-arrow-pointer big-icons"></i>
-			</div>
-									
-			<div class="d-flex justify-content-center bold-text text-secondary">
-				Select an asset to preview by clicking a row in the above table.
-			</div>
-		`);
-		
-		$("#downloadBtn").attr("onclick", "");
-		$("#downloadBtn").attr("href", "#");
-		$("#downloadBtn").attr("disabled", true);
-		
-		$("#selectBtn").attr("onclick", ``);
-		$("#selectBtn").attr("disabled", true);
-		return;
-	}
-	
-	var fileURL = "/assets/content.do?assetId=" + asset.id;
-	var category = asset.fileCategory;
-	
-	// File type is IMAGE, show an image on the screen.
-	if(category == "IMAGE"){
-		$("#previewContent").html(`<img src="${fileURL}" class="img-fluid"></img>`);
-	}
-	
-	// File type is TEXT, show an textarea on the screen.
-	else if(category == "TEXT"){
-		$.get(fileURL, function(data) {
-   			$("#previewContent").html(`<textarea class="form-control" readonly>${data}</textarea>`);
-		}, 'text');
-	}
-	
-	// Other file types, no preview available.
-	else{
-		$("#previewContent").html(`
-			<div class="d-flex justify-content-center big-icons mb-2">
-				<i class="fa-solid fa-eye-slash"></i>
-			</div>
-									
-			<div class="d-flex justify-content-center bold-text text-secondary">
-				Preview is not available, please download the file directly.
-			</div>
-		`);
-	}
-	
-	$("#downloadBtn").attr("onclick", `window.location.href='${fileURL}&download=true'`);
-	$("#downloadBtn").attr("href", "fileURL");
-	$("#downloadBtn").attr("disabled", false);
-	
-	$("#selectBtn").attr("onclick", `
-		parent.$("#uploadCallback").val(${asset.id});
-		parent.$("#uploadImage").attr("src", "${fileURL}");
-		parent.$('#etwigModal').modal('hide');
-	`);
-	$("#selectBtn").attr("disabled", false);
-}
-*/
-
 /**
  * Handles the uploading of a file to a specified endpoint via AJAX POST request.
  * This function supports both single and multiple file upload modes, but only processes one file per call.
@@ -233,7 +168,7 @@ function assetListTable(){
 				} 
 			},
 			{ "data": "uploader", "orderable": false },
-			{ "data": "lastModified", "orderable": true, "render": dateWeekRender },
+			{ "data": "lastModified", "render": dateWeekRender },
 			{ "mRender": assetPreviewRender, "orderable": false },
 			{ 
 				// Action

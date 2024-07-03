@@ -82,6 +82,19 @@ function dangerPopup(title, body){
 	  });
 }
 
+/**
+ * Calculates how much time has passed since a given date string.
+ * The function parses the date string, computes the difference with the current date and time,
+ * and returns a human-readable string representing the time elapsed.
+ *
+ * @param {string} dateStr - The date string in ISO 8601 format (YYYY-MM-DDTHH:MM:SS). Milliseconds and timezone offset are optional.
+ * @returns {string} A human-readable string indicating the time elapsed since the date provided.
+ *                   Returns 'In the future' if the date is ahead of the current date.
+ *
+ * Example usage:
+ * timeAgo('2023-07-04T12:00:00'); // Returns 'X hours ago', 'X days ago', etc., depending on the current date and time.
+ */
+
 function timeAgo(dateStr) {
 	
 	// Remove the milliseconds, if needed.
@@ -91,9 +104,6 @@ function timeAgo(dateStr) {
     var now = new Date();
     var date = Date.parse(dateStr);
     var diff = now - date;
-
-	//console.log("now", now);
-	//console.log("date", date);
 	
     if (diff < 0) {
         return "In the future";
@@ -115,10 +125,19 @@ function timeAgo(dateStr) {
 }
 
 /**
- * Format the duration from minutes to day, hour and minutes.
- * e.g., input 70, output 1 hour, 10 minutes.
- * @param {int} minutesTotal The total minutes
- * @returns The duration string that combines with days, hours and minutes
+ * Formats the duration from minutes into a readable string representing the time in days, hours, and minutes.
+ * This function computes the total days, hours, and minutes from a given number of total minutes.
+ * It formats these durations into a human-readable string.
+ * For example, an input of 70 minutes will output "1 hour, 10 minutes".
+ *
+ * @param {number} minutesTotal - The total number of minutes to format.
+ * @returns {string} A string that represents the formatted duration combining days, hours, and minutes as needed.
+ *                   Days are added to the string if the total minutes amount to one full day or more.
+ *                   Hours are shown unless they are zero, and minutes are shown unless they are zero.
+ *                   Each unit is correctly pluralized.
+ *
+ * Example usage:
+ * formatTime(1441); // Returns "1 day, 1 minute"
  */
 
 function formatTime(minutesTotal) {
@@ -146,6 +165,23 @@ function formatTime(minutesTotal) {
 
     return formattedTime;
 }
+
+/**
+ * Constrains a number to be within a specified range.
+ * If the number is less than the minimum boundary, it returns the minimum boundary.
+ * If the number is more than the maximum boundary, it returns the maximum boundary.
+ * If the number is within the range, it returns the number unchanged.
+ *
+ * @param {number} num - The number to constrain.
+ * @param {number} min - The minimum boundary of the range.
+ * @param {number} max - The maximum boundary of the range.
+ * @returns {number} The constrained number, guaranteed to be within the [min, max] range.
+ *
+ * Example usage:
+ * constrainNumber(5, 1, 10);  // Returns 5
+ * constrainNumber(-3, 1, 10); // Returns 1
+ * constrainNumber(15, 1, 10); // Returns 10
+ */
 
 function constrainNumber(num, min, max){
 	if(num < min)	return min;

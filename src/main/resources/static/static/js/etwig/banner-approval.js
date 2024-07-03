@@ -94,7 +94,6 @@ function decide(){
 		approvalDecisionObj["asset"] = assetId;
 	}
 		
-	//var hasError = true;
 	$.ajax({
    		url: '/api/bannerRequest/approve', 
    		type: "POST",
@@ -108,15 +107,8 @@ function decide(){
     	},
     	error: function (err) {
     		dangerPopup("Failed to submit a decision due to a HTTP " + err.status + " error.", err.responseJSON.exception);
-    		//hasError = true;
     	}
  	});
-
-	// Redirect back
-	//if(!hasError){
-	//	setTimeout(function() {	$(location).attr('href','/graphics/approvalList.do'); }, 2500);
-	//}
-	
 }
 
 /**
