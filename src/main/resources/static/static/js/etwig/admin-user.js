@@ -1,3 +1,14 @@
+/**
+ * Initializes the DataTable for displaying the user list.
+ * 
+ * This function sets up a DataTable with server-side processing for listing users. 
+ * It configures the AJAX request to fetch user data from the server, handles sorting, 
+ * and defines how each column should be rendered. The table includes user ID, name, email, 
+ * last login, positions, and a custom action button.
+ * 
+ * @function userListTable
+ */
+
 function userListTable() {
     $('#usersTable').DataTable({
         "processing": true,

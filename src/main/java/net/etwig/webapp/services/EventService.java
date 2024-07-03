@@ -226,7 +226,6 @@ public class EventService {
 	public boolean eventEditPermissionCheck(Portfolio portfolio) {
 			
 		// Get user authority
-
 		CurrentUserDTOWrapper wrapper = userSessionService.validateSession();
 		CurrentUserPermissionDTO access = wrapper.getPermission();
 		CurrentUserPositionDTO position = wrapper.getPosition();
@@ -247,11 +246,22 @@ public class EventService {
 		}
 	}
 
-	public void deleteById (Long eventId) {
+	/**
+	 * Deletes an event and all associated entities by the given event ID.
+	 * <p>
+	 * This method performs the following actions in order:
+	 * <ol>
+	 *     <li>Deletes all event options associated with the event ID.</li>
+	 *     <li>Deletes all graphics requests associated with the event ID.</li>
+	 *     <li>Deletes all event graphics associated with the event ID.</li>
+	 *     <li>Deletes the event itself.</li>
+	 * </ol>
+	 * </p>
+	 *
+	 * @param eventId the ID of the event to be deleted
+	 */
 
-		// TODO AlSO REMOVE SELECTED OPTIONS
-		// Remove all existing options associations for the event.
-		//List<EventOption> existingEventOptions = eventOptionRepository.findByIdEventId(eventId);
+	public void deleteById (Long eventId) {
 		eventOptionRepository.deleteAll(eventOptionRepository.findByIdEventId(eventId));
 		graphicsRequestRepository.deleteByEventId(eventId);
 		eventGraphicsRepository.deleteByEventId(eventId);

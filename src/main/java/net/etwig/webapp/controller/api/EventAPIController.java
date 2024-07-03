@@ -105,12 +105,26 @@ public class EventAPIController {
         return eventService.findById(eventId);
     }
 
-    // TODO Javadoc for event removal
+    // TODO Soft remove: Hide the event but can be restored.
+
+    /**
+     * Deletes an event specified by its ID.
+     * This endpoint requires the user to be logged in. It performs the following checks:
+     * <ul>
+     *     <li>Validates that the event ID is not null or negative.</li>
+     *     <li>Verifies that the event with the given ID exists.</li>
+     *     <li>Checks if the current user has the necessary permissions to delete the event.</li>
+     * </ul>
+     *
+     * @param eventId the ID of the event to be removed
+     * @throws InvalidParameterException if the event ID is invalid or the event does not exist
+     * @throws PortfolioMismatchException if the user does not have edit permissions for the event's portfolio
+     * @location /api/event/remove
+     * @permission This endpoint requires the user to be logged in.
+     */
+
     @GetMapping("/remove")
     public void remove(@RequestParam Long eventId) {
-        // TODO Soft remove: Hide the event but can be restored.
-        // TODO Hard remove: Remove event from DB permanently.
-
         if(eventId == null || eventId <= 0) {
             throw new InvalidParameterException("EventId is invalid.");
         }

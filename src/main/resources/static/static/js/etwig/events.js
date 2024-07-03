@@ -100,6 +100,15 @@ function getEventInfo(datePickersMap){
 		// Copy and graphics, only available in edit mode.
 		$('.event-hidden-tabs').show();
 
+		// Display delete button
+		$('#deleteEventBtn').show();
+		var actionData = {
+            functionName: "removeEvent",
+            params: [eventInfo.id]
+        };
+		//console.log(actionData)
+        document.getElementById("deleteEventBtn").setAttribute("data-action", JSON.stringify(actionData));
+
 		// Get name and location
 		$('#eventName').val(eventInfo.name);
 		$('#eventLocation').val(eventInfo.location);
@@ -290,7 +299,7 @@ function getEventInfo(datePickersMap){
 		$('#eventCreatedTimeBlock').hide();
 		$('#eventUpdatedTimeBlock').hide();
 		$('.event-hidden-tabs').hide();
-		//$('#eventRequestNowBlock').show();
+		$('#deleteEventBtn').hide();
 	
 		// Set title.
 		//$('#currentAction').text('add');
@@ -776,11 +785,11 @@ function getOrdinalIndicator(n) {
  * Enable the "delete event" button when click the confirmation checkbox.
  */
 
-function deleteEventCheckboxOnChange(){
-	$('#confirmDeletion').change(function() {
-		$('#deleteEventBtn').prop('disabled', !this.checked);
-    });
-}
+//function deleteEventCheckboxOnChange(){
+//	$('#confirmDeletion').change(function() {
+//		$('#deleteEventBtn').prop('disabled', !this.checked);
+//    });
+//}
 
 /**
  * Converts a duration in minutes into a formatted string "_d __h __m".
@@ -919,13 +928,7 @@ function getGraphics(eventId, isBanner){
 			}
 
 			else{
-				$(selectedElement).html(`
-					<!--
-					<div class="d-flex justify-content-center">	
-						<i class="fa-regular fa-ban medium-icons"></i>
-					</div>
-					-->
-				
+				$(selectedElement).html(`		
 					<div class="d-flex justify-content-center bold-text text-secondary">
 						No ${title}.
 					</div>`
@@ -939,4 +942,33 @@ function getGraphics(eventId, isBanner){
 			dangerPopup(`Failed to get ${title} due to a HTTP ${err.status} error.`, err.responseJSON.exception);
 		 }
 	});
+}
+
+/**
+ * Sends an AJAX request to remove an event by its ID.
+ * 
+ * This function makes a GET request to the server to remove the specified event. 
+ * Upon successful removal, it displays a success popup message and redirects the user 
+ * to the events page after a short delay. If the request fails, it displays an error popup message 
+ * with the HTTP status code and exception details.
+ * 
+ * @function removeEvent
+ * @param {number|string} eventId - The ID of the event to be removed.
+ */
+
+function removeEvent(eventId) {
+	$.ajax({
+   		url: '/api/event/remove', 
+   		type: "GET",
+   		data: {
+			eventId: eventId
+		},
+   		success: function () {
+			successPopup("The event is removed successfully.");
+			setTimeout(function() {	$(location).attr('href','/events/'); }, 2500);
+    	},
+    	error: function (err) {
+    		dangerPopup("Failed to remove event due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+    	}
+ 	});
 }

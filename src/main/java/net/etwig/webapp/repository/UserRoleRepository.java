@@ -40,5 +40,4 @@ public interface UserRoleRepository extends JpaRepository<UserRole, Long>, JpaSp
 
 	@Query("SELECT u FROM UserRole u JOIN u.role r WHERE r.graphicsAccess = true OR r.adminAccess = true")
 	Set<UserRole> getGraphicsManagers();
-
 }
