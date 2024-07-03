@@ -104,68 +104,10 @@
 	<#include "../_includes/footer.ftl">
 	<#include "../_includes/header/body_end.ftl">
 	
-	<#-- JS for Banner Request Approval -->
-	<#--
-	<script type="text/javascript" src="/static/js/etwig/banner-approval.js?ver=${app.appVersion}"></script>
+	<script type="text/javascript" src="/static/js/etwig/admin-user.js?ver=${app.appVersion}"></script>
 	
 	<script>
-		bannerRequestListTable();
-	</script>
-	-->
-
-	<script>
-	$('#usersTable').DataTable({
-        "processing": true,
-        "serverSide": true,
-        "ajax": {
-            "url": "/api/user/list",
-            "type": "GET",
-            "data": function(d) {
-                // Add any additional parameters here
-                //d.portfolioId = $('#portfolioId').val();
-                //d.roleId = $('#roleId').val();
-                d.start = d.start;
-                d.length = d.length;
-                d.draw = d.draw;
-                d.sortColumn = d.columns[d.order[0].column].data;
-                d.sortDirection = d.order[0].dir;
-            }
-        },
-        "columns": [
-            { "data": "userId" },
-            { "data": "userName" },
-            { 
-                "data": null,
-                "defaultContent": "" // Placeholder for email column
-            },
-            { 
-                "data": null,
-                "defaultContent": "" // Placeholder for last login column
-            },
-            { 
-                "data": "userPositions",
-                "render": function(data, type, row) {
-                    return data.map(pos => pos.name).join("<br>");
-                }
-            },
-            { 
-                "data": "userPositions",
-                "render": function(data, type, row) {
-                    return data.map(pos => pos.portfolio).join("<br>");
-                }
-            },
-            { 
-                "data": "userPositions",
-                "render": function(data, type, row) {
-                    return data.map(pos => pos.email).join("<br>");
-                }
-            },
-            {
-                "data": null,
-                "defaultContent": "<button class='btn btn-outline-primary btn-sm'>Action</button>"
-            }
-        ]
-    });
+		userListTable();
 	</script>
 </body>
 </html>

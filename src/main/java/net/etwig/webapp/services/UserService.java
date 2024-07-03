@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -29,26 +30,27 @@ public class UserService {
         // Adjust this query to use specifications and properly project the required data
         Page<Object[]> rawData = userRoleRepository.findAll(spec, pageable).map(
                 ur -> new Object[] {
-                        ur.getUser().getId(),           // User ID
-                        ur.getUser().getFullName(),     // User Name
-                        ur.getId(),                     // Position ID
-                        ur.getPosition()                // Position Name
+                        ur.getUser().getId(),           // 0: User ID
+                        ur.getUser().getFullName(),     // 1: User Name
+                        ur.getUser().getEmail(),        // 2: User Email
+                        ur.getUser().getLastLogin(),    // 3: User Last Login
+                        ur.getPosition()                // 4: Position Name
                 }
         );
 
-        // TODO
-        //Page<Object[]> rawData = userRoleRepository.findAllUsersWithPositions(pageable);
         Map<Long, UserListDTO> users = new LinkedHashMap<>();
 
         rawData.forEach(objects -> {
             Long userId = (Long) objects[0];
             String userName = (String) objects[1];
-            Long positionId = (Long) objects[2];
-            String positionName = (String) objects[3];
+            String userEmail = (String) objects [2];
+            LocalDateTime userLastLogin = (LocalDateTime) objects[3];
+            //Long positionId = (Long) objects[4];
+            String positionName = (String) objects[4];
 
             UserListDTO userDto = users.computeIfAbsent(userId, id -> new UserListDTO());
-            userDto.setUser(userId, userName);
-            userDto.addPosition(positionId, positionName);
+            userDto.setUser(userId, userName, userEmail, userLastLogin);
+            userDto.addPosition(positionName, null, null, null);
         });
 
         List<UserListDTO> dtos = new ArrayList<>(users.values());
