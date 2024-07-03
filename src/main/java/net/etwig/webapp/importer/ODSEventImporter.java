@@ -41,8 +41,8 @@ public class ODSEventImporter implements EventImporter {
 
 				// StartDateTime
 				Date startDateTime = row.getCellByIndex(4).getDateTimeValue().getTime();
-				System.out.println(startDateTime);
-				System.out.println(row.getCellByIndex(5).getDateTimeValue().getTime());
+				//System.out.println(startDateTime);
+				//System.out.println(row.getCellByIndex(5).getDateTimeValue().getTime());
 				event.setStartDateTime(startDateTime);
 
 				// Duration

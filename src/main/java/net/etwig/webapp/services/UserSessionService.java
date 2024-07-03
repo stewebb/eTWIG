@@ -13,6 +13,7 @@ import net.etwig.webapp.util.InvalidPositionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
 
@@ -40,6 +41,7 @@ public class UserSessionService {
      *    {@link IllegalStateException} is thrown, indicating that the user is not assigned to any portfolio.
      * 4. A default position is assigned based on the user's roles, and this position, along with the user's ID,
      *    is stored in the session.
+     * 5. Update the user's last login time.
      * <p>
      * The user's ID and their default position ID are then stored as session attributes,
      * preparing the session for further interactions.
@@ -75,6 +77,9 @@ public class UserSessionService {
         // Store to session
         session.setAttribute("user", userId);
         session.setAttribute("position", position.getMyCurrentPositionId());
+
+        // Finally, update last login time
+        setLastLogin(user);
     }
 
     /**
@@ -163,5 +168,21 @@ public class UserSessionService {
         else{
             throw new InvalidPositionException("Selected position is invalid. You are not assigned by this position.");
         }
+    }
+
+
+    /**
+     * Updates the last login time for a given user.
+     * <p>
+     * This method sets the user's last login time to the current date and time,
+     * and then saves the updated user information to the repository.
+     * </p>
+     *
+     * @param user the user whose last login time is to be updated
+     */
+
+    public void setLastLogin(User user) {
+        user.setLastLogin(LocalDateTime.now());
+        userRepository.save(user);
     }
 }

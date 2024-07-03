@@ -69,7 +69,7 @@
 											<b>Email</b> <a class="float-right">${userBasicInfo.email}</a>
 										</li>
 										<li class="list-group-item">
-											<b>Last login</b> <a class="float-right"></a>
+											<b>Last login</b> <a class="float-right">${userBasicInfo.lastLogin?replace("T", " ")}</a>
 										</li>
 									</ul>
 									<#-- /User basic info -->

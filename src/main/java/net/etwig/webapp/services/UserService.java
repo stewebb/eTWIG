@@ -2,7 +2,9 @@ package net.etwig.webapp.services;
 
 import jakarta.persistence.criteria.Predicate;
 import net.etwig.webapp.dto.admin.UserListDTO;
+import net.etwig.webapp.model.User;
 import net.etwig.webapp.model.UserRole;
+import net.etwig.webapp.repository.UserRepository;
 import net.etwig.webapp.repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +24,9 @@ public class UserService {
 
     @Autowired
     private UserRoleRepository userRoleRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     /**
      * Retrieves a paginated list of users with their positions, filtered by portfolio ID, role ID, and search user name.

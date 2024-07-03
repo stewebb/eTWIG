@@ -30,7 +30,7 @@ function userListTable() {
             { "data": "userId" },
             { "data": "userName" },
             { "data": "userEmail" },
-            { "data": "userLastLogin" },
+            { "data": "userLastLogin", "render": dateWeekRender },
             { 
                 "data": "userPositions",
                 "orderable": false,

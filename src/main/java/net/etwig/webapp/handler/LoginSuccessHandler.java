@@ -31,9 +31,6 @@ import jakarta.servlet.http.HttpServletResponse;
  * and redirect handling. It uses {@link DefaultRedirectStrategy} for managing redirections
  * and {@link HttpSessionRequestCache} for retrieving the originally requested URL before authentication.
  * </p>
- *
- * @Component Indicates that an annotated class is a "component". Such classes are considered as candidates
- * for auto-detection when using annotation-based configuration and classpath scanning.
  */
 
 @Component
