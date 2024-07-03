@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -76,7 +77,28 @@ public class UserAPIController {
 		return null;
 	}
 
+	/**
+	 * Retrieves a paginated list of users with positions, optionally filtered by portfolio ID and role ID, and
+	 * supports sorting and searching.
+	 *
+	 * <p>This method handles HTTP GET requests to the "/list" endpoint. It requires the caller to have the
+	 * "ROLE_ADMIN" authority.
+	 *
+	 * @param portfolioId the ID of the portfolio to filter users by (optional).
+	 * @param roleId the ID of the role to filter users by (optional).
+	 * @param start the starting index of the records to be fetched.
+	 * @param length the number of records to be fetched.
+	 * @param draw the draw counter that this object is a response to.
+	 * @param sortColumn the column to sort the results by.
+	 * @param sortDirection the direction to sort the results (either "asc" for ascending or "desc" for descending).
+	 * @param searchValue the value to search for in the user data (optional).
+	 * @return a {@link ResponseEntity} containing a map with the pagination and user data.
+	 * @location /api/user/list
+	 * @permission Site administrators only.
+	 */
+
 	@GetMapping("/list")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	public ResponseEntity<Map<String, Object>> list(
 			@RequestParam(name = "portfolioId", required = false) Long portfolioId,
 			@RequestParam(name = "roleId",required = false) String roleId,
@@ -84,10 +106,11 @@ public class UserAPIController {
 			@RequestParam("length") int length,
 			@RequestParam("draw") int draw,
 			@RequestParam("sortColumn") String sortColumn,
-			@RequestParam("sortDirection") String sortDirection
+			@RequestParam("sortDirection") String sortDirection,
+			@RequestParam(name = "search[value]", required = false) String searchValue
 	) {
 
-		System.out.println(sortColumn);
+		//System.out.println(sortColumn);
 		if ("username".equalsIgnoreCase(sortColumn)) {
 			sortColumn = "user.fullName";
 		}
@@ -96,7 +119,7 @@ public class UserAPIController {
 		PageRequest pageable = PageRequest.of(start / length, length, Sort.by(dir, sortColumn));
 
 		// Get data as pages
-		Page<UserListDTO> page = userService.getAllUsersWithPositions(portfolioId, roleId, pageable);
+		Page<UserListDTO> page = userService.getAllUsersWithPositions(portfolioId, roleId, searchValue, pageable);
 
 		Map<String, Object> json = new HashMap<>();
 		json.put("draw", draw);
@@ -121,6 +144,8 @@ public class UserAPIController {
 	 * @return {@code true} if the password was successfully changed, {@code false} otherwise.
 	 * @throws IllegalArgumentException if the necessary keys are missing in {@code passwordInfo} or if
 	 *                                  password change is not allowed for the session user.
+	 * @location /api/user/changepwd
+	 * @permission All logged-in users.
 	 */
 
 	@PostMapping("/changePwd")

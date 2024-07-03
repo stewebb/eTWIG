@@ -2,6 +2,9 @@ function userListTable() {
     $('#usersTable').DataTable({
         "processing": true,
         "serverSide": true,
+        "language": {
+            "searchPlaceholder": "Search User",
+        },
         "ajax": {
             "url": "/api/user/list",
             "type": "GET",

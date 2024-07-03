@@ -91,7 +91,8 @@ public class AssetAPIController {
             @RequestParam("draw") int draw,
             @RequestParam("sortColumn") String sortColumn,
             @RequestParam("sortDirection") String sortDirection,
-            @RequestParam(name = "search[value]", required = false) String searchValue) {
+            @RequestParam(name = "search[value]", required = false) String searchValue
+    ) {
 
         Sort.Direction dir = "asc".equalsIgnoreCase(sortDirection) ? Sort.Direction.ASC : Sort.Direction.DESC;
         PageRequest pageable = PageRequest.of(start / length, length, Sort.by(dir, sortColumn));

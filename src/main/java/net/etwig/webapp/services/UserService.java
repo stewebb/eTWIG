@@ -23,9 +23,25 @@ public class UserService {
     @Autowired
     private UserRoleRepository userRoleRepository;
 
-    public Page<UserListDTO> getAllUsersWithPositions(Long portfolioId, String roleId, Pageable pageable) {
+    /**
+     * Retrieves a paginated list of users with their positions, filtered by portfolio ID, role ID, and search user name.
+     * The method also projects the required user and portfolio data.
+     *
+     * @param portfolioId the ID of the portfolio to filter users by (optional).
+     * @param roleId the ID of the role to filter users by (optional).
+     * @param searchUserName the name of the user to search for (optional).
+     * @param pageable the pagination information.
+     * @return a {@link Page} of {@link UserListDTO} containing user data and their positions.
+     */
 
-        Specification<UserRole> spec = userCriteria(portfolioId, roleId);
+    public Page<UserListDTO> getAllUsersWithPositions(
+            Long portfolioId,
+            String roleId,
+            String searchUserName,
+            Pageable pageable
+    ) {
+
+        Specification<UserRole> spec = userCriteria(portfolioId, roleId, searchUserName);
 
         // Adjust this query to use specifications and properly project the required data
         Page<Object[]> rawData = userRoleRepository.findAll(spec, pageable).map(
@@ -68,7 +84,16 @@ public class UserService {
         return new PageImpl<>(dtos, pageable, rawData.getTotalElements());
     }
 
-    public Specification<UserRole> userCriteria(Long portfolioId, String roleId) {
+    /**
+     * Creates a {@link Specification} for filtering {@link UserRole} entities based on the given criteria.
+     *
+     * @param portfolioId the ID of the portfolio to filter by (optional).
+     * @param roleId the ID of the role to filter by (optional).
+     * @param searchUserName the name of the user to search for (optional).
+     * @return a {@link Specification} for filtering {@link UserRole} entities.
+     */
+
+    public Specification<UserRole> userCriteria(Long portfolioId, String roleId, String searchUserName) {
         return (root, query, criteriaBuilder) -> {
             Predicate finalPredicate = criteriaBuilder.conjunction();
 
@@ -80,6 +105,12 @@ public class UserService {
             // Filter by roleId
             if (roleId != null) {
                 finalPredicate = criteriaBuilder.and(finalPredicate, criteriaBuilder.equal(root.get("roleId"), roleId));
+            }
+
+            // Search by username
+            if (searchUserName != null && !searchUserName.isEmpty()) {
+                Predicate searchPredicate = criteriaBuilder.like(criteriaBuilder.lower(root.get("user").get("fullName")), "%" + searchUserName.toLowerCase() + "%");
+                finalPredicate = criteriaBuilder.and(finalPredicate, searchPredicate);
             }
 
             return finalPredicate;

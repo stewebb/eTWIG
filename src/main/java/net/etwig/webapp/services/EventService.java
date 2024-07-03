@@ -88,7 +88,8 @@ public class EventService {
 			LocalDate endDate,
 			Boolean recurring,
 			Long portfolioId,
-			Pageable pageable) {
+			Pageable pageable
+	) {
 		Specification<Event> spec = eventCriteria(startDate, endDate, recurring, portfolioId);
 		return eventRepository.findAll(spec, pageable).map(EventDetailsDTO::new);
 	}
@@ -109,7 +110,8 @@ public class EventService {
 			LocalDate earliestStartDate,
 			LocalDate latestStartDate,
 			Boolean recurring,
-			Long portfolioId) {
+			Long portfolioId
+	) {
 		return (root, query, criteriaBuilder) -> {
 			Predicate finalPredicate = criteriaBuilder.conjunction();
 
