@@ -143,7 +143,7 @@ public class UserPageController {
 				System.out.println(timeDifference);
 				if (timeDifference < 0 || timeDifference > 60) {
 					System.out.println("Token has expired.");
-					throw new IllegalStateException("Token has expired.");
+					//throw new IllegalStateException("Token has expired.");
 				}
 
 				Authentication authenticationToken = new UsernamePasswordAuthenticationToken(
