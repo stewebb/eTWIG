@@ -794,18 +794,21 @@ function getOrdinalIndicator(n) {
 /**
  * Converts a duration in minutes into a formatted string "_d __h __m".
  * This function formats the given minutes into a human-readable string that represents the number of days, hours, and minutes.
- * The days component is capped at 9, meaning if the computed days exceed 9, it will be represented as 9.
- * 
+ * The days component is capped at 9, meaning if the computed days exceed 9, it will be represented as 9 regardless of the actual number.
+ *
  * @param {int} minutes - The total number of minutes to convert. Must be a non-negative integer.
- * @returns {string} - The formatted duration string. Days are capped at 9 and both hours and minutes are zero-padded to two digits.
- * 
+ * @param {boolean} [padding=true] - Indicates whether to pad the hours and minutes with zeros to two digits. If false, days, hours, and minutes are returned without leading zeros and are omitted if zero.
+ * @returns {string} - The formatted duration string. Days are capped at 9 and both hours and minutes are zero-padded to two digits if padding is true; otherwise, they are displayed with minimal formatting.
+ *
  * Example usage:
  * minutesToString(1500);    // returns "1d 01h 00m"
  * minutesToString(10000);   // returns "9d 00h 00m" (days are capped at 9)
  * minutesToString(61);      // returns "0d 01h 01m"
+ * minutesToString(61, false); // returns "1h 1m"
  */
 
-function minutesToString(minutes) {
+
+function minutesToString(minutes, padding=true) {
     const perDay = 1440;
     const perHour = 60;
 
@@ -813,12 +816,25 @@ function minutesToString(minutes) {
     var hours = Math.floor((minutes % perDay) / perHour);
     var mins = minutes % 60;
 
-	// The days field has only one digit.
-	if(days > 9){
+	// The days field has only one digit in padding mode.
+	if(days > 9 && padding){
 		days = 9;
 	}
 
-    return days + "d " + pad(hours, 2) + "h " + pad(mins, 2) + "m";
+	// Padding to "_d __h __m" format
+	if (padding) {
+		return days + "d " + pad(hours, 2) + "h " + pad(mins, 2) + "m";
+	}
+
+	// No paddings
+	else {
+
+		var out = '';
+		if (days > 0)	out += days + 'd ';
+		if (hours > 0)	out += hours + 'h ';
+		if (mins > 0)	out += mins + 'm';
+		return out.trim();
+	}
 }
 
 /**
@@ -1000,19 +1016,13 @@ function eventListTable() {
 			{ 
 				"data": "recurring",
 				"render": function (data, type, row) {
-					//if (weeksDifference === 0) {
-					//	return dateWeek + `<span class="badge badge-danger">In this week</span>`;
-					//}
-
-					//var color = data ? "success" : "primary";
-					//var output = `<span class="badge badge-${color}">${data}</span>`;
 
 					if(data) {
 						var out = '<span class="badge badge-primary">Yes</span>';
 						
 						// Excluded date check (it does not included in the rrule)
 						if(row.excluded) {
-							out += '&nbsp;<span class="badge badge-warning">Contains excluded dates</span>';
+							out += '&nbsp;<span class="badge badge-warning">Contains Excluded Dates</span>';
 						}
 
 						// Display human-understandable recurrent rule
@@ -1028,39 +1038,31 @@ function eventListTable() {
 				} 
 			},
 			{ "data": "startTime", "render": dateWeekRender },
-			{ "data": "duration" },
-			/*
-			
 			{ 
-				"data": "size", 
-				"render": function (data, type, row) {} 
+				"data": "duration" ,
+				"render": function(data, type, row) {
+					var out = minutesToString(data, false);
+					if (row.allDayEvent) {
+						out += `<br><span class="badge badge-primary">All Day Event</span>`;
+					}
+					return out;
+				}
 			},
-			{ "data": "uploader", "orderable": false },
-			{ "data": "lastModified", "orderable": true, "render": dateWeekRender },
-			{ "mRender": assetPreviewRender, "orderable": false },
-			{ 
+			{ "data": "organizerName" },
+			{ "data": "updatedTime", "render": dateWeekRender },
+			{
 				// Action
-				"mRender": function (data, type, full) {
-					var disabledStr = full.canDelete ? '' : 'disabled';
+				"mRender": function (data, type, row) {
+					//var disabledStr = full.canDelete ? '' : 'disabled';
 					return `
-						<div class="btn-group" role="group">
-							<a href="${$('#assetContentLink').val()}?assetId=${full.id}&download=true" class="btn btn-outline-secondary btn-sm" target="_blank">
-								<i class="fa-solid fa-download"></i>&nbsp;Download
-							</a>&nbsp;
-				
-							<a href="${$('#assetContentLink').val()}?assetId=${full.id}&download=false" class="btn btn-outline-primary btn-sm" target="_blank">
-								<i class="fa-solid fa-magnifying-glass-plus"></i>&nbsp;View
-							</a>&nbsp;
-				
-							<button type="button" class="btn btn-outline-danger btn-sm" ${disabledStr}>
-								<i class="fa-solid fa-trash"></i>&nbsp;Delete
-							</button>
-						</div>
+						<a href="${$('#editEventLink').val()}?eventId=${row.id}" class="btn btn-outline-primary btn-sm">
+							<i class="fa-solid fa-circle-info"></i>&nbsp;Details
+						</a>
 					`;
 				}, 
 				"orderable": false 
 			}
-				*/
+				
 		]
 	});
 }

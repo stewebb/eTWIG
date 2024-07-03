@@ -186,6 +186,11 @@ public class EventAPIController {
             @RequestParam("sortColumn") String sortColumn,
             @RequestParam("sortDirection") String sortDirection) {
 
+
+        if ("organizerName".equalsIgnoreCase(sortColumn)) {
+            sortColumn = "userRole.userId";
+        }
+
         Sort.Direction dir = "asc".equalsIgnoreCase(sortDirection) ? Sort.Direction.ASC : Sort.Direction.DESC;
         PageRequest pageable = PageRequest.of(start / length, length, Sort.by(dir, sortColumn));
 

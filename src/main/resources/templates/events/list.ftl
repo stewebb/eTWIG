@@ -18,11 +18,8 @@
 </head>
 
 <body class="hold-transition layout-top-nav">
-	
-	<#--
-	<input type="hidden" id="approvalDetailsLink" value="${ENDPOINTS.GRAPHICS_APPROVAL_DETAILS}"> 
-	-->
 
+	<input type="hidden" id="editEventLink" value="${ENDPOINTS.EVENTS_EDIT}"> 
 	<#include "../_includes/header/body_start.ftl">
 	
 	<#-- Main Wrapper -->
@@ -43,8 +40,8 @@
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item active">
-									<a href="${ENDPOINTS.GRAPHICS_APPROVAL_LIST}">Approval</a>&nbsp|&nbsp
-									<a href="${ENDPOINTS.GRAPHICS_SUMMARY_LIST}">Summary</a>
+									<a href="${ENDPOINTS.EVENTS_CALENDAR}">Calendar</a>&nbsp|&nbsp
+									<a href="${ENDPOINTS.EVENTS_LIST}">List</a>
 								</li>
 							</ol>
 						</div>
