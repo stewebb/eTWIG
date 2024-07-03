@@ -20,6 +20,7 @@ import net.etwig.webapp.importer.EventImporter;
 import net.etwig.webapp.importer.ExcelEventImporter;
 import net.etwig.webapp.importer.ODSEventImporter;
 import net.etwig.webapp.model.*;
+import net.etwig.webapp.repository.EventGraphicsRepository;
 import net.etwig.webapp.repository.EventOptionRepository;
 import net.etwig.webapp.repository.EventRepository;
 import net.etwig.webapp.repository.GraphicsRequestRepository;
@@ -58,6 +59,9 @@ public class EventService {
 
 	@Autowired
 	private GraphicsRequestRepository graphicsRequestRepository;
+
+	@Autowired
+	private EventGraphicsRepository eventGraphicsRepository;
 
 	/**
 	 * Retrieves the details of an event by its ID and maps it to a DTO.
@@ -250,6 +254,7 @@ public class EventService {
 		//List<EventOption> existingEventOptions = eventOptionRepository.findByIdEventId(eventId);
 		eventOptionRepository.deleteAll(eventOptionRepository.findByIdEventId(eventId));
 		graphicsRequestRepository.deleteByEventId(eventId);
+		eventGraphicsRepository.deleteByEventId(eventId);
 		eventRepository.deleteById(eventId);
 	}
 
