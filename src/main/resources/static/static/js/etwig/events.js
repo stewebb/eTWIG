@@ -972,3 +972,95 @@ function removeEvent(eventId) {
     	}
  	});
 }
+
+function eventListTable() {
+	$('#eventsTable').DataTable({
+		"processing": true,
+		"serverSide": true,
+		"lengthMenu": [[10, 20, 50], [10, 20, 50]],
+		"pageLength": 20,
+		"language": {
+            "searchPlaceholder": "Event Name",
+        },
+		"order": [[0, "desc"]],
+		"ajax": {
+			"url": "/api/event/list",
+			"type": "GET",
+			"data": function(d) {
+				return $.extend({}, d, {
+					"sortColumn": d.columns[d.order[0].column].data,
+					"sortDirection": d.order[0].dir
+				});
+			}
+		},
+		"columns": [
+			{ "data": "id" },
+			{ "data": "name" },
+			{ "data": "location" },
+			{ 
+				"data": "recurring",
+				"render": function (data, type, row) {
+					//if (weeksDifference === 0) {
+					//	return dateWeek + `<span class="badge badge-danger">In this week</span>`;
+					//}
+
+					//var color = data ? "success" : "primary";
+					//var output = `<span class="badge badge-${color}">${data}</span>`;
+
+					if(data) {
+						var out = '<span class="badge badge-primary">Yes</span>';
+						
+						// Excluded date check (it does not included in the rrule)
+						if(row.excluded) {
+							out += '&nbsp;<span class="badge badge-warning">Contains excluded dates</span>';
+						}
+
+						// Display human-understandable recurrent rule
+						var rRule = new ETwig.RRuleFromStr(row.rrule);
+						var rule = rRule.getRuleObj();
+						return out + '<br>' + rule.toText();
+					}
+
+					else {
+						return `<span class="badge badge-danger">No</span>`;
+					}
+
+				} 
+			},
+			{ "data": "startTime", "render": dateWeekRender },
+			{ "data": "duration" },
+			/*
+			
+			{ 
+				"data": "size", 
+				"render": function (data, type, row) {} 
+			},
+			{ "data": "uploader", "orderable": false },
+			{ "data": "lastModified", "orderable": true, "render": dateWeekRender },
+			{ "mRender": assetPreviewRender, "orderable": false },
+			{ 
+				// Action
+				"mRender": function (data, type, full) {
+					var disabledStr = full.canDelete ? '' : 'disabled';
+					return `
+						<div class="btn-group" role="group">
+							<a href="${$('#assetContentLink').val()}?assetId=${full.id}&download=true" class="btn btn-outline-secondary btn-sm" target="_blank">
+								<i class="fa-solid fa-download"></i>&nbsp;Download
+							</a>&nbsp;
+				
+							<a href="${$('#assetContentLink').val()}?assetId=${full.id}&download=false" class="btn btn-outline-primary btn-sm" target="_blank">
+								<i class="fa-solid fa-magnifying-glass-plus"></i>&nbsp;View
+							</a>&nbsp;
+				
+							<button type="button" class="btn btn-outline-danger btn-sm" ${disabledStr}>
+								<i class="fa-solid fa-trash"></i>&nbsp;Delete
+							</button>
+						</div>
+					`;
+				}, 
+				"orderable": false 
+			}
+				*/
+		]
+	});
+}

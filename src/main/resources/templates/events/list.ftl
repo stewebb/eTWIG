@@ -66,17 +66,17 @@
 						</div>
 
 						<div class="card-body table-responsive">
-							<table id="requestsTable" class="display table table-hover table-striped" width="100%">
+							<table id="eventsTable" class="display table table-hover table-striped" width="100%">
 								<thead>
 									<tr>
-										<th>Request ID</th>
-										<th>Event</th>
-										<th>Request Time</th>
-										<th>Requester</th>
-										<th>Expect Date</th>
-										<th>Status</th>
-										<th>Approver</th>
-										<th>Response Time</th>
+										<th>ID</th>
+										<th>Name</th>
+										<th>Location</th>
+										<th>Recurring</th>
+										<th>Start Time</th>
+										<th>Duration</th>
+										<th>Organizer</th>
+										<th>Last Modified</th>
 										<th>Action</th>
 									</tr>
 								</thead>
@@ -98,14 +98,14 @@
 	
 	<#include "../_includes/footer.ftl">
 	<#include "../_includes/header/body_end.ftl">
+
+	<#-- rrule.js -->
+   	<script type="module" src="/static/js/etwig/recurrent.min.js?ver=${app.appVersion}"></script>
 	
-	<#-- JS for Banner Request Approval -->
-	<#--
-	<script type="text/javascript" src="/static/js/etwig/banner-approval.js?ver=${app.appVersion}"></script>
+	<script type="text/javascript" src="/static/js/etwig/events.js?ver=${app.appVersion}"></script>
 	
 	<script>
-		bannerRequestListTable();
+		eventListTable();
 	</script>
-	-->
 </body>
 </html>

@@ -70,6 +70,7 @@ function lastModifiedRender(data, type, row){
 	return timeAgo(data); 
 }
 
+/*
 function previewAsset(asset){
 	
 	// Not selected
@@ -132,6 +133,7 @@ function previewAsset(asset){
 	`);
 	$("#selectBtn").attr("disabled", false);
 }
+*/
 
 /**
  * Handles the uploading of a file to a specified endpoint via AJAX POST request.
