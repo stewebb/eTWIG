@@ -110,7 +110,6 @@ public class UserAPIController {
 			@RequestParam(name = "search[value]", required = false) String searchValue
 	) {
 
-		//System.out.println(sortColumn);
 		if ("username".equalsIgnoreCase(sortColumn)) {
 			sortColumn = "user.fullName";
 		}

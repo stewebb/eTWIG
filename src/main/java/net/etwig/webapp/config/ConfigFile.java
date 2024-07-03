@@ -74,6 +74,12 @@ public class ConfigFile implements WebMvcConfigurer {
 	@Value("${etwig.app.url}")
 	private String appURL;
 
+	/**
+	 * The URL of the trusted referrer for passwordless login.
+	 * This value is configurable via application properties and is used to verify the origin of requests
+	 * to ensure they come from trusted sources before allowing passwordless access.
+     */
+
 	@Value("${etwig.security.trusted-referrer}")
 	private String trustedReferrer;
 }

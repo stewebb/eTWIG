@@ -1037,7 +1037,7 @@ function eventListTable() {
 
 				} 
 			},
-			{ "data": "startTime", "render": dateWeekRender },
+			{ "data": "startTime", "render": dateWeekWithBadgeRender },
 			{ 
 				"data": "duration" ,
 				"render": function(data, type, row) {
@@ -1053,7 +1053,6 @@ function eventListTable() {
 			{
 				// Action
 				"mRender": function (data, type, row) {
-					//var disabledStr = full.canDelete ? '' : 'disabled';
 					return `
 						<a href="${$('#editEventLink').val()}?eventId=${row.id}" class="btn btn-outline-primary btn-sm">
 							<i class="fa-solid fa-circle-info"></i>&nbsp;Details

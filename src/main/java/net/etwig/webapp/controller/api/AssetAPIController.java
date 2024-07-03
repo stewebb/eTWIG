@@ -3,7 +3,6 @@ package net.etwig.webapp.controller.api;
 import net.etwig.webapp.dto.AssetAPIDTO;
 import net.etwig.webapp.services.AssetService;
 import net.etwig.webapp.util.InvalidParameterException;
-import net.etwig.webapp.util.WebReturn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

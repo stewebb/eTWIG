@@ -14,7 +14,7 @@ import net.etwig.webapp.services.UserSessionService;
 import net.etwig.webapp.util.Endpoints;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -104,14 +104,17 @@ public class EventsPageController {
 	}
 	// TODO Add a "view only" page, then set the permission of old pages to "event manager only"
 
-    /**
-	 * Event (bulky) import page, which allows users to import multiple events simultaneously (via an EXCEL/ODS file).
-	 * @location /events/import.do
-	 * @permission Those who has event management permission.
+	/**
+	 * Displays the page for importing multiple events simultaneously via an Excel or ODS file.
+	 * This method handles the GET request to the event import page, facilitating the bulk upload of event data.
+	 *
+	 * @location /events/import.do  The URL endpoint that triggers this method.
+	 * @permission Required permission: ROLE_EVENTS. Only users with event management authority are allowed access.
+	 * @return The path to the import events view, allowing the user to proceed with the file upload.
 	 */
 
 	@GetMapping("/import.do")
-	@PostAuthorize("hasAuthority('ROLE_EVENTS')")
+	@PreAuthorize("hasAuthority('ROLE_EVENTS')")
 	public String importEvent(){
 		return "events/import";
 	}

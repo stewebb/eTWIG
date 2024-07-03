@@ -78,16 +78,23 @@ public class EventService {
 	}
 
 	/**
-	 * Retrieves a paginated list of event details that match the given criteria.
-	 * This method constructs a dynamic query based on the specified parameters and
-	 * maps the resulting events to their DTO representation.
+	 * Retrieves a paginated list of event details based on a set of filtering criteria.
+	 * This method constructs a dynamic query using the provided parameters and maps the resulting events
+	 * to their Data Transfer Object (DTO) representation.
 	 *
-	 * @param startDate the earliest start date of the events to include (inclusive)
-	 * @param endDate the latest start date of the events to include (inclusive)
-	 * @param recurring whether the events are recurring or not
-	 * @param portfolioId the portfolio identifier to which the events are associated
-	 * @param pageable the pagination information and sorting criteria
-	 * @return a paginated {@link Page} of {@link EventDetailsDTO} matching the criteria
+	 * @param startDate the earliest start date of the events to include (inclusive). This parameter defines
+	 *                  the lower bound of the event start dates.
+	 * @param endDate the latest start date of the events to include (inclusive). This parameter defines
+	 *                the upper bound of the event start dates.
+	 * @param recurring a Boolean indicating whether to filter by recurring events. If true, only recurring events are included.
+	 * @param portfolioId the identifier for the portfolio to which the events are linked. This parameter is used to
+	 *                    filter events associated with a specific portfolio.
+	 * @param searchEvent a string used to perform a case-insensitive search by event name. This parameter allows
+	 *                    for filtering events that contain the given substring in their names.
+	 * @param pageable an object specifying the page request and sorting criteria. This parameter defines
+	 *                 how results are paginated and sorted.
+	 * @return a {@link Page} of {@link EventDetailsDTO} containing events that match the specified criteria,
+	 *         sorted and paginated as requested.
 	 */
 
 	public Page<EventDetailsDTO> findByCriteria(
@@ -95,28 +102,31 @@ public class EventService {
 			LocalDate endDate,
 			Boolean recurring,
 			Long portfolioId,
+			String searchEvent,
 			Pageable pageable
 	) {
-		Specification<Event> spec = eventCriteria(startDate, endDate, recurring, portfolioId);
+		Specification<Event> spec = eventCriteria(startDate, endDate, recurring, searchEvent, portfolioId);
 		return eventRepository.findAll(spec, pageable).map(EventDetailsDTO::new);
 	}
 
 	/**
-	 * Creates a {@link Specification} for querying events based on provided criteria.
-	 * This method constructs predicates based on the presence and validity of the input parameters,
-	 * allowing for flexible and dynamic database queries.
+	 * Creates a {@link Specification<Event>} for querying events based on provided criteria.
+	 * This method dynamically constructs predicates based on the presence and validity of the input parameters.
+	 * It allows for flexible and dynamic database queries tailored to specific filtering needs.
 	 *
-	 * @param earliestStartDate the earliest start date for the events to filter (inclusive)
-	 * @param latestStartDate the latest start date for the events to filter (inclusive)
-	 * @param recurring true if only recurring events should be included, false otherwise
-	 * @param portfolioId the identifier of the portfolio to which the events must be linked
-	 * @return a {@link Specification} that can be used to filter events according to the provided criteria
+	 * @param earliestStartDate the earliest start date for the events to filter (inclusive), setting the lower bound of the date range.
+	 * @param latestStartDate the latest start date for the events to filter (inclusive), setting the upper bound of the date range.
+	 * @param recurring specifies if only recurring events should be included. A value of true filters exclusively for recurring events.
+	 * @param searchEvent a string to search within the event names. This is used for substring matching in a case-insensitive manner.
+	 * @param portfolioId the identifier of the portfolio associated with the events. This filters the events linked to a specific portfolio.
+	 * @return a {@link Specification<Event>} that can be used to filter events based on the provided criteria.
 	 */
 
 	private Specification<Event> eventCriteria(
 			LocalDate earliestStartDate,
 			LocalDate latestStartDate,
 			Boolean recurring,
+			String searchEvent,
 			Long portfolioId
 	) {
 		return (root, query, criteriaBuilder) -> {
@@ -138,6 +148,11 @@ public class EventService {
 				finalPredicate = criteriaBuilder.and(
 						finalPredicate, criteriaBuilder.equal(root.get("userRole").get("portfolioId"), portfolioId)
 				);
+			}
+
+			if (searchEvent != null && !searchEvent.isEmpty()) {
+				Predicate searchPredicate = criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + searchEvent.toLowerCase() + "%");
+				finalPredicate = criteriaBuilder.and(finalPredicate, searchPredicate);
 			}
 
 			return finalPredicate;

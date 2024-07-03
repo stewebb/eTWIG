@@ -174,6 +174,27 @@ public class EventAPIController {
         return webReturn;
     }
 
+    /**
+     * Handles the GET request for listing events based on specified search and filtering criteria with pagination and sorting.
+     * This endpoint dynamically constructs queries to fetch a paginated list of events that can be sorted by various attributes.
+     *
+     * @param startDate Optional start date to filter events that start on or after this date.
+     * @param endDate Optional end date to filter events that start on or before this date.
+     * @param recurring Optional flag to filter by recurring events. If true, only recurring events are included.
+     * @param portfolioId Optional portfolio identifier to filter events associated with a specific portfolio.
+     * @param start Starting index for the pagination of results.
+     * @param length Number of records per page.
+     * @param draw Draw counter for handling multiple requests. Commonly used in DataTables.
+     * @param sortColumn Column name to sort the results by. If sorting by organizer name, it is mapped internally to 'userRole.userId'.
+     * @param sortDirection Direction of sorting, can be 'asc' for ascending or 'desc' for descending.
+     * @param searchValue Optional search string used for searching event names or other attributes allowing substring matching.
+     *
+     * @return A {@link ResponseEntity} containing a map with draw details, total records, filtered records count, and the list of events.
+     *         The response is structured to support front-end frameworks that require formatted JSON for data tables.
+     * @location /api/event/list
+     * @permission This endpoint requires the user to be logged in.
+     */
+
     @GetMapping("/list")
     public ResponseEntity<Map<String, Object>> list(
             @RequestParam(name = "startDate", required = false) LocalDate startDate,
@@ -184,8 +205,9 @@ public class EventAPIController {
             @RequestParam("length") int length,
             @RequestParam("draw") int draw,
             @RequestParam("sortColumn") String sortColumn,
-            @RequestParam("sortDirection") String sortDirection) {
-
+            @RequestParam("sortDirection") String sortDirection,
+            @RequestParam(name = "search[value]", required = false) String searchValue
+    ) {
 
         if ("organizerName".equalsIgnoreCase(sortColumn)) {
             sortColumn = "userRole.userId";
@@ -196,7 +218,7 @@ public class EventAPIController {
 
         // Get data as pages
         Page<EventDetailsDTO> page = eventService.findByCriteria(
-                startDate, endDate, recurring, portfolioId, pageable
+                startDate, endDate, recurring, portfolioId, searchValue, pageable
         );
 
         Map<String, Object> json = new HashMap<>();

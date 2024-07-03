@@ -28,21 +28,30 @@ public class WebConfig implements WebMvcConfigurer{
 
 	@Autowired
     private EtwigInterceptor userInterceptor;
-    
+
 	/**
-	 * Register the Interceptor.
-	 * @param registry InterceptorRegistry
+	 * Registers an interceptor to the application's interceptor registry. This is typically used to perform operations
+	 * like logging, authentication, or other pre- and post-request activities common in web applications.
+	 *
+	 * @param registry The InterceptorRegistry to which the interceptor will be added. This is managed by Spring
+	 *                 and allows for the configuration of interceptors that can intercept HTTP requests dynamically.
 	 */
 	
-    @SuppressWarnings("null")
+    //@SuppressWarnings("null")
 	@Override
     public void addInterceptors(@NonNull InterceptorRegistry registry) {
         registry.addInterceptor(userInterceptor);
     }
 
 	/**
-	 * Allow static contents (e.g., CSS and JS) are cached for at most 14 days (i.e., 2 weeks).
-	 * @param registry ResourceHandlerRegistry
+	 * Configures resource handlers to enhance the serving of static contents such as CSS and JavaScript files.
+	 * This setup specifies caching policies for static resources, which helps in reducing load times and bandwidth usage.
+	 *
+	 * @param registry The ResourceHandlerRegistry used to manage resource handlers. This allows for custom handling,
+	 *                 such as setting cache periods or specifying resource locations within the classpath.
+	 * @description Adds a resource handler for serving static resources located under "/static/**" path and applies
+	 *              a caching policy that allows these resources to be cached for up to 14 days, aiding in better
+	 *              performance and reduced server load.
 	 */
 
 	@Override
