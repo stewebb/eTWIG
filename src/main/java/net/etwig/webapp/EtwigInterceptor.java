@@ -13,6 +13,7 @@ import java.util.LinkedHashMap;
 
 import net.etwig.webapp.dto.user.CurrentUserDTOWrapper;
 import net.etwig.webapp.services.UserSessionService;
+import net.etwig.webapp.util.Endpoints;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
@@ -31,6 +32,9 @@ public class EtwigInterceptor implements HandlerInterceptor{
 
 	@Autowired
 	private UserSessionService userSessionService;
+
+	@Autowired
+	private Endpoints endpoints;
 	
 	/**
 	 * Add data that shared across the application.
@@ -43,19 +47,20 @@ public class EtwigInterceptor implements HandlerInterceptor{
 			return;
 		}
 
+		// Current logged-in user info
 		CurrentUserDTOWrapper wrapper = userSessionService.validateSession();
-
 		if(wrapper != null){
 			modelAndView.addObject("userBasicInfo", wrapper.getBasicInfo());
 			modelAndView.addObject("userPermission", wrapper.getPermission());
 			modelAndView.addObject("userPosition", wrapper.getPosition());
 		}
+		modelAndView.addObject("ENDPOINTS", endpoints);
 
 		// Application information.
 		LinkedHashMap<String, Object> appInfo = new LinkedHashMap<>();
 		appInfo.put("appName", config.getAppName());
 
-		appInfo.put("appVersion", "3.4");
+		appInfo.put("appVersion", "3.5");
 		appInfo.put("appOwner", config.getAppOwner());
 		modelAndView.addObject("app", appInfo);
 	}

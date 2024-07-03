@@ -59,12 +59,6 @@ public class AssetService {
         this.rootLocation = Paths.get(config.getRootLocation());
     }
 
-	//@Autowired
-	//public AssetService(ConfigFile config, HttpSession session) {
-	//	this.rootLocation = Paths.get(config.getRootLocation());
-	//	//this.session = session;
-	//}
-
 	/**
 	 * Retrieves the details of an asset by its ID.
 	 * <p>

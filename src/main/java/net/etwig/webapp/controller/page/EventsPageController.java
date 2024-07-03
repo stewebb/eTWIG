@@ -9,9 +9,9 @@
 
 package net.etwig.webapp.controller.page;
 
-import net.etwig.webapp.dto.user.CurrentUserDTOWrapper;
 import net.etwig.webapp.dto.user.CurrentUserPositionDTO;
 import net.etwig.webapp.services.UserSessionService;
+import net.etwig.webapp.util.Endpoints;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PostAuthorize;
@@ -37,6 +37,9 @@ public class EventsPageController {
 	@Autowired
 	private UserSessionService userSessionService;
 
+	@Autowired
+	private Endpoints endpoints;
+
 	/**
 	 * Handles the HTTP GET request at the root of the 'events' module by redirecting to the main index page. This method serves as
 	 * the entry point for the events section of the application, where it automatically redirects users to a centralized index page,
@@ -50,20 +53,7 @@ public class EventsPageController {
 
 	@GetMapping("/")
 	public String root(){
-		return "redirect:/index.do";
-	}
-
-	/**
-	 * Event index page.
-	 * @location /events/index.do
-	 * @permission All logged in users
-	 */
-
-	@GetMapping("index.do")
-	public String index(Model model){
-
-		// TODO Make an index page for events
-		return null;
+		return "redirect:" + endpoints.getEVENTS_CALENDAR();
 	}
 
 	/**
@@ -88,11 +78,17 @@ public class EventsPageController {
 		);
 		return "events/calendar";
 	}
-	
+
 	/**
-	 * Add/View/Edit event page.
-	 * @location /events/edit.do
-	 * @permission All logged in users
+	 * Handles the creation or modification of an event. This controller method serves the add or edit event pages.
+	 * It prepares necessary model attributes including user's current position, count of positions, all properties,
+	 * and options related to a specific event.
+	 *
+	 * @param model The {@link Model} to which attributes are added to be used by the view.
+	 * @param eventId The optional ID of the event to edit. If not provided, the method assumes a new event is being created.
+	 * @return The path to the view which is responsible for rendering the event add/edit page.
+	 * @location /events/edit.do - This endpoint is triggered for editing events.
+	 * @permission All logged-in users are permitted to access this endpoint.
 	 */
 	
 	@RequestMapping({"/add.do", "/edit.do"})
@@ -116,8 +112,26 @@ public class EventsPageController {
 
 	@GetMapping("/import.do")
 	@PostAuthorize("hasAuthority('ROLE_EVENTS')")
-	public String importEvent(Model model){
-		//model.addAttribute("portfolios", portfolioService.getAllPortfolioList());
+	public String importEvent(){
 		return "events/import";
+	}
+
+	/**
+	 * Retrieves the view name for displaying the list of events. This method is responsible for handling
+	 * GET requests to the specified endpoint and simply directs the user to the page where all events are listed.
+	 *
+	 * <p>This method currently does not manipulate the model or session attributes directly but serves as a straightforward
+	 * navigation point for viewing all events. It can be a point of integration for future enhancements such as
+	 * filtering or sorting the list of events based on user preferences or permissions.</p>
+	 *
+	 * @return The view name "events/list" which corresponds to the events list page. This is used by the view resolver
+	 *         to render the list of events to the user.
+	 * @location /events/list.do - Accessed through a GET request to manage and view all the events.
+	 * @permission All logged in users have access to this endpoint, which is intended for a broad audience within the application.
+	 */
+
+	@GetMapping("/list.do")
+	public String list(){
+		return "events/list";
 	}
 }

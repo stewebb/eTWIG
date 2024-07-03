@@ -60,7 +60,7 @@ public class Event {
 	@Column(name = "excluded_dates")
 	private String excludedDates;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "user_role", referencedColumnName = "id", insertable = false, updatable = false)
     private UserRole userRole;
 	

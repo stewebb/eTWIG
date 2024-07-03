@@ -81,7 +81,7 @@ public class EventAPIController {
 
         // Event exist, edit mode. But check permission in the backend again.
         Portfolio eventPortfolio = portfolioService.findById(event.getPortfolioId());
-        if(!eventService.eventEditPermissionCheck(eventPortfolio)) {
+        if(eventService.eventEditPermissionCheck(eventPortfolio)) {
             throw new PortfolioMismatchException(eventPortfolio.getName());
         }
 
@@ -105,12 +105,42 @@ public class EventAPIController {
         return eventService.findById(eventId);
     }
 
-    // TODO Javadoc for event removal
+    // TODO Soft remove: Hide the event but can be restored.
+
+    /**
+     * Deletes an event specified by its ID.
+     * This endpoint requires the user to be logged in. It performs the following checks:
+     * <ul>
+     *     <li>Validates that the event ID is not null or negative.</li>
+     *     <li>Verifies that the event with the given ID exists.</li>
+     *     <li>Checks if the current user has the necessary permissions to delete the event.</li>
+     * </ul>
+     *
+     * @param eventId the ID of the event to be removed
+     * @throws InvalidParameterException if the event ID is invalid or the event does not exist
+     * @throws PortfolioMismatchException if the user does not have edit permissions for the event's portfolio
+     * @location /api/event/remove
+     * @permission This endpoint requires the user to be logged in.
+     */
+
     @GetMapping("/remove")
-    public Object remove(@RequestParam Long eventId) {
-        // TODO Soft remove: Hide the event but can be restored.
-        // TODO Hard remove: Remove event from DB permanently.
-        return null;
+    public void remove(@RequestParam Long eventId) {
+        if(eventId == null || eventId <= 0) {
+            throw new InvalidParameterException("EventId is invalid.");
+        }
+
+        // Event search, stop proceeding when it doesn't exist.
+        EventDetailsDTO event = eventService.findById(eventId);
+        if(event == null) {
+            throw new InvalidParameterException("The event with id=" + eventId + " does not exist.");
+        }
+
+        Portfolio eventPortfolio = portfolioService.findById(event.getPortfolioId());
+        if(eventService.eventEditPermissionCheck(eventPortfolio)) {
+            throw new PortfolioMismatchException(eventPortfolio.getName());
+        }
+
+        eventService.deleteById(eventId);
     }
 
     /**
@@ -155,6 +185,11 @@ public class EventAPIController {
             @RequestParam("draw") int draw,
             @RequestParam("sortColumn") String sortColumn,
             @RequestParam("sortDirection") String sortDirection) {
+
+
+        if ("organizerName".equalsIgnoreCase(sortColumn)) {
+            sortColumn = "userRole.userId";
+        }
 
         Sort.Direction dir = "asc".equalsIgnoreCase(sortDirection) ? Sort.Direction.ASC : Sort.Direction.DESC;
         PageRequest pageable = PageRequest.of(start / length, length, Sort.by(dir, sortColumn));

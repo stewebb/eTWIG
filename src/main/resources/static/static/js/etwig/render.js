@@ -151,7 +151,7 @@ function optionalFieldsRender(data, type, row) {
 
 function requestActionRender(data, type, full){
 	return `
-		<a href="/graphics/approvalDetails.do?requestId=${full.id}" class="btn btn-outline-primary btn-sm">
+		<a href="${$('#approvalDetailsLink').val()}?requestId=${full.id}" class="btn btn-outline-primary btn-sm">
             <i class="fa-solid fa-eye"></i>&nbsp;Details
 		</a>
 	`;
@@ -274,11 +274,11 @@ function dateWeekWithBadgeRender(data, type, row){
 function summaryActionRender(data, type, full){
 	return `
 		<div class="btn-group">
-			<a href="/events/edit.do?eventId=${full.id}" class="btn btn-outline-secondary btn-sm" target="_blank">
+			<a href="${$('#editEventLink').val()}?eventId=${full.id}" class="btn btn-outline-secondary btn-sm" target="_blank">
 				<i class="fa-solid fa-lightbulb"></i>&nbsp;Event Info
 			</a>
-			<a href="/graphics/eventGraphics.do?eventId=${full.id}" class="btn btn-outline-primary btn-sm">
-				<i class="fa-solid fa-image"></i>&nbsp;Graphics
+			<a href="${$('#summaryDetailsLink').val()}?eventId=${full.id}" class="btn btn-outline-primary btn-sm">
+				<i class="fa-solid fa-image"></i>&nbsp;Details
 			</a>
 		</div>
 	`;
@@ -386,6 +386,8 @@ function assetPreviewRender(data, type, row){
  * @returns {string} HTML string for the action buttons group, allowing users to interact with the asset.
  */
 
+/*
+
 function assetListActionRender(data, type, full){
     var disabledStr = full.canDelete ? '' : 'disabled';
 	return `
@@ -403,22 +405,4 @@ function assetListActionRender(data, type, full){
             </button>
         </div>
 	`;
-}
-
-/**
- * Renders file size from numeric data into a human-readable string with appropriate units.
- * This function handles conversion of file size data to a string with units such as Bytes, KB, MB, or GB.
- * It is intended for use in DataTables or similar displays where file sizes need to be presented in a user-friendly format.
- *
- * @param {number} data - The file size in bytes.
- * @param {string} type - The type call from DataTables; not used in this function but required by DataTables rendering API.
- * @param {object} row - The full data row object from DataTables; not used in this function but required by DataTables rendering API.
- * @returns {string} The formatted file size with units.
- */
-
-function fileSizeRender(data, type, row) {
-    if (data < 1024) return data + " Bytes";
-    else if (data < 1024 * 1024) return (data / 1024).toFixed(2) + " KB";
-    else if (data < 1024 * 1024 * 1024) return (data / 1024 / 1024).toFixed(2) + " MB";
-    else return (data / 1024 / 1024 / 1024).toFixed(2) + " GB";
-}
+}*/

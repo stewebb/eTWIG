@@ -7,19 +7,21 @@
 	function: The twig template page.
    -->
    
-<#assign navbar = "GRAPHICS_APPROVAL">
+<#assign navbar = "ADMIN_USER_LIST">
 
 <!DOCTYPE html>
 <html>
 <head>
 
 	<#include "../_includes/header/head.ftl">
-	<title>Banner Requests Approval - ${app.appName}</title>
+	<title>User Management - ${app.appName}</title>
 </head>
 
 <body class="hold-transition layout-top-nav">
 	
+	<#--
 	<input type="hidden" id="approvalDetailsLink" value="${ENDPOINTS.GRAPHICS_APPROVAL_DETAILS}"> 
+	-->
 	<#include "../_includes/header/body_start.ftl">
 	
 	<#-- Main Wrapper -->
@@ -36,13 +38,13 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1 class="bold-text">Banner Request Approval</h1>
+							<h1 class="bold-text">User and Position Management</h1>
 						</div>
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item active">
-									<a href="${ENDPOINTS.GRAPHICS_APPROVAL_LIST}">Approval</a>&nbsp|&nbsp
-									<a href="${ENDPOINTS.GRAPHICS_SUMMARY_LIST}">Summary</a>
+									<a href="${ENDPOINTS.ADMIN_USER_LIST}">User</a>&nbsp|&nbsp
+									<!--<a href="${ENDPOINTS.GRAPHICS_SUMMARY_LIST}">Summary</a>-->
 								</li>
 							</ol>
 						</div>
@@ -64,20 +66,25 @@
 						</div>
 
 						<div class="card-body table-responsive">
-							<table id="requestsTable" class="display table table-hover table-striped" width="100%">
+							<table id="usersTable" class="display table table-hover table-striped" width="100%">
 								<thead>
 									<tr>
-										<th>Request ID</th>
-										<th>Event</th>
-										<th>Request Time</th>
-										<th>Requester</th>
-										<th>Expect Date</th>
-										<th>Status</th>
-										<th>Approver</th>
-										<th>Response Time</th>
-										<th>Action</th>
+										<th colspan="4" style="vertical-align: middle; text-align: center;">User</th>
+										<th colspan="3" style="vertical-align: middle; text-align: center;">Position</th>
+										<th rowspan="2" style="vertical-align: middle; text-align: center;">Action</th>
+									</tr>
+									<tr>
+										<th>ID</th>
+										<th>Name</th>
+										<th>Email</th>
+										<th>Last Login</th>
+										<th>Position</th>
+										<th>Portfolio</th>
+										<th>Email</th>
 									</tr>
 								</thead>
+								<tbody>
+								</tbody>
 							</table>
 						</div>
 
@@ -97,11 +104,10 @@
 	<#include "../_includes/footer.ftl">
 	<#include "../_includes/header/body_end.ftl">
 	
-	<#-- JS for Banner Request Approval -->
-	<script type="text/javascript" src="/static/js/etwig/banner-approval.js?ver=${app.appVersion}"></script>
+	<script type="text/javascript" src="/static/js/etwig/admin-user.js?ver=${app.appVersion}"></script>
 	
 	<script>
-		bannerRequestListTable();
+		userListTable();
 	</script>
 </body>
 </html>

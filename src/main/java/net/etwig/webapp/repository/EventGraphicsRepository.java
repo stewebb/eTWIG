@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -69,4 +70,7 @@ public interface EventGraphicsRepository extends JpaRepository<EventGraphics, Lo
 			"AND (:portfolio < 0 OR e.userRole.portfolioId = :portfolio)" +
 			"ORDER BY e.startTime ASC")
 	List<RecurringEventGraphicsPublicInfoDTO> findRecurringEventsAndLatestGraphicByPortfolio(@Param("portfolio") Long portfolio);
+
+	@Transactional
+	void deleteByEventId(Long eventId);
 }

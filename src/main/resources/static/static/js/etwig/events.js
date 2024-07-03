@@ -32,9 +32,6 @@ function getEventInfo(datePickersMap){
 	// Get eventId
 	var urlParams = new URLSearchParams(window.location.search);
     var eventId = urlParams.get('eventId');
-    
-    // Get my positions
-    // var myPositions = getMyPositions();
 
 	// Set mode (add or edit)
 	var isEdit = pageName.includes("edit");
@@ -97,11 +94,20 @@ function getEventInfo(datePickersMap){
 		// Set title.
 		//$('#currentAction').text('edit');
 		$('#eventPageTitle').text('Edit Event: ' + eventInfo.name);
-		$('#eventPageLink').text('Edit Event');
-		$('#eventPageLink').attr('href', '/events/edit.do?eventId=-' + eventInfo.id);
+		$('#eventPageLink').text('Edit');
+		$('#eventPageLink').attr('href', $('#editEventLink').val() + '?eventId=' + eventInfo.id);
 
 		// Copy and graphics, only available in edit mode.
 		$('.event-hidden-tabs').show();
+
+		// Display delete button
+		$('#deleteEventBtn').show();
+		var actionData = {
+            functionName: "removeEvent",
+            params: [eventInfo.id]
+        };
+		//console.log(actionData)
+        document.getElementById("deleteEventBtn").setAttribute("data-action", JSON.stringify(actionData));
 
 		// Get name and location
 		$('#eventName').val(eventInfo.name);
@@ -293,13 +299,13 @@ function getEventInfo(datePickersMap){
 		$('#eventCreatedTimeBlock').hide();
 		$('#eventUpdatedTimeBlock').hide();
 		$('.event-hidden-tabs').hide();
-		//$('#eventRequestNowBlock').show();
+		$('#deleteEventBtn').hide();
 	
 		// Set title.
 		//$('#currentAction').text('add');
 		$('#eventPageTitle').text('Add Event');
-		$('#eventPageLink').text('Add Event');
-		$('#eventPageLink').attr('href', '/events/add.do');
+		$('#eventPageLink').text('Add');
+		$('#eventPageLink').attr('href', $('#addEventLink').val());
 		$('#isEdit').val('0');
 		
 		// Set role(s).
@@ -665,7 +671,9 @@ function addEvent(){
    		data: JSON.stringify(newEventObj),
    		success: function () {
 			successPopup("Event " + modeStr + "ed successfully.");
-			setTimeout(function() { isEdit ? window.location.reload() : $(location).attr('href','/events/calendar.do'); }, 2500);
+			setTimeout(function() { 
+				isEdit ? window.location.reload() : $(location).attr('href', $('#eventCalendarLink').val()); 
+			}, 2500);
     	},
     	error: function (err) {
     		dangerPopup("Failed to " + modeStr +"  event due to a HTTP " + err.status + " error.", err.responseJSON.exception);
@@ -777,27 +785,30 @@ function getOrdinalIndicator(n) {
  * Enable the "delete event" button when click the confirmation checkbox.
  */
 
-function deleteEventCheckboxOnChange(){
-	$('#confirmDeletion').change(function() {
-		$('#deleteEventBtn').prop('disabled', !this.checked);
-    });
-}
+//function deleteEventCheckboxOnChange(){
+//	$('#confirmDeletion').change(function() {
+//		$('#deleteEventBtn').prop('disabled', !this.checked);
+//    });
+//}
 
 /**
  * Converts a duration in minutes into a formatted string "_d __h __m".
  * This function formats the given minutes into a human-readable string that represents the number of days, hours, and minutes.
- * The days component is capped at 9, meaning if the computed days exceed 9, it will be represented as 9.
- * 
+ * The days component is capped at 9, meaning if the computed days exceed 9, it will be represented as 9 regardless of the actual number.
+ *
  * @param {int} minutes - The total number of minutes to convert. Must be a non-negative integer.
- * @returns {string} - The formatted duration string. Days are capped at 9 and both hours and minutes are zero-padded to two digits.
- * 
+ * @param {boolean} [padding=true] - Indicates whether to pad the hours and minutes with zeros to two digits. If false, days, hours, and minutes are returned without leading zeros and are omitted if zero.
+ * @returns {string} - The formatted duration string. Days are capped at 9 and both hours and minutes are zero-padded to two digits if padding is true; otherwise, they are displayed with minimal formatting.
+ *
  * Example usage:
  * minutesToString(1500);    // returns "1d 01h 00m"
  * minutesToString(10000);   // returns "9d 00h 00m" (days are capped at 9)
  * minutesToString(61);      // returns "0d 01h 01m"
+ * minutesToString(61, false); // returns "1h 1m"
  */
 
-function minutesToString(minutes) {
+
+function minutesToString(minutes, padding=true) {
     const perDay = 1440;
     const perHour = 60;
 
@@ -805,12 +816,25 @@ function minutesToString(minutes) {
     var hours = Math.floor((minutes % perDay) / perHour);
     var mins = minutes % 60;
 
-	// The days field has only one digit.
-	if(days > 9){
+	// The days field has only one digit in padding mode.
+	if(days > 9 && padding){
 		days = 9;
 	}
 
-    return days + "d " + pad(hours, 2) + "h " + pad(mins, 2) + "m";
+	// Padding to "_d __h __m" format
+	if (padding) {
+		return days + "d " + pad(hours, 2) + "h " + pad(mins, 2) + "m";
+	}
+
+	// No paddings
+	else {
+
+		var out = '';
+		if (days > 0)	out += days + 'd ';
+		if (hours > 0)	out += hours + 'h ';
+		if (mins > 0)	out += mins + 'm';
+		return out.trim();
+	}
 }
 
 /**
@@ -920,13 +944,7 @@ function getGraphics(eventId, isBanner){
 			}
 
 			else{
-				$(selectedElement).html(`
-					<!--
-					<div class="d-flex justify-content-center">	
-						<i class="fa-regular fa-ban medium-icons"></i>
-					</div>
-					-->
-				
+				$(selectedElement).html(`		
 					<div class="d-flex justify-content-center bold-text text-secondary">
 						No ${title}.
 					</div>`
@@ -939,5 +957,112 @@ function getGraphics(eventId, isBanner){
 		 error: function (err) {
 			dangerPopup(`Failed to get ${title} due to a HTTP ${err.status} error.`, err.responseJSON.exception);
 		 }
+	});
+}
+
+/**
+ * Sends an AJAX request to remove an event by its ID.
+ * 
+ * This function makes a GET request to the server to remove the specified event. 
+ * Upon successful removal, it displays a success popup message and redirects the user 
+ * to the events page after a short delay. If the request fails, it displays an error popup message 
+ * with the HTTP status code and exception details.
+ * 
+ * @function removeEvent
+ * @param {number|string} eventId - The ID of the event to be removed.
+ */
+
+function removeEvent(eventId) {
+	$.ajax({
+   		url: '/api/event/remove', 
+   		type: "GET",
+   		data: {
+			eventId: eventId
+		},
+   		success: function () {
+			successPopup("The event is removed successfully.");
+			setTimeout(function() {	$(location).attr('href','/events/'); }, 2500);
+    	},
+    	error: function (err) {
+    		dangerPopup("Failed to remove event due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+    	}
+ 	});
+}
+
+function eventListTable() {
+	$('#eventsTable').DataTable({
+		"processing": true,
+		"serverSide": true,
+		"lengthMenu": [[10, 20, 50], [10, 20, 50]],
+		"pageLength": 20,
+		"language": {
+            "searchPlaceholder": "Event Name",
+        },
+		"order": [[0, "desc"]],
+		"ajax": {
+			"url": "/api/event/list",
+			"type": "GET",
+			"data": function(d) {
+				return $.extend({}, d, {
+					"sortColumn": d.columns[d.order[0].column].data,
+					"sortDirection": d.order[0].dir
+				});
+			}
+		},
+		"columns": [
+			{ "data": "id" },
+			{ "data": "name" },
+			{ "data": "location" },
+			{ 
+				"data": "recurring",
+				"render": function (data, type, row) {
+
+					if(data) {
+						var out = '<span class="badge badge-primary">Yes</span>';
+						
+						// Excluded date check (it does not included in the rrule)
+						if(row.excluded) {
+							out += '&nbsp;<span class="badge badge-warning">Contains Excluded Dates</span>';
+						}
+
+						// Display human-understandable recurrent rule
+						var rRule = new ETwig.RRuleFromStr(row.rrule);
+						var rule = rRule.getRuleObj();
+						return out + '<br>' + rule.toText();
+					}
+
+					else {
+						return `<span class="badge badge-danger">No</span>`;
+					}
+
+				} 
+			},
+			{ "data": "startTime", "render": dateWeekRender },
+			{ 
+				"data": "duration" ,
+				"render": function(data, type, row) {
+					var out = minutesToString(data, false);
+					if (row.allDayEvent) {
+						out += `<br><span class="badge badge-primary">All Day Event</span>`;
+					}
+					return out;
+				}
+			},
+			{ "data": "organizerName" },
+			{ "data": "updatedTime", "render": dateWeekRender },
+			{
+				// Action
+				"mRender": function (data, type, row) {
+					//var disabledStr = full.canDelete ? '' : 'disabled';
+					return `
+						<a href="${$('#editEventLink').val()}?eventId=${row.id}" class="btn btn-outline-primary btn-sm">
+							<i class="fa-solid fa-circle-info"></i>&nbsp;Details
+						</a>
+					`;
+				}, 
+				"orderable": false 
+			}
+				
+		]
 	});
 }

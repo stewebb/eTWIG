@@ -149,7 +149,8 @@ public class BannerRequestAPIController {
             @RequestParam("length") int length,
             @RequestParam("draw") int draw,
             @RequestParam("sortColumn") String sortColumn,
-            @RequestParam("sortDirection") String sortDirection) {
+            @RequestParam("sortDirection") String sortDirection
+    ) {
 
         Sort.Direction dir = "asc".equalsIgnoreCase(sortDirection) ? Sort.Direction.ASC : Sort.Direction.DESC;
         PageRequest pageable = PageRequest.of(start / length, length, Sort.by(dir, sortColumn));

@@ -7,7 +7,7 @@
 	function: The event calendar/planner page.
    -->
    
-<#assign navbar = "CALENDAR">
+<#assign navbar = "EVENTS_CALENDAR">
 
 <!DOCTYPE html>
 <html>
@@ -22,7 +22,7 @@
 	<#-- Main Wrapper -->
 	<div class="wrapper">
 
-		<#-- Navbar -->
+		<input type="hidden" id="editEventLink" value="${ENDPOINTS.EVENTS_EDIT}"> 
 		<#include "../_includes/navbar.ftl">
 
 		<#-- Content Wrapper. -->
@@ -37,7 +37,10 @@
 						</div>
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
-								<li class="breadcrumb-item active"><a href="/events/calendar.do">Events</a></li>
+								<li class="breadcrumb-item active">
+									<a href="${ENDPOINTS.EVENTS_CALENDAR}">Calendar</a>&nbsp|&nbsp
+									<a href="${ENDPOINTS.EVENTS_LIST}">List</a>
+								</li>
 							</ol>
 						</div>
 					</div>
@@ -123,22 +126,22 @@
 											<label for="eventPortfolio" class="col-xl-4 col-form-label">Portfolio</label>
 											<div class="col-xl-8 input-group">
 									
-													<div class="input-group-prepend">
-														<span class="input-group-text">
-															<i class="fa-solid fa-briefcase"></i>
-														</span>
-													</div>
+												<div class="input-group-prepend">
+													<span class="input-group-text">
+														<i class="fa-solid fa-briefcase"></i>
+													</span>
+												</div>
 									
-													<select class="form-control select2" name="eventPortfolio" id="eventPortfolio" onchange="updatePortfolio();">
-        												<option value="-1">(All portfolios)</option>
-														<#if portfolios?has_content>
-        													<#list portfolios as portfolio>
-																<option value="${portfolio.id}">
-																	${portfolio.name}												
-																</option>
-															</#list>
-        												</#if>
-      												</select>
+												<select class="form-control select2" name="eventPortfolio" id="eventPortfolio" onchange="updatePortfolio();">
+        											<option value="-1">(All portfolios)</option>
+													<#if portfolios?has_content>
+        												<#list portfolios as portfolio>
+															<option value="${portfolio.id}">
+																${portfolio.name}												
+															</option>
+														</#list>
+        											</#if>
+      											</select>
 											</div>
 										</div>
 										<#-- /Portfolio -->		
@@ -179,11 +182,11 @@
 										<#if userPermission.eventsAccess>
 											<hr class="mt-3 mb-3"/>
 											<div class="btn-group w-100">
-												<button type="button" class="btn btn-outline-primary" onclick="location.href='/events/add.do';">
+												<button type="button" class="btn btn-outline-primary" onclick="location.href='${ENDPOINTS.EVENTS_ADD}';">
 													<i class="fa-solid fa-calendar-plus"></i>&nbsp;New Event
 												</button>
 												
-												<button type="button" class="btn btn-outline-primary" onclick="location.href='/events/import.do';">
+												<button type="button" class="btn btn-outline-primary" onclick="location.href='${ENDPOINTS.EVENTS_IMPORT}';">
 													<i class="fa-solid fa-file-import"></i>&nbsp;Import
 												</button>
 											</div>

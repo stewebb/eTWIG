@@ -20,6 +20,7 @@ import net.etwig.webapp.importer.EventImporter;
 import net.etwig.webapp.importer.ExcelEventImporter;
 import net.etwig.webapp.importer.ODSEventImporter;
 import net.etwig.webapp.model.*;
+import net.etwig.webapp.repository.EventGraphicsRepository;
 import net.etwig.webapp.repository.EventOptionRepository;
 import net.etwig.webapp.repository.EventRepository;
 import net.etwig.webapp.repository.GraphicsRequestRepository;
@@ -56,6 +57,12 @@ public class EventService {
 	@Autowired
 	private UserSessionService userSessionService;
 
+	@Autowired
+	private GraphicsRequestRepository graphicsRequestRepository;
+
+	@Autowired
+	private EventGraphicsRepository eventGraphicsRepository;
+
 	/**
 	 * Retrieves the details of an event by its ID and maps it to a DTO.
 	 * <p>This method attempts to fetch an event from the {@code eventRepository} using the provided ID.
@@ -88,7 +95,8 @@ public class EventService {
 			LocalDate endDate,
 			Boolean recurring,
 			Long portfolioId,
-			Pageable pageable) {
+			Pageable pageable
+	) {
 		Specification<Event> spec = eventCriteria(startDate, endDate, recurring, portfolioId);
 		return eventRepository.findAll(spec, pageable).map(EventDetailsDTO::new);
 	}
@@ -109,7 +117,8 @@ public class EventService {
 			LocalDate earliestStartDate,
 			LocalDate latestStartDate,
 			Boolean recurring,
-			Long portfolioId) {
+			Long portfolioId
+	) {
 		return (root, query, criteriaBuilder) -> {
 			Predicate finalPredicate = criteriaBuilder.conjunction();
 
@@ -211,32 +220,58 @@ public class EventService {
 	 * </p>
 	 *
 	 * @param portfolio the portfolio for which edit permissions are being checked
-	 * @return true if the current user has edit permissions for the specified portfolio, false otherwise
+	 * @return true if the current user has NO edit permissions for the specified portfolio, false otherwise
      */
 	
 	public boolean eventEditPermissionCheck(Portfolio portfolio) {
 			
 		// Get user authority
-
 		CurrentUserDTOWrapper wrapper = userSessionService.validateSession();
 		CurrentUserPermissionDTO access = wrapper.getPermission();
 		CurrentUserPositionDTO position = wrapper.getPosition();
 
 		// Case 1: System administrators have edit permission, regardless of which portfolio the user has.
 		if(access.isAdminAccess()) {
-			return true;
+			return false;
 		}
 		
 		// Case 2: This user has events access, has edit view permission depends on the portfolio.
 		else if (access.isEventsAccess()) {
-			return portfolio.getName().equals(position.getMyCurrentPosition().getPortfolioName());
+			return !portfolio.getName().equals(position.getMyCurrentPosition().getPortfolioName());
         }
 		
 		// Case 3: Other users have no edit permission.
 		else {
-			return false;
+			return true;
 		}
 	}
+
+	/**
+	 * Deletes an event and all associated entities by the given event ID.
+	 * <p>
+	 * This method performs the following actions in order:
+	 * <ol>
+	 *     <li>Deletes all event options associated with the event ID.</li>
+	 *     <li>Deletes all graphics requests associated with the event ID.</li>
+	 *     <li>Deletes all event graphics associated with the event ID.</li>
+	 *     <li>Deletes the event itself.</li>
+	 * </ol>
+	 * </p>
+	 *
+	 * @param eventId the ID of the event to be deleted
+	 */
+
+	public void deleteById (Long eventId) {
+		eventOptionRepository.deleteAll(eventOptionRepository.findByIdEventId(eventId));
+		graphicsRequestRepository.deleteByEventId(eventId);
+		eventGraphicsRepository.deleteByEventId(eventId);
+		eventRepository.deleteById(eventId);
+	}
+
+
+
+
+
 
 	public Map<Integer, String> importEvents(MultipartFile file, String fileType, Long role) throws Exception {
 

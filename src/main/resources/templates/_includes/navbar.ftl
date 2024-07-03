@@ -13,18 +13,68 @@
 					
 						<#-- Home -->
 						<li class="nav-item <#if navbar=="HOME">active</#if>">
-							<a href="/home.do" class="nav-link navbar-border">
+							<a href="${ENDPOINTS.HOME}" class="nav-link navbar-border">
 								<i class="fa-solid fa-home"></i>&nbsp;Home
 							</a>
 						</li>
 						<#-- /Home -->
 						
 						<#-- Events -->
+						<#--
 						<li class="nav-item <#if navbar=="CALENDAR">active</#if>">
 							<a href="/events/calendar.do" class="nav-link navbar-border">
 								<i class="fa-solid fa-calendar-check"></i>&nbsp;Events
 							</a>
 						</li>
+						-->
+						<#-- /Events -->
+
+						<#-- Events -->
+						<li class="nav-item dropdown <#if navbar?starts_with("EVENTS_")>active</#if>">
+							<a id="eventsSubMenu" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link navbar-border">
+								<i class="fa-solid fa-lightbulb"></i>&nbsp;Events
+								<i class="fa-solid fa-caret-down"></i>
+							</a>
+								
+							<ul aria-labelledby="eventsSubMenu" class="dropdown-menu border-0 shadow">
+
+								<#-- List -->
+								<li>
+									<a href="${ENDPOINTS.EVENTS_LIST}" class="dropdown-item <#if navbar=="EVENTS_LIST">active</#if>">
+										<i class="fa-solid fa-calendar-week"></i>&nbsp;List
+									</a>
+								</li>
+								<#-- /List -->
+
+								<#-- Calendar -->
+								<li>
+									<a href="${ENDPOINTS.EVENTS_CALENDAR}" class="dropdown-item <#if navbar=="EVENTS_CALENDAR">active</#if>">
+										<i class="fa-solid fa-calendar-check"></i>&nbsp;Calendar
+									</a>
+								</li>
+								<#-- /Calendar -->
+								
+								<#-- Add -->
+								<#if userPermission.eventsAccess>
+								<li>
+									<a href="${ENDPOINTS.EVENTS_ADD}" class="dropdown-item <#if navbar=="EVENTS_ADD">active</#if>">
+										<i class="fa-solid fa-calendar-plus"></i>&nbsp;Add
+									</a>
+								</li>
+								<#-- /Add -->
+
+								<#-- Import -->
+								<li>
+									<a href="${ENDPOINTS.EVENTS_IMPORT}" class="dropdown-item <#if navbar=="EVENTS_IMPORT">active</#if>">
+										<i class="fa-solid fa-cloud-arrow-up"></i>&nbsp;Import
+									</a>
+								</li>
+								</#if>
+								<#-- /Import -->
+
+							</ul>
+						</li>
+						
 						<#-- /Events -->
 						
 						<#-- Graphics -->
@@ -41,8 +91,8 @@
 								
 									<#-- Graphics Approval -->
 									<li>
-										<a href="/graphics/approvalList.do" class="dropdown-item <#if navbar=="GRAPHICS_APPROVAL">active</#if>">
-											<i class="fa-solid fa-circle-check"></i>&nbsp;Approval
+										<a href="${ENDPOINTS.GRAPHICS_APPROVAL_LIST}" class="dropdown-item <#if navbar=="GRAPHICS_APPROVAL">active</#if>">
+											<i class="fa-solid fa-thumbs-up"></i>&nbsp;Approval
 										</a>
 									</li>
 									<#-- /Graphics Approval -->
@@ -57,47 +107,21 @@
 									-->
 									<#-- TWIG Template -->
 
-									<#-- Event -->
+									<#-- Summary -->
 									<li>
-										<a href="/graphics/eventList.do" class="dropdown-item <#if navbar=="GRAPHICS_EVENTS">active</#if>">
-											<i class="fa-solid fa-list-ul"></i>&nbsp;Events
+										<a href="${ENDPOINTS.GRAPHICS_SUMMARY_LIST}" class="dropdown-item <#if navbar=="GRAPHICS_EVENTS">active</#if>">
+											<i class="fa-regular fa-panorama"></i>&nbsp;Summary
 										</a>
 									</li>
-									<#-- /Event -->
+									<#-- /Summary -->
 								
 								</ul>
 							</li>
 						</#if>
 					    <#-- /Graphics -->
 
-					    <#-- Assets -->
-						<#--
-						<li class="nav-item dropdown <#if navbar?starts_with("ASSETS_")>active</#if>">
-							
-							<a id="assetsSubMenu" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link navbar-border">
-								<i class="fa-solid fa-file"></i>&nbsp;Assets&nbsp;
-								<i class="fa-solid fa-caret-down"></i>
-							</a>
-								
-							<ul aria-labelledby="assetsSubMenu" class="dropdown-menu border-0 shadow">
-								
-								<li>
-									<a href="/assets/list.do" class="dropdown-item <#if navbar=="ASSETS_LIST">active</#if>">
-										<i class="fa-solid fa-list-ul"></i>&nbsp;List
-									</a>
-								</li>
-
-								<li>
-									<a href="/assets/upload.do" class="dropdown-item <#if navbar=="ASSETS_UPLOAD">active</#if>">
-										<i class="fa-solid fa-upload"></i>&nbsp;Upload
-									</a>
-								</li>
-
-							</ul>
-						</li>
-						-->
 						<li class="nav-item <#if navbar=="ASSETS">active</#if>">
-							<a href="/assets/index.do" class="nav-link navbar-border">
+							<a href="${ENDPOINTS.ASSETS_LIST}" class="nav-link navbar-border">
 								<i class="fa-solid fa-file"></i>&nbsp;Assets
 							</a>
 						</li>
@@ -106,7 +130,7 @@
 
 					    <#-- Admin -->
           				<#if userPermission.adminAccess>
-							<li class="nav-item dropdown">
+							<li class="nav-item dropdown <#if navbar?starts_with("ADMIN_")>active</#if>">
 							
 								<#-- Dropdown btn -->
 								<a id="adminSubMenu" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link navbar-border">
@@ -115,7 +139,15 @@
 								<#-- /Dropdown btn -->
 								
 								<ul aria-labelledby="adminSubMenu" class="dropdown-menu border-0 shadow">
-								
+									
+									<#-- User Admin -->
+									<li>
+										<a href="${ENDPOINTS.ADMIN_USER_LIST}" class="dropdown-item <#if navbar=="ADMIN_USER_LIST">active</#if>">
+											<i class="fa-regular fa-users-gear"></i>&nbsp;Users
+										</a>
+									</li>
+									<#-- /Admin -->
+
 								</ul>
 							</li>
 						</#if>
@@ -165,7 +197,6 @@
                     </div>
 				</li>
                 <#-- /Notifications -->
-				
 
                 <#-- Account -->
                 <li class="nav-item dropdown <#if navbar=="USER">active</#if>">
@@ -179,9 +210,6 @@
 					<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right ">
 						                	
 						<div class="user-panel d-flex justify-content-center mt-2 mb-2">
-							<div class="image">
-								<img src="" class="img-circle elevation-3">
-							</div>
 							<div class="info">
 								<a href="#" class="d-block" id="userName">${userBasicInfo.fullName}</a>
 							</div>
@@ -211,7 +239,7 @@
 						<#-- /Switch Role -->
 						
 						<#-- Profile -->						
-						<a href="/user/index.do" class="dropdown-item">
+						<a href="${ENDPOINTS.USER_PROFILE}" class="dropdown-item">
 							<i class="fa-regular fa-id-badge"></i>&nbsp;Profile
 						</a>	
 						<#-- /Profile -->

@@ -9,6 +9,7 @@
 
 package net.etwig.webapp.controller.page;
 
+import net.etwig.webapp.util.Endpoints;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
@@ -35,7 +36,9 @@ public class HomePageController {
 	}
 	
 	@RequestMapping("/home.do")
-	public String home(Model model) throws Exception{
+	public String home(Model model) throws Exception {
+
+		//System.out.println(Endpoints.EVENTS_LIST);
 		return "home";
 	}
 }

@@ -9,43 +9,35 @@
 
 package net.etwig.webapp.repository;
 
-import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
-import net.etwig.webapp.dto.PositionDTO;
 import net.etwig.webapp.model.UserRole;
 
 @Repository
-public interface UserRoleRepository extends JpaRepository<UserRole, Long> {
-	
-	//@NonNull
-	//Optional<UserRole> findById(@NonNull Long id);
-	
+public interface UserRoleRepository extends JpaRepository<UserRole, Long>, JpaSpecificationExecutor<UserRole> {
+
 	/**
-	 * Find all portfolios of a user.
-	 * @param userId
-	 * @return
+	 * Finds all portfolios of a user based on the user's ID.
+	 * This method retrieves a set of UserRole entities associated with the specified user ID.
+	 *
+	 * @param userId the ID of the user whose portfolios are to be retrieved
+	 * @return a set of UserRole entities associated with the specified user
 	 */
 	
 	Set<UserRole> findByUserId(Long userId);
-    
-    /**
-     * Find all users who are in the same given portfolio.
-     * @param portfolioId
-     * @return
-     */
-    
-	Set<UserRole> findByPortfolioId(Long portfolioId);
 
-	//@Query("SELECT new net.etwig.webapp.dto.PositionDTO(u) FROM UserRole u JOIN u.role r WHERE r.graphicsAccess = true OR r.adminAccess = true")
-	//Set<PositionDTO> getGraphicsManagers();
+	/**
+	 * Retrieves all UserRole entities where the associated role has graphics or admin access.
+	 * This method uses a custom JPQL query to find UserRoles where the role grants either graphics access or admin access.
+	 *
+	 * @return a set of UserRole entities with roles that have graphics or admin access
+	 */
 
 	@Query("SELECT u FROM UserRole u JOIN u.role r WHERE r.graphicsAccess = true OR r.adminAccess = true")
 	Set<UserRole> getGraphicsManagers();
-
 }

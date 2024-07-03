@@ -6,7 +6,7 @@
 	website: https://etwig.grinecraft.net
 	function: The dashboard (site main) page.
    -->
-<#assign navbar = "CALENDAR">
+<#assign navbar = "EVENTS_IMPORT">
 
 <!DOCTYPE html>
 <html>
@@ -37,8 +37,13 @@
 	          			</div>
 	          			<div class="col-sm-6">
 	            			<ol class="breadcrumb float-sm-right">
-	              				<li class="breadcrumb-item"><a href="/events/calendar.do">Events</a></li>
-	              				<li class="breadcrumb-item active"><a href="/events/import.do" id="eventPageLink">Import</a></li>
+								<li class="breadcrumb-item active">
+									<a href="${ENDPOINTS.EVENTS_CALENDAR}">Calendar</a>&nbsp|&nbsp
+									<a href="${ENDPOINTS.EVENTS_LIST}">List</a>
+								</li>
+	              				<li class="breadcrumb-item active">
+									<a href="${ENDPOINTS.EVENTS_IMPORT}" id="eventPageLink">Import</a>
+								</li>
 	            			</ol>
 	          			</div>
 	        		</div>

@@ -7,25 +7,24 @@
 	function: The twig template page.
    -->
    
-<#assign navbar = "GRAPHICS_APPROVAL">
+<#assign navbar = "EVENTS_LIST">
 
 <!DOCTYPE html>
 <html>
 <head>
 
 	<#include "../_includes/header/head.ftl">
-	<title>Banner Requests Approval - ${app.appName}</title>
+	<title>Event List - ${app.appName}</title>
 </head>
 
 <body class="hold-transition layout-top-nav">
-	
-	<input type="hidden" id="approvalDetailsLink" value="${ENDPOINTS.GRAPHICS_APPROVAL_DETAILS}"> 
+
+	<input type="hidden" id="editEventLink" value="${ENDPOINTS.EVENTS_EDIT}"> 
 	<#include "../_includes/header/body_start.ftl">
 	
 	<#-- Main Wrapper -->
 	<div class="wrapper">
 
-	
 		<#include "../_includes/navbar.ftl">
 
 		<#-- Content Wrapper. -->
@@ -36,13 +35,13 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1 class="bold-text">Banner Request Approval</h1>
+							<h1 class="bold-text">Event List</h1>
 						</div>
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item active">
-									<a href="${ENDPOINTS.GRAPHICS_APPROVAL_LIST}">Approval</a>&nbsp|&nbsp
-									<a href="${ENDPOINTS.GRAPHICS_SUMMARY_LIST}">Summary</a>
+									<a href="${ENDPOINTS.EVENTS_CALENDAR}">Calendar</a>&nbsp|&nbsp
+									<a href="${ENDPOINTS.EVENTS_LIST}">List</a>
 								</li>
 							</ol>
 						</div>
@@ -64,17 +63,17 @@
 						</div>
 
 						<div class="card-body table-responsive">
-							<table id="requestsTable" class="display table table-hover table-striped" width="100%">
+							<table id="eventsTable" class="display table table-hover table-striped" width="100%">
 								<thead>
 									<tr>
-										<th>Request ID</th>
-										<th>Event</th>
-										<th>Request Time</th>
-										<th>Requester</th>
-										<th>Expect Date</th>
-										<th>Status</th>
-										<th>Approver</th>
-										<th>Response Time</th>
+										<th>ID</th>
+										<th>Name</th>
+										<th>Location</th>
+										<th>Recurring</th>
+										<th>Start Time</th>
+										<th>Duration</th>
+										<th>Organizer</th>
+										<th>Last Modified</th>
 										<th>Action</th>
 									</tr>
 								</thead>
@@ -96,12 +95,14 @@
 	
 	<#include "../_includes/footer.ftl">
 	<#include "../_includes/header/body_end.ftl">
+
+	<#-- rrule.js -->
+   	<script type="module" src="/static/js/etwig/recurrent.min.js?ver=${app.appVersion}"></script>
 	
-	<#-- JS for Banner Request Approval -->
-	<script type="text/javascript" src="/static/js/etwig/banner-approval.js?ver=${app.appVersion}"></script>
+	<script type="text/javascript" src="/static/js/etwig/events.js?ver=${app.appVersion}"></script>
 	
 	<script>
-		bannerRequestListTable();
+		eventListTable();
 	</script>
 </body>
 </html>

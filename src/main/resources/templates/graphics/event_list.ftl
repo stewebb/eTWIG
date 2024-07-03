@@ -18,6 +18,8 @@
 
 <body class="hold-transition layout-top-nav">
 	
+	<input type="hidden" id="editEventLink" value="${ENDPOINTS.EVENTS_EDIT}"> 
+	<input type="hidden" id="summaryDetailsLink" value="${ENDPOINTS.GRAPHICS_SUMMARY_DETAILS}"> 
 	<#include "../_includes/header/body_start.ftl">
 	
 	<#-- Main Wrapper -->
@@ -33,12 +35,14 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1 class="bold-text">Event Graphics</h1>
+							<h1 class="bold-text">Event Graphics Summary</h1>
 						</div>
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
-								<li class="breadcrumb-item"><a href="/graphics/index.do">Graphics</a></li>
-								<li class="breadcrumb-item active"><a href="/graphics/eventsList.do">Event Graphics</a></li>
+								<li class="breadcrumb-item active">
+									<a href="${ENDPOINTS.GRAPHICS_APPROVAL_LIST}">Approval</a>&nbsp|&nbsp
+									<a href="${ENDPOINTS.GRAPHICS_SUMMARY_LIST}">Summary</a>
+								</li>
 							</ol>
 						</div>
 					</div>

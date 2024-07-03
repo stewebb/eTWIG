@@ -46,21 +46,19 @@ public class GraphicsPageController {
 	 * </p>
 	 *
 	 * @return The path to the 'event_list' template within the 'graphics' directory.
-	 * @location /graphics/eventList.do
+	 * @location /graphics/summaryList.do
 	 * @permission Those who has graphic management permission.
 	 */
 
 	@PreAuthorize("hasAuthority('ROLE_GRAPHICS')")
-	@GetMapping("/eventList.do")
+	@GetMapping("/summaryList.do")
 	public String eventList(){
 		return "graphics/event_list";
 	}
 
-	// TODO **Copy** this page to /events, then display different contents based on user permission
-
 	@PreAuthorize("hasAuthority('ROLE_GRAPHICS')")
-	@GetMapping("/eventGraphics.do")
-	public String eventGraphics(Model model, @RequestParam Long eventId) throws Exception {
+	@GetMapping("/summaryDetails.do")
+	public String summaryDetails(Model model, @RequestParam Long eventId) throws Exception {
 		EventDetailsDTO event = eventService.findById(eventId);
 		if(event == null) {
 			model.addAttribute("reason", "Event with id=" + eventId + " doesn't exist.");
@@ -68,14 +66,11 @@ public class GraphicsPageController {
 		}
 
 		// Disable pagination for results, but sort them by uploadedTime descending.
-		//Pageable pageable = Pageable.unpaged(Sort.by(Sort.Direction.DESC, "id"));
 		Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE, Sort.by(Sort.Direction.DESC, "id"));
 
 		// Get graphics info
 		Page<EventGraphicsAPIForDetailsPageDTO> banners = eventGraphicsService.findByCriteriaForDetails(eventId, true, pageable);
 		Page<EventGraphicsAPIForDetailsPageDTO> twigComponents = eventGraphicsService.findByCriteriaForDetails(eventId, false, pageable);
-
-		//System.out.println(banners.getContent());
 
 		model.addAttribute("eventInfo", event);
 		model.addAttribute("eventBanners", banners.getContent());

@@ -24,6 +24,7 @@
 	<#-- Main Wrapper -->
 	<div class="wrapper">
 	
+		<input type="hidden" id="assetContentLink" value="${ENDPOINTS.ASSETS_CONTENT}"> 
 		<#include "../_includes/navbar.ftl">
 
 		<#-- Content Wrapper. -->
@@ -38,7 +39,7 @@
 						</div>
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
-								<li class="breadcrumb-item"><a href="/assets/index.do">Assets</a></li>
+								<li class="breadcrumb-item"><a href="${ENDPOINTS.ASSETS_LIST}">Assets</a></li>
 							</ol>
 						</div>
 					</div>

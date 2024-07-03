@@ -40,9 +40,8 @@
 	          			</div>
 	          			<div class="col-sm-6">
 	            			<ol class="breadcrumb float-sm-right">
-	              				<li class="breadcrumb-item"><a href="/graphics">Graphics</a></li>
-								<li class="breadcrumb-item"><a href="/graphics/eventList.do">Event Graphics</a></li>
-								<li class="breadcrumb-item active"><a href="/graphics/eventGraphics.do?eventId=${eventInfo.id}">View</a></li>
+								<li class="breadcrumb-item"><a href="${ENDPOINTS.GRAPHICS_SUMMARY_LIST}">Summary</a></li>
+								<li class="breadcrumb-item active"><a href="${ENDPOINTS.GRAPHICS_SUMMARY_DETAILS}?eventId=${eventInfo.id}">View</a></li>
 	            			</ol>
 	          			</div>
 	        		</div>
@@ -241,22 +240,6 @@
 
 	<#-- JS for Graphics Approval -->
 	<script type="text/javascript" src="/static/js/etwig/graphics-events.js?ver=${app.appVersion}"></script>
-	
-	<#--
-	<script>
-	
-		
-		$(document).ready(function() {
-			var myPositions = getMyPositions();
-			for (var key in myPositions) {
-  				$("#operatorRole").append('<option value="' + myPositions[key].userRoleId + '">' + myPositions[key].position + ', ' + myPositions[key].portfolioName + '</option>');
-			}
-		});
-		
-	
-	</script>
-
-	-->
 </body>
 </html>
 

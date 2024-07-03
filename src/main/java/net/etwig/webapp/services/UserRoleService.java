@@ -11,6 +11,7 @@ package net.etwig.webapp.services;
 
 import java.util.Set;
 
+import net.etwig.webapp.util.InvalidParameterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,7 +20,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import net.etwig.webapp.dto.user.CurrentUserBasicInfoDTO;
 import net.etwig.webapp.handler.CustomUserDetails;
 import net.etwig.webapp.model.User;
 import net.etwig.webapp.model.UserRole;
@@ -34,10 +34,6 @@ public class UserRoleService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-	private UserSessionService userSessionService;
-
 
     /**
      * Retrieves a {@link UserRole} based on the provided role ID.
@@ -54,13 +50,6 @@ public class UserRoleService implements UserDetailsService {
 
     public UserRole findById(@NonNull Long userRoleId) {
         return userRoleRepository.findById(userRoleId).orElse(null);
-    }
-
-    // TODO REPLACE ME
-    @SuppressWarnings("null")
-	public User getMyDetails() {
-        CurrentUserBasicInfoDTO currentUser = userSessionService.validateSession().getBasicInfo();
-    	return userRepository.findById(currentUser.getId()).orElse(null);
     }
 
     /**
@@ -90,36 +79,37 @@ public class UserRoleService implements UserDetailsService {
     }
 
     /**
-     * Loads the user details by username and email.
-     * <p>
-     * This method searches for a user with the specified username and email address, retrieves their roles,
-     * and returns a {@link CustomUserDetails} object containing the user's information and roles.
-     * </p>
+     * Changes a user's password after validating the current password.
+     * This method first verifies if the user exists and checks if the provided current password matches
+     * the stored password. If the current password is correct, it updates the user's password with the new password.
      *
-     * @param username the username of the user to load.
-     * @param email the email address of the user to load.
-     * @return a {@link UserDetails} object containing the user's information and roles.
-     * @throws UsernameNotFoundException if no user is found with the specified username and email address.
+     * @param userId The unique identifier of the user whose password is to be changed.
+     * @param currentPassword The current password of the user, which needs to be verified.
+     * @param newPassword The new password to be set for the user.
+     * @return {@code true} if the password was successfully changed, {@code false} otherwise.
+     * @throws InvalidParameterException if no user exists with the provided {@code userId}.
+     * @throws IllegalArgumentException if the current password does not match the stored password.
      */
 
-    /*
-    public UserDetails loadUserByUsernameAndEmail(String username, String email) throws UsernameNotFoundException {
-        User user = userRepository.findByUsernameAndEmail(username, email);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found with username: " + username + " and email: " + email);
+    public boolean changePassword(Long userId, String currentPassword, String newPassword) {
+
+        // User check
+        User user = userRepository.findById(userId).orElse(null);
+        if(user == null) {
+        	throw new InvalidParameterException("User with id=" + userId + "does not exist.");
         }
 
-        // Set role
-        Set<UserRole> userRoles = userRoleRepository.findByUserId(user.getId());
-        return new CustomUserDetails(user, userRoles);
-    }
+        // Original password check
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        if (!encoder.matches(currentPassword, user.getPassword())) {
+            return false;
+        }
 
-     */
-
-    public void changePassword(User user, String newPassword) {
+        // Change password
         String encodedPassword = (new BCryptPasswordEncoder()).encode(newPassword);
         user.setPassword(encodedPassword);
         userRepository.save(user);
+        return true;
     }
 
 }

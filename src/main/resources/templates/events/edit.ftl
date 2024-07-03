@@ -7,7 +7,7 @@
 	function: The add/edit event page.
    -->
    
-<#assign navbar = "CALENDAR">
+<#assign navbar = "EVENTS_EDIT">
 
 <#-- 
   This function returns the appropriate indefinite article ("a" or "an") 
@@ -42,9 +42,10 @@
 	<#-- Main Wrapper -->
 	<div class="wrapper">
 
-		<#-- Navbar -->
+		<input type="hidden" id="addEventLink" value="${ENDPOINTS.EVENTS_ADD}">
+		<input type="hidden" id="editEventLink" value="${ENDPOINTS.EVENTS_EDIT}"> 
+		<input type="hidden" id="eventCalendarLink" value="${ENDPOINTS.EVENTS_CALENDAR}"> 
 		<#include "../_includes/navbar.ftl">
-		<#-- /Navbar -->
 
 		<#-- Content Wrapper. -->
   		<div class="content-wrapper">
@@ -58,7 +59,10 @@
 	          			</div>
 	          			<div class="col-sm-6">
 	            			<ol class="breadcrumb float-sm-right">
-	              				<li class="breadcrumb-item"><a href="/events/calendar.do">Events</a></li>
+								<li class="breadcrumb-item active">
+									<a href="${ENDPOINTS.EVENTS_CALENDAR}">Calendar</a>&nbsp|&nbsp
+									<a href="${ENDPOINTS.EVENTS_LIST}">List</a>
+								</li>
 	              				<li class="breadcrumb-item active"><a id="eventPageLink" href="#"></a></li>
 	            			</ol>
 	          			</div>
@@ -892,17 +896,23 @@
 							<#-- /Back -->
 
 							<#-- Delete -->
+							
 							<#--
-							<button type="button" class="btn btn-outline-danger" onclick="false;">
+							<button type="button" class="btn btn-outline-danger confirm-btn" data-action='{"functionName": "removeEvent", "params": [(new URLSearchParams(window.location.search)).get(\'eventId\')]}'
                 				<i class="fa-solid fa-trash"></i>&nbsp;
 								<span id="submitText">Delete</span>
                 			</button>
 							-->
+
+							<button type="button" id="deleteEventBtn" class="btn btn-outline-danger confirm-btn" data-action='' style="diaplay:none">
+    							<i class="fa-solid fa-trash"></i>&nbsp;
+   	 							<span id="submitText">Delete</span>
+							</button>
+							
 							<#-- /Delete -->
 						</div>
 					</div>
 
-					
 				</div>
 			</section>
 			<#-- /Main area -->

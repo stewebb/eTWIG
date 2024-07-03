@@ -70,6 +70,7 @@ function lastModifiedRender(data, type, row){
 	return timeAgo(data); 
 }
 
+/*
 function previewAsset(asset){
 	
 	// Not selected
@@ -132,6 +133,7 @@ function previewAsset(asset){
 	`);
 	$("#selectBtn").attr("disabled", false);
 }
+*/
 
 /**
  * Handles the uploading of a file to a specified endpoint via AJAX POST request.
@@ -215,14 +217,46 @@ function assetListTable(){
 			}
 		},
 		"columns": [
-			{ "data": "id", "orderable": true },
+			{ "data": "id" },
 			{ "data": "name", "orderable": false },
 			{ "data": "type", "orderable": false, "render": assetTypeRender },
-			{ "data": "size", "orderable": true, "render": fileSizeRender },
+			{ 
+				"data": "size", 
+				"render": function (data, type, row) {
+
+					// Renders file size from numeric data into a human-readable string with appropriate units.
+					// This function handles conversion of file size data to a string with units such as Bytes, KB, MB, or GB.
+					if (data < 1024) return data + " Bytes";
+					else if (data < 1024 * 1024) return (data / 1024).toFixed(2) + " KB";
+					else if (data < 1024 * 1024 * 1024) return (data / 1024 / 1024).toFixed(2) + " MB";
+					else return (data / 1024 / 1024 / 1024).toFixed(2) + " GB";
+				} 
+			},
 			{ "data": "uploader", "orderable": false },
 			{ "data": "lastModified", "orderable": true, "render": dateWeekRender },
 			{ "mRender": assetPreviewRender, "orderable": false },
-			{ "mRender": assetListActionRender, "orderable": false }
+			{ 
+				// Action
+				"mRender": function (data, type, full) {
+					var disabledStr = full.canDelete ? '' : 'disabled';
+					return `
+						<div class="btn-group" role="group">
+							<a href="${$('#assetContentLink').val()}?assetId=${full.id}&download=true" class="btn btn-outline-secondary btn-sm" target="_blank">
+								<i class="fa-solid fa-download"></i>&nbsp;Download
+							</a>&nbsp;
+				
+							<a href="${$('#assetContentLink').val()}?assetId=${full.id}&download=false" class="btn btn-outline-primary btn-sm" target="_blank">
+								<i class="fa-solid fa-magnifying-glass-plus"></i>&nbsp;View
+							</a>&nbsp;
+				
+							<button type="button" class="btn btn-outline-danger btn-sm" ${disabledStr}>
+								<i class="fa-solid fa-trash"></i>&nbsp;Delete
+							</button>
+						</div>
+					`;
+				}, 
+				"orderable": false 
+			}
 		]
 	});
 }
