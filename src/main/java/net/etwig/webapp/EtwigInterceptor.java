@@ -60,7 +60,7 @@ public class EtwigInterceptor implements HandlerInterceptor{
 		LinkedHashMap<String, Object> appInfo = new LinkedHashMap<>();
 		appInfo.put("appName", config.getAppName());
 
-		appInfo.put("appVersion", "3.4");
+		appInfo.put("appVersion", "3.5");
 		appInfo.put("appOwner", config.getAppOwner());
 		modelAndView.addObject("app", appInfo);
 	}
