@@ -1,15 +1,8 @@
 package net.etwig.webapp.handler;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
-import net.etwig.webapp.util.InvalidDateFormatException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -21,12 +14,15 @@ public class GlobalExceptionHandler {
 	 */
 
     // TODO REMOVE ME AND USE ANNOTATIONS ON EXCEPTIONS ONLY.
+    /*
     @ExceptionHandler(InvalidDateFormatException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ErrorResponse> handleInvalidDateFormat(InvalidDateFormatException e) {
     	ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
+
+     */
     
     @Data
     @AllArgsConstructor
