@@ -416,9 +416,11 @@ function assetListActionRender(data, type, full){
  * @returns {string} The formatted file size with units.
  */
 
+/*
 function fileSizeRender(data, type, row) {
     if (data < 1024) return data + " Bytes";
     else if (data < 1024 * 1024) return (data / 1024).toFixed(2) + " KB";
     else if (data < 1024 * 1024 * 1024) return (data / 1024 / 1024).toFixed(2) + " MB";
     else return (data / 1024 / 1024 / 1024).toFixed(2) + " GB";
 }
+*/

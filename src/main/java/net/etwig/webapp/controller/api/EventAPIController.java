@@ -81,7 +81,7 @@ public class EventAPIController {
 
         // Event exist, edit mode. But check permission in the backend again.
         Portfolio eventPortfolio = portfolioService.findById(event.getPortfolioId());
-        if(!eventService.eventEditPermissionCheck(eventPortfolio)) {
+        if(eventService.eventEditPermissionCheck(eventPortfolio)) {
             throw new PortfolioMismatchException(eventPortfolio.getName());
         }
 
@@ -107,10 +107,26 @@ public class EventAPIController {
 
     // TODO Javadoc for event removal
     @GetMapping("/remove")
-    public Object remove(@RequestParam Long eventId) {
+    public void remove(@RequestParam Long eventId) {
         // TODO Soft remove: Hide the event but can be restored.
         // TODO Hard remove: Remove event from DB permanently.
-        return null;
+
+        if(eventId == null || eventId <= 0) {
+            throw new InvalidParameterException("EventId is invalid.");
+        }
+
+        // Event search, stop proceeding when it doesn't exist.
+        EventDetailsDTO event = eventService.findById(eventId);
+        if(event == null) {
+            throw new InvalidParameterException("The event with id=" + eventId + " does not exist.");
+        }
+
+        Portfolio eventPortfolio = portfolioService.findById(event.getPortfolioId());
+        if(eventService.eventEditPermissionCheck(eventPortfolio)) {
+            throw new PortfolioMismatchException(eventPortfolio.getName());
+        }
+
+        eventService.deleteById(eventId);
     }
 
     /**

@@ -21,4 +21,5 @@ import net.etwig.webapp.model.EventOptionKey;
 public interface EventOptionRepository extends JpaRepository<EventOption, EventOptionKey> {
 
     List<EventOption> findByIdEventId(Long eventId);
+
 }

@@ -56,6 +56,9 @@ public class EventService {
 	@Autowired
 	private UserSessionService userSessionService;
 
+	@Autowired
+	private GraphicsRequestRepository graphicsRequestRepository;
+
 	/**
 	 * Retrieves the details of an event by its ID and maps it to a DTO.
 	 * <p>This method attempts to fetch an event from the {@code eventRepository} using the provided ID.
@@ -213,7 +216,7 @@ public class EventService {
 	 * </p>
 	 *
 	 * @param portfolio the portfolio for which edit permissions are being checked
-	 * @return true if the current user has edit permissions for the specified portfolio, false otherwise
+	 * @return true if the current user has NO edit permissions for the specified portfolio, false otherwise
      */
 	
 	public boolean eventEditPermissionCheck(Portfolio portfolio) {
@@ -226,19 +229,34 @@ public class EventService {
 
 		// Case 1: System administrators have edit permission, regardless of which portfolio the user has.
 		if(access.isAdminAccess()) {
-			return true;
+			return false;
 		}
 		
 		// Case 2: This user has events access, has edit view permission depends on the portfolio.
 		else if (access.isEventsAccess()) {
-			return portfolio.getName().equals(position.getMyCurrentPosition().getPortfolioName());
+			return !portfolio.getName().equals(position.getMyCurrentPosition().getPortfolioName());
         }
 		
 		// Case 3: Other users have no edit permission.
 		else {
-			return false;
+			return true;
 		}
 	}
+
+	public void deleteById (Long eventId) {
+
+		// TODO AlSO REMOVE SELECTED OPTIONS
+		// Remove all existing options associations for the event.
+		//List<EventOption> existingEventOptions = eventOptionRepository.findByIdEventId(eventId);
+		eventOptionRepository.deleteAll(eventOptionRepository.findByIdEventId(eventId));
+		graphicsRequestRepository.deleteByEventId(eventId);
+		eventRepository.deleteById(eventId);
+	}
+
+
+
+
+
 
 	public Map<Integer, String> importEvents(MultipartFile file, String fileType, Long role) throws Exception {
 
