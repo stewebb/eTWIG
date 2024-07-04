@@ -230,16 +230,16 @@
 														<i class="fa-solid fa-envelope"></i>
 													</span>
 												</div>
-												<input type="text" class="form-control" id="userPortfolioEmail" maxlength="63">
+												<input type="text" class="form-control" id="userPortfolioEmail" placeholder="me@example.com" maxlength="63">
 											</div>
-											<small class="form-text text-muted">Must be a valid email format and up to 63 characters.</small>
+											<small class="form-text text-muted">Must be a valid email format and up to 63 characters. Must be differeent than any other existing records.</small>
 										</div>
 									</div>
 									<#-- /Portfolio Email -->
 
 									<#-- Position -->
 									<div class="form-group row">
-										<label for="positionName" class="col-lg-3 col-form-label">Position</label>
+										<label for="userPosition" class="col-lg-3 col-form-label">Position</label>
 										<div class="col-lg-9">
 											<div class="input-group">
 												<div class="input-group-prepend">
@@ -247,7 +247,7 @@
 														<i class="fa-solid fa-user-tie"></i>
 													</span>
 												</div>
-												<input type="text" class="form-control" id="positionName" maxlength="63">
+												<input type="text" class="form-control" id="userPosition" placeholder="e.g., Arts Rep" maxlength="63">
 											</div>
 											<small class="form-text text-muted">Up to 63 characters.</small>
 										</div>

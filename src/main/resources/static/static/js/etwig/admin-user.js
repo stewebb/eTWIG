@@ -94,12 +94,35 @@ function addUser() {
     newUserObj["userPortfolio"] = $('#userPortfolio').val();
 
     // Portfolio email
-    var userEmail = $('#userEmail').val();
-    if (!emailPattern.test(userEmail)) {
-        warningPopup("User email address is invalid.");
+    var userPortfolioEmail = $('#userPortfolioEmail').val();
+    if (!emailPattern.test(userPortfolioEmail)) {
+        warningPopup("Portfolio email address is invalid.");
         return;
     } 
-    newUserObj["userEmail"] = userEmail;
+    newUserObj["userPortfolioEmail"] = userPortfolioEmail;
+
+    // Position
+    var userPosition = $('#userPosition').val();
+    if(userPosition.length == 0){
+		warningPopup("User position name is required.");
+		return;
+	}
+    newUserObj["userPosition"] = userPosition;
+    //console.log(newUserObj);
+
+    // Submit
+    $.ajax({
+        url: '/api/user/add', 
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(newUserObj),
+        success: function () {
+            successPopup("User added successfully.");
+            setTimeout(function() { window.location.reload();}, 2500);
+        },
+            error: function (err) {
+            dangerPopup("Failed to add user due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+        }
+    });
     
-    console.log(newUserObj);
 }

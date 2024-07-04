@@ -2,6 +2,7 @@ package net.etwig.webapp.services;
 
 import jakarta.persistence.criteria.Predicate;
 import net.etwig.webapp.dto.admin.UserListDTO;
+import net.etwig.webapp.model.User;
 import net.etwig.webapp.model.UserRole;
 import net.etwig.webapp.repository.UserRepository;
 import net.etwig.webapp.repository.UserRoleRepository;
@@ -10,7 +11,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,8 +27,8 @@ public class UserService {
     @Autowired
     private UserRoleRepository userRoleRepository;
 
-    // @Autowired
-    // private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     /**
      * Retrieves a paginated list of users with their positions, filtered by portfolio ID, role ID, and search user name.
@@ -119,5 +122,27 @@ public class UserService {
 
             return finalPredicate;
         };
+    }
+
+    public void addUser(@RequestBody Map<String, Object> newUserInfo) {
+
+        // Step 1: Add user information
+        User user = new User();
+        user.setFullName(newUserInfo.get("userFullName").toString());
+        user.setEmail(newUserInfo.get("userEmail").toString());
+
+        String encodedPassword = (new BCryptPasswordEncoder()).encode(newUserInfo.get("userPassword").toString());
+        user.setPassword(encodedPassword);
+        user.setLastLogin(LocalDateTime.now());
+        Long addedUserId = userRepository.save(user).getId();
+
+        // Step 2: Add initial position
+        UserRole userRole = new UserRole();
+        userRole.setUserId(addedUserId);
+        userRole.setRoleId(Long.parseLong(newUserInfo.get("userSystemRole").toString()));
+        userRole.setPortfolioId(Long.parseLong(newUserInfo.get("userPortfolio").toString()));
+        userRole.setEmail(newUserInfo.get("userPortfolioEmail").toString());
+        userRole.setPosition(newUserInfo.get("userPosition").toString());
+        userRoleRepository.save(userRole);
     }
 }

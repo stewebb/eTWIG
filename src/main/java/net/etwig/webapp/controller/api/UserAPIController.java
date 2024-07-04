@@ -1,7 +1,6 @@
 package net.etwig.webapp.controller.api;
 
 import net.etwig.webapp.dto.admin.UserListDTO;
-import net.etwig.webapp.dto.graphics.BannerRequestDetailsDTO;
 import net.etwig.webapp.services.UserRoleService;
 import net.etwig.webapp.services.UserService;
 import net.etwig.webapp.services.UserSessionService;
@@ -31,15 +30,19 @@ public class UserAPIController {
 
 	/**
 	 * Add a user
-	 * @location /nsRest/private/user/add
-	 * @permission TODO
+	 * @location /api/user/add
+	 * @permission Site administrators only.
 	 */
 
-	@GetMapping("/add")
-	public Object add(){
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	@PostMapping("/add")
+	public void add(@RequestBody Map<String, Object> newUserInfo){
+		userService.addUser(newUserInfo);
 		// TODO add user
-		return null;
+		//return null;
 	}
+
+	// TODO Existing email check
 
 	/**
 	 * Edit a user
