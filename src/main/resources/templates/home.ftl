@@ -54,7 +54,7 @@
 				<div class="card card-primary card-outline mb-3">							
 					<div class="card-header">
 						<h3 class="card-title">
-							<i class="fa-solid fa-compass"></i>&nbsp;Quick Link
+							<i class="fa-solid fa-compass"></i>&nbsp;Quick Links
 						</h3>
 					</div>
 
@@ -183,6 +183,15 @@
 								</div>
 							</div>
 							<#-- /User Management -->
+
+							<#-- Portfolio Management -->
+							<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
+								<div class="menu-option p-3" onclick="window.location.href='${ENDPOINTS.ADMIN_PORTFOLIO_LIST}';">
+								    <div><i class="fa fa-briefcase fa-super"></i></div>
+                    				<div>Portfolio Management</div>
+								</div>
+							</div>
+							<#-- /Portfolio Management -->
 
 						</div>
 					</div>

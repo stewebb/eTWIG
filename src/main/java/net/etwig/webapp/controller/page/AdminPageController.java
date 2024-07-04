@@ -38,4 +38,10 @@ public class AdminPageController {
         );
         return "admin/user_list";
     }
+
+    @GetMapping("/portfolioList.do")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public String portfolioList(){
+        return "admin/portfolio_list";
+    }
 }
