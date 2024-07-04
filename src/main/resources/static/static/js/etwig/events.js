@@ -207,7 +207,7 @@ function getEventInfo(datePickersMap){
 			$('#eventByMonthDay').val(rule.options.bymonthday);
 				
 			// Display the rule.
-			$('#eventRRuleDiscription').text(rule.toText());
+			$('#eventRRuleDescription').text(rule.toText());
 		
 			// Recursion mode.
 			setRecurrentMode(true);
@@ -271,15 +271,6 @@ function getEventInfo(datePickersMap){
 							</a>`;
 					}
 				}
-                //{ "data": "expectDate", "orderable": false},
-                //{ "data": "requesterName", "orderable": false},
-				//{ "data": "requestTime", "orderable": false},
-				//{ "data": "requestComment", "orderable": false},
-				//
-				//{ "data": "approverName", "orderable": false},
-				//{ "data": "responseTime", "orderable": false},
-				//{ "data": "responseComment", "orderable": false},
-				//
             ]
         });
 

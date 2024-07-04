@@ -134,7 +134,7 @@ public class GraphicsPageController {
 
 	@PreAuthorize("hasAuthority('ROLE_GRAPHICS')")
 	@GetMapping("/approvalDetails.do")
-	public String approvalDetails(Model model, @RequestParam @NonNull Long requestId) {
+	public String approvalDetails(Model model, @RequestParam Long requestId) {
 
 		// Get banner request details
 		BannerRequest bannerRequest = bannerRequestService.findById(requestId);

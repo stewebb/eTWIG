@@ -9,7 +9,10 @@
 
 package net.etwig.webapp.controller.page;
 
+import net.etwig.webapp.dto.graphics.BannerRequestDetailsDTO;
 import net.etwig.webapp.dto.user.CurrentUserPositionDTO;
+import net.etwig.webapp.model.BannerRequest;
+import net.etwig.webapp.services.BannerRequestService;
 import net.etwig.webapp.services.UserSessionService;
 import net.etwig.webapp.util.Endpoints;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +39,9 @@ public class EventsPageController {
 
 	@Autowired
 	private UserSessionService userSessionService;
+
+	@Autowired
+	private BannerRequestService bannerRequestService;
 
 	@Autowired
 	private Endpoints endpoints;
@@ -139,7 +145,13 @@ public class EventsPageController {
 	}
 
 	@GetMapping("/bannerRequest.do")
-	public String bannerRequest(){
+	public String bannerRequest(Model model, @RequestParam Long requestId) {
+		BannerRequest bannerRequest = bannerRequestService.findById(requestId);
+		if (bannerRequest == null) {
+			model.addAttribute("reason", "Banner request with id=" + requestId + " does not exist.");
+			return "error_page";
+		}
+		model.addAttribute("requestInfo", new BannerRequestDetailsDTO(bannerRequest));
 		return "events/bannerRequest";
 	}
 }
