@@ -108,9 +108,16 @@
 										<i class="fa-solid fa-circle-info"></i>&nbsp;New User Details
 									</h5>
 
+									<#-- Notice -->
+									<div class="callout callout-primary mb-3">
+										<h5 class="bold-text mb-3">Assign multiple positions to a new user?</h5>
+										You need to add an initial position here, then add more positions in the user details page.
+									</div>
+									<#-- /Notice -->
+
 									<#-- Full Name -->
 									<div class="form-group row">
-										<label for="userName" class="col-lg-3 col-form-label">Full Name</label>
+										<label for="userFullName" class="col-lg-3 col-form-label">Full Name</label>
 										<div class="col-lg-9">
 											<div class="input-group">
 												<div class="input-group-prepend">
@@ -118,7 +125,7 @@
 														<i class="fa-solid fa-user"></i>
 													</span>
 												</div>
-												<input type="text" class="form-control" id="userName" maxlength="63">
+												<input type="text" class="form-control" id="userFullName" placeholder="John Doe" maxlength="63">
 											</div>
 											<small class="form-text text-muted">Up to 63 characters.</small>
 										</div>
@@ -135,7 +142,7 @@
 														<i class="fa-solid fa-at"></i>
 													</span>
 												</div>
-												<input type="text" class="form-control" id="userEmail" maxlength="63">
+												<input type="text" class="form-control" id="userEmail" placeholder="me@example.com" maxlength="63">
 											</div>
 											<small class="form-text text-muted">Must be a valid email format and up to 63 characters.</small>
 										</div>
@@ -202,7 +209,7 @@
 													</span>
 												</div>
 									
-												<select class="form-control select2 select2bs4" name="eventPortfolio" id="userPortfolio">
+												<select class="form-control select2 select2bs4" name="userPortfolio" id="userPortfolio">
         											<#list portfolios as portfolio>
 														<option value="${portfolio.id}">${portfolio.name}												</option>
 													</#list>
@@ -212,27 +219,6 @@
 										</div>
 									</div>
 									<#-- /Portfolio -->		
-
-									<#-- Portfolio Name -->
-									<#--
-									<div class="form-group row">
-										<label for="userPortfolioName" class="col-lg-3 col-form-label">
-											Position Name&nbsp;<span class="required-symbol">*</span>
-										</label>
-										<div class="col-lg-9">
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text">
-														<i class="fa-solid fa-user-tie"></i>
-													</span>
-												</div>
-												<input type="text" class="form-control" id="userPortfolioName" maxlength="63">
-											</div>
-											<small class="form-text text-muted">Up to 63 characters.</small>
-										</div>
-									</div>
-									-->
-									<#-- /Portfolio Name -->
 
 									<#-- Portfolio Email -->
 									<div class="form-group row">
@@ -268,12 +254,6 @@
 									</div>
 									<#-- /Position -->
 
-								</div>
-								<#-- /Col 2: Position Information -->
-								
-							</div>
-							
-								
 									<#-- Submit -->
 									<button type="button" class="btn btn-outline-primary right-div" onclick="addUser();">
                 						<i class="fa-solid fa-check"></i>&nbsp;
@@ -281,7 +261,10 @@
                 					</button>
 									<#-- /Submit -->
 
-							
+								</div>
+								<#-- /Col 2: Position Information -->
+								
+							</div>
 						</div>
 					</div>
 					<#-- /Add User -->

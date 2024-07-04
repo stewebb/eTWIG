@@ -456,17 +456,17 @@ function addEvent(){
 	
 	// Current mode, -1 -> Copy 0 -> Add, 1-> Edit
 	var mode = parseInt($('#isEdit').val());
-	console.log(mode)
+	//console.log(mode)
 
 	// Mode in string
-	var modeStr;
-	if(mode < 0){
-		modeStr = "copy";
-	} else if(mode == 0){
-		modeStr = "add";
-	} else{
-		modeStr = "edit";
-	}
+	var modeStr = (mode == 0) ? "add" : "edit";
+	//if(mode < 0){
+	//	modeStr = "copy";
+	//} else if(mode == 0){
+	//	modeStr = "add";
+	//} else{
+	//	modeStr = "edit";
+	//}
 
 	var isEdit = mode > 0;
 	newEventObj["isEdit"] = isEdit;
@@ -479,10 +479,8 @@ function addEvent(){
 	var eventName = $.trim($('#eventName').val());
 	if(eventName.length == 0){
 		warningPopup("Event name is required.");
-		//$('#eventName').addClass('is-invalid');
 		return;
 	}
-	//$('#eventName').removeClass('is-invalid');
 	newEventObj["name"] = eventName;
 	
 	// Event location

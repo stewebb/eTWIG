@@ -60,3 +60,46 @@ function userListTable() {
         ]
     });
 }
+
+function addUser() {
+    var newUserObj = {};
+    var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+    // User full name
+	var userFullName = $('#userFullName').val();
+    if(userFullName.length == 0){
+		warningPopup("User full name is required.");
+		return;
+	}
+    newUserObj["userFullName"] = userFullName;
+
+    // User email
+    var userEmail = $('#userEmail').val();
+    if (!emailPattern.test(userEmail)) {
+		warningPopup("User email address is invalid.");
+		return;
+    } 
+    newUserObj["userEmail"] = userEmail;
+
+    // User password
+    var userPassword = $('#userPassword').val();
+	if(!isPasswordComplex(userPassword)){
+		warningPopup("User password must be at least 8 characters long and include uppercase, lowercase and numbers.");
+		return;	
+	}
+    newUserObj["userPassword"] = userPassword;
+
+    // Role and portfolio
+    newUserObj["userSystemRole"] = $('#userSystemRole').val();
+    newUserObj["userPortfolio"] = $('#userPortfolio').val();
+
+    // Portfolio email
+    var userEmail = $('#userEmail').val();
+    if (!emailPattern.test(userEmail)) {
+        warningPopup("User email address is invalid.");
+        return;
+    } 
+    newUserObj["userEmail"] = userEmail;
+    
+    console.log(newUserObj);
+}

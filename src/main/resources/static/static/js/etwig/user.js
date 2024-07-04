@@ -69,24 +69,3 @@ function changePassword(){
     	}
  	});
 }
-
-/**
- * Checks if a given password meets defined complexity requirements.
- * 
- * This function validates the password based on the following criteria:
- * - Minimum length of 8 characters
- * - Contains at least one uppercase letter
- * - Contains at least one lowercase letter
- * - Contains at least one numerical digit
- *
- * @param {string} password - The password string to be validated.
- * @returns {boolean} Returns `true` if the password meets all complexity requirements, otherwise `false`.
- */
-
-function isPasswordComplex(password) {
-    const minLength = 8;
-    const hasUpperCase = /[A-Z]/.test(password);
-    const hasLowerCase = /[a-z]/.test(password);
-    const hasNumbers = /\d/.test(password);
-    return password.length >= minLength && hasUpperCase && hasLowerCase && hasNumbers;
-}
