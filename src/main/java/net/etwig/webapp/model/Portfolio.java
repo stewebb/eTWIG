@@ -33,10 +33,7 @@ public class Portfolio {
 	
 	@Column(name = "abbreviation")
 	private String abbreviation;	
-	
-	//@Column(name = "icon")
-	//private String icon;	
-	
+
 	@Column(name = "separated_calendar")
 	private boolean separatedCalendar;	
 }

@@ -12,7 +12,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 	<#include "../_includes/header/head.ftl">
 	<title>Portfolio Management - ${app.appName}</title>
 </head>
@@ -36,13 +35,13 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1 class="bold-text">Banner Request Approval</h1>
+							<h1 class="bold-text">Portfolio Management</h1>
 						</div>
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item active">
-									<a href="${ENDPOINTS.GRAPHICS_APPROVAL_LIST}">Approval</a>&nbsp|&nbsp
-									<a href="${ENDPOINTS.GRAPHICS_SUMMARY_LIST}">Summary</a>
+									<a href="${ENDPOINTS.ADMIN_USER_LIST}">User</a>&nbsp|&nbsp
+									<a href="${ENDPOINTS.ADMIN_PORTFOLIO_LIST}">Portfolio</a>
 								</li>
 							</ol>
 						</div>
@@ -55,7 +54,7 @@
 			<section class="content">
 				<div class="container-fluid">
 
-					<#-- Request List -->
+					<#-- Portfolio List -->
 					<div class="card card-primary card-outline">
 						<div class="card-header">
 							<h3 class="card-title">
@@ -64,17 +63,14 @@
 						</div>
 
 						<div class="card-body table-responsive">
-							<table id="requestsTable" class="display table table-hover table-striped" width="100%">
+							<table id="portfoliosTable" class="display table table-hover table-striped" width="100%">
 								<thead>
 									<tr>
-										<th>Request ID</th>
-										<th>Event</th>
-										<th>Request Time</th>
-										<th>Requester</th>
-										<th>Expect Date</th>
-										<th>Status</th>
-										<th>Approver</th>
-										<th>Response Time</th>
+										<th>Portfolio ID</th>
+										<th>Name</th>
+										<th>Color</th>
+										<th>Abbreviation</th>
+										<th>Separated Calendar</th>
 										<th>Action</th>
 									</tr>
 								</thead>
@@ -82,7 +78,7 @@
 						</div>
 
 					</div>
-					<#-- /Request List -->
+					<#-- /Portfolio List -->
 
 				</div>
 			</section>
@@ -97,11 +93,10 @@
 	<#include "../_includes/footer.ftl">
 	<#include "../_includes/header/body_end.ftl">
 	
-	<#-- JS for Banner Request Approval -->
-	<script type="text/javascript" src="/static/js/etwig/banner-approval.js?ver=${app.appVersion}"></script>
+	<script type="text/javascript" src="/static/js/etwig/admin-portfolio.js?ver=${app.appVersion}"></script>
 	
 	<script>
-		bannerRequestListTable();
+		portfolioListTable();
 	</script>
 </body>
 </html>

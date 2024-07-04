@@ -1027,7 +1027,7 @@ function eventListTable() {
 					}
 
 					else {
-						return `<span class="badge badge-danger">No</span>`;
+						return `<span class="badge badge-secondary">No</span>`;
 					}
 
 				} 

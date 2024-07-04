@@ -19,9 +19,6 @@
 
 <body class="hold-transition layout-top-nav">
 	
-	<#--
-	<input type="hidden" id="approvalDetailsLink" value="${ENDPOINTS.GRAPHICS_APPROVAL_DETAILS}"> 
-	-->
 	<#include "../_includes/header/body_start.ftl">
 	
 	<#-- Main Wrapper -->
@@ -44,7 +41,7 @@
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item active">
 									<a href="${ENDPOINTS.ADMIN_USER_LIST}">User</a>&nbsp|&nbsp
-									<!--<a href="${ENDPOINTS.GRAPHICS_SUMMARY_LIST}">Summary</a>-->
+									<a href="${ENDPOINTS.ADMIN_PORTFOLIO_LIST}">Portfolio</a>
 								</li>
 							</ol>
 						</div>
