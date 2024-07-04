@@ -896,20 +896,12 @@
 							<#-- /Back -->
 
 							<#-- Delete -->
-							
-							<#--
-							<button type="button" class="btn btn-outline-danger confirm-btn" data-action='{"functionName": "removeEvent", "params": [(new URLSearchParams(window.location.search)).get(\'eventId\')]}'
-                				<i class="fa-solid fa-trash"></i>&nbsp;
-								<span id="submitText">Delete</span>
-                			</button>
-							-->
-
 							<button type="button" id="deleteEventBtn" class="btn btn-outline-danger confirm-btn" data-action='' style="diaplay:none">
     							<i class="fa-solid fa-trash"></i>&nbsp;
    	 							<span id="submitText">Delete</span>
 							</button>
-							
 							<#-- /Delete -->
+							
 						</div>
 					</div>
 

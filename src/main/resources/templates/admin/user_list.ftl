@@ -100,7 +100,7 @@
 						</div>
 
 						<div class="card-body">
-							<div class="row col-12">
+							<div class="row col-12 mb-3">
 
 								<#-- Col 1: User Details -->
 								<div class="col-md-6">
@@ -110,9 +110,7 @@
 
 									<#-- Full Name -->
 									<div class="form-group row">
-										<label for="userName" class="col-lg-3 col-form-label">
-											Full Name&nbsp;<span class="required-symbol">*</span>
-										</label>
+										<label for="userName" class="col-lg-3 col-form-label">Full Name</label>
 										<div class="col-lg-9">
 											<div class="input-group">
 												<div class="input-group-prepend">
@@ -129,9 +127,7 @@
 
 									<#-- Email -->
 									<div class="form-group row">
-										<label for="userEmail" class="col-lg-3 col-form-label">
-											Email&nbsp;<span class="required-symbol">*</span>
-										</label>
+										<label for="userEmail" class="col-lg-3 col-form-label">Email</label>
 										<div class="col-lg-9">
 											<div class="input-group">
 												<div class="input-group-prepend">
@@ -148,9 +144,7 @@
 
 									<#-- Password -->
 									<div class="form-group row">
-										<label for="userPassword" class="col-lg-3 col-form-label">
-											Password&nbsp;<span class="required-symbol">*</span>
-										</label>
+										<label for="userPassword" class="col-lg-3 col-form-label">Password</label>
 										<div class="col-lg-9">
 											<div class="input-group">
 												<div class="input-group-prepend">
@@ -176,11 +170,90 @@
 										<i class="fa-solid fa-user-tag"></i>&nbsp;Initial Position
 									</h5>
 
-									<#-- Position Name -->
+									<#-- eTWIG Role -->
 									<div class="form-group row">
-										<label for="positionName" class="col-lg-3 col-form-label">
+										<label for="userSystemRole" class="col-lg-3 col-form-label">eTWIG Role</label>
+										<div class="col-lg-9">
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text">
+														<i class="fa-solid fa-key"></i>
+													</span>
+												</div>
+												<select class="form-control select2bs4" id="userSystemRole">
+													<option value="1">Event Manager</option>
+													<option value="2">Graphics Manager</option>
+													<option value="3">Administrator</option>
+												</select>	
+											</div>
+											<small class="form-text text-muted">The role used in eTWIG system.</small>
+										</div>
+									</div>
+									<#-- /eTWIG Role -->
+
+									<#-- Portfolio -->
+									<div class="form-group row">
+										<label for="userPortfolio" class="col-lg-3 col-form-label">Portfolio</label>
+										<div class="col-lg-9">
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text">
+														<i class="fa-solid fa-briefcase"></i>
+													</span>
+												</div>
+									
+												<select class="form-control select2 select2bs4" name="eventPortfolio" id="userPortfolio">
+        											<#list portfolios as portfolio>
+														<option value="${portfolio.id}">${portfolio.name}												</option>
+													</#list>
+      											</select>
+											</div>
+											<small class="form-text text-muted">The portfolio assigned by Griffin Hall.</small>
+										</div>
+									</div>
+									<#-- /Portfolio -->		
+
+									<#-- Portfolio Name -->
+									<#--
+									<div class="form-group row">
+										<label for="userPortfolioName" class="col-lg-3 col-form-label">
 											Position Name&nbsp;<span class="required-symbol">*</span>
 										</label>
+										<div class="col-lg-9">
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text">
+														<i class="fa-solid fa-user-tie"></i>
+													</span>
+												</div>
+												<input type="text" class="form-control" id="userPortfolioName" maxlength="63">
+											</div>
+											<small class="form-text text-muted">Up to 63 characters.</small>
+										</div>
+									</div>
+									-->
+									<#-- /Portfolio Name -->
+
+									<#-- Portfolio Email -->
+									<div class="form-group row">
+										<label for="userPortfolioEmail" class="col-lg-3 col-form-label">Portfolio Email</label>
+										<div class="col-lg-9">
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text">
+														<i class="fa-solid fa-envelope"></i>
+													</span>
+												</div>
+												<input type="text" class="form-control" id="userPortfolioEmail" maxlength="63">
+											</div>
+											<small class="form-text text-muted">Must be a valid email format and up to 63 characters.</small>
+										</div>
+									</div>
+									<#-- /Portfolio Email -->
+
+									<#-- Position -->
+									<div class="form-group row">
+										<label for="positionName" class="col-lg-3 col-form-label">Position</label>
 										<div class="col-lg-9">
 											<div class="input-group">
 												<div class="input-group-prepend">
@@ -193,11 +266,22 @@
 											<small class="form-text text-muted">Up to 63 characters.</small>
 										</div>
 									</div>
-									<#-- /Position Name -->
+									<#-- /Position -->
+
 								</div>
 								<#-- /Col 2: Position Information -->
+								
 							</div>
+							
+								
+									<#-- Submit -->
+									<button type="button" class="btn btn-outline-primary right-div" onclick="addUser();">
+                						<i class="fa-solid fa-check"></i>&nbsp;
+										<span id="submitText">Submit</span>
+                					</button>
+									<#-- /Submit -->
 
+							
 						</div>
 					</div>
 					<#-- /Add User -->
