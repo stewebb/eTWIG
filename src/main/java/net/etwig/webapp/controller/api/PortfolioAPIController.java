@@ -56,6 +56,28 @@ public class PortfolioAPIController {
         return null;
     }
 
+    /**
+     * Handles HTTP GET requests to retrieve a paginated list of portfolios, optionally filtered by whether they have a separated
+     * calendar, and sorted based on the specified column and direction.
+     * <p>
+     * This endpoint supports dynamic pagination, sorting, and filtering to accommodate the front-end table display requirements
+     * (e.g., DataTables). It constructs a {@link PageRequest} using the provided start index, page size, sort column, and sort
+     * direction. The results, along with additional pagination information such as total records, are encapsulated in a JSON object.
+     * </p>
+     *
+     * @param separatedCalendar Optional filter to only include portfolios that have a separated calendar ({@code true}) or not
+     *                          ({@code false}). If not specified, all portfolios are included.
+     * @param start The zero-based index of the first record to be retrieved, used for pagination.
+     * @param length The maximum number of records to return, used for pagination.
+     * @param draw An integer sent by the client used to ensure responses are in sync with requests in asynchronous environments.
+     * @param sortColumn The name of the property/column to sort by.
+     * @param sortDirection The direction of the sort, can be 'asc' for ascending or 'desc' for descending.
+     * @return A {@link ResponseEntity} containing a {@link Map} structured as a JSON object with pagination and list data suitable
+     *         for client-side rendering, such as in a DataTables setup. Includes total record count, filtered count, and actual data.
+     * @location /api/portfolio/list
+     * @permission All logged in users.
+     */
+
     @GetMapping("/list")
     public ResponseEntity<Map<String, Object>> list(
             @RequestParam(name = "separatedCalendar", required = false) Boolean separatedCalendar,
@@ -63,8 +85,7 @@ public class PortfolioAPIController {
             @RequestParam("length") int length,
             @RequestParam("draw") int draw,
             @RequestParam("sortColumn") String sortColumn,
-            @RequestParam("sortDirection") String sortDirection//,
-            //@RequestParam(name = "search[value]", required = false) String searchValue
+            @RequestParam("sortDirection") String sortDirection
     ) {
 
         Sort.Direction dir = "asc".equalsIgnoreCase(sortDirection) ? Sort.Direction.ASC : Sort.Direction.DESC;
@@ -80,5 +101,4 @@ public class PortfolioAPIController {
         json.put("data", page.getContent());
         return ResponseEntity.ok(json);
     }
-
 }
