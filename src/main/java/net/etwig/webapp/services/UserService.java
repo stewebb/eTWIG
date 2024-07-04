@@ -6,6 +6,7 @@ import net.etwig.webapp.model.User;
 import net.etwig.webapp.model.UserRole;
 import net.etwig.webapp.repository.UserRepository;
 import net.etwig.webapp.repository.UserRoleRepository;
+import net.etwig.webapp.util.InvalidParameterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -124,19 +125,52 @@ public class UserService {
         };
     }
 
+    /**
+     * Adds a new user and their associated roles to the database.
+     * <p>
+     * This method first checks if a user with the provided email already exists in the database and throws an exception if so.
+     * If the user does not exist, it creates a new {@link User} instance by extracting information from a provided map,
+     * encoding the user's password using BCrypt, and setting the user's last login time to the current moment.
+     * It then stores this user in the repository. Following the user creation, it sets up initial user roles based on
+     * the provided data, associating these roles with the newly created user.
+     * </p>
+     *
+     * @param newUserInfo A {@link Map} containing user information such as full name, email, password,
+     *                    system role, portfolio, and position details. Keys in this map should include:
+     *                    <ul>
+     *                      <li>userFullName: String specifying the user's full name.</li>
+     *                      <li>userEmail: String specifying the user's email address.</li>
+     *                      <li>userPassword: String specifying the user's password (will be encoded).</li>
+     *                      <li>userSystemRole: Long or String convertible to Long specifying the user's role ID.</li>
+     *                      <li>userPortfolio: Long or String convertible to Long specifying the user's portfolio ID.</li>
+     *                      <li>userPortfolioEmail: String specifying the email associated with the user's portfolio.</li>
+     *                      <li>userPosition: String specifying the user's position.</li>
+     *                    </ul>
+     * @throws IllegalArgumentException if required keys are missing in the newUserInfo map or if the values cannot
+     *                                  be correctly parsed or converted.
+     * @throws InvalidParameterException if a user with the specified email already exists.
+     */
+
     public void addUser(@RequestBody Map<String, Object> newUserInfo) {
 
-        // Step 1: Add user information
+        // Step 1: Check if user is existing
+        String userEmail = newUserInfo.get("userEmail").toString();
+        User existingUser = userRepository.findByEmail(userEmail);
+        if (existingUser != null) {
+            throw new InvalidParameterException("User with email=" + userEmail + " already exists.");
+        }
+
+        // Step 2: Add user information
         User user = new User();
         user.setFullName(newUserInfo.get("userFullName").toString());
-        user.setEmail(newUserInfo.get("userEmail").toString());
+        user.setEmail(userEmail);
 
         String encodedPassword = (new BCryptPasswordEncoder()).encode(newUserInfo.get("userPassword").toString());
         user.setPassword(encodedPassword);
         user.setLastLogin(LocalDateTime.now());
         Long addedUserId = userRepository.save(user).getId();
 
-        // Step 2: Add initial position
+        // Step 3: Add initial position
         UserRole userRole = new UserRole();
         userRole.setUserId(addedUserId);
         userRole.setRoleId(Long.parseLong(newUserInfo.get("userSystemRole").toString()));
