@@ -18,6 +18,7 @@ public class BannerRequestDetailsDTO {
     private final LocalDate expectDate;
     private final String requesterName;
     private final String requesterPosition;
+    private final String requesterPortfolioColor;
     private final LocalDateTime requestTime;
     private final String requestComment;
 
@@ -41,6 +42,7 @@ public class BannerRequestDetailsDTO {
         this.expectDate = bannerRequest.getExpectDate();
         this.requesterName = bannerRequest.getRequesterRole().getUser().getFullName();
         this.requesterPosition = bannerRequest.getRequesterRole().getPosition();
+        this.requesterPortfolioColor = bannerRequest.getRequesterRole().getPortfolio().getColor();
         this.requestTime = bannerRequest.getRequestTime();
         this.requestComment = bannerRequest.getRequestComment();
 

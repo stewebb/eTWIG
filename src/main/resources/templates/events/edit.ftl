@@ -882,31 +882,55 @@
 					</div>
 					<#-- /Grphics -->
 
+					<#-- Actions -->
 					<div class="card mb-3">
 						<div class="card-body">
+							<div class="d-flex justify-content-between w-100">
+								<div class="d-flex">
+		
+								<#-- Calendar -->
+								<div class="p-2">
+									<a class="btn btn-outline-secondary" href="${ENDPOINTS.EVENTS_CALENDAR}">
+										<i class="fa-solid fa-calendar-check"></i>&nbsp;Back to calendar
+									</a>
+								</div>
+								<#-- /Calendar -->
 
-							<#-- Submit -->
-							<button type="button" class="btn btn-outline-primary right-div" onclick="addEvent();">
-                				<i class="fa-solid fa-check"></i>&nbsp;
-								<span id="submitText">Submit</span>
-                			</button>
-							<#-- /Submit -->
+								<#-- List -->
+								<div class="p-2">
+									<a class="btn btn-outline-secondary" href="${ENDPOINTS.EVENTS_LIST}">
+                						<i class="fa-solid fa-calendar-week"></i>&nbsp;Back to list
+                					</a>
+								</div>
+								<#-- /List -->
 
-							<#-- Back -->
-							<a class="btn btn-outline-secondary" href="/events/calendar.do">
-                				<i class="fa-solid fa-arrow-left"></i>&nbsp;Back
-                			</a>
-							<#-- /Back -->
+								</div>
+								<div class="d-flex">
 
-							<#-- Delete -->
-							<button type="button" id="deleteEventBtn" class="btn btn-outline-danger confirm-btn" data-action='' style="diaplay:none">
-    							<i class="fa-solid fa-trash"></i>&nbsp;
-   	 							<span id="submitText">Delete</span>
-							</button>
-							<#-- /Delete -->
-							
+								<#-- Delete -->
+  								<div class="p-2">
+									<button type="button" id="deleteEventBtn" class="btn btn-outline-danger confirm-btn" data-action='' style="diaplay:none">
+    									<i class="fa-solid fa-trash"></i>&nbsp;
+   	 									<span id="deleteText">Delete</span>
+									</button>
+								</div>
+								<#-- /Delete -->
+
+								<#-- Submit -->
+  								<div class="p-2">
+									<button type="button" class="btn btn-outline-primary" onclick="addEvent();">
+                						<i class="fa-solid fa-check"></i>&nbsp;
+										<span id="submitText">Submit</span>
+                					</button>
+								</div>
+								<#-- /Submit -->
+
+								</div>
+
+							</div>			
 						</div>
 					</div>
+					<#-- /Actions -->
 
 				</div>
 			</section>

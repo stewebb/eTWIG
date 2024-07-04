@@ -14,18 +14,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<#include "../_includes/header/head.ftl">
+	<#include "./_includes/header/head.ftl">
 	<title>Error - ${app.appName}</title>
 </head>
 
 <body class="hold-transition layout-top-nav">
-	<#include "../_includes/header/body_start.ftl">
+	<#include "./_includes/header/body_start.ftl">
 	
 	<#-- Main Wrapper -->
 	<div class="wrapper">
 
 		<#-- Navbar -->
-		<#include "../_includes/navbar.ftl">
+		<#include "./_includes/navbar.ftl">
 		<#-- /Navbar -->
 
 		<#-- Content Wrapper. -->
@@ -61,7 +61,7 @@
 	</div>
 	<#-- Main Wrapper -->
 	
-	<#include "../_includes/header/body_end.ftl">
+	<#include "./_includes/header/body_end.ftl">
 	
 </body>
 </html>

@@ -993,7 +993,7 @@ function eventListTable() {
 		"language": {
             "searchPlaceholder": "Event Name",
         },
-		"order": [[0, "desc"]],
+		"order": [[4, "desc"]],
 		"ajax": {
 			"url": "/api/event/list",
 			"type": "GET",
