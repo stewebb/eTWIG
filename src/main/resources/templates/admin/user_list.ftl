@@ -57,11 +57,11 @@
 			<section class="content">
 				<div class="container-fluid">
 
-					<#-- Request List -->
-					<div class="card card-primary card-outline">
+					<#-- User List -->
+					<div class="card card-primary card-outline mb-3">
 						<div class="card-header">
 							<h3 class="card-title">
-								<i class="fa-solid fa-list-check"></i>&nbsp;List
+								<i class="fa-solid fa-users-viewfinder"></i>&nbsp;User List
 							</h3>
 						</div>
 
@@ -89,7 +89,118 @@
 						</div>
 
 					</div>
-					<#-- /Request List -->
+					<#-- /User List -->
+
+					<#-- Add User -->
+					<div class="card card-primary card-outline">
+						<div class="card-header">
+							<h3 class="card-title">
+								<i class="fa-solid fa-user-plus"></i>&nbsp;Add User
+							</h3>
+						</div>
+
+						<div class="card-body">
+							<div class="row col-12">
+
+								<#-- Col 1: User Details -->
+								<div class="col-md-6">
+									<h5 class="mb-3 bold-text text-primary">
+										<i class="fa-solid fa-circle-info"></i>&nbsp;New User Details
+									</h5>
+
+									<#-- Full Name -->
+									<div class="form-group row">
+										<label for="userName" class="col-lg-3 col-form-label">
+											Full Name&nbsp;<span class="required-symbol">*</span>
+										</label>
+										<div class="col-lg-9">
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text">
+														<i class="fa-solid fa-user"></i>
+													</span>
+												</div>
+												<input type="text" class="form-control" id="userName" maxlength="63">
+											</div>
+											<small class="form-text text-muted">Up to 63 characters.</small>
+										</div>
+									</div>
+									<#-- /Full Name -->
+
+									<#-- Email -->
+									<div class="form-group row">
+										<label for="userEmail" class="col-lg-3 col-form-label">
+											Email&nbsp;<span class="required-symbol">*</span>
+										</label>
+										<div class="col-lg-9">
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text">
+														<i class="fa-solid fa-at"></i>
+													</span>
+												</div>
+												<input type="text" class="form-control" id="userEmail" maxlength="63">
+											</div>
+											<small class="form-text text-muted">Must be a valid email format and up to 63 characters.</small>
+										</div>
+									</div>
+									<#-- /Email -->
+
+									<#-- Password -->
+									<div class="form-group row">
+										<label for="userPassword" class="col-lg-3 col-form-label">
+											Password&nbsp;<span class="required-symbol">*</span>
+										</label>
+										<div class="col-lg-9">
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text">
+														<i class="fa-solid fa-lock"></i>
+													</span>
+												</div>
+												<input type="text" class="form-control" id="userPassword" autocomplete="new-password">
+											</div>
+											<small class="form-text text-muted">
+												Must be at least 8 characters long and include uppercase, lowercase and numbers.
+											</small>										
+										</div>
+									</div>
+									<#-- /Password -->
+
+								</div>
+								<#-- /Col 1: User Details -->
+
+								<#-- Col 2: Position Information -->
+								<div class="col-md-6">
+									<h5 class="mb-3 bold-text text-primary">
+										<i class="fa-solid fa-user-tag"></i>&nbsp;Initial Position
+									</h5>
+
+									<#-- Position Name -->
+									<div class="form-group row">
+										<label for="positionName" class="col-lg-3 col-form-label">
+											Position Name&nbsp;<span class="required-symbol">*</span>
+										</label>
+										<div class="col-lg-9">
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text">
+														<i class="fa-solid fa-user-tie"></i>
+													</span>
+												</div>
+												<input type="text" class="form-control" id="positionName" maxlength="63">
+											</div>
+											<small class="form-text text-muted">Up to 63 characters.</small>
+										</div>
+									</div>
+									<#-- /Position Name -->
+								</div>
+								<#-- /Col 2: Position Information -->
+							</div>
+
+						</div>
+					</div>
+					<#-- /Add User -->
 
 				</div>
 			</section>

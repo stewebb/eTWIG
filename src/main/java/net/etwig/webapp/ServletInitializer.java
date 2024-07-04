@@ -30,7 +30,7 @@ public class ServletInitializer extends SpringBootServletInitializer {
 	 * Configures the Spring application builder for servlet environments by specifying the primary source
 	 * for the Spring configuration. This method is called on application startup when deployed as a WAR file.
 	 * <p>
-	 * This method overrides the default configuration to point to {@link EtwigApplication.class}, which contains
+	 * This method overrides the default configuration to point to {@link EtwigApplication class}, which contains
 	 * all the configuration annotated by SpringBootApplication.
 	 *
 	 * @param application The {@link SpringApplicationBuilder} to configure.
