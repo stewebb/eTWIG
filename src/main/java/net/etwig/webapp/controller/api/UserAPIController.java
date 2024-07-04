@@ -57,8 +57,6 @@ public class UserAPIController {
 		return userService.addUser(newUserInfo);
 	}
 
-	// TODO Existing email check
-
 	/**
 	 * Edit a user
 	 * @location /nsRest/private/user/edit

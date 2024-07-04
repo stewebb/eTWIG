@@ -10,6 +10,7 @@ public class Endpoints {
     // Admin
     private final String ADMIN                      = "/admin/";
     private final String ADMIN_USER_LIST            = "/admin/userList.do";
+    private final String ADMIN_PORTFOLIO_LIST       = "/admin/portfolioList.do";
 
     // Assets
     private final String ASSETS                     = "/assets/";

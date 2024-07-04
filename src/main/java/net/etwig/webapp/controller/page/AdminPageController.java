@@ -34,7 +34,7 @@ public class AdminPageController {
     public String userList(Model model){
         model.addAttribute(
                 "portfolios",
-                portfolioService.getPortfolioList(Pageable.unpaged()).getContent()
+                portfolioService.findByCriteria(null, Pageable.unpaged()).getContent()
         );
         return "admin/user_list";
     }
