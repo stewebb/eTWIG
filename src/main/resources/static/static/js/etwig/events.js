@@ -252,10 +252,25 @@ function getEventInfo(datePickersMap){
                 }
             },
             "columns": [
-				{ "data": "id", "orderable": false},
-				{ "data": "assetId", "orderable": false, "render": assetRender},
-                { "data": "requestTime", "orderable": false, "render": dateWeekRender},
-				{ "data": "approved", "orderable": false, "render": approvalStatusRender},
+				{ "data": "id", "orderable": false },
+				{ 
+					"data": "assetId", 
+					"orderable": false, 
+					"render": function (data, type, row){
+						return (data == undefined || data == null) ? 'N/A' : `<img src="/assets/content.do?assetId=${data}" class="table-img">`;
+					} 
+				},
+                { "data": "requestTime", "orderable": false, "render": dateWeekRender },
+				{ "data": "approved", "orderable": false, "render": approvalStatusRender },
+				{ 
+					"orderable" : false,
+					"mRender": function (data, type, row){
+						return `
+							<a href="${$('#editEventLink').val()}?eventId=${row.id}" class="btn btn-outline-primary btn-sm">
+								<i class="fa-solid fa-eye"></i>&nbsp;View
+							</a>`;
+					}
+				}
                 //{ "data": "expectDate", "orderable": false},
                 //{ "data": "requesterName", "orderable": false},
 				//{ "data": "requestTime", "orderable": false},
@@ -456,18 +471,9 @@ function addEvent(){
 	
 	// Current mode, -1 -> Copy 0 -> Add, 1-> Edit
 	var mode = parseInt($('#isEdit').val());
-	//console.log(mode)
 
 	// Mode in string
 	var modeStr = (mode == 0) ? "add" : "edit";
-	//if(mode < 0){
-	//	modeStr = "copy";
-	//} else if(mode == 0){
-	//	modeStr = "add";
-	//} else{
-	//	modeStr = "edit";
-	//}
-
 	var isEdit = mode > 0;
 	newEventObj["isEdit"] = isEdit;
 	

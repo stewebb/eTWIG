@@ -29,17 +29,32 @@ public class UserAPIController {
 	private UserService userService;
 
 	/**
-	 * Add a user
+	 * Handles the HTTP POST request to add a new user to the system.
+	 * <p>
+	 * This endpoint is accessible only to site administrators. It calls the {@code addUser} method from
+	 * the {@code userService} to attempt adding a new user with the information provided in {@code newUserInfo}.
+	 * If a user with the same email already exists, the method will return {@code false}, indicating that the user
+	 * was not added. Otherwise, it returns {@code true}, indicating successful addition of the user.
+	 * </p>
+	 *
+	 * @param newUserInfo A {@link Map} containing the necessary user information. It should include:
+	 *                    <ul>
+	 *                      <li>userFullName: The full name of the user.</li>
+	 *                      <li>userEmail: The email address of the user, which is used as a unique identifier.</li>
+	 *                      <li>userPassword: The password for the user, which will be encoded before storage.</li>
+	 *                      <li>userSystemRole: The role ID, indicating the user's level of access.</li>
+	 *                      <li>userPortfolio: The portfolio ID associated with the user.</li>
+	 *                      <li>userPosition: The position or title of the user within the organization.</li>
+	 *                    </ul>
+	 * @return {@code Boolean} indicating success ({@code true}) or failure ({@code false}) of adding the user.
 	 * @location /api/user/add
-	 * @permission Site administrators only.
+	 * @permission Required: Site administrators only.
 	 */
 
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@PostMapping("/add")
-	public void add(@RequestBody Map<String, Object> newUserInfo){
-		userService.addUser(newUserInfo);
-		// TODO add user
-		//return null;
+	public Boolean add(@RequestBody Map<String, Object> newUserInfo){
+		return userService.addUser(newUserInfo);
 	}
 
 	// TODO Existing email check

@@ -40,9 +40,9 @@ function approvalStatusRender(data, type, row){
  * @returns {string} An HTML string for the image element or 'N/A' if the asset ID is not available.
  */
 
-function assetRender(data, type, row){
-	return (data == undefined || data == null) ? 'N/A' : `<img src="/assets/content.do?assetId=${data}" class="table-img">`;
-}
+//function assetRender(data, type, row){
+//	return (data == undefined || data == null) ? 'N/A' : `<img src="/assets/content.do?assetId=${data}" class="table-img">`;
+//}
 
 /**
  * Converts a date string into a formatted date-time string.
@@ -274,7 +274,7 @@ function dateWeekWithBadgeRender(data, type, row){
 function summaryActionRender(data, type, full){
 	return `
 		<div class="btn-group">
-			<a href="${$('#editEventLink').val()}?eventId=${full.id}" class="btn btn-outline-secondary btn-sm" target="_blank">
+			<a href="${$('#editEventLink').val()}?eventId=${full.id}" class="btn btn-outline-secondary btn-sm">
 				<i class="fa-solid fa-lightbulb"></i>&nbsp;Event Info
 			</a>
 			<a href="${$('#summaryDetailsLink').val()}?eventId=${full.id}" class="btn btn-outline-primary btn-sm">

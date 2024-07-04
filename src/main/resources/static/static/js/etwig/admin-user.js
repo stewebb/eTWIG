@@ -61,6 +61,36 @@ function userListTable() {
     });
 }
 
+/**
+ * Adds a new user to the system by collecting input from HTML form fields,
+ * validating the inputs, and then sending the data to a server endpoint via AJAX.
+ * 
+ * The function collects values for the user's full name, email, password, system role,
+ * portfolio, portfolio email, and position. It performs validation on the full name,
+ * email addresses, and password to ensure they meet specific criteria before submission.
+ * 
+ * Errors during the input collection or AJAX request are displayed using popup notifications.
+ * 
+ * ## Form Validation:
+ * - **Full Name**: Must not be empty.
+ * - **Email Addresses (User and Portfolio)**: Must match a standard email format.
+ * - **Password**: Must be at least 8 characters and include uppercase, lowercase, and numbers.
+ * - **Position**: Must not be empty.
+ *
+ * ## AJAX Submission:
+ * - **Endpoint**: `/api/user/add`
+ * - **Type**: POST
+ * - **Content Type**: `application/json; charset=utf-8`
+ * - **Data**: JSON string of user details.
+ *
+ * ## Popups:
+ * - **Success**: If the user is added successfully, a success message is shown and the page is reloaded after 2.5 seconds.
+ * - **Error**: Errors during validation or the AJAX request display an appropriate message. Specific error popups are shown 
+ * for invalid inputs and server-side issues (like existing email).
+ *
+ * @returns {void} This function does not return a value but initiates an asynchronous operation.
+ */
+
 function addUser() {
     var newUserObj = {};
     var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
@@ -108,7 +138,6 @@ function addUser() {
 		return;
 	}
     newUserObj["userPosition"] = userPosition;
-    //console.log(newUserObj);
 
     // Submit
     $.ajax({
@@ -116,13 +145,18 @@ function addUser() {
         type: "POST",
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify(newUserObj),
-        success: function () {
-            successPopup("User added successfully.");
-            setTimeout(function() { window.location.reload();}, 2500);
+        success: function (result) {
+
+            // Backend return true indicates successfully add.
+            if(result) {
+                successPopup("User added successfully.")
+                setTimeout(function() { window.location.reload();}, 2500);
+            } else {
+                dangerPopup("Failed to add user" , "User email already exists.");
+            }
         },
             error: function (err) {
             dangerPopup("Failed to add user due to a HTTP " + err.status + " error.", err.responseJSON.exception);
         }
     });
-    
 }

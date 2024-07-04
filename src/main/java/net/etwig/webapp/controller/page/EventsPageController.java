@@ -130,11 +130,16 @@ public class EventsPageController {
 	 * @return The view name "events/list" which corresponds to the events list page. This is used by the view resolver
 	 *         to render the list of events to the user.
 	 * @location /events/list.do - Accessed through a GET request to manage and view all the events.
-	 * @permission All logged in users have access to this endpoint, which is intended for a broad audience within the application.
+	 * @permission All logged-in users have access to this endpoint, which is intended for a broad audience within the application.
 	 */
 
 	@GetMapping("/list.do")
 	public String list(){
 		return "events/list";
+	}
+
+	@GetMapping("/bannerRequest.do")
+	public String bannerRequest(){
+		return "events/bannerRequest";
 	}
 }

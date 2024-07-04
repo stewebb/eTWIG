@@ -128,11 +128,11 @@ public class UserService {
     /**
      * Adds a new user and their associated roles to the database.
      * <p>
-     * This method first checks if a user with the provided email already exists in the database and throws an exception if so.
-     * If the user does not exist, it creates a new {@link User} instance by extracting information from a provided map,
-     * encoding the user's password using BCrypt, and setting the user's last login time to the current moment.
-     * It then stores this user in the repository. Following the user creation, it sets up initial user roles based on
-     * the provided data, associating these roles with the newly created user.
+     * This method first checks if a user with the provided email already exists in the database. If the user already exists,
+     * the method returns {@code false}. If the user does not exist, it creates a new {@link User} instance by extracting
+     * information from a provided map, encoding the user's password using BCrypt, and setting the user's last login time to
+     * the current moment. It then stores this user in the repository. Following the user creation, it sets up initial user
+     * roles based on the provided data, associating these roles with the newly created user, and returns {@code true}.
      * </p>
      *
      * @param newUserInfo A {@link Map} containing user information such as full name, email, password,
@@ -146,18 +146,18 @@ public class UserService {
      *                      <li>userPortfolioEmail: String specifying the email associated with the user's portfolio.</li>
      *                      <li>userPosition: String specifying the user's position.</li>
      *                    </ul>
+     * @return {@code true} if the user was successfully added; {@code false} if a user with the same email already exists.
      * @throws IllegalArgumentException if required keys are missing in the newUserInfo map or if the values cannot
      *                                  be correctly parsed or converted.
-     * @throws InvalidParameterException if a user with the specified email already exists.
      */
 
-    public void addUser(@RequestBody Map<String, Object> newUserInfo) {
+    public Boolean addUser(@RequestBody Map<String, Object> newUserInfo) {
 
         // Step 1: Check if user is existing
         String userEmail = newUserInfo.get("userEmail").toString();
         User existingUser = userRepository.findByEmail(userEmail);
         if (existingUser != null) {
-            throw new InvalidParameterException("User with email=" + userEmail + " already exists.");
+            return false;
         }
 
         // Step 2: Add user information
@@ -178,5 +178,7 @@ public class UserService {
         userRole.setEmail(newUserInfo.get("userPortfolioEmail").toString());
         userRole.setPosition(newUserInfo.get("userPosition").toString());
         userRoleRepository.save(userRole);
+
+        return true;
     }
 }
