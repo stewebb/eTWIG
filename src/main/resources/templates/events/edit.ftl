@@ -45,6 +45,8 @@
 		<input type="hidden" id="addEventLink" value="${ENDPOINTS.EVENTS_ADD}">
 		<input type="hidden" id="editEventLink" value="${ENDPOINTS.EVENTS_EDIT}"> 
 		<input type="hidden" id="eventCalendarLink" value="${ENDPOINTS.EVENTS_CALENDAR}"> 
+		<input type="hidden" id="eventBannerRequestLink" value="${ENDPOINTS.EVENTS_BANNER_REQUEST}"> 
+
 		<#include "../_includes/navbar.ftl">
 
 		<#-- Content Wrapper. -->

@@ -152,6 +152,6 @@ public class EventsPageController {
 			return "error_page";
 		}
 		model.addAttribute("requestInfo", new BannerRequestDetailsDTO(bannerRequest));
-		return "events/bannerRequest";
+		return "events/banner_request";
 	}
 }

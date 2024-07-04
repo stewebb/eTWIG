@@ -266,7 +266,7 @@ function getEventInfo(datePickersMap){
 					"orderable" : false,
 					"mRender": function (data, type, row){
 						return `
-							<a href="${$('#editEventLink').val()}?eventId=${row.id}" class="btn btn-outline-primary btn-sm">
+							<a href="${$('#eventBannerRequestLink').val()}?requestId=${row.id}" class="btn btn-outline-primary btn-sm">
 								<i class="fa-solid fa-eye"></i>&nbsp;View
 							</a>`;
 					}

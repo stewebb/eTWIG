@@ -7,14 +7,14 @@
 	function: The dashboard (site main) page.
    -->
    
-<#assign navbar = "GRAPHICS_APPROVAL">
+<#assign navbar = "EVENTS_BANNER_REQUEST">
 
 <!DOCTYPE html>
 <html>
 <head>
 
 	<#include "../_includes/header/head.ftl">
-	<title>Graphics Requests Approval - ${app.appName}</title>
+	<title>Banner Requests Details - ${app.appName}</title>
 </head>
 
 <body class="hold-transition layout-top-nav">
@@ -35,13 +35,21 @@
 	        		<div class="row mb-2">
 	          			<div class="col-sm-6">
 	            			<h1 class="bold-text" id="eventPageTitle">
-	            				Graphics Request Approval
+	            				Banner Request Details
 	            			</h1>
 	          			</div>
 	          			<div class="col-sm-6">
 	            			<ol class="breadcrumb float-sm-right">
-								<li class="breadcrumb-item"><a href="${ENDPOINTS.GRAPHICS_APPROVAL_LIST}">Approval</a></li>
-								<li class="breadcrumb-item active"><a href="${ENDPOINTS.GRAPHICS_APPROVAL_DETAILS}?requestId=${requestInfo.id}">Details</a></li>
+								<li class="breadcrumb-item active">
+									<a href="${ENDPOINTS.EVENTS_CALENDAR}">Calendar</a>&nbsp|&nbsp
+									<a href="${ENDPOINTS.EVENTS_LIST}">List</a>
+								</li>
+	              				<li class="breadcrumb-item">
+									<a id="eventPageLink" href="${ENDPOINTS.EVENTS_EDIT}?eventId="></a>
+								</li>
+								<li class="breadcrumb-item active">
+									<a id="eventPageLink" href="${ENDPOINTS.EVENTS_BANNER_REQUEST}?requestId="></a>
+								</li>
 	            			</ol>
 	          			</div>
 	        		</div>
@@ -67,7 +75,9 @@
 								<div class="card-body">
 
 									<#-- Event Information /-->
+									<#--
 									<#include "../_includes/events/graphics_info.ftl">
+									-->
 
 								</div>
 							</div>

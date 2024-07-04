@@ -14,7 +14,7 @@
 <head>
 
 	<#include "../_includes/header/head.ftl">
-	<title>Graphics Requests Approval - ${app.appName}</title>
+	<title>Banner Requests Approval - ${app.appName}</title>
 </head>
 
 <body class="hold-transition layout-top-nav">
@@ -35,7 +35,7 @@
 	        		<div class="row mb-2">
 	          			<div class="col-sm-6">
 	            			<h1 class="bold-text" id="eventPageTitle">
-	            				Graphics Request Approval
+	            				Banner Request Approval
 	            			</h1>
 	          			</div>
 	          			<div class="col-sm-6">
