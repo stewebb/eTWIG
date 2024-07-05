@@ -171,28 +171,6 @@
 
 								<div class="card-body">
 
-									<#-- Role -->
-									<#--
-									<div class="form-group row">
-										<label for="uploaderRole" class="col-sm-2 col-form-label">
-											Role&nbsp;<span class="required-symbol">*</span>
-										</label>
-										<div class="col-sm-10">
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text">
-														<i class="fa-solid fa-user-tie"></i>
-													</span>
-												</div>
-												
-												<select class="form-control select2bs4" name="uploaderRole" id="uploaderRole"></select>
-											</div>
-											<small class="form-text text-muted">The position and associated portfolio, divided by comma.</small>
-										</div>
-									</div>
-									-->
-									<#-- Role -->
-
 									<#-- File -->
 									<div class="form-group row">
 
@@ -212,7 +190,7 @@
 													
 												<#-- Upload box -->
 												<div class="custom-file">
-													<input type="file" class="custom-file-input" id="fileUpload" accept=".xlsx, .ods">
+													<input type="file" class="custom-file-input" id="fileUpload" accept=".csv">
 													<label class="custom-file-label" for="exampleInputFile">Choose file</label>
 												</div>
 												<#-- /Upload box -->	

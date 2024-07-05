@@ -28,7 +28,6 @@ import net.etwig.webapp.services.TwigService;
 import net.etwig.webapp.services.WeekService;
 import net.etwig.webapp.util.DateUtils;
 import net.etwig.webapp.util.NumberUtils;
-import net.etwig.webapp.util.WebReturn;
 
 @RestController
 public class _TwigAPIController {
@@ -55,13 +54,14 @@ public class _TwigAPIController {
 		Long templateIdNum = NumberUtils.safeCreateLong(templateId);
 
 		if(templateIdNum == null) {
-			return WebReturn.errorMsg("templateId is invalid. It must be an Integer.", false);
+			return null;// WebReturn.errorMsg("templateId is invalid. It must be an Integer.", false);
 		} 
 			
-		Map<String, Object> myReturn = WebReturn.errorMsg(null, true);
-	    myReturn.put("template", twigService.getTwigTemplateDesignById(templateIdNum));
+		//Map<String, Object> myReturn = WebReturn.errorMsg(null, true);
+	    //myReturn.put("template", twigService.getTwigTemplateDesignById(templateIdNum));
 		
-		return myReturn;
+		//return myReturn;
+		return null;
 	}
 
 	/**

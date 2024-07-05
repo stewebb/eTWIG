@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>net.etwig</groupId>
 	<artifactId>webapp</artifactId>
-	<version>3.5</version>
+	<version>1.3.6</version>
 	<packaging>jar</packaging>
 	<name>etwig</name>
 	<description>
@@ -96,6 +96,12 @@
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
 			<version>5.2.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-csv</artifactId>
+			<version>1.9.0</version>
 		</dependency>
 
 	    <dependency>

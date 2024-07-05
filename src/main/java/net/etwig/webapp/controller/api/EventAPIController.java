@@ -8,7 +8,6 @@ import net.etwig.webapp.services.UserSessionService;
 import net.etwig.webapp.util.InvalidParameterException;
 import net.etwig.webapp.util.NumberUtils;
 import net.etwig.webapp.util.PortfolioMismatchException;
-import net.etwig.webapp.util.WebReturn;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -163,22 +162,25 @@ public class EventAPIController {
 
         // Null check
         if(file == null || file.isEmpty()) {
-            //return WebReturn.errorMsg("The file is null.", false);
             throw new InvalidParameterException("The file is null.");
         }
 
         // Check and read file
         String fileName = file.getOriginalFilename();
-        String extension = FilenameUtils.getExtension(fileName);
-        if(!"xlsx".equalsIgnoreCase(extension) && ! "ods".equalsIgnoreCase(extension)) {
-            throw new InvalidParameterException("Only Microsoft Excel Spreadsheet (*.xlsx) and OpenDocument Spreadsheet (*.ods) format are accepted. However, the extension of the uploaded file is " + extension);
+        //String extension = FilenameUtils.getExtension(fileName);
+        if(!"csv".equalsIgnoreCase(FilenameUtils.getExtension(fileName))) {
+            throw new InvalidParameterException("Only Comma-separated values (*.csv) format is accepted.");
         }
 
         //userSessionService.validateSession().getPosition()
 
-        Map<String, Object> webReturn = WebReturn.errorMsg("", true);
-        webReturn.put("result", eventService.importEvents(file, extension));
-        return webReturn;
+        //Map<String, Object> webReturn = WebReturn.errorMsg("", true);
+        // webReturn.put("result", eventService.importEvents(file));
+        //return webReturn;
+
+        eventService.importEvents(file);
+
+        return null;//eventService.importEvents(file);
     }
 
     /**

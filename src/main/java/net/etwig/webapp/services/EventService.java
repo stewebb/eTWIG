@@ -26,6 +26,9 @@ import net.etwig.webapp.repository.EventRepository;
 import net.etwig.webapp.repository.GraphicsRequestRepository;
 import net.etwig.webapp.util.DateUtils;
 import net.etwig.webapp.util.ListUtils;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVRecord;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,10 +37,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.InputStream;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -283,34 +290,82 @@ public class EventService {
 		eventRepository.deleteById(eventId);
 	}
 
+	public Map<Integer, String> importEvents(MultipartFile file) throws Exception {
 
+		Map<Integer, String> status = new HashMap<>();
 
+		//Map<Integer, String> events = new HashMap<>();
+		//int recordCount = 0;
 
+		try (Reader reader = new BufferedReader(new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))) {
+			Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().withTrim().parse(reader);
 
+			for (CSVRecord record : records) {
+				long recordNumber = record.getRecordNumber();
 
-	public Map<Integer, String> importEvents(MultipartFile file, String fileType) throws Exception {
+				// Event name (must not empty)
+				String name = record.get("Name");
+				if(name == null || name.isEmpty()){
+					throw new IllegalArgumentException("Event name must not be empty.");
+				}
 
+				// Event location, description (no checks)
+				String location = record.get("Location");
+				String description = record.get("Description");
 
-		//userSessionService.validateSession().getPosition().getMyCurrentPositionId();
+				// All Day Event option (convert to Boolean)
+				Boolean allDayEvent =  BooleanUtils.toBoolean(record.get("AllDayEvent"));
 
-		// Decide the reader type (Factory pattern)
-		InputStream inputStream = file.getInputStream();
-		EventImporter eventImporter = "xlsx".equalsIgnoreCase(fileType) ? new ExcelEventImporter() : new ODSEventImporter();
+				// Event start date time
+				LocalDateTime startDateTime = DateUtils.safeParseDateTime(record.get("StartDateTime"), "yyyy-MM-dd HH:mm:ss");
+				if (startDateTime == null) {
+					throw new IllegalArgumentException("Event start datetime is invalid.");
+				}
 
-		// Read file and add role
-		List<EventImportDTO> importedEvents = eventImporter.read(inputStream);
-		//importedEvents.forEach(obj -> obj.setOrganizerRole(role));
+				// Event end date time
+				LocalDateTime endDateTime =  DateUtils.safeParseDateTime(record.get("EndDateTime"), "yyyy-MM-dd HH:mm:ss");
+				if (endDateTime == null) {
+					throw new IllegalArgumentException("Event end datetime is invalid.");
+				}
 
-		for(EventImportDTO eventImportDTO : importedEvents){
-			eventImportDTO.setOrganizerRole(userSessionService.validateSession().getPosition().getMyCurrentPositionId());
+				// Event duration check (must be a positive number)
+				if (Duration.between(startDateTime, endDateTime).getSeconds() <= 0) {
+					throw new IllegalArgumentException("The end time must after start time.");
+				}
 
-			Event event = eventImportDTO.toEntity();
-			eventRepository.save(event);
+				// Create a new object for event
+
+				Event event = new Event();
+
+				// Basic info
+				event.setName(this.name);
+				event.setLocation(this.location);
+				event.setDescription(this.description);
+				event.setUserRoleId(this.organizerRole);
+				event.setCreatedTime(LocalDateTime.now());
+				event.setUpdatedTime(LocalDateTime.now());
+
+				// Timing
+				event.setAllDayEvent(this.allDayEvent);
+				event.setStartTime(startDateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
+				event.setDuration(this.duration);
+				event.setRecurring(false);
+
+					// Here you could create a data model object and save it to a database
+					// For now, just print it to System.out for example purposes
+					//System.out.println("Event: " + name + ", Location: " + location);
+
+					// Storing some unique value for each record for the return value
+					// Perhaps you could return a summary or a confirmation ID
+					//events.put(recordCount++, name + " at " + location);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+				//throw new Exception("Failed to parse the CSV file.", e);
+			}
+		//System.out.println(events);
+			return null;
 		}
-		//Event
 
-		//System.out.println(importedEvents);
-		return eventImporter.status();
-    }
 
 }
