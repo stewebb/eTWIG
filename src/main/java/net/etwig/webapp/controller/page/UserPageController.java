@@ -124,6 +124,24 @@ public class UserPageController {
 	private AuthenticationManager authenticationManager;
 
 
+	// Include the warning msg into javadoc
+	// THIS METHOD HAS POTENTIAL SECURITY RISK AND DO NOT PUT IT IN THE PRODUCTION ENVIRONMENT.
+
+	/**
+	 * Performs a login based on a token provided as a URL parameter, validating the referrer header to enhance security.
+	 * This method decodes the Base64 encoded token, attempts to deserialize it to a {@link LoginToken}, and initializes a session
+	 * if the user's email from the token is verified. The method redirects to the main page upon successful login.
+	 * <p>
+	 * WARNING: THIS METHOD HAS POTENTIAL SECURITY RISKS AND SHOULD NOT BE PUT IN A PRODUCTION ENVIRONMENT.
+	 * Ensure to review and modify the security mechanisms according to the latest standards before deploying.
+	 * Use SSO solutions including AzureAD/LDAP/OAUTH/SAML/CAS/OPENID/JWT/... if possible!
+	 *
+	 * @param token The Base64 encoded login token passed as a URL parameter.
+	 * @param request The HttpServletRequest, used to extract the 'Referer' header for validation.
+	 * @return ResponseEntity containing either redirect instructions on success or an error message.
+	 * @throws IllegalStateException If the user session cannot be initialized.
+	 */
+
 	@GetMapping("/referrerLogin.do")
 	public ResponseEntity<?> referrerLogin(@RequestParam String token, HttpServletRequest request) {
 
@@ -139,61 +157,21 @@ public class UserPageController {
 				ObjectMapper objectMapper = new ObjectMapper();
 				LoginToken loginToken = objectMapper.readValue(decodedStr, LoginToken.class);
 
-				//User user = userService.findByEmail(loginToken.getUserEmail());
-				// Get user object
+				// Check user info
 				userSessionService.initializeSession(loginToken.getUserEmail());
 
-				String url = "/home.do";
-
+				// Redirect to mainpage
 				HttpHeaders headers = new HttpHeaders();
-				headers.add("Location", url);
-				// Optionally you can use ResponseEntity.created(URI) for 201 status codes
+				headers.add("Location", "/home.do");
 				return new ResponseEntity<>(headers, HttpStatus.FOUND);
 
-			} catch (JsonProcessingException | IllegalStateException e) {
+			}
+
+			// JSON failed to parse or user cannot be found.
+			catch (JsonProcessingException | IllegalStateException e) {
 				e.printStackTrace();
 				return ResponseEntity.status(401).body("Login Failed: Token is invalid or expired.");
 			}
-            //userService.checkByEmail(email);
-			/*
-			// Decode encoded String
-			byte[] decodedBytes = Base64.getDecoder().decode(token);
-			String decodedStr = new String(decodedBytes);
-			//System.out.println(decodedStr);
-
-			try {
-
-				// Parse the JSON object from the decoded String.
-				ObjectMapper objectMapper = new ObjectMapper();
-				LoginToken loginToken = objectMapper.readValue(decodedStr, LoginToken.class);
-				//System.out.println(loginToken);
-
-				// Token expiration check
-				long currentTimestamp = Instant.now().getEpochSecond();
-				long timeDifference = currentTimestamp - loginToken.getTimestamp();
-				System.out.println(timeDifference);
-				if (timeDifference < 0 || timeDifference > 60) {
-					System.out.println("Token has expired.");
-					//throw new IllegalStateException("Token has expired.");
-				}
-
-				Authentication authenticationToken = new UsernamePasswordAuthenticationToken(
-						loginToken.getUserEmail(), null
-				);
-
-				Authentication authentication = authenticationManager.authenticate(authenticationToken);
-				successHandler.onAuthenticationSuccess(request, response, authentication);
-
-			} catch (JsonProcessingException | IllegalStateException | AuthenticationException e) {
-				e.printStackTrace();
-				return ResponseEntity.status(401).body("Login Failed: Token is invalid or expired.");
-			} catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-            return ResponseEntity.ok().body("Login Successful.");
-
-			 */
 		}
 
 		// Otherwise, return 401 Unauthorized.
