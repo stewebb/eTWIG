@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>net.etwig</groupId>
 	<artifactId>webapp</artifactId>
-	<version>1.3.6</version>
+	<version>1.3.7</version>
 	<packaging>jar</packaging>
 	<name>etwig</name>
 	<description>
@@ -84,41 +84,19 @@
     		<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
-		<!-- PostgreSQL driver -->
+		<!-- Postgres driver -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 
-		<!-- Document editing -->
-		<!--
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi</artifactId>
-			<version>5.2.2</version>
-		</dependency>
-		-->
-
+		<!-- CSV Reader -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-csv</artifactId>
 			<version>1.9.0</version>
 		</dependency>
-
-		<!--
-	    <dependency>
-	        <groupId>org.apache.poi</groupId>
-	        <artifactId>poi-ooxml</artifactId>
-   		 	<version>5.2.2</version>
-	    </dependency>
-
-        <dependency>
-            <groupId>org.odftoolkit</groupId>
-            <artifactId>simple-odf</artifactId>
-            <version>0.9.0</version>
-        </dependency>
-        -->
 		
 		<!-- Utils -->
 		<dependency>

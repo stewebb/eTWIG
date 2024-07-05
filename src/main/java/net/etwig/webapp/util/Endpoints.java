@@ -19,9 +19,6 @@ public class Endpoints {
     private final String ASSETS_LIST                = "/assets/list.do";
     private final String ASSETS_SELECTOR            = "assets/_selectFile.do";
 
-    // Home
-    private final String HOME                       = "/home.do";
-
     // Events
     private final String EVENTS                     = "/events/";
     private final String EVENTS_ADD                 = "/events/add.do";
@@ -31,6 +28,10 @@ public class Endpoints {
     private final String EVENTS_IMPORT              = "/events/import.do";
     private final String EVENTS_LIST                = "/events/list.do";
 
+    // Home
+    private final String HOME                       = "/";
+    private final String HOME_HOME                  = "/home.do";
+
     // Graphics
     private final String GRAPHICS                   = "/graphics/";
     private final String GRAPHICS_APPROVAL_DETAILS  = "/graphics/approvalDetails.do";
@@ -38,10 +39,13 @@ public class Endpoints {
     private final String GRAPHICS_SUMMARY_DETAILS   = "/graphics/summaryDetails.do";
     private final String GRAPHICS_SUMMARY_LIST      = "/graphics/summaryList.do";
 
+    // Miscellaneous
+    //private final String
+
     // User
     private final String USER                       = "/user/";
     private final String USER_LOGIN                 = "/user/login.do";
     private final String USER_LOGOUT                = "/user/logout.do";
     private final String USER_PROFILE               = "/user/profile.do";
-    private final String USER_TOKEN_LOGIN           = "/user/tokenLogin.do";
+    private final String USER_REFERRER_LOGIN        = "/user/referrerLogin.do";
 }

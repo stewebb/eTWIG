@@ -9,14 +9,12 @@
 
 package net.etwig.webapp.config;
 
-import net.etwig.webapp.handler.CustomAuthenticationProvider;
+import net.etwig.webapp.util.Endpoints;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -63,13 +61,20 @@ public class SecurityConfig {
 	private RememberMeService rememberMeService;
 
 	@Autowired
-	private CustomAuthenticationProvider customAuthenticationProvider; // TODO: Inject custom authentication provider
+	private Endpoints endpoints;
+
+	//@Autowired
+	//private CustomAuthenticationProvider customAuthenticationProvider; // TODO: Inject custom authentication provider
 
 	// Array of paths that should be accessible publicly without authentication.
 	private final String[] publicPages = {
-			"/", "/static/**", "/api/public/**", "/nsRest/public/**",
-			"/twig/**", "/error", "/assets/**",
-			"/user/tokenLogin.do"
+			endpoints.getHOME(),
+
+			"/static/**",
+			"/api/public/**",
+			"/twig/**",
+			endpoints.getASSETS_CONTENT(),
+			endpoints.getUSER_REFERRER_LOGIN()
 	};
 
 	/**
@@ -91,7 +96,7 @@ public class SecurityConfig {
 
 		// Configuration for the form login.
 		http.formLogin((form) -> form
-				.loginPage("/user/login.do")
+				.loginPage(endpoints.getUSER_LOGIN())
 				.loginProcessingUrl("/user/login")
 				.permitAll()
 				.failureUrl("/user/login.do?success=false")
@@ -143,7 +148,7 @@ public class SecurityConfig {
 		auth.authenticationProvider(daoAuthProvider); // Standard authentication provider
 
 		// Add custom AuthenticationProvider
-		auth.authenticationProvider(customAuthenticationProvider);
+		//auth.authenticationProvider(customAuthenticationProvider);
 	}
 
 	/**
@@ -165,8 +170,8 @@ public class SecurityConfig {
 		return new CustomAuthenticationEntryPoint();
 	}
 
-	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-		return authenticationConfiguration.getAuthenticationManager();
-	}
+	//@Bean
+	//public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+	//	return authenticationConfiguration.getAuthenticationManager();
+	//}
 }
