@@ -12,13 +12,9 @@ package net.etwig.webapp.services;
 import jakarta.persistence.criteria.Predicate;
 import net.etwig.webapp.dto.events.AddEditEventDTO;
 import net.etwig.webapp.dto.events.EventDetailsDTO;
-import net.etwig.webapp.dto.events.EventImportDTO;
 import net.etwig.webapp.dto.user.CurrentUserDTOWrapper;
 import net.etwig.webapp.dto.user.CurrentUserPermissionDTO;
 import net.etwig.webapp.dto.user.CurrentUserPositionDTO;
-import net.etwig.webapp.importer.EventImporter;
-import net.etwig.webapp.importer.ExcelEventImporter;
-import net.etwig.webapp.importer.ODSEventImporter;
 import net.etwig.webapp.model.*;
 import net.etwig.webapp.repository.EventGraphicsRepository;
 import net.etwig.webapp.repository.EventOptionRepository;
@@ -42,7 +38,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -292,6 +287,34 @@ public class EventService {
 
 	// TODO permission check
 
+	/**
+	 * Imports events from a provided CSV file and stores them in the database.
+	 * The method parses each row from the CSV as an event record, validating and converting data as needed.
+	 * If a row is successfully parsed and the event is saved, the status map is updated with a null value for that row number.
+	 * If any error occurs during parsing or saving, the error message is stored in the status map against the row number.
+	 *
+	 * @param file The multipart file containing the CSV data to be imported.
+	 * @return A map where keys are row numbers from the CSV file and values are error messages (null if the import was successful).
+	 * @throws Exception If there is a failure in reading the file or parsing its content.
+	 * <p>
+	 * CSV File Requirements:
+	 * - Header with columns: Name, Location, Description, AllDayEvent, StartDateTime, EndDateTime
+	 * - Name: Non-empty string (Event name must not be empty).
+	 * - Location, Description: Strings, no validation applied.
+	 * - AllDayEvent: Boolean, "true" for all day events, adjusts event start and end times to start of the day.
+	 * - StartDateTime, EndDateTime: Must be in "yyyy-MM-dd HH:mm:ss" format. End time must be after start time.
+	 * <p>
+	 * Examples of processing:
+	 * - If 'AllDayEvent' is true, the times for 'StartDateTime' and 'EndDateTime' are set to the start of their respective days.
+	 * - Validation ensures event duration is at least one minute.
+	 * - Events are saved with additional properties like created time, updated time, and user role ID, derived from the user session.
+	 * <p>
+	 * Error Handling:
+	 * - If the 'Name' is empty or the date times are invalid or if the event duration is too short (less than 1 minute),
+	 * an IllegalArgumentException is thrown.
+	 * - All exceptions are caught and their messages are returned in the map associated with the row number.
+	 */
+
 	public Map<Long, String> importEvents(MultipartFile file) throws Exception {
 		Map<Long, String> status = new HashMap<>();
 
@@ -300,7 +323,6 @@ public class EventService {
 		Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().withTrim().parse(reader);
 
 		for (CSVRecord record : records) {
-			//System.out.println(record);
 			long rowNumber = record.getRecordNumber();
 			try {
 
@@ -365,7 +387,6 @@ public class EventService {
 			}
 		}
 
-		//System.out.println(status);
 		return status;
 	}
 

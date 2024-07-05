@@ -4,7 +4,6 @@ import net.etwig.webapp.dto.events.EventDetailsDTO;
 import net.etwig.webapp.model.Portfolio;
 import net.etwig.webapp.services.EventService;
 import net.etwig.webapp.services.PortfolioService;
-import net.etwig.webapp.services.UserSessionService;
 import net.etwig.webapp.util.InvalidParameterException;
 import net.etwig.webapp.util.NumberUtils;
 import net.etwig.webapp.util.PortfolioMismatchException;
@@ -31,9 +30,6 @@ public class EventAPIController {
 
     @Autowired
     private PortfolioService portfolioService;
-
-    @Autowired
-    private UserSessionService userSessionService;
 
     /**
      * Handles the HTTP POST request at the "/add" endpoint.
@@ -147,12 +143,17 @@ public class EventAPIController {
     }
 
     /**
-     * Create one or multiple events bulky by importing from a file.<br>
-     * The file must be in the Microsoft Excel Spreadsheet (*.xlsx) and OpenDocument Spreadsheet (*.ods) format.
+     * Imports events from a provided CSV file by a user with the required permissions.
+     * This method handles file verification and delegates the parsing and storage of events to the event service.
+     * Only CSV files are accepted, and any attempt to import a different file type results in an exception.
      *
-     * @param file The imported file data
-     * @param role The current role of the user
-     * @return Success message if event imported.
+     * <p>CSV File Requirements:</p>
+     * - The file should contain headers and follow a specific schema for events, including fields such as name, location, etc.
+     * - The file must be formatted as a Comma-Separated Values (CSV) file.
+     *
+     * @param file The multipart file containing the CSV data to be imported.
+     * @return A map where keys are row numbers from the CSV file and values are error messages (null if the import was successful).
+     * @throws InvalidParameterException if the file is null, empty, or not a CSV.
      * @location /api/event/import
      * @permission Those who has event management permission.
      */
@@ -168,20 +169,11 @@ public class EventAPIController {
 
         // Check and read file
         String fileName = file.getOriginalFilename();
-        //String extension = FilenameUtils.getExtension(fileName);
         if(!"csv".equalsIgnoreCase(FilenameUtils.getExtension(fileName))) {
             throw new InvalidParameterException("Only Comma-separated values (*.csv) format is accepted.");
         }
 
-        //userSessionService.validateSession().getPosition()
-
-        //Map<String, Object> webReturn = WebReturn.errorMsg("", true);
-        // webReturn.put("result", eventService.importEvents(file));
-        //return webReturn;
-
         return eventService.importEvents(file);
-
-        //return null;//eventService.importEvents(file);
     }
 
     /**

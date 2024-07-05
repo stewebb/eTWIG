@@ -70,7 +70,7 @@
 								<li><b>Step 1:</b> Create a new workbook by using a <b>spreadsheet editor</b>.</li>
 								<li><b>Step 2:</b> Copy the following table header into the <b>first row</b>.</li>
 								<li><b>Step 3:</b> Ensure the <b>first column</b> is not blank, and it has 6 columns. <b></b></li>
-								<li><b>Step 4:</b> Save the file as <b>Microsoft Excel Spreadsheet (*.xlsx)</b> or <b>OpenDocument Spreadsheet (*.ods)</b> format.</li>
+								<li><b>Step 4:</b> Save the file as <b>Comma-separated values (*.csv)</b> format.</li>
 								<li><b>Step 5:</b> Add event information, and save the file.</li>
 							</ul>
 							<#-- /Steps -->
@@ -206,10 +206,7 @@
 											</div>
 											
 											
-											<small class="form-text text-muted mb-3">Only
-												<b>Microsoft Excel Spreadsheet (*.xlsx)</b> and 
-												<b>OpenDocument Spreadsheet (*.ods)</b> 
-												format are accepted.
+											<small class="form-text text-muted mb-3">Only<b>Comma-separated values (*.csv)</b> format id accepted.
 											</small>
 											<#-- /Upload File -->
 
@@ -269,18 +266,5 @@
 	<#include "../_includes/header/body_end.ftl">
 
 	<script src="/static/js/etwig/import-events.js?ver=${app.appVersion}"></script>
-
-	<#--
-	<script>
-		$('.select2bs4').select2({
-      		theme: 'bootstrap4'
-    	})
-
-		var myPositions = getMyPositions();
-		for (var key in myPositions) {
-  			$("#uploaderRole").append('<option value="' + myPositions[key].userRoleId + '">' + myPositions[key].position + ', ' + myPositions[key].portfolioName + '</option>');
-		}
-	</script>
-	-->
 </body>
 </html>

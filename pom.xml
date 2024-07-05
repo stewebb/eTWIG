@@ -92,11 +92,13 @@
 		</dependency>
 
 		<!-- Document editing -->
+		<!--
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
 			<version>5.2.2</version>
 		</dependency>
+		-->
 
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -104,6 +106,7 @@
 			<version>1.9.0</version>
 		</dependency>
 
+		<!--
 	    <dependency>
 	        <groupId>org.apache.poi</groupId>
 	        <artifactId>poi-ooxml</artifactId>
@@ -115,6 +118,7 @@
             <artifactId>simple-odf</artifactId>
             <version>0.9.0</version>
         </dependency>
+        -->
 		
 		<!-- Utils -->
 		<dependency>
