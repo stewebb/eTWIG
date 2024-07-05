@@ -7,7 +7,7 @@
 	function: The twig template page.
    -->
    
-<#assign navbar = "ADMIN_USER_LIST">
+<#assign navbar = "ADMIN_USER">
 
 <!DOCTYPE html>
 <html>

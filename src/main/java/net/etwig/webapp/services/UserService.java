@@ -2,11 +2,11 @@ package net.etwig.webapp.services;
 
 import jakarta.persistence.criteria.Predicate;
 import net.etwig.webapp.dto.admin.UserListDTO;
+import net.etwig.webapp.dto.user.CurrentUserBasicInfoDTO;
 import net.etwig.webapp.model.User;
 import net.etwig.webapp.model.UserRole;
 import net.etwig.webapp.repository.UserRepository;
 import net.etwig.webapp.repository.UserRoleRepository;
-import net.etwig.webapp.util.InvalidParameterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -17,10 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -67,7 +64,6 @@ public class UserService {
         );
 
         Map<Long, UserListDTO> users = new LinkedHashMap<>();
-
         rawData.forEach(objects -> {
             Long userId = (Long) objects[0];
             String userName = (String) objects[1];
@@ -180,5 +176,10 @@ public class UserService {
         userRoleRepository.save(userRole);
 
         return true;
+    }
+
+    public CurrentUserBasicInfoDTO findById(Long userId) {
+        Optional<User> user = userRepository.findById(userId);
+        return user.map(CurrentUserBasicInfoDTO::new).orElse(null);
     }
 }

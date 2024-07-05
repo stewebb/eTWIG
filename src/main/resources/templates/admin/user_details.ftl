@@ -7,7 +7,7 @@
 	function: The twig template page.
    -->
    
-<#assign navbar = "ADMIN_USER_LIST">
+<#assign navbar = "ADMIN_USER">
 
 <!DOCTYPE html>
 <html>
@@ -58,66 +58,19 @@
 			<section class="content">
 				<div class="container-fluid">
 
-					<#-- User List -->
-					<#--
-					<div class="card card-primary card-outline mb-3">
-						<div class="card-header">
-							<h3 class="card-title">
-								<i class="fa-solid fa-users-viewfinder"></i>&nbsp;User List
-							</h3>
-						</div>
+					<#-- Col 1: Edit User -->
+					<div class="row col-12">
+						<div class="col-md-6">
 
-						<div class="card-body table-responsive">
-							<table id="usersTable" class="display table table-hover table-striped" width="100%">
-								<thead>
-									<tr>
-										<th colspan="4" style="vertical-align: middle; text-align: center;">User</th>
-										<th colspan="3" style="vertical-align: middle; text-align: center;">Position</th>
-										<th rowspan="2" style="vertical-align: middle; text-align: center;">Action</th>
-									</tr>
-									<tr>
-										<th>ID</th>
-										<th>Name</th>
-										<th>Email</th>
-										<th>Last Login</th>
-										<th>Position</th>
-										<th>Portfolio</th>
-										<th>Email</th>
-									</tr>
-								</thead>
-								<tbody>
-								</tbody>
-							</table>
-						</div>
+							<div class="card card-primary card-outline">
+								<div class="card-header">
+									<h3 class="card-title">
+										<i class="fa-solid fa-user-plus"></i>&nbsp;Add User
+									</h3>
+								</div>
 
-					</div>
-					-->
-					<#-- /User List -->
-
-					<#-- Add User -->
-					<div class="card card-primary card-outline">
-						<div class="card-header">
-							<h3 class="card-title">
-								<i class="fa-solid fa-user-plus"></i>&nbsp;Add User
-							</h3>
-						</div>
-
-						<div class="card-body">
-							<div class="row col-12 mb-3">
-
-								<#-- Col 1: User Details -->
-								<div class="col-md-6">
-									<h5 class="mb-3 bold-text text-primary">
-										<i class="fa-solid fa-circle-info"></i>&nbsp;New User Details
-									</h5>
-
-									<#-- Notice -->
-									<div class="callout callout-primary mb-3">
-										<h5 class="bold-text mb-3">Assign multiple positions to a new user?</h5>
-										You need to add an initial position here, then add more positions in the user details page.
-									</div>
-									<#-- /Notice -->
-
+								<div class="card-body">
+												
 									<#-- Full Name -->
 									<div class="form-group row">
 										<label for="userFullName" class="col-lg-3 col-form-label">Full Name</label>
@@ -171,12 +124,12 @@
 									</div>
 									<#-- /Password -->
 
-								</div>
+								
 								<#-- /Col 1: User Details -->
 
 								<#-- Col 2: Position Information -->
 								<#--
-								<div class="col-md-6">
+								
 									<h5 class="mb-3 bold-text text-primary">
 										<i class="fa-solid fa-user-tag"></i>&nbsp;Initial Position
 									</h5>
@@ -265,14 +218,17 @@
                 					</button>
 									-- /Submit --
 
-								</div>
+								
 								-->
 								<#-- /Col 2: Position Information -->
 								
-							</div>
+							
 						</div>
 					</div>
 					<#-- /Add User -->
+
+					</div>
+					</div>
 
 				</div>
 			</section>

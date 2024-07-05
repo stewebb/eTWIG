@@ -1,6 +1,7 @@
 package net.etwig.webapp.controller.api;
 
 import net.etwig.webapp.dto.admin.UserListDTO;
+import net.etwig.webapp.dto.user.CurrentUserBasicInfoDTO;
 import net.etwig.webapp.services.UserRoleService;
 import net.etwig.webapp.services.UserService;
 import net.etwig.webapp.services.UserSessionService;
@@ -71,14 +72,13 @@ public class UserAPIController {
 
 	/**
 	 * View a user
-	 * @location /nsRest/private/user/view
-	 * @permission TODO
+	 * @location /api/user/view
+	 * @permission All logged-in users
 	 */
 
 	@GetMapping("/view")
-	public Object view(){
-		// TODO view user
-		return null;
+	public CurrentUserBasicInfoDTO view(@RequestParam("userId") Long userId) {
+		return userService.findById(userId);
 	}
 
 	/**

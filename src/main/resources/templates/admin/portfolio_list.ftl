@@ -7,7 +7,7 @@
 	function: The twig template page.
    -->
    
-<#assign navbar = "ADMIN_PORTFOLIO_LIST">
+<#assign navbar = "ADMIN_PORTFOLIO">
 
 <!DOCTYPE html>
 <html>
