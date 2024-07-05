@@ -1,3 +1,31 @@
+/**
+ * Initializes a DataTable on an element with the id 'assetSelector'. This DataTable is configured to
+ * fetch data from a server endpoint, supporting sorting, pagination, and a custom length menu.
+ * It includes an AJAX setup for dynamic retrieval of data based on the table's state such as sort order.
+ * The function also sets up click event handling on table rows to manage row selection, enabling
+ * interaction through enabling/disabling a select button and setting its click behavior dynamically.
+ *
+ * DataTable Configuration:
+ * - Processing and serverSide are enabled for server-side operations.
+ * - Pagination controls include options for 5, 10, or 20 rows per page, defaulting to 10.
+ * - A search placeholder is set specifically for "File Name".
+ * - Custom AJAX data handling to include sorting parameters.
+ * - Columns configured for asset ID, name, uploader, and a custom renderer for asset previews, 
+ *   with only the ID column being sortable.
+ *
+ * Row Click Event Handling:
+ * - Toggles 'selected' class on table rows to indicate selection.
+ * - Manages a button with the id 'selectBtn' to trigger an action with data from the selected row.
+ * - Sets or clears the 'onclick' attribute of 'selectBtn' based on selection.
+ *
+ * Example HTML needed:
+ * <table id="assetSelector"></table>
+ * <button id="selectBtn" disabled>Select</button>
+ *
+ * Dependencies:
+ * - jQuery and DataTables library must be included in the project.
+ */
+
 function assetSelectorDataTable(){
 	var dt = $('#assetSelector').DataTable({
 		"processing": true,
@@ -19,14 +47,10 @@ function assetSelectorDataTable(){
 			}
 		},
 		"columns": [
-			{ "data": "id", "orderable": true },
+			{ "data": "id" },
 			{ "data": "name", "orderable": false },
-			//{ "data": "type", "orderable": false, "render": assetTypeRender },
-			//{ "data": "size", "orderable": true, "render": fileSizeRender },
 			{ "data": "uploader", "orderable": false },
-			//{ "data": "lastModified", "orderable": true, "render": dateWeekRender },
-			{ "mRender": assetPreviewRender, "orderable": false }//,
-			//{ "mRender": assetListActionRender, "orderable": false }
+			{ "mRender": assetPreviewRender, "orderable": false }
 		]
 	});
 
@@ -50,9 +74,6 @@ function assetSelectorDataTable(){
 	
 			var rowData = dt.row(this).data();
 			var fileURL = "/assets/content.do?assetId=" + rowData.id;
-			//console.log(rowData);
-			//previewAsset(rowData);
-			console.log(rowData);
 
 			$("#selectBtn").attr("onclick", `
 				parent.$("#uploadCallback").val(${rowData.id});
@@ -71,16 +92,20 @@ function lastModifiedRender(data, type, row){
 }
 
 /**
- * Handles the uploading of a file to a specified endpoint via AJAX POST request.
- * This function supports both single and multiple file upload modes, but only processes one file per call.
- * Upon successful upload, it reloads a specified DataTable and shows a success popup.
- * If the upload fails, it displays an error popup with detailed information.
- *
- * @param {boolean} isMultiple - Indicates if the upload is meant to handle multiple files.
- *                               This function logic currently supports one file, but this parameter
- *                               can be used for backend processing logic differentiation.
- * @param {string} fileElem - The ID of the input element that contains the file to be uploaded.
- * @param {string} selectorElem - The ID of the DataTable element to be reloaded after successful upload.
+ * Handles the uploading of files to a specified endpoint via an AJAX POST request.
+ * The function supports uploading multiple files contained within a single input element,
+ * but only processes uploads one at a time. It updates the specified DataTable and displays
+ * a popup message based on the result of the upload.
+ * 
+ * @param {string} fileElem - The ID of the input element that contains the files to be uploaded.
+ * @param {string} selectorElem - The ID of the DataTable element to be reloaded after a successful upload.
+ * 
+ * Behavior:
+ * - Validates file selection and shows a warning popup if no files are selected.
+ * - Appends each selected file to FormData for transmission.
+ * - Sends a POST request with the files to the backend.
+ * - On successful upload: Reloads the DataTable and shows a success popup.
+ * - On failure: Displays an error popup with detailed information about the failure.
  */
 
 function uploadFiles(fileElem, selectorElem) {
@@ -106,11 +131,12 @@ function uploadFiles(fileElem, selectorElem) {
         contentType: false,
         processData: false,
         success: function(response) {
-            if (response) {
-                successPopup("All files uploaded successfully.");
-            } else {
-                warningPopup("One or more files were empty and not uploaded.");
-            }
+			response ? successPopup("All files uploaded successfully.") : warningPopup("One or more files were empty and not uploaded.");
+            //if (response) {
+            //    successPopup("All files uploaded successfully.");
+            //} else {
+            //    warningPopup("One or more files were empty and not uploaded.");
+            //}
             $('#' + selectorElem).DataTable().ajax.reload();
         },
         error: function(err) {
@@ -119,55 +145,33 @@ function uploadFiles(fileElem, selectorElem) {
     });
 }
 
-
-/*
-function uploadFile(isMultiple, fileElem, selectorElem){
-	var data = new FormData();
-	var file = $('#' + fileElem)[0].files[0];
-  
-	// Null check
-	if(!file){
-		warningPopup("Please select a file.");
-	  	return;
-  	}
-
-  	// Add file and mode
-	data.append('file', file);
-  	data.append('isMultiple', isMultiple);
-    
-    $.ajax({
-		type: 'POST',
-        url: '/api/asset/add',
-        data: data,
-        contentType: false,
-        processData: false,
-        success: function() {
-			successPopup("File upload successfully.");
-			$('#' + selectorElem).DataTable().ajax.reload();
-        },
-        error: function (err) {
-			dangerPopup("Failed to upload file due to a HTTP " + err.status + " error.", err.responseJSON.exception);
-    	}
-    });
-}
-*/
-
-/*
-$(".custom-file-input").on("change", function() {
-	var fileName = $(this).val().split("\\").pop();
-	$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-});
-*/
+/**
+ * Attaches a change event handler to input elements with the class 'custom-file-input'.
+ * This handler updates the text of the sibling element with class 'custom-file-label' based on the number of files selected.
+ * If one file is selected, it displays the file's name. If multiple files are selected, it shows the total number of files.
+ *
+ * Usage:
+ * - Place this script in a document with HTML structure where `.custom-file-input` is used for file inputs
+ *   and `.custom-file-label` is used for labeling these inputs.
+ *
+ * Example HTML:
+ * <label class="custom-file-label" for="fileInput">Choose file</label>
+ * <input type="file" class="custom-file-input" id="fileInput" multiple>
+ *
+ * @event change - Triggered when the file selection in the input changes.
+ */
 
 $(".custom-file-input").on("change", function() {
     var filesCount = $(this).get(0).files.length;
 
+    // If only one file is selected, show its name
     if (filesCount === 1) {
-        // If only one file is selected, show its name
         var fileName = $(this).val().split("\\").pop();
         $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-    } else {
-        // If more than one file, show the number of files
+    } 
+
+	// If more than one file, show the number of files
+	else {
         $(this).siblings(".custom-file-label").addClass("selected").html(filesCount + " files selected");
     }
 });

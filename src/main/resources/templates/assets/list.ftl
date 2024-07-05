@@ -50,26 +50,18 @@
 			<section class="content">
 				<div class="container-fluid">
 
-					<#-- Upload -->
-					<div class="row mb-3">
+				
 
-						<#-- Single File -->
-						<div class="col-md-6">
+						
 							<div class="card card-outline card-primary">
 								<div class="card-header">
 									<h3 class="card-title">
-										<i class="fa-solid fa-cloud-arrow-up"></i>&nbsp;Upload Single File
+										<i class="fa-solid fa-cloud-arrow-up"></i>&nbsp;Upload
 									</h3>
 								</div>
 
 								<div class="card-body">
-
-									<#-- Notice -->
-									<p>
-										You can only upload <b>one file each time</b> in this area and
-										a compressed folder will also be treated as a single file.
-									</p>
-									<#-- /Notice -->
+									<p>You can upload <b>one or multiple</b> files in this area.</p>
 
 									<#-- Upload Area -->
 									<div class="input-group">
@@ -94,53 +86,11 @@
 
 								</div>
 							</div>
-						</div>
-						<#-- /Single File -->
+						
 
-						<#-- Result -->
-						<div class="col-md-6">
-							<div class="card card-outline card-primary">
-								<div class="card-header">
-									<h3 class="card-title">
-										<i class="fa-solid fa-layer-group"></i>&nbsp;Upload Multiple Files
-									</h3>
-								</div>
 
-								<div class="card-body">
-									<p>You can only upload <b>multiple files</b> in this area.</p>
 
-									<#-- Upload Area -->
-									<#--
-									<div class="input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text">
-												<i class="fa-solid fa-file-arrow-up"></i>
-											</span>
-										</div>				
-									
-										<-- File upload box --
-										
-										<div class="custom-file">
-											<input type="file" class="custom-file-input" id="fileUploadSingle">
-											<label class="custom-file-label" for="exampleInputFile">Choose a file</label>
-										</div>
-										
-										<div class="input-group-append">
-											<button type="button" class="btn btn-outline-primary" onclick="uploadFile(false, 'fileUploadSingle', 'assetsList');" id="uploadSingleFileBtn">
-												<i class="fa-solid fa-upload"></i>
-										</div>
-										
-									</div>
-									-->
-									<#-- Upload Area -->
-
-								</div>
-
-							</div>
-						</div>
-						<#-- /Result -->
-
-					</div>
+					
 
 					<#-- Asset List -->
 					<div class="row">
