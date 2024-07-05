@@ -143,6 +143,14 @@
 										<div class="col-lg-9" id="userLastLogin">${selectedUserDetails.lastLogin?replace("T", " ")}</div>
 									</div>
 									<#-- /Last Login -->
+
+
+									<#-- Submit -->
+									<button type="button" class="btn btn-outline-primary right-div" onclick="updateUserDetails();">
+                						<i class="fa-solid fa-check"></i>&nbsp;
+										<span id="submitText">Submit</span>
+                					</button>
+									<#-- /Submit -->
 								
 								<#-- /Col 1: User Details -->
 

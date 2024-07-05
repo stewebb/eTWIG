@@ -98,7 +98,7 @@ function userListTable() {
 
 function addUser() {
     var newUserObj = {};
-    var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    //var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
     // User full name
 	var userFullName = $('#userFullName').val();
@@ -110,7 +110,7 @@ function addUser() {
 
     // User email
     var userEmail = $('#userEmail').val();
-    if (!emailPattern.test(userEmail)) {
+    if (!emailCheck(userEmail)) {
 		warningPopup("User email address is invalid.");
 		return;
     } 
@@ -130,7 +130,7 @@ function addUser() {
 
     // Portfolio email
     var userPortfolioEmail = $('#userPortfolioEmail').val();
-    if (!emailPattern.test(userPortfolioEmail)) {
+    if (!emailCheck(userPortfolioEmail)) {
         warningPopup("Portfolio email address is invalid.");
         return;
     } 
@@ -157,6 +157,63 @@ function addUser() {
                 successPopup("User added successfully.")
                 setTimeout(function() { window.location.reload();}, 2500);
             } else {
+                dangerPopup("Failed to add user" , "User email already exists.");
+            }
+        },
+            error: function (err) {
+            dangerPopup("Failed to add user due to a HTTP " + err.status + " error.", err.responseJSON.exception);
+        }
+    });
+}
+
+function updateUserDetails() {
+    var userObj = {};
+
+    // User ID
+    userObj["userId"] = $('#userId').text();
+
+    // User full name
+	var userFullName = $('#userFullName').val();
+    if(userFullName.length == 0){
+		warningPopup("User full name is required.");
+		return;
+	}
+    userObj["userFullName"] = userFullName;
+
+    // User email
+    var userEmail = $('#userEmail').val();
+    if (!emailCheck(userEmail)) {
+		warningPopup("User email address is invalid.");
+		return;
+    } 
+    userObj["userEmail"] = userEmail;
+
+    // User password
+    var userPassword = $('#userPassword').val();
+    if(userPassword && userPassword.length > 0 && !isPasswordComplex(userPassword)){
+        warningPopup(
+            "User password must be at least 8 characters long and include uppercase, lowercase and numbers.",
+            "If you don't want to change user's password, you can keep this field blank."
+        );
+        return;	
+    }
+    userObj["userPassword"] = userPassword;
+
+    console.log(userObj);
+
+    // Submit
+    $.ajax({
+        url: '/api/user/edit', 
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(userObj),
+        success: function (result) {
+    
+            // Backend return true indicates changed password.
+            if(result) {
+                successPopup("User added successfully.")
+                setTimeout(function() { window.location.reload();}, 2500);
+             } else {
                 dangerPopup("Failed to add user" , "User email already exists.");
             }
         },

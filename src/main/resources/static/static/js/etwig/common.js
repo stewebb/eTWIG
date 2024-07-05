@@ -405,7 +405,23 @@ $(document).ready(function() {
 // Leading zeros for the (positive) integers that below to 10. 
 const pad = (num) => (num < 10 ? '0' + num : num);
 
-// dangerPopup('Function ' + functionName + ' does not exist.', '');
-//function functionTwo(param) {
-//    alert('Function Two is executed with parameter: ' + param);
-//}
+/**
+ * Validates an email address against a standard pattern.
+ * This function checks if the given email address conforms to a common email format,
+ * which includes characters before and after an "@" symbol, followed by a domain
+ * and a domain extension ranging from 2 to 6 letters.
+ *
+ * @param {string} email - The email address to be validated.
+ * @return {boolean} True if the email matches the pattern, otherwise false.
+ *
+ * Usage Example:
+ * ```javascript
+ * let isValidEmail = emailCheck("example@domain.com");
+ * console.log(isValidEmail); // Output: true or false
+ * ```
+ */
+
+function emailCheck(email) {
+    var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return emailPattern.test(email);
+}
