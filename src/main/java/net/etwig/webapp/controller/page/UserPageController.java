@@ -12,23 +12,23 @@ package net.etwig.webapp.controller.page;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import net.etwig.webapp.config.ConfigFile;
 import net.etwig.webapp.dto.LoginToken;
 import net.etwig.webapp.handler.LoginSuccessHandler;
+import net.etwig.webapp.model.User;
+import net.etwig.webapp.services.UserService;
+import net.etwig.webapp.services.UserSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.http.HttpHeaders;
 
 import java.io.IOException;
-import java.time.Instant;
 import java.util.Base64;
 
 @Controller
@@ -40,6 +40,12 @@ public class UserPageController {
 
 	@Autowired
 	private LoginSuccessHandler successHandler;
+
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private UserSessionService userSessionService;
 
 	/**
 	 * Handles the root GET request and redirects to the profile page.
@@ -117,14 +123,39 @@ public class UserPageController {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
-	@GetMapping("/tokenLogin.do")
-	public ResponseEntity<?> tokenLogin(@RequestParam String token, HttpServletRequest request, HttpServletResponse response) {
 
+	@GetMapping("/referrerLogin.do")
+	public ResponseEntity<?> referrerLogin(@RequestParam String token, HttpServletRequest request) {
 
 		// Only allow a specific referrer
 		String referrer = request.getHeader("Referer");
-		if (true || referrer != null && referrer.startsWith(config.getTrustedReferrer())) {
+		if (referrer != null && referrer.startsWith(config.getTrustedReferrer())) {
 
+			// Decode encoded String
+			byte[] decodedBytes = Base64.getDecoder().decode(token);
+			String decodedStr = new String(decodedBytes);
+
+			try {
+				ObjectMapper objectMapper = new ObjectMapper();
+				LoginToken loginToken = objectMapper.readValue(decodedStr, LoginToken.class);
+
+				//User user = userService.findByEmail(loginToken.getUserEmail());
+				// Get user object
+				userSessionService.initializeSession(loginToken.getUserEmail());
+
+				String url = "/home.do";
+
+				HttpHeaders headers = new HttpHeaders();
+				headers.add("Location", url);
+				// Optionally you can use ResponseEntity.created(URI) for 201 status codes
+				return new ResponseEntity<>(headers, HttpStatus.FOUND);
+
+			} catch (JsonProcessingException | IllegalStateException e) {
+				e.printStackTrace();
+				return ResponseEntity.status(401).body("Login Failed: Token is invalid or expired.");
+			}
+            //userService.checkByEmail(email);
+			/*
 			// Decode encoded String
 			byte[] decodedBytes = Base64.getDecoder().decode(token);
 			String decodedStr = new String(decodedBytes);
@@ -161,9 +192,11 @@ public class UserPageController {
             }
 
             return ResponseEntity.ok().body("Login Successful.");
+
+			 */
 		}
 
-		// Otherwise, return 403 Forbidden.
+		// Otherwise, return 401 Unauthorized.
 		else {
 			return ResponseEntity.status(401).body("Login Failed: The referrer is not allowed.");
 		}

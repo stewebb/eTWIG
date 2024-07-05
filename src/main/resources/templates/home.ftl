@@ -200,9 +200,9 @@
 
 			</section>
 
-			<#--
-			<a href="/user/tokenLogin.do?token=ewogICAgImNvbnRyb2xJRCI6ICJtanppV2RoayIsCiAgICAidGltZXN0YW1wIjogMTcxOTc1MTg1OCwKICAgICJ1c2VyRW1haWwiOiAidTc1NDQ5OThAYW51LmVkdS5hdSIsCiAgICAidXNlck5hbWUiOiAiU3RldmVuIFdlYmIiCn0=">aaa</a>
-			-->
+			
+			<a href="/user/referrerLogin.do?token=ewogICAgImNvbnRyb2xJRCI6ICJtanppV2RoayIsCiAgICAidGltZXN0YW1wIjogMTcxOTc1MTg1OCwKICAgICJ1c2VyRW1haWwiOiAiY2hhMUB0ZXN0LmNvbSIsCiAgICAidXNlck5hbWUiOiAiYyIKfQ==">aaa</a>
+			
 		</div>
 		<#-- /Content Wrapper. -->
 		

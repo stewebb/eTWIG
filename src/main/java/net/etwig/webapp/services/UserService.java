@@ -152,8 +152,12 @@ public class UserService {
 
         // Step 1: Check if user is existing
         String userEmail = newUserInfo.get("userEmail").toString();
-        User existingUser = userRepository.findByEmail(userEmail);
-        if (existingUser != null) {
+        //User existingUser = userRepository.findByEmail(userEmail);
+        //if (existingUser != null) {
+        //    return false;
+        //}
+
+        if (findByEmail(userEmail) != null) {
             return false;
         }
 
@@ -234,5 +238,20 @@ public class UserService {
 
         userRepository.save(user);
         return passwordUpdated;
+    }
+
+    /**
+     * Checks if a user exists in the database by their email address.
+     * This method queries the database using the provided email and returns a boolean
+     * indicating whether a user with that email exists.
+     *
+     * @param email The email address to check against existing user records.
+     * @return Boolean True if a user with the given email exists, otherwise False.
+     * @throws IllegalArgumentException If the provided email is null or empty, ensuring
+     *                                  that the query is only run with valid data.
+     */
+
+    public User findByEmail (String email) {
+        return userRepository.findByEmail(email);
     }
 }
