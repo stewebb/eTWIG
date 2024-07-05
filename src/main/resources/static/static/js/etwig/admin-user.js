@@ -208,14 +208,18 @@ function updateUserDetails() {
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify(userObj),
         success: function (result) {
-    
+
             // Backend return true indicates changed password.
-            if(result) {
-                successPopup("User added successfully.")
-                setTimeout(function() { window.location.reload();}, 2500);
-             } else {
-                dangerPopup("Failed to add user" , "User email already exists.");
-            }
+            successPopup("User added successfully with password <b>" + result ? "changed" : "unchanged" + "</b>.")
+            setTimeout(function() { window.location.reload();}, 2500);
+    
+            
+            //if(result) {
+            //    successPopup("User added successfully.")
+            //    setTimeout(function() { window.location.reload();}, 2500);
+            // } else {
+            //    dangerPopup("Failed to add user" , "User email already exists.");
+            //}
         },
             error: function (err) {
             dangerPopup("Failed to add user due to a HTTP " + err.status + " error.", err.responseJSON.exception);

@@ -49,7 +49,7 @@ public class UserAPIController {
 	 *                    </ul>
 	 * @return {@code Boolean} indicating success ({@code true}) or failure ({@code false}) of adding the user.
 	 * @location /api/user/add
-	 * @permission Required: Site administrators only.
+	 * @permission Site administrators only.
 	 */
 
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
@@ -60,14 +60,14 @@ public class UserAPIController {
 
 	/**
 	 * Edit a user
-	 * @location /nsRest/private/user/edit
-	 * @permission TODO
+	 * @location /api/user/edit
+	 * @permission Site administrators only/
 	 */
 
-	@GetMapping("/edit")
-	public Object edit(){
-		// TODO edit user
-		return null;
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	@PostMapping("/edit")
+	public Object edit(@RequestBody Map<String, Object> userInfo){
+		return userService.changeUserDetails(userInfo);
 	}
 
 	/**

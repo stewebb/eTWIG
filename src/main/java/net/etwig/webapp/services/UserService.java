@@ -7,6 +7,7 @@ import net.etwig.webapp.model.User;
 import net.etwig.webapp.model.UserRole;
 import net.etwig.webapp.repository.UserRepository;
 import net.etwig.webapp.repository.UserRoleRepository;
+import net.etwig.webapp.util.InvalidParameterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -193,5 +194,30 @@ public class UserService {
     public CurrentUserBasicInfoDTO findById(Long userId) {
         Optional<User> user = userRepository.findById(userId);
         return user.map(CurrentUserBasicInfoDTO::new).orElse(null);
+    }
+
+    public Boolean changeUserDetails (@RequestBody Map<String, Object> userInfo) {
+
+        // Step 1: Find the target user
+        Long userId = Long.parseLong(userInfo.get("userId").toString());
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null) {
+            throw new InvalidParameterException("User with id=" + userId + " does not exist!");
+        }
+
+        // Step 2: Update user details
+        user.setFullName(userInfo.get("userFullName").toString());
+        user.setEmail(userInfo.get("userEmail").toString());
+
+        // Step 3: Update user password if it is not blank
+        boolean passwordUpdated = false;
+        String userPassword = userInfo.get("userPassword").toString();
+        if (userPassword != null && !userPassword.isEmpty()) {
+            user.setPassword((new BCryptPasswordEncoder()).encode(userPassword));
+            passwordUpdated =  true;
+        }
+
+        userRepository.save(user);
+        return passwordUpdated;
     }
 }
