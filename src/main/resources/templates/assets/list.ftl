@@ -81,12 +81,12 @@
 									
 										<#-- File upload box -->
 										<div class="custom-file">
-											<input type="file" class="custom-file-input" id="fileUploadSingle">
-											<label class="custom-file-label" for="exampleInputFile">Choose a file</label>
+											<input type="file" class="custom-file-input" id="fileUpload" multiple>
+											<label class="custom-file-label" for="fileUpload">Choose a file</label>
 										</div>
 										
 										<div class="input-group-append">
-											<button type="button" class="btn btn-outline-primary" onclick="uploadFile(false, 'fileUploadSingle', 'assetsList');" id="uploadSingleFileBtn">
+											<button type="button" class="btn btn-outline-primary" onclick="uploadFiles('fileUpload', 'assetsList');" id="uploadSingleFileBtn">
 												<i class="fa-solid fa-upload"></i>&nbsp;Upload
 										</div>
 									</div>

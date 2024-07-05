@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -36,16 +37,25 @@ public class AssetAPIController {
      */
 
     @PostMapping(value = "add")
-    public void add(@RequestParam("file") MultipartFile file, @RequestParam("isMultiple") Boolean isMultiple) throws IOException {
+    public boolean add(@RequestParam("files") List<MultipartFile> files) throws IOException {
+        boolean status = true;
+        for (MultipartFile file : files) {
+            if (file.isEmpty()) {
+                status = false;
+                continue;
+            }
+            assetService.uploadFile(file);
+        }
+        return status;
 
         // Check if the uploaded file is null or empty
-        if(file == null) {
-            throw new InvalidParameterException("Uploaded file is null or empty.");
-        }
+        //if(file == null) {
+        //    throw new InvalidParameterException("Uploaded file is null or empty.");
+       // }
         // TODO: Upload multiple files.
 
         // Copy file and add related info
-        assetService.uploadFile(file);
+        //assetService.uploadFile(file);
     }
 
     @GetMapping("/edit")

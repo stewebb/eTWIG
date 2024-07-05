@@ -83,6 +83,44 @@ function lastModifiedRender(data, type, row){
  * @param {string} selectorElem - The ID of the DataTable element to be reloaded after successful upload.
  */
 
+function uploadFiles(fileElem, selectorElem) {
+    var data = new FormData();
+    var files = $('#' + fileElem)[0].files;
+
+    // Check if any files are selected
+    if (files.length === 0) {
+        warningPopup("Please select files to upload.");
+        return;
+    }
+
+    // Append each selected file to FormData
+    for (let i = 0; i < files.length; i++) {
+        data.append('files', files[i]);
+    }
+
+    // AJAX request to upload the files
+    $.ajax({
+        type: 'POST',
+        url: '/api/asset/add',
+        data: data,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            if (response) {
+                successPopup("All files uploaded successfully.");
+            } else {
+                warningPopup("One or more files were empty and not uploaded.");
+            }
+            $('#' + selectorElem).DataTable().ajax.reload();
+        },
+        error: function(err) {
+            dangerPopup("Failed to upload files due to a HTTP " + err.status + " error.", err.responseJSON ? err.responseJSON.exception : 'Unknown error');
+        }
+    });
+}
+
+
+/*
 function uploadFile(isMultiple, fileElem, selectorElem){
 	var data = new FormData();
 	var file = $('#' + fileElem)[0].files[0];
@@ -112,10 +150,26 @@ function uploadFile(isMultiple, fileElem, selectorElem){
     	}
     });
 }
+*/
 
+/*
 $(".custom-file-input").on("change", function() {
 	var fileName = $(this).val().split("\\").pop();
 	$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+});
+*/
+
+$(".custom-file-input").on("change", function() {
+    var filesCount = $(this).get(0).files.length;
+
+    if (filesCount === 1) {
+        // If only one file is selected, show its name
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    } else {
+        // If more than one file, show the number of files
+        $(this).siblings(".custom-file-label").addClass("selected").html(filesCount + " files selected");
+    }
 });
 
 /**

@@ -138,15 +138,14 @@
 							<#-- /Asset Management -->
 
 							<#-- Public TWIG -->
+							<#--
 							<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
 								<div class="menu-option p-3" onclick="window.location.href='#';">
-									<!--
-								    <div><i class="fa fa-t fa-super"></i></div>
-									-->
-									<div><img class="icon" src="/static/images/GHLogo.min.svg" alt="Custom Icon"> <!-- External SVG --></div>
+									<div><img class="icon" src="/static/images/GHLogo.min.svg" alt="Custom Icon"></div>
                     				<div>Public TWIG</div>
 								</div>
 							</div>
+							-->
 							<#-- /Public TWIG -->
 
 							<#-- User Profile -->

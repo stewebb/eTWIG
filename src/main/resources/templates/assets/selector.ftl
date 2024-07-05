@@ -48,7 +48,7 @@
 						</div>
 										
 						<div class="input-group-append">
-							<button type="button" class="btn btn-outline-primary" onclick="uploadFile(false, 'fileUploadSelector', 'assetSelector');" id="uploadSingleFileBtn">
+							<button type="button" class="btn btn-outline-primary" onclick="uploadFiles('fileUploadSelector', 'assetSelector');" id="uploadSingleFileBtn">
 							<i class="fa-solid fa-upload"></i>&nbsp;Upload
 						</div>
 					</div>
