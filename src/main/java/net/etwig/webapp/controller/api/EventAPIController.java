@@ -4,6 +4,7 @@ import net.etwig.webapp.dto.events.EventDetailsDTO;
 import net.etwig.webapp.model.Portfolio;
 import net.etwig.webapp.services.EventService;
 import net.etwig.webapp.services.PortfolioService;
+import net.etwig.webapp.services.UserSessionService;
 import net.etwig.webapp.util.InvalidParameterException;
 import net.etwig.webapp.util.NumberUtils;
 import net.etwig.webapp.util.PortfolioMismatchException;
@@ -31,6 +32,9 @@ public class EventAPIController {
 
     @Autowired
     private PortfolioService portfolioService;
+
+    @Autowired
+    private UserSessionService userSessionService;
 
     /**
      * Handles the HTTP POST request at the "/add" endpoint.
@@ -155,22 +159,25 @@ public class EventAPIController {
 
     @PreAuthorize("hasAuthority('ROLE_EVENTS')")
     @PostMapping(value = "/import")
-    public Map<String, Object> importEvents(@RequestParam("file") MultipartFile file, @RequestParam("role") Long role) throws Exception {
+    public Map<String, Object> importEvents(@RequestParam("file") MultipartFile file) throws Exception {
 
         // Null check
         if(file == null || file.isEmpty()) {
-            return WebReturn.errorMsg("The file is null.", false);
+            //return WebReturn.errorMsg("The file is null.", false);
+            throw new InvalidParameterException("The file is null.");
         }
 
         // Check and read file
         String fileName = file.getOriginalFilename();
         String extension = FilenameUtils.getExtension(fileName);
         if(!"xlsx".equalsIgnoreCase(extension) && ! "ods".equalsIgnoreCase(extension)) {
-            return WebReturn.errorMsg("Only Microsoft Excel Spreadsheet (*.xlsx) and OpenDocument Spreadsheet (*.ods) format are accepted. However, the extension of the uploaded file is " + extension, false);
+            throw new InvalidParameterException("Only Microsoft Excel Spreadsheet (*.xlsx) and OpenDocument Spreadsheet (*.ods) format are accepted. However, the extension of the uploaded file is " + extension);
         }
 
+        //userSessionService.validateSession().getPosition()
+
         Map<String, Object> webReturn = WebReturn.errorMsg("", true);
-        webReturn.put("result", eventService.importEvents(file, extension, role));
+        webReturn.put("result", eventService.importEvents(file, extension));
         return webReturn;
     }
 

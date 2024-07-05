@@ -55,7 +55,7 @@
     		<section class="content">
 				<div class="container-fluid">
 
-					<#-- Directions -->
+					<#-- Introduction -->
 					<div class="card card-primary card-outline">
 						<div class="card-header">
 							<h3 class="card-title">
@@ -92,6 +92,7 @@
 
 									<tbody>
 
+										<#-- Accepted format -->
 										<tr>
 											<th scope="col">Accepted format</th>
 											<td>Up to 63 characters</td>
@@ -101,7 +102,9 @@
 											<td>yyyy-MM-dd HH:mm</td>
 											<td>yyyy-MM-dd HH:mm</td>
 										</tr>
+										<#-- /Accepted format -->
 
+										<#-- Required -->
 										<tr>
 											<th scope="col">Required</th>
 											<td><i class="fa-solid fa-check"></i></td>
@@ -111,7 +114,9 @@
 											<td><i class="fa-solid fa-check"></i></td>
 											<td><i class="fa-solid fa-check"></i></td>
 										</tr>
+										<#-- /Required -->
 
+										<#-- Description -->
 										<tr>
 											<th scope="col">Description</th>
 											<td>N/A</td>
@@ -121,7 +126,9 @@
 											<td>If AllDayEvent is true, only the <b>date part</b> is required.</td>
 											<td>If AllDayEvent is true, only the <b>date part</b> is required. It must after the StartDateTime.</td>
 										</tr>
+										<#-- /Description -->
 
+										<#-- Examples -->
 										<tr>
 											<th scope="col">Example 1</th>
 											<td>My test event</td>
@@ -141,16 +148,15 @@
 											<td>2020-01-01 08:00:00</td>
 											<td>2020-01-01 10:00:00</td>
 										</tr>
+										<#-- /Examples -->
+
 									</tbody>
 								</table>
 							</div>
-
-							
-
 						</div>		
 
 					</div>
-					<#-- /Directions -->
+					<#-- /Introduction -->
 
 					<div class="row">
 
@@ -166,6 +172,7 @@
 								<div class="card-body">
 
 									<#-- Role -->
+									<#--
 									<div class="form-group row">
 										<label for="uploaderRole" class="col-sm-2 col-form-label">
 											Role&nbsp;<span class="required-symbol">*</span>
@@ -183,6 +190,7 @@
 											<small class="form-text text-muted">The position and associated portfolio, divided by comma.</small>
 										</div>
 									</div>
+									-->
 									<#-- Role -->
 
 									<#-- File -->

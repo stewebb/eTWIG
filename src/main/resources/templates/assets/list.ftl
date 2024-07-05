@@ -50,47 +50,41 @@
 			<section class="content">
 				<div class="container-fluid">
 
-				
+					<#-- Upload File(s) -->
+					<div class="card card-outline card-primary mb-3">
+						<div class="card-header">
+							<h3 class="card-title">
+								<i class="fa-solid fa-cloud-arrow-up"></i>&nbsp;Upload
+							</h3>
+						</div>
 
-						
-							<div class="card card-outline card-primary">
-								<div class="card-header">
-									<h3 class="card-title">
-										<i class="fa-solid fa-cloud-arrow-up"></i>&nbsp;Upload
-									</h3>
-								</div>
+						<div class="card-body">
+							<p>You can upload <b>one or multiple</b> files in this area.</p>
 
-								<div class="card-body">
-									<p>You can upload <b>one or multiple</b> files in this area.</p>
-
-									<#-- Upload Area -->
-									<div class="input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text">
-												<i class="fa-solid fa-file-arrow-up"></i>
-											</span>
-										</div>				
-									
-										<#-- File upload box -->
-										<div class="custom-file">
-											<input type="file" class="custom-file-input" id="fileUpload" multiple>
-											<label class="custom-file-label" for="fileUpload">Choose a file</label>
-										</div>
+							<#-- Upload Area -->
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text">
+										<i class="fa-solid fa-file-arrow-up"></i>
+									</span>
+								</div>				
 										
-										<div class="input-group-append">
-											<button type="button" class="btn btn-outline-primary" onclick="uploadFiles('fileUpload', 'assetsList');" id="uploadSingleFileBtn">
-												<i class="fa-solid fa-upload"></i>&nbsp;Upload
-										</div>
-									</div>
-									<#-- Upload Area -->
-
+								<#-- File upload box -->
+								<div class="custom-file">
+									<input type="file" class="custom-file-input" id="fileUpload" multiple>
+									<label class="custom-file-label" for="fileUpload">Choose a file</label>
+								</div>
+											
+								<div class="input-group-append">
+									<button type="button" class="btn btn-outline-primary" onclick="uploadFiles('fileUpload', 'assetsList');" id="uploadSingleFileBtn">
+										<i class="fa-solid fa-upload"></i>&nbsp;Upload
 								</div>
 							</div>
-						
+							<#-- Upload Area -->
 
-
-
-					
+						</div>
+					</div>
+					<#-- /Upload File(s) -->		
 
 					<#-- Asset List -->
 					<div class="row">

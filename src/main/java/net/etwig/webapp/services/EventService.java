@@ -288,7 +288,10 @@ public class EventService {
 
 
 
-	public Map<Integer, String> importEvents(MultipartFile file, String fileType, Long role) throws Exception {
+	public Map<Integer, String> importEvents(MultipartFile file, String fileType) throws Exception {
+
+
+		//userSessionService.validateSession().getPosition().getMyCurrentPositionId();
 
 		// Decide the reader type (Factory pattern)
 		InputStream inputStream = file.getInputStream();
@@ -299,7 +302,7 @@ public class EventService {
 		//importedEvents.forEach(obj -> obj.setOrganizerRole(role));
 
 		for(EventImportDTO eventImportDTO : importedEvents){
-			eventImportDTO.setOrganizerRole(role);
+			eventImportDTO.setOrganizerRole(userSessionService.validateSession().getPosition().getMyCurrentPositionId());
 
 			Event event = eventImportDTO.toEntity();
 			eventRepository.save(event);
