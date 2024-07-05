@@ -1,6 +1,8 @@
 package net.etwig.webapp.controller.page;
 
+import net.etwig.webapp.dto.user.CurrentUserBasicInfoDTO;
 import net.etwig.webapp.services.PortfolioService;
+import net.etwig.webapp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping(value = "/admin")
@@ -15,6 +18,9 @@ public class AdminPageController {
 
     @Autowired
     private PortfolioService portfolioService;
+
+    @Autowired
+    private UserService userService;
 
     /**
      * Handles the GET request to display the user list view in the admin panel.
@@ -56,7 +62,16 @@ public class AdminPageController {
 
     @GetMapping("/userDetails.do")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public String userDetails(){
+    public String userDetails(Model model, @RequestParam("userId") Long userId) {
+
+        // Get user details excludes password
+        CurrentUserBasicInfoDTO userBasicInfo = userService.findById(userId);
+        if (userBasicInfo == null) {
+            model.addAttribute("reason", "User with id=" + userId + " does not exist.");
+            return "error_page";
+        }
+
+        model.addAttribute("selectedUserDetails", userBasicInfo);
         return "admin/user_details";
     }
 }

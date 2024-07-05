@@ -71,9 +71,14 @@ public class UserAPIController {
 	}
 
 	/**
-	 * View a user
+	 * Retrieves and returns basic information about a specific user identified by the user ID.
+	 * This endpoint is accessible to all logged-in users, allowing them to view user profiles.
+	 *
+	 * @param userId The unique identifier of the user whose information is to be retrieved.
+	 *               This is passed as a request parameter.
+	 * @return An instance of {@link CurrentUserBasicInfoDTO} containing basic user details such as name, email, etc.
 	 * @location /api/user/view
-	 * @permission All logged-in users
+	 * @permission Accessible by any logged-in user.
 	 */
 
 	@GetMapping("/view")

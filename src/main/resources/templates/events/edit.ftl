@@ -115,7 +115,7 @@
 
 									<#-- EventId -->
 									<div class="form-group row" id="eventIdBlock" style="display:none">
-										<label for="EventId" class="col-lg-3">eventId</label>
+										<label for="EventId" class="col-lg-3">Event ID</label>
 										<div class="col-lg-9" id="eventId"></div>
 									</div>
 									<#-- /EventId -->

@@ -178,6 +178,18 @@ public class UserService {
         return true;
     }
 
+    /**
+     * Retrieves a user by their unique identifier and converts their data into a DTO format.
+     * This method utilizes the repository to query the database for a user by ID. If found, it transforms
+     * the user data into a {@link CurrentUserBasicInfoDTO} instance using a constructor reference.
+     * If no user is found with the given ID, the method returns null.
+     *
+     * @param userId The unique identifier of the user to be retrieved. Must not be null.
+     * @return {@link CurrentUserBasicInfoDTO} containing user's basic information if the user exists,
+     *         otherwise returns null.
+     * @throws IllegalArgumentException if the userId parameter is null.
+     */
+
     public CurrentUserBasicInfoDTO findById(Long userId) {
         Optional<User> user = userRepository.findById(userId);
         return user.map(CurrentUserBasicInfoDTO::new).orElse(null);
