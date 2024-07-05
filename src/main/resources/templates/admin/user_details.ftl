@@ -14,12 +14,15 @@
 <head>
 
 	<#include "../_includes/header/head.ftl">
-	<title>User Management - ${app.appName}</title>
+	<title>User Details - ${app.appName}</title>
 </head>
 
 <body class="hold-transition layout-top-nav">
 	
+	<#--
 	<input type="hidden" id="userDetailsLink" value="${ENDPOINTS.ADMIN_USER_DETAILS}"> 
+	-->
+
 	<#include "../_includes/header/body_start.ftl">
 	
 	<#-- Main Wrapper -->
@@ -36,13 +39,15 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1 class="bold-text">User and Position Management</h1>
+							<h1 class="bold-text">User and Position Details: ${selectedUserDetails.fullName}</h1>
 						</div>
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item">
+									<a href="${ENDPOINTS.ADMIN_USER_LIST}">User</a>
+								</li>
 								<li class="breadcrumb-item active">
-									<a href="${ENDPOINTS.ADMIN_USER_LIST}">User</a>&nbsp|&nbsp
-									<a href="${ENDPOINTS.ADMIN_PORTFOLIO_LIST}">Portfolio</a>
+									<a href="${ENDPOINTS.ADMIN_USER_DETAILS}?userId=${selectedUserDetails.id}">Details</a>
 								</li>
 							</ol>
 						</div>
@@ -55,67 +60,31 @@
 			<section class="content">
 				<div class="container-fluid">
 
-					<#-- User List -->
-					<div class="card card-primary card-outline mb-3">
-						<div class="card-header">
-							<h3 class="card-title">
-								<i class="fa-solid fa-users-viewfinder"></i>&nbsp;User List
-							</h3>
-						</div>
+					<#-- Col 1: Edit User -->
+					<div class="row col-12">
+						<div class="col-md-6">
 
-						<div class="card-body table-responsive">
-							<table id="usersTable" class="display table table-hover table-striped" width="100%">
-								<thead>
-									<tr>
-										<th colspan="4" style="vertical-align: middle; text-align: center;">User</th>
-										<th colspan="3" style="vertical-align: middle; text-align: center;">Position</th>
-										<th rowspan="2" style="vertical-align: middle; text-align: center;">Action</th>
-									</tr>
-									<tr>
-										<th>ID</th>
-										<th>Name</th>
-										<th>Email</th>
-										<th>Last Login</th>
-										<th>Position</th>
-										<th>Portfolio</th>
-										<th>Email</th>
-									</tr>
-								</thead>
-								<tbody>
-								</tbody>
-							</table>
-						</div>
+							<div class="card card-primary card-outline">
+								<div class="card-header">
+									<h3 class="card-title">
+										<i class="fa-solid fa-user-pen"></i>&nbsp;Edit User Information
+									</h3>
+								</div>
 
-					</div>
-					<#-- /User List -->
+								<div class="card-body">
 
-					<#-- Add User -->
-					<div class="card card-primary card-outline">
-						<div class="card-header">
-							<h3 class="card-title">
-								<i class="fa-solid fa-user-plus"></i>&nbsp;Add User
-							</h3>
-						</div>
-
-						<div class="card-body">
-							<div class="row col-12 mb-3">
-
-								<#-- Col 1: User Details -->
-								<div class="col-md-6">
-									<h5 class="mb-3 bold-text text-primary">
-										<i class="fa-solid fa-circle-info"></i>&nbsp;New User Details
-									</h5>
-
-									<#-- Notice -->
-									<div class="callout callout-primary mb-3">
-										<h5 class="bold-text mb-3">Assign multiple positions to a new user?</h5>
-										You need to add an initial position here, then add more positions in the user details page.
+									<#-- userId -->
+									<div class="form-group row">
+										<label for="userId" class="col-lg-3">User ID</label>
+										<div class="col-lg-9" id="userId">${selectedUserDetails.id}</div>
 									</div>
-									<#-- /Notice -->
-
+									<#-- /userId -->
+												
 									<#-- Full Name -->
 									<div class="form-group row">
-										<label for="userFullName" class="col-lg-3 col-form-label">Full Name</label>
+										<label for="userFullName" class="col-lg-3 col-form-label">
+											Full Name&nbsp;<span class="required-symbol">*</span>
+										</label>
 										<div class="col-lg-9">
 											<div class="input-group">
 												<div class="input-group-prepend">
@@ -123,7 +92,7 @@
 														<i class="fa-solid fa-user"></i>
 													</span>
 												</div>
-												<input type="text" class="form-control" id="userFullName" placeholder="John Doe" maxlength="63">
+												<input type="text" class="form-control" id="userFullName" placeholder="John Doe" maxlength="63" value="${selectedUserDetails.fullName}">
 											</div>
 											<small class="form-text text-muted">Up to 63 characters.</small>
 										</div>
@@ -132,7 +101,9 @@
 
 									<#-- Email -->
 									<div class="form-group row">
-										<label for="userEmail" class="col-lg-3 col-form-label">Email</label>
+										<label for="userEmail" class="col-lg-3 col-form-label">
+											Email&nbsp;<span class="required-symbol">*</span>
+										</label>
 										<div class="col-lg-9">
 											<div class="input-group">
 												<div class="input-group-prepend">
@@ -140,7 +111,7 @@
 														<i class="fa-solid fa-at"></i>
 													</span>
 												</div>
-												<input type="text" class="form-control" id="userEmail" placeholder="me@example.com" maxlength="63">
+												<input type="text" class="form-control" id="userEmail" placeholder="me@example.com" maxlength="63" value="${selectedUserDetails.email}">
 											</div>
 											<small class="form-text text-muted">Must be a valid email format and up to 63 characters.</small>
 										</div>
@@ -157,7 +128,7 @@
 														<i class="fa-solid fa-lock"></i>
 													</span>
 												</div>
-												<input type="text" class="form-control" id="userPassword" autocomplete="new-password">
+												<input type="text" class="form-control" id="userPassword" autocomplete="new-password" placeholder="Keep blank if you don't want to change user's password.">
 											</div>
 											<small class="form-text text-muted">
 												Must be at least 8 characters long and include uppercase, lowercase and numbers.
@@ -166,16 +137,52 @@
 									</div>
 									<#-- /Password -->
 
-								</div>
+									<#-- Last Login -->
+									<div class="form-group row">
+										<label for="userLastLogin" class="col-lg-3">Last Login</label>
+										<div class="col-lg-9" id="userLastLogin">${selectedUserDetails.lastLogin?replace("T", " ")}</div>
+									</div>
+									<#-- /Last Login -->
+
+
+									<#-- Submit -->
+									<#--
+									<button type="button" class="btn btn-outline-primary right-div" onclick="updateUserDetails();">
+                						<i class="fa-solid fa-check"></i>&nbsp;
+										<span id="submitText">Submit</span>
+                					</button>
+									-->
+									<#-- /Submit -->
+
+									<#-- Submit -->
+									<div class="d-flex justify-content-between" role="group">
+
+										<a class="btn btn-outline-secondary" href="${ENDPOINTS.ADMIN_USER_LIST}">
+											<i class="fa-regular fa-arrow-left"></i>&nbsp;Back to list
+										</a>
+										
+										<#--
+										<button type="button" class="btn btn-outline-danger confirm-btn" data-action='{"functionName": "removeBannerRequest", "params": [${requestInfo.id}]}'>
+											<i class="fa-solid fa-trash"></i>&nbsp;Delete
+										</button>
+										-->
+
+										<button type="button" class="btn btn-outline-primary" onclick="updateUserDetails();">
+											<i class="fa-regular fa-check"></i>&nbsp;Submit
+										</button>
+									</div>
+									<#-- /Submit -->
+								
 								<#-- /Col 1: User Details -->
 
 								<#-- Col 2: Position Information -->
-								<div class="col-md-6">
+								<#--
+								
 									<h5 class="mb-3 bold-text text-primary">
 										<i class="fa-solid fa-user-tag"></i>&nbsp;Initial Position
 									</h5>
 
-									<#-- eTWIG Role -->
+									-- eTWIG Role --
 									<div class="form-group row">
 										<label for="userSystemRole" class="col-lg-3 col-form-label">eTWIG Role</label>
 										<div class="col-lg-9">
@@ -194,9 +201,9 @@
 											<small class="form-text text-muted">The role used in eTWIG system.</small>
 										</div>
 									</div>
-									<#-- /eTWIG Role -->
+									-- /eTWIG Role --
 
-									<#-- Portfolio -->
+									-- Portfolio --
 									<div class="form-group row">
 										<label for="userPortfolio" class="col-lg-3 col-form-label">Portfolio</label>
 										<div class="col-lg-9">
@@ -216,9 +223,9 @@
 											<small class="form-text text-muted">The portfolio assigned by Griffin Hall.</small>
 										</div>
 									</div>
-									<#-- /Portfolio -->		
+									-- /Portfolio --	
 
-									<#-- Portfolio Email -->
+									-- Portfolio Email --
 									<div class="form-group row">
 										<label for="userPortfolioEmail" class="col-lg-3 col-form-label">Portfolio Email</label>
 										<div class="col-lg-9">
@@ -233,9 +240,9 @@
 											<small class="form-text text-muted">Must be a valid email format and up to 63 characters. Must be differeent than any other existing records.</small>
 										</div>
 									</div>
-									<#-- /Portfolio Email -->
+									-- /Portfolio Email -
 
-									<#-- Position -->
+									-- Position --
 									<div class="form-group row">
 										<label for="userPosition" class="col-lg-3 col-form-label">Position</label>
 										<div class="col-lg-9">
@@ -250,22 +257,26 @@
 											<small class="form-text text-muted">Up to 63 characters.</small>
 										</div>
 									</div>
-									<#-- /Position -->
+									-- /Position --
 
-									<#-- Submit -->
+									-- Submit --
 									<button type="button" class="btn btn-outline-primary right-div" onclick="addUser();">
                 						<i class="fa-solid fa-check"></i>&nbsp;
 										<span id="submitText">Submit</span>
                 					</button>
-									<#-- /Submit -->
+									-- /Submit --
 
-								</div>
+								
+								-->
 								<#-- /Col 2: Position Information -->
 								
-							</div>
+							
 						</div>
 					</div>
 					<#-- /Add User -->
+
+					</div>
+					</div>
 
 				</div>
 			</section>

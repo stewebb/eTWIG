@@ -74,7 +74,6 @@
 
 							</ul>
 						</li>
-						
 						<#-- /Events -->
 						
 						<#-- Graphics -->
@@ -142,12 +141,19 @@
 									
 									<#-- User Admin -->
 									<li>
-										<a href="${ENDPOINTS.ADMIN_USER_LIST}" class="dropdown-item <#if navbar=="ADMIN_USER_LIST">active</#if>">
-											<i class="fa-regular fa-users-gear"></i>&nbsp;Users
+										<a href="${ENDPOINTS.ADMIN_USER_LIST}" class="dropdown-item <#if navbar=="ADMIN_USER">active</#if>">
+											<i class="fa-regular fa-users-gear"></i>&nbsp;User
 										</a>
 									</li>
-									<#-- /Admin -->
+									<#-- /User Admin -->
 
+									<#-- Portfolio Admin -->
+									<li>
+										<a href="${ENDPOINTS.ADMIN_PORTFOLIO_LIST}" class="dropdown-item <#if navbar=="ADMIN_PORTFOLIO">active</#if>">
+											<i class="fa-solid fa-briefcase"></i>&nbsp;Portfolio
+										</a>
+									</li>
+									<#-- /Portfolio Admin -->
 								</ul>
 							</li>
 						</#if>

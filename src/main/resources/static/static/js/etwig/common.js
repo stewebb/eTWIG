@@ -82,6 +82,19 @@ function dangerPopup(title, body){
 	  });
 }
 
+/**
+ * Calculates how much time has passed since a given date string.
+ * The function parses the date string, computes the difference with the current date and time,
+ * and returns a human-readable string representing the time elapsed.
+ *
+ * @param {string} dateStr - The date string in ISO 8601 format (YYYY-MM-DDTHH:MM:SS). Milliseconds and timezone offset are optional.
+ * @returns {string} A human-readable string indicating the time elapsed since the date provided.
+ *                   Returns 'In the future' if the date is ahead of the current date.
+ *
+ * Example usage:
+ * timeAgo('2023-07-04T12:00:00'); // Returns 'X hours ago', 'X days ago', etc., depending on the current date and time.
+ */
+
 function timeAgo(dateStr) {
 	
 	// Remove the milliseconds, if needed.
@@ -91,9 +104,6 @@ function timeAgo(dateStr) {
     var now = new Date();
     var date = Date.parse(dateStr);
     var diff = now - date;
-
-	//console.log("now", now);
-	//console.log("date", date);
 	
     if (diff < 0) {
         return "In the future";
@@ -115,10 +125,19 @@ function timeAgo(dateStr) {
 }
 
 /**
- * Format the duration from minutes to day, hour and minutes.
- * e.g., input 70, output 1 hour, 10 minutes.
- * @param {int} minutesTotal The total minutes
- * @returns The duration string that combines with days, hours and minutes
+ * Formats the duration from minutes into a readable string representing the time in days, hours, and minutes.
+ * This function computes the total days, hours, and minutes from a given number of total minutes.
+ * It formats these durations into a human-readable string.
+ * For example, an input of 70 minutes will output "1 hour, 10 minutes".
+ *
+ * @param {number} minutesTotal - The total number of minutes to format.
+ * @returns {string} A string that represents the formatted duration combining days, hours, and minutes as needed.
+ *                   Days are added to the string if the total minutes amount to one full day or more.
+ *                   Hours are shown unless they are zero, and minutes are shown unless they are zero.
+ *                   Each unit is correctly pluralized.
+ *
+ * Example usage:
+ * formatTime(1441); // Returns "1 day, 1 minute"
  */
 
 function formatTime(minutesTotal) {
@@ -146,6 +165,23 @@ function formatTime(minutesTotal) {
 
     return formattedTime;
 }
+
+/**
+ * Constrains a number to be within a specified range.
+ * If the number is less than the minimum boundary, it returns the minimum boundary.
+ * If the number is more than the maximum boundary, it returns the maximum boundary.
+ * If the number is within the range, it returns the number unchanged.
+ *
+ * @param {number} num - The number to constrain.
+ * @param {number} min - The minimum boundary of the range.
+ * @param {number} max - The maximum boundary of the range.
+ * @returns {number} The constrained number, guaranteed to be within the [min, max] range.
+ *
+ * Example usage:
+ * constrainNumber(5, 1, 10);  // Returns 5
+ * constrainNumber(-3, 1, 10); // Returns 1
+ * constrainNumber(15, 1, 10); // Returns 10
+ */
 
 function constrainNumber(num, min, max){
 	if(num < min)	return min;
@@ -285,6 +321,28 @@ function selectRole(){
 }
 
 /**
+ * Checks if a given password meets defined complexity requirements.
+ * 
+ * This function validates the password based on the following criteria:
+ * - Minimum length of 8 characters
+ * - Contains at least one uppercase letter
+ * - Contains at least one lowercase letter
+ * - Contains at least one numerical digit
+ *
+ * @param {string} password - The password string to be validated.
+ * @returns {boolean} Returns `true` if the password meets all complexity requirements, otherwise `false`.
+ */
+
+function isPasswordComplex(password) {
+    const minLength = 8;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumbers = /\d/.test(password);
+    return password.length >= minLength && hasUpperCase && hasLowerCase && hasNumbers;
+}
+
+
+/**
  * Hide the navbar if the page is in a frame.
  */
 
@@ -347,7 +405,23 @@ $(document).ready(function() {
 // Leading zeros for the (positive) integers that below to 10. 
 const pad = (num) => (num < 10 ? '0' + num : num);
 
-// dangerPopup('Function ' + functionName + ' does not exist.', '');
-//function functionTwo(param) {
-//    alert('Function Two is executed with parameter: ' + param);
-//}
+/**
+ * Validates an email address against a standard pattern.
+ * This function checks if the given email address conforms to a common email format,
+ * which includes characters before and after an "@" symbol, followed by a domain
+ * and a domain extension ranging from 2 to 6 letters.
+ *
+ * @param {string} email - The email address to be validated.
+ * @return {boolean} True if the email matches the pattern, otherwise false.
+ *
+ * Usage Example:
+ * ```javascript
+ * let isValidEmail = emailCheck("example@domain.com");
+ * console.log(isValidEmail); // Output: true or false
+ * ```
+ */
+
+function emailCheck(email) {
+    var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return emailPattern.test(email);
+}

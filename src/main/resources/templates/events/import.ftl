@@ -55,7 +55,7 @@
     		<section class="content">
 				<div class="container-fluid">
 
-					<#-- Directions -->
+					<#-- Introduction -->
 					<div class="card card-primary card-outline">
 						<div class="card-header">
 							<h3 class="card-title">
@@ -70,7 +70,7 @@
 								<li><b>Step 1:</b> Create a new workbook by using a <b>spreadsheet editor</b>.</li>
 								<li><b>Step 2:</b> Copy the following table header into the <b>first row</b>.</li>
 								<li><b>Step 3:</b> Ensure the <b>first column</b> is not blank, and it has 6 columns. <b></b></li>
-								<li><b>Step 4:</b> Save the file as <b>Microsoft Excel Spreadsheet (*.xlsx)</b> or <b>OpenDocument Spreadsheet (*.ods)</b> format.</li>
+								<li><b>Step 4:</b> Save the file as <b>Comma-separated values (*.csv)</b> format.</li>
 								<li><b>Step 5:</b> Add event information, and save the file.</li>
 							</ul>
 							<#-- /Steps -->
@@ -92,6 +92,7 @@
 
 									<tbody>
 
+										<#-- Accepted format -->
 										<tr>
 											<th scope="col">Accepted format</th>
 											<td>Up to 63 characters</td>
@@ -101,7 +102,9 @@
 											<td>yyyy-MM-dd HH:mm</td>
 											<td>yyyy-MM-dd HH:mm</td>
 										</tr>
+										<#-- /Accepted format -->
 
+										<#-- Required -->
 										<tr>
 											<th scope="col">Required</th>
 											<td><i class="fa-solid fa-check"></i></td>
@@ -111,7 +114,9 @@
 											<td><i class="fa-solid fa-check"></i></td>
 											<td><i class="fa-solid fa-check"></i></td>
 										</tr>
+										<#-- /Required -->
 
+										<#-- Description -->
 										<tr>
 											<th scope="col">Description</th>
 											<td>N/A</td>
@@ -121,7 +126,9 @@
 											<td>If AllDayEvent is true, only the <b>date part</b> is required.</td>
 											<td>If AllDayEvent is true, only the <b>date part</b> is required. It must after the StartDateTime.</td>
 										</tr>
+										<#-- /Description -->
 
+										<#-- Examples -->
 										<tr>
 											<th scope="col">Example 1</th>
 											<td>My test event</td>
@@ -141,16 +148,15 @@
 											<td>2020-01-01 08:00:00</td>
 											<td>2020-01-01 10:00:00</td>
 										</tr>
+										<#-- /Examples -->
+
 									</tbody>
 								</table>
 							</div>
-
-							
-
 						</div>		
 
 					</div>
-					<#-- /Directions -->
+					<#-- /Introduction -->
 
 					<div class="row">
 
@@ -164,26 +170,6 @@
 								</div>
 
 								<div class="card-body">
-
-									<#-- Role -->
-									<div class="form-group row">
-										<label for="uploaderRole" class="col-sm-2 col-form-label">
-											Role&nbsp;<span class="required-symbol">*</span>
-										</label>
-										<div class="col-sm-10">
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text">
-														<i class="fa-solid fa-user-tie"></i>
-													</span>
-												</div>
-												
-												<select class="form-control select2bs4" name="uploaderRole" id="uploaderRole"></select>
-											</div>
-											<small class="form-text text-muted">The position and associated portfolio, divided by comma.</small>
-										</div>
-									</div>
-									<#-- Role -->
 
 									<#-- File -->
 									<div class="form-group row">
@@ -204,7 +190,7 @@
 													
 												<#-- Upload box -->
 												<div class="custom-file">
-													<input type="file" class="custom-file-input" id="fileUpload" accept=".xlsx, .ods">
+													<input type="file" class="custom-file-input" id="fileUpload" accept=".csv">
 													<label class="custom-file-label" for="exampleInputFile">Choose file</label>
 												</div>
 												<#-- /Upload box -->	
@@ -220,10 +206,7 @@
 											</div>
 											
 											
-											<small class="form-text text-muted mb-3">Only
-												<b>Microsoft Excel Spreadsheet (*.xlsx)</b> and 
-												<b>OpenDocument Spreadsheet (*.ods)</b> 
-												format are accepted.
+											<small class="form-text text-muted mb-3">Only<b>Comma-separated values (*.csv)</b> format id accepted.
 											</small>
 											<#-- /Upload File -->
 
@@ -283,16 +266,5 @@
 	<#include "../_includes/header/body_end.ftl">
 
 	<script src="/static/js/etwig/import-events.js?ver=${app.appVersion}"></script>
-
-	<script>
-		$('.select2bs4').select2({
-      		theme: 'bootstrap4'
-    	})
-
-		var myPositions = getMyPositions();
-		for (var key in myPositions) {
-  			$("#uploaderRole").append('<option value="' + myPositions[key].userRoleId + '">' + myPositions[key].position + ', ' + myPositions[key].portfolioName + '</option>');
-		}
-	</script>
 </body>
 </html>

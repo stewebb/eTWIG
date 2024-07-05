@@ -56,6 +56,24 @@ public class GraphicsPageController {
 		return "graphics/event_list";
 	}
 
+	/**
+	 * Serves the event details view specifically tailored for graphical content management.
+	 * This method retrieves detailed information about an event, including associated graphics like banners
+	 * and components, and prepares them for display. If the specified event does not exist, it redirects to an error page.
+	 * <p>
+	 * Access to this method is restricted to users with the 'ROLE_GRAPHICS' authority, ensuring that only authorized
+	 * personnel can manage and view graphics-related event details.
+	 *
+	 * @param model Spring MVC Model used to pass attributes to the view layer.
+	 * @param eventId The unique identifier of the event to fetch details for. This ID is used to retrieve the event
+	 *                and its associated graphics.
+	 * @return The view path to the graphics-specific event details page if the event exists, or an error page if not.
+	 * @throws Exception Propagates exceptions from the underlying service layer which could include database or network
+	 *                   errors. Handling these should be part of a broader error management strategy.
+	 * @location /graphics/summaryDetails.do
+	 * @permission Those who has graphic management permission.
+	 */
+
 	@PreAuthorize("hasAuthority('ROLE_GRAPHICS')")
 	@GetMapping("/summaryDetails.do")
 	public String summaryDetails(Model model, @RequestParam Long eventId) throws Exception {
@@ -116,7 +134,7 @@ public class GraphicsPageController {
 
 	@PreAuthorize("hasAuthority('ROLE_GRAPHICS')")
 	@GetMapping("/approvalDetails.do")
-	public String approvalDetails(Model model, @RequestParam @NonNull Long requestId) {
+	public String approvalDetails(Model model, @RequestParam Long requestId) {
 
 		// Get banner request details
 		BannerRequest bannerRequest = bannerRequestService.findById(requestId);

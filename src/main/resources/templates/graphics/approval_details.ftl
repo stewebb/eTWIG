@@ -14,7 +14,7 @@
 <head>
 
 	<#include "../_includes/header/head.ftl">
-	<title>Graphics Requests Approval - ${app.appName}</title>
+	<title>Banner Requests Approval - ${app.appName}</title>
 </head>
 
 <body class="hold-transition layout-top-nav">
@@ -35,7 +35,7 @@
 	        		<div class="row mb-2">
 	          			<div class="col-sm-6">
 	            			<h1 class="bold-text" id="eventPageTitle">
-	            				Graphics Request Approval
+	            				Banner Request Approval
 	            			</h1>
 	          			</div>
 	          			<div class="col-sm-6">
@@ -205,17 +205,17 @@
 												<tr>
 													<th scope="row">
 														<span class="mb-2">Banner</span><br>
-														<a class="btn btn-outline-primary btn-sm mb-2" href="/assets/content.do?assetId=${requestInfo.assetId}&download=true">
+														<a class="btn btn-outline-primary btn-sm mb-2" href="${ENDPOINTS.ASSETS_CONTENT}?assetId=${requestInfo.assetId}&download=true">
 															<i class="fa-solid fa-download"></i>&nbsp;Download
 														</a>
 
 														<br>
-														<a class="btn btn-outline-primary btn-sm" href="/assets/content.do?assetId=${requestInfo.assetId}&download=false" target="_blank">
+														<a class="btn btn-outline-primary btn-sm" href="${ENDPOINTS.ASSETS_CONTENT}?assetId=${requestInfo.assetId}&download=false" target="_blank">
 															<i class="fa-solid fa-magnifying-glass"></i>&nbsp;View
 														</a>
 													</th>
 													<td>
-														<img src="/assets/content.do?assetId=${requestInfo.assetId}" class="table-img" style="max-width:100%; height:auto;">				
+														<img src="${ENDPOINTS.ASSETS_CONTENT}?assetId=${requestInfo.assetId}" class="table-img" style="max-width:100%; height:auto;">				
 													</td>
 												</tr>
 											</#if>
@@ -226,7 +226,7 @@
 
 										<#-- Button -->
 										<div class="d-flex justify-content-between" role="group">
-											<a class="btn btn-outline-secondary" href="/graphics/approvalList.do">
+											<a class="btn btn-outline-secondary" href="${ENDPOINTS.GRAPHICS_APPROVAL_LIST}">
 												<i class="fa-regular fa-arrow-left"></i>&nbsp;Back to list
 											</a>
 
@@ -302,7 +302,7 @@
 										<#-- Submit -->
 										<div class="d-flex justify-content-between" role="group">
 
-											<a class="btn btn-outline-secondary" href="/graphics/approvalList.do">
+											<a class="btn btn-outline-secondary" href="${ENDPOINTS.GRAPHICS_APPROVAL_LIST}">
 												<i class="fa-regular fa-arrow-left"></i>&nbsp;Back to list
 											</a>
 

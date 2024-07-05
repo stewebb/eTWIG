@@ -106,10 +106,10 @@ public class AssetPageController {
 
 	/**
 	 * Handles the HTTP GET request mapped to "index.do". This method serves as a straightforward controller method that
-	 * directs the user to the "assets/index" view. It's typically used to display a list page for assets within a web application.
+	 * directs the user to the "assets/list" view. It's typically used to display a list page for assets within a web application.
 	 *
 	 * @return The logical name of the view that will present the list of assets, aligning with the MVC architecture of Spring.
-	 * @location /asset/index.do
+	 * @location /asset/list.do
 	 * @permission All logged in users
 	 */
 

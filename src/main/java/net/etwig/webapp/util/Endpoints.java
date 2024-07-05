@@ -9,6 +9,8 @@ public class Endpoints {
 
     // Admin
     private final String ADMIN                      = "/admin/";
+    private final String ADMIN_PORTFOLIO_LIST       = "/admin/portfolioList.do";
+    private final String ADMIN_USER_DETAILS         = "/admin/userDetails.do";
     private final String ADMIN_USER_LIST            = "/admin/userList.do";
 
     // Assets
@@ -23,6 +25,7 @@ public class Endpoints {
     // Events
     private final String EVENTS                     = "/events/";
     private final String EVENTS_ADD                 = "/events/add.do";
+    private final String EVENTS_BANNER_REQUEST      = "/events/bannerRequest.do";
     private final String EVENTS_CALENDAR            = "/events/calendar.do";
     private final String EVENTS_EDIT                = "/events/edit.do";
     private final String EVENTS_IMPORT              = "/events/import.do";
@@ -32,8 +35,8 @@ public class Endpoints {
     private final String GRAPHICS                   = "/graphics/";
     private final String GRAPHICS_APPROVAL_DETAILS  = "/graphics/approvalDetails.do";
     private final String GRAPHICS_APPROVAL_LIST     = "/graphics/approvalList.do";
-    private final String GRAPHICS_SUMMARY_LIST      = "/graphics/summaryList.do";
     private final String GRAPHICS_SUMMARY_DETAILS   = "/graphics/summaryDetails.do";
+    private final String GRAPHICS_SUMMARY_LIST      = "/graphics/summaryList.do";
 
     // User
     private final String USER                       = "/user/";

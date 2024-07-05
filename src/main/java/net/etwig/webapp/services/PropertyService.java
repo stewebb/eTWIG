@@ -75,7 +75,7 @@ public class PropertyService {
 		List<Option> optionList = optionRepository.findAll();
 		List<EventOptionsForEventPageDTO> eventOptionsForEventPages = optionList.stream()
 				.map(EventOptionsForEventPageDTO::new)
-				.collect(Collectors.toList());
+				.toList();
 
 		// Step 2: Set selected options
 		if(eventId != null && eventId > 0) {
@@ -94,7 +94,7 @@ public class PropertyService {
 				}
 			}
 		}
-		System.out.println(eventOptionsForEventPages);
+		//System.out.println(eventOptionsForEventPages);
 
 		// Step 3: Group by property ID
 		Map<String, List<EventOptionsForEventPageDTO>> groupedOptions = eventOptionsForEventPages.stream()

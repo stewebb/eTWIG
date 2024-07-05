@@ -3,6 +3,7 @@ package net.etwig.webapp.dto.graphics;
 import lombok.Getter;
 import lombok.ToString;
 import net.etwig.webapp.model.BannerRequest;
+import net.etwig.webapp.model.Event;
 import net.etwig.webapp.model.UserRole;
 
 import java.time.LocalDate;
@@ -17,8 +18,12 @@ public class BannerRequestDetailsDTO {
     private final LocalDate expectDate;
     private final String requesterName;
     private final String requesterPosition;
+    private final String requesterPortfolioColor;
     private final LocalDateTime requestTime;
     private final String requestComment;
+
+    // Event-related fields
+    private final Long eventId;
     private final String eventName;
 
     // Approval-related fields
@@ -37,9 +42,14 @@ public class BannerRequestDetailsDTO {
         this.expectDate = bannerRequest.getExpectDate();
         this.requesterName = bannerRequest.getRequesterRole().getUser().getFullName();
         this.requesterPosition = bannerRequest.getRequesterRole().getPosition();
+        this.requesterPortfolioColor = bannerRequest.getRequesterRole().getPortfolio().getColor();
         this.requestTime = bannerRequest.getRequestTime();
         this.requestComment = bannerRequest.getRequestComment();
-        this.eventName = bannerRequest.getEvent().getName();
+
+        // Event-related fields
+        Event event = bannerRequest.getEvent();
+        this.eventId = event.getId();
+        this.eventName = event.getName();
 
         // Approval-related fields
         this.approved = bannerRequest.getApproved();

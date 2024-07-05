@@ -45,7 +45,7 @@ public class TwigPageController {
 	@RequestMapping("/index.do")
 	public String index(Model model) throws Exception{
 		//System.out.println(portfolioService.getPortfolioListBySeparatedCalendar(true));
-		model.addAttribute("portfolioSeparatedCalendar", portfolioService.getPortfolioListBySeparatedCalendar(true));
+		//model.addAttribute("portfolioSeparatedCalendar", portfolioService.getPortfolioListBySeparatedCalendar(true));
 		return "twig";
 	}
 

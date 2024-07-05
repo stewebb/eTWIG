@@ -47,9 +47,6 @@ public class AssetService {
 	
 	@Autowired
 	private AssetRepository assetRepository;
-	
-	//@Autowired
-	//private HttpSession session;
 
 	@Autowired
 	private UserSessionService userSessionService;

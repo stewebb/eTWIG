@@ -54,7 +54,7 @@
 				<div class="card card-primary card-outline mb-3">							
 					<div class="card-header">
 						<h3 class="card-title">
-							<i class="fa-solid fa-compass"></i>&nbsp;Quick Link
+							<i class="fa-solid fa-compass"></i>&nbsp;Quick Links
 						</h3>
 					</div>
 
@@ -138,15 +138,14 @@
 							<#-- /Asset Management -->
 
 							<#-- Public TWIG -->
+							<#--
 							<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
 								<div class="menu-option p-3" onclick="window.location.href='#';">
-									<!--
-								    <div><i class="fa fa-t fa-super"></i></div>
-									-->
-									<div><img class="icon" src="/static/images/GHLogo.min.svg" alt="Custom Icon"> <!-- External SVG --></div>
+									<div><img class="icon" src="/static/images/GHLogo.min.svg" alt="Custom Icon"></div>
                     				<div>Public TWIG</div>
 								</div>
 							</div>
+							-->
 							<#-- /Public TWIG -->
 
 							<#-- User Profile -->
@@ -184,6 +183,15 @@
 							</div>
 							<#-- /User Management -->
 
+							<#-- Portfolio Management -->
+							<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 menu-col">
+								<div class="menu-option p-3" onclick="window.location.href='${ENDPOINTS.ADMIN_PORTFOLIO_LIST}';">
+								    <div><i class="fa fa-briefcase fa-super"></i></div>
+                    				<div>Portfolio Management</div>
+								</div>
+							</div>
+							<#-- /Portfolio Management -->
+
 						</div>
 					</div>
 				</div>
@@ -192,9 +200,9 @@
 
 			</section>
 
-			<#--
-			<a href="/user/tokenLogin.do?token=ewogICAgImNvbnRyb2xJRCI6ICJtanppV2RoayIsCiAgICAidGltZXN0YW1wIjogMTcxOTc1MTg1OCwKICAgICJ1c2VyRW1haWwiOiAidTc1NDQ5OThAYW51LmVkdS5hdSIsCiAgICAidXNlck5hbWUiOiAiU3RldmVuIFdlYmIiCn0=">aaa</a>
-			-->
+			
+			<a href="/user/referrerLogin.do?token=ewogICAgImNvbnRyb2xJRCI6ICJtanppV2RoayIsCiAgICAidGltZXN0YW1wIjogMTcxOTc1MTg1OCwKICAgICJ1c2VyRW1haWwiOiAiY2hhMUB0ZXN0LmNvbSIsCiAgICAidXNlck5hbWUiOiAiYyIKfQ==">aaa</a>
+			
 		</div>
 		<#-- /Content Wrapper. -->
 		

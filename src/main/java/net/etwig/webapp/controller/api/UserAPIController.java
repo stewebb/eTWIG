@@ -1,7 +1,7 @@
 package net.etwig.webapp.controller.api;
 
 import net.etwig.webapp.dto.admin.UserListDTO;
-import net.etwig.webapp.dto.graphics.BannerRequestDetailsDTO;
+import net.etwig.webapp.dto.user.CurrentUserBasicInfoDTO;
 import net.etwig.webapp.services.UserRoleService;
 import net.etwig.webapp.services.UserService;
 import net.etwig.webapp.services.UserSessionService;
@@ -30,39 +30,68 @@ public class UserAPIController {
 	private UserService userService;
 
 	/**
-	 * Add a user
-	 * @location /nsRest/private/user/add
-	 * @permission TODO
+	 * Handles the HTTP POST request to add a new user to the system.
+	 * <p>
+	 * This endpoint is accessible only to site administrators. It calls the {@code addUser} method from
+	 * the {@code userService} to attempt adding a new user with the information provided in {@code newUserInfo}.
+	 * If a user with the same email already exists, the method will return {@code false}, indicating that the user
+	 * was not added. Otherwise, it returns {@code true}, indicating successful addition of the user.
+	 * </p>
+	 *
+	 * @param newUserInfo A {@link Map} containing the necessary user information. It should include:
+	 *                    <ul>
+	 *                      <li>userFullName: The full name of the user.</li>
+	 *                      <li>userEmail: The email address of the user, which is used as a unique identifier.</li>
+	 *                      <li>userPassword: The password for the user, which will be encoded before storage.</li>
+	 *                      <li>userSystemRole: The role ID, indicating the user's level of access.</li>
+	 *                      <li>userPortfolio: The portfolio ID associated with the user.</li>
+	 *                      <li>userPosition: The position or title of the user within the organization.</li>
+	 *                    </ul>
+	 * @return {@code Boolean} indicating success ({@code true}) or failure ({@code false}) of adding the user.
+	 * @location /api/user/add
+	 * @permission Site administrators only.
 	 */
 
-	@GetMapping("/add")
-	public Object add(){
-		// TODO add user
-		return null;
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	@PostMapping("/add")
+	public Boolean add(@RequestBody Map<String, Object> newUserInfo){
+		return userService.addUser(newUserInfo);
 	}
 
 	/**
-	 * Edit a user
-	 * @location /nsRest/private/user/edit
-	 * @permission TODO
+	 * Handles the POST request to edit a user's details through the exposed API endpoint.
+	 * This method is secured with authorization to ensure that only users with 'ROLE_ADMIN' authority can
+	 * perform user edits. It delegates the actual data handling to the userService's changeUserDetails method.
+	 *
+	 * @param userInfo A map containing key-value pairs of user information that needs to be updated. This map
+	 *                 is expected to include user details such as userId, userFullName, userEmail, and potentially
+	 *                 a new userPassword if a password change is intended.
+	 * @return The result of the userService.changeUserDetails method, typically indicating the success
+	 *         of the operation or providing additional information about any errors or changes made.
+	 * @location /api/user/edit
+	 * @permission Only accessible by site administrators with 'ROLE_ADMIN' authority.
 	 */
 
-	@GetMapping("/edit")
-	public Object edit(){
-		// TODO edit user
-		return null;
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	@PostMapping("/edit")
+	public Object edit(@RequestBody Map<String, Object> userInfo){
+		return userService.changeUserDetails(userInfo);
 	}
 
 	/**
-	 * View a user
-	 * @location /nsRest/private/user/view
-	 * @permission TODO
+	 * Retrieves and returns basic information about a specific user identified by the user ID.
+	 * This endpoint is accessible to all logged-in users, allowing them to view user profiles.
+	 *
+	 * @param userId The unique identifier of the user whose information is to be retrieved.
+	 *               This is passed as a request parameter.
+	 * @return An instance of {@link CurrentUserBasicInfoDTO} containing basic user details such as name, email, etc.
+	 * @location /api/user/view
+	 * @permission Accessible by any logged-in user.
 	 */
 
 	@GetMapping("/view")
-	public Object view(){
-		// TODO view user
-		return null;
+	public CurrentUserBasicInfoDTO view(@RequestParam("userId") Long userId) {
+		return userService.findById(userId);
 	}
 
 	/**
@@ -110,7 +139,6 @@ public class UserAPIController {
 			@RequestParam(name = "search[value]", required = false) String searchValue
 	) {
 
-		//System.out.println(sortColumn);
 		if ("username".equalsIgnoreCase(sortColumn)) {
 			sortColumn = "user.fullName";
 		}

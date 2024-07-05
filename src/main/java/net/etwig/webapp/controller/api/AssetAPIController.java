@@ -2,8 +2,6 @@ package net.etwig.webapp.controller.api;
 
 import net.etwig.webapp.dto.AssetAPIDTO;
 import net.etwig.webapp.services.AssetService;
-import net.etwig.webapp.util.InvalidParameterException;
-import net.etwig.webapp.util.WebReturn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -24,29 +23,29 @@ public class AssetAPIController {
     private AssetService assetService;
 
     /**
-     * Handles POST requests to upload a file. This method takes a file and a Boolean flag indicating whether multiple files are expected to be uploaded.
-     * The method first checks if the uploaded file is null or empty and throws an exception if it is. Currently, it is designed to handle single file uploads,
-     * with placeholder logic ready for handling multiple files in the future.
+     * Handles POST requests to upload one or more files. This method processes each file in the list
+     * and calls a service method to handle the actual file upload. The method checks if any file in the
+     * list is empty and sets the return status to false if at least one file is empty, otherwise,
+     * it continues to process the upload. The method is designed to support multiple file uploads.
      *
-     * @param file The file to be uploaded.
-     * @param isMultiple Boolean flag indicating if the upload involves multiple files. This functionality is not implemented yet.
+     * @param files A list of files to be uploaded.
+     * @return true if all files are uploaded successfully; false if at least one file is empty.
      * @throws IOException if there is an issue during file I/O operations.
-     * @throws InvalidParameterException if the uploaded file is null or empty.
-     * @location /api/asset/add
-     * @permission All logged in users.
+     * @location /api/asset/list
+     * @permission All logged-in users are allowed to perform this operation.
      */
 
     @PostMapping(value = "add")
-    public void add(@RequestParam("file") MultipartFile file, @RequestParam("isMultiple") Boolean isMultiple) throws IOException {
-
-        // Check if the uploaded file is null or empty
-        if(file == null) {
-            throw new InvalidParameterException("Uploaded file is null or empty.");
+    public boolean add(@RequestParam("files") List<MultipartFile> files) throws IOException {
+        boolean status = true;
+        for (MultipartFile file : files) {
+            if (file.isEmpty()) {
+                status = false;
+                continue;
+            }
+            assetService.uploadFile(file);
         }
-        // TODO: Upload multiple files.
-
-        // Copy file and add related info
-        assetService.uploadFile(file);
+        return status;
     }
 
     @GetMapping("/edit")

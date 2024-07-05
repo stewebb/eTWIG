@@ -9,12 +9,15 @@
 
 package net.etwig.webapp.controller.page;
 
+import net.etwig.webapp.dto.graphics.BannerRequestDetailsDTO;
 import net.etwig.webapp.dto.user.CurrentUserPositionDTO;
+import net.etwig.webapp.model.BannerRequest;
+import net.etwig.webapp.services.BannerRequestService;
 import net.etwig.webapp.services.UserSessionService;
 import net.etwig.webapp.util.Endpoints;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,6 +39,9 @@ public class EventsPageController {
 
 	@Autowired
 	private UserSessionService userSessionService;
+
+	@Autowired
+	private BannerRequestService bannerRequestService;
 
 	@Autowired
 	private Endpoints endpoints;
@@ -74,7 +80,7 @@ public class EventsPageController {
 	public String calendar(Model model){
 		model.addAttribute(
 				"portfolios",
-				portfolioService.getPortfolioList(Pageable.unpaged()).getContent()
+				portfolioService.findByCriteria(null, Pageable.unpaged()).getContent()
 		);
 		return "events/calendar";
 	}
@@ -104,14 +110,17 @@ public class EventsPageController {
 	}
 	// TODO Add a "view only" page, then set the permission of old pages to "event manager only"
 
-    /**
-	 * Event (bulky) import page, which allows users to import multiple events simultaneously (via an EXCEL/ODS file).
-	 * @location /events/import.do
-	 * @permission Those who has event management permission.
+	/**
+	 * Displays the page for importing multiple events simultaneously via an Excel or ODS file.
+	 * This method handles the GET request to the event import page, facilitating the bulk upload of event data.
+	 *
+	 * @location /events/import.do  The URL endpoint that triggers this method.
+	 * @permission Required permission: ROLE_EVENTS. Only users with event management authority are allowed access.
+	 * @return The path to the import events view, allowing the user to proceed with the file upload.
 	 */
 
 	@GetMapping("/import.do")
-	@PostAuthorize("hasAuthority('ROLE_EVENTS')")
+	@PreAuthorize("hasAuthority('ROLE_EVENTS')")
 	public String importEvent(){
 		return "events/import";
 	}
@@ -126,12 +135,38 @@ public class EventsPageController {
 	 *
 	 * @return The view name "events/list" which corresponds to the events list page. This is used by the view resolver
 	 *         to render the list of events to the user.
-	 * @location /events/list.do - Accessed through a GET request to manage and view all the events.
-	 * @permission All logged in users have access to this endpoint, which is intended for a broad audience within the application.
+	 * @location /events/list.do
+	 * @permission All logged-in users have access to this endpoint.
 	 */
 
 	@GetMapping("/list.do")
 	public String list(){
 		return "events/list";
+	}
+	/**
+	 * Retrieves the details of a specific banner request and displays them on the appropriate view page.
+	 * <p>
+	 * This method handles a GET request to fetch details of a banner request based on its unique ID. It attempts to find the
+	 * banner request using the {@code bannerRequestService}. If no request is found with the provided ID, it redirects the user
+	 * to an error page with an appropriate message. If the request is found, it populates the model with the request details
+	 * and returns the view for displaying the banner request.
+	 * </p>
+	 *
+	 * @param model The {@link Model} object used to add attributes that can be used for rendering views.
+	 * @param requestId The unique identifier of the banner request to retrieve. This is expected to be provided as a request parameter.
+	 * @return The name of the view to be rendered. Returns "events/banner_request" if the request is found and "error_page" if not.
+	 * @location /events/bannerRequest.do
+	 * @permission All logged-in users have access to this endpoint.
+	 */
+
+	@GetMapping("/bannerRequest.do")
+	public String bannerRequest(Model model, @RequestParam Long requestId) {
+		BannerRequest bannerRequest = bannerRequestService.findById(requestId);
+		if (bannerRequest == null) {
+			model.addAttribute("reason", "Banner request with id=" + requestId + " does not exist.");
+			return "error_page";
+		}
+		model.addAttribute("requestInfo", new BannerRequestDetailsDTO(bannerRequest));
+		return "events/banner_request";
 	}
 }

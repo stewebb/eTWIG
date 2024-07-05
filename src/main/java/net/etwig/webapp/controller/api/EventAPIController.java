@@ -7,7 +7,6 @@ import net.etwig.webapp.services.PortfolioService;
 import net.etwig.webapp.util.InvalidParameterException;
 import net.etwig.webapp.util.NumberUtils;
 import net.etwig.webapp.util.PortfolioMismatchException;
-import net.etwig.webapp.util.WebReturn;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -144,35 +143,59 @@ public class EventAPIController {
     }
 
     /**
-     * Create one or multiple events bulky by importing from a file.<br>
-     * The file must be in the Microsoft Excel Spreadsheet (*.xlsx) and OpenDocument Spreadsheet (*.ods) format.
-     * @param file The imported file data
-     * @param role The current role of the user
-     * @return Success message if event imported.
+     * Imports events from a provided CSV file by a user with the required permissions.
+     * This method handles file verification and delegates the parsing and storage of events to the event service.
+     * Only CSV files are accepted, and any attempt to import a different file type results in an exception.
+     *
+     * <p>CSV File Requirements:</p>
+     * - The file should contain headers and follow a specific schema for events, including fields such as name, location, etc.
+     * - The file must be formatted as a Comma-Separated Values (CSV) file.
+     *
+     * @param file The multipart file containing the CSV data to be imported.
+     * @return A map where keys are row numbers from the CSV file and values are error messages (null if the import was successful).
+     * @throws InvalidParameterException if the file is null, empty, or not a CSV.
      * @location /api/event/import
      * @permission Those who has event management permission.
      */
 
     @PreAuthorize("hasAuthority('ROLE_EVENTS')")
     @PostMapping(value = "/import")
-    public Map<String, Object> importEvents(@RequestParam("file") MultipartFile file, @RequestParam("role") Long role) throws Exception {
+    public Map<Long, String> importEvents(@RequestParam("file") MultipartFile file) throws Exception {
 
         // Null check
         if(file == null || file.isEmpty()) {
-            return WebReturn.errorMsg("The file is null.", false);
+            throw new InvalidParameterException("The file is null.");
         }
 
         // Check and read file
         String fileName = file.getOriginalFilename();
-        String extension = FilenameUtils.getExtension(fileName);
-        if(!"xlsx".equalsIgnoreCase(extension) && ! "ods".equalsIgnoreCase(extension)) {
-            return WebReturn.errorMsg("Only Microsoft Excel Spreadsheet (*.xlsx) and OpenDocument Spreadsheet (*.ods) format are accepted. However, the extension of the uploaded file is " + extension, false);
+        if(!"csv".equalsIgnoreCase(FilenameUtils.getExtension(fileName))) {
+            throw new InvalidParameterException("Only Comma-separated values (*.csv) format is accepted.");
         }
 
-        Map<String, Object> webReturn = WebReturn.errorMsg("", true);
-        webReturn.put("result", eventService.importEvents(file, extension, role));
-        return webReturn;
+        return eventService.importEvents(file);
     }
+
+    /**
+     * Handles the GET request for listing events based on specified search and filtering criteria with pagination and sorting.
+     * This endpoint dynamically constructs queries to fetch a paginated list of events that can be sorted by various attributes.
+     *
+     * @param startDate Optional start date to filter events that start on or after this date.
+     * @param endDate Optional end date to filter events that start on or before this date.
+     * @param recurring Optional flag to filter by recurring events. If true, only recurring events are included.
+     * @param portfolioId Optional portfolio identifier to filter events associated with a specific portfolio.
+     * @param start Starting index for the pagination of results.
+     * @param length Number of records per page.
+     * @param draw Draw counter for handling multiple requests. Commonly used in DataTables.
+     * @param sortColumn Column name to sort the results by. If sorting by organizer name, it is mapped internally to 'userRole.userId'.
+     * @param sortDirection Direction of sorting, can be 'asc' for ascending or 'desc' for descending.
+     * @param searchValue Optional search string used for searching event names or other attributes allowing substring matching.
+     *
+     * @return A {@link ResponseEntity} containing a map with draw details, total records, filtered records count, and the list of events.
+     *         The response is structured to support front-end frameworks that require formatted JSON for data tables.
+     * @location /api/event/list
+     * @permission This endpoint requires the user to be logged in.
+     */
 
     @GetMapping("/list")
     public ResponseEntity<Map<String, Object>> list(
@@ -184,8 +207,9 @@ public class EventAPIController {
             @RequestParam("length") int length,
             @RequestParam("draw") int draw,
             @RequestParam("sortColumn") String sortColumn,
-            @RequestParam("sortDirection") String sortDirection) {
-
+            @RequestParam("sortDirection") String sortDirection,
+            @RequestParam(name = "search[value]", required = false) String searchValue
+    ) {
 
         if ("organizerName".equalsIgnoreCase(sortColumn)) {
             sortColumn = "userRole.userId";
@@ -196,7 +220,7 @@ public class EventAPIController {
 
         // Get data as pages
         Page<EventDetailsDTO> page = eventService.findByCriteria(
-                startDate, endDate, recurring, portfolioId, pageable
+                startDate, endDate, recurring, portfolioId, searchValue, pageable
         );
 
         Map<String, Object> json = new HashMap<>();

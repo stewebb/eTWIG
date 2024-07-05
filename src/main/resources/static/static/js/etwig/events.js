@@ -207,7 +207,7 @@ function getEventInfo(datePickersMap){
 			$('#eventByMonthDay').val(rule.options.bymonthday);
 				
 			// Display the rule.
-			$('#eventRRuleDiscription').text(rule.toText());
+			$('#eventRRuleDescription').text(rule.toText());
 		
 			// Recursion mode.
 			setRecurrentMode(true);
@@ -252,19 +252,25 @@ function getEventInfo(datePickersMap){
                 }
             },
             "columns": [
-				{ "data": "id", "orderable": false},
-				{ "data": "assetId", "orderable": false, "render": assetRender},
-                { "data": "requestTime", "orderable": false, "render": dateWeekRender},
-				{ "data": "approved", "orderable": false, "render": approvalStatusRender},
-                //{ "data": "expectDate", "orderable": false},
-                //{ "data": "requesterName", "orderable": false},
-				//{ "data": "requestTime", "orderable": false},
-				//{ "data": "requestComment", "orderable": false},
-				//
-				//{ "data": "approverName", "orderable": false},
-				//{ "data": "responseTime", "orderable": false},
-				//{ "data": "responseComment", "orderable": false},
-				//
+				{ "data": "id", "orderable": false },
+				{ 
+					"data": "assetId", 
+					"orderable": false, 
+					"render": function (data, type, row){
+						return (data == undefined || data == null) ? 'N/A' : `<img src="/assets/content.do?assetId=${data}" class="table-img">`;
+					} 
+				},
+                { "data": "requestTime", "orderable": false, "render": dateWeekRender },
+				{ "data": "approved", "orderable": false, "render": approvalStatusRender },
+				{ 
+					"orderable" : false,
+					"mRender": function (data, type, row){
+						return `
+							<a href="${$('#eventBannerRequestLink').val()}?requestId=${row.id}" class="btn btn-outline-primary btn-sm">
+								<i class="fa-solid fa-eye"></i>&nbsp;View
+							</a>`;
+					}
+				}
             ]
         });
 
@@ -456,18 +462,9 @@ function addEvent(){
 	
 	// Current mode, -1 -> Copy 0 -> Add, 1-> Edit
 	var mode = parseInt($('#isEdit').val());
-	console.log(mode)
 
 	// Mode in string
-	var modeStr;
-	if(mode < 0){
-		modeStr = "copy";
-	} else if(mode == 0){
-		modeStr = "add";
-	} else{
-		modeStr = "edit";
-	}
-
+	var modeStr = (mode == 0) ? "add" : "edit";
 	var isEdit = mode > 0;
 	newEventObj["isEdit"] = isEdit;
 	
@@ -479,10 +476,8 @@ function addEvent(){
 	var eventName = $.trim($('#eventName').val());
 	if(eventName.length == 0){
 		warningPopup("Event name is required.");
-		//$('#eventName').addClass('is-invalid');
 		return;
 	}
-	//$('#eventName').removeClass('is-invalid');
 	newEventObj["name"] = eventName;
 	
 	// Event location
@@ -998,7 +993,7 @@ function eventListTable() {
 		"language": {
             "searchPlaceholder": "Event Name",
         },
-		"order": [[0, "desc"]],
+		"order": [[4, "desc"]],
 		"ajax": {
 			"url": "/api/event/list",
 			"type": "GET",
@@ -1032,12 +1027,12 @@ function eventListTable() {
 					}
 
 					else {
-						return `<span class="badge badge-danger">No</span>`;
+						return `<span class="badge badge-secondary">No</span>`;
 					}
 
 				} 
 			},
-			{ "data": "startTime", "render": dateWeekRender },
+			{ "data": "startTime", "render": dateWeekWithBadgeRender },
 			{ 
 				"data": "duration" ,
 				"render": function(data, type, row) {
@@ -1053,7 +1048,6 @@ function eventListTable() {
 			{
 				// Action
 				"mRender": function (data, type, row) {
-					//var disabledStr = full.canDelete ? '' : 'disabled';
 					return `
 						<a href="${$('#editEventLink').val()}?eventId=${row.id}" class="btn btn-outline-primary btn-sm">
 							<i class="fa-solid fa-circle-info"></i>&nbsp;Details
