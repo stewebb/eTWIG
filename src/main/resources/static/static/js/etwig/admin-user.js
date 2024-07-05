@@ -53,9 +53,14 @@ function userListTable() {
                 }
             },
             {
-                "data": null,
                 "orderable": false,
-                "defaultContent": "<button class='btn btn-outline-primary btn-sm'>Action</button>"
+                "mRender": function(data, type, row) {
+                    return `
+                        <a class='btn btn-outline-primary btn-sm' href='${$('#userDetailsLink').val()}?userId=${row.userId}'>
+                            <i class="fa-solid fa-user-pen"></i>&nbsp;Details
+                        </a>
+                    `;
+                }
             }
         ]
     });

@@ -14,12 +14,15 @@
 <head>
 
 	<#include "../_includes/header/head.ftl">
-	<title>User Management - ${app.appName}</title>
+	<title>User Details - ${app.appName}</title>
 </head>
 
 <body class="hold-transition layout-top-nav">
 	
+	<#--
 	<input type="hidden" id="userDetailsLink" value="${ENDPOINTS.ADMIN_USER_DETAILS}"> 
+	-->
+
 	<#include "../_includes/header/body_start.ftl">
 	
 	<#-- Main Wrapper -->
@@ -36,14 +39,14 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1 class="bold-text">User and Position Management</h1>
+							<h1 class="bold-text">User and Position Details: </h1>
 						</div>
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
-								<li class="breadcrumb-item active">
-									<a href="${ENDPOINTS.ADMIN_USER_LIST}">User</a>&nbsp|&nbsp
-									<a href="${ENDPOINTS.ADMIN_PORTFOLIO_LIST}">Portfolio</a>
+								<li class="breadcrumb-item">
+									<a href="${ENDPOINTS.ADMIN_USER_LIST}">User</a>
 								</li>
+								<li class="breadcrumb-item active">active</li>
 							</ol>
 						</div>
 					</div>
@@ -56,6 +59,7 @@
 				<div class="container-fluid">
 
 					<#-- User List -->
+					<#--
 					<div class="card card-primary card-outline mb-3">
 						<div class="card-header">
 							<h3 class="card-title">
@@ -87,6 +91,7 @@
 						</div>
 
 					</div>
+					-->
 					<#-- /User List -->
 
 					<#-- Add User -->
@@ -170,12 +175,13 @@
 								<#-- /Col 1: User Details -->
 
 								<#-- Col 2: Position Information -->
+								<#--
 								<div class="col-md-6">
 									<h5 class="mb-3 bold-text text-primary">
 										<i class="fa-solid fa-user-tag"></i>&nbsp;Initial Position
 									</h5>
 
-									<#-- eTWIG Role -->
+									-- eTWIG Role --
 									<div class="form-group row">
 										<label for="userSystemRole" class="col-lg-3 col-form-label">eTWIG Role</label>
 										<div class="col-lg-9">
@@ -194,9 +200,9 @@
 											<small class="form-text text-muted">The role used in eTWIG system.</small>
 										</div>
 									</div>
-									<#-- /eTWIG Role -->
+									-- /eTWIG Role --
 
-									<#-- Portfolio -->
+									-- Portfolio --
 									<div class="form-group row">
 										<label for="userPortfolio" class="col-lg-3 col-form-label">Portfolio</label>
 										<div class="col-lg-9">
@@ -216,9 +222,9 @@
 											<small class="form-text text-muted">The portfolio assigned by Griffin Hall.</small>
 										</div>
 									</div>
-									<#-- /Portfolio -->		
+									-- /Portfolio --	
 
-									<#-- Portfolio Email -->
+									-- Portfolio Email --
 									<div class="form-group row">
 										<label for="userPortfolioEmail" class="col-lg-3 col-form-label">Portfolio Email</label>
 										<div class="col-lg-9">
@@ -233,9 +239,9 @@
 											<small class="form-text text-muted">Must be a valid email format and up to 63 characters. Must be differeent than any other existing records.</small>
 										</div>
 									</div>
-									<#-- /Portfolio Email -->
+									-- /Portfolio Email -
 
-									<#-- Position -->
+									-- Position --
 									<div class="form-group row">
 										<label for="userPosition" class="col-lg-3 col-form-label">Position</label>
 										<div class="col-lg-9">
@@ -250,16 +256,17 @@
 											<small class="form-text text-muted">Up to 63 characters.</small>
 										</div>
 									</div>
-									<#-- /Position -->
+									-- /Position --
 
-									<#-- Submit -->
+									-- Submit --
 									<button type="button" class="btn btn-outline-primary right-div" onclick="addUser();">
                 						<i class="fa-solid fa-check"></i>&nbsp;
 										<span id="submitText">Submit</span>
                 					</button>
-									<#-- /Submit -->
+									-- /Submit --
 
 								</div>
+								-->
 								<#-- /Col 2: Position Information -->
 								
 							</div>

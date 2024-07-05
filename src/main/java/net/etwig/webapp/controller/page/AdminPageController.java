@@ -39,9 +39,24 @@ public class AdminPageController {
         return "admin/user_list";
     }
 
+    /**
+     * Serves the page for listing portfolios in the administrative section.
+     * This method is accessible only to users with the 'ROLE_ADMIN' authority,
+     * ensuring that sensitive data is managed by authorized personnel only.
+     *
+     * @return The path to the portfolio list view within the admin directory.
+     * @location /admin/portfolioList.do
+     * @permission Site administrators only.     */
+
     @GetMapping("/portfolioList.do")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public String portfolioList(){
         return "admin/portfolio_list";
+    }
+
+    @GetMapping("/userDetails.do")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public String userDetails(){
+        return "admin/user_details";
     }
 }

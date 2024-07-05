@@ -9,8 +9,9 @@ public class Endpoints {
 
     // Admin
     private final String ADMIN                      = "/admin/";
-    private final String ADMIN_USER_LIST            = "/admin/userList.do";
     private final String ADMIN_PORTFOLIO_LIST       = "/admin/portfolioList.do";
+    private final String ADMIN_USER_DETAILS         = "/admin/userDetails.do";
+    private final String ADMIN_USER_LIST            = "/admin/userList.do";
 
     // Assets
     private final String ASSETS                     = "/assets/";
@@ -34,8 +35,8 @@ public class Endpoints {
     private final String GRAPHICS                   = "/graphics/";
     private final String GRAPHICS_APPROVAL_DETAILS  = "/graphics/approvalDetails.do";
     private final String GRAPHICS_APPROVAL_LIST     = "/graphics/approvalList.do";
-    private final String GRAPHICS_SUMMARY_LIST      = "/graphics/summaryList.do";
     private final String GRAPHICS_SUMMARY_DETAILS   = "/graphics/summaryDetails.do";
+    private final String GRAPHICS_SUMMARY_LIST      = "/graphics/summaryList.do";
 
     // User
     private final String USER                       = "/user/";
