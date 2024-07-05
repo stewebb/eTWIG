@@ -166,6 +166,29 @@ function addUser() {
     });
 }
 
+/**
+ * Collects user details from the form, validates them, and sends an AJAX request to update the user information.
+ * This function constructs an object with user details and performs client-side validation for each field:
+ * - Ensures the full name is provided.
+ * - Validates the email address format.
+ * - Checks password complexity if a password is provided.
+ * If validation passes, it sends a POST request to update the user details.
+ *
+ * The function displays warnings for validation errors and notifies the user of the operation's success or failure.
+ * 
+ * Fields collected and validated:
+ * - userId: Extracted from the DOM element with ID 'userId'.
+ * - userFullName: Must not be empty. Extracted from the DOM element with ID 'userFullName'.
+ * - userEmail: Validated against a standard email pattern. Extracted from the DOM element with ID 'userEmail'.
+ * - userPassword: Optionally validated for complexity. Extracted from the DOM element with ID 'userPassword'.
+ *
+ * On success, it displays a message indicating whether the password was changed and reloads the page.
+ * On failure, it shows an error message with details about the failure.
+ *
+ * Usage:
+ * This function is intended to be called when a form is submitted for updating user details.
+ */
+
 function updateUserDetails() {
     var userObj = {};
 
@@ -199,8 +222,6 @@ function updateUserDetails() {
     }
     userObj["userPassword"] = userPassword;
 
-    console.log(userObj);
-
     // Submit
     $.ajax({
         url: '/api/user/edit', 
@@ -210,16 +231,8 @@ function updateUserDetails() {
         success: function (result) {
 
             // Backend return true indicates changed password.
-            successPopup("User added successfully with password <b>" + result ? "changed" : "unchanged" + "</b>.")
+            successPopup("User added successfully with password <i>" + (result ? "changed" : "unchanged") + "</i>.")
             setTimeout(function() { window.location.reload();}, 2500);
-    
-            
-            //if(result) {
-            //    successPopup("User added successfully.")
-            //    setTimeout(function() { window.location.reload();}, 2500);
-            // } else {
-            //    dangerPopup("Failed to add user" , "User email already exists.");
-            //}
         },
             error: function (err) {
             dangerPopup("Failed to add user due to a HTTP " + err.status + " error.", err.responseJSON.exception);

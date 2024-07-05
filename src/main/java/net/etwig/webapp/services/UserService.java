@@ -196,6 +196,21 @@ public class UserService {
         return user.map(CurrentUserBasicInfoDTO::new).orElse(null);
     }
 
+    /**
+     * Updates user details based on the provided map of user information. This method
+     * finds the user by ID, updates their name and email, and conditionally updates the password if provided and non-blank.
+     * The user's password is encrypted before being stored if it is updated.
+     *
+     * @param userInfo A map containing user details such as userId, userFullName, userEmail, and userPassword.
+     *                 The userId is used to locate the user in the database.
+     *                 - userId: The ID of the user to update.
+     *                 - userFullName: The new full name of the user.
+     *                 - userEmail: The new email of the user.
+     *                 - userPassword: A new password for the user, which will be encrypted if provided.
+     * @return Boolean True if the user's password was updated, otherwise False.
+     * @throws InvalidParameterException If no user exists with the given ID or if any other parameter issues occur.
+     */
+
     public Boolean changeUserDetails (@RequestBody Map<String, Object> userInfo) {
 
         // Step 1: Find the target user

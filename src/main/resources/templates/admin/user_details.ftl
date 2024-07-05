@@ -146,10 +146,31 @@
 
 
 									<#-- Submit -->
+									<#--
 									<button type="button" class="btn btn-outline-primary right-div" onclick="updateUserDetails();">
                 						<i class="fa-solid fa-check"></i>&nbsp;
 										<span id="submitText">Submit</span>
                 					</button>
+									-->
+									<#-- /Submit -->
+
+									<#-- Submit -->
+									<div class="d-flex justify-content-between" role="group">
+
+										<a class="btn btn-outline-secondary" href="${ENDPOINTS.ADMIN_USER_LIST}">
+											<i class="fa-regular fa-arrow-left"></i>&nbsp;Back to list
+										</a>
+										
+										<#--
+										<button type="button" class="btn btn-outline-danger confirm-btn" data-action='{"functionName": "removeBannerRequest", "params": [${requestInfo.id}]}'>
+											<i class="fa-solid fa-trash"></i>&nbsp;Delete
+										</button>
+										-->
+
+										<button type="button" class="btn btn-outline-primary" onclick="updateUserDetails();">
+											<i class="fa-regular fa-check"></i>&nbsp;Submit
+										</button>
+									</div>
 									<#-- /Submit -->
 								
 								<#-- /Col 1: User Details -->

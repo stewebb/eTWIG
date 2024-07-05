@@ -59,9 +59,17 @@ public class UserAPIController {
 	}
 
 	/**
-	 * Edit a user
+	 * Handles the POST request to edit a user's details through the exposed API endpoint.
+	 * This method is secured with authorization to ensure that only users with 'ROLE_ADMIN' authority can
+	 * perform user edits. It delegates the actual data handling to the userService's changeUserDetails method.
+	 *
+	 * @param userInfo A map containing key-value pairs of user information that needs to be updated. This map
+	 *                 is expected to include user details such as userId, userFullName, userEmail, and potentially
+	 *                 a new userPassword if a password change is intended.
+	 * @return The result of the userService.changeUserDetails method, typically indicating the success
+	 *         of the operation or providing additional information about any errors or changes made.
 	 * @location /api/user/edit
-	 * @permission Site administrators only/
+	 * @permission Only accessible by site administrators with 'ROLE_ADMIN' authority.
 	 */
 
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
