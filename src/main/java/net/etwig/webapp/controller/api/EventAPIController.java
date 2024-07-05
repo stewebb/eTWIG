@@ -149,6 +149,7 @@ public class EventAPIController {
     /**
      * Create one or multiple events bulky by importing from a file.<br>
      * The file must be in the Microsoft Excel Spreadsheet (*.xlsx) and OpenDocument Spreadsheet (*.ods) format.
+     *
      * @param file The imported file data
      * @param role The current role of the user
      * @return Success message if event imported.
@@ -158,7 +159,7 @@ public class EventAPIController {
 
     @PreAuthorize("hasAuthority('ROLE_EVENTS')")
     @PostMapping(value = "/import")
-    public Map<String, Object> importEvents(@RequestParam("file") MultipartFile file) throws Exception {
+    public Map<Long, String> importEvents(@RequestParam("file") MultipartFile file) throws Exception {
 
         // Null check
         if(file == null || file.isEmpty()) {
@@ -178,9 +179,9 @@ public class EventAPIController {
         // webReturn.put("result", eventService.importEvents(file));
         //return webReturn;
 
-        eventService.importEvents(file);
+        return eventService.importEvents(file);
 
-        return null;//eventService.importEvents(file);
+        //return null;//eventService.importEvents(file);
     }
 
     /**

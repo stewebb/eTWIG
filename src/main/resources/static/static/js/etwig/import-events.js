@@ -10,7 +10,7 @@ function importEvents(){
 
 	// Add file and role
   	data.append('file', file);
-	data.append('role', parseInt($('#uploaderRole').find(":selected").val()));
+	//data.append('role', parseInt($('#uploaderRole').find(":selected").val()));
 
   	$.ajax({
 		type: 'POST',
@@ -19,12 +19,14 @@ function importEvents(){
     	contentType: false,
     	processData: false,
     	success: function(result) {
-			if (result.error > 0) {
-				dangerPopup("Failed to import events", result.msg);
-			}
 
-			else{ 
-				jQuery.each(result.result, function(rowNum, result) {
+			//console.log(result);
+			//if (result.error > 0) {
+			//	dangerPopup("Failed to import events", result.msg);
+			//}
+
+			//else{ 
+				jQuery.each(result, function(rowNum, result) {
 
 					var textColor = (result == null) ? 'success' : 'danger';
 					var result = (result == null) ? 'Import successfully' : ('Import failed: ' + result);
@@ -33,7 +35,7 @@ function importEvents(){
 						<tr><td>${rowNum}</td><td class="text-${textColor}">${result}</td></tr>
 					`);
 				});
-			}
+			//}
 
 			$('#uploadFileBtn').attr('disabled', true);
 		},

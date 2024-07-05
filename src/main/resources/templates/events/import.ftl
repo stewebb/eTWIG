@@ -270,6 +270,7 @@
 
 	<script src="/static/js/etwig/import-events.js?ver=${app.appVersion}"></script>
 
+	<#--
 	<script>
 		$('.select2bs4').select2({
       		theme: 'bootstrap4'
@@ -280,5 +281,6 @@
   			$("#uploaderRole").append('<option value="' + myPositions[key].userRoleId + '">' + myPositions[key].position + ', ' + myPositions[key].portfolioName + '</option>');
 		}
 	</script>
+	-->
 </body>
 </html>

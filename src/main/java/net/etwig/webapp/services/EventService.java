@@ -290,22 +290,23 @@ public class EventService {
 		eventRepository.deleteById(eventId);
 	}
 
-	public Map<Integer, String> importEvents(MultipartFile file) throws Exception {
+	// TODO permission check
 
-		Map<Integer, String> status = new HashMap<>();
+	public Map<Long, String> importEvents(MultipartFile file) throws Exception {
+		Map<Long, String> status = new HashMap<>();
 
-		//Map<Integer, String> events = new HashMap<>();
-		//int recordCount = 0;
+		// Attempt to read and parse the CSV file
+		Reader reader = new BufferedReader(new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8));
+		Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().withTrim().parse(reader);
 
-		try (Reader reader = new BufferedReader(new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))) {
-			Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().withTrim().parse(reader);
-
-			for (CSVRecord record : records) {
-				long recordNumber = record.getRecordNumber();
+		for (CSVRecord record : records) {
+			//System.out.println(record);
+			long rowNumber = record.getRecordNumber();
+			try {
 
 				// Event name (must not empty)
 				String name = record.get("Name");
-				if(name == null || name.isEmpty()){
+				if (name == null || name.isEmpty()) {
 					throw new IllegalArgumentException("Event name must not be empty.");
 				}
 
@@ -314,7 +315,7 @@ public class EventService {
 				String description = record.get("Description");
 
 				// All Day Event option (convert to Boolean)
-				Boolean allDayEvent =  BooleanUtils.toBoolean(record.get("AllDayEvent"));
+				boolean allDayEvent = BooleanUtils.toBoolean(record.get("AllDayEvent"));
 
 				// Event start date time
 				LocalDateTime startDateTime = DateUtils.safeParseDateTime(record.get("StartDateTime"), "yyyy-MM-dd HH:mm:ss");
@@ -323,49 +324,49 @@ public class EventService {
 				}
 
 				// Event end date time
-				LocalDateTime endDateTime =  DateUtils.safeParseDateTime(record.get("EndDateTime"), "yyyy-MM-dd HH:mm:ss");
+				LocalDateTime endDateTime = DateUtils.safeParseDateTime(record.get("EndDateTime"), "yyyy-MM-dd HH:mm:ss");
 				if (endDateTime == null) {
 					throw new IllegalArgumentException("Event end datetime is invalid.");
 				}
 
+				// Set time to midnight for all-day events.
+				if (allDayEvent) {
+					startDateTime = startDateTime.toLocalDate().atStartOfDay();
+					endDateTime = endDateTime.toLocalDate().atStartOfDay();
+				}
+
 				// Event duration check (must be a positive number)
-				if (Duration.between(startDateTime, endDateTime).getSeconds() <= 0) {
+				long durationSeconds = Duration.between(startDateTime, endDateTime).getSeconds();
+				if (durationSeconds < 60) {
 					throw new IllegalArgumentException("The end time must after start time.");
 				}
 
-				// Create a new object for event
-
+				// Create a new object for event entity
 				Event event = new Event();
-
-				// Basic info
-				event.setName(this.name);
-				event.setLocation(this.location);
-				event.setDescription(this.description);
-				event.setUserRoleId(this.organizerRole);
+				event.setName(name);
+				event.setLocation(location);
+				event.setDescription(description);
+				event.setUserRoleId(userSessionService.validateSession().getPosition().getMyCurrentPositionId());
 				event.setCreatedTime(LocalDateTime.now());
 				event.setUpdatedTime(LocalDateTime.now());
-
-				// Timing
-				event.setAllDayEvent(this.allDayEvent);
-				event.setStartTime(startDateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
-				event.setDuration(this.duration);
+				event.setAllDayEvent(allDayEvent);
+				event.setStartTime(startDateTime);
+				event.setDuration((int) (durationSeconds / 60));
 				event.setRecurring(false);
 
-					// Here you could create a data model object and save it to a database
-					// For now, just print it to System.out for example purposes
-					//System.out.println("Event: " + name + ", Location: " + location);
-
-					// Storing some unique value for each record for the return value
-					// Perhaps you could return a summary or a confirmation ID
-					//events.put(recordCount++, name + " at " + location);
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-				//throw new Exception("Failed to parse the CSV file.", e);
+				// Save the new event into DB.
+				eventRepository.save(event);
+				status.put(rowNumber, null);
 			}
-		//System.out.println(events);
-			return null;
+
+			// Record any errors and return them to frontend.
+			catch (Exception e) {
+				status.put(rowNumber, e.getMessage());
+			}
 		}
 
+		//System.out.println(status);
+		return status;
+	}
 
 }
