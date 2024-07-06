@@ -239,3 +239,62 @@ function updateUserDetails() {
         }
     });
 }
+
+$(document).ready(function() {
+    // Delegate event handling to the specific table only
+    $('#userRolesTable').on('click', '.unlock-btn', function() {
+        toggleEditState(this, true);
+    });
+
+    $('#userRolesTable').on('click', '.edit-btn', function() {
+        toggleEditState(this, false);
+        let tr = $(this).closest('tr');
+        editUserRole(tr);
+    });
+});
+
+function toggleEditState(button, editingEnabled) {
+    let tr = $(button).closest('tr');
+    tr.find('input, select').prop('disabled', !editingEnabled);
+    if (editingEnabled) {
+        $(button).html('<i class="fa-solid fa-pen"></i>&nbsp;Edit').removeClass('unlock-btn').addClass('edit-btn');
+    } else {
+        $(button).html('<i class="fa-solid fa-unlock"></i>&nbsp;Unlock').removeClass('edit-btn').addClass('unlock-btn');
+    }
+}
+
+// Send data to the server
+function editUserRole(tr) {
+    let data = {
+        id: tr.find('td:first').text(),
+        position: tr.find('input[type=text]').val(),
+        portfolioId: tr.find('select:first').val(),
+        portfolioEmail: tr.find('input[type=text]:last').val(),
+        roleId: tr.find('select:last').val()
+    };
+
+    // Validate input
+    if(data.position.length == 0){
+		warningPopup("User position name is required.");
+		return;
+	}
+
+    if (!emailCheck(data.portfolioEmail)) {
+        warningPopup("Portfolio email address is invalid.");
+        return;
+    } 
+
+    console.log(data);
+
+    $.ajax({
+        url: '/updateRoleDetails', // Adjust URL to your actual endpoint
+        method: 'POST',
+        data: data,
+        success: function(response) {
+            alert('Changes saved successfully!');
+        },
+        error: function() {
+            alert('Error saving changes.');
+        }
+    });
+}

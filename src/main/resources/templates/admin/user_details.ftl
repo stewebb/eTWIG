@@ -186,7 +186,7 @@
 									</h5>
 
 									<div class="table-responsive">
-										<table class="display table table-hover table-striped" width="100%">
+										<table id="userRolesTable" class="display table table-hover table-striped" width="100%">
 											<thead>
 												<tr>
 													<th>Role ID</th>
@@ -201,45 +201,53 @@
 												<#list selectedUserRoles as role>
 													<tr>
 														<td>${role.id}</td>
-														<td><input type="text" class="form-control" id="userPosition-${role.id}" placeholder="Arts Rep" maxlength="63" value="${role.position}"></td>
+														
+														<#-- Position /-->
+														<td><input type="text" class="form-control" id="userPosition-${role.id}" placeholder="Arts Rep" maxlength="63" value="${role.position}" disabled></td>
+														
+														<#-- Portfolio Name -->
 														<td>
-														<#--
-														${role.portfolio.name}
-														-->
-															<select class="form-control select2 select2bs4" id="userPortfolio-${role.id}">
+															<select class="form-control select2 select2bs4" id="userPortfolio-${role.id}" disabled>
 																<#list portfolios as portfolio>
-																	<option value="${portfolio.id}" <#if role.portfolioId = portfolio.id>selected</#if>>
+																	<option value="${portfolio.id}" <#if role.portfolioId == portfolio.id>selected</#if>>
 																		${portfolio.name}												
 																	</option>
 																</#list>
       														</select>
-														
 														</td>
-														<td><input type="text" class="form-control" id="userPortfolioEmail-${role.id}" placeholder="me@example.com" maxlength="63" value="${role.email}"></td>
+														<#-- /Portfolio Name -->
+
+														<#-- Portfolio Email /-->
+														<td><input type="text" class="form-control" id="userPortfolioEmail-${role.id}" placeholder="me@example.com" maxlength="63" value="${role.email}" disabled></td>
+														
+														<#-- eTWIG Role -->
 														<td>
-														<#--
-														${role.role.name}
-														-->
-															<select class="form-control select2bs4" id="userSystemRole-${role.id}">
-																<option value="1" <#if role.roleId = 1>selected</#if>>Event Manager</option>
-																<option value="2" <#if role.roleId = 2>selected</#if>>Graphics Manager</option>
-																<option value="3" <#if role.roleId = 3>selected</#if>>Administrator</option>
+															<select class="form-control select2bs4" id="userSystemRole-${role.id}" disabled>
+																<option value="1" <#if role.roleId == 1>selected</#if>>Event Manager</option>
+																<option value="2" <#if role.roleId == 2>selected</#if>>Graphics Manager</option>
+																<option value="3" <#if role.roleId == 3>selected</#if>>Administrator</option>
 															</select>	
 														</td>
+														<#-- /eTWIG Role -->
+
+														<#-- Actions -->
 														<td>
 															<div class="btn-group">
-															<button type="button" class="btn btn-outline-primary btn-sm">
-																<i class="fa-solid fa-pen"></i>&nbsp;Update
+															<button type="button" class="btn btn-outline-primary btn-sm unlock-btn">
+																<i class="fa-solid fa-unlock"></i>&nbsp;Unlock
 															</button>
 															<button type="button" class="btn btn-outline-danger btn-sm">
 																<i class="fa-solid fa-trash"></i>&nbsp;Detete
 															</button>
 														</div>
 														</td>
+														<#-- /Actions -->
+
 													</tr>
 												</#list>
 											</tbody>
 										</table>
+
 									</div>
 									<#-- /User Role List -->
 

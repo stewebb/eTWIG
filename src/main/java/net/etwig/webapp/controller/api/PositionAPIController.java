@@ -1,12 +1,12 @@
 package net.etwig.webapp.controller.api;
 
 import net.etwig.webapp.dto.user.CurrentUserPositionDTO;
+import net.etwig.webapp.services.UserRoleService;
 import net.etwig.webapp.services.UserSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/position/")
@@ -15,13 +15,16 @@ public class PositionAPIController {
     @Autowired
     private UserSessionService userSessionService;
 
+    @Autowired
+    private UserRoleService userRoleService;
+
     @GetMapping("/add")
     public Object add(@RequestParam Long eventId) {
         return null;
     }
 
     @GetMapping("/edit")
-    public Object edit(@RequestParam Long eventId) {
+    public Object edit(@RequestBody Map<String, Object> payload) {
         return null;
     }
 

@@ -9,6 +9,7 @@
 
 package net.etwig.webapp.services;
 
+import java.util.Map;
 import java.util.Set;
 
 import net.etwig.webapp.dto.user.CurrentUserPositionDTO;
@@ -26,6 +27,7 @@ import net.etwig.webapp.model.User;
 import net.etwig.webapp.model.UserRole;
 import net.etwig.webapp.repository.UserRepository;
 import net.etwig.webapp.repository.UserRoleRepository;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class UserRoleService implements UserDetailsService {
@@ -132,4 +134,28 @@ public class UserRoleService implements UserDetailsService {
         return true;
     }
 
+    public void updateUserRole(@RequestBody Map<String, Object> payload) {
+        /**
+         * id: tr.find('td:first').text(),
+         *         position: tr.find('input[type=text]').val(),
+         *         portfolioId: tr.find('select:first').val(),
+         *         portfolioEmail: tr.find('input[type=text]:last').val(),
+         *         roleId: tr.find('select:last').val()
+         */
+
+        // Step 1: Check if the given user role exists.
+        Long id = Long.parseLong(payload.get("id").toString());
+        UserRole userRole = findById(id);
+        if(userRole == null) {
+            throw new InvalidParameterException("User Role with id=" + id + " does not exist!");
+        }
+
+        // Step 2: Update user role data
+        userRole.setPosition(payload.get("position").toString());
+        userRole.setEmail(payload.get("portfolioEmail").toString());
+        userRole.setPortfolioId(Long.parseLong(payload.get("portfolioId").toString()));
+        userRole.setRoleId(Long.parseLong(payload.get("roleId").toString()));
+
+        userRoleRepository.save(userRole);
+    }
 }
