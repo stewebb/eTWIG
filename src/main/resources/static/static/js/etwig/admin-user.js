@@ -286,15 +286,27 @@ function editUserRole(tr) {
 
     console.log(data);
 
+    // Submit
     $.ajax({
-        url: '/updateRoleDetails', // Adjust URL to your actual endpoint
-        method: 'POST',
-        data: data,
-        success: function(response) {
-            alert('Changes saved successfully!');
+        url: '/api/position/edit', 
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(data),
+        success: function () {
+
+            successPopup("User role updated successfully.");
+            setTimeout(function() { window.location.reload();}, 2500);
+
+            // Backend return true indicates successfully add.
+            //if(result) {
+            //    successPopup("User added successfully.")
+            //    setTimeout(function() { window.location.reload();}, 2500);
+            //} else {
+            //    dangerPopup("Failed to add user" , "User email already exists.");
+            //}
         },
-        error: function() {
-            alert('Error saving changes.');
+            error: function (err) {
+            dangerPopup("Failed to update user role due to a HTTP " + err.status + " error.", err.responseJSON.exception);
         }
     });
 }

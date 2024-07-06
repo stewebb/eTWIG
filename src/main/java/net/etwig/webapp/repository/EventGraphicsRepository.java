@@ -36,6 +36,7 @@ public interface EventGraphicsRepository extends JpaRepository<EventGraphics, Lo
 	 *         organized according to the provided {@code Pageable} object.
 	 */
 
+	/*
 	@Query("SELECT new net.etwig.webapp.dto.graphics.EventGraphicsAPIForSummaryPageDTO(" +
 			"e.id, e.name, e.startTime, " +                                    // Events
 			"SUM(CASE WHEN g.banner = FALSE THEN 1 ELSE 0 END), " +            // Count of graphics
@@ -45,6 +46,17 @@ public interface EventGraphicsRepository extends JpaRepository<EventGraphics, Lo
 			"FROM Event e " +
 			"LEFT JOIN EventGraphics g ON e.id = g.eventId " +
 			"LEFT JOIN BannerRequest b ON g.eventId = b.eventId " +
+			"GROUP BY e.id")
+	Page<EventGraphicsAPIForSummaryPageDTO> eventGraphicsList(Pageable pageable);
+	 */
+
+	@Query("SELECT new net.etwig.webapp.dto.graphics.EventGraphicsAPIForSummaryPageDTO(" +
+			"e.id, e.name, e.startTime, " +
+			"(SELECT COUNT(g) FROM EventGraphics g WHERE g.event.id = e.id AND g.banner = FALSE), " +
+			"(SELECT COUNT(g) FROM EventGraphics g WHERE g.event.id = e.id AND g.banner = TRUE), " +
+			"(SELECT MAX(g.uploadTime) FROM EventGraphics g WHERE g.event.id = e.id), " +
+			"(SELECT COUNT(b) FROM BannerRequest b WHERE b.event.id = e.id AND b.approved IS NULL)) " +
+			"FROM Event e " +
 			"GROUP BY e.id")
 	Page<EventGraphicsAPIForSummaryPageDTO> eventGraphicsList(Pageable pageable);
 

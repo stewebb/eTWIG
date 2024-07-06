@@ -182,7 +182,7 @@ function twigComponentCountRender(data, type, row) {
  */
 
 function bannerCountRender(data, type, row) {
-    return `<span class="text-${(data > 0) ? "primary" : "info"} bold-text">${data}</span> `;
+    return `<span class="text-${(data > 0) ? "primary" : "secondary"} bold-text">${data}</span> `;
 }
 
 /**

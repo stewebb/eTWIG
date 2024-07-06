@@ -4,6 +4,7 @@ import net.etwig.webapp.dto.user.CurrentUserPositionDTO;
 import net.etwig.webapp.services.UserRoleService;
 import net.etwig.webapp.services.UserSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -23,9 +24,10 @@ public class PositionAPIController {
         return null;
     }
 
-    @GetMapping("/edit")
-    public Object edit(@RequestBody Map<String, Object> payload) {
-        return null;
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PostMapping("/edit")
+    public void edit(@RequestBody Map<String, Object> payload) {
+        userRoleService.updateUserRole(payload);
     }
 
     @GetMapping("/view")

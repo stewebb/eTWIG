@@ -132,7 +132,7 @@
 
 									<#-- Submit -->
 									<div class="d-flex justify-content-between" role="group">
-										<a class="btn btn-outline-secondary" href="/graphics/eventList.do">
+										<a class="btn btn-outline-secondary" href="${ENDPOINTS.GRAPHICS_SUMMARY_LIST}">
 											<i class="fa-regular fa-arrow-left"></i>&nbsp;Back to list
 										</a>
 

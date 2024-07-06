@@ -62,7 +62,7 @@
 					<div class="row col-12">
 
 						<#-- Col 1: Edit User -->
-						<div class="col-md-6">
+						<div class="col-xl-4">
 
 							<div class="card card-primary card-outline">
 								<div class="card-header">
@@ -169,7 +169,7 @@
 						<#-- / Col 1: Add User -->
 
 						<#-- Col 2: Edit Role(s) -->
-						<div class="col-md-6">
+						<div class="col-xl-8">
 
 							<div class="card card-primary card-outline">
 								<div class="card-header">
@@ -182,7 +182,7 @@
 
 									<#-- User Role List -->
 									<h5 class="mb-3 bold-text text-primary">
-										<i class="fa-solid fa-map-pin"></i>&nbsp;Basic
+										<i class="fa-solid fa-list"></i>&nbsp;List
 									</h5>
 
 									<div class="table-responsive">
