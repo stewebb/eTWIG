@@ -152,62 +152,30 @@ public class UserPageController {
 	 * @throws IllegalStateException If the user session cannot be initialized.
 	 */
 
+	/*
 	@GetMapping("/referrerLogin.do")
 	public String referrerLogin(Model model, @RequestParam String token, HttpServletRequest request, HttpServletResponse response) {
 
-		// TODO Use a boolean instead of status code in service layer
 		String userEmail = userSessionService.referrerLogin(token, request.getHeader("Referer"));
-
+		System.out.println(userEmail);
+		//System.out.println(123);
 
 		// Load user details using username
 		UserDetails userDetails = userRoleService.loadUserByUsername(userEmail);
+
+		//System.out.println(123);
 		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
 		        userDetails, null, userDetails.getAuthorities());
 
+		//System.out.println("abc");
+		System.out.println(authentication);
 		// Set the authentication in the security context
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
 		// Manual invocation of remember-me service
 		rememberMeService.loginSuccess(request, response, authentication);
-		/*
-
-		// Only allow a specific referrer
-		String referrer = request.getHeader("Referer");
-		if (referrer != null && referrer.startsWith(config.getTrustedReferrer())) {
-
-			// Decode encoded String
-			byte[] decodedBytes = Base64.getDecoder().decode(token);
-			String decodedStr = new String(decodedBytes);
-
-			try {
-				ObjectMapper objectMapper = new ObjectMapper();
-				LoginToken loginToken = objectMapper.readValue(decodedStr, LoginToken.class);
-
-				// Check user info
-				userSessionService.initializeSession(loginToken.getUserEmail());
-
-				// Redirect to mainpage
-				HttpHeaders headers = new HttpHeaders();
-				headers.add("Location", "/home.do");
-				return new ResponseEntity<>(headers, HttpStatus.FOUND);
-
-			}
-
-			// JSON failed to parse or user cannot be found.
-			catch (JsonProcessingException | IllegalStateException e) {
-				e.printStackTrace();
-				return ResponseEntity.status(401).body("Login Failed: Token is invalid or expired.");
-			}
-		}
-
-		// Otherwise, return 401 Unauthorized.
-		else {
-			return ResponseEntity.status(401).body("Login Failed: The referrer is not allowed.");
-		}
-
-
-		 */
-
-		return userEmail;
+		return "user/referrerLogin";
     }
+
+	 */
 }

@@ -86,9 +86,12 @@ public class SecurityConfig {
 				"/static/**",
 				"/api/public/**",
 				"/twig/**",
+				"/error",
 				endpoints.getASSETS_CONTENT(),
-				endpoints.getUSER_REFERRER_LOGIN()
+				//endpoints.getUSER_REFERRER_LOGIN()
 		};
+
+		//System.out.println(endpoints.getUSER_REFERRER_LOGIN());
 
 		// Permit all requests to public pages while securing all other requests.
 		http.authorizeHttpRequests((requests) -> requests

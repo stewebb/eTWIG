@@ -41,11 +41,11 @@ public class UserSessionService {
     @Autowired
     private ConfigFile config;
 
-    @Autowired
-    private UserRoleService userRoleService;
+    //@Autowired
+    //private UserRoleService userRoleService;
 
-    @Autowired
-    private RememberMeService rememberMeService;
+    //@Autowired
+    //private RememberMeService rememberMeService;
 
     /**
      * Initializes a session for a user based on the provided email.
@@ -204,12 +204,13 @@ public class UserSessionService {
         userRepository.save(user);
     }
 
+    /*
     public String referrerLogin(String token, String referrer) {
         try {
 
             // Step 1: Referrer check
             if (referrer == null || !referrer.startsWith(config.getTrustedReferrer())) {
-                return null;
+                //return null;
             }
 
             // Step 2: Decode base64 encoded token
@@ -228,4 +229,6 @@ public class UserSessionService {
             return null;
         }
     }
+
+     */
 }
