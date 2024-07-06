@@ -15,20 +15,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import net.etwig.webapp.config.ConfigFile;
 import net.etwig.webapp.dto.LoginToken;
 import net.etwig.webapp.handler.LoginSuccessHandler;
-import net.etwig.webapp.model.User;
 import net.etwig.webapp.services.UserService;
 import net.etwig.webapp.services.UserSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.http.HttpHeaders;
 
-import java.io.IOException;
 import java.util.Base64;
 
 @Controller
@@ -38,11 +35,11 @@ public class UserPageController {
 	@Autowired
 	private ConfigFile config;
 
-	@Autowired
-	private LoginSuccessHandler successHandler;
+	//@Autowired
+	//private LoginSuccessHandler successHandler;
 
-	@Autowired
-	private UserService userService;
+	//@Autowired
+	//private UserService userService;
 
 	@Autowired
 	private UserSessionService userSessionService;
@@ -120,8 +117,8 @@ public class UserPageController {
 		return null;
 	}
 
-	@Autowired
-	private AuthenticationManager authenticationManager;
+	//@Autowired
+	//private AuthenticationManager authenticationManager;
 
 
 	// Include the warning msg into javadoc

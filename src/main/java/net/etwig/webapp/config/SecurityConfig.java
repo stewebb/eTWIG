@@ -66,16 +66,7 @@ public class SecurityConfig {
 	//@Autowired
 	//private CustomAuthenticationProvider customAuthenticationProvider; // TODO: Inject custom authentication provider
 
-	// Array of paths that should be accessible publicly without authentication.
-	private final String[] publicPages = {
-			endpoints.getHOME(),
 
-			"/static/**",
-			"/api/public/**",
-			"/twig/**",
-			endpoints.getASSETS_CONTENT(),
-			endpoints.getUSER_REFERRER_LOGIN()
-	};
 
 	/**
 	 * Configures the security filter chain that handles HTTP requests to enforce security constraints.
@@ -88,9 +79,20 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
+		// Array of paths that should be accessible publicly without authentication.
+		String[] publicPages = {
+				endpoints.getHOME(),
+
+				"/static/**",
+				"/api/public/**",
+				"/twig/**",
+				endpoints.getASSETS_CONTENT(),
+				endpoints.getUSER_REFERRER_LOGIN()
+		};
+
 		// Permit all requests to public pages while securing all other requests.
 		http.authorizeHttpRequests((requests) -> requests
-				.requestMatchers(this.publicPages).permitAll()
+				.requestMatchers(publicPages).permitAll()
 				.anyRequest().authenticated()
 		);
 

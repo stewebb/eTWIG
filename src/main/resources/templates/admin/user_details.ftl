@@ -59,9 +59,9 @@
 			<#-- Main Content -->
 			<section class="content">
 				<div class="container-fluid">
-
-					<#-- Col 1: Edit User -->
 					<div class="row col-12">
+
+						<#-- Col 1: Edit User -->
 						<div class="col-md-6">
 
 							<div class="card card-primary card-outline">
@@ -144,16 +144,6 @@
 									</div>
 									<#-- /Last Login -->
 
-
-									<#-- Submit -->
-									<#--
-									<button type="button" class="btn btn-outline-primary right-div" onclick="updateUserDetails();">
-                						<i class="fa-solid fa-check"></i>&nbsp;
-										<span id="submitText">Submit</span>
-                					</button>
-									-->
-									<#-- /Submit -->
-
 									<#-- Submit -->
 									<div class="d-flex justify-content-between" role="group">
 
@@ -171,113 +161,64 @@
 											<i class="fa-regular fa-check"></i>&nbsp;Submit
 										</button>
 									</div>
-									<#-- /Submit -->
-								
-								<#-- /Col 1: User Details -->
+									<#-- /Submit -->	
 
-								<#-- Col 2: Position Information -->
-								<#--
-								
+								</div>
+							</div>
+						</div>							
+						<#-- / Col 1: Add User -->
+
+						<#-- Col 2: Edit Role(s) -->
+						<div class="col-md-6">
+
+							<div class="card card-primary card-outline">
+								<div class="card-header">
+									<h3 class="card-title">
+										<i class="fa-solid fa-user-tag"></i>&nbsp;Edit User Role(s)
+									</h3>
+								</div>
+
+								<div class="card-body">
+
+									<#-- User Role List -->
 									<h5 class="mb-3 bold-text text-primary">
-										<i class="fa-solid fa-user-tag"></i>&nbsp;Initial Position
+										<i class="fa-solid fa-map-pin"></i>&nbsp;Basic
 									</h5>
 
-									-- eTWIG Role --
-									<div class="form-group row">
-										<label for="userSystemRole" class="col-lg-3 col-form-label">eTWIG Role</label>
-										<div class="col-lg-9">
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text">
-														<i class="fa-solid fa-key"></i>
-													</span>
-												</div>
-												<select class="form-control select2bs4" id="userSystemRole">
-													<option value="1">Event Manager</option>
-													<option value="2">Graphics Manager</option>
-													<option value="3">Administrator</option>
-												</select>	
-											</div>
-											<small class="form-text text-muted">The role used in eTWIG system.</small>
-										</div>
+									<div class="table-responsive">
+										<table class="display table table-hover table-striped" width="100%">
+											<thead>
+												<tr>
+													<th>Role ID</th>
+													<th>Position</th>
+													<th>Portfolio Name</th>
+													<th>Portfolio Email</th>
+													<th>eTWIG Role</th>
+													<th>Action</th>
+												</tr>
+											</thead>
+											<tbody>
+												<#list selectedUserRoles as role>
+													<tr>
+														<td>${role.id}</td>
+														<td>${role.position}</td>
+														<td>Portfolio Name</td>
+														<td>Portfolio Email</td>
+														<td>eTWIG Role</td>
+														<td>Action</td>
+													</tr>
+												</#list>
+											</tbody>
+										</table>
 									</div>
-									-- /eTWIG Role --
+									<#-- /User Role List -->
 
-									-- Portfolio --
-									<div class="form-group row">
-										<label for="userPortfolio" class="col-lg-3 col-form-label">Portfolio</label>
-										<div class="col-lg-9">
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text">
-														<i class="fa-solid fa-briefcase"></i>
-													</span>
-												</div>
-									
-												<select class="form-control select2 select2bs4" name="userPortfolio" id="userPortfolio">
-        											<#list portfolios as portfolio>
-														<option value="${portfolio.id}">${portfolio.name}												</option>
-													</#list>
-      											</select>
-											</div>
-											<small class="form-text text-muted">The portfolio assigned by Griffin Hall.</small>
-										</div>
-									</div>
-									-- /Portfolio --	
-
-									-- Portfolio Email --
-									<div class="form-group row">
-										<label for="userPortfolioEmail" class="col-lg-3 col-form-label">Portfolio Email</label>
-										<div class="col-lg-9">
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text">
-														<i class="fa-solid fa-envelope"></i>
-													</span>
-												</div>
-												<input type="text" class="form-control" id="userPortfolioEmail" placeholder="me@example.com" maxlength="63">
-											</div>
-											<small class="form-text text-muted">Must be a valid email format and up to 63 characters. Must be differeent than any other existing records.</small>
-										</div>
-									</div>
-									-- /Portfolio Email -
-
-									-- Position --
-									<div class="form-group row">
-										<label for="userPosition" class="col-lg-3 col-form-label">Position</label>
-										<div class="col-lg-9">
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text">
-														<i class="fa-solid fa-user-tie"></i>
-													</span>
-												</div>
-												<input type="text" class="form-control" id="userPosition" placeholder="e.g., Arts Rep" maxlength="63">
-											</div>
-											<small class="form-text text-muted">Up to 63 characters.</small>
-										</div>
-									</div>
-									-- /Position --
-
-									-- Submit --
-									<button type="button" class="btn btn-outline-primary right-div" onclick="addUser();">
-                						<i class="fa-solid fa-check"></i>&nbsp;
-										<span id="submitText">Submit</span>
-                					</button>
-									-- /Submit --
-
-								
-								-->
-								<#-- /Col 2: Position Information -->
-								
-							
+								</div>
+							</div>
 						</div>
-					</div>
-					<#-- /Add User -->
+						<#-- /Col 2: Edit Role(s) -->
 
 					</div>
-					</div>
-
 				</div>
 			</section>
 			<#-- /Main Content -->

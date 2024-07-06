@@ -181,8 +181,6 @@ public class UserAPIController {
 
 		String currentPassword = passwordInfo.get("currentPassword").toString();
 		String newPassword = passwordInfo.get("newPassword").toString();
-
-		// TODO Admin change user's password
 		Long userId = userSessionService.validateSession().getBasicInfo().getId();
 		return userRoleService.changePassword(userId, currentPassword, newPassword);
 	}

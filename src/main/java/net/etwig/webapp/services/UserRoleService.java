@@ -11,6 +11,7 @@ package net.etwig.webapp.services;
 
 import java.util.Set;
 
+import net.etwig.webapp.dto.user.CurrentUserPositionDTO;
 import net.etwig.webapp.util.InvalidParameterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
@@ -50,6 +51,25 @@ public class UserRoleService implements UserDetailsService {
 
     public UserRole findById(@NonNull Long userRoleId) {
         return userRoleRepository.findById(userRoleId).orElse(null);
+    }
+
+    /**
+     * Retrieves the current user's roles based on their user ID and encapsulates
+     * this information in a {@code CurrentUserPositionDTO} object. This method is useful
+     * for identifying all the roles assigned to a specific user, which can then be
+     * used for role-based authorization checks within the application.
+     *
+     * @param userId The unique identifier of the user whose roles are to be fetched.
+     *               This ID must not be {@code null}.
+     * @return A {@code CurrentUserPositionDTO} object containing the roles associated with the given user ID.
+     * @throws IllegalArgumentException if {@code userId} is {@code null}.
+     * @see UserRole
+     * @see CurrentUserPositionDTO
+     */
+
+    public Set<UserRole> findByUserId(Long userId){
+        return userRoleRepository.findByUserId(userId);
+        //return new CurrentUserPositionDTO(userRoles);
     }
 
     /**

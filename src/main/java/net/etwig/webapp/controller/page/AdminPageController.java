@@ -2,6 +2,7 @@ package net.etwig.webapp.controller.page;
 
 import net.etwig.webapp.dto.user.CurrentUserBasicInfoDTO;
 import net.etwig.webapp.services.PortfolioService;
+import net.etwig.webapp.services.UserRoleService;
 import net.etwig.webapp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +22,9 @@ public class AdminPageController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserRoleService userRoleService;
 
     /**
      * Handles the GET request to display the user list view in the admin panel.
@@ -71,7 +75,10 @@ public class AdminPageController {
             return "error_page";
         }
 
+        System.out.println(userRoleService.findByUserId(userId));
+
         model.addAttribute("selectedUserDetails", userBasicInfo);
+        model.addAttribute("selectedUserRoles", userRoleService.findByUserId(userId));
         return "admin/user_details";
     }
 }
