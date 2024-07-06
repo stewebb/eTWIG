@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Welcome to eTWIG</title>
+    <title>${subject}</title>
 </head>
 
 <body>
@@ -10,19 +10,32 @@
             <tr>
                 <td>
                     <div style="background-color: #FFFFFF; padding: 10px; border-radius: 10px;">
-                        <h2 style="text-align: center; color: #004AAD; font-weight: bolder;">Welcome to eTWIG</h2>
+                        <h2 style="text-align: center; color: #004AAD; font-weight: bolder;">${subject}</h2>
 
                         <#-- Information -->
+                        Dear ${firstName},
                         <p style="line-height: 1.5;">
                             <#--
                             <b>${requester}</b> submitted a new banner request for event <b>${eventName}</b> on <b>${requestTime}</b>.
                             -->
-                            <#if newAccount>
+                            <#if isNewUser>
                                 An administrator set you as a new eTWIG user. Here are your account details:
                             <#else>
                                 An administrator has updated your eTWIG user details. Here are your updated account details:
                             </#if>
                         </p>
+
+                        <ul>
+                            <li>
+                                <b>Email:&nbsp;</b>${email}
+                            </li>
+                            <li>
+                                <b>Password:&nbsp;</b>
+                                <#if password?has_content>${password}<#else>
+                                <span style="color:#808080">(Remain unchanged)</span>
+                                </#if>
+                            </li>
+                        </ul> 
                         <#-- /Information -->
 
                         <!-- Button -->
@@ -32,7 +45,7 @@
                                     <table border="0" cellspacing="0" cellpadding="0">
                                         <tr>
                                             <td align="center" style="background-color: #004AAD; border-radius: 6px;">
-                                                <a href="${appUrl}/graphics/approvalDetails.do?requestId=${requestId}" target="_blank" style="font-size: 16px; font-weight: bolder; font-family: sans-serif; color: #ffffff; text-decoration: none; padding: 12px 24px; display: block; border-radius: 6px;">
+                                                <a href="${appUrl}/home.do" target="_blank" style="font-size: 16px; font-weight: bolder; font-family: sans-serif; color: #ffffff; text-decoration: none; padding: 12px 24px; display: block; border-radius: 6px;">
                                                 View Details
                                                 </a>
                                             </td>

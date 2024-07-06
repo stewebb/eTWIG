@@ -54,7 +54,7 @@ public class UserAPIController {
 
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@PostMapping("/add")
-	public Boolean add(@RequestBody Map<String, Object> newUserInfo){
+	public Boolean add(@RequestBody Map<String, Object> newUserInfo) throws Exception {
 		return userService.addUser(newUserInfo);
 	}
 
@@ -74,7 +74,7 @@ public class UserAPIController {
 
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@PostMapping("/edit")
-	public Object edit(@RequestBody Map<String, Object> userInfo){
+	public Object edit(@RequestBody Map<String, Object> userInfo) throws Exception {
 		return userService.changeUserDetails(userInfo);
 	}
 

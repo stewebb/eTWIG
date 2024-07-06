@@ -14,6 +14,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -179,4 +180,28 @@ public class EmailService {
 
     	sendEmail(recipients, subject, content, attachments);
     }
+
+	public void newUserNotification (boolean isNewUser, String fullName, String password, String email) throws Exception {
+
+		// Email recipient
+		HashSet<String> recipients = new HashSet<>();
+		recipients.add(email);
+
+		// Email subject.
+		String subject = isNewUser ? "Welcome to eTWIG" : "Your eTWIG login details have been updated.";
+
+		// Email content
+		Template template = freemarkerConfig.getTemplate("_emails/new_user.ftl");
+		HashMap<String, Object> model = new HashMap<>();
+
+		model.put("subject", subject);
+		model.put("isNewUser", isNewUser);
+		model.put("firstName", fullName.split(" ")[0]);
+		model.put("password", password);
+		model.put("email", email);
+		model.put("appUrl", config.getAppURL());
+		String content = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+
+		sendEmail(recipients, subject, content, null);
+	}
 }

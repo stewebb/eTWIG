@@ -29,6 +29,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private EmailService emailService;
+
     /**
      * Retrieves a paginated list of users with their positions, filtered by portfolio ID, role ID, and search user name.
      * The method also projects the required user and portfolio data.
@@ -148,7 +151,7 @@ public class UserService {
      *                                  be correctly parsed or converted.
      */
 
-    public Boolean addUser(@RequestBody Map<String, Object> newUserInfo) {
+    public Boolean addUser(@RequestBody Map<String, Object> newUserInfo) throws Exception {
 
         // Step 1: Check if user is existing
         String userEmail = newUserInfo.get("userEmail").toString();
@@ -163,10 +166,12 @@ public class UserService {
 
         // Step 2: Add user information
         User user = new User();
-        user.setFullName(newUserInfo.get("userFullName").toString());
+        String userFullName = newUserInfo.get("userFullName").toString();
+        String userPassword = newUserInfo.get("userPassword").toString();
+        user.setFullName(userFullName);
         user.setEmail(userEmail);
 
-        String encodedPassword = (new BCryptPasswordEncoder()).encode(newUserInfo.get("userPassword").toString());
+        String encodedPassword = (new BCryptPasswordEncoder()).encode(userPassword);
         user.setPassword(encodedPassword);
         user.setLastLogin(LocalDateTime.now());
         Long addedUserId = userRepository.save(user).getId();
@@ -180,6 +185,8 @@ public class UserService {
         userRole.setPosition(newUserInfo.get("userPosition").toString());
         userRoleRepository.save(userRole);
 
+        // Step 4: Send notification email
+        emailService.newUserNotification(true, userFullName, userPassword, userEmail);
         return true;
     }
 
@@ -215,7 +222,7 @@ public class UserService {
      * @throws InvalidParameterException If no user exists with the given ID or if any other parameter issues occur.
      */
 
-    public Boolean changeUserDetails (@RequestBody Map<String, Object> userInfo) {
+    public Boolean changeUserDetails (@RequestBody Map<String, Object> userInfo) throws Exception {
 
         // Step 1: Find the target user
         Long userId = Long.parseLong(userInfo.get("userId").toString());
@@ -225,8 +232,10 @@ public class UserService {
         }
 
         // Step 2: Update user details
-        user.setFullName(userInfo.get("userFullName").toString());
-        user.setEmail(userInfo.get("userEmail").toString());
+        String userFullName = userInfo.get("userFullName").toString();
+        String userEmail = userInfo.get("userEmail").toString();
+        user.setFullName(userFullName);
+        user.setEmail(userEmail);
 
         // Step 3: Update user password if it is not blank
         boolean passwordUpdated = false;
@@ -237,6 +246,9 @@ public class UserService {
         }
 
         userRepository.save(user);
+
+        // Step 4: Send notification email
+        emailService.newUserNotification(false, userFullName, userPassword, userEmail);
         return passwordUpdated;
     }
 
