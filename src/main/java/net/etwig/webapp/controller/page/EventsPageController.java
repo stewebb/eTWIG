@@ -79,9 +79,7 @@ public class EventsPageController {
 	@GetMapping("/calendar.do")
 	public String calendar(Model model){
 		model.addAttribute(
-				"portfolios",
-				portfolioService.findByCriteria(null, Pageable.unpaged()).getContent()
-		);
+				"portfolios", portfolioService.findAllPortfolios());
 		return "events/calendar";
 	}
 

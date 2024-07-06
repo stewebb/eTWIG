@@ -201,11 +201,41 @@
 												<#list selectedUserRoles as role>
 													<tr>
 														<td>${role.id}</td>
-														<td>${role.position}</td>
-														<td>Portfolio Name</td>
-														<td>Portfolio Email</td>
-														<td>eTWIG Role</td>
-														<td>Action</td>
+														<td><input type="text" class="form-control" id="userPosition-${role.id}" placeholder="Arts Rep" maxlength="63" value="${role.position}"></td>
+														<td>
+														<#--
+														${role.portfolio.name}
+														-->
+															<select class="form-control select2 select2bs4" id="userPortfolio-${role.id}">
+																<#list portfolios as portfolio>
+																	<option value="${portfolio.id}" <#if role.portfolioId = portfolio.id>selected</#if>>
+																		${portfolio.name}												
+																	</option>
+																</#list>
+      														</select>
+														
+														</td>
+														<td><input type="text" class="form-control" id="userPortfolioEmail-${role.id}" placeholder="me@example.com" maxlength="63" value="${role.email}"></td>
+														<td>
+														<#--
+														${role.role.name}
+														-->
+															<select class="form-control select2bs4" id="userSystemRole-${role.id}">
+																<option value="1" <#if role.roleId = 1>selected</#if>>Event Manager</option>
+																<option value="2" <#if role.roleId = 2>selected</#if>>Graphics Manager</option>
+																<option value="3" <#if role.roleId = 3>selected</#if>>Administrator</option>
+															</select>	
+														</td>
+														<td>
+															<div class="btn-group">
+															<button type="button" class="btn btn-outline-primary btn-sm">
+																<i class="fa-solid fa-pen"></i>&nbsp;Update
+															</button>
+															<button type="button" class="btn btn-outline-danger btn-sm">
+																<i class="fa-solid fa-trash"></i>&nbsp;Detete
+															</button>
+														</div>
+														</td>
 													</tr>
 												</#list>
 											</tbody>

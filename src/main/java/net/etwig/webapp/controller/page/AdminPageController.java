@@ -42,10 +42,7 @@ public class AdminPageController {
     @GetMapping("/userList.do")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public String userList(Model model){
-        model.addAttribute(
-                "portfolios",
-                portfolioService.findByCriteria(null, Pageable.unpaged()).getContent()
-        );
+        model.addAttribute("portfolios", portfolioService.findAllPortfolios());
         return "admin/user_list";
     }
 
@@ -79,6 +76,8 @@ public class AdminPageController {
 
         model.addAttribute("selectedUserDetails", userBasicInfo);
         model.addAttribute("selectedUserRoles", userRoleService.findByUserId(userId));
+        model.addAttribute("portfolios", portfolioService.findAllPortfolios());
         return "admin/user_details";
     }
+
 }

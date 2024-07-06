@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 import net.etwig.webapp.model.Portfolio;
 import net.etwig.webapp.repository.PortfolioRepository;
 
+import java.util.List;
+
 @Service
 public class PortfolioService {
 	
@@ -96,5 +98,19 @@ public class PortfolioService {
 	
 	public Portfolio findById(long id) {
 		return portfolioRepository == null ? null : portfolioRepository.findById(id).orElse(null);
+	}
+
+	/**
+	 * Retrieves all portfolios from the repository without applying any filtering
+	 * criteria or pagination. This method leverages the {@code findByCriteria} method,
+	 * passing {@code null} as the criteria and specifying that the retrieval should be
+	 * unpaged to fetch all available records at once.
+	 *
+	 * @return A list of {@code Portfolio} objects representing all portfolios stored in the repository.
+	 *         This list may be empty if no portfolios are found.
+	 */
+
+	public List<Portfolio> findAllPortfolios() {
+		return findByCriteria(null, Pageable.unpaged()).getContent();
 	}
 }
