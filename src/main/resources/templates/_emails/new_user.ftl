@@ -15,24 +15,21 @@
                         <#-- Information -->
                         Dear ${firstName},
                         <p style="line-height: 1.5;">
-                            <#--
-                            <b>${requester}</b> submitted a new banner request for event <b>${eventName}</b> on <b>${requestTime}</b>.
-                            -->
                             <#if isNewUser>
                                 An administrator set you as a new eTWIG user. Here are your account details:
                             <#else>
-                                An administrator has updated your eTWIG user details. Here are your updated account details:
+                                An administrator has updated your eTWIG login details. Here are your updated details:
                             </#if>
                         </p>
 
-                        <ul>
+                        <ul style="line-height: 1.5;">
                             <li>
                                 <b>Email:&nbsp;</b>${email}
                             </li>
                             <li>
                                 <b>Password:&nbsp;</b>
                                 <#if password?has_content>${password}<#else>
-                                <span style="color:#808080">(Remain unchanged)</span>
+                                <span style="color:#BFBFBF">(Remain unchanged)</span>
                                 </#if>
                             </li>
                         </ul> 
@@ -46,7 +43,7 @@
                                         <tr>
                                             <td align="center" style="background-color: #004AAD; border-radius: 6px;">
                                                 <a href="${appUrl}/home.do" target="_blank" style="font-size: 16px; font-weight: bolder; font-family: sans-serif; color: #ffffff; text-decoration: none; padding: 12px 24px; display: block; border-radius: 6px;">
-                                                View Details
+                                                    Login to eTWIG
                                                 </a>
                                             </td>
                                         </tr>

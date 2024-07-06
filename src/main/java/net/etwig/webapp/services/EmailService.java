@@ -181,6 +181,21 @@ public class EmailService {
     	sendEmail(recipients, subject, content, attachments);
     }
 
+	/**
+	 * Sends an email notification to a user based on their new or updated registration status.
+	 * If the user is new, the email will welcome them to the platform; if the user's details are
+	 * updated, the email will inform them of the changes. The method configures email content using
+	 * a FreeMarker template and sends it to the specified email address.
+	 *
+	 * @param isNewUser A boolean indicating whether the user is new (true) or if their details have been updated (false).
+	 * @param fullName The full name of the user, used to extract the first name for the email greeting.
+	 * @param password The user's password, included in the email for login purposes.
+	 * @param email The email address of the user, used as the recipient of the notification.
+	 * @throws Exception If there are issues in retrieving the email template, processing it, or sending the email.
+	 *                   This broad exception handling should ideally be replaced with more specific exception types
+	 *                   related to email sending and template processing.
+	 */
+
 	public void newUserNotification (boolean isNewUser, String fullName, String password, String email) throws Exception {
 
 		// Email recipient

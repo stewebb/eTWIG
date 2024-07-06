@@ -126,40 +126,35 @@ public class UserService {
     }
 
     /**
-     * Adds a new user and their associated roles to the database.
-     * <p>
-     * This method first checks if a user with the provided email already exists in the database. If the user already exists,
-     * the method returns {@code false}. If the user does not exist, it creates a new {@link User} instance by extracting
-     * information from a provided map, encoding the user's password using BCrypt, and setting the user's last login time to
-     * the current moment. It then stores this user in the repository. Following the user creation, it sets up initial user
-     * roles based on the provided data, associating these roles with the newly created user, and returns {@code true}.
-     * </p>
+     * Adds a new user and their associated roles to the database. This method performs several key steps:
+     * <ol>
+     *     <li>Verifies if a user with the provided email already exists. If so, it returns {@code false}.</li>
+     *     <li>If no existing user is found, it creates a new {@link User} instance, encodes the password using BCrypt,
+     *         sets the last login time to the current moment, and saves the user.</li>
+     *     <li>It then creates and stores the user's initial roles and associated details such as portfolio and position.</li>
+     *     <li>Finally, it sends a notification email to the new user.</li>
+     * </ol>
+     * If the user is successfully added, the method returns {@code true}; otherwise, it returns {@code false}.
      *
-     * @param newUserInfo A {@link Map} containing user information such as full name, email, password,
-     *                    system role, portfolio, and position details. Keys in this map should include:
+     * @param newUserInfo A {@link Map} containing the new user's details. Expected keys:
      *                    <ul>
-     *                      <li>userFullName: String specifying the user's full name.</li>
-     *                      <li>userEmail: String specifying the user's email address.</li>
-     *                      <li>userPassword: String specifying the user's password (will be encoded).</li>
-     *                      <li>userSystemRole: Long or String convertible to Long specifying the user's role ID.</li>
-     *                      <li>userPortfolio: Long or String convertible to Long specifying the user's portfolio ID.</li>
-     *                      <li>userPortfolioEmail: String specifying the email associated with the user's portfolio.</li>
-     *                      <li>userPosition: String specifying the user's position.</li>
+     *                      <li>"userFullName": The user's full name.</li>
+     *                      <li>"userEmail": The user's email address.</li>
+     *                      <li>"userPassword": The user's raw password, which will be encoded.</li>
+     *                      <li>"userSystemRole": The ID of the user's system role (as Long or String convertible to Long).</li>
+     *                      <li>"userPortfolio": The ID of the user's portfolio (as Long or String convertible to Long).</li>
+     *                      <li>"userPortfolioEmail": The email associated with the user's portfolio.</li>
+     *                      <li>"userPosition": The user's position in the organization.</li>
      *                    </ul>
-     * @return {@code true} if the user was successfully added; {@code false} if a user with the same email already exists.
-     * @throws IllegalArgumentException if required keys are missing in the newUserInfo map or if the values cannot
-     *                                  be correctly parsed or converted.
+     * @return {@code true} if the user was successfully added, {@code false} if a user with the same email already exists.
+     * @throws IllegalArgumentException if essential keys are missing in the {@code newUserInfo} map or if the values
+     *                                  are not in the correct format or convertible as required.
      */
 
     public Boolean addUser(@RequestBody Map<String, Object> newUserInfo) throws Exception {
 
         // Step 1: Check if user is existing
         String userEmail = newUserInfo.get("userEmail").toString();
-        //User existingUser = userRepository.findByEmail(userEmail);
-        //if (existingUser != null) {
-        //    return false;
-        //}
-
         if (findByEmail(userEmail) != null) {
             return false;
         }
@@ -210,7 +205,7 @@ public class UserService {
     /**
      * Updates user details based on the provided map of user information. This method
      * finds the user by ID, updates their name and email, and conditionally updates the password if provided and non-blank.
-     * The user's password is encrypted before being stored if it is updated.
+     * The user's password is encrypted before being stored if it is updated. Finally, it sends the user a notification email.
      *
      * @param userInfo A map containing user details such as userId, userFullName, userEmail, and userPassword.
      *                 The userId is used to locate the user in the database.
