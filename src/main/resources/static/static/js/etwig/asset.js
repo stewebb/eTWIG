@@ -132,11 +132,6 @@ function uploadFiles(fileElem, selectorElem) {
         processData: false,
         success: function(response) {
 			response ? successPopup("All files uploaded successfully.") : warningPopup("One or more files were empty and not uploaded.");
-            //if (response) {
-            //    successPopup("All files uploaded successfully.");
-            //} else {
-            //    warningPopup("One or more files were empty and not uploaded.");
-            //}
             $('#' + selectorElem).DataTable().ajax.reload();
         },
         error: function(err) {

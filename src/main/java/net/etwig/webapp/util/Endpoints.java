@@ -47,5 +47,4 @@ public class Endpoints {
     private final String USER_LOGIN                 = "/user/login.do";
     private final String USER_LOGOUT                = "/user/logout.do";
     private final String USER_PROFILE               = "/user/profile.do";
-    //private final String USER_REFERRER_LOGIN        = "/user/referrerLogin.do";
 }

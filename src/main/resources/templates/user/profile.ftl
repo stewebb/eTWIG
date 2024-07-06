@@ -8,11 +8,6 @@
    -->
 <#assign navbar = "USER">
 
-<#--
-<#assign nameParts = userBasicInfo.fullName?split(" ")>
-<#assign firstName = nameParts[0]>
--->
-
 <!DOCTYPE html>
 <html>
 <head>

@@ -63,7 +63,6 @@ public class SecurityConfig {
 	@Autowired
 	private Endpoints endpoints;
 
-
 	/**
 	 * Configures the security filter chain that handles HTTP requests to enforce security constraints.
 	 * @param http the {@link HttpSecurity} to modify
@@ -97,7 +96,7 @@ public class SecurityConfig {
 				.loginPage(endpoints.getUSER_LOGIN())
 				.loginProcessingUrl("/user/login")
 				.permitAll()
-				.failureUrl("/user/login.do?success=false")
+				.failureUrl(endpoints.getUSER_LOGIN() + "?success=false")
 				.successHandler(loginSuccessHandler)
 		);
 
