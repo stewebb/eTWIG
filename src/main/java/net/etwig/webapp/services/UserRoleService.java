@@ -134,14 +134,24 @@ public class UserRoleService implements UserDetailsService {
         return true;
     }
 
+    /**
+     * Updates the details of an existing user role based on the provided payload. The method
+     * first verifies that a user role with the specified ID exists. If the user role exists,
+     * it updates the user role with new position, email, portfolio ID, and role ID values from
+     * the payload. If the user role does not exist, it throws an exception.
+     *
+     * @param payload A map containing the user role details to be updated. Expected keys in the map include:
+     *                - "id": The ID of the user role to update.
+     *                - "position": The new position to assign to the user role.
+     *                - "portfolioEmail": The new email associated with the user role.
+     *                - "portfolioId": The ID of the portfolio linked to the user role.
+     *                - "roleId": The ID of the role to be assigned.
+     * @throws InvalidParameterException If no user role with the given ID exists or if any required data is missing
+     *                                   or invalid in the payload.
+     * @throws NumberFormatException If the ID values for portfolio or role cannot be parsed into a Long.
+     */
+
     public void updateUserRole(@RequestBody Map<String, Object> payload) {
-        /**
-         * id: tr.find('td:first').text(),
-         *         position: tr.find('input[type=text]').val(),
-         *         portfolioId: tr.find('select:first').val(),
-         *         portfolioEmail: tr.find('input[type=text]:last').val(),
-         *         roleId: tr.find('select:last').val()
-         */
 
         // Step 1: Check if the given user role exists.
         Long id = Long.parseLong(payload.get("id").toString());

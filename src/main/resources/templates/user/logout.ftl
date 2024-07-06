@@ -70,6 +70,18 @@
 					</p>
 				</form>
 				<#-- /Login form -->
+      		
+			<#-- Public access links -->
+			<#--
+			<div class="social-auth-links text-center mb-3">
+        		<p class="login-box-msg bold-text">
+        			<i class="fa-solid fa-earth-americas"></i>&nbsp;Public Access
+        		</p>
+        		<a href="/twig/main" class="btn btn-outline-secondary btn-block" target="_blank">
+        			<i class="fa-regular fa-lightbulb mr-1"></i>&nbsp;View TWIG
+        		</a>
+      		</div>
+			-->
 
     	</div>
   	</div>

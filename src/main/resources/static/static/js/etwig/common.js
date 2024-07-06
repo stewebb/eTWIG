@@ -351,10 +351,9 @@ $.fn.dataTable.ext.errMode = function (settings, helpPage, message ) {
 };
 
 $(document).ready(function() {
-	if (window.self !== window.top) {
-		$('.navbar').hide();
-	}
-
+	//if (window.self !== window.top) {
+	//	$('.navbar').hide();
+	//}
 
     $('.select2bs4').select2({
     	theme: 'bootstrap4'

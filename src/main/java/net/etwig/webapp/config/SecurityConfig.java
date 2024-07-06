@@ -63,10 +63,6 @@ public class SecurityConfig {
 	@Autowired
 	private Endpoints endpoints;
 
-	//@Autowired
-	//private CustomAuthenticationProvider customAuthenticationProvider; // TODO: Inject custom authentication provider
-
-
 
 	/**
 	 * Configures the security filter chain that handles HTTP requests to enforce security constraints.
@@ -88,10 +84,7 @@ public class SecurityConfig {
 				"/twig/**",
 				"/error",
 				endpoints.getASSETS_CONTENT(),
-				//endpoints.getUSER_REFERRER_LOGIN()
 		};
-
-		//System.out.println(endpoints.getUSER_REFERRER_LOGIN());
 
 		// Permit all requests to public pages while securing all other requests.
 		http.authorizeHttpRequests((requests) -> requests
@@ -118,9 +111,14 @@ public class SecurityConfig {
 		http.csrf().disable();
 
 		// Allow all frame origins and disable frame options for clickjacking protection.
+		//http.headers()
+		//		.frameOptions().disable()
+		//		.contentSecurityPolicy("frame-ancestors 'self' https:;");
+
+		// Allow framing of the site only from the same origin
 		http.headers()
-				.frameOptions().disable()
-				.contentSecurityPolicy("frame-ancestors 'self' https:;");
+				.frameOptions().sameOrigin()
+				.contentSecurityPolicy("frame-ancestors 'self';");
 
 		// Enforce HTTPS to secure channel communications.
 		http.requiresChannel((channel) -> channel.anyRequest().requiresSecure());
@@ -151,9 +149,6 @@ public class SecurityConfig {
 		daoAuthProvider.setUserDetailsService(userRoleService);
 		daoAuthProvider.setPasswordEncoder(passwordEncoder());
 		auth.authenticationProvider(daoAuthProvider); // Standard authentication provider
-
-		// Add custom AuthenticationProvider
-		//auth.authenticationProvider(customAuthenticationProvider);
 	}
 
 	/**
@@ -174,9 +169,4 @@ public class SecurityConfig {
 	public AuthenticationEntryPoint authenticationEntryPoint() {
 		return new CustomAuthenticationEntryPoint();
 	}
-
-	//@Bean
-	//public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-	//	return authenticationConfiguration.getAuthenticationManager();
-	//}
 }

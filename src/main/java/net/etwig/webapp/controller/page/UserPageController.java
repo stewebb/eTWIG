@@ -9,53 +9,19 @@
 
 package net.etwig.webapp.controller.page;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import net.etwig.webapp.config.ConfigFile;
 import net.etwig.webapp.dto.LoginToken;
-import net.etwig.webapp.handler.LoginSuccessHandler;
 import net.etwig.webapp.services.RememberMeService;
 import net.etwig.webapp.services.UserRoleService;
-import net.etwig.webapp.services.UserService;
 import net.etwig.webapp.services.UserSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.http.HttpHeaders;
-
-import java.util.Base64;
 
 @Controller
 @RequestMapping("/user")
 public class UserPageController {
-
-	@Autowired
-	private ConfigFile config;
-
-	//@Autowired
-	//private LoginSuccessHandler successHandler;
-
-	//@Autowired
-	//private UserService userService;
-
-	@Autowired
-	private UserSessionService userSessionService;
-
-	@Autowired
-	private UserRoleService userRoleService;
-
-	@Autowired
-	private RememberMeService rememberMeService;
 
 	/**
 	 * Handles the root GET request and redirects to the profile page.
@@ -125,57 +91,8 @@ public class UserPageController {
 
 	@GetMapping("/logout.do")
 	public String logout() {
-		//return "user/profile";
+		//return "user/logout";
 		// TODO Logout page
 		return null;
 	}
-
-	//@Autowired
-	//private AuthenticationManager authenticationManager;
-
-
-	// Include the warning msg into javadoc
-	// THIS METHOD HAS POTENTIAL SECURITY RISK AND DO NOT PUT IT IN THE PRODUCTION ENVIRONMENT.
-
-	/**
-	 * Performs a login based on a token provided as a URL parameter, validating the referrer header to enhance security.
-	 * This method decodes the Base64 encoded token, attempts to deserialize it to a {@link LoginToken}, and initializes a session
-	 * if the user's email from the token is verified. The method redirects to the main page upon successful login.
-	 * <p>
-	 * WARNING: THIS METHOD HAS POTENTIAL SECURITY RISKS AND SHOULD NOT BE PUT IN A PRODUCTION ENVIRONMENT.
-	 * Ensure to review and modify the security mechanisms according to the latest standards before deploying.
-	 * Use SSO solutions including AzureAD/LDAP/OAUTH/SAML/CAS/OPENID/JWT/... if possible!
-	 *
-	 * @param token The Base64 encoded login token passed as a URL parameter.
-	 * @param request The HttpServletRequest, used to extract the 'Referer' header for validation.
-	 * @return ResponseEntity containing either redirect instructions on success or an error message.
-	 * @throws IllegalStateException If the user session cannot be initialized.
-	 */
-
-	/*
-	@GetMapping("/referrerLogin.do")
-	public String referrerLogin(Model model, @RequestParam String token, HttpServletRequest request, HttpServletResponse response) {
-
-		String userEmail = userSessionService.referrerLogin(token, request.getHeader("Referer"));
-		System.out.println(userEmail);
-		//System.out.println(123);
-
-		// Load user details using username
-		UserDetails userDetails = userRoleService.loadUserByUsername(userEmail);
-
-		//System.out.println(123);
-		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-		        userDetails, null, userDetails.getAuthorities());
-
-		//System.out.println("abc");
-		System.out.println(authentication);
-		// Set the authentication in the security context
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-
-		// Manual invocation of remember-me service
-		rememberMeService.loginSuccess(request, response, authentication);
-		return "user/referrerLogin";
-    }
-
-	 */
 }

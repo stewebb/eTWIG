@@ -198,11 +198,7 @@
 				</#if>
 				<#-- /Admin -->
 
-			</section>
-
-			
-			<a href="/user/referrerLogin.do?token=ewogICAgImNvbnRyb2xJRCI6ICJtanppV2RoayIsCiAgICAidGltZXN0YW1wIjogMTcxOTc1MTg1OCwKICAgICJ1c2VyRW1haWwiOiAiY2hhMUB0ZXN0LmNvbSIsCiAgICAidXNlck5hbWUiOiAiYyIKfQ==">aaa</a>
-			
+			</section>			
 		</div>
 		<#-- /Content Wrapper. -->
 		
