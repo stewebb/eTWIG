@@ -1,6 +1,11 @@
 package net.etwig.webapp.services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import net.etwig.webapp.config.ConfigFile;
+import net.etwig.webapp.dto.LoginToken;
 import net.etwig.webapp.dto.user.CurrentUserBasicInfoDTO;
 import net.etwig.webapp.dto.user.CurrentUserDTOWrapper;
 import net.etwig.webapp.dto.user.CurrentUserPermissionDTO;
@@ -11,9 +16,13 @@ import net.etwig.webapp.repository.UserRepository;
 import net.etwig.webapp.repository.UserRoleRepository;
 import net.etwig.webapp.util.InvalidPositionException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.Optional;
 import java.util.Set;
 
@@ -28,6 +37,15 @@ public class UserSessionService {
 
     @Autowired
     private UserRoleRepository userRoleRepository;
+
+    @Autowired
+    private ConfigFile config;
+
+    @Autowired
+    private UserRoleService userRoleService;
+
+    @Autowired
+    private RememberMeService rememberMeService;
 
     /**
      * Initializes a session for a user based on the provided email.
@@ -184,5 +202,30 @@ public class UserSessionService {
     public void setLastLogin(User user) {
         user.setLastLogin(LocalDateTime.now());
         userRepository.save(user);
+    }
+
+    public String referrerLogin(String token, String referrer) {
+        try {
+
+            // Step 1: Referrer check
+            if (referrer == null || !referrer.startsWith(config.getTrustedReferrer())) {
+                return null;
+            }
+
+            // Step 2: Decode base64 encoded token
+            //byte[] decodedBytes = Base64.getDecoder().decode(token);
+            String decodedStr = new String(Base64.getDecoder().decode(token));
+            //ObjectMapper objectMapper = new ObjectMapper();
+            LoginToken loginToken = (new ObjectMapper()).readValue(decodedStr, LoginToken.class);
+
+            // Step 3: Token expiration check (not implemented)
+
+            // Step 4: Set session
+            // If user cannot be found in the database, initializeSession method will throw an exception
+            initializeSession(loginToken.getUserEmail());
+            return loginToken.getUserEmail();
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

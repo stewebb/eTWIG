@@ -12,15 +12,22 @@ package net.etwig.webapp.controller.page;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import net.etwig.webapp.config.ConfigFile;
 import net.etwig.webapp.dto.LoginToken;
 import net.etwig.webapp.handler.LoginSuccessHandler;
+import net.etwig.webapp.services.RememberMeService;
+import net.etwig.webapp.services.UserRoleService;
 import net.etwig.webapp.services.UserService;
 import net.etwig.webapp.services.UserSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,6 +50,12 @@ public class UserPageController {
 
 	@Autowired
 	private UserSessionService userSessionService;
+
+	@Autowired
+	private UserRoleService userRoleService;
+
+	@Autowired
+	private RememberMeService rememberMeService;
 
 	/**
 	 * Handles the root GET request and redirects to the profile page.
@@ -140,7 +153,23 @@ public class UserPageController {
 	 */
 
 	@GetMapping("/referrerLogin.do")
-	public ResponseEntity<?> referrerLogin(@RequestParam String token, HttpServletRequest request) {
+	public String referrerLogin(Model model, @RequestParam String token, HttpServletRequest request, HttpServletResponse response) {
+
+		// TODO Use a boolean instead of status code in service layer
+		String userEmail = userSessionService.referrerLogin(token, request.getHeader("Referer"));
+
+
+		// Load user details using username
+		UserDetails userDetails = userRoleService.loadUserByUsername(userEmail);
+		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+		        userDetails, null, userDetails.getAuthorities());
+
+		// Set the authentication in the security context
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+
+		// Manual invocation of remember-me service
+		rememberMeService.loginSuccess(request, response, authentication);
+		/*
 
 		// Only allow a specific referrer
 		String referrer = request.getHeader("Referer");
@@ -176,5 +205,9 @@ public class UserPageController {
 			return ResponseEntity.status(401).body("Login Failed: The referrer is not allowed.");
 		}
 
+
+		 */
+
+		return userEmail;
     }
 }

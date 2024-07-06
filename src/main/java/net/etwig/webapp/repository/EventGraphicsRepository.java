@@ -36,26 +36,12 @@ public interface EventGraphicsRepository extends JpaRepository<EventGraphics, Lo
 	 *         organized according to the provided {@code Pageable} object.
 	 */
 
-	/*
 	@Query("SELECT new net.etwig.webapp.dto.graphics.EventGraphicsAPIForSummaryPageDTO(" +
-			"e.id, e.name, e.startTime, " +                                    // Events
-			"SUM(CASE WHEN g.banner = FALSE THEN 1 ELSE 0 END), " +            // Count of graphics
-			"SUM(CASE WHEN g.banner = TRUE THEN 1 ELSE 0 END), " +             // Count of banners
-			"MAX(g.uploadTime), " +                                            // Most recent modification date
-			"SUM(CASE WHEN b.approved IS NULL THEN 1 ELSE 0 END)) " +          // Count of pending banner requests
-			"FROM Event e " +
-			"LEFT JOIN EventGraphics g ON e.id = g.eventId " +
-			"LEFT JOIN BannerRequest b ON g.eventId = b.eventId " +
-			"GROUP BY e.id")
-	Page<EventGraphicsAPIForSummaryPageDTO> eventGraphicsList(Pageable pageable);
-	 */
-
-	@Query("SELECT new net.etwig.webapp.dto.graphics.EventGraphicsAPIForSummaryPageDTO(" +
-			"e.id, e.name, e.startTime, " +
-			"(SELECT COUNT(g) FROM EventGraphics g WHERE g.event.id = e.id AND g.banner = FALSE), " +
-			"(SELECT COUNT(g) FROM EventGraphics g WHERE g.event.id = e.id AND g.banner = TRUE), " +
-			"(SELECT MAX(g.uploadTime) FROM EventGraphics g WHERE g.event.id = e.id), " +
-			"(SELECT COUNT(b) FROM BannerRequest b WHERE b.event.id = e.id AND b.approved IS NULL)) " +
+			"e.id, e.name, e.startTime, " +																	// Events
+			"(SELECT COUNT(g) FROM EventGraphics g WHERE g.event.id = e.id AND g.banner = FALSE), " +		// Count of TWIG Components
+			"(SELECT COUNT(g) FROM EventGraphics g WHERE g.event.id = e.id AND g.banner = TRUE), " +		// Count of banners
+			"(SELECT MAX(g.uploadTime) FROM EventGraphics g WHERE g.event.id = e.id), " +					// Most recent modification date
+			"(SELECT COUNT(b) FROM BannerRequest b WHERE b.event.id = e.id AND b.approved IS NULL)) " +		// Count of pending banner requests
 			"FROM Event e " +
 			"GROUP BY e.id")
 	Page<EventGraphicsAPIForSummaryPageDTO> eventGraphicsList(Pageable pageable);
