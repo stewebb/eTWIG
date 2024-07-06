@@ -251,7 +251,7 @@
 						<#-- /Profile -->
 						
 						<#-- Logout -->						
-						<a href="/user/logout" class="dropdown-item">
+						<a href="${ENDPOINTS.USER_LOGOUT}" class="dropdown-item">
 							<i class="fa-solid fa-right-from-bracket"></i>&nbsp;Logout
 						</a>	
 						<#-- /Logout -->

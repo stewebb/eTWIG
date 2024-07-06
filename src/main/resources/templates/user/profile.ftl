@@ -7,8 +7,11 @@
 	function: The dashboard (site main) page.
    -->
 <#assign navbar = "USER">
+
+<#--
 <#assign nameParts = userBasicInfo.fullName?split(" ")>
 <#assign firstName = nameParts[0]>
+-->
 
 <!DOCTYPE html>
 <html>
@@ -74,7 +77,7 @@
 									</ul>
 									<#-- /User basic info -->
 									
-									<a href="/user/logout" class="btn btn-outline-primary btn-block">
+									<a href="${ENDPOINTS.USER_LOGOUT}" class="btn btn-outline-primary btn-block">
 										<i class="fa-solid fa-right-from-bracket"></i>&nbsp;Logout
 									</a>
 								</div>

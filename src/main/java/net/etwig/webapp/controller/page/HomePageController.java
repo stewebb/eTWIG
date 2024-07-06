@@ -35,10 +35,11 @@ public class HomePageController {
 
 	@GetMapping("/")
 	public String root(){
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		//Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
 		// Check if user is authenticated and not anonymous
-		return (auth != null && auth.isAuthenticated() && !auth.getName().equals("anonymousUser")) ? "redirect:/home.do" : "redirect:/twig/index.do";
+		//return (auth != null && auth.isAuthenticated() && !auth.getName().equals("anonymousUser")) ? "redirect:/home.do" : "redirect:/twig/index.do";
+		return "redirect:/home.do";
 	}
 
 	/**

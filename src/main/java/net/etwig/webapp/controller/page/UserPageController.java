@@ -91,8 +91,6 @@ public class UserPageController {
 
 	@GetMapping("/logout.do")
 	public String logout() {
-		//return "user/logout";
-		// TODO Logout page
-		return null;
+		return "user/logout";
 	}
 }
